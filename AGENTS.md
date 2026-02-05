@@ -114,6 +114,7 @@ The following files have been updated to follow these standards:
 - `src/libmath2_scalar.c`
 - `src/libmath2_trigonometry.c`
 - `src/libmath2_easings.c`
+- `src/libmath2_noise.c`
 
 ## Benefits
 

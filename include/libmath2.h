@@ -34,3 +34,4 @@ SOFTWARE.
 #include "libmath2/libmath2_safe_ops.h"
 #include "libmath2/libmath2_scalar.h"
 #include "libmath2/libmath2_trigonometry.h"
+#include "libmath2/libmath2_noise.h"
