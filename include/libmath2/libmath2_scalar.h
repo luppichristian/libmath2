@@ -24,7 +24,7 @@ SOFTWARE.
 
 #pragma once
 
-#include "libmath2/libmath2_safe_ops.h"
+#include "libmath2_safe_ops.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
