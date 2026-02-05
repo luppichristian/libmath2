@@ -24,24 +24,24 @@ SOFTWARE.
 
 #pragma once
 
-#include "libmath2_base.h"
 #include "libmath2/libmath2_generic.h"
+#include "libmath2_base.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
 // #############################################################################
 
-#define _LM2_DEFINE_SAFE_OP(name) \
-  LM2_API double lm2_##name##_f64(double a, double b); \
-  LM2_API float lm2_##name##_f32(float a, float b); \
-  LM2_API int64_t lm2_##name##_i64(int64_t a, int64_t b); \
-  LM2_API int32_t lm2_##name##_i32(int32_t a, int32_t b); \
-  LM2_API int16_t lm2_##name##_i16(int16_t a, int16_t b); \
-  LM2_API int8_t lm2_##name##_i8(int8_t a, int8_t b); \
-  LM2_API uint64_t lm2_##name##_u64(uint64_t a, uint64_t b); \
-  LM2_API uint32_t lm2_##name##_u32(uint32_t a, uint32_t b); \
-  LM2_API uint16_t lm2_##name##_u16(uint16_t a, uint16_t b); \
-  LM2_API uint8_t lm2_##name##_u8(uint8_t a, uint8_t b);
+#define _LM2_DEFINE_SAFE_OP(name)                      \
+  LM2_API double name##_f64(double a, double b);       \
+  LM2_API float name##_f32(float a, float b);          \
+  LM2_API int64_t name##_i64(int64_t a, int64_t b);    \
+  LM2_API int32_t name##_i32(int32_t a, int32_t b);    \
+  LM2_API int16_t name##_i16(int16_t a, int16_t b);    \
+  LM2_API int8_t name##_i8(int8_t a, int8_t b);        \
+  LM2_API uint64_t name##_u64(uint64_t a, uint64_t b); \
+  LM2_API uint32_t name##_u32(uint32_t a, uint32_t b); \
+  LM2_API uint16_t name##_u16(uint16_t a, uint16_t b); \
+  LM2_API uint8_t name##_u8(uint8_t a, uint8_t b);
 
 // Safe addition for numeric types
 // Returns the sum of a and b, or handles overflow/underflow appropriately
@@ -54,7 +54,7 @@ _LM2_DEFINE_SAFE_OP(lm2_add);
 _LM2_DEFINE_SAFE_OP(lm2_sub);
 
 // Safe multiplication for numeric types
-// Returns the product of a and b, or handles overflow/underflow appropriately 
+// Returns the product of a and b, or handles overflow/underflow appropriately
 // LM2_ASSERTS will be triggered on overflow/underflow conditions
 _LM2_DEFINE_SAFE_OP(lm2_mul);
 
@@ -65,10 +65,10 @@ _LM2_DEFINE_SAFE_OP(lm2_div);
 
 // Generics
 #ifndef LM2_NO_GENERICS
-#define lm2_add(...) _LM2_GENERIC(lm2_add, __VA_ARGS__)
-#define lm2_sub(...) _LM2_GENERIC(lm2_sub, __VA_ARGS__)
-#define lm2_mul(...) _LM2_GENERIC(lm2_mul, __VA_ARGS__)
-#define lm2_div(...) _LM2_GENERIC(lm2_div, __VA_ARGS__)
+#  define lm2_add(...) _LM2_GENERIC(lm2_add, __VA_ARGS__)
+#  define lm2_sub(...) _LM2_GENERIC(lm2_sub, __VA_ARGS__)
+#  define lm2_mul(...) _LM2_GENERIC(lm2_mul, __VA_ARGS__)
+#  define lm2_div(...) _LM2_GENERIC(lm2_div, __VA_ARGS__)
 #endif
 
 #undef _LM2_DEFINE_SAFE_OP

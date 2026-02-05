@@ -29,21 +29,5 @@ SOFTWARE.
 // - LM2_NO_CPP_OPERATORS: Disable C++ operator overloads
 
 #include "libmath2/libmath2_base.h"
+#include "libmath2/libmath2_constants.h"
 #include "libmath2/libmath2_safe_ops.h"
-
-// #############################################################################
-LM2_HEADER_BEGIN;
-// #############################################################################
-
-/**
- * Add two integers.
- *
- * @param a First operand.
- * @param b Second operand.
- * @return The sum of a and b.
- */
-LM2_API int libmath2_add(int a, int b);
-
-// #############################################################################
-LM2_HEADER_END;
-// #############################################################################

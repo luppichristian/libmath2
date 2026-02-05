@@ -40,6 +40,8 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
+#include <float.h>
+#include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -72,6 +74,18 @@ LM2_HEADER_BEGIN;
 #if !defined(LM2_ASSERT)
 #  include <assert.h>
 #  define LM2_ASSERT(expr) assert(expr)
+#endif
+
+// #############################################################################
+// Assert floating point sizes
+// #############################################################################
+
+#ifdef __cplusplus
+static_assert(sizeof(float) == 4, "Expected float to be 4 bytes");
+static_assert(sizeof(double) == 8, "Expected double to be 8 bytes");
+#else
+_Static_assert(sizeof(float) == 4, "Expected float to be 4 bytes");
+_Static_assert(sizeof(double) == 8, "Expected double to be 8 bytes");
 #endif
 
 // #############################################################################

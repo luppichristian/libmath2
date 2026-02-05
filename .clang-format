@@ -2,7 +2,6 @@ BasedOnStyle: Chromium
 ColumnLimit: '0'
 UseTab: Never
 BreakBeforeBraces: Attach
-BreakTemplateDeclarations: Leave
 SortIncludes: Never
 
 # Space and indentation
@@ -23,7 +22,6 @@ IndentWidth: '2'
 BinPackArguments: false
 
 # Short stuff
-AllowShortCaseExpressionOnASingleLine: 'true'
 AllowShortCaseLabelsOnASingleLine: 'true'
 AllowShortFunctionsOnASingleLine: InlineOnly
 AllowShortIfStatementsOnASingleLine: Always
@@ -31,7 +29,6 @@ AllowShortBlocksOnASingleLine: Always
 AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: 'true'
 AllowShortEnumsOnASingleLine: 'true'
-AllowShortNamespacesOnASingleLine: 'true'
 
 # Alignment
 AlignConsecutiveMacros: 'true'
