@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include <libmath2/libmath2_scalar.h>
+#include <libmath2/libmath2_safe_ops.h>
 #include <math.h>
 
 // =============================================================================
@@ -38,11 +39,11 @@ LM2_API float lm2_floor_f32(float a) {
 }
 
 LM2_API double lm2_floor_multiple_f64(double a, double multiple) {
-  return floor(a / multiple) * multiple;
+  return lm2_mul_f64(floor(lm2_div_f64(a, multiple)), multiple);
 }
 
 LM2_API float lm2_floor_multiple_f32(float a, float multiple) {
-  return floorf(a / multiple) * multiple;
+  return lm2_mul_f32(floorf(lm2_div_f32(a, multiple)), multiple);
 }
 
 // =============================================================================
@@ -58,11 +59,11 @@ LM2_API float lm2_ceil_f32(float a) {
 }
 
 LM2_API double lm2_ceil_multiple_f64(double a, double multiple) {
-  return ceil(a / multiple) * multiple;
+  return lm2_mul_f64(ceil(lm2_div_f64(a, multiple)), multiple);
 }
 
 LM2_API float lm2_ceil_multiple_f32(float a, float multiple) {
-  return ceilf(a / multiple) * multiple;
+  return lm2_mul_f32(ceilf(lm2_div_f32(a, multiple)), multiple);
 }
 
 // =============================================================================
@@ -78,11 +79,11 @@ LM2_API float lm2_round_f32(float a) {
 }
 
 LM2_API double lm2_round_multiple_f64(double a, double multiple) {
-  return round(a / multiple) * multiple;
+  return lm2_mul_f64(round(lm2_div_f64(a, multiple)), multiple);
 }
 
 LM2_API float lm2_round_multiple_f32(float a, float multiple) {
-  return roundf(a / multiple) * multiple;
+  return lm2_mul_f32(roundf(lm2_div_f32(a, multiple)), multiple);
 }
 
 // =============================================================================
@@ -98,11 +99,11 @@ LM2_API float lm2_trunc_f32(float a) {
 }
 
 LM2_API double lm2_trunc_multiple_f64(double a, double multiple) {
-  return trunc(a / multiple) * multiple;
+  return lm2_mul_f64(trunc(lm2_div_f64(a, multiple)), multiple);
 }
 
 LM2_API float lm2_trunc_multiple_f32(float a, float multiple) {
-  return truncf(a / multiple) * multiple;
+  return lm2_mul_f32(truncf(lm2_div_f32(a, multiple)), multiple);
 }
 
 // =============================================================================
@@ -218,11 +219,11 @@ LM2_API float lm2_saturate_f32(float value) {
 // =============================================================================
 
 LM2_API double lm2_lerp_f64(double a, double t, double b) {
-  return a + t * (b - a);
+  return lm2_add_f64(a, lm2_mul_f64(t, lm2_sub_f64(b, a)));
 }
 
 LM2_API float lm2_lerp_f32(float a, float t, float b) {
-  return a + t * (b - a);
+  return lm2_add_f32(a, lm2_mul_f32(t, lm2_sub_f32(b, a)));
 }
 
 // =============================================================================
@@ -230,13 +231,13 @@ LM2_API float lm2_lerp_f32(float a, float t, float b) {
 // =============================================================================
 
 LM2_API double lm2_smoothstep_f64(double edge0, double x, double edge1) {
-  double t = lm2_clamp_f64(0.0, (x - edge0) / (edge1 - edge0), 1.0);
-  return t * t * (3.0 - 2.0 * t);
+  double t = lm2_clamp_f64(0.0, lm2_div_f64(lm2_sub_f64(x, edge0), lm2_sub_f64(edge1, edge0)), 1.0);
+  return lm2_mul_f64(lm2_mul_f64(t, t), lm2_sub_f64(3.0, lm2_mul_f64(2.0, t)));
 }
 
 LM2_API float lm2_smoothstep_f32(float edge0, float x, float edge1) {
-  float t = lm2_clamp_f32(0.0f, (x - edge0) / (edge1 - edge0), 1.0f);
-  return t * t * (3.0f - 2.0f * t);
+  float t = lm2_clamp_f32(0.0f, lm2_div_f32(lm2_sub_f32(x, edge0), lm2_sub_f32(edge1, edge0)), 1.0f);
+  return lm2_mul_f32(lm2_mul_f32(t, t), lm2_sub_f32(3.0f, lm2_mul_f32(2.0f, t)));
 }
 
 // =============================================================================
@@ -244,11 +245,11 @@ LM2_API float lm2_smoothstep_f32(float edge0, float x, float edge1) {
 // =============================================================================
 
 LM2_API double lm2_alpha_f64(double a, double value, double b) {
-  return (value - a) / (b - a);
+  return lm2_div_f64(lm2_sub_f64(value, a), lm2_sub_f64(b, a));
 }
 
 LM2_API float lm2_alpha_f32(float a, float value, float b) {
-  return (value - a) / (b - a);
+  return lm2_div_f32(lm2_sub_f32(value, a), lm2_sub_f32(b, a));
 }
 
 // =============================================================================
@@ -256,11 +257,11 @@ LM2_API float lm2_alpha_f32(float a, float value, float b) {
 // =============================================================================
 
 LM2_API double lm2_fract_f64(double a) {
-  return a - floor(a);
+  return lm2_sub_f64(a, floor(a));
 }
 
 LM2_API float lm2_fract_f32(float a) {
-  return a - floorf(a);
+  return lm2_sub_f32(a, floorf(a));
 }
 
 // =============================================================================
@@ -280,9 +281,33 @@ LM2_API float lm2_mod_f32(float a, float b) {
 // =============================================================================
 
 LM2_API double lm2_norm_f64(double a) {
-  return a / lm2_sign_f64(a);
+  return lm2_div_f64(a, lm2_sign_f64(a));
 }
 
 LM2_API float lm2_norm_f32(float a) {
-  return a / lm2_sign_f32(a);
+  return lm2_div_f32(a, lm2_sign_f32(a));
+}
+
+// =============================================================================
+// Power Functions
+// =============================================================================
+
+LM2_API double lm2_pow_f64(double base, double exponent) {
+  return pow(base, exponent);
+}
+
+LM2_API float lm2_pow_f32(float base, float exponent) {
+  return powf(base, exponent);
+}
+
+// =============================================================================
+// Square Root Functions
+// =============================================================================
+
+LM2_API double lm2_sqrt_f64(double a) {
+  return sqrt(a);
+}
+
+LM2_API float lm2_sqrt_f32(float a) {
+  return sqrtf(a);
 }

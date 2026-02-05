@@ -110,6 +110,14 @@ LM2_API float lm2_mod_f32(float a, float b);
 LM2_API double lm2_norm_f64(double a);
 LM2_API float lm2_norm_f32(float a);
 
+// Power
+LM2_API double lm2_pow_f64(double base, double exponent);
+LM2_API float lm2_pow_f32(float base, float exponent);
+
+// Square root
+LM2_API double lm2_sqrt_f64(double a);
+LM2_API float lm2_sqrt_f32(float a);
+
 // Generics
 #ifndef LM2_NO_GENERICS
 #  define lm2_floor(...)          _LM2_GENERIC(lm2_floor, __VA_ARGS__)
@@ -135,6 +143,8 @@ LM2_API float lm2_norm_f32(float a);
 #  define lm2_fract(...)          _LM2_GENERIC(lm2_fract, __VA_ARGS__)
 #  define lm2_mod(...)            _LM2_GENERIC(lm2_mod, __VA_ARGS__)
 #  define lm2_norm(...)           _LM2_GENERIC(lm2_norm, __VA_ARGS__)
+#  define lm2_pow(...)            _LM2_GENERIC(lm2_pow, __VA_ARGS__)
+#  define lm2_sqrt(...)           _LM2_GENERIC(lm2_sqrt, __VA_ARGS__)
 #endif
 
 // #############################################################################

@@ -24,6 +24,9 @@ SOFTWARE.
 
 #include <libmath2/libmath2_easings.h>
 #include <libmath2/libmath2_constants.h>
+#include <libmath2/libmath2_safe_ops.h>
+#include <libmath2/libmath2_scalar.h>
+#include <libmath2/libmath2_trigonometry.h>
 #include <math.h>
 
 // =============================================================================
@@ -43,27 +46,27 @@ LM2_API float ease_linear_f32(float t) {
 // =============================================================================
 
 LM2_API double ease_sin_in_f64(double t) {
-  return 1.0 - cos(t * LM2_HPI_F64);
+  return lm2_sub_f64(1.0, lm2_cos_f64(lm2_mul_f64(t, LM2_HPI_F64)));
 }
 
 LM2_API double ease_sin_out_f64(double t) {
-  return sin(t * LM2_HPI_F64);
+  return lm2_sin_f64(lm2_mul_f64(t, LM2_HPI_F64));
 }
 
 LM2_API double ease_sin_in_out_f64(double t) {
-  return -(cos(LM2_PI_F64 * t) - 1.0) / 2.0;
+  return lm2_div_f64(-lm2_sub_f64(lm2_cos_f64(lm2_mul_f64(LM2_PI_F64, t)), 1.0), 2.0);
 }
 
 LM2_API float ease_sin_in_f32(float t) {
-  return 1.0f - cosf(t * LM2_HPI_F32);
+  return lm2_sub_f32(1.0f, lm2_cos_f32(lm2_mul_f32(t, LM2_HPI_F32)));
 }
 
 LM2_API float ease_sin_out_f32(float t) {
-  return sinf(t * LM2_HPI_F32);
+  return lm2_sin_f32(lm2_mul_f32(t, LM2_HPI_F32));
 }
 
 LM2_API float ease_sin_in_out_f32(float t) {
-  return -(cosf(LM2_PI_F32 * t) - 1.0f) / 2.0f;
+  return lm2_div_f32(-lm2_sub_f32(lm2_cos_f32(lm2_mul_f32(LM2_PI_F32, t)), 1.0f), 2.0f);
 }
 
 // =============================================================================
@@ -71,27 +74,27 @@ LM2_API float ease_sin_in_out_f32(float t) {
 // =============================================================================
 
 LM2_API double ease_quad_in_f64(double t) {
-  return t * t;
+  return lm2_mul_f64(t, t);
 }
 
 LM2_API double ease_quad_out_f64(double t) {
-  return 1.0 - (1.0 - t) * (1.0 - t);
+  return lm2_sub_f64(1.0, lm2_mul_f64(lm2_sub_f64(1.0, t), lm2_sub_f64(1.0, t)));
 }
 
 LM2_API double ease_quad_in_out_f64(double t) {
-  return t < 0.5 ? 2.0 * t * t : 1.0 - pow(-2.0 * t + 2.0, 2.0) / 2.0;
+  return t < 0.5 ? lm2_mul_f64(lm2_mul_f64(2.0, t), t) : lm2_sub_f64(1.0, lm2_div_f64(lm2_pow_f64(lm2_add_f64(lm2_mul_f64(-2.0, t), 2.0), 2.0), 2.0));
 }
 
 LM2_API float ease_quad_in_f32(float t) {
-  return t * t;
+  return lm2_mul_f32(t, t);
 }
 
 LM2_API float ease_quad_out_f32(float t) {
-  return 1.0f - (1.0f - t) * (1.0f - t);
+  return lm2_sub_f32(1.0f, lm2_mul_f32(lm2_sub_f32(1.0f, t), lm2_sub_f32(1.0f, t)));
 }
 
 LM2_API float ease_quad_in_out_f32(float t) {
-  return t < 0.5f ? 2.0f * t * t : 1.0f - powf(-2.0f * t + 2.0f, 2.0f) / 2.0f;
+  return t < 0.5f ? lm2_mul_f32(lm2_mul_f32(2.0f, t), t) : lm2_sub_f32(1.0f, lm2_div_f32(lm2_pow_f32(lm2_add_f32(lm2_mul_f32(-2.0f, t), 2.0f), 2.0f), 2.0f));
 }
 
 // =============================================================================
@@ -99,29 +102,29 @@ LM2_API float ease_quad_in_out_f32(float t) {
 // =============================================================================
 
 LM2_API double ease_cubic_in_f64(double t) {
-  return t * t * t;
+  return lm2_mul_f64(lm2_mul_f64(t, t), t);
 }
 
 LM2_API double ease_cubic_out_f64(double t) {
-  double u = 1.0 - t;
-  return 1.0 - u * u * u;
+  double u = lm2_sub_f64(1.0, t);
+  return lm2_sub_f64(1.0, lm2_mul_f64(lm2_mul_f64(u, u), u));
 }
 
 LM2_API double ease_cubic_in_out_f64(double t) {
-  return t < 0.5 ? 4.0 * t * t * t : 1.0 - pow(-2.0 * t + 2.0, 3.0) / 2.0;
+  return t < 0.5 ? lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(4.0, t), t), t) : lm2_sub_f64(1.0, lm2_div_f64(lm2_pow_f64(lm2_add_f64(lm2_mul_f64(-2.0, t), 2.0), 3.0), 2.0));
 }
 
 LM2_API float ease_cubic_in_f32(float t) {
-  return t * t * t;
+  return lm2_mul_f32(lm2_mul_f32(t, t), t);
 }
 
 LM2_API float ease_cubic_out_f32(float t) {
-  float u = 1.0f - t;
-  return 1.0f - u * u * u;
+  float u = lm2_sub_f32(1.0f, t);
+  return lm2_sub_f32(1.0f, lm2_mul_f32(lm2_mul_f32(u, u), u));
 }
 
 LM2_API float ease_cubic_in_out_f32(float t) {
-  return t < 0.5f ? 4.0f * t * t * t : 1.0f - powf(-2.0f * t + 2.0f, 3.0f) / 2.0f;
+  return t < 0.5f ? lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(4.0f, t), t), t) : lm2_sub_f32(1.0f, lm2_div_f32(lm2_pow_f32(lm2_add_f32(lm2_mul_f32(-2.0f, t), 2.0f), 3.0f), 2.0f));
 }
 
 // =============================================================================
@@ -129,29 +132,29 @@ LM2_API float ease_cubic_in_out_f32(float t) {
 // =============================================================================
 
 LM2_API double ease_quart_in_f64(double t) {
-  return t * t * t * t;
+  return lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(t, t), t), t);
 }
 
 LM2_API double ease_quart_out_f64(double t) {
-  double u = 1.0 - t;
-  return 1.0 - u * u * u * u;
+  double u = lm2_sub_f64(1.0, t);
+  return lm2_sub_f64(1.0, lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(u, u), u), u));
 }
 
 LM2_API double ease_quart_in_out_f64(double t) {
-  return t < 0.5 ? 8.0 * t * t * t * t : 1.0 - pow(-2.0 * t + 2.0, 4.0) / 2.0;
+  return t < 0.5 ? lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(8.0, t), t), t), t) : lm2_sub_f64(1.0, lm2_div_f64(lm2_pow_f64(lm2_add_f64(lm2_mul_f64(-2.0, t), 2.0), 4.0), 2.0));
 }
 
 LM2_API float ease_quart_in_f32(float t) {
-  return t * t * t * t;
+  return lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(t, t), t), t);
 }
 
 LM2_API float ease_quart_out_f32(float t) {
-  float u = 1.0f - t;
-  return 1.0f - u * u * u * u;
+  float u = lm2_sub_f32(1.0f, t);
+  return lm2_sub_f32(1.0f, lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(u, u), u), u));
 }
 
 LM2_API float ease_quart_in_out_f32(float t) {
-  return t < 0.5f ? 8.0f * t * t * t * t : 1.0f - powf(-2.0f * t + 2.0f, 4.0f) / 2.0f;
+  return t < 0.5f ? lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(8.0f, t), t), t), t) : lm2_sub_f32(1.0f, lm2_div_f32(lm2_pow_f32(lm2_add_f32(lm2_mul_f32(-2.0f, t), 2.0f), 4.0f), 2.0f));
 }
 
 // =============================================================================
@@ -159,29 +162,29 @@ LM2_API float ease_quart_in_out_f32(float t) {
 // =============================================================================
 
 LM2_API double ease_quint_in_f64(double t) {
-  return t * t * t * t * t;
+  return lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(t, t), t), t), t);
 }
 
 LM2_API double ease_quint_out_f64(double t) {
-  double u = 1.0 - t;
-  return 1.0 - u * u * u * u * u;
+  double u = lm2_sub_f64(1.0, t);
+  return lm2_sub_f64(1.0, lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(u, u), u), u), u));
 }
 
 LM2_API double ease_quint_in_out_f64(double t) {
-  return t < 0.5 ? 16.0 * t * t * t * t * t : 1.0 - pow(-2.0 * t + 2.0, 5.0) / 2.0;
+  return t < 0.5 ? lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(16.0, t), t), t), t), t) : lm2_sub_f64(1.0, lm2_div_f64(lm2_pow_f64(lm2_add_f64(lm2_mul_f64(-2.0, t), 2.0), 5.0), 2.0));
 }
 
 LM2_API float ease_quint_in_f32(float t) {
-  return t * t * t * t * t;
+  return lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(t, t), t), t), t);
 }
 
 LM2_API float ease_quint_out_f32(float t) {
-  float u = 1.0f - t;
-  return 1.0f - u * u * u * u * u;
+  float u = lm2_sub_f32(1.0f, t);
+  return lm2_sub_f32(1.0f, lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(u, u), u), u), u));
 }
 
 LM2_API float ease_quint_in_out_f32(float t) {
-  return t < 0.5f ? 16.0f * t * t * t * t * t : 1.0f - powf(-2.0f * t + 2.0f, 5.0f) / 2.0f;
+  return t < 0.5f ? lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(16.0f, t), t), t), t), t) : lm2_sub_f32(1.0f, lm2_div_f32(lm2_pow_f32(lm2_add_f32(lm2_mul_f32(-2.0f, t), 2.0f), 5.0f), 2.0f));
 }
 
 // =============================================================================
@@ -189,31 +192,31 @@ LM2_API float ease_quint_in_out_f32(float t) {
 // =============================================================================
 
 LM2_API double ease_exp_in_f64(double t) {
-  return t == 0.0 ? 0.0 : pow(2.0, 10.0 * t - 10.0);
+  return t == 0.0 ? 0.0 : lm2_pow_f64(2.0, lm2_sub_f64(lm2_mul_f64(10.0, t), 10.0));
 }
 
 LM2_API double ease_exp_out_f64(double t) {
-  return t == 1.0 ? 1.0 : 1.0 - pow(2.0, -10.0 * t);
+  return t == 1.0 ? 1.0 : lm2_sub_f64(1.0, lm2_pow_f64(2.0, lm2_mul_f64(-10.0, t)));
 }
 
 LM2_API double ease_exp_in_out_f64(double t) {
   if (t == 0.0) return 0.0;
   if (t == 1.0) return 1.0;
-  return t < 0.5 ? pow(2.0, 20.0 * t - 10.0) / 2.0 : (2.0 - pow(2.0, -20.0 * t + 10.0)) / 2.0;
+  return t < 0.5 ? lm2_div_f64(lm2_pow_f64(2.0, lm2_sub_f64(lm2_mul_f64(20.0, t), 10.0)), 2.0) : lm2_div_f64(lm2_sub_f64(2.0, lm2_pow_f64(2.0, lm2_add_f64(lm2_mul_f64(-20.0, t), 10.0))), 2.0);
 }
 
 LM2_API float ease_exp_in_f32(float t) {
-  return t == 0.0f ? 0.0f : powf(2.0f, 10.0f * t - 10.0f);
+  return t == 0.0f ? 0.0f : lm2_pow_f32(2.0f, lm2_sub_f32(lm2_mul_f32(10.0f, t), 10.0f));
 }
 
 LM2_API float ease_exp_out_f32(float t) {
-  return t == 1.0f ? 1.0f : 1.0f - powf(2.0f, -10.0f * t);
+  return t == 1.0f ? 1.0f : lm2_sub_f32(1.0f, lm2_pow_f32(2.0f, lm2_mul_f32(-10.0f, t)));
 }
 
 LM2_API float ease_exp_in_out_f32(float t) {
   if (t == 0.0f) return 0.0f;
   if (t == 1.0f) return 1.0f;
-  return t < 0.5f ? powf(2.0f, 20.0f * t - 10.0f) / 2.0f : (2.0f - powf(2.0f, -20.0f * t + 10.0f)) / 2.0f;
+  return t < 0.5f ? lm2_div_f32(lm2_pow_f32(2.0f, lm2_sub_f32(lm2_mul_f32(20.0f, t), 10.0f)), 2.0f) : lm2_div_f32(lm2_sub_f32(2.0f, lm2_pow_f32(2.0f, lm2_add_f32(lm2_mul_f32(-20.0f, t), 10.0f))), 2.0f);
 }
 
 // =============================================================================
@@ -221,31 +224,31 @@ LM2_API float ease_exp_in_out_f32(float t) {
 // =============================================================================
 
 LM2_API double ease_circ_in_f64(double t) {
-  return 1.0 - sqrt(1.0 - t * t);
+  return lm2_sub_f64(1.0, lm2_sqrt_f64(lm2_sub_f64(1.0, lm2_mul_f64(t, t))));
 }
 
 LM2_API double ease_circ_out_f64(double t) {
-  return sqrt(1.0 - (t - 1.0) * (t - 1.0));
+  return lm2_sqrt_f64(lm2_sub_f64(1.0, lm2_mul_f64(lm2_sub_f64(t, 1.0), lm2_sub_f64(t, 1.0))));
 }
 
 LM2_API double ease_circ_in_out_f64(double t) {
   return t < 0.5
-             ? (1.0 - sqrt(1.0 - pow(2.0 * t, 2.0))) / 2.0
-             : (sqrt(1.0 - pow(-2.0 * t + 2.0, 2.0)) + 1.0) / 2.0;
+             ? lm2_div_f64(lm2_sub_f64(1.0, lm2_sqrt_f64(lm2_sub_f64(1.0, lm2_pow_f64(lm2_mul_f64(2.0, t), 2.0)))), 2.0)
+             : lm2_div_f64(lm2_add_f64(lm2_sqrt_f64(lm2_sub_f64(1.0, lm2_pow_f64(lm2_add_f64(lm2_mul_f64(-2.0, t), 2.0), 2.0))), 1.0), 2.0);
 }
 
 LM2_API float ease_circ_in_f32(float t) {
-  return 1.0f - sqrtf(1.0f - t * t);
+  return lm2_sub_f32(1.0f, lm2_sqrt_f32(lm2_sub_f32(1.0f, lm2_mul_f32(t, t))));
 }
 
 LM2_API float ease_circ_out_f32(float t) {
-  return sqrtf(1.0f - (t - 1.0f) * (t - 1.0f));
+  return lm2_sqrt_f32(lm2_sub_f32(1.0f, lm2_mul_f32(lm2_sub_f32(t, 1.0f), lm2_sub_f32(t, 1.0f))));
 }
 
 LM2_API float ease_circ_in_out_f32(float t) {
   return t < 0.5f
-             ? (1.0f - sqrtf(1.0f - powf(2.0f * t, 2.0f))) / 2.0f
-             : (sqrtf(1.0f - powf(-2.0f * t + 2.0f, 2.0f)) + 1.0f) / 2.0f;
+             ? lm2_div_f32(lm2_sub_f32(1.0f, lm2_sqrt_f32(lm2_sub_f32(1.0f, lm2_pow_f32(lm2_mul_f32(2.0f, t), 2.0f)))), 2.0f)
+             : lm2_div_f32(lm2_add_f32(lm2_sqrt_f32(lm2_sub_f32(1.0f, lm2_pow_f32(lm2_add_f32(lm2_mul_f32(-2.0f, t), 2.0f), 2.0f))), 1.0f), 2.0f);
 }
 
 // =============================================================================
@@ -254,46 +257,46 @@ LM2_API float ease_circ_in_out_f32(float t) {
 
 LM2_API double ease_back_in_f64(double t) {
   const double c1 = 1.70158;
-  const double c3 = c1 + 1.0;
-  return c3 * t * t * t - c1 * t * t;
+  const double c3 = lm2_add_f64(c1, 1.0);
+  return lm2_sub_f64(lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(c3, t), t), t), lm2_mul_f64(lm2_mul_f64(c1, t), t));
 }
 
 LM2_API double ease_back_out_f64(double t) {
   const double c1 = 1.70158;
-  const double c3 = c1 + 1.0;
-  double u = t - 1.0;
-  return 1.0 + c3 * u * u * u + c1 * u * u;
+  const double c3 = lm2_add_f64(c1, 1.0);
+  double u = lm2_sub_f64(t, 1.0);
+  return lm2_add_f64(lm2_add_f64(1.0, lm2_mul_f64(lm2_mul_f64(lm2_mul_f64(c3, u), u), u)), lm2_mul_f64(lm2_mul_f64(c1, u), u));
 }
 
 LM2_API double ease_back_in_out_f64(double t) {
   const double c1 = 1.70158;
-  const double c2 = c1 * 1.525;
+  const double c2 = lm2_mul_f64(c1, 1.525);
 
   return t < 0.5
-             ? (pow(2.0 * t, 2.0) * ((c2 + 1.0) * 2.0 * t - c2)) / 2.0
-             : (pow(2.0 * t - 2.0, 2.0) * ((c2 + 1.0) * (t * 2.0 - 2.0) + c2) + 2.0) / 2.0;
+             ? lm2_div_f64(lm2_mul_f64(lm2_pow_f64(lm2_mul_f64(2.0, t), 2.0), lm2_sub_f64(lm2_mul_f64(lm2_add_f64(c2, 1.0), lm2_mul_f64(2.0, t)), c2)), 2.0)
+             : lm2_div_f64(lm2_add_f64(lm2_mul_f64(lm2_pow_f64(lm2_sub_f64(lm2_mul_f64(2.0, t), 2.0), 2.0), lm2_add_f64(lm2_mul_f64(lm2_add_f64(c2, 1.0), lm2_sub_f64(lm2_mul_f64(t, 2.0), 2.0)), c2)), 2.0), 2.0);
 }
 
 LM2_API float ease_back_in_f32(float t) {
   const float c1 = 1.70158f;
-  const float c3 = c1 + 1.0f;
-  return c3 * t * t * t - c1 * t * t;
+  const float c3 = lm2_add_f32(c1, 1.0f);
+  return lm2_sub_f32(lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(c3, t), t), t), lm2_mul_f32(lm2_mul_f32(c1, t), t));
 }
 
 LM2_API float ease_back_out_f32(float t) {
   const float c1 = 1.70158f;
-  const float c3 = c1 + 1.0f;
-  float u = t - 1.0f;
-  return 1.0f + c3 * u * u * u + c1 * u * u;
+  const float c3 = lm2_add_f32(c1, 1.0f);
+  float u = lm2_sub_f32(t, 1.0f);
+  return lm2_add_f32(lm2_add_f32(1.0f, lm2_mul_f32(lm2_mul_f32(lm2_mul_f32(c3, u), u), u)), lm2_mul_f32(lm2_mul_f32(c1, u), u));
 }
 
 LM2_API float ease_back_in_out_f32(float t) {
   const float c1 = 1.70158f;
-  const float c2 = c1 * 1.525f;
+  const float c2 = lm2_mul_f32(c1, 1.525f);
 
   return t < 0.5f
-             ? (powf(2.0f * t, 2.0f) * ((c2 + 1.0f) * 2.0f * t - c2)) / 2.0f
-             : (powf(2.0f * t - 2.0f, 2.0f) * ((c2 + 1.0f) * (t * 2.0f - 2.0f) + c2) + 2.0f) / 2.0f;
+             ? lm2_div_f32(lm2_mul_f32(lm2_pow_f32(lm2_mul_f32(2.0f, t), 2.0f), lm2_sub_f32(lm2_mul_f32(lm2_add_f32(c2, 1.0f), lm2_mul_f32(2.0f, t)), c2)), 2.0f)
+             : lm2_div_f32(lm2_add_f32(lm2_mul_f32(lm2_pow_f32(lm2_sub_f32(lm2_mul_f32(2.0f, t), 2.0f), 2.0f), lm2_add_f32(lm2_mul_f32(lm2_add_f32(c2, 1.0f), lm2_sub_f32(lm2_mul_f32(t, 2.0f), 2.0f)), c2)), 2.0f), 2.0f);
 }
 
 // =============================================================================
@@ -301,57 +304,57 @@ LM2_API float ease_back_in_out_f32(float t) {
 // =============================================================================
 
 LM2_API double ease_elastic_in_f64(double t) {
-  const double c4 = (2.0 * LM2_PI_F64) / 3.0;
+  const double c4 = lm2_div_f64(lm2_mul_f64(2.0, LM2_PI_F64), 3.0);
 
   if (t == 0.0) return 0.0;
   if (t == 1.0) return 1.0;
-  return -pow(2.0, 10.0 * t - 10.0) * sin((t * 10.0 - 10.75) * c4);
+  return -lm2_mul_f64(lm2_pow_f64(2.0, lm2_sub_f64(lm2_mul_f64(10.0, t), 10.0)), lm2_sin_f64(lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(t, 10.0), 10.75), c4)));
 }
 
 LM2_API double ease_elastic_out_f64(double t) {
-  const double c4 = (2.0 * LM2_PI_F64) / 3.0;
+  const double c4 = lm2_div_f64(lm2_mul_f64(2.0, LM2_PI_F64), 3.0);
 
   if (t == 0.0) return 0.0;
   if (t == 1.0) return 1.0;
-  return pow(2.0, -10.0 * t) * sin((t * 10.0 - 0.75) * c4) + 1.0;
+  return lm2_add_f64(lm2_mul_f64(lm2_pow_f64(2.0, lm2_mul_f64(-10.0, t)), lm2_sin_f64(lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(t, 10.0), 0.75), c4))), 1.0);
 }
 
 LM2_API double ease_elastic_in_out_f64(double t) {
-  const double c5 = (2.0 * LM2_PI_F64) / 4.5;
+  const double c5 = lm2_div_f64(lm2_mul_f64(2.0, LM2_PI_F64), 4.5);
 
   if (t == 0.0) return 0.0;
   if (t == 1.0) return 1.0;
 
   return t < 0.5
-             ? -(pow(2.0, 20.0 * t - 10.0) * sin((20.0 * t - 11.125) * c5)) / 2.0
-             : (pow(2.0, -20.0 * t + 10.0) * sin((20.0 * t - 11.125) * c5)) / 2.0 + 1.0;
+             ? lm2_div_f64(-lm2_mul_f64(lm2_pow_f64(2.0, lm2_sub_f64(lm2_mul_f64(20.0, t), 10.0)), lm2_sin_f64(lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(20.0, t), 11.125), c5))), 2.0)
+             : lm2_add_f64(lm2_div_f64(lm2_mul_f64(lm2_pow_f64(2.0, lm2_add_f64(lm2_mul_f64(-20.0, t), 10.0)), lm2_sin_f64(lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(20.0, t), 11.125), c5))), 2.0), 1.0);
 }
 
 LM2_API float ease_elastic_in_f32(float t) {
-  const float c4 = (2.0f * LM2_PI_F32) / 3.0f;
+  const float c4 = lm2_div_f32(lm2_mul_f32(2.0f, LM2_PI_F32), 3.0f);
 
   if (t == 0.0f) return 0.0f;
   if (t == 1.0f) return 1.0f;
-  return -powf(2.0f, 10.0f * t - 10.0f) * sinf((t * 10.0f - 10.75f) * c4);
+  return -lm2_mul_f32(lm2_pow_f32(2.0f, lm2_sub_f32(lm2_mul_f32(10.0f, t), 10.0f)), lm2_sin_f32(lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(t, 10.0f), 10.75f), c4)));
 }
 
 LM2_API float ease_elastic_out_f32(float t) {
-  const float c4 = (2.0f * LM2_PI_F32) / 3.0f;
+  const float c4 = lm2_div_f32(lm2_mul_f32(2.0f, LM2_PI_F32), 3.0f);
 
   if (t == 0.0f) return 0.0f;
   if (t == 1.0f) return 1.0f;
-  return powf(2.0f, -10.0f * t) * sinf((t * 10.0f - 0.75f) * c4) + 1.0f;
+  return lm2_add_f32(lm2_mul_f32(lm2_pow_f32(2.0f, lm2_mul_f32(-10.0f, t)), lm2_sin_f32(lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(t, 10.0f), 0.75f), c4))), 1.0f);
 }
 
 LM2_API float ease_elastic_in_out_f32(float t) {
-  const float c5 = (2.0f * LM2_PI_F32) / 4.5f;
+  const float c5 = lm2_div_f32(lm2_mul_f32(2.0f, LM2_PI_F32), 4.5f);
 
   if (t == 0.0f) return 0.0f;
   if (t == 1.0f) return 1.0f;
 
   return t < 0.5f
-             ? -(powf(2.0f, 20.0f * t - 10.0f) * sinf((20.0f * t - 11.125f) * c5)) / 2.0f
-             : (powf(2.0f, -20.0f * t + 10.0f) * sinf((20.0f * t - 11.125f) * c5)) / 2.0f + 1.0f;
+             ? lm2_div_f32(-lm2_mul_f32(lm2_pow_f32(2.0f, lm2_sub_f32(lm2_mul_f32(20.0f, t), 10.0f)), lm2_sin_f32(lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(20.0f, t), 11.125f), c5))), 2.0f)
+             : lm2_add_f32(lm2_div_f32(lm2_mul_f32(lm2_pow_f32(2.0f, lm2_add_f32(lm2_mul_f32(-20.0f, t), 10.0f)), lm2_sin_f32(lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(20.0f, t), 11.125f), c5))), 2.0f), 1.0f);
 }
 
 // =============================================================================
@@ -362,56 +365,56 @@ LM2_API double ease_bounce_out_f64(double t) {
   const double n1 = 7.5625;
   const double d1 = 2.75;
 
-  if (t < 1.0 / d1) {
-    return n1 * t * t;
-  } else if (t < 2.0 / d1) {
-    t -= 1.5 / d1;
-    return n1 * t * t + 0.75;
-  } else if (t < 2.5 / d1) {
-    t -= 2.25 / d1;
-    return n1 * t * t + 0.9375;
+  if (t < lm2_div_f64(1.0, d1)) {
+    return lm2_mul_f64(lm2_mul_f64(n1, t), t);
+  } else if (t < lm2_div_f64(2.0, d1)) {
+    t = lm2_sub_f64(t, lm2_div_f64(1.5, d1));
+    return lm2_add_f64(lm2_mul_f64(lm2_mul_f64(n1, t), t), 0.75);
+  } else if (t < lm2_div_f64(2.5, d1)) {
+    t = lm2_sub_f64(t, lm2_div_f64(2.25, d1));
+    return lm2_add_f64(lm2_mul_f64(lm2_mul_f64(n1, t), t), 0.9375);
   } else {
-    t -= 2.625 / d1;
-    return n1 * t * t + 0.984375;
+    t = lm2_sub_f64(t, lm2_div_f64(2.625, d1));
+    return lm2_add_f64(lm2_mul_f64(lm2_mul_f64(n1, t), t), 0.984375);
   }
 }
 
 LM2_API double ease_bounce_in_f64(double t) {
-  return 1.0 - ease_bounce_out_f64(1.0 - t);
+  return lm2_sub_f64(1.0, ease_bounce_out_f64(lm2_sub_f64(1.0, t)));
 }
 
 LM2_API double ease_bounce_in_out_f64(double t) {
   return t < 0.5
-             ? (1.0 - ease_bounce_out_f64(1.0 - 2.0 * t)) / 2.0
-             : (1.0 + ease_bounce_out_f64(2.0 * t - 1.0)) / 2.0;
+             ? lm2_div_f64(lm2_sub_f64(1.0, ease_bounce_out_f64(lm2_sub_f64(1.0, lm2_mul_f64(2.0, t)))), 2.0)
+             : lm2_div_f64(lm2_add_f64(1.0, ease_bounce_out_f64(lm2_sub_f64(lm2_mul_f64(2.0, t), 1.0))), 2.0);
 }
 
 LM2_API float ease_bounce_out_f32(float t) {
   const float n1 = 7.5625f;
   const float d1 = 2.75f;
 
-  if (t < 1.0f / d1) {
-    return n1 * t * t;
-  } else if (t < 2.0f / d1) {
-    t -= 1.5f / d1;
-    return n1 * t * t + 0.75f;
-  } else if (t < 2.5f / d1) {
-    t -= 2.25f / d1;
-    return n1 * t * t + 0.9375f;
+  if (t < lm2_div_f32(1.0f, d1)) {
+    return lm2_mul_f32(lm2_mul_f32(n1, t), t);
+  } else if (t < lm2_div_f32(2.0f, d1)) {
+    t = lm2_sub_f32(t, lm2_div_f32(1.5f, d1));
+    return lm2_add_f32(lm2_mul_f32(lm2_mul_f32(n1, t), t), 0.75f);
+  } else if (t < lm2_div_f32(2.5f, d1)) {
+    t = lm2_sub_f32(t, lm2_div_f32(2.25f, d1));
+    return lm2_add_f32(lm2_mul_f32(lm2_mul_f32(n1, t), t), 0.9375f);
   } else {
-    t -= 2.625f / d1;
-    return n1 * t * t + 0.984375f;
+    t = lm2_sub_f32(t, lm2_div_f32(2.625f, d1));
+    return lm2_add_f32(lm2_mul_f32(lm2_mul_f32(n1, t), t), 0.984375f);
   }
 }
 
 LM2_API float ease_bounce_in_f32(float t) {
-  return 1.0f - ease_bounce_out_f32(1.0f - t);
+  return lm2_sub_f32(1.0f, ease_bounce_out_f32(lm2_sub_f32(1.0f, t)));
 }
 
 LM2_API float ease_bounce_in_out_f32(float t) {
   return t < 0.5f
-             ? (1.0f - ease_bounce_out_f32(1.0f - 2.0f * t)) / 2.0f
-             : (1.0f + ease_bounce_out_f32(2.0f * t - 1.0f)) / 2.0f;
+             ? lm2_div_f32(lm2_sub_f32(1.0f, ease_bounce_out_f32(lm2_sub_f32(1.0f, lm2_mul_f32(2.0f, t)))), 2.0f)
+             : lm2_div_f32(lm2_add_f32(1.0f, ease_bounce_out_f32(lm2_sub_f32(lm2_mul_f32(2.0f, t), 1.0f))), 2.0f);
 }
 
 // =============================================================================
