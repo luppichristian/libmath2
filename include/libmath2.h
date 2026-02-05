@@ -24,7 +24,12 @@ SOFTWARE.
 
 #pragma once
 
+// Configurable defines:
+// - LM2_NO_GENERICS: Disable generic functions
+// - LM2_NO_CPP_OPERATORS: Disable C++ operator overloads
+
 #include "libmath2/libmath2_base.h"
+#include "libmath2/libmath2_safe_ops.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
