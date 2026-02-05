@@ -23,10 +23,6 @@ else()
     add_library(libmath2 STATIC ${LIBMATH2_SOURCES})
 endif()
 
-set_target_properties(libmath2 PROPERTIES
-    OUTPUT_NAME math2
-)
-
 target_include_directories(libmath2 PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
