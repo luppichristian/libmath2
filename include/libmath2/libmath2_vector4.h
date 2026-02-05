@@ -31,20 +31,20 @@ LM2_HEADER_BEGIN;
 // #############################################################################
 
 // Define a vector type with 4 components and associated operations
-#define _LM2_DEFINE_V4(type_name, scalar_type)                               \
-  typedef union type_name {                                                  \
-    scalar_type e[4];                                                        \
-    struct {                                                                 \
-      scalar_type x, y, z, w;                                                \
-    };                                                                       \
-    struct {                                                                 \
-      scalar_type s, t, r, q;                                                \
-    };                                                                       \
-  } type_name;                                                               \
-  _LM2_DECLARE_VECTOR_OP(type_name, lm2_add_##type_name)                     \
-  _LM2_DECLARE_VECTOR_OP(type_name, lm2_sub_##type_name)                     \
-  _LM2_DECLARE_VECTOR_OP(type_name, lm2_mul_##type_name)                     \
-  _LM2_DECLARE_VECTOR_OP(type_name, lm2_div_##type_name)                     \
+#define _LM2_DEFINE_V4(type_name, scalar_type)                                               \
+  typedef union type_name {                                                                  \
+    scalar_type e[4];                                                                        \
+    struct {                                                                                 \
+      scalar_type x, y, z, w;                                                                \
+    };                                                                                       \
+    struct {                                                                                 \
+      scalar_type s, t, r, q;                                                                \
+    };                                                                                       \
+  } type_name;                                                                               \
+  _LM2_DECLARE_VECTOR_OP(type_name, lm2_add_##type_name)                                     \
+  _LM2_DECLARE_VECTOR_OP(type_name, lm2_sub_##type_name)                                     \
+  _LM2_DECLARE_VECTOR_OP(type_name, lm2_mul_##type_name)                                     \
+  _LM2_DECLARE_VECTOR_OP(type_name, lm2_div_##type_name)                                     \
   _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_add_##type_name##_##scalar_type) \
   _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_sub_##type_name##_##scalar_type) \
   _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_mul_##type_name##_##scalar_type) \
@@ -68,3 +68,17 @@ typedef lm2_v4f32 lm2_v4;
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+#ifndef LM2_NO_GENERICS
+// Generic V4 vector-vector operations (type-dispatched)
+#  define lm2_add_v4(...) _LM2_GENERIC_V4(lm2_add, __VA_ARGS__)
+#  define lm2_sub_v4(...) _LM2_GENERIC_V4(lm2_sub, __VA_ARGS__)
+#  define lm2_mul_v4(...) _LM2_GENERIC_V4(lm2_mul, __VA_ARGS__)
+#  define lm2_div_v4(...) _LM2_GENERIC_V4(lm2_div, __VA_ARGS__)
+
+// Generic V4 vector-scalar operations (type-dispatched)
+#  define lm2_add_v4_s(...) _LM2_GENERIC_V4_SCALAR(lm2_add, __VA_ARGS__)
+#  define lm2_sub_v4_s(...) _LM2_GENERIC_V4_SCALAR(lm2_sub, __VA_ARGS__)
+#  define lm2_mul_v4_s(...) _LM2_GENERIC_V4_SCALAR(lm2_mul, __VA_ARGS__)
+#  define lm2_div_v4_s(...) _LM2_GENERIC_V4_SCALAR(lm2_div, __VA_ARGS__)
+#endif

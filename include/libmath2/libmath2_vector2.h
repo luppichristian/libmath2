@@ -68,3 +68,17 @@ typedef lm2_v2f32 lm2_v2;
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+#ifndef LM2_NO_GENERICS
+// Generic V2 vector-vector operations (type-dispatched)
+#  define lm2_add_v2(...) _LM2_GENERIC_V2(lm2_add, __VA_ARGS__)
+#  define lm2_sub_v2(...) _LM2_GENERIC_V2(lm2_sub, __VA_ARGS__)
+#  define lm2_mul_v2(...) _LM2_GENERIC_V2(lm2_mul, __VA_ARGS__)
+#  define lm2_div_v2(...) _LM2_GENERIC_V2(lm2_div, __VA_ARGS__)
+
+// Generic V2 vector-scalar operations (type-dispatched)
+#  define lm2_add_v2_s(...) _LM2_GENERIC_V2_SCALAR(lm2_add, __VA_ARGS__)
+#  define lm2_sub_v2_s(...) _LM2_GENERIC_V2_SCALAR(lm2_sub, __VA_ARGS__)
+#  define lm2_mul_v2_s(...) _LM2_GENERIC_V2_SCALAR(lm2_mul, __VA_ARGS__)
+#  define lm2_div_v2_s(...) _LM2_GENERIC_V2_SCALAR(lm2_div, __VA_ARGS__)
+#endif

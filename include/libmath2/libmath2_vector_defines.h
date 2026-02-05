@@ -38,8 +38,285 @@ LM2_HEADER_BEGIN;
 #define _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, name) \
   LM2_API type_name name(type_name a, scalar_type b);
 
-//
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+// =============================================================================
+// Generic Vector Dispatch Macros
+// =============================================================================
+// These macros provide type-generic dispatch for vector operations,
+// similar to libmath2_generic.h but for vector types.
+
+#ifndef LM2_NO_GENERICS
+#  ifdef __cplusplus
+#    include <type_traits>
+
+// Forward declarations for vector types (needed for template)
+union lm2_v2f64;
+union lm2_v2f32;
+union lm2_v2i64;
+union lm2_v2i32;
+union lm2_v2i16;
+union lm2_v2i8;
+union lm2_v2u64;
+union lm2_v2u32;
+union lm2_v2u16;
+union lm2_v2u8;
+union lm2_v3f64;
+union lm2_v3f32;
+union lm2_v3i64;
+union lm2_v3i32;
+union lm2_v3i16;
+union lm2_v3i8;
+union lm2_v3u64;
+union lm2_v3u32;
+union lm2_v3u16;
+union lm2_v3u8;
+union lm2_v4f64;
+union lm2_v4f32;
+union lm2_v4i64;
+union lm2_v4i32;
+union lm2_v4i16;
+union lm2_v4i8;
+union lm2_v4u64;
+union lm2_v4u32;
+union lm2_v4u16;
+union lm2_v4u8;
+
+// Generic dispatcher for V2 vector-vector operations
+template <typename T, typename... Args>
+inline auto _lm2_generic_v2(
+    auto&& f64,
+    auto&& f32,
+    auto&& i64,
+    auto&& i32,
+    auto&& i16,
+    auto&& i8,
+    auto&& u64,
+    auto&& u32,
+    auto&& u16,
+    auto&& u8,
+    T first,
+    Args&&... rest) -> decltype(auto) {
+  using _LM2_T = std::remove_cvref_t<T>;
+  if constexpr (std::is_same_v<_LM2_T, lm2_v2f64>) return f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2f32>)
+    return f32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2i64>)
+    return i64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2i32>)
+    return i32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2i16>)
+    return i16(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2i8>)
+    return i8(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2u64>)
+    return u64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2u32>)
+    return u32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2u16>)
+    return u16(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2u8>)
+    return u8(first, rest...);
+  else
+    static_assert(sizeof(_LM2_T) == 0, "Unsupported V2 type");
+}
+
+// Generic dispatcher for V3 vector-vector operations
+template <typename T, typename... Args>
+inline auto _lm2_generic_v3(
+    auto&& f64,
+    auto&& f32,
+    auto&& i64,
+    auto&& i32,
+    auto&& i16,
+    auto&& i8,
+    auto&& u64,
+    auto&& u32,
+    auto&& u16,
+    auto&& u8,
+    T first,
+    Args&&... rest) -> decltype(auto) {
+  using _LM2_T = std::remove_cvref_t<T>;
+  if constexpr (std::is_same_v<_LM2_T, lm2_v3f64>) return f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3f32>)
+    return f32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3i64>)
+    return i64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3i32>)
+    return i32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3i16>)
+    return i16(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3i8>)
+    return i8(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3u64>)
+    return u64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3u32>)
+    return u32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3u16>)
+    return u16(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3u8>)
+    return u8(first, rest...);
+  else
+    static_assert(sizeof(_LM2_T) == 0, "Unsupported V3 type");
+}
+
+// Generic dispatcher for V4 vector-vector operations
+template <typename T, typename... Args>
+inline auto _lm2_generic_v4(
+    auto&& f64,
+    auto&& f32,
+    auto&& i64,
+    auto&& i32,
+    auto&& i16,
+    auto&& i8,
+    auto&& u64,
+    auto&& u32,
+    auto&& u16,
+    auto&& u8,
+    T first,
+    Args&&... rest) -> decltype(auto) {
+  using _LM2_T = std::remove_cvref_t<T>;
+  if constexpr (std::is_same_v<_LM2_T, lm2_v4f64>) return f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4f32>)
+    return f32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4i64>)
+    return i64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4i32>)
+    return i32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4i16>)
+    return i16(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4i8>)
+    return i8(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4u64>)
+    return u64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4u32>)
+    return u32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4u16>)
+    return u16(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4u8>)
+    return u8(first, rest...);
+  else
+    static_assert(sizeof(_LM2_T) == 0, "Unsupported V4 type");
+}
+
+// C++ expression-level dispatch macros
+#    define _LM2_GENERIC_V2(name, ...) \
+      _lm2_generic_v2(name##_lm2_v2f64, name##_lm2_v2f32, name##_lm2_v2i64, name##_lm2_v2i32, name##_lm2_v2i16, name##_lm2_v2i8, name##_lm2_v2u64, name##_lm2_v2u32, name##_lm2_v2u16, name##_lm2_v2u8, __VA_ARGS__)
+
+#    define _LM2_GENERIC_V3(name, ...) \
+      _lm2_generic_v3(name##_lm2_v3f64, name##_lm2_v3f32, name##_lm2_v3i64, name##_lm2_v3i32, name##_lm2_v3i16, name##_lm2_v3i8, name##_lm2_v3u64, name##_lm2_v3u32, name##_lm2_v3u16, name##_lm2_v3u8, __VA_ARGS__)
+
+#    define _LM2_GENERIC_V4(name, ...) \
+      _lm2_generic_v4(name##_lm2_v4f64, name##_lm2_v4f32, name##_lm2_v4i64, name##_lm2_v4i32, name##_lm2_v4i16, name##_lm2_v4i8, name##_lm2_v4u64, name##_lm2_v4u32, name##_lm2_v4u16, name##_lm2_v4u8, __VA_ARGS__)
+
+// C++ scalar dispatch (vector + scalar operations)
+#    define _LM2_GENERIC_V2_SCALAR(name, ...) \
+      _lm2_generic_v2(name##_lm2_v2f64_double, name##_lm2_v2f32_float, name##_lm2_v2i64_int64_t, name##_lm2_v2i32_int32_t, name##_lm2_v2i16_int16_t, name##_lm2_v2i8_int8_t, name##_lm2_v2u64_uint64_t, name##_lm2_v2u32_uint32_t, name##_lm2_v2u16_uint16_t, name##_lm2_v2u8_uint8_t, __VA_ARGS__)
+
+#    define _LM2_GENERIC_V3_SCALAR(name, ...) \
+      _lm2_generic_v3(name##_lm2_v3f64_double, name##_lm2_v3f32_float, name##_lm2_v3i64_int64_t, name##_lm2_v3i32_int32_t, name##_lm2_v3i16_int16_t, name##_lm2_v3i8_int8_t, name##_lm2_v3u64_uint64_t, name##_lm2_v3u32_uint32_t, name##_lm2_v3u16_uint16_t, name##_lm2_v3u8_uint8_t, __VA_ARGS__)
+
+#    define _LM2_GENERIC_V4_SCALAR(name, ...) \
+      _lm2_generic_v4(name##_lm2_v4f64_double, name##_lm2_v4f32_float, name##_lm2_v4i64_int64_t, name##_lm2_v4i32_int32_t, name##_lm2_v4i16_int16_t, name##_lm2_v4i8_int8_t, name##_lm2_v4u64_uint64_t, name##_lm2_v4u32_uint32_t, name##_lm2_v4u16_uint16_t, name##_lm2_v4u8_uint8_t, __VA_ARGS__)
+
+#  else
+
+// C11 _Generic dispatch for V2 vector-vector operations
+#    define _LM2_GENERIC_V2(name, first, ...) \
+      _Generic((first),                       \
+          lm2_v2f64: name##_lm2_v2f64,        \
+          lm2_v2f32: name##_lm2_v2f32,        \
+          lm2_v2i64: name##_lm2_v2i64,        \
+          lm2_v2i32: name##_lm2_v2i32,        \
+          lm2_v2i16: name##_lm2_v2i16,        \
+          lm2_v2i8: name##_lm2_v2i8,          \
+          lm2_v2u64: name##_lm2_v2u64,        \
+          lm2_v2u32: name##_lm2_v2u32,        \
+          lm2_v2u16: name##_lm2_v2u16,        \
+          lm2_v2u8: name##_lm2_v2u8)(first, __VA_ARGS__)
+
+// C11 _Generic dispatch for V3 vector-vector operations
+#    define _LM2_GENERIC_V3(name, first, ...) \
+      _Generic((first),                       \
+          lm2_v3f64: name##_lm2_v3f64,        \
+          lm2_v3f32: name##_lm2_v3f32,        \
+          lm2_v3i64: name##_lm2_v3i64,        \
+          lm2_v3i32: name##_lm2_v3i32,        \
+          lm2_v3i16: name##_lm2_v3i16,        \
+          lm2_v3i8: name##_lm2_v3i8,          \
+          lm2_v3u64: name##_lm2_v3u64,        \
+          lm2_v3u32: name##_lm2_v3u32,        \
+          lm2_v3u16: name##_lm2_v3u16,        \
+          lm2_v3u8: name##_lm2_v3u8)(first, __VA_ARGS__)
+
+// C11 _Generic dispatch for V4 vector-vector operations
+#    define _LM2_GENERIC_V4(name, first, ...) \
+      _Generic((first),                       \
+          lm2_v4f64: name##_lm2_v4f64,        \
+          lm2_v4f32: name##_lm2_v4f32,        \
+          lm2_v4i64: name##_lm2_v4i64,        \
+          lm2_v4i32: name##_lm2_v4i32,        \
+          lm2_v4i16: name##_lm2_v4i16,        \
+          lm2_v4i8: name##_lm2_v4i8,          \
+          lm2_v4u64: name##_lm2_v4u64,        \
+          lm2_v4u32: name##_lm2_v4u32,        \
+          lm2_v4u16: name##_lm2_v4u16,        \
+          lm2_v4u8: name##_lm2_v4u8)(first, __VA_ARGS__)
+
+// C11 _Generic dispatch for V2 vector-scalar operations
+#    define _LM2_GENERIC_V2_SCALAR(name, first, ...) \
+      _Generic((first),                              \
+          lm2_v2f64: name##_lm2_v2f64_double,        \
+          lm2_v2f32: name##_lm2_v2f32_float,         \
+          lm2_v2i64: name##_lm2_v2i64_int64_t,       \
+          lm2_v2i32: name##_lm2_v2i32_int32_t,       \
+          lm2_v2i16: name##_lm2_v2i16_int16_t,       \
+          lm2_v2i8: name##_lm2_v2i8_int8_t,          \
+          lm2_v2u64: name##_lm2_v2u64_uint64_t,      \
+          lm2_v2u32: name##_lm2_v2u32_uint32_t,      \
+          lm2_v2u16: name##_lm2_v2u16_uint16_t,      \
+          lm2_v2u8: name##_lm2_v2u8_uint8_t)(first, __VA_ARGS__)
+
+// C11 _Generic dispatch for V3 vector-scalar operations
+#    define _LM2_GENERIC_V3_SCALAR(name, first, ...) \
+      _Generic((first),                              \
+          lm2_v3f64: name##_lm2_v3f64_double,        \
+          lm2_v3f32: name##_lm2_v3f32_float,         \
+          lm2_v3i64: name##_lm2_v3i64_int64_t,       \
+          lm2_v3i32: name##_lm2_v3i32_int32_t,       \
+          lm2_v3i16: name##_lm2_v3i16_int16_t,       \
+          lm2_v3i8: name##_lm2_v3i8_int8_t,          \
+          lm2_v3u64: name##_lm2_v3u64_uint64_t,      \
+          lm2_v3u32: name##_lm2_v3u32_uint32_t,      \
+          lm2_v3u16: name##_lm2_v3u16_uint16_t,      \
+          lm2_v3u8: name##_lm2_v3u8_uint8_t)(first, __VA_ARGS__)
+
+// C11 _Generic dispatch for V4 vector-scalar operations
+#    define _LM2_GENERIC_V4_SCALAR(name, first, ...) \
+      _Generic((first),                              \
+          lm2_v4f64: name##_lm2_v4f64_double,        \
+          lm2_v4f32: name##_lm2_v4f32_float,         \
+          lm2_v4i64: name##_lm2_v4i64_int64_t,       \
+          lm2_v4i32: name##_lm2_v4i32_int32_t,       \
+          lm2_v4i16: name##_lm2_v4i16_int16_t,       \
+          lm2_v4i8: name##_lm2_v4i8_int8_t,          \
+          lm2_v4u64: name##_lm2_v4u64_uint64_t,      \
+          lm2_v4u32: name##_lm2_v4u32_uint32_t,      \
+          lm2_v4u16: name##_lm2_v4u16_uint16_t,      \
+          lm2_v4u8: name##_lm2_v4u8_uint8_t)(first, __VA_ARGS__)
+
+#  endif
+
+#else
+
+// Expands to nothing when generics are disabled
+#  define _LM2_GENERIC_V2(name, ...)
+#  define _LM2_GENERIC_V3(name, ...)
+#  define _LM2_GENERIC_V4(name, ...)
+#  define _LM2_GENERIC_V2_SCALAR(name, ...)
+#  define _LM2_GENERIC_V3_SCALAR(name, ...)
+#  define _LM2_GENERIC_V4_SCALAR(name, ...)
+
+#endif
