@@ -118,6 +118,10 @@ LM2_API float lm2_pow_f32(float base, float exponent);
 LM2_API double lm2_sqrt_f64(double a);
 LM2_API float lm2_sqrt_f32(float a);
 
+// Comparison with epsilon
+LM2_API double lm2_cmp_f64(double a, double b);
+LM2_API float lm2_cmp_f32(float a, float b);
+
 // Generics
 #ifndef LM2_NO_GENERICS
 #  define lm2_floor(...)          _LM2_GENERIC(lm2_floor, __VA_ARGS__)
@@ -145,6 +149,7 @@ LM2_API float lm2_sqrt_f32(float a);
 #  define lm2_norm(...)           _LM2_GENERIC(lm2_norm, __VA_ARGS__)
 #  define lm2_pow(...)            _LM2_GENERIC(lm2_pow, __VA_ARGS__)
 #  define lm2_sqrt(...)           _LM2_GENERIC(lm2_sqrt, __VA_ARGS__)
+#  define lm2_cmp(...)            _LM2_GENERIC(lm2_cmp, __VA_ARGS__)
 #endif
 
 // #############################################################################

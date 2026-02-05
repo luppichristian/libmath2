@@ -311,3 +311,19 @@ LM2_API double lm2_sqrt_f64(double a) {
 LM2_API float lm2_sqrt_f32(float a) {
   return sqrtf(a);
 }
+
+// =============================================================================
+// Comparison with Epsilon Functions
+// =============================================================================
+
+LM2_API double lm2_cmp_f64(double a, double b) {
+  double epsilon = DBL_EPSILON * lm2_max_f64(1.0, lm2_max_f64(fabs(a), fabs(b)));
+  if (fabs(a - b) <= epsilon) return 0.0;
+  return (a < b) ? -1.0 : 1.0;
+}
+
+LM2_API float lm2_cmp_f32(float a, float b) {
+  float epsilon = FLT_EPSILON * lm2_max_f32(1.0f, lm2_max_f32(fabsf(a), fabsf(b)));
+  if (fabsf(a - b) <= epsilon) return 0.0f;
+  return (a < b) ? -1.0f : 1.0f;
+}
