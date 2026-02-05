@@ -50,7 +50,31 @@ LM2_HEADER_BEGIN;
   _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_sub_##type_name##_##scalar_type) \
   _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_mul_##type_name##_##scalar_type) \
   _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_div_##type_name##_##scalar_type) \
-  _LM2_DECLARE_VECTOR_UNARY_OP(type_name, lm2_neg_##type_name)
+  _LM2_DECLARE_VECTOR_UNARY_OP(type_name, lm2_neg_##type_name)                               \
+  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_floor_##type_name)                               \
+  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_ceil_##type_name)                                \
+  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_round_##type_name)                               \
+  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_trunc_##type_name)                               \
+  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_abs_##type_name)                                 \
+  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_sign_##type_name)                                \
+  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_sign0_##type_name)                               \
+  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_saturate_##type_name)                            \
+  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_fract_##type_name)                               \
+  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_sqrt_##type_name)                                \
+  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_floor_multiple_##type_name)                      \
+  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_ceil_multiple_##type_name)                       \
+  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_round_multiple_##type_name)                      \
+  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_trunc_multiple_##type_name)                      \
+  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_min_##type_name)                                 \
+  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_min_abs_##type_name)                             \
+  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_max_##type_name)                                 \
+  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_max_abs_##type_name)                             \
+  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_mod_##type_name)                                 \
+  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_pow_##type_name)                                 \
+  _LM2_DECLARE_SCALAR_FUNC_3(type_name, lm2_clamp_##type_name)                               \
+  _LM2_DECLARE_SCALAR_FUNC_3(type_name, lm2_lerp_##type_name)                                \
+  _LM2_DECLARE_SCALAR_FUNC_3(type_name, lm2_smoothstep_##type_name)                          \
+  _LM2_DECLARE_SCALAR_FUNC_3(type_name, lm2_alpha_##type_name)
 
 // 2D vector types
 _LM2_DEFINE_V2(lm2_v2f64, double)
@@ -100,4 +124,35 @@ _LM2_DEFINE_V2_OPERATORS(lm2_v2u8, uint8_t)
 
 // Generic V2 unary operations (type-dispatched)
 #  define lm2_neg_v2(...) _LM2_GENERIC_V2_UNARY(lm2_neg, __VA_ARGS__)
+
+// Generic V2 scalar functions (type-dispatched)
+// Unary scalar functions
+#  define lm2_floor_v2(...)    _LM2_GENERIC_V2_UNARY(lm2_floor, __VA_ARGS__)
+#  define lm2_ceil_v2(...)     _LM2_GENERIC_V2_UNARY(lm2_ceil, __VA_ARGS__)
+#  define lm2_round_v2(...)    _LM2_GENERIC_V2_UNARY(lm2_round, __VA_ARGS__)
+#  define lm2_trunc_v2(...)    _LM2_GENERIC_V2_UNARY(lm2_trunc, __VA_ARGS__)
+#  define lm2_abs_v2(...)      _LM2_GENERIC_V2_UNARY(lm2_abs, __VA_ARGS__)
+#  define lm2_sign_v2(...)     _LM2_GENERIC_V2_UNARY(lm2_sign, __VA_ARGS__)
+#  define lm2_sign0_v2(...)    _LM2_GENERIC_V2_UNARY(lm2_sign0, __VA_ARGS__)
+#  define lm2_saturate_v2(...) _LM2_GENERIC_V2_UNARY(lm2_saturate, __VA_ARGS__)
+#  define lm2_fract_v2(...)    _LM2_GENERIC_V2_UNARY(lm2_fract, __VA_ARGS__)
+#  define lm2_sqrt_v2(...)     _LM2_GENERIC_V2_UNARY(lm2_sqrt, __VA_ARGS__)
+
+// Binary scalar functions
+#  define lm2_floor_multiple_v2(...) _LM2_GENERIC_V2(lm2_floor_multiple, __VA_ARGS__)
+#  define lm2_ceil_multiple_v2(...)  _LM2_GENERIC_V2(lm2_ceil_multiple, __VA_ARGS__)
+#  define lm2_round_multiple_v2(...) _LM2_GENERIC_V2(lm2_round_multiple, __VA_ARGS__)
+#  define lm2_trunc_multiple_v2(...) _LM2_GENERIC_V2(lm2_trunc_multiple, __VA_ARGS__)
+#  define lm2_min_v2(...)            _LM2_GENERIC_V2(lm2_min, __VA_ARGS__)
+#  define lm2_min_abs_v2(...)        _LM2_GENERIC_V2(lm2_min_abs, __VA_ARGS__)
+#  define lm2_max_v2(...)            _LM2_GENERIC_V2(lm2_max, __VA_ARGS__)
+#  define lm2_max_abs_v2(...)        _LM2_GENERIC_V2(lm2_max_abs, __VA_ARGS__)
+#  define lm2_mod_v2(...)            _LM2_GENERIC_V2(lm2_mod, __VA_ARGS__)
+#  define lm2_pow_v2(...)            _LM2_GENERIC_V2(lm2_pow, __VA_ARGS__)
+
+// Ternary scalar functions
+#  define lm2_clamp_v2(...)      _LM2_GENERIC_V2(lm2_clamp, __VA_ARGS__)
+#  define lm2_lerp_v2(...)       _LM2_GENERIC_V2(lm2_lerp, __VA_ARGS__)
+#  define lm2_smoothstep_v2(...) _LM2_GENERIC_V2(lm2_smoothstep, __VA_ARGS__)
+#  define lm2_alpha_v2(...)      _LM2_GENERIC_V2(lm2_alpha, __VA_ARGS__)
 #endif

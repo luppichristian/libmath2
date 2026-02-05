@@ -29,47 +29,77 @@ SOFTWARE.
 // Implementation Macros
 // =============================================================================
 
-#define _LM2_IMPL_V4_VEC_OP(type_name, scalar_suffix, op_name)                 \
-  LM2_API type_name op_name##_##type_name(type_name a, type_name b) {          \
+#define _LM2_IMPL_V4_VEC_OP(type_name, scalar_suffix, op_name)        \
+  LM2_API type_name op_name##_##type_name(type_name a, type_name b) { \
+    type_name result;                                                 \
+    result.x = op_name##_##scalar_suffix(a.x, b.x);                   \
+    result.y = op_name##_##scalar_suffix(a.y, b.y);                   \
+    result.z = op_name##_##scalar_suffix(a.z, b.z);                   \
+    result.w = op_name##_##scalar_suffix(a.w, b.w);                   \
+    return result;                                                    \
+  }
+
+#define _LM2_IMPL_V4_SCALAR_OP(type_name, scalar_type, scalar_suffix, op_name) \
+  LM2_API type_name op_name##_##type_name##_##scalar_type(type_name a,         \
+                                                          scalar_type b) {     \
     type_name result;                                                          \
-    result.x = op_name##_##scalar_suffix(a.x, b.x);                            \
-    result.y = op_name##_##scalar_suffix(a.y, b.y);                            \
-    result.z = op_name##_##scalar_suffix(a.z, b.z);                            \
-    result.w = op_name##_##scalar_suffix(a.w, b.w);                            \
+    result.x = op_name##_##scalar_suffix(a.x, b);                              \
+    result.y = op_name##_##scalar_suffix(a.y, b);                              \
+    result.z = op_name##_##scalar_suffix(a.z, b);                              \
+    result.w = op_name##_##scalar_suffix(a.w, b);                              \
     return result;                                                             \
   }
 
-#define _LM2_IMPL_V4_SCALAR_OP(type_name, scalar_type, scalar_suffix, op_name)    \
-  LM2_API type_name op_name##_##type_name##_##scalar_type(type_name a,           \
-                                                          scalar_type b) {       \
-    type_name result;                                                            \
-    result.x = op_name##_##scalar_suffix(a.x, b);                                \
-    result.y = op_name##_##scalar_suffix(a.y, b);                                \
-    result.z = op_name##_##scalar_suffix(a.z, b);                                \
-    result.w = op_name##_##scalar_suffix(a.w, b);                                \
-    return result;                                                               \
+#define _LM2_IMPL_V4_NEG(type_name, scalar_type)       \
+  LM2_API type_name lm2_neg_##type_name(type_name a) { \
+    type_name result;                                  \
+    result.x = (scalar_type)(-a.x);                    \
+    result.y = (scalar_type)(-a.y);                    \
+    result.z = (scalar_type)(-a.z);                    \
+    result.w = (scalar_type)(-a.w);                    \
+    return result;                                     \
   }
 
-#define _LM2_IMPL_V4_NEG(type_name, scalar_type)                                 \
-  LM2_API type_name lm2_neg_##type_name(type_name a) {                           \
-    type_name result;                                                            \
-    result.x = (scalar_type)(-a.x);                                              \
-    result.y = (scalar_type)(-a.y);                                              \
-    result.z = (scalar_type)(-a.z);                                              \
-    result.w = (scalar_type)(-a.w);                                              \
-    return result;                                                               \
-  }
-
-#define _LM2_IMPL_V4_ALL_OPS(type_name, scalar_type, scalar_suffix)            \
-  _LM2_IMPL_V4_VEC_OP(type_name, scalar_suffix, lm2_add)                       \
-  _LM2_IMPL_V4_VEC_OP(type_name, scalar_suffix, lm2_sub)                       \
-  _LM2_IMPL_V4_VEC_OP(type_name, scalar_suffix, lm2_mul)                       \
-  _LM2_IMPL_V4_VEC_OP(type_name, scalar_suffix, lm2_div)                       \
-  _LM2_IMPL_V4_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_add)       \
-  _LM2_IMPL_V4_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_sub)       \
-  _LM2_IMPL_V4_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_mul)       \
-  _LM2_IMPL_V4_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_div)       \
+#define _LM2_IMPL_V4_ALL_OPS(type_name, scalar_type, scalar_suffix)      \
+  _LM2_IMPL_V4_VEC_OP(type_name, scalar_suffix, lm2_add)                 \
+  _LM2_IMPL_V4_VEC_OP(type_name, scalar_suffix, lm2_sub)                 \
+  _LM2_IMPL_V4_VEC_OP(type_name, scalar_suffix, lm2_mul)                 \
+  _LM2_IMPL_V4_VEC_OP(type_name, scalar_suffix, lm2_div)                 \
+  _LM2_IMPL_V4_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_add) \
+  _LM2_IMPL_V4_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_sub) \
+  _LM2_IMPL_V4_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_mul) \
+  _LM2_IMPL_V4_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_div) \
   _LM2_IMPL_V4_NEG(type_name, scalar_type)
+
+#define _LM2_IMPL_V4_SCALAR_FUNC_1(type_name, scalar_suffix, func_name) \
+  LM2_API type_name func_name##_##type_name(type_name a) {              \
+    type_name result;                                                   \
+    result.x = func_name##_##scalar_suffix(a.x);                        \
+    result.y = func_name##_##scalar_suffix(a.y);                        \
+    result.z = func_name##_##scalar_suffix(a.z);                        \
+    result.w = func_name##_##scalar_suffix(a.w);                        \
+    return result;                                                      \
+  }
+
+#define _LM2_IMPL_V4_SCALAR_FUNC_2(type_name, scalar_suffix, func_name) \
+  LM2_API type_name func_name##_##type_name(type_name a, type_name b) { \
+    type_name result;                                                   \
+    result.x = func_name##_##scalar_suffix(a.x, b.x);                   \
+    result.y = func_name##_##scalar_suffix(a.y, b.y);                   \
+    result.z = func_name##_##scalar_suffix(a.z, b.z);                   \
+    result.w = func_name##_##scalar_suffix(a.w, b.w);                   \
+    return result;                                                      \
+  }
+
+#define _LM2_IMPL_V4_SCALAR_FUNC_3(type_name, scalar_suffix, func_name)              \
+  LM2_API type_name func_name##_##type_name(type_name a, type_name b, type_name c) { \
+    type_name result;                                                                \
+    result.x = func_name##_##scalar_suffix(a.x, b.x, c.x);                           \
+    result.y = func_name##_##scalar_suffix(a.y, b.y, c.y);                           \
+    result.z = func_name##_##scalar_suffix(a.z, b.z, c.z);                           \
+    result.w = func_name##_##scalar_suffix(a.w, b.w, c.w);                           \
+    return result;                                                                   \
+  }
 
 // =============================================================================
 // Vector4 Implementations

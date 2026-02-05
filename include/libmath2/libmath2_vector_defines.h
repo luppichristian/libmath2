@@ -43,13 +43,35 @@ LM2_HEADER_BEGIN;
 #define _LM2_DECLARE_VECTOR_UNARY_OP(type_name, name) \
   LM2_API type_name name(type_name a);
 
+// =============================================================================
+// Scalar Function Porting Macros
+// =============================================================================
+// These macros "port" scalar functions to work with vectors by applying them
+// component-wise to each vector element.
+
+// Unary scalar function (e.g., floor, ceil, abs, sqrt)
+#define _LM2_DECLARE_SCALAR_FUNC_1(type_name, func_name) \
+  LM2_API type_name func_name(type_name a);
+
+// Binary scalar function (e.g., min, max, pow, mod)
+#define _LM2_DECLARE_SCALAR_FUNC_2(type_name, func_name) \
+  LM2_API type_name func_name(type_name a, type_name b);
+
+// Ternary scalar function (e.g., clamp, lerp, smoothstep)
+#define _LM2_DECLARE_SCALAR_FUNC_3(type_name, func_name) \
+  LM2_API type_name func_name(type_name a, type_name b, type_name c);
+
 // C++ operator[] for vector unions
 #if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-#define _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, size)                              \
-  inline scalar_type& operator[](int i) { return e[i]; }                         \
-  inline const scalar_type& operator[](int i) const { return e[i]; }
+#  define _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, size)   \
+    inline scalar_type& operator[](int i) {             \
+      return e[i];                                      \
+    }                                                   \
+    inline const scalar_type& operator[](int i) const { \
+      return e[i];                                      \
+    }
 #else
-#define _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, size)
+#  define _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, size)
 #endif
 
 // #############################################################################
