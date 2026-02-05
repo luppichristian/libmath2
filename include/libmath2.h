@@ -32,3 +32,4 @@ SOFTWARE.
 #include "libmath2/libmath2_base.h"
 #include "libmath2/libmath2_constants.h"
 #include "libmath2/libmath2_safe_ops.h"
+#include "libmath2/libmath2_scalar.h"
