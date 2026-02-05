@@ -76,6 +76,12 @@ LM2_HEADER_BEGIN;
 #  define LM2_ASSERT(expr) assert(expr)
 #endif
 
+#ifdef LM2_UNSAFE
+#  define LM2_ASSERT_UNSAFE(x)
+#else
+#  define LM2_ASSERT_UNSAFE(x) LM2_ASSERT(x)
+#endif
+
 // #############################################################################
 // Assert floating point sizes
 // #############################################################################

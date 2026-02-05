@@ -25,6 +25,7 @@ SOFTWARE.
 #pragma once
 
 // Configurable defines:
+// - LM2_UNSAFE: Disable safe checks in safe ops (for performance)
 // - LM2_NO_GENERICS: Disable generic functions
 // - LM2_NO_CPP_OPERATORS: Disable C++ operator overloads
 
