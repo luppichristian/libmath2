@@ -30,11 +30,11 @@ SOFTWARE.
 // Linear
 // =============================================================================
 
-double ease_linear_f64(double t) {
+LM2_API double ease_linear_f64(double t) {
   return t;
 }
 
-float ease_linear_f32(float t) {
+LM2_API float ease_linear_f32(float t) {
   return t;
 }
 
@@ -42,27 +42,27 @@ float ease_linear_f32(float t) {
 // Sin
 // =============================================================================
 
-double ease_sin_in_f64(double t) {
+LM2_API double ease_sin_in_f64(double t) {
   return 1.0 - cos(t * LM2_HPI_F64);
 }
 
-double ease_sin_out_f64(double t) {
+LM2_API double ease_sin_out_f64(double t) {
   return sin(t * LM2_HPI_F64);
 }
 
-double ease_sin_in_out_f64(double t) {
+LM2_API double ease_sin_in_out_f64(double t) {
   return -(cos(LM2_PI_F64 * t) - 1.0) / 2.0;
 }
 
-float ease_sin_in_f32(float t) {
+LM2_API float ease_sin_in_f32(float t) {
   return 1.0f - cosf(t * LM2_HPI_F32);
 }
 
-float ease_sin_out_f32(float t) {
+LM2_API float ease_sin_out_f32(float t) {
   return sinf(t * LM2_HPI_F32);
 }
 
-float ease_sin_in_out_f32(float t) {
+LM2_API float ease_sin_in_out_f32(float t) {
   return -(cosf(LM2_PI_F32 * t) - 1.0f) / 2.0f;
 }
 
@@ -70,27 +70,27 @@ float ease_sin_in_out_f32(float t) {
 // Quad
 // =============================================================================
 
-double ease_quad_in_f64(double t) {
+LM2_API double ease_quad_in_f64(double t) {
   return t * t;
 }
 
-double ease_quad_out_f64(double t) {
+LM2_API double ease_quad_out_f64(double t) {
   return 1.0 - (1.0 - t) * (1.0 - t);
 }
 
-double ease_quad_in_out_f64(double t) {
+LM2_API double ease_quad_in_out_f64(double t) {
   return t < 0.5 ? 2.0 * t * t : 1.0 - pow(-2.0 * t + 2.0, 2.0) / 2.0;
 }
 
-float ease_quad_in_f32(float t) {
+LM2_API float ease_quad_in_f32(float t) {
   return t * t;
 }
 
-float ease_quad_out_f32(float t) {
+LM2_API float ease_quad_out_f32(float t) {
   return 1.0f - (1.0f - t) * (1.0f - t);
 }
 
-float ease_quad_in_out_f32(float t) {
+LM2_API float ease_quad_in_out_f32(float t) {
   return t < 0.5f ? 2.0f * t * t : 1.0f - powf(-2.0f * t + 2.0f, 2.0f) / 2.0f;
 }
 
@@ -98,29 +98,29 @@ float ease_quad_in_out_f32(float t) {
 // Cubic
 // =============================================================================
 
-double ease_cubic_in_f64(double t) {
+LM2_API double ease_cubic_in_f64(double t) {
   return t * t * t;
 }
 
-double ease_cubic_out_f64(double t) {
+LM2_API double ease_cubic_out_f64(double t) {
   double u = 1.0 - t;
   return 1.0 - u * u * u;
 }
 
-double ease_cubic_in_out_f64(double t) {
+LM2_API double ease_cubic_in_out_f64(double t) {
   return t < 0.5 ? 4.0 * t * t * t : 1.0 - pow(-2.0 * t + 2.0, 3.0) / 2.0;
 }
 
-float ease_cubic_in_f32(float t) {
+LM2_API float ease_cubic_in_f32(float t) {
   return t * t * t;
 }
 
-float ease_cubic_out_f32(float t) {
+LM2_API float ease_cubic_out_f32(float t) {
   float u = 1.0f - t;
   return 1.0f - u * u * u;
 }
 
-float ease_cubic_in_out_f32(float t) {
+LM2_API float ease_cubic_in_out_f32(float t) {
   return t < 0.5f ? 4.0f * t * t * t : 1.0f - powf(-2.0f * t + 2.0f, 3.0f) / 2.0f;
 }
 
@@ -128,29 +128,29 @@ float ease_cubic_in_out_f32(float t) {
 // Quart
 // =============================================================================
 
-double ease_quart_in_f64(double t) {
+LM2_API double ease_quart_in_f64(double t) {
   return t * t * t * t;
 }
 
-double ease_quart_out_f64(double t) {
+LM2_API double ease_quart_out_f64(double t) {
   double u = 1.0 - t;
   return 1.0 - u * u * u * u;
 }
 
-double ease_quart_in_out_f64(double t) {
+LM2_API double ease_quart_in_out_f64(double t) {
   return t < 0.5 ? 8.0 * t * t * t * t : 1.0 - pow(-2.0 * t + 2.0, 4.0) / 2.0;
 }
 
-float ease_quart_in_f32(float t) {
+LM2_API float ease_quart_in_f32(float t) {
   return t * t * t * t;
 }
 
-float ease_quart_out_f32(float t) {
+LM2_API float ease_quart_out_f32(float t) {
   float u = 1.0f - t;
   return 1.0f - u * u * u * u;
 }
 
-float ease_quart_in_out_f32(float t) {
+LM2_API float ease_quart_in_out_f32(float t) {
   return t < 0.5f ? 8.0f * t * t * t * t : 1.0f - powf(-2.0f * t + 2.0f, 4.0f) / 2.0f;
 }
 
@@ -158,29 +158,29 @@ float ease_quart_in_out_f32(float t) {
 // Quint
 // =============================================================================
 
-double ease_quint_in_f64(double t) {
+LM2_API double ease_quint_in_f64(double t) {
   return t * t * t * t * t;
 }
 
-double ease_quint_out_f64(double t) {
+LM2_API double ease_quint_out_f64(double t) {
   double u = 1.0 - t;
   return 1.0 - u * u * u * u * u;
 }
 
-double ease_quint_in_out_f64(double t) {
+LM2_API double ease_quint_in_out_f64(double t) {
   return t < 0.5 ? 16.0 * t * t * t * t * t : 1.0 - pow(-2.0 * t + 2.0, 5.0) / 2.0;
 }
 
-float ease_quint_in_f32(float t) {
+LM2_API float ease_quint_in_f32(float t) {
   return t * t * t * t * t;
 }
 
-float ease_quint_out_f32(float t) {
+LM2_API float ease_quint_out_f32(float t) {
   float u = 1.0f - t;
   return 1.0f - u * u * u * u * u;
 }
 
-float ease_quint_in_out_f32(float t) {
+LM2_API float ease_quint_in_out_f32(float t) {
   return t < 0.5f ? 16.0f * t * t * t * t * t : 1.0f - powf(-2.0f * t + 2.0f, 5.0f) / 2.0f;
 }
 
@@ -188,29 +188,29 @@ float ease_quint_in_out_f32(float t) {
 // Exp
 // =============================================================================
 
-double ease_exp_in_f64(double t) {
+LM2_API double ease_exp_in_f64(double t) {
   return t == 0.0 ? 0.0 : pow(2.0, 10.0 * t - 10.0);
 }
 
-double ease_exp_out_f64(double t) {
+LM2_API double ease_exp_out_f64(double t) {
   return t == 1.0 ? 1.0 : 1.0 - pow(2.0, -10.0 * t);
 }
 
-double ease_exp_in_out_f64(double t) {
+LM2_API double ease_exp_in_out_f64(double t) {
   if (t == 0.0) return 0.0;
   if (t == 1.0) return 1.0;
   return t < 0.5 ? pow(2.0, 20.0 * t - 10.0) / 2.0 : (2.0 - pow(2.0, -20.0 * t + 10.0)) / 2.0;
 }
 
-float ease_exp_in_f32(float t) {
+LM2_API float ease_exp_in_f32(float t) {
   return t == 0.0f ? 0.0f : powf(2.0f, 10.0f * t - 10.0f);
 }
 
-float ease_exp_out_f32(float t) {
+LM2_API float ease_exp_out_f32(float t) {
   return t == 1.0f ? 1.0f : 1.0f - powf(2.0f, -10.0f * t);
 }
 
-float ease_exp_in_out_f32(float t) {
+LM2_API float ease_exp_in_out_f32(float t) {
   if (t == 0.0f) return 0.0f;
   if (t == 1.0f) return 1.0f;
   return t < 0.5f ? powf(2.0f, 20.0f * t - 10.0f) / 2.0f : (2.0f - powf(2.0f, -20.0f * t + 10.0f)) / 2.0f;
@@ -220,29 +220,29 @@ float ease_exp_in_out_f32(float t) {
 // Circ
 // =============================================================================
 
-double ease_circ_in_f64(double t) {
+LM2_API double ease_circ_in_f64(double t) {
   return 1.0 - sqrt(1.0 - t * t);
 }
 
-double ease_circ_out_f64(double t) {
+LM2_API double ease_circ_out_f64(double t) {
   return sqrt(1.0 - (t - 1.0) * (t - 1.0));
 }
 
-double ease_circ_in_out_f64(double t) {
+LM2_API double ease_circ_in_out_f64(double t) {
   return t < 0.5
              ? (1.0 - sqrt(1.0 - pow(2.0 * t, 2.0))) / 2.0
              : (sqrt(1.0 - pow(-2.0 * t + 2.0, 2.0)) + 1.0) / 2.0;
 }
 
-float ease_circ_in_f32(float t) {
+LM2_API float ease_circ_in_f32(float t) {
   return 1.0f - sqrtf(1.0f - t * t);
 }
 
-float ease_circ_out_f32(float t) {
+LM2_API float ease_circ_out_f32(float t) {
   return sqrtf(1.0f - (t - 1.0f) * (t - 1.0f));
 }
 
-float ease_circ_in_out_f32(float t) {
+LM2_API float ease_circ_in_out_f32(float t) {
   return t < 0.5f
              ? (1.0f - sqrtf(1.0f - powf(2.0f * t, 2.0f))) / 2.0f
              : (sqrtf(1.0f - powf(-2.0f * t + 2.0f, 2.0f)) + 1.0f) / 2.0f;
@@ -252,20 +252,20 @@ float ease_circ_in_out_f32(float t) {
 // Back
 // =============================================================================
 
-double ease_back_in_f64(double t) {
+LM2_API double ease_back_in_f64(double t) {
   const double c1 = 1.70158;
   const double c3 = c1 + 1.0;
   return c3 * t * t * t - c1 * t * t;
 }
 
-double ease_back_out_f64(double t) {
+LM2_API double ease_back_out_f64(double t) {
   const double c1 = 1.70158;
   const double c3 = c1 + 1.0;
   double u = t - 1.0;
   return 1.0 + c3 * u * u * u + c1 * u * u;
 }
 
-double ease_back_in_out_f64(double t) {
+LM2_API double ease_back_in_out_f64(double t) {
   const double c1 = 1.70158;
   const double c2 = c1 * 1.525;
 
@@ -274,20 +274,20 @@ double ease_back_in_out_f64(double t) {
              : (pow(2.0 * t - 2.0, 2.0) * ((c2 + 1.0) * (t * 2.0 - 2.0) + c2) + 2.0) / 2.0;
 }
 
-float ease_back_in_f32(float t) {
+LM2_API float ease_back_in_f32(float t) {
   const float c1 = 1.70158f;
   const float c3 = c1 + 1.0f;
   return c3 * t * t * t - c1 * t * t;
 }
 
-float ease_back_out_f32(float t) {
+LM2_API float ease_back_out_f32(float t) {
   const float c1 = 1.70158f;
   const float c3 = c1 + 1.0f;
   float u = t - 1.0f;
   return 1.0f + c3 * u * u * u + c1 * u * u;
 }
 
-float ease_back_in_out_f32(float t) {
+LM2_API float ease_back_in_out_f32(float t) {
   const float c1 = 1.70158f;
   const float c2 = c1 * 1.525f;
 
@@ -300,7 +300,7 @@ float ease_back_in_out_f32(float t) {
 // Elastic
 // =============================================================================
 
-double ease_elastic_in_f64(double t) {
+LM2_API double ease_elastic_in_f64(double t) {
   const double c4 = (2.0 * LM2_PI_F64) / 3.0;
 
   if (t == 0.0) return 0.0;
@@ -308,7 +308,7 @@ double ease_elastic_in_f64(double t) {
   return -pow(2.0, 10.0 * t - 10.0) * sin((t * 10.0 - 10.75) * c4);
 }
 
-double ease_elastic_out_f64(double t) {
+LM2_API double ease_elastic_out_f64(double t) {
   const double c4 = (2.0 * LM2_PI_F64) / 3.0;
 
   if (t == 0.0) return 0.0;
@@ -316,7 +316,7 @@ double ease_elastic_out_f64(double t) {
   return pow(2.0, -10.0 * t) * sin((t * 10.0 - 0.75) * c4) + 1.0;
 }
 
-double ease_elastic_in_out_f64(double t) {
+LM2_API double ease_elastic_in_out_f64(double t) {
   const double c5 = (2.0 * LM2_PI_F64) / 4.5;
 
   if (t == 0.0) return 0.0;
@@ -327,7 +327,7 @@ double ease_elastic_in_out_f64(double t) {
              : (pow(2.0, -20.0 * t + 10.0) * sin((20.0 * t - 11.125) * c5)) / 2.0 + 1.0;
 }
 
-float ease_elastic_in_f32(float t) {
+LM2_API float ease_elastic_in_f32(float t) {
   const float c4 = (2.0f * LM2_PI_F32) / 3.0f;
 
   if (t == 0.0f) return 0.0f;
@@ -335,7 +335,7 @@ float ease_elastic_in_f32(float t) {
   return -powf(2.0f, 10.0f * t - 10.0f) * sinf((t * 10.0f - 10.75f) * c4);
 }
 
-float ease_elastic_out_f32(float t) {
+LM2_API float ease_elastic_out_f32(float t) {
   const float c4 = (2.0f * LM2_PI_F32) / 3.0f;
 
   if (t == 0.0f) return 0.0f;
@@ -343,7 +343,7 @@ float ease_elastic_out_f32(float t) {
   return powf(2.0f, -10.0f * t) * sinf((t * 10.0f - 0.75f) * c4) + 1.0f;
 }
 
-float ease_elastic_in_out_f32(float t) {
+LM2_API float ease_elastic_in_out_f32(float t) {
   const float c5 = (2.0f * LM2_PI_F32) / 4.5f;
 
   if (t == 0.0f) return 0.0f;
@@ -358,7 +358,7 @@ float ease_elastic_in_out_f32(float t) {
 // Bounce
 // =============================================================================
 
-double ease_bounce_out_f64(double t) {
+LM2_API double ease_bounce_out_f64(double t) {
   const double n1 = 7.5625;
   const double d1 = 2.75;
 
@@ -376,17 +376,17 @@ double ease_bounce_out_f64(double t) {
   }
 }
 
-double ease_bounce_in_f64(double t) {
+LM2_API double ease_bounce_in_f64(double t) {
   return 1.0 - ease_bounce_out_f64(1.0 - t);
 }
 
-double ease_bounce_in_out_f64(double t) {
+LM2_API double ease_bounce_in_out_f64(double t) {
   return t < 0.5
              ? (1.0 - ease_bounce_out_f64(1.0 - 2.0 * t)) / 2.0
              : (1.0 + ease_bounce_out_f64(2.0 * t - 1.0)) / 2.0;
 }
 
-float ease_bounce_out_f32(float t) {
+LM2_API float ease_bounce_out_f32(float t) {
   const float n1 = 7.5625f;
   const float d1 = 2.75f;
 
@@ -404,11 +404,11 @@ float ease_bounce_out_f32(float t) {
   }
 }
 
-float ease_bounce_in_f32(float t) {
+LM2_API float ease_bounce_in_f32(float t) {
   return 1.0f - ease_bounce_out_f32(1.0f - t);
 }
 
-float ease_bounce_in_out_f32(float t) {
+LM2_API float ease_bounce_in_out_f32(float t) {
   return t < 0.5f
              ? (1.0f - ease_bounce_out_f32(1.0f - 2.0f * t)) / 2.0f
              : (1.0f + ease_bounce_out_f32(2.0f * t - 1.0f)) / 2.0f;
@@ -418,7 +418,7 @@ float ease_bounce_in_out_f32(float t) {
 // Helper: enum to string
 // =============================================================================
 
-const char* lm2_easing_to_string(easing_t easing) {
+LM2_API const char* lm2_easing_to_string(easing_t easing) {
   switch (easing) {
     case EASING_LINEAR:         return "linear";
     case EASING_SIN_IN:         return "sin_in";
@@ -460,7 +460,7 @@ const char* lm2_easing_to_string(easing_t easing) {
 // Generalized easing functions
 // =============================================================================
 
-double lm2_ease_f64(easing_t easing, double t) {
+LM2_API double lm2_ease_f64(easing_t easing, double t) {
   switch (easing) {
     case EASING_LINEAR:         return ease_linear_f64(t);
     case EASING_SIN_IN:         return ease_sin_in_f64(t);
@@ -498,7 +498,7 @@ double lm2_ease_f64(easing_t easing, double t) {
   }
 }
 
-float lm2_ease_f32(easing_t easing, float t) {
+LM2_API float lm2_ease_f32(easing_t easing, float t) {
   switch (easing) {
     case EASING_LINEAR:         return ease_linear_f32(t);
     case EASING_SIN_IN:         return ease_sin_in_f32(t);
