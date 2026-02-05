@@ -25,6 +25,7 @@ SOFTWARE.
 #pragma once
 
 #include "libmath2_scalar.h"
+#include "libmath2_vector_operators.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -37,6 +38,19 @@ LM2_HEADER_BEGIN;
 // Declare vector-scalar operation functions
 #define _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, name) \
   LM2_API type_name name(type_name a, scalar_type b);
+
+// Declare unary vector operation functions
+#define _LM2_DECLARE_VECTOR_UNARY_OP(type_name, name) \
+  LM2_API type_name name(type_name a);
+
+// C++ operator[] for vector unions
+#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
+#define _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, size)                              \
+  inline scalar_type& operator[](int i) { return e[i]; }                         \
+  inline const scalar_type& operator[](int i) const { return e[i]; }
+#else
+#define _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, size)
+#endif
 
 // #############################################################################
 LM2_HEADER_END;
@@ -221,6 +235,11 @@ inline auto _lm2_generic_v4(
 #    define _LM2_GENERIC_V4_SCALAR(name, ...) \
       _lm2_generic_v4(name##_lm2_v4f64_double, name##_lm2_v4f32_float, name##_lm2_v4i64_int64_t, name##_lm2_v4i32_int32_t, name##_lm2_v4i16_int16_t, name##_lm2_v4i8_int8_t, name##_lm2_v4u64_uint64_t, name##_lm2_v4u32_uint32_t, name##_lm2_v4u16_uint16_t, name##_lm2_v4u8_uint8_t, __VA_ARGS__)
 
+// C++ unary dispatch (single argument)
+#    define _LM2_GENERIC_V2_UNARY(name, ...) _LM2_GENERIC_V2(name, __VA_ARGS__)
+#    define _LM2_GENERIC_V3_UNARY(name, ...) _LM2_GENERIC_V3(name, __VA_ARGS__)
+#    define _LM2_GENERIC_V4_UNARY(name, ...) _LM2_GENERIC_V4(name, __VA_ARGS__)
+
 #  else
 
 // C11 _Generic dispatch for V2 vector-vector operations
@@ -307,6 +326,46 @@ inline auto _lm2_generic_v4(
           lm2_v4u16: name##_lm2_v4u16_uint16_t,      \
           lm2_v4u8: name##_lm2_v4u8_uint8_t)(first, __VA_ARGS__)
 
+// C11 _Generic dispatch for unary vector operations
+#    define _LM2_GENERIC_V2_UNARY(name, first) \
+      _Generic((first),                        \
+          lm2_v2f64: name##_lm2_v2f64,         \
+          lm2_v2f32: name##_lm2_v2f32,         \
+          lm2_v2i64: name##_lm2_v2i64,         \
+          lm2_v2i32: name##_lm2_v2i32,         \
+          lm2_v2i16: name##_lm2_v2i16,         \
+          lm2_v2i8: name##_lm2_v2i8,           \
+          lm2_v2u64: name##_lm2_v2u64,         \
+          lm2_v2u32: name##_lm2_v2u32,         \
+          lm2_v2u16: name##_lm2_v2u16,         \
+          lm2_v2u8: name##_lm2_v2u8)(first)
+
+#    define _LM2_GENERIC_V3_UNARY(name, first) \
+      _Generic((first),                        \
+          lm2_v3f64: name##_lm2_v3f64,         \
+          lm2_v3f32: name##_lm2_v3f32,         \
+          lm2_v3i64: name##_lm2_v3i64,         \
+          lm2_v3i32: name##_lm2_v3i32,         \
+          lm2_v3i16: name##_lm2_v3i16,         \
+          lm2_v3i8: name##_lm2_v3i8,           \
+          lm2_v3u64: name##_lm2_v3u64,         \
+          lm2_v3u32: name##_lm2_v3u32,         \
+          lm2_v3u16: name##_lm2_v3u16,         \
+          lm2_v3u8: name##_lm2_v3u8)(first)
+
+#    define _LM2_GENERIC_V4_UNARY(name, first) \
+      _Generic((first),                        \
+          lm2_v4f64: name##_lm2_v4f64,         \
+          lm2_v4f32: name##_lm2_v4f32,         \
+          lm2_v4i64: name##_lm2_v4i64,         \
+          lm2_v4i32: name##_lm2_v4i32,         \
+          lm2_v4i16: name##_lm2_v4i16,         \
+          lm2_v4i8: name##_lm2_v4i8,           \
+          lm2_v4u64: name##_lm2_v4u64,         \
+          lm2_v4u32: name##_lm2_v4u32,         \
+          lm2_v4u16: name##_lm2_v4u16,         \
+          lm2_v4u8: name##_lm2_v4u8)(first)
+
 #  endif
 
 #else
@@ -318,5 +377,8 @@ inline auto _lm2_generic_v4(
 #  define _LM2_GENERIC_V2_SCALAR(name, ...)
 #  define _LM2_GENERIC_V3_SCALAR(name, ...)
 #  define _LM2_GENERIC_V4_SCALAR(name, ...)
+#  define _LM2_GENERIC_V2_UNARY(name, ...)
+#  define _LM2_GENERIC_V3_UNARY(name, ...)
+#  define _LM2_GENERIC_V4_UNARY(name, ...)
 
 #endif

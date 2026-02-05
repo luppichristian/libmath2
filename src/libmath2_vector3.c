@@ -48,6 +48,15 @@ SOFTWARE.
     return result;                                                               \
   }
 
+#define _LM2_IMPL_V3_NEG(type_name, scalar_type)                                 \
+  LM2_API type_name lm2_neg_##type_name(type_name a) {                           \
+    type_name result;                                                            \
+    result.x = (scalar_type)(-a.x);                                              \
+    result.y = (scalar_type)(-a.y);                                              \
+    result.z = (scalar_type)(-a.z);                                              \
+    return result;                                                               \
+  }
+
 #define _LM2_IMPL_V3_ALL_OPS(type_name, scalar_type, scalar_suffix)            \
   _LM2_IMPL_V3_VEC_OP(type_name, scalar_suffix, lm2_add)                       \
   _LM2_IMPL_V3_VEC_OP(type_name, scalar_suffix, lm2_sub)                       \
@@ -56,7 +65,8 @@ SOFTWARE.
   _LM2_IMPL_V3_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_add)       \
   _LM2_IMPL_V3_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_sub)       \
   _LM2_IMPL_V3_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_mul)       \
-  _LM2_IMPL_V3_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_div)
+  _LM2_IMPL_V3_SCALAR_OP(type_name, scalar_type, scalar_suffix, lm2_div)       \
+  _LM2_IMPL_V3_NEG(type_name, scalar_type)
 
 // =============================================================================
 // Vector3 Implementations
