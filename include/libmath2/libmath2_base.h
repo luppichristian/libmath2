@@ -24,20 +24,46 @@ SOFTWARE.
 
 #pragma once
 
-#include "libmath2/libmath2_base.h"
+// #############################################################################
+// LM2 utilities
+// #############################################################################
+
+#ifdef __cplusplus
+#  define LM2_HEADER_BEGIN extern "C" {
+#  define LM2_HEADER_END   }
+#else
+#  define LM2_HEADER_BEGIN
+#  define LM2_HEADER_END
+#endif
 
 // #############################################################################
 LM2_HEADER_BEGIN;
 // #############################################################################
 
-/**
- * Add two integers.
- *
- * @param a First operand.
- * @param b Second operand.
- * @return The sum of a and b.
- */
-LM2_API int libmath2_add(int a, int b);
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// #############################################################################
+// LM2_API macro for shared library symbol visibility
+// #############################################################################
+
+#if defined(LM2_SHARED)
+#  if defined(_WIN32) || defined(_WIN64)
+#    if defined(LM2_EXPORTS)
+#      define LM2_API __declspec(dllexport)
+#    else
+#      define LM2_API __declspec(dllimport)
+#    endif
+#  elif __GNUC__ >= 4
+#    define LM2_API __attribute__((visibility("default")))
+#  else
+#    define LM2_API
+#  endif
+#else
+#  define LM2_API
+#endif
 
 // #############################################################################
 LM2_HEADER_END;
