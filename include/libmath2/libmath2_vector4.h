@@ -45,10 +45,10 @@ LM2_HEADER_BEGIN;
   _LM2_DECLARE_VECTOR_OP(type_name, lm2_sub_##type_name)                     \
   _LM2_DECLARE_VECTOR_OP(type_name, lm2_mul_##type_name)                     \
   _LM2_DECLARE_VECTOR_OP(type_name, lm2_div_##type_name)                     \
-  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_add_##type_name) \
-  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_sub_##type_name) \
-  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_mul_##type_name) \
-  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_div_##type_name)
+  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_add_##type_name##_##scalar_type) \
+  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_sub_##type_name##_##scalar_type) \
+  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_mul_##type_name##_##scalar_type) \
+  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_div_##type_name##_##scalar_type)
 
 // 4D vector types
 _LM2_DEFINE_V4(lm2_v4f64, double)

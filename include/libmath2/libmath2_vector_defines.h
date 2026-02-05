@@ -30,11 +30,15 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
+// Declare vector-vector operation functions
 #define _LM2_DECLARE_VECTOR_OP(type_name, name) \
   LM2_API type_name name(type_name a, type_name b);
 
+// Declare vector-scalar operation functions
 #define _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, name) \
   LM2_API type_name name(type_name a, scalar_type b);
+
+//
 
 // #############################################################################
 LM2_HEADER_END;
