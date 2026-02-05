@@ -24,17 +24,18 @@ SOFTWARE.
 
 #pragma once
 
-// Configurable defines:
-// - LM2_UNSAFE: Disable safe checks in safe ops (for performance)
-// - LM2_NO_GENERICS: Disable generic functions
-// - LM2_NO_CPP_OPERATORS: Disable C++ operator overloads
+#include "libmath2_scalar.h"
 
-#include "libmath2/libmath2_base.h"
-#include "libmath2/libmath2_constants.h"
-#include "libmath2/libmath2_noise.h"
-#include "libmath2/libmath2_safe_ops.h"
-#include "libmath2/libmath2_scalar.h"
-#include "libmath2/libmath2_trigonometry.h"
-#include "libmath2/libmath2_vector2.h"
-#include "libmath2/libmath2_vector3.h"
-#include "libmath2/libmath2_vector4.h"
+// #############################################################################
+LM2_HEADER_BEGIN;
+// #############################################################################
+
+#define _LM2_DECLARE_VECTOR_OP(type_name, name) \
+  LM2_API type_name name(type_name a, type_name b);
+
+#define _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, name) \
+  LM2_API type_name name(type_name a, scalar_type b);
+
+// #############################################################################
+LM2_HEADER_END;
+// #############################################################################
