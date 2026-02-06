@@ -30,6 +30,7 @@ SOFTWARE.
 // - LM2_NO_CPP_OPERATORS: Disable C++ operator overloads
 
 #include "lm2/lm2_base.h"
+#include "lm2/lm2_bezier_curves.h"
 #include "lm2/lm2_constants.h"
 #include "lm2/lm2_noise.h"
 #include "lm2/lm2_safe_ops.h"
