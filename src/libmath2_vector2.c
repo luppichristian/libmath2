@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include <libmath2/libmath2_vector2.h>
 #include <libmath2/libmath2_safe_ops.h>
+#include <libmath2/libmath2_scalar.h>
 
 // =============================================================================
 // Implementation Macros
@@ -103,3 +104,48 @@ _LM2_IMPL_V2_ALL_OPS(lm2_v2u64, uint64_t, u64)
 _LM2_IMPL_V2_ALL_OPS(lm2_v2u32, uint32_t, u32)
 _LM2_IMPL_V2_ALL_OPS(lm2_v2u16, uint16_t, u16)
 _LM2_IMPL_V2_ALL_OPS(lm2_v2u8, uint8_t, u8)
+
+// =============================================================================
+// Macro to generate all scalar function implementations for a vector type
+// =============================================================================
+
+#define _LM2_IMPL_V2_ALL_SCALAR_FUNCS(type_name, scalar_suffix)            \
+  _LM2_IMPL_V2_SCALAR_FUNC_1(type_name, scalar_suffix, lm2_floor)          \
+  _LM2_IMPL_V2_SCALAR_FUNC_1(type_name, scalar_suffix, lm2_ceil)           \
+  _LM2_IMPL_V2_SCALAR_FUNC_1(type_name, scalar_suffix, lm2_round)          \
+  _LM2_IMPL_V2_SCALAR_FUNC_1(type_name, scalar_suffix, lm2_trunc)          \
+  _LM2_IMPL_V2_SCALAR_FUNC_1(type_name, scalar_suffix, lm2_abs)            \
+  _LM2_IMPL_V2_SCALAR_FUNC_1(type_name, scalar_suffix, lm2_sign)           \
+  _LM2_IMPL_V2_SCALAR_FUNC_1(type_name, scalar_suffix, lm2_sign0)          \
+  _LM2_IMPL_V2_SCALAR_FUNC_1(type_name, scalar_suffix, lm2_saturate)       \
+  _LM2_IMPL_V2_SCALAR_FUNC_1(type_name, scalar_suffix, lm2_fract)          \
+  _LM2_IMPL_V2_SCALAR_FUNC_1(type_name, scalar_suffix, lm2_sqrt)           \
+  _LM2_IMPL_V2_SCALAR_FUNC_2(type_name, scalar_suffix, lm2_floor_multiple) \
+  _LM2_IMPL_V2_SCALAR_FUNC_2(type_name, scalar_suffix, lm2_ceil_multiple)  \
+  _LM2_IMPL_V2_SCALAR_FUNC_2(type_name, scalar_suffix, lm2_round_multiple) \
+  _LM2_IMPL_V2_SCALAR_FUNC_2(type_name, scalar_suffix, lm2_trunc_multiple) \
+  _LM2_IMPL_V2_SCALAR_FUNC_2(type_name, scalar_suffix, lm2_min)            \
+  _LM2_IMPL_V2_SCALAR_FUNC_2(type_name, scalar_suffix, lm2_min_abs)        \
+  _LM2_IMPL_V2_SCALAR_FUNC_2(type_name, scalar_suffix, lm2_max)            \
+  _LM2_IMPL_V2_SCALAR_FUNC_2(type_name, scalar_suffix, lm2_max_abs)        \
+  _LM2_IMPL_V2_SCALAR_FUNC_2(type_name, scalar_suffix, lm2_mod)            \
+  _LM2_IMPL_V2_SCALAR_FUNC_2(type_name, scalar_suffix, lm2_pow)            \
+  _LM2_IMPL_V2_SCALAR_FUNC_3(type_name, scalar_suffix, lm2_clamp)          \
+  _LM2_IMPL_V2_SCALAR_FUNC_3(type_name, scalar_suffix, lm2_lerp)           \
+  _LM2_IMPL_V2_SCALAR_FUNC_3(type_name, scalar_suffix, lm2_smoothstep)     \
+  _LM2_IMPL_V2_SCALAR_FUNC_3(type_name, scalar_suffix, lm2_alpha)
+
+// =============================================================================
+// Scalar Function Implementations
+// =============================================================================
+
+_LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2f64, f64)
+_LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2f32, f32)
+_LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2i64, i64)
+_LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2i32, i32)
+_LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2i16, i16)
+_LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2i8, i8)
+_LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2u64, u64)
+_LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2u32, u32)
+_LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2u16, u16)
+_LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2u8, u8)

@@ -72,7 +72,6 @@ LM2_HEADER_BEGIN;
   _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_max_abs_##type_name)                             \
   _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_mod_##type_name)                                 \
   _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_pow_##type_name)                                 \
-  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_cmp_##type_name)                                 \
   _LM2_DECLARE_SCALAR_FUNC_3(type_name, lm2_clamp_##type_name)                               \
   _LM2_DECLARE_SCALAR_FUNC_3(type_name, lm2_lerp_##type_name)                                \
   _LM2_DECLARE_SCALAR_FUNC_3(type_name, lm2_smoothstep_##type_name)                          \
@@ -152,7 +151,6 @@ _LM2_DEFINE_V3_OPERATORS(lm2_v3u8, uint8_t)
 #  define lm2_max_abs_v3(...)        _LM2_GENERIC_V3(lm2_max_abs, __VA_ARGS__)
 #  define lm2_mod_v3(...)            _LM2_GENERIC_V3(lm2_mod, __VA_ARGS__)
 #  define lm2_pow_v3(...)            _LM2_GENERIC_V3(lm2_pow, __VA_ARGS__)
-#  define lm2_cmp_v3(...)            _LM2_GENERIC_V3(lm2_cmp, __VA_ARGS__)
 
 // Ternary scalar functions
 #  define lm2_clamp_v3(...)      _LM2_GENERIC_V3(lm2_clamp, __VA_ARGS__)
