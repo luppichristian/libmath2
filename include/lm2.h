@@ -29,13 +29,13 @@ SOFTWARE.
 // - LM2_NO_GENERICS: Disable generic functions
 // - LM2_NO_CPP_OPERATORS: Disable C++ operator overloads
 
-#include "libmath2/libmath2_base.h"
-#include "libmath2/libmath2_constants.h"
-#include "libmath2/libmath2_noise.h"
-#include "libmath2/libmath2_safe_ops.h"
-#include "libmath2/libmath2_scalar.h"
-#include "libmath2/libmath2_trigonometry.h"
-#include "libmath2/libmath2_vector2.h"
-#include "libmath2/libmath2_vector3.h"
-#include "libmath2/libmath2_vector4.h"
-#include "libmath2/libmath2_vector_specifics.h"
+#include "lm2/lm2_base.h"
+#include "lm2/lm2_constants.h"
+#include "lm2/lm2_noise.h"
+#include "lm2/lm2_safe_ops.h"
+#include "lm2/lm2_scalar.h"
+#include "lm2/lm2_trigonometry.h"
+#include "lm2/lm2_vector2.h"
+#include "lm2/lm2_vector3.h"
+#include "lm2/lm2_vector4.h"
+#include "lm2/lm2_vector_specifics.h"

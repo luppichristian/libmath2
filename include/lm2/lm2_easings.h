@@ -28,7 +28,7 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
-#include "libmath2_safe_ops.h"
+#include "lm2_safe_ops.h"
 
 // Linear
 LM2_API double ease_linear_f64(double t);

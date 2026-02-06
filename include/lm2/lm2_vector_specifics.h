@@ -24,10 +24,10 @@ SOFTWARE.
 
 #pragma once
 
-#include "libmath2_base.h"
-#include "libmath2_vector2.h"
-#include "libmath2_vector3.h"
-#include "libmath2_vector4.h"
+#include "lm2_base.h"
+#include "lm2_vector2.h"
+#include "lm2_vector3.h"
+#include "lm2_vector4.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;

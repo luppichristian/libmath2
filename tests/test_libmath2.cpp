@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 #include <gtest/gtest.h>
-#include "libmath2.h"
+#include "lm2.h"
 
 TEST(Libmath2Add, PositiveNumbers) {
   EXPECT_EQ(lm2_add(2, 3), 5);

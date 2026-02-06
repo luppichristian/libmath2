@@ -22,11 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <libmath2/libmath2_easings.h>
-#include <libmath2/libmath2_constants.h>
-#include <libmath2/libmath2_safe_ops.h>
-#include <libmath2/libmath2_scalar.h>
-#include <libmath2/libmath2_trigonometry.h>
+#include <lm2/lm2_easings.h>
+#include <lm2/lm2_constants.h>
+#include <lm2/lm2_safe_ops.h>
+#include <lm2/lm2_scalar.h>
+#include <lm2/lm2_trigonometry.h>
 #include <math.h>
 
 // =============================================================================

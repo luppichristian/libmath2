@@ -22,8 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <libmath2/libmath2_scalar.h>
-#include <libmath2/libmath2_safe_ops.h>
+#include <lm2/lm2_scalar.h>
+#include <lm2/lm2_safe_ops.h>
 #include <math.h>
 
 // =============================================================================

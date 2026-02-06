@@ -24,7 +24,7 @@ SOFTWARE.
 
 #pragma once
 
-#include "libmath2_base.h"
+#include "lm2_base.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;

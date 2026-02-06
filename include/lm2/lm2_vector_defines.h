@@ -24,8 +24,8 @@ SOFTWARE.
 
 #pragma once
 
-#include "libmath2_scalar.h"
-#include "libmath2_vector_operators.h"
+#include "lm2_scalar.h"
+#include "lm2_vector_operators.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -82,7 +82,7 @@ LM2_HEADER_END;
 // Generic Vector Dispatch Macros
 // =============================================================================
 // These macros provide type-generic dispatch for vector operations,
-// similar to libmath2_generic.h but for vector types.
+// similar to lm2_generic.h but for vector types.
 
 #ifndef LM2_NO_GENERICS
 #  ifdef __cplusplus

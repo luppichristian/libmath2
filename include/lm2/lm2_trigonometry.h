@@ -24,7 +24,7 @@ SOFTWARE.
 
 #pragma once
 
-#include "libmath2_scalar.h"
+#include "lm2_scalar.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;

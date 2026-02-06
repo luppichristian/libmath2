@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <libmath2/libmath2_safe_ops.h>
+#include <lm2/lm2_safe_ops.h>
 
 LM2_API double lm2_add_f64(double a, double b) {
   double result = a + b;
