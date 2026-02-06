@@ -38,3 +38,4 @@ SOFTWARE.
 #include "libmath2/libmath2_vector2.h"
 #include "libmath2/libmath2_vector3.h"
 #include "libmath2/libmath2_vector4.h"
+#include "libmath2/libmath2_vector_specifics.h"

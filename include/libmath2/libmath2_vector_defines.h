@@ -404,3 +404,184 @@ inline auto _lm2_generic_v4(
 #  define _LM2_GENERIC_V4_UNARY(name, ...)
 
 #endif
+
+// =============================================================================
+// Multi-Dimensional Vector Generics (for functions that work across dimensions)
+// =============================================================================
+
+#ifndef LM2_NO_GENERICS
+#  ifdef __cplusplus
+
+// Generic dispatcher that combines V2, V3, and V4 float types
+template <typename T, typename... Args>
+inline auto _lm2_generic_vf(
+    auto&& v2f64,
+    auto&& v2f32,
+    auto&& v3f64,
+    auto&& v3f32,
+    auto&& v4f64,
+    auto&& v4f32,
+    T first,
+    Args&&... rest) -> decltype(auto) {
+  using _LM2_T = std::remove_cvref_t<T>;
+  if constexpr (std::is_same_v<_LM2_T, lm2_v2f64>) return v2f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2f32>)
+    return v2f32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3f64>)
+    return v3f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3f32>)
+    return v3f32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4f64>)
+    return v4f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4f32>)
+    return v4f32(first, rest...);
+  else
+    static_assert(sizeof(_LM2_T) == 0, "Unsupported vector float type");
+}
+
+// Generic dispatcher for V2/V3/V4 all types (including integers)
+template <typename T, typename... Args>
+inline auto _lm2_generic_vall(
+    auto&& v2f64,
+    auto&& v2f32,
+    auto&& v2i64,
+    auto&& v2i32,
+    auto&& v2i16,
+    auto&& v2i8,
+    auto&& v3f64,
+    auto&& v3f32,
+    auto&& v3i64,
+    auto&& v3i32,
+    auto&& v3i16,
+    auto&& v3i8,
+    auto&& v4f64,
+    auto&& v4f32,
+    auto&& v4i64,
+    auto&& v4i32,
+    auto&& v4i16,
+    auto&& v4i8,
+    T first,
+    Args&&... rest) -> decltype(auto) {
+  using _LM2_T = std::remove_cvref_t<T>;
+  if constexpr (std::is_same_v<_LM2_T, lm2_v2f64>) return v2f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2f32>)
+    return v2f32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2i64>)
+    return v2i64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2i32>)
+    return v2i32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2i16>)
+    return v2i16(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2i8>)
+    return v2i8(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3f64>)
+    return v3f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3f32>)
+    return v3f32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3i64>)
+    return v3i64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3i32>)
+    return v3i32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3i16>)
+    return v3i16(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3i8>)
+    return v3i8(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4f64>)
+    return v4f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4f32>)
+    return v4f32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4i64>)
+    return v4i64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4i32>)
+    return v4i32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4i16>)
+    return v4i16(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v4i8>)
+    return v4i8(first, rest...);
+  else
+    static_assert(sizeof(_LM2_T) == 0, "Unsupported vector type");
+}
+
+// Generic dispatcher for V2/V3 float types
+template <typename T, typename... Args>
+inline auto _lm2_generic_v23f(
+    auto&& v2f64,
+    auto&& v2f32,
+    auto&& v3f64,
+    auto&& v3f32,
+    T first,
+    Args&&... rest) -> decltype(auto) {
+  using _LM2_T = std::remove_cvref_t<T>;
+  if constexpr (std::is_same_v<_LM2_T, lm2_v2f64>) return v2f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v2f32>)
+    return v2f32(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3f64>)
+    return v3f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_v3f32>)
+    return v3f32(first, rest...);
+  else
+    static_assert(sizeof(_LM2_T) == 0, "Unsupported V2/V3 float type");
+}
+
+// C++ macros
+#    define _LM2_GENERIC_VF(name, ...) \
+      _lm2_generic_vf(name##_v2f64, name##_v2f32, name##_v3f64, name##_v3f32, name##_v4f64, name##_v4f32, __VA_ARGS__)
+
+#    define _LM2_GENERIC_VALL(name, ...) \
+      _lm2_generic_vall(name##_v2f64, name##_v2f32, name##_v2i64, name##_v2i32, name##_v2i16, name##_v2i8, name##_v3f64, name##_v3f32, name##_v3i64, name##_v3i32, name##_v3i16, name##_v3i8, name##_v4f64, name##_v4f32, name##_v4i64, name##_v4i32, name##_v4i16, name##_v4i8, __VA_ARGS__)
+
+#    define _LM2_GENERIC_V23F(name, ...) \
+      _lm2_generic_v23f(name##_v2f64, name##_v2f32, name##_v3f64, name##_v3f32, __VA_ARGS__)
+
+#  else
+
+// C11 _Generic for V2/V3/V4 float types
+#    define _LM2_GENERIC_VF(name, first, ...) \
+      _Generic((first),                       \
+          lm2_v2f64: name##_v2f64,            \
+          lm2_v2f32: name##_v2f32,            \
+          lm2_v3f64: name##_v3f64,            \
+          lm2_v3f32: name##_v3f32,            \
+          lm2_v4f64: name##_v4f64,            \
+          lm2_v4f32: name##_v4f32)(first, __VA_ARGS__)
+
+// C11 _Generic for V2/V3/V4 all types
+#    define _LM2_GENERIC_VALL(name, first, ...) \
+      _Generic((first),                         \
+          lm2_v2f64: name##_v2f64,              \
+          lm2_v2f32: name##_v2f32,              \
+          lm2_v2i64: name##_v2i64,              \
+          lm2_v2i32: name##_v2i32,              \
+          lm2_v2i16: name##_v2i16,              \
+          lm2_v2i8: name##_v2i8,                \
+          lm2_v3f64: name##_v3f64,              \
+          lm2_v3f32: name##_v3f32,              \
+          lm2_v3i64: name##_v3i64,              \
+          lm2_v3i32: name##_v3i32,              \
+          lm2_v3i16: name##_v3i16,              \
+          lm2_v3i8: name##_v3i8,                \
+          lm2_v4f64: name##_v4f64,              \
+          lm2_v4f32: name##_v4f32,              \
+          lm2_v4i64: name##_v4i64,              \
+          lm2_v4i32: name##_v4i32,              \
+          lm2_v4i16: name##_v4i16,              \
+          lm2_v4i8: name##_v4i8)(first, __VA_ARGS__)
+
+// C11 _Generic for V2/V3 float types
+#    define _LM2_GENERIC_V23F(name, first, ...) \
+      _Generic((first),                         \
+          lm2_v2f64: name##_v2f64,              \
+          lm2_v2f32: name##_v2f32,              \
+          lm2_v3f64: name##_v3f64,              \
+          lm2_v3f32: name##_v3f32)(first, __VA_ARGS__)
+
+#  endif
+
+#else
+
+// Expands to nothing when generics are disabled
+#  define _LM2_GENERIC_VF(name, ...)
+#  define _LM2_GENERIC_VALL(name, ...)
+#  define _LM2_GENERIC_V23F(name, ...)
+
+#endif
