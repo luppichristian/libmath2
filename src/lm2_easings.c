@@ -421,7 +421,7 @@ LM2_API float ease_bounce_in_out_f32(float t) {
 // Helper: enum to string
 // =============================================================================
 
-LM2_API const char* lm2_easing_to_string(easing_t easing) {
+LM2_API const char* lm2_easing_to_string(easing easing) {
   switch (easing) {
     case EASING_LINEAR:         return "linear";
     case EASING_SIN_IN:         return "sin_in";
@@ -463,7 +463,7 @@ LM2_API const char* lm2_easing_to_string(easing_t easing) {
 // Generalized easing functions
 // =============================================================================
 
-LM2_API double lm2_ease_f64(easing_t easing, double t) {
+LM2_API double lm2_ease_f64(easing easing, double t) {
   switch (easing) {
     case EASING_LINEAR:         return ease_linear_f64(t);
     case EASING_SIN_IN:         return ease_sin_in_f64(t);
@@ -501,7 +501,7 @@ LM2_API double lm2_ease_f64(easing_t easing, double t) {
   }
 }
 
-LM2_API float lm2_ease_f32(easing_t easing, float t) {
+LM2_API float lm2_ease_f32(easing easing, float t) {
   switch (easing) {
     case EASING_LINEAR:         return ease_linear_f32(t);
     case EASING_SIN_IN:         return ease_sin_in_f32(t);

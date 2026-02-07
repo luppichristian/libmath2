@@ -115,7 +115,7 @@ LM2_API float ease_bounce_out_f32(float t);
 LM2_API float ease_bounce_in_out_f32(float t);
 
 // Easing types (enum)
-typedef enum easing_t {
+typedef enum easing {
   EASING_LINEAR,
   EASING_SIN_IN,
   EASING_SIN_OUT,
@@ -148,14 +148,14 @@ typedef enum easing_t {
   EASING_BOUNCE_OUT,
   EASING_BOUNCE_IN_OUT,
   EASING_MAX,
-} easing_t;
+} easing;
 
 // Helper to convert enum to string
-LM2_API const char* lm2_easing_to_string(easing_t easing);
+LM2_API const char* lm2_easing_to_string(easing easing);
 
 // Generalized easing function
-LM2_API double lm2_ease_f64(easing_t easing, double t);
-LM2_API float lm2_ease_f32(easing_t easing, float t);
+LM2_API double lm2_ease_f64(easing easing, double t);
+LM2_API float lm2_ease_f32(easing easing, float t);
 
 // Generic macros
 #ifndef LM2_NO_GENERICS
