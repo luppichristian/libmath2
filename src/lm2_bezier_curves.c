@@ -33,9 +33,9 @@ SOFTWARE.
 
 LM2_API lm2_v2f64 lm2_bezier_linear_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
-  lm2_v2f64 term0 = lm2_mul_v2f64_f64(p0, one_minus_t);
-  lm2_v2f64 term1 = lm2_mul_v2f64_f64(p1, t);
-  return lm2_add_v2f64(term0, term1);
+  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(p0, one_minus_t);
+  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(p1, t);
+  return lm2_add_lm2_v2f64(term0, term1);
 }
 
 // =============================================================================
@@ -44,9 +44,9 @@ LM2_API lm2_v2f64 lm2_bezier_linear_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, double t) 
 
 LM2_API lm2_v2f32 lm2_bezier_linear_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
-  lm2_v2f32 term0 = lm2_mul_v2f32_f32(p0, one_minus_t);
-  lm2_v2f32 term1 = lm2_mul_v2f32_f32(p1, t);
-  return lm2_add_v2f32(term0, term1);
+  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(p0, one_minus_t);
+  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(p1, t);
+  return lm2_add_lm2_v2f32(term0, term1);
 }
 
 // =============================================================================
@@ -55,9 +55,9 @@ LM2_API lm2_v2f32 lm2_bezier_linear_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, float t) {
 
 LM2_API lm2_v3f64 lm2_bezier_linear_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
-  lm2_v3f64 term0 = lm2_mul_v3f64_f64(p0, one_minus_t);
-  lm2_v3f64 term1 = lm2_mul_v3f64_f64(p1, t);
-  return lm2_add_v3f64(term0, term1);
+  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(p0, one_minus_t);
+  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(p1, t);
+  return lm2_add_lm2_v3f64(term0, term1);
 }
 
 // =============================================================================
@@ -66,9 +66,9 @@ LM2_API lm2_v3f64 lm2_bezier_linear_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, double t) 
 
 LM2_API lm2_v3f32 lm2_bezier_linear_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
-  lm2_v3f32 term0 = lm2_mul_v3f32_f32(p0, one_minus_t);
-  lm2_v3f32 term1 = lm2_mul_v3f32_f32(p1, t);
-  return lm2_add_v3f32(term0, term1);
+  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(p0, one_minus_t);
+  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(p1, t);
+  return lm2_add_lm2_v3f32(term0, term1);
 }
 
 // =============================================================================
@@ -77,9 +77,9 @@ LM2_API lm2_v3f32 lm2_bezier_linear_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, float t) {
 
 LM2_API lm2_v4f64 lm2_bezier_linear_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
-  lm2_v4f64 term0 = lm2_mul_v4f64_f64(p0, one_minus_t);
-  lm2_v4f64 term1 = lm2_mul_v4f64_f64(p1, t);
-  return lm2_add_v4f64(term0, term1);
+  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(p0, one_minus_t);
+  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(p1, t);
+  return lm2_add_lm2_v4f64(term0, term1);
 }
 
 // =============================================================================
@@ -88,9 +88,9 @@ LM2_API lm2_v4f64 lm2_bezier_linear_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, double t) 
 
 LM2_API lm2_v4f32 lm2_bezier_linear_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
-  lm2_v4f32 term0 = lm2_mul_v4f32_f32(p0, one_minus_t);
-  lm2_v4f32 term1 = lm2_mul_v4f32_f32(p1, t);
-  return lm2_add_v4f32(term0, term1);
+  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(p0, one_minus_t);
+  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(p1, t);
+  return lm2_add_lm2_v4f32(term0, term1);
 }
 
 // =============================================================================
@@ -103,11 +103,11 @@ LM2_API lm2_v2f64 lm2_bezier_quadratic_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, lm2_v2f
   double t_sq = lm2_mul_f64(t, t);
   double two_one_minus_t_t = lm2_mul_f64(2.0, lm2_mul_f64(one_minus_t, t));
 
-  lm2_v2f64 term0 = lm2_mul_v2f64_f64(p0, one_minus_t_sq);
-  lm2_v2f64 term1 = lm2_mul_v2f64_f64(p1, two_one_minus_t_t);
-  lm2_v2f64 term2 = lm2_mul_v2f64_f64(p2, t_sq);
+  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(p0, one_minus_t_sq);
+  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(p1, two_one_minus_t_t);
+  lm2_v2f64 term2 = lm2_mul_lm2_v2f64_double(p2, t_sq);
 
-  return lm2_add_v2f64(lm2_add_v2f64(term0, term1), term2);
+  return lm2_add_lm2_v2f64(lm2_add_lm2_v2f64(term0, term1), term2);
 }
 
 // =============================================================================
@@ -120,11 +120,11 @@ LM2_API lm2_v2f32 lm2_bezier_quadratic_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, lm2_v2f
   float t_sq = lm2_mul_f32(t, t);
   float two_one_minus_t_t = lm2_mul_f32(2.0f, lm2_mul_f32(one_minus_t, t));
 
-  lm2_v2f32 term0 = lm2_mul_v2f32_f32(p0, one_minus_t_sq);
-  lm2_v2f32 term1 = lm2_mul_v2f32_f32(p1, two_one_minus_t_t);
-  lm2_v2f32 term2 = lm2_mul_v2f32_f32(p2, t_sq);
+  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(p0, one_minus_t_sq);
+  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(p1, two_one_minus_t_t);
+  lm2_v2f32 term2 = lm2_mul_lm2_v2f32_float(p2, t_sq);
 
-  return lm2_add_v2f32(lm2_add_v2f32(term0, term1), term2);
+  return lm2_add_lm2_v2f32(lm2_add_lm2_v2f32(term0, term1), term2);
 }
 
 // =============================================================================
@@ -137,11 +137,11 @@ LM2_API lm2_v3f64 lm2_bezier_quadratic_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, lm2_v3f
   double t_sq = lm2_mul_f64(t, t);
   double two_one_minus_t_t = lm2_mul_f64(2.0, lm2_mul_f64(one_minus_t, t));
 
-  lm2_v3f64 term0 = lm2_mul_v3f64_f64(p0, one_minus_t_sq);
-  lm2_v3f64 term1 = lm2_mul_v3f64_f64(p1, two_one_minus_t_t);
-  lm2_v3f64 term2 = lm2_mul_v3f64_f64(p2, t_sq);
+  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(p0, one_minus_t_sq);
+  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(p1, two_one_minus_t_t);
+  lm2_v3f64 term2 = lm2_mul_lm2_v3f64_double(p2, t_sq);
 
-  return lm2_add_v3f64(lm2_add_v3f64(term0, term1), term2);
+  return lm2_add_lm2_v3f64(lm2_add_lm2_v3f64(term0, term1), term2);
 }
 
 // =============================================================================
@@ -154,11 +154,11 @@ LM2_API lm2_v3f32 lm2_bezier_quadratic_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, lm2_v3f
   float t_sq = lm2_mul_f32(t, t);
   float two_one_minus_t_t = lm2_mul_f32(2.0f, lm2_mul_f32(one_minus_t, t));
 
-  lm2_v3f32 term0 = lm2_mul_v3f32_f32(p0, one_minus_t_sq);
-  lm2_v3f32 term1 = lm2_mul_v3f32_f32(p1, two_one_minus_t_t);
-  lm2_v3f32 term2 = lm2_mul_v3f32_f32(p2, t_sq);
+  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(p0, one_minus_t_sq);
+  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(p1, two_one_minus_t_t);
+  lm2_v3f32 term2 = lm2_mul_lm2_v3f32_float(p2, t_sq);
 
-  return lm2_add_v3f32(lm2_add_v3f32(term0, term1), term2);
+  return lm2_add_lm2_v3f32(lm2_add_lm2_v3f32(term0, term1), term2);
 }
 
 // =============================================================================
@@ -171,11 +171,11 @@ LM2_API lm2_v4f64 lm2_bezier_quadratic_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, lm2_v4f
   double t_sq = lm2_mul_f64(t, t);
   double two_one_minus_t_t = lm2_mul_f64(2.0, lm2_mul_f64(one_minus_t, t));
 
-  lm2_v4f64 term0 = lm2_mul_v4f64_f64(p0, one_minus_t_sq);
-  lm2_v4f64 term1 = lm2_mul_v4f64_f64(p1, two_one_minus_t_t);
-  lm2_v4f64 term2 = lm2_mul_v4f64_f64(p2, t_sq);
+  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(p0, one_minus_t_sq);
+  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(p1, two_one_minus_t_t);
+  lm2_v4f64 term2 = lm2_mul_lm2_v4f64_double(p2, t_sq);
 
-  return lm2_add_v4f64(lm2_add_v4f64(term0, term1), term2);
+  return lm2_add_lm2_v4f64(lm2_add_lm2_v4f64(term0, term1), term2);
 }
 
 // =============================================================================
@@ -188,11 +188,11 @@ LM2_API lm2_v4f32 lm2_bezier_quadratic_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, lm2_v4f
   float t_sq = lm2_mul_f32(t, t);
   float two_one_minus_t_t = lm2_mul_f32(2.0f, lm2_mul_f32(one_minus_t, t));
 
-  lm2_v4f32 term0 = lm2_mul_v4f32_f32(p0, one_minus_t_sq);
-  lm2_v4f32 term1 = lm2_mul_v4f32_f32(p1, two_one_minus_t_t);
-  lm2_v4f32 term2 = lm2_mul_v4f32_f32(p2, t_sq);
+  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(p0, one_minus_t_sq);
+  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(p1, two_one_minus_t_t);
+  lm2_v4f32 term2 = lm2_mul_lm2_v4f32_float(p2, t_sq);
 
-  return lm2_add_v4f32(lm2_add_v4f32(term0, term1), term2);
+  return lm2_add_lm2_v4f32(lm2_add_lm2_v4f32(term0, term1), term2);
 }
 
 // =============================================================================
@@ -211,12 +211,12 @@ LM2_API lm2_v2f64 lm2_bezier_cubic_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, lm2_v2f64 p
   double coef2 = lm2_mul_f64(3.0, lm2_mul_f64(one_minus_t, t_sq));
   double coef3 = t_cu;
 
-  lm2_v2f64 term0 = lm2_mul_v2f64_f64(p0, coef0);
-  lm2_v2f64 term1 = lm2_mul_v2f64_f64(p1, coef1);
-  lm2_v2f64 term2 = lm2_mul_v2f64_f64(p2, coef2);
-  lm2_v2f64 term3 = lm2_mul_v2f64_f64(p3, coef3);
+  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(p0, coef0);
+  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(p1, coef1);
+  lm2_v2f64 term2 = lm2_mul_lm2_v2f64_double(p2, coef2);
+  lm2_v2f64 term3 = lm2_mul_lm2_v2f64_double(p3, coef3);
 
-  return lm2_add_v2f64(lm2_add_v2f64(term0, term1), lm2_add_v2f64(term2, term3));
+  return lm2_add_lm2_v2f64(lm2_add_lm2_v2f64(term0, term1), lm2_add_lm2_v2f64(term2, term3));
 }
 
 // =============================================================================
@@ -235,12 +235,12 @@ LM2_API lm2_v2f32 lm2_bezier_cubic_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, lm2_v2f32 p
   float coef2 = lm2_mul_f32(3.0f, lm2_mul_f32(one_minus_t, t_sq));
   float coef3 = t_cu;
 
-  lm2_v2f32 term0 = lm2_mul_v2f32_f32(p0, coef0);
-  lm2_v2f32 term1 = lm2_mul_v2f32_f32(p1, coef1);
-  lm2_v2f32 term2 = lm2_mul_v2f32_f32(p2, coef2);
-  lm2_v2f32 term3 = lm2_mul_v2f32_f32(p3, coef3);
+  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(p0, coef0);
+  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(p1, coef1);
+  lm2_v2f32 term2 = lm2_mul_lm2_v2f32_float(p2, coef2);
+  lm2_v2f32 term3 = lm2_mul_lm2_v2f32_float(p3, coef3);
 
-  return lm2_add_v2f32(lm2_add_v2f32(term0, term1), lm2_add_v2f32(term2, term3));
+  return lm2_add_lm2_v2f32(lm2_add_lm2_v2f32(term0, term1), lm2_add_lm2_v2f32(term2, term3));
 }
 
 // =============================================================================
@@ -259,12 +259,12 @@ LM2_API lm2_v3f64 lm2_bezier_cubic_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, lm2_v3f64 p
   double coef2 = lm2_mul_f64(3.0, lm2_mul_f64(one_minus_t, t_sq));
   double coef3 = t_cu;
 
-  lm2_v3f64 term0 = lm2_mul_v3f64_f64(p0, coef0);
-  lm2_v3f64 term1 = lm2_mul_v3f64_f64(p1, coef1);
-  lm2_v3f64 term2 = lm2_mul_v3f64_f64(p2, coef2);
-  lm2_v3f64 term3 = lm2_mul_v3f64_f64(p3, coef3);
+  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(p0, coef0);
+  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(p1, coef1);
+  lm2_v3f64 term2 = lm2_mul_lm2_v3f64_double(p2, coef2);
+  lm2_v3f64 term3 = lm2_mul_lm2_v3f64_double(p3, coef3);
 
-  return lm2_add_v3f64(lm2_add_v3f64(term0, term1), lm2_add_v3f64(term2, term3));
+  return lm2_add_lm2_v3f64(lm2_add_lm2_v3f64(term0, term1), lm2_add_lm2_v3f64(term2, term3));
 }
 
 // =============================================================================
@@ -283,12 +283,12 @@ LM2_API lm2_v3f32 lm2_bezier_cubic_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, lm2_v3f32 p
   float coef2 = lm2_mul_f32(3.0f, lm2_mul_f32(one_minus_t, t_sq));
   float coef3 = t_cu;
 
-  lm2_v3f32 term0 = lm2_mul_v3f32_f32(p0, coef0);
-  lm2_v3f32 term1 = lm2_mul_v3f32_f32(p1, coef1);
-  lm2_v3f32 term2 = lm2_mul_v3f32_f32(p2, coef2);
-  lm2_v3f32 term3 = lm2_mul_v3f32_f32(p3, coef3);
+  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(p0, coef0);
+  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(p1, coef1);
+  lm2_v3f32 term2 = lm2_mul_lm2_v3f32_float(p2, coef2);
+  lm2_v3f32 term3 = lm2_mul_lm2_v3f32_float(p3, coef3);
 
-  return lm2_add_v3f32(lm2_add_v3f32(term0, term1), lm2_add_v3f32(term2, term3));
+  return lm2_add_lm2_v3f32(lm2_add_lm2_v3f32(term0, term1), lm2_add_lm2_v3f32(term2, term3));
 }
 
 // =============================================================================
@@ -307,12 +307,12 @@ LM2_API lm2_v4f64 lm2_bezier_cubic_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, lm2_v4f64 p
   double coef2 = lm2_mul_f64(3.0, lm2_mul_f64(one_minus_t, t_sq));
   double coef3 = t_cu;
 
-  lm2_v4f64 term0 = lm2_mul_v4f64_f64(p0, coef0);
-  lm2_v4f64 term1 = lm2_mul_v4f64_f64(p1, coef1);
-  lm2_v4f64 term2 = lm2_mul_v4f64_f64(p2, coef2);
-  lm2_v4f64 term3 = lm2_mul_v4f64_f64(p3, coef3);
+  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(p0, coef0);
+  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(p1, coef1);
+  lm2_v4f64 term2 = lm2_mul_lm2_v4f64_double(p2, coef2);
+  lm2_v4f64 term3 = lm2_mul_lm2_v4f64_double(p3, coef3);
 
-  return lm2_add_v4f64(lm2_add_v4f64(term0, term1), lm2_add_v4f64(term2, term3));
+  return lm2_add_lm2_v4f64(lm2_add_lm2_v4f64(term0, term1), lm2_add_lm2_v4f64(term2, term3));
 }
 
 // =============================================================================
@@ -331,12 +331,12 @@ LM2_API lm2_v4f32 lm2_bezier_cubic_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, lm2_v4f32 p
   float coef2 = lm2_mul_f32(3.0f, lm2_mul_f32(one_minus_t, t_sq));
   float coef3 = t_cu;
 
-  lm2_v4f32 term0 = lm2_mul_v4f32_f32(p0, coef0);
-  lm2_v4f32 term1 = lm2_mul_v4f32_f32(p1, coef1);
-  lm2_v4f32 term2 = lm2_mul_v4f32_f32(p2, coef2);
-  lm2_v4f32 term3 = lm2_mul_v4f32_f32(p3, coef3);
+  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(p0, coef0);
+  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(p1, coef1);
+  lm2_v4f32 term2 = lm2_mul_lm2_v4f32_float(p2, coef2);
+  lm2_v4f32 term3 = lm2_mul_lm2_v4f32_float(p3, coef3);
 
-  return lm2_add_v4f32(lm2_add_v4f32(term0, term1), lm2_add_v4f32(term2, term3));
+  return lm2_add_lm2_v4f32(lm2_add_lm2_v4f32(term0, term1), lm2_add_lm2_v4f32(term2, term3));
 }
 
 // =============================================================================
@@ -348,13 +348,13 @@ LM2_API lm2_v2f64 lm2_bezier_quadratic_derivative_v2f64(lm2_v2f64 p0, lm2_v2f64 
   double two_one_minus_t = lm2_mul_f64(2.0, one_minus_t);
   double two_t = lm2_mul_f64(2.0, t);
 
-  lm2_v2f64 diff01 = lm2_sub_v2f64(p1, p0);
-  lm2_v2f64 diff12 = lm2_sub_v2f64(p2, p1);
+  lm2_v2f64 diff01 = lm2_sub_lm2_v2f64(p1, p0);
+  lm2_v2f64 diff12 = lm2_sub_lm2_v2f64(p2, p1);
 
-  lm2_v2f64 term0 = lm2_mul_v2f64_f64(diff01, two_one_minus_t);
-  lm2_v2f64 term1 = lm2_mul_v2f64_f64(diff12, two_t);
+  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(diff01, two_one_minus_t);
+  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(diff12, two_t);
 
-  return lm2_add_v2f64(term0, term1);
+  return lm2_add_lm2_v2f64(term0, term1);
 }
 
 // =============================================================================
@@ -366,13 +366,13 @@ LM2_API lm2_v2f32 lm2_bezier_quadratic_derivative_v2f32(lm2_v2f32 p0, lm2_v2f32 
   float two_one_minus_t = lm2_mul_f32(2.0f, one_minus_t);
   float two_t = lm2_mul_f32(2.0f, t);
 
-  lm2_v2f32 diff01 = lm2_sub_v2f32(p1, p0);
-  lm2_v2f32 diff12 = lm2_sub_v2f32(p2, p1);
+  lm2_v2f32 diff01 = lm2_sub_lm2_v2f32(p1, p0);
+  lm2_v2f32 diff12 = lm2_sub_lm2_v2f32(p2, p1);
 
-  lm2_v2f32 term0 = lm2_mul_v2f32_f32(diff01, two_one_minus_t);
-  lm2_v2f32 term1 = lm2_mul_v2f32_f32(diff12, two_t);
+  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(diff01, two_one_minus_t);
+  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(diff12, two_t);
 
-  return lm2_add_v2f32(term0, term1);
+  return lm2_add_lm2_v2f32(term0, term1);
 }
 
 // =============================================================================
@@ -384,13 +384,13 @@ LM2_API lm2_v3f64 lm2_bezier_quadratic_derivative_v3f64(lm2_v3f64 p0, lm2_v3f64 
   double two_one_minus_t = lm2_mul_f64(2.0, one_minus_t);
   double two_t = lm2_mul_f64(2.0, t);
 
-  lm2_v3f64 diff01 = lm2_sub_v3f64(p1, p0);
-  lm2_v3f64 diff12 = lm2_sub_v3f64(p2, p1);
+  lm2_v3f64 diff01 = lm2_sub_lm2_v3f64(p1, p0);
+  lm2_v3f64 diff12 = lm2_sub_lm2_v3f64(p2, p1);
 
-  lm2_v3f64 term0 = lm2_mul_v3f64_f64(diff01, two_one_minus_t);
-  lm2_v3f64 term1 = lm2_mul_v3f64_f64(diff12, two_t);
+  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(diff01, two_one_minus_t);
+  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(diff12, two_t);
 
-  return lm2_add_v3f64(term0, term1);
+  return lm2_add_lm2_v3f64(term0, term1);
 }
 
 // =============================================================================
@@ -402,13 +402,13 @@ LM2_API lm2_v3f32 lm2_bezier_quadratic_derivative_v3f32(lm2_v3f32 p0, lm2_v3f32 
   float two_one_minus_t = lm2_mul_f32(2.0f, one_minus_t);
   float two_t = lm2_mul_f32(2.0f, t);
 
-  lm2_v3f32 diff01 = lm2_sub_v3f32(p1, p0);
-  lm2_v3f32 diff12 = lm2_sub_v3f32(p2, p1);
+  lm2_v3f32 diff01 = lm2_sub_lm2_v3f32(p1, p0);
+  lm2_v3f32 diff12 = lm2_sub_lm2_v3f32(p2, p1);
 
-  lm2_v3f32 term0 = lm2_mul_v3f32_f32(diff01, two_one_minus_t);
-  lm2_v3f32 term1 = lm2_mul_v3f32_f32(diff12, two_t);
+  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(diff01, two_one_minus_t);
+  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(diff12, two_t);
 
-  return lm2_add_v3f32(term0, term1);
+  return lm2_add_lm2_v3f32(term0, term1);
 }
 
 // =============================================================================
@@ -420,13 +420,13 @@ LM2_API lm2_v4f64 lm2_bezier_quadratic_derivative_v4f64(lm2_v4f64 p0, lm2_v4f64 
   double two_one_minus_t = lm2_mul_f64(2.0, one_minus_t);
   double two_t = lm2_mul_f64(2.0, t);
 
-  lm2_v4f64 diff01 = lm2_sub_v4f64(p1, p0);
-  lm2_v4f64 diff12 = lm2_sub_v4f64(p2, p1);
+  lm2_v4f64 diff01 = lm2_sub_lm2_v4f64(p1, p0);
+  lm2_v4f64 diff12 = lm2_sub_lm2_v4f64(p2, p1);
 
-  lm2_v4f64 term0 = lm2_mul_v4f64_f64(diff01, two_one_minus_t);
-  lm2_v4f64 term1 = lm2_mul_v4f64_f64(diff12, two_t);
+  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(diff01, two_one_minus_t);
+  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(diff12, two_t);
 
-  return lm2_add_v4f64(term0, term1);
+  return lm2_add_lm2_v4f64(term0, term1);
 }
 
 // =============================================================================
@@ -438,13 +438,13 @@ LM2_API lm2_v4f32 lm2_bezier_quadratic_derivative_v4f32(lm2_v4f32 p0, lm2_v4f32 
   float two_one_minus_t = lm2_mul_f32(2.0f, one_minus_t);
   float two_t = lm2_mul_f32(2.0f, t);
 
-  lm2_v4f32 diff01 = lm2_sub_v4f32(p1, p0);
-  lm2_v4f32 diff12 = lm2_sub_v4f32(p2, p1);
+  lm2_v4f32 diff01 = lm2_sub_lm2_v4f32(p1, p0);
+  lm2_v4f32 diff12 = lm2_sub_lm2_v4f32(p2, p1);
 
-  lm2_v4f32 term0 = lm2_mul_v4f32_f32(diff01, two_one_minus_t);
-  lm2_v4f32 term1 = lm2_mul_v4f32_f32(diff12, two_t);
+  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(diff01, two_one_minus_t);
+  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(diff12, two_t);
 
-  return lm2_add_v4f32(term0, term1);
+  return lm2_add_lm2_v4f32(term0, term1);
 }
 
 // =============================================================================
@@ -460,15 +460,15 @@ LM2_API lm2_v2f64 lm2_bezier_cubic_derivative_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, 
   double coef1 = lm2_mul_f64(6.0, lm2_mul_f64(one_minus_t, t));
   double coef2 = lm2_mul_f64(3.0, t_sq);
 
-  lm2_v2f64 diff01 = lm2_sub_v2f64(p1, p0);
-  lm2_v2f64 diff12 = lm2_sub_v2f64(p2, p1);
-  lm2_v2f64 diff23 = lm2_sub_v2f64(p3, p2);
+  lm2_v2f64 diff01 = lm2_sub_lm2_v2f64(p1, p0);
+  lm2_v2f64 diff12 = lm2_sub_lm2_v2f64(p2, p1);
+  lm2_v2f64 diff23 = lm2_sub_lm2_v2f64(p3, p2);
 
-  lm2_v2f64 term0 = lm2_mul_v2f64_f64(diff01, coef0);
-  lm2_v2f64 term1 = lm2_mul_v2f64_f64(diff12, coef1);
-  lm2_v2f64 term2 = lm2_mul_v2f64_f64(diff23, coef2);
+  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(diff01, coef0);
+  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(diff12, coef1);
+  lm2_v2f64 term2 = lm2_mul_lm2_v2f64_double(diff23, coef2);
 
-  return lm2_add_v2f64(lm2_add_v2f64(term0, term1), term2);
+  return lm2_add_lm2_v2f64(lm2_add_lm2_v2f64(term0, term1), term2);
 }
 
 // =============================================================================
@@ -484,15 +484,15 @@ LM2_API lm2_v2f32 lm2_bezier_cubic_derivative_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, 
   float coef1 = lm2_mul_f32(6.0f, lm2_mul_f32(one_minus_t, t));
   float coef2 = lm2_mul_f32(3.0f, t_sq);
 
-  lm2_v2f32 diff01 = lm2_sub_v2f32(p1, p0);
-  lm2_v2f32 diff12 = lm2_sub_v2f32(p2, p1);
-  lm2_v2f32 diff23 = lm2_sub_v2f32(p3, p2);
+  lm2_v2f32 diff01 = lm2_sub_lm2_v2f32(p1, p0);
+  lm2_v2f32 diff12 = lm2_sub_lm2_v2f32(p2, p1);
+  lm2_v2f32 diff23 = lm2_sub_lm2_v2f32(p3, p2);
 
-  lm2_v2f32 term0 = lm2_mul_v2f32_f32(diff01, coef0);
-  lm2_v2f32 term1 = lm2_mul_v2f32_f32(diff12, coef1);
-  lm2_v2f32 term2 = lm2_mul_v2f32_f32(diff23, coef2);
+  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(diff01, coef0);
+  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(diff12, coef1);
+  lm2_v2f32 term2 = lm2_mul_lm2_v2f32_float(diff23, coef2);
 
-  return lm2_add_v2f32(lm2_add_v2f32(term0, term1), term2);
+  return lm2_add_lm2_v2f32(lm2_add_lm2_v2f32(term0, term1), term2);
 }
 
 // =============================================================================
@@ -508,15 +508,15 @@ LM2_API lm2_v3f64 lm2_bezier_cubic_derivative_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, 
   double coef1 = lm2_mul_f64(6.0, lm2_mul_f64(one_minus_t, t));
   double coef2 = lm2_mul_f64(3.0, t_sq);
 
-  lm2_v3f64 diff01 = lm2_sub_v3f64(p1, p0);
-  lm2_v3f64 diff12 = lm2_sub_v3f64(p2, p1);
-  lm2_v3f64 diff23 = lm2_sub_v3f64(p3, p2);
+  lm2_v3f64 diff01 = lm2_sub_lm2_v3f64(p1, p0);
+  lm2_v3f64 diff12 = lm2_sub_lm2_v3f64(p2, p1);
+  lm2_v3f64 diff23 = lm2_sub_lm2_v3f64(p3, p2);
 
-  lm2_v3f64 term0 = lm2_mul_v3f64_f64(diff01, coef0);
-  lm2_v3f64 term1 = lm2_mul_v3f64_f64(diff12, coef1);
-  lm2_v3f64 term2 = lm2_mul_v3f64_f64(diff23, coef2);
+  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(diff01, coef0);
+  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(diff12, coef1);
+  lm2_v3f64 term2 = lm2_mul_lm2_v3f64_double(diff23, coef2);
 
-  return lm2_add_v3f64(lm2_add_v3f64(term0, term1), term2);
+  return lm2_add_lm2_v3f64(lm2_add_lm2_v3f64(term0, term1), term2);
 }
 
 // =============================================================================
@@ -532,15 +532,15 @@ LM2_API lm2_v3f32 lm2_bezier_cubic_derivative_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, 
   float coef1 = lm2_mul_f32(6.0f, lm2_mul_f32(one_minus_t, t));
   float coef2 = lm2_mul_f32(3.0f, t_sq);
 
-  lm2_v3f32 diff01 = lm2_sub_v3f32(p1, p0);
-  lm2_v3f32 diff12 = lm2_sub_v3f32(p2, p1);
-  lm2_v3f32 diff23 = lm2_sub_v3f32(p3, p2);
+  lm2_v3f32 diff01 = lm2_sub_lm2_v3f32(p1, p0);
+  lm2_v3f32 diff12 = lm2_sub_lm2_v3f32(p2, p1);
+  lm2_v3f32 diff23 = lm2_sub_lm2_v3f32(p3, p2);
 
-  lm2_v3f32 term0 = lm2_mul_v3f32_f32(diff01, coef0);
-  lm2_v3f32 term1 = lm2_mul_v3f32_f32(diff12, coef1);
-  lm2_v3f32 term2 = lm2_mul_v3f32_f32(diff23, coef2);
+  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(diff01, coef0);
+  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(diff12, coef1);
+  lm2_v3f32 term2 = lm2_mul_lm2_v3f32_float(diff23, coef2);
 
-  return lm2_add_v3f32(lm2_add_v3f32(term0, term1), term2);
+  return lm2_add_lm2_v3f32(lm2_add_lm2_v3f32(term0, term1), term2);
 }
 
 // =============================================================================
@@ -556,15 +556,15 @@ LM2_API lm2_v4f64 lm2_bezier_cubic_derivative_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, 
   double coef1 = lm2_mul_f64(6.0, lm2_mul_f64(one_minus_t, t));
   double coef2 = lm2_mul_f64(3.0, t_sq);
 
-  lm2_v4f64 diff01 = lm2_sub_v4f64(p1, p0);
-  lm2_v4f64 diff12 = lm2_sub_v4f64(p2, p1);
-  lm2_v4f64 diff23 = lm2_sub_v4f64(p3, p2);
+  lm2_v4f64 diff01 = lm2_sub_lm2_v4f64(p1, p0);
+  lm2_v4f64 diff12 = lm2_sub_lm2_v4f64(p2, p1);
+  lm2_v4f64 diff23 = lm2_sub_lm2_v4f64(p3, p2);
 
-  lm2_v4f64 term0 = lm2_mul_v4f64_f64(diff01, coef0);
-  lm2_v4f64 term1 = lm2_mul_v4f64_f64(diff12, coef1);
-  lm2_v4f64 term2 = lm2_mul_v4f64_f64(diff23, coef2);
+  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(diff01, coef0);
+  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(diff12, coef1);
+  lm2_v4f64 term2 = lm2_mul_lm2_v4f64_double(diff23, coef2);
 
-  return lm2_add_v4f64(lm2_add_v4f64(term0, term1), term2);
+  return lm2_add_lm2_v4f64(lm2_add_lm2_v4f64(term0, term1), term2);
 }
 
 // =============================================================================
@@ -580,15 +580,15 @@ LM2_API lm2_v4f32 lm2_bezier_cubic_derivative_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, 
   float coef1 = lm2_mul_f32(6.0f, lm2_mul_f32(one_minus_t, t));
   float coef2 = lm2_mul_f32(3.0f, t_sq);
 
-  lm2_v4f32 diff01 = lm2_sub_v4f32(p1, p0);
-  lm2_v4f32 diff12 = lm2_sub_v4f32(p2, p1);
-  lm2_v4f32 diff23 = lm2_sub_v4f32(p3, p2);
+  lm2_v4f32 diff01 = lm2_sub_lm2_v4f32(p1, p0);
+  lm2_v4f32 diff12 = lm2_sub_lm2_v4f32(p2, p1);
+  lm2_v4f32 diff23 = lm2_sub_lm2_v4f32(p3, p2);
 
-  lm2_v4f32 term0 = lm2_mul_v4f32_f32(diff01, coef0);
-  lm2_v4f32 term1 = lm2_mul_v4f32_f32(diff12, coef1);
-  lm2_v4f32 term2 = lm2_mul_v4f32_f32(diff23, coef2);
+  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(diff01, coef0);
+  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(diff12, coef1);
+  lm2_v4f32 term2 = lm2_mul_lm2_v4f32_float(diff23, coef2);
 
-  return lm2_add_v4f32(lm2_add_v4f32(term0, term1), term2);
+  return lm2_add_lm2_v4f32(lm2_add_lm2_v4f32(term0, term1), term2);
 }
 
 // =============================================================================
@@ -601,17 +601,17 @@ LM2_API lm2_v2f64 lm2_bezier_cubic_second_derivative_v2f64(lm2_v2f64 p0, lm2_v2f
   double six_t = lm2_mul_f64(6.0, t);
 
   // P2 - 2*P1 + P0
-  lm2_v2f64 two_p1 = lm2_mul_v2f64_f64(p1, 2.0);
-  lm2_v2f64 diff0 = lm2_sub_v2f64(lm2_add_v2f64(p2, p0), two_p1);
+  lm2_v2f64 two_p1 = lm2_mul_lm2_v2f64_double(p1, 2.0);
+  lm2_v2f64 diff0 = lm2_sub_lm2_v2f64(lm2_add_lm2_v2f64(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v2f64 two_p2 = lm2_mul_v2f64_f64(p2, 2.0);
-  lm2_v2f64 diff1 = lm2_sub_v2f64(lm2_add_v2f64(p3, p1), two_p2);
+  lm2_v2f64 two_p2 = lm2_mul_lm2_v2f64_double(p2, 2.0);
+  lm2_v2f64 diff1 = lm2_sub_lm2_v2f64(lm2_add_lm2_v2f64(p3, p1), two_p2);
 
-  lm2_v2f64 term0 = lm2_mul_v2f64_f64(diff0, six_one_minus_t);
-  lm2_v2f64 term1 = lm2_mul_v2f64_f64(diff1, six_t);
+  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(diff0, six_one_minus_t);
+  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(diff1, six_t);
 
-  return lm2_add_v2f64(term0, term1);
+  return lm2_add_lm2_v2f64(term0, term1);
 }
 
 // =============================================================================
@@ -624,17 +624,17 @@ LM2_API lm2_v2f32 lm2_bezier_cubic_second_derivative_v2f32(lm2_v2f32 p0, lm2_v2f
   float six_t = lm2_mul_f32(6.0f, t);
 
   // P2 - 2*P1 + P0
-  lm2_v2f32 two_p1 = lm2_mul_v2f32_f32(p1, 2.0f);
-  lm2_v2f32 diff0 = lm2_sub_v2f32(lm2_add_v2f32(p2, p0), two_p1);
+  lm2_v2f32 two_p1 = lm2_mul_lm2_v2f32_float(p1, 2.0f);
+  lm2_v2f32 diff0 = lm2_sub_lm2_v2f32(lm2_add_lm2_v2f32(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v2f32 two_p2 = lm2_mul_v2f32_f32(p2, 2.0f);
-  lm2_v2f32 diff1 = lm2_sub_v2f32(lm2_add_v2f32(p3, p1), two_p2);
+  lm2_v2f32 two_p2 = lm2_mul_lm2_v2f32_float(p2, 2.0f);
+  lm2_v2f32 diff1 = lm2_sub_lm2_v2f32(lm2_add_lm2_v2f32(p3, p1), two_p2);
 
-  lm2_v2f32 term0 = lm2_mul_v2f32_f32(diff0, six_one_minus_t);
-  lm2_v2f32 term1 = lm2_mul_v2f32_f32(diff1, six_t);
+  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(diff0, six_one_minus_t);
+  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(diff1, six_t);
 
-  return lm2_add_v2f32(term0, term1);
+  return lm2_add_lm2_v2f32(term0, term1);
 }
 
 // =============================================================================
@@ -647,17 +647,17 @@ LM2_API lm2_v3f64 lm2_bezier_cubic_second_derivative_v3f64(lm2_v3f64 p0, lm2_v3f
   double six_t = lm2_mul_f64(6.0, t);
 
   // P2 - 2*P1 + P0
-  lm2_v3f64 two_p1 = lm2_mul_v3f64_f64(p1, 2.0);
-  lm2_v3f64 diff0 = lm2_sub_v3f64(lm2_add_v3f64(p2, p0), two_p1);
+  lm2_v3f64 two_p1 = lm2_mul_lm2_v3f64_double(p1, 2.0);
+  lm2_v3f64 diff0 = lm2_sub_lm2_v3f64(lm2_add_lm2_v3f64(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v3f64 two_p2 = lm2_mul_v3f64_f64(p2, 2.0);
-  lm2_v3f64 diff1 = lm2_sub_v3f64(lm2_add_v3f64(p3, p1), two_p2);
+  lm2_v3f64 two_p2 = lm2_mul_lm2_v3f64_double(p2, 2.0);
+  lm2_v3f64 diff1 = lm2_sub_lm2_v3f64(lm2_add_lm2_v3f64(p3, p1), two_p2);
 
-  lm2_v3f64 term0 = lm2_mul_v3f64_f64(diff0, six_one_minus_t);
-  lm2_v3f64 term1 = lm2_mul_v3f64_f64(diff1, six_t);
+  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(diff0, six_one_minus_t);
+  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(diff1, six_t);
 
-  return lm2_add_v3f64(term0, term1);
+  return lm2_add_lm2_v3f64(term0, term1);
 }
 
 // =============================================================================
@@ -670,17 +670,17 @@ LM2_API lm2_v3f32 lm2_bezier_cubic_second_derivative_v3f32(lm2_v3f32 p0, lm2_v3f
   float six_t = lm2_mul_f32(6.0f, t);
 
   // P2 - 2*P1 + P0
-  lm2_v3f32 two_p1 = lm2_mul_v3f32_f32(p1, 2.0f);
-  lm2_v3f32 diff0 = lm2_sub_v3f32(lm2_add_v3f32(p2, p0), two_p1);
+  lm2_v3f32 two_p1 = lm2_mul_lm2_v3f32_float(p1, 2.0f);
+  lm2_v3f32 diff0 = lm2_sub_lm2_v3f32(lm2_add_lm2_v3f32(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v3f32 two_p2 = lm2_mul_v3f32_f32(p2, 2.0f);
-  lm2_v3f32 diff1 = lm2_sub_v3f32(lm2_add_v3f32(p3, p1), two_p2);
+  lm2_v3f32 two_p2 = lm2_mul_lm2_v3f32_float(p2, 2.0f);
+  lm2_v3f32 diff1 = lm2_sub_lm2_v3f32(lm2_add_lm2_v3f32(p3, p1), two_p2);
 
-  lm2_v3f32 term0 = lm2_mul_v3f32_f32(diff0, six_one_minus_t);
-  lm2_v3f32 term1 = lm2_mul_v3f32_f32(diff1, six_t);
+  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(diff0, six_one_minus_t);
+  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(diff1, six_t);
 
-  return lm2_add_v3f32(term0, term1);
+  return lm2_add_lm2_v3f32(term0, term1);
 }
 
 // =============================================================================
@@ -693,17 +693,17 @@ LM2_API lm2_v4f64 lm2_bezier_cubic_second_derivative_v4f64(lm2_v4f64 p0, lm2_v4f
   double six_t = lm2_mul_f64(6.0, t);
 
   // P2 - 2*P1 + P0
-  lm2_v4f64 two_p1 = lm2_mul_v4f64_f64(p1, 2.0);
-  lm2_v4f64 diff0 = lm2_sub_v4f64(lm2_add_v4f64(p2, p0), two_p1);
+  lm2_v4f64 two_p1 = lm2_mul_lm2_v4f64_double(p1, 2.0);
+  lm2_v4f64 diff0 = lm2_sub_lm2_v4f64(lm2_add_lm2_v4f64(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v4f64 two_p2 = lm2_mul_v4f64_f64(p2, 2.0);
-  lm2_v4f64 diff1 = lm2_sub_v4f64(lm2_add_v4f64(p3, p1), two_p2);
+  lm2_v4f64 two_p2 = lm2_mul_lm2_v4f64_double(p2, 2.0);
+  lm2_v4f64 diff1 = lm2_sub_lm2_v4f64(lm2_add_lm2_v4f64(p3, p1), two_p2);
 
-  lm2_v4f64 term0 = lm2_mul_v4f64_f64(diff0, six_one_minus_t);
-  lm2_v4f64 term1 = lm2_mul_v4f64_f64(diff1, six_t);
+  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(diff0, six_one_minus_t);
+  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(diff1, six_t);
 
-  return lm2_add_v4f64(term0, term1);
+  return lm2_add_lm2_v4f64(term0, term1);
 }
 
 // =============================================================================
@@ -716,17 +716,17 @@ LM2_API lm2_v4f32 lm2_bezier_cubic_second_derivative_v4f32(lm2_v4f32 p0, lm2_v4f
   float six_t = lm2_mul_f32(6.0f, t);
 
   // P2 - 2*P1 + P0
-  lm2_v4f32 two_p1 = lm2_mul_v4f32_f32(p1, 2.0f);
-  lm2_v4f32 diff0 = lm2_sub_v4f32(lm2_add_v4f32(p2, p0), two_p1);
+  lm2_v4f32 two_p1 = lm2_mul_lm2_v4f32_float(p1, 2.0f);
+  lm2_v4f32 diff0 = lm2_sub_lm2_v4f32(lm2_add_lm2_v4f32(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v4f32 two_p2 = lm2_mul_v4f32_f32(p2, 2.0f);
-  lm2_v4f32 diff1 = lm2_sub_v4f32(lm2_add_v4f32(p3, p1), two_p2);
+  lm2_v4f32 two_p2 = lm2_mul_lm2_v4f32_float(p2, 2.0f);
+  lm2_v4f32 diff1 = lm2_sub_lm2_v4f32(lm2_add_lm2_v4f32(p3, p1), two_p2);
 
-  lm2_v4f32 term0 = lm2_mul_v4f32_f32(diff0, six_one_minus_t);
-  lm2_v4f32 term1 = lm2_mul_v4f32_f32(diff1, six_t);
+  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(diff0, six_one_minus_t);
+  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(diff1, six_t);
 
-  return lm2_add_v4f32(term0, term1);
+  return lm2_add_lm2_v4f32(term0, term1);
 }
 
 // =============================================================================
