@@ -33,6 +33,7 @@ SOFTWARE.
 #include "lm2/lm2_bezier_curves.h"
 #include "lm2/lm2_constants.h"
 #include "lm2/lm2_edge.h"
+#include "lm2/lm2_hash.h"
 #include "lm2/lm2_noise.h"
 #include "lm2/lm2_safe_ops.h"
 #include "lm2/lm2_scalar.h"
