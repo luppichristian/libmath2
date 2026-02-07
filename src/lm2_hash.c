@@ -63,7 +63,7 @@ uint64_t lm2_hash_f64(double value) {
   if (value == 0.0) {
     value = 0.0;
   }
-  
+
   // Reinterpret bits as uint64_t
   uint64_t bits;
   memcpy(&bits, &value, sizeof(uint64_t));
@@ -119,7 +119,7 @@ uint32_t lm2_hash_f32(float value) {
   if (value == 0.0f) {
     value = 0.0f;
   }
-  
+
   // Reinterpret bits as uint32_t
   uint32_t bits;
   memcpy(&bits, &value, sizeof(uint32_t));
@@ -134,15 +134,15 @@ uint32_t lm2_hash_fnv1a_32(const void* data, size_t size) {
   if (data == NULL || size == 0) {
     return FNV1A_32_OFFSET;
   }
-  
+
   uint32_t hash = FNV1A_32_OFFSET;
   const uint8_t* bytes = (const uint8_t*)data;
-  
+
   for (size_t i = 0; i < size; i++) {
     hash ^= bytes[i];
     hash *= FNV1A_32_PRIME;
   }
-  
+
   return hash;
 }
 
@@ -150,15 +150,15 @@ uint64_t lm2_hash_fnv1a_64(const void* data, size_t size) {
   if (data == NULL || size == 0) {
     return FNV1A_64_OFFSET;
   }
-  
+
   uint64_t hash = FNV1A_64_OFFSET;
   const uint8_t* bytes = (const uint8_t*)data;
-  
+
   for (size_t i = 0; i < size; i++) {
     hash ^= bytes[i];
     hash *= FNV1A_64_PRIME;
   }
-  
+
   return hash;
 }
 
