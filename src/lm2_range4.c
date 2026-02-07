@@ -1,0 +1,277 @@
+/*
+MIT License
+
+Copyright (c) 2026 Christian Luppi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+#include <lm2/lm2_range4.h>
+#include <lm2/lm2_safe_ops.h>
+#include <lm2/lm2_scalar.h>
+
+// =============================================================================
+// Range4 Implementation Helpers
+// =============================================================================
+
+// Implement constructors
+#define _LM2_IMPL_RANGE4_FROM_MIN_MAX(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_from_min_max(vec_type min, vec_type max) {      \
+    type_name result;                                                           \
+    result.min = min;                                                           \
+    result.max = max;                                                           \
+    return result;                                                              \
+  }
+
+#define _LM2_IMPL_RANGE4_FROM_CENTER_EXTENTS(type_name, vec_type, scalar_type, suffix)   \
+  LM2_API type_name type_name##_from_center_extents(vec_type center, vec_type extents) { \
+    type_name result;                                                                    \
+    result.min.x = lm2_sub_##suffix(center.x, extents.x);                                \
+    result.min.y = lm2_sub_##suffix(center.y, extents.y);                                \
+    result.min.z = lm2_sub_##suffix(center.z, extents.z);                                \
+    result.min.w = lm2_sub_##suffix(center.w, extents.w);                                \
+    result.max.x = lm2_add_##suffix(center.x, extents.x);                                \
+    result.max.y = lm2_add_##suffix(center.y, extents.y);                                \
+    result.max.z = lm2_add_##suffix(center.z, extents.z);                                \
+    result.max.w = lm2_add_##suffix(center.w, extents.w);                                \
+    return result;                                                                       \
+  }
+
+#define _LM2_IMPL_RANGE4_FROM_CENTER_SIZE(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_from_center_size(vec_type center, vec_type size) {  \
+    scalar_type half_x = lm2_div_##suffix(size.x, (scalar_type)2);                  \
+    scalar_type half_y = lm2_div_##suffix(size.y, (scalar_type)2);                  \
+    scalar_type half_z = lm2_div_##suffix(size.z, (scalar_type)2);                  \
+    scalar_type half_w = lm2_div_##suffix(size.w, (scalar_type)2);                  \
+    type_name result;                                                               \
+    result.min.x = lm2_sub_##suffix(center.x, half_x);                              \
+    result.min.y = lm2_sub_##suffix(center.y, half_y);                              \
+    result.min.z = lm2_sub_##suffix(center.z, half_z);                              \
+    result.min.w = lm2_sub_##suffix(center.w, half_w);                              \
+    result.max.x = lm2_add_##suffix(center.x, half_x);                              \
+    result.max.y = lm2_add_##suffix(center.y, half_y);                              \
+    result.max.z = lm2_add_##suffix(center.z, half_z);                              \
+    result.max.w = lm2_add_##suffix(center.w, half_w);                              \
+    return result;                                                                  \
+  }
+
+#define _LM2_IMPL_RANGE4_FROM_POSITION_SIZE(type_name, vec_type, scalar_type, suffix)  \
+  LM2_API type_name type_name##_from_position_size(vec_type position, vec_type size) { \
+    type_name result;                                                                  \
+    result.min = position;                                                             \
+    result.max.x = lm2_add_##suffix(position.x, size.x);                               \
+    result.max.y = lm2_add_##suffix(position.y, size.y);                               \
+    result.max.z = lm2_add_##suffix(position.z, size.z);                               \
+    result.max.w = lm2_add_##suffix(position.w, size.w);                               \
+    return result;                                                                     \
+  }
+
+#define _LM2_IMPL_RANGE4_ZERO(type_name, vec_type) \
+  LM2_API type_name type_name##_zero(void) {       \
+    type_name result;                              \
+    result.min = vec_type##_zero();                \
+    result.max = vec_type##_zero();                \
+    return result;                                 \
+  }
+
+// Implement operations
+#define _LM2_IMPL_RANGE4_NORMALIZE(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_normalize(type_name r) {                     \
+    type_name result;                                                        \
+    result.min.x = lm2_min_##suffix(r.min.x, r.max.x);                       \
+    result.min.y = lm2_min_##suffix(r.min.y, r.max.y);                       \
+    result.min.z = lm2_min_##suffix(r.min.z, r.max.z);                       \
+    result.min.w = lm2_min_##suffix(r.min.w, r.max.w);                       \
+    result.max.x = lm2_max_##suffix(r.min.x, r.max.x);                       \
+    result.max.y = lm2_max_##suffix(r.min.y, r.max.y);                       \
+    result.max.z = lm2_max_##suffix(r.min.z, r.max.z);                       \
+    result.max.w = lm2_max_##suffix(r.min.w, r.max.w);                       \
+    return result;                                                           \
+  }
+
+#define _LM2_IMPL_RANGE4_TRANSLATE(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_translate(type_name r, vec_type offset) {    \
+    type_name result;                                                        \
+    result.min.x = lm2_add_##suffix(r.min.x, offset.x);                      \
+    result.min.y = lm2_add_##suffix(r.min.y, offset.y);                      \
+    result.min.z = lm2_add_##suffix(r.min.z, offset.z);                      \
+    result.min.w = lm2_add_##suffix(r.min.w, offset.w);                      \
+    result.max.x = lm2_add_##suffix(r.max.x, offset.x);                      \
+    result.max.y = lm2_add_##suffix(r.max.y, offset.y);                      \
+    result.max.z = lm2_add_##suffix(r.max.z, offset.z);                      \
+    result.max.w = lm2_add_##suffix(r.max.w, offset.w);                      \
+    return result;                                                           \
+  }
+
+#define _LM2_IMPL_RANGE4_SCALE(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_scale(type_name r, scalar_type factor) { \
+    vec_type center = type_name##_center(r);                             \
+    vec_type extents = type_name##_extents(r);                           \
+    type_name result;                                                    \
+    scalar_type new_ext_x = lm2_mul_##suffix(extents.x, factor);         \
+    scalar_type new_ext_y = lm2_mul_##suffix(extents.y, factor);         \
+    scalar_type new_ext_z = lm2_mul_##suffix(extents.z, factor);         \
+    scalar_type new_ext_w = lm2_mul_##suffix(extents.w, factor);         \
+    result.min.x = lm2_sub_##suffix(center.x, new_ext_x);                \
+    result.min.y = lm2_sub_##suffix(center.y, new_ext_y);                \
+    result.min.z = lm2_sub_##suffix(center.z, new_ext_z);                \
+    result.min.w = lm2_sub_##suffix(center.w, new_ext_w);                \
+    result.max.x = lm2_add_##suffix(center.x, new_ext_x);                \
+    result.max.y = lm2_add_##suffix(center.y, new_ext_y);                \
+    result.max.z = lm2_add_##suffix(center.z, new_ext_z);                \
+    result.max.w = lm2_add_##suffix(center.w, new_ext_w);                \
+    return result;                                                       \
+  }
+
+#define _LM2_IMPL_RANGE4_EXPAND(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_expand(type_name r, scalar_type amount) { \
+    type_name result;                                                     \
+    result.min.x = lm2_sub_##suffix(r.min.x, amount);                     \
+    result.min.y = lm2_sub_##suffix(r.min.y, amount);                     \
+    result.min.z = lm2_sub_##suffix(r.min.z, amount);                     \
+    result.min.w = lm2_sub_##suffix(r.min.w, amount);                     \
+    result.max.x = lm2_add_##suffix(r.max.x, amount);                     \
+    result.max.y = lm2_add_##suffix(r.max.y, amount);                     \
+    result.max.z = lm2_add_##suffix(r.max.z, amount);                     \
+    result.max.w = lm2_add_##suffix(r.max.w, amount);                     \
+    return result;                                                        \
+  }
+
+#define _LM2_IMPL_RANGE4_UNION(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_union(type_name a, type_name b) {        \
+    type_name result;                                                    \
+    result.min.x = lm2_min_##suffix(a.min.x, b.min.x);                   \
+    result.min.y = lm2_min_##suffix(a.min.y, b.min.y);                   \
+    result.min.z = lm2_min_##suffix(a.min.z, b.min.z);                   \
+    result.min.w = lm2_min_##suffix(a.min.w, b.min.w);                   \
+    result.max.x = lm2_max_##suffix(a.max.x, b.max.x);                   \
+    result.max.y = lm2_max_##suffix(a.max.y, b.max.y);                   \
+    result.max.z = lm2_max_##suffix(a.max.z, b.max.z);                   \
+    result.max.w = lm2_max_##suffix(a.max.w, b.max.w);                   \
+    return result;                                                       \
+  }
+
+#define _LM2_IMPL_RANGE4_INTERSECTION(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_intersection(type_name a, type_name b) {        \
+    type_name result;                                                           \
+    result.min.x = lm2_max_##suffix(a.min.x, b.min.x);                          \
+    result.min.y = lm2_max_##suffix(a.min.y, b.min.y);                          \
+    result.min.z = lm2_max_##suffix(a.min.z, b.min.z);                          \
+    result.min.w = lm2_max_##suffix(a.min.w, b.min.w);                          \
+    result.max.x = lm2_min_##suffix(a.max.x, b.max.x);                          \
+    result.max.y = lm2_min_##suffix(a.max.y, b.max.y);                          \
+    result.max.z = lm2_min_##suffix(a.max.z, b.max.z);                          \
+    result.max.w = lm2_min_##suffix(a.max.w, b.max.w);                          \
+    return result;                                                              \
+  }
+
+// Implement queries
+#define _LM2_IMPL_RANGE4_SIZE(type_name, vec_type, scalar_type, suffix) \
+  LM2_API vec_type type_name##_size(type_name r) {                      \
+    vec_type result;                                                    \
+    result.x = lm2_sub_##suffix(r.max.x, r.min.x);                      \
+    result.y = lm2_sub_##suffix(r.max.y, r.min.y);                      \
+    result.z = lm2_sub_##suffix(r.max.z, r.min.z);                      \
+    result.w = lm2_sub_##suffix(r.max.w, r.min.w);                      \
+    return result;                                                      \
+  }
+
+#define _LM2_IMPL_RANGE4_EXTENTS(type_name, vec_type, scalar_type, suffix) \
+  LM2_API vec_type type_name##_extents(type_name r) {                      \
+    vec_type size = type_name##_size(r);                                   \
+    vec_type result;                                                       \
+    result.x = lm2_div_##suffix(size.x, (scalar_type)2);                   \
+    result.y = lm2_div_##suffix(size.y, (scalar_type)2);                   \
+    result.z = lm2_div_##suffix(size.z, (scalar_type)2);                   \
+    result.w = lm2_div_##suffix(size.w, (scalar_type)2);                   \
+    return result;                                                         \
+  }
+
+#define _LM2_IMPL_RANGE4_CENTER(type_name, vec_type, scalar_type, suffix) \
+  LM2_API vec_type type_name##_center(type_name r) {                      \
+    vec_type result;                                                      \
+    scalar_type sum_x = lm2_add_##suffix(r.min.x, r.max.x);               \
+    scalar_type sum_y = lm2_add_##suffix(r.min.y, r.max.y);               \
+    scalar_type sum_z = lm2_add_##suffix(r.min.z, r.max.z);               \
+    scalar_type sum_w = lm2_add_##suffix(r.min.w, r.max.w);               \
+    result.x = lm2_div_##suffix(sum_x, (scalar_type)2);                   \
+    result.y = lm2_div_##suffix(sum_y, (scalar_type)2);                   \
+    result.z = lm2_div_##suffix(sum_z, (scalar_type)2);                   \
+    result.w = lm2_div_##suffix(sum_w, (scalar_type)2);                   \
+    return result;                                                        \
+  }
+
+#define _LM2_IMPL_RANGE4_CONTAINS_POINT(type_name, vec_type, scalar_type, suffix) \
+  LM2_API int type_name##_contains_point(type_name r, vec_type point) {           \
+    return (point.x >= r.min.x && point.x <= r.max.x &&                           \
+            point.y >= r.min.y && point.y <= r.max.y &&                           \
+            point.z >= r.min.z && point.z <= r.max.z &&                           \
+            point.w >= r.min.w && point.w <= r.max.w);                            \
+  }
+
+#define _LM2_IMPL_RANGE4_OVERLAPS(type_name, vec_type, scalar_type, suffix) \
+  LM2_API int type_name##_overlaps(type_name a, type_name b) {              \
+    return (a.min.x <= b.max.x && a.max.x >= b.min.x &&                     \
+            a.min.y <= b.max.y && a.max.y >= b.min.y &&                     \
+            a.min.z <= b.max.z && a.max.z >= b.min.z &&                     \
+            a.min.w <= b.max.w && a.max.w >= b.min.w);                      \
+  }
+
+#define _LM2_IMPL_RANGE4_HYPERVOLUME(type_name, vec_type, scalar_type, suffix) \
+  LM2_API scalar_type type_name##_hypervolume(type_name r) {                   \
+    vec_type size = type_name##_size(r);                                       \
+    scalar_type volume_xy = lm2_mul_##suffix(size.x, size.y);                  \
+    scalar_type volume_xyz = lm2_mul_##suffix(volume_xy, size.z);              \
+    return lm2_mul_##suffix(volume_xyz, size.w);                               \
+  }
+
+// Master macro to implement all functions for a range4 type
+#define _LM2_IMPL_RANGE4_ALL(type_name, vec_type, scalar_type, suffix)           \
+  _LM2_IMPL_RANGE4_FROM_MIN_MAX(type_name, vec_type, scalar_type, suffix)        \
+  _LM2_IMPL_RANGE4_FROM_CENTER_EXTENTS(type_name, vec_type, scalar_type, suffix) \
+  _LM2_IMPL_RANGE4_FROM_CENTER_SIZE(type_name, vec_type, scalar_type, suffix)    \
+  _LM2_IMPL_RANGE4_FROM_POSITION_SIZE(type_name, vec_type, scalar_type, suffix)  \
+  _LM2_IMPL_RANGE4_ZERO(type_name, vec_type)                                     \
+  _LM2_IMPL_RANGE4_NORMALIZE(type_name, vec_type, scalar_type, suffix)           \
+  _LM2_IMPL_RANGE4_TRANSLATE(type_name, vec_type, scalar_type, suffix)           \
+  _LM2_IMPL_RANGE4_SCALE(type_name, vec_type, scalar_type, suffix)               \
+  _LM2_IMPL_RANGE4_EXPAND(type_name, vec_type, scalar_type, suffix)              \
+  _LM2_IMPL_RANGE4_UNION(type_name, vec_type, scalar_type, suffix)               \
+  _LM2_IMPL_RANGE4_INTERSECTION(type_name, vec_type, scalar_type, suffix)        \
+  _LM2_IMPL_RANGE4_SIZE(type_name, vec_type, scalar_type, suffix)                \
+  _LM2_IMPL_RANGE4_EXTENTS(type_name, vec_type, scalar_type, suffix)             \
+  _LM2_IMPL_RANGE4_CENTER(type_name, vec_type, scalar_type, suffix)              \
+  _LM2_IMPL_RANGE4_CONTAINS_POINT(type_name, vec_type, scalar_type, suffix)      \
+  _LM2_IMPL_RANGE4_OVERLAPS(type_name, vec_type, scalar_type, suffix)            \
+  _LM2_IMPL_RANGE4_HYPERVOLUME(type_name, vec_type, scalar_type, suffix)
+
+// =============================================================================
+// Range4 Implementations for All 10 Numeric Types
+// =============================================================================
+
+_LM2_IMPL_RANGE4_ALL(lm2_range4f64, lm2_v4f64, double, f64)
+_LM2_IMPL_RANGE4_ALL(lm2_range4f32, lm2_v4f32, float, f32)
+_LM2_IMPL_RANGE4_ALL(lm2_range4i64, lm2_v4i64, int64_t, i64)
+_LM2_IMPL_RANGE4_ALL(lm2_range4i32, lm2_v4i32, int32_t, i32)
+_LM2_IMPL_RANGE4_ALL(lm2_range4i16, lm2_v4i16, int16_t, i16)
+_LM2_IMPL_RANGE4_ALL(lm2_range4i8, lm2_v4i8, int8_t, i8)
+_LM2_IMPL_RANGE4_ALL(lm2_range4u64, lm2_v4u64, uint64_t, u64)
+_LM2_IMPL_RANGE4_ALL(lm2_range4u32, lm2_v4u32, uint32_t, u32)
+_LM2_IMPL_RANGE4_ALL(lm2_range4u16, lm2_v4u16, uint16_t, u16)
+_LM2_IMPL_RANGE4_ALL(lm2_range4u8, lm2_v4u8, uint8_t, u8)

@@ -3,9 +3,7 @@
 
 ## Step-by-step plan (Claude Code)
 
-1. [ ] Vector helper constructors: implement per-vector-type helper functions, add generic macros/dispatch, add C++ constructors (when `LM2_NO_CPP_OPERATORS` is not defined)
-
-2. [ ] Add range2/range3/range4 modules (AABB-style): build on top of vector2/vector3/vector4, add types for all supported numeric types, add constructors/helpers, add core ops (normalize/sort min-max, translate, scale/expand, union/intersection), add queries (size/extents, center, contains point, overlaps/intersects), range2 as rectangle and range3 as cube/box
+2. [x] Add range2/range3/range4 modules (AABB-style): build on top of vector2/vector3/vector4, add types for all supported numeric types, add constructors/helpers, add core ops (normalize/sort min-max, translate, scale/expand, union/intersection), add queries (size/extents, center, contains point, overlaps/intersects), range2 as rectangle and range3 as cube/box
 
 3. [ ] New module `lm2_shape` (cute_c2 wrapper): integrate cute_c2 (prefer vendored single-header or FetchContent), wrap shapes + collision/query APIs with libmath2 naming/types/macros, keep type-safety and generics where applicable, ensure no allocations and consistent safe-ops usage
 

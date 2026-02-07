@@ -127,9 +127,9 @@ LM2_API uint32_t lm2_hash_combine_32(uint32_t seed, uint32_t hash);
 // Returns: combined hash value
 LM2_API uint64_t lm2_hash_combine_64(uint64_t seed, uint64_t hash);
 
-// =============================================================================
-// Generics
-// =============================================================================
+// #############################################################################
+LM2_HEADER_END;
+// #############################################################################
 
 // Internal generic dispatcher for uint32/uint64 hash functions
 // This is used for functions that only support these two types
@@ -166,7 +166,3 @@ inline auto _lm2_hash_generic_32_64(auto&& u64, auto&& u32, T first, Args&&... r
 #  define lm2_hash_combine(seed, hash) _LM2_GENERIC_32_64(lm2_hash_combine, seed, hash)
 
 #endif
-
-// #############################################################################
-LM2_HEADER_END;
-// #############################################################################
