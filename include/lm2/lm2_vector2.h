@@ -88,6 +88,40 @@ _LM2_DEFINE_V2(lm2_v2u32, uint32_t)
 _LM2_DEFINE_V2(lm2_v2u16, uint16_t)
 _LM2_DEFINE_V2(lm2_v2u8, uint8_t)
 
+// V2 constructors
+_LM2_DECLARE_V2_MAKE(lm2_v2f64, double)
+_LM2_DECLARE_V2_MAKE(lm2_v2f32, float)
+_LM2_DECLARE_V2_MAKE(lm2_v2i64, int64_t)
+_LM2_DECLARE_V2_MAKE(lm2_v2i32, int32_t)
+_LM2_DECLARE_V2_MAKE(lm2_v2i16, int16_t)
+_LM2_DECLARE_V2_MAKE(lm2_v2i8, int8_t)
+_LM2_DECLARE_V2_MAKE(lm2_v2u64, uint64_t)
+_LM2_DECLARE_V2_MAKE(lm2_v2u32, uint32_t)
+_LM2_DECLARE_V2_MAKE(lm2_v2u16, uint16_t)
+_LM2_DECLARE_V2_MAKE(lm2_v2u8, uint8_t)
+
+_LM2_DECLARE_V2_SPLAT(lm2_v2f64, double)
+_LM2_DECLARE_V2_SPLAT(lm2_v2f32, float)
+_LM2_DECLARE_V2_SPLAT(lm2_v2i64, int64_t)
+_LM2_DECLARE_V2_SPLAT(lm2_v2i32, int32_t)
+_LM2_DECLARE_V2_SPLAT(lm2_v2i16, int16_t)
+_LM2_DECLARE_V2_SPLAT(lm2_v2i8, int8_t)
+_LM2_DECLARE_V2_SPLAT(lm2_v2u64, uint64_t)
+_LM2_DECLARE_V2_SPLAT(lm2_v2u32, uint32_t)
+_LM2_DECLARE_V2_SPLAT(lm2_v2u16, uint16_t)
+_LM2_DECLARE_V2_SPLAT(lm2_v2u8, uint8_t)
+
+_LM2_DECLARE_V2_ZERO(lm2_v2f64)
+_LM2_DECLARE_V2_ZERO(lm2_v2f32)
+_LM2_DECLARE_V2_ZERO(lm2_v2i64)
+_LM2_DECLARE_V2_ZERO(lm2_v2i32)
+_LM2_DECLARE_V2_ZERO(lm2_v2i16)
+_LM2_DECLARE_V2_ZERO(lm2_v2i8)
+_LM2_DECLARE_V2_ZERO(lm2_v2u64)
+_LM2_DECLARE_V2_ZERO(lm2_v2u32)
+_LM2_DECLARE_V2_ZERO(lm2_v2u16)
+_LM2_DECLARE_V2_ZERO(lm2_v2u8)
+
 // Default vector type
 typedef lm2_v2f32 lm2_v2;
 
@@ -107,6 +141,17 @@ _LM2_DEFINE_V2_OPERATORS(lm2_v2u64, uint64_t)
 _LM2_DEFINE_V2_OPERATORS(lm2_v2u32, uint32_t)
 _LM2_DEFINE_V2_OPERATORS(lm2_v2u16, uint16_t)
 _LM2_DEFINE_V2_OPERATORS(lm2_v2u8, uint8_t)
+
+_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2f64, double)
+_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2f32, float)
+_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2i64, int64_t)
+_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2i32, int32_t)
+_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2i16, int16_t)
+_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2i8, int8_t)
+_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2u64, uint64_t)
+_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2u32, uint32_t)
+_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2u16, uint16_t)
+_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2u8, uint8_t)
 #endif
 
 #ifndef LM2_NO_GENERICS
@@ -155,4 +200,31 @@ _LM2_DEFINE_V2_OPERATORS(lm2_v2u8, uint8_t)
 #  define lm2_lerp_v2(...)       _LM2_GENERIC_V2(lm2_lerp, __VA_ARGS__)
 #  define lm2_smoothstep_v2(...) _LM2_GENERIC_V2(lm2_smoothstep, __VA_ARGS__)
 #  define lm2_alpha_v2(...)      _LM2_GENERIC_V2(lm2_alpha, __VA_ARGS__)
+
+// V2 constructor generics
+#  define lm2_v2_make(x, y)       \
+    _Generic((x),                 \
+        double: lm2_v2f64_make,   \
+        float: lm2_v2f32_make,    \
+        int64_t: lm2_v2i64_make,  \
+        int32_t: lm2_v2i32_make,  \
+        int16_t: lm2_v2i16_make,  \
+        int8_t: lm2_v2i8_make,    \
+        uint64_t: lm2_v2u64_make, \
+        uint32_t: lm2_v2u32_make, \
+        uint16_t: lm2_v2u16_make, \
+        uint8_t: lm2_v2u8_make)(x, y)
+
+#  define lm2_v2_splat(v)          \
+    _Generic((v),                  \
+        double: lm2_v2f64_splat,   \
+        float: lm2_v2f32_splat,    \
+        int64_t: lm2_v2i64_splat,  \
+        int32_t: lm2_v2i32_splat,  \
+        int16_t: lm2_v2i16_splat,  \
+        int8_t: lm2_v2i8_splat,    \
+        uint64_t: lm2_v2u64_splat, \
+        uint32_t: lm2_v2u32_splat, \
+        uint16_t: lm2_v2u16_splat, \
+        uint8_t: lm2_v2u8_splat)(v)
 #endif

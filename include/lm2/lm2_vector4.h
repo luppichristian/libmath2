@@ -89,6 +89,40 @@ _LM2_DEFINE_V4(lm2_v4u32, uint32_t)
 _LM2_DEFINE_V4(lm2_v4u16, uint16_t)
 _LM2_DEFINE_V4(lm2_v4u8, uint8_t)
 
+// V4 constructors
+_LM2_DECLARE_V4_MAKE(lm2_v4f64, double)
+_LM2_DECLARE_V4_MAKE(lm2_v4f32, float)
+_LM2_DECLARE_V4_MAKE(lm2_v4i64, int64_t)
+_LM2_DECLARE_V4_MAKE(lm2_v4i32, int32_t)
+_LM2_DECLARE_V4_MAKE(lm2_v4i16, int16_t)
+_LM2_DECLARE_V4_MAKE(lm2_v4i8, int8_t)
+_LM2_DECLARE_V4_MAKE(lm2_v4u64, uint64_t)
+_LM2_DECLARE_V4_MAKE(lm2_v4u32, uint32_t)
+_LM2_DECLARE_V4_MAKE(lm2_v4u16, uint16_t)
+_LM2_DECLARE_V4_MAKE(lm2_v4u8, uint8_t)
+
+_LM2_DECLARE_V4_SPLAT(lm2_v4f64, double)
+_LM2_DECLARE_V4_SPLAT(lm2_v4f32, float)
+_LM2_DECLARE_V4_SPLAT(lm2_v4i64, int64_t)
+_LM2_DECLARE_V4_SPLAT(lm2_v4i32, int32_t)
+_LM2_DECLARE_V4_SPLAT(lm2_v4i16, int16_t)
+_LM2_DECLARE_V4_SPLAT(lm2_v4i8, int8_t)
+_LM2_DECLARE_V4_SPLAT(lm2_v4u64, uint64_t)
+_LM2_DECLARE_V4_SPLAT(lm2_v4u32, uint32_t)
+_LM2_DECLARE_V4_SPLAT(lm2_v4u16, uint16_t)
+_LM2_DECLARE_V4_SPLAT(lm2_v4u8, uint8_t)
+
+_LM2_DECLARE_V4_ZERO(lm2_v4f64)
+_LM2_DECLARE_V4_ZERO(lm2_v4f32)
+_LM2_DECLARE_V4_ZERO(lm2_v4i64)
+_LM2_DECLARE_V4_ZERO(lm2_v4i32)
+_LM2_DECLARE_V4_ZERO(lm2_v4i16)
+_LM2_DECLARE_V4_ZERO(lm2_v4i8)
+_LM2_DECLARE_V4_ZERO(lm2_v4u64)
+_LM2_DECLARE_V4_ZERO(lm2_v4u32)
+_LM2_DECLARE_V4_ZERO(lm2_v4u16)
+_LM2_DECLARE_V4_ZERO(lm2_v4u8)
+
 // Default vector type
 typedef lm2_v4f32 lm2_v4;
 
@@ -108,6 +142,17 @@ _LM2_DEFINE_V4_OPERATORS(lm2_v4u64, uint64_t)
 _LM2_DEFINE_V4_OPERATORS(lm2_v4u32, uint32_t)
 _LM2_DEFINE_V4_OPERATORS(lm2_v4u16, uint16_t)
 _LM2_DEFINE_V4_OPERATORS(lm2_v4u8, uint8_t)
+
+_LM2_DEFINE_V4_CONSTRUCTORS(lm2_v4f64, double)
+_LM2_DEFINE_V4_CONSTRUCTORS(lm2_v4f32, float)
+_LM2_DEFINE_V4_CONSTRUCTORS(lm2_v4i64, int64_t)
+_LM2_DEFINE_V4_CONSTRUCTORS(lm2_v4i32, int32_t)
+_LM2_DEFINE_V4_CONSTRUCTORS(lm2_v4i16, int16_t)
+_LM2_DEFINE_V4_CONSTRUCTORS(lm2_v4i8, int8_t)
+_LM2_DEFINE_V4_CONSTRUCTORS(lm2_v4u64, uint64_t)
+_LM2_DEFINE_V4_CONSTRUCTORS(lm2_v4u32, uint32_t)
+_LM2_DEFINE_V4_CONSTRUCTORS(lm2_v4u16, uint16_t)
+_LM2_DEFINE_V4_CONSTRUCTORS(lm2_v4u8, uint8_t)
 #endif
 
 #ifndef LM2_NO_GENERICS
@@ -157,5 +202,32 @@ _LM2_DEFINE_V4_OPERATORS(lm2_v4u8, uint8_t)
 #  define lm2_lerp_v4(...)       _LM2_GENERIC_V4(lm2_lerp, __VA_ARGS__)
 #  define lm2_smoothstep_v4(...) _LM2_GENERIC_V4(lm2_smoothstep, __VA_ARGS__)
 #  define lm2_alpha_v4(...)      _LM2_GENERIC_V4(lm2_alpha, __VA_ARGS__)
+
+// V4 constructor generics
+#  define lm2_v4_make(x, y, z, w) \
+    _Generic((x),                 \
+        double: lm2_v4f64_make,   \
+        float: lm2_v4f32_make,    \
+        int64_t: lm2_v4i64_make,  \
+        int32_t: lm2_v4i32_make,  \
+        int16_t: lm2_v4i16_make,  \
+        int8_t: lm2_v4i8_make,    \
+        uint64_t: lm2_v4u64_make, \
+        uint32_t: lm2_v4u32_make, \
+        uint16_t: lm2_v4u16_make, \
+        uint8_t: lm2_v4u8_make)(x, y, z, w)
+
+#  define lm2_v4_splat(v)          \
+    _Generic((v),                  \
+        double: lm2_v4f64_splat,   \
+        float: lm2_v4f32_splat,    \
+        int64_t: lm2_v4i64_splat,  \
+        int32_t: lm2_v4i32_splat,  \
+        int16_t: lm2_v4i16_splat,  \
+        int8_t: lm2_v4i8_splat,    \
+        uint64_t: lm2_v4u64_splat, \
+        uint32_t: lm2_v4u32_splat, \
+        uint16_t: lm2_v4u16_splat, \
+        uint8_t: lm2_v4u8_splat)(v)
 
 #endif

@@ -41,154 +41,207 @@ SOFTWARE.
 // V2 Operators
 // =============================================================================
 
-#define _LM2_DEFINE_V2_OPERATORS(type_name, scalar_type)                         \
-  inline type_name operator+(type_name a, type_name b) {                         \
-    return lm2_add_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator-(type_name a, type_name b) {                         \
-    return lm2_sub_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator*(type_name a, type_name b) {                         \
-    return lm2_mul_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator/(type_name a, type_name b) {                         \
-    return lm2_div_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator+(type_name a, scalar_type b) {                       \
-    return lm2_add_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator-(type_name a, scalar_type b) {                       \
-    return lm2_sub_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator*(type_name a, scalar_type b) {                       \
-    return lm2_mul_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator/(type_name a, scalar_type b) {                       \
-    return lm2_div_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator+(scalar_type a, type_name b) {                       \
-    return lm2_add_##type_name##_##scalar_type(b, a);                            \
-  }                                                                              \
-  inline type_name operator-(scalar_type a, type_name b) {                       \
-    return type_name{{(scalar_type)(a - b.e[0]), (scalar_type)(a - b.e[1])}};    \
-  }                                                                              \
-  inline type_name operator*(scalar_type a, type_name b) {                       \
-    return lm2_mul_##type_name##_##scalar_type(b, a);                            \
-  }                                                                              \
-  inline type_name operator/(scalar_type a, type_name b) {                       \
-    return type_name{{(scalar_type)(a / b.e[0]), (scalar_type)(a / b.e[1])}};    \
-  }                                                                              \
-  inline type_name operator+(type_name a) {                                      \
-    return a;                                                                    \
-  }                                                                              \
-  inline type_name operator-(type_name a) {                                      \
-    return lm2_neg_##type_name(a);                                               \
-  }
+#  define _LM2_DEFINE_V2_OPERATORS(type_name, scalar_type)         \
+    inline type_name operator+(type_name a, type_name b) {         \
+      return lm2_add_##type_name(a, b);                            \
+    }                                                              \
+    inline type_name operator-(type_name a, type_name b) {         \
+      return lm2_sub_##type_name(a, b);                            \
+    }                                                              \
+    inline type_name operator*(type_name a, type_name b) {         \
+      return lm2_mul_##type_name(a, b);                            \
+    }                                                              \
+    inline type_name operator/(type_name a, type_name b) {         \
+      return lm2_div_##type_name(a, b);                            \
+    }                                                              \
+    inline type_name operator+(type_name a, scalar_type b) {       \
+      return lm2_add_##type_name##_##scalar_type(a, b);            \
+    }                                                              \
+    inline type_name operator-(type_name a, scalar_type b) {       \
+      return lm2_sub_##type_name##_##scalar_type(a, b);            \
+    }                                                              \
+    inline type_name operator*(type_name a, scalar_type b) {       \
+      return lm2_mul_##type_name##_##scalar_type(a, b);            \
+    }                                                              \
+    inline type_name operator/(type_name a, scalar_type b) {       \
+      return lm2_div_##type_name##_##scalar_type(a, b);            \
+    }                                                              \
+    inline type_name operator+(scalar_type a, type_name b) {       \
+      return lm2_add_##type_name##_##scalar_type(b, a);            \
+    }                                                              \
+    inline type_name operator-(scalar_type a, type_name b) {       \
+      return type_name {                                           \
+          {(scalar_type)(a - b.e[0]), (scalar_type)(a - b.e[1])} \
+      }; \
+    }                                                              \
+    inline type_name operator*(scalar_type a, type_name b) {       \
+      return lm2_mul_##type_name##_##scalar_type(b, a);            \
+    }                                                              \
+    inline type_name operator/(scalar_type a, type_name b) {       \
+      return type_name {                                           \
+          {(scalar_type)(a / b.e[0]), (scalar_type)(a / b.e[1])} \
+      }; \
+    }                                                              \
+    inline type_name operator+(type_name a) {                      \
+      return a;                                                    \
+    }                                                              \
+    inline type_name operator-(type_name a) {                      \
+      return lm2_neg_##type_name(a);                               \
+    }
+
+// C++ Constructors for V2 types
+#  define _LM2_DEFINE_V2_CONSTRUCTORS(type_name, scalar_type)      \
+    struct type_name##_cpp_constructors {                          \
+      static inline type_name make(scalar_type x, scalar_type y) { \
+        return type_name##_make(x, y);                             \
+      }                                                            \
+      static inline type_name splat(scalar_type v) {               \
+        return type_name##_splat(v);                               \
+      }                                                            \
+      static inline type_name zero() {                             \
+        return type_name##_zero();                                 \
+      }                                                            \
+    };
 
 // =============================================================================
 // V3 Operators
 // =============================================================================
 
-#define _LM2_DEFINE_V3_OPERATORS(type_name, scalar_type)                         \
-  inline type_name operator+(type_name a, type_name b) {                         \
-    return lm2_add_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator-(type_name a, type_name b) {                         \
-    return lm2_sub_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator*(type_name a, type_name b) {                         \
-    return lm2_mul_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator/(type_name a, type_name b) {                         \
-    return lm2_div_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator+(type_name a, scalar_type b) {                       \
-    return lm2_add_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator-(type_name a, scalar_type b) {                       \
-    return lm2_sub_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator*(type_name a, scalar_type b) {                       \
-    return lm2_mul_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator/(type_name a, scalar_type b) {                       \
-    return lm2_div_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator+(scalar_type a, type_name b) {                       \
-    return lm2_add_##type_name##_##scalar_type(b, a);                            \
-  }                                                                              \
-  inline type_name operator-(scalar_type a, type_name b) {                       \
-    return type_name{{(scalar_type)(a - b.e[0]), (scalar_type)(a - b.e[1]),      \
-                      (scalar_type)(a - b.e[2])}};                               \
-  }                                                                              \
-  inline type_name operator*(scalar_type a, type_name b) {                       \
-    return lm2_mul_##type_name##_##scalar_type(b, a);                            \
-  }                                                                              \
-  inline type_name operator/(scalar_type a, type_name b) {                       \
-    return type_name{{(scalar_type)(a / b.e[0]), (scalar_type)(a / b.e[1]),      \
-                      (scalar_type)(a / b.e[2])}};                               \
-  }                                                                              \
-  inline type_name operator+(type_name a) {                                      \
-    return a;                                                                    \
-  }                                                                              \
-  inline type_name operator-(type_name a) {                                      \
-    return lm2_neg_##type_name(a);                                               \
-  }
+#  define _LM2_DEFINE_V3_OPERATORS(type_name, scalar_type)                                    \
+    inline type_name operator+(type_name a, type_name b) {                                    \
+      return lm2_add_##type_name(a, b);                                                       \
+    }                                                                                         \
+    inline type_name operator-(type_name a, type_name b) {                                    \
+      return lm2_sub_##type_name(a, b);                                                       \
+    }                                                                                         \
+    inline type_name operator*(type_name a, type_name b) {                                    \
+      return lm2_mul_##type_name(a, b);                                                       \
+    }                                                                                         \
+    inline type_name operator/(type_name a, type_name b) {                                    \
+      return lm2_div_##type_name(a, b);                                                       \
+    }                                                                                         \
+    inline type_name operator+(type_name a, scalar_type b) {                                  \
+      return lm2_add_##type_name##_##scalar_type(a, b);                                       \
+    }                                                                                         \
+    inline type_name operator-(type_name a, scalar_type b) {                                  \
+      return lm2_sub_##type_name##_##scalar_type(a, b);                                       \
+    }                                                                                         \
+    inline type_name operator*(type_name a, scalar_type b) {                                  \
+      return lm2_mul_##type_name##_##scalar_type(a, b);                                       \
+    }                                                                                         \
+    inline type_name operator/(type_name a, scalar_type b) {                                  \
+      return lm2_div_##type_name##_##scalar_type(a, b);                                       \
+    }                                                                                         \
+    inline type_name operator+(scalar_type a, type_name b) {                                  \
+      return lm2_add_##type_name##_##scalar_type(b, a);                                       \
+    }                                                                                         \
+    inline type_name operator-(scalar_type a, type_name b) {                                  \
+      return type_name {                                                                      \
+          {(scalar_type)(a - b.e[0]), (scalar_type)(a - b.e[1]), (scalar_type)(a - b.e[2])} \
+      }; \
+    }                                                                                         \
+    inline type_name operator*(scalar_type a, type_name b) {                                  \
+      return lm2_mul_##type_name##_##scalar_type(b, a);                                       \
+    }                                                                                         \
+    inline type_name operator/(scalar_type a, type_name b) {                                  \
+      return type_name {                                                                      \
+          {(scalar_type)(a / b.e[0]), (scalar_type)(a / b.e[1]), (scalar_type)(a / b.e[2])} \
+      }; \
+    }                                                                                         \
+    inline type_name operator+(type_name a) {                                                 \
+      return a;                                                                               \
+    }                                                                                         \
+    inline type_name operator-(type_name a) {                                                 \
+      return lm2_neg_##type_name(a);                                                          \
+    }
+
+// C++ Constructors for V3 types
+#  define _LM2_DEFINE_V3_CONSTRUCTORS(type_name, scalar_type)                     \
+    struct type_name##_cpp_constructors {                                         \
+      static inline type_name make(scalar_type x, scalar_type y, scalar_type z) { \
+        return type_name##_make(x, y, z);                                         \
+      }                                                                           \
+      static inline type_name splat(scalar_type v) {                              \
+        return type_name##_splat(v);                                              \
+      }                                                                           \
+      static inline type_name zero() {                                            \
+        return type_name##_zero();                                                \
+      }                                                                           \
+    };
 
 // =============================================================================
 // V4 Operators
 // =============================================================================
 
-#define _LM2_DEFINE_V4_OPERATORS(type_name, scalar_type)                         \
-  inline type_name operator+(type_name a, type_name b) {                         \
-    return lm2_add_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator-(type_name a, type_name b) {                         \
-    return lm2_sub_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator*(type_name a, type_name b) {                         \
-    return lm2_mul_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator/(type_name a, type_name b) {                         \
-    return lm2_div_##type_name(a, b);                                            \
-  }                                                                              \
-  inline type_name operator+(type_name a, scalar_type b) {                       \
-    return lm2_add_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator-(type_name a, scalar_type b) {                       \
-    return lm2_sub_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator*(type_name a, scalar_type b) {                       \
-    return lm2_mul_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator/(type_name a, scalar_type b) {                       \
-    return lm2_div_##type_name##_##scalar_type(a, b);                            \
-  }                                                                              \
-  inline type_name operator+(scalar_type a, type_name b) {                       \
-    return lm2_add_##type_name##_##scalar_type(b, a);                            \
-  }                                                                              \
-  inline type_name operator-(scalar_type a, type_name b) {                       \
-    return type_name{{(scalar_type)(a - b.e[0]), (scalar_type)(a - b.e[1]),      \
-                      (scalar_type)(a - b.e[2]), (scalar_type)(a - b.e[3])}};    \
-  }                                                                              \
-  inline type_name operator*(scalar_type a, type_name b) {                       \
-    return lm2_mul_##type_name##_##scalar_type(b, a);                            \
-  }                                                                              \
-  inline type_name operator/(scalar_type a, type_name b) {                       \
-    return type_name{{(scalar_type)(a / b.e[0]), (scalar_type)(a / b.e[1]),      \
-                      (scalar_type)(a / b.e[2]), (scalar_type)(a / b.e[3])}};    \
-  }                                                                              \
-  inline type_name operator+(type_name a) {                                      \
-    return a;                                                                    \
-  }                                                                              \
-  inline type_name operator-(type_name a) {                                      \
-    return lm2_neg_##type_name(a);                                               \
-  }
+#  define _LM2_DEFINE_V4_OPERATORS(type_name, scalar_type)                                                               \
+    inline type_name operator+(type_name a, type_name b) {                                                               \
+      return lm2_add_##type_name(a, b);                                                                                  \
+    }                                                                                                                    \
+    inline type_name operator-(type_name a, type_name b) {                                                               \
+      return lm2_sub_##type_name(a, b);                                                                                  \
+    }                                                                                                                    \
+    inline type_name operator*(type_name a, type_name b) {                                                               \
+      return lm2_mul_##type_name(a, b);                                                                                  \
+    }                                                                                                                    \
+    inline type_name operator/(type_name a, type_name b) {                                                               \
+      return lm2_div_##type_name(a, b);                                                                                  \
+    }                                                                                                                    \
+    inline type_name operator+(type_name a, scalar_type b) {                                                             \
+      return lm2_add_##type_name##_##scalar_type(a, b);                                                                  \
+    }                                                                                                                    \
+    inline type_name operator-(type_name a, scalar_type b) {                                                             \
+      return lm2_sub_##type_name##_##scalar_type(a, b);                                                                  \
+    }                                                                                                                    \
+    inline type_name operator*(type_name a, scalar_type b) {                                                             \
+      return lm2_mul_##type_name##_##scalar_type(a, b);                                                                  \
+    }                                                                                                                    \
+    inline type_name operator/(type_name a, scalar_type b) {                                                             \
+      return lm2_div_##type_name##_##scalar_type(a, b);                                                                  \
+    }                                                                                                                    \
+    inline type_name operator+(scalar_type a, type_name b) {                                                             \
+      return lm2_add_##type_name##_##scalar_type(b, a);                                                                  \
+    }                                                                                                                    \
+    inline type_name operator-(scalar_type a, type_name b) {                                                             \
+      return type_name {                                                                                                 \
+          {(scalar_type)(a - b.e[0]), (scalar_type)(a - b.e[1]), (scalar_type)(a - b.e[2]), (scalar_type)(a - b.e[3])} \
+      }; \
+    }                                                                                                                    \
+    inline type_name operator*(scalar_type a, type_name b) {                                                             \
+      return lm2_mul_##type_name##_##scalar_type(b, a);                                                                  \
+    }                                                                                                                    \
+    inline type_name operator/(scalar_type a, type_name b) {                                                             \
+      return type_name {                                                                                                 \
+          {(scalar_type)(a / b.e[0]), (scalar_type)(a / b.e[1]), (scalar_type)(a / b.e[2]), (scalar_type)(a / b.e[3])} \
+      }; \
+    }                                                                                                                    \
+    inline type_name operator+(type_name a) {                                                                            \
+      return a;                                                                                                          \
+    }                                                                                                                    \
+    inline type_name operator-(type_name a) {                                                                            \
+      return lm2_neg_##type_name(a);                                                                                     \
+    }
+
+// C++ Constructors for V4 types
+#  define _LM2_DEFINE_V4_CONSTRUCTORS(type_name, scalar_type)                                    \
+    struct type_name##_cpp_constructors {                                                        \
+      static inline type_name make(scalar_type x, scalar_type y, scalar_type z, scalar_type w) { \
+        return type_name##_make(x, y, z, w);                                                     \
+      }                                                                                          \
+      static inline type_name splat(scalar_type v) {                                             \
+        return type_name##_splat(v);                                                             \
+      }                                                                                          \
+      static inline type_name zero() {                                                           \
+        return type_name##_zero();                                                               \
+      }                                                                                          \
+    };
 
 #else
 
-#define _LM2_DEFINE_V2_OPERATORS(type_name, scalar_type)
-#define _LM2_DEFINE_V3_OPERATORS(type_name, scalar_type)
-#define _LM2_DEFINE_V4_OPERATORS(type_name, scalar_type)
+#  define _LM2_DEFINE_V2_OPERATORS(type_name, scalar_type)
+#  define _LM2_DEFINE_V3_OPERATORS(type_name, scalar_type)
+#  define _LM2_DEFINE_V4_OPERATORS(type_name, scalar_type)
+#  define _LM2_DEFINE_V2_CONSTRUCTORS(type_name, scalar_type)
+#  define _LM2_DEFINE_V3_CONSTRUCTORS(type_name, scalar_type)
+#  define _LM2_DEFINE_V4_CONSTRUCTORS(type_name, scalar_type)
 
 #endif

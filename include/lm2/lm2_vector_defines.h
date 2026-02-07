@@ -44,6 +44,43 @@ LM2_HEADER_BEGIN;
   LM2_API type_name name(type_name a);
 
 // =============================================================================
+// Vector Constructor Macros
+// =============================================================================
+// These macros declare helper functions for creating vectors from scalar values.
+
+// Constructor for V2 (takes x, y components)
+#define _LM2_DECLARE_V2_MAKE(type_name, scalar_type) \
+  LM2_API type_name type_name##_make(scalar_type x, scalar_type y);
+
+// Constructor for V3 (takes x, y, z components)
+#define _LM2_DECLARE_V3_MAKE(type_name, scalar_type) \
+  LM2_API type_name type_name##_make(scalar_type x, scalar_type y, scalar_type z);
+
+// Constructor for V4 (takes x, y, z, w components)
+#define _LM2_DECLARE_V4_MAKE(type_name, scalar_type) \
+  LM2_API type_name type_name##_make(scalar_type x, scalar_type y, scalar_type z, scalar_type w);
+
+// Splat constructor (all components set to same value)
+#define _LM2_DECLARE_V2_SPLAT(type_name, scalar_type) \
+  LM2_API type_name type_name##_splat(scalar_type v);
+
+#define _LM2_DECLARE_V3_SPLAT(type_name, scalar_type) \
+  LM2_API type_name type_name##_splat(scalar_type v);
+
+#define _LM2_DECLARE_V4_SPLAT(type_name, scalar_type) \
+  LM2_API type_name type_name##_splat(scalar_type v);
+
+// Zero constructor (all components set to 0)
+#define _LM2_DECLARE_V2_ZERO(type_name) \
+  LM2_API type_name type_name##_zero(void);
+
+#define _LM2_DECLARE_V3_ZERO(type_name) \
+  LM2_API type_name type_name##_zero(void);
+
+#define _LM2_DECLARE_V4_ZERO(type_name) \
+  LM2_API type_name type_name##_zero(void);
+
+// =============================================================================
 // Scalar Function Porting Macros
 // =============================================================================
 // These macros "port" scalar functions to work with vectors by applying them

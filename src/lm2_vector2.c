@@ -149,3 +149,47 @@ _LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2u64, u64)
 _LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2u32, u32)
 _LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2u16, u16)
 _LM2_IMPL_V2_ALL_SCALAR_FUNCS(lm2_v2u8, u8)
+
+// =============================================================================
+// V2 Constructor Implementations
+// =============================================================================
+
+#define _LM2_IMPL_V2_MAKE(type_name, scalar_type)                    \
+  LM2_API type_name type_name##_make(scalar_type x, scalar_type y) { \
+    type_name result = {                                             \
+        {x, y} \
+    };                                                     \
+    return result;                                                   \
+  }
+
+#define _LM2_IMPL_V2_SPLAT(type_name, scalar_type)     \
+  LM2_API type_name type_name##_splat(scalar_type v) { \
+    type_name result = {                               \
+        {v, v} \
+    };                                       \
+    return result;                                     \
+  }
+
+#define _LM2_IMPL_V2_ZERO(type_name, scalar_type) \
+  LM2_API type_name type_name##_zero(void) {      \
+    type_name result = {                          \
+        {(scalar_type)0, (scalar_type)0} \
+    };        \
+    return result;                                \
+  }
+
+#define _LM2_IMPL_V2_ALL_CONSTRUCTORS(type_name, scalar_type) \
+  _LM2_IMPL_V2_MAKE(type_name, scalar_type)                   \
+  _LM2_IMPL_V2_SPLAT(type_name, scalar_type)                  \
+  _LM2_IMPL_V2_ZERO(type_name, scalar_type)
+
+_LM2_IMPL_V2_ALL_CONSTRUCTORS(lm2_v2f64, double)
+_LM2_IMPL_V2_ALL_CONSTRUCTORS(lm2_v2f32, float)
+_LM2_IMPL_V2_ALL_CONSTRUCTORS(lm2_v2i64, int64_t)
+_LM2_IMPL_V2_ALL_CONSTRUCTORS(lm2_v2i32, int32_t)
+_LM2_IMPL_V2_ALL_CONSTRUCTORS(lm2_v2i16, int16_t)
+_LM2_IMPL_V2_ALL_CONSTRUCTORS(lm2_v2i8, int8_t)
+_LM2_IMPL_V2_ALL_CONSTRUCTORS(lm2_v2u64, uint64_t)
+_LM2_IMPL_V2_ALL_CONSTRUCTORS(lm2_v2u32, uint32_t)
+_LM2_IMPL_V2_ALL_CONSTRUCTORS(lm2_v2u16, uint16_t)
+_LM2_IMPL_V2_ALL_CONSTRUCTORS(lm2_v2u8, uint8_t)
