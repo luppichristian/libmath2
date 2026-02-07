@@ -38,6 +38,7 @@ SOFTWARE.
 #include "lm2/lm2_safe_ops.h"
 #include "lm2/lm2_scalar.h"
 #include "lm2/lm2_triangle.h"
+#include "lm2/lm2_triangle_geometry.h"
 #include "lm2/lm2_trigonometry.h"
 #include "lm2/lm2_vector2.h"
 #include "lm2/lm2_vector3.h"
