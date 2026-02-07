@@ -157,6 +157,38 @@ union lm2_v4u32;
 union lm2_v4u16;
 union lm2_v4u8;
 
+// Forward declarations for range types (needed for template)
+union lm2_range2f64;
+union lm2_range2f32;
+union lm2_range2i64;
+union lm2_range2i32;
+union lm2_range2i16;
+union lm2_range2i8;
+union lm2_range2u64;
+union lm2_range2u32;
+union lm2_range2u16;
+union lm2_range2u8;
+union lm2_range3f64;
+union lm2_range3f32;
+union lm2_range3i64;
+union lm2_range3i32;
+union lm2_range3i16;
+union lm2_range3i8;
+union lm2_range3u64;
+union lm2_range3u32;
+union lm2_range3u16;
+union lm2_range3u8;
+union lm2_range4f64;
+union lm2_range4f32;
+union lm2_range4i64;
+union lm2_range4i32;
+union lm2_range4i16;
+union lm2_range4i8;
+union lm2_range4u64;
+union lm2_range4u32;
+union lm2_range4u16;
+union lm2_range4u8;
+
 // Generic dispatcher for V2 vector-vector operations
 template <typename T, typename... Args>
 inline auto _lm2_generic_v2(
@@ -620,5 +652,94 @@ inline auto _lm2_generic_v23f(
 #  define _LM2_GENERIC_VF(name, ...)
 #  define _LM2_GENERIC_VALL(name, ...)
 #  define _LM2_GENERIC_V23F(name, ...)
+
+#endif
+
+// =============================================================================
+// Range2 Generics (for rectangle/AABB operations)
+// =============================================================================
+
+#ifndef LM2_NO_GENERICS
+#  ifdef __cplusplus
+
+// C++17 template-based dispatcher for range2/rectangle functions
+template <typename RangeType, typename... Args>
+inline auto _lm2_generic_range2(
+    auto&& f64,
+    auto&& f32,
+    auto&& i64,
+    auto&& i32,
+    auto&& i16,
+    auto&& i8,
+    auto&& u64,
+    auto&& u32,
+    auto&& u16,
+    auto&& u8,
+    RangeType first,
+    Args&&... rest) -> decltype(auto) {
+  using T = std::remove_cvref_t<RangeType>;
+  if constexpr (std::is_same_v<T, lm2_range2f64>) return f64(first, rest...);
+  else if constexpr (std::is_same_v<T, lm2_range2f32>)
+    return f32(first, rest...);
+  else if constexpr (std::is_same_v<T, lm2_range2i64>)
+    return i64(first, rest...);
+  else if constexpr (std::is_same_v<T, lm2_range2i32>)
+    return i32(first, rest...);
+  else if constexpr (std::is_same_v<T, lm2_range2i16>)
+    return i16(first, rest...);
+  else if constexpr (std::is_same_v<T, lm2_range2i8>)
+    return i8(first, rest...);
+  else if constexpr (std::is_same_v<T, lm2_range2u64>)
+    return u64(first, rest...);
+  else if constexpr (std::is_same_v<T, lm2_range2u32>)
+    return u32(first, rest...);
+  else if constexpr (std::is_same_v<T, lm2_range2u16>)
+    return u16(first, rest...);
+  else if constexpr (std::is_same_v<T, lm2_range2u8>)
+    return u8(first, rest...);
+  else
+    static_assert(sizeof(T) == 0, "Unsupported range2 type");
+}
+
+// Dispatcher for range2 functions (returns same type)
+#    define _LM2_GENERIC_RANGE2(name, ...) \
+      _lm2_generic_range2(lm2_range2f64_##name, lm2_range2f32_##name, lm2_range2i64_##name, lm2_range2i32_##name, lm2_range2i16_##name, lm2_range2i8_##name, lm2_range2u64_##name, lm2_range2u32_##name, lm2_range2u16_##name, lm2_range2u8_##name, __VA_ARGS__)
+
+// Dispatcher for range2 functions with scalar parameter
+#    define _LM2_GENERIC_RANGE2_SCALAR(name, ...) _LM2_GENERIC_RANGE2(name, __VA_ARGS__)
+
+// Dispatcher for range2 functions with vector parameter
+#    define _LM2_GENERIC_RANGE2_VEC(name, ...) _LM2_GENERIC_RANGE2(name, __VA_ARGS__)
+
+#  else
+
+// C11 _Generic for range2 functions
+#    define _LM2_GENERIC_RANGE2(name, first, ...) \
+      _Generic((first),                           \
+          lm2_range2f64: lm2_range2f64_##name,    \
+          lm2_range2f32: lm2_range2f32_##name,    \
+          lm2_range2i64: lm2_range2i64_##name,    \
+          lm2_range2i32: lm2_range2i32_##name,    \
+          lm2_range2i16: lm2_range2i16_##name,    \
+          lm2_range2i8: lm2_range2i8_##name,      \
+          lm2_range2u64: lm2_range2u64_##name,    \
+          lm2_range2u32: lm2_range2u32_##name,    \
+          lm2_range2u16: lm2_range2u16_##name,    \
+          lm2_range2u8: lm2_range2u8_##name)(first, __VA_ARGS__)
+
+// C11 _Generic for range2 functions with scalar parameter
+#    define _LM2_GENERIC_RANGE2_SCALAR(name, first, ...) _LM2_GENERIC_RANGE2(name, first, __VA_ARGS__)
+
+// C11 _Generic for range2 functions with vector parameter
+#    define _LM2_GENERIC_RANGE2_VEC(name, first, ...)    _LM2_GENERIC_RANGE2(name, first, __VA_ARGS__)
+
+#  endif
+
+#else
+
+// Expands to nothing when generics are disabled
+#  define _LM2_GENERIC_RANGE2(name, ...)
+#  define _LM2_GENERIC_RANGE2_SCALAR(name, ...)
+#  define _LM2_GENERIC_RANGE2_VEC(name, ...)
 
 #endif

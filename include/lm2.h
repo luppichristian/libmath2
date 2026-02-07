@@ -38,6 +38,7 @@ SOFTWARE.
 #include "lm2/lm2_range2.h"
 #include "lm2/lm2_range3.h"
 #include "lm2/lm2_range4.h"
+#include "lm2/lm2_rectangle.h"
 #include "lm2/lm2_safe_ops.h"
 #include "lm2/lm2_scalar.h"
 #include "lm2/lm2_triangle.h"

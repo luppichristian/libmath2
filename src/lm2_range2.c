@@ -191,6 +191,39 @@ SOFTWARE.
     return lm2_mul_##suffix(size.x, size.y);                            \
   }
 
+// =============================================================================
+// Range2 Scalar Function Implementation Macros
+// =============================================================================
+// These macros forward scalar functions to ranges by applying them
+// component-wise to both min and max vectors.
+
+// Unary scalar function (e.g., floor, ceil, abs)
+#define _LM2_IMPL_RANGE2_SCALAR_FUNC_1(type_name, vec_type, func_name) \
+  LM2_API type_name func_name##_##type_name(type_name a) {             \
+    type_name result;                                                  \
+    result.min = func_name##_##vec_type(a.min);                        \
+    result.max = func_name##_##vec_type(a.max);                        \
+    return result;                                                     \
+  }
+
+// Binary scalar function (e.g., min, max, pow, mod)
+#define _LM2_IMPL_RANGE2_SCALAR_FUNC_2(type_name, vec_type, func_name)  \
+  LM2_API type_name func_name##_##type_name(type_name a, type_name b) { \
+    type_name result;                                                   \
+    result.min = func_name##_##vec_type(a.min, b.min);                  \
+    result.max = func_name##_##vec_type(a.max, b.max);                  \
+    return result;                                                      \
+  }
+
+// Ternary scalar function (e.g., clamp, lerp, smoothstep)
+#define _LM2_IMPL_RANGE2_SCALAR_FUNC_3(type_name, vec_type, func_name)               \
+  LM2_API type_name func_name##_##type_name(type_name a, type_name b, type_name c) { \
+    type_name result;                                                                \
+    result.min = func_name##_##vec_type(a.min, b.min, c.min);                        \
+    result.max = func_name##_##vec_type(a.max, b.max, c.max);                        \
+    return result;                                                                   \
+  }
+
 // Master macro to implement all functions for a range2 type
 #define _LM2_IMPL_RANGE2_ALL(type_name, vec_type, scalar_type, suffix)           \
   _LM2_IMPL_RANGE2_FROM_MIN_MAX(type_name, vec_type, scalar_type, suffix)        \
@@ -209,7 +242,20 @@ SOFTWARE.
   _LM2_IMPL_RANGE2_CENTER(type_name, vec_type, scalar_type, suffix)              \
   _LM2_IMPL_RANGE2_CONTAINS_POINT(type_name, vec_type, scalar_type, suffix)      \
   _LM2_IMPL_RANGE2_OVERLAPS(type_name, vec_type, scalar_type, suffix)            \
-  _LM2_IMPL_RANGE2_AREA(type_name, vec_type, scalar_type, suffix)
+  _LM2_IMPL_RANGE2_AREA(type_name, vec_type, scalar_type, suffix)                \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_1(type_name, vec_type, lm2_floor)                 \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_1(type_name, vec_type, lm2_ceil)                  \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_1(type_name, vec_type, lm2_round)                 \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_1(type_name, vec_type, lm2_trunc)                 \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_1(type_name, vec_type, lm2_abs)                   \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_2(type_name, vec_type, lm2_floor_multiple)        \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_2(type_name, vec_type, lm2_ceil_multiple)         \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_2(type_name, vec_type, lm2_round_multiple)        \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_2(type_name, vec_type, lm2_trunc_multiple)        \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_2(type_name, vec_type, lm2_min)                   \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_2(type_name, vec_type, lm2_max)                   \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_3(type_name, vec_type, lm2_clamp)                 \
+  _LM2_IMPL_RANGE2_SCALAR_FUNC_3(type_name, vec_type, lm2_lerp)
 
 // =============================================================================
 // Range2 Implementations for All 10 Numeric Types

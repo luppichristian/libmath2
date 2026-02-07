@@ -125,36 +125,67 @@ LM2_HEADER_BEGIN;
   LM2_API scalar_type type_name##_area(type_name r);
 
 // =============================================================================
+// Range2 Scalar Function Declaration Macros
+// =============================================================================
+// These macros forward scalar functions to ranges by applying them
+// component-wise to both min and max vectors.
+
+// Unary scalar function (e.g., floor, ceil, abs, sqrt)
+#define _LM2_DECLARE_RANGE2_SCALAR_FUNC_1(type_name, func_name) \
+  LM2_API type_name func_name##_##type_name(type_name a);
+
+// Binary scalar function (e.g., min, max, pow, mod)
+#define _LM2_DECLARE_RANGE2_SCALAR_FUNC_2(type_name, func_name) \
+  LM2_API type_name func_name##_##type_name(type_name a, type_name b);
+
+// Ternary scalar function (e.g., clamp, lerp, smoothstep)
+#define _LM2_DECLARE_RANGE2_SCALAR_FUNC_3(type_name, func_name) \
+  LM2_API type_name func_name##_##type_name(type_name a, type_name b, type_name c);
+
+// =============================================================================
 // 2D Range (AABB) Type Definitions
 // =============================================================================
 // A range2 represents a 2D axis-aligned bounding box (AABB) or rectangle
 // with minimum and maximum points.
 
-#define _LM2_DEFINE_RANGE2(type_name, vec_type, scalar_type)   \
-  typedef union type_name {                                    \
-    vec_type e[2];                                             \
-    struct {                                                   \
-      vec_type min;                                            \
-      vec_type max;                                            \
-    };                                                         \
-    _LM2_RANGE_SUBSCRIPT_OP(vec_type)                          \
-  } type_name;                                                 \
-  _LM2_DECLARE_RANGE2_FROM_MIN_MAX(type_name, vec_type)        \
-  _LM2_DECLARE_RANGE2_FROM_CENTER_EXTENTS(type_name, vec_type) \
-  _LM2_DECLARE_RANGE2_FROM_CENTER_SIZE(type_name, vec_type)    \
-  _LM2_DECLARE_RANGE2_FROM_POSITION_SIZE(type_name, vec_type)  \
-  _LM2_DECLARE_RANGE2_ZERO(type_name)                          \
-  _LM2_DECLARE_RANGE2_NORMALIZE(type_name)                     \
-  _LM2_DECLARE_RANGE2_TRANSLATE(type_name, vec_type)           \
-  _LM2_DECLARE_RANGE2_SCALE(type_name, scalar_type)            \
-  _LM2_DECLARE_RANGE2_EXPAND(type_name, scalar_type)           \
-  _LM2_DECLARE_RANGE2_UNION(type_name)                         \
-  _LM2_DECLARE_RANGE2_INTERSECTION(type_name)                  \
-  _LM2_DECLARE_RANGE2_SIZE(type_name, vec_type)                \
-  _LM2_DECLARE_RANGE2_EXTENTS(type_name, vec_type)             \
-  _LM2_DECLARE_RANGE2_CENTER(type_name, vec_type)              \
-  _LM2_DECLARE_RANGE2_CONTAINS_POINT(type_name, vec_type)      \
-  _LM2_DECLARE_RANGE2_OVERLAPS(type_name)                      \
+#define _LM2_DEFINE_RANGE2(type_name, vec_type, scalar_type)       \
+  typedef union type_name {                                        \
+    vec_type e[2];                                                 \
+    struct {                                                       \
+      vec_type min;                                                \
+      vec_type max;                                                \
+    };                                                             \
+    _LM2_RANGE_SUBSCRIPT_OP(vec_type)                              \
+  } type_name;                                                     \
+  _LM2_DECLARE_RANGE2_FROM_MIN_MAX(type_name, vec_type)            \
+  _LM2_DECLARE_RANGE2_FROM_CENTER_EXTENTS(type_name, vec_type)     \
+  _LM2_DECLARE_RANGE2_FROM_CENTER_SIZE(type_name, vec_type)        \
+  _LM2_DECLARE_RANGE2_FROM_POSITION_SIZE(type_name, vec_type)      \
+  _LM2_DECLARE_RANGE2_ZERO(type_name)                              \
+  _LM2_DECLARE_RANGE2_NORMALIZE(type_name)                         \
+  _LM2_DECLARE_RANGE2_TRANSLATE(type_name, vec_type)               \
+  _LM2_DECLARE_RANGE2_SCALE(type_name, scalar_type)                \
+  _LM2_DECLARE_RANGE2_EXPAND(type_name, scalar_type)               \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_1(type_name, lm2_floor)          \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_1(type_name, lm2_ceil)           \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_1(type_name, lm2_round)          \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_1(type_name, lm2_trunc)          \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_1(type_name, lm2_abs)            \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_2(type_name, lm2_floor_multiple) \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_2(type_name, lm2_ceil_multiple)  \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_2(type_name, lm2_round_multiple) \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_2(type_name, lm2_trunc_multiple) \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_2(type_name, lm2_min)            \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_2(type_name, lm2_max)            \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_3(type_name, lm2_clamp)          \
+  _LM2_DECLARE_RANGE2_SCALAR_FUNC_3(type_name, lm2_lerp)           \
+  _LM2_DECLARE_RANGE2_UNION(type_name)                             \
+  _LM2_DECLARE_RANGE2_INTERSECTION(type_name)                      \
+  _LM2_DECLARE_RANGE2_SIZE(type_name, vec_type)                    \
+  _LM2_DECLARE_RANGE2_EXTENTS(type_name, vec_type)                 \
+  _LM2_DECLARE_RANGE2_CENTER(type_name, vec_type)                  \
+  _LM2_DECLARE_RANGE2_CONTAINS_POINT(type_name, vec_type)          \
+  _LM2_DECLARE_RANGE2_OVERLAPS(type_name)                          \
   _LM2_DECLARE_RANGE2_AREA(type_name, scalar_type)
 
 // 2D Range types for all 10 numeric types
