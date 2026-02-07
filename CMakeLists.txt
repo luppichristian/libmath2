@@ -13,7 +13,7 @@ option(LM2_GTEST_FETCH "Fetch GoogleTest if not found" ON)
 
 # --- Library ---
 
-file(GLOB LM2_SOURCES src/*.c)
+file(GLOB LM2_SOURCES src/*/*.c)
 
 if(LM2_BUILD_SHARED)
     add_library(libmath2 SHARED ${LM2_SOURCES})

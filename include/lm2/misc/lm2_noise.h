@@ -24,33 +24,35 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2/lm2_base.h"
+#include "lm2/scalar/lm2_safe_ops.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
 // #############################################################################
 
-// PI
-#define LM2_PI_F32  3.14159265358979323846f
-#define LM2_PI_F64  3.14159265358979323846
-#define LM2_2PI_F32 6.28318530717958647692f
-#define LM2_2PI_F64 6.28318530717958647692
-#define LM2_HPI_F32 1.57079632679489661923f
-#define LM2_HPI_F64 1.57079632679489661923
+// Perlin Noise 2D (returns value in [-1, 1])
+LM2_API double lm2_perlin_2d_f64(double x, double y);
+LM2_API float lm2_perlin_2d_f32(float x, float y);
 
-// Radians to degrees and vice versa
-#define LM2_RAD_TO_DEG_F32 57.2957795130823208768f
-#define LM2_RAD_TO_DEG_F64 57.2957795130823208768
-#define LM2_DEG_TO_RAD_F32 0.01745329251994329577f
-#define LM2_DEG_TO_RAD_F64 0.01745329251994329577
+// Perlin Noise 3D (returns value in [-1, 1])
+LM2_API double lm2_perlin_3d_f64(double x, double y, double z);
+LM2_API float lm2_perlin_3d_f32(float x, float y, float z);
 
-// Other useful constants
-#define LM2_EULER_F32 0.57721566490153286060f
-#define LM2_EULER_F64 0.57721566490153286060
-#define LM2_SQRT2_F32 1.41421356237309504880f
-#define LM2_SQRT2_F64 1.41421356237309504880
-#define LM2_E_F32     2.71828182845904523536f
-#define LM2_E_F64     2.71828182845904523536
+// Voronoi Noise 2D (returns Euclidean distance to nearest feature point)
+LM2_API double lm2_voronoi_2d_f64(double x, double y);
+LM2_API float lm2_voronoi_2d_f32(float x, float y);
+
+// Voronoi Noise 3D (returns Euclidean distance to nearest feature point)
+LM2_API double lm2_voronoi_3d_f64(double x, double y, double z);
+LM2_API float lm2_voronoi_3d_f32(float x, float y, float z);
+
+// Generics
+#ifndef LM2_NO_GENERICS
+#  define lm2_perlin_2d(...)  _LM2_GENERIC(lm2_perlin_2d, __VA_ARGS__)
+#  define lm2_perlin_3d(...)  _LM2_GENERIC(lm2_perlin_3d, __VA_ARGS__)
+#  define lm2_voronoi_2d(...) _LM2_GENERIC(lm2_voronoi_2d, __VA_ARGS__)
+#  define lm2_voronoi_3d(...) _LM2_GENERIC(lm2_voronoi_3d, __VA_ARGS__)
+#endif
 
 // #############################################################################
 LM2_HEADER_END;
