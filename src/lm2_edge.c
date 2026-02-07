@@ -25,6 +25,7 @@ SOFTWARE.
 #include <lm2/lm2_edge.h>
 #include <lm2/lm2_safe_ops.h>
 #include <lm2/lm2_scalar.h>
+#include <lm2/lm2_vector_specifics.h>
 
 // =============================================================================
 // Construction Helpers
@@ -116,31 +117,12 @@ LM2_API bool lm2_edges_equal_f32(lm2_edge_f32 e1, lm2_edge_f32 e2, float epsilon
 // Edge Intersection
 // =============================================================================
 
-// Helper to compute cross product sign for point relative to line
-static double _lm2_point_line_sign_f64(lm2_v2f64 p, lm2_v2f64 a, lm2_v2f64 b) {
-  double dx1 = lm2_sub_f64(p.x, b.x);
-  double dy1 = lm2_sub_f64(a.y, b.y);
-  double dx2 = lm2_sub_f64(a.x, b.x);
-  double dy2 = lm2_sub_f64(p.y, b.y);
-
-  return lm2_sub_f64(lm2_mul_f64(dx1, dy1), lm2_mul_f64(dx2, dy2));
-}
-
-static float _lm2_point_line_sign_f32(lm2_v2f32 p, lm2_v2f32 a, lm2_v2f32 b) {
-  float dx1 = lm2_sub_f32(p.x, b.x);
-  float dy1 = lm2_sub_f32(a.y, b.y);
-  float dx2 = lm2_sub_f32(a.x, b.x);
-  float dy2 = lm2_sub_f32(p.y, b.y);
-
-  return lm2_sub_f32(lm2_mul_f32(dx1, dy1), lm2_mul_f32(dx2, dy2));
-}
-
 LM2_API bool lm2_edges_intersect_f64(lm2_edge_f64 e1, lm2_edge_f64 e2) {
   // Use cross products to check intersection
-  double d1 = _lm2_point_line_sign_f64(e1.start, e2.start, e2.end);
-  double d2 = _lm2_point_line_sign_f64(e1.end, e2.start, e2.end);
-  double d3 = _lm2_point_line_sign_f64(e2.start, e1.start, e1.end);
-  double d4 = _lm2_point_line_sign_f64(e2.end, e1.start, e1.end);
+  double d1 = lm2_cross3_v2f64(e2.end, e1.start, e2.start);
+  double d2 = lm2_cross3_v2f64(e2.end, e1.end, e2.start);
+  double d3 = lm2_cross3_v2f64(e1.end, e2.start, e1.start);
+  double d4 = lm2_cross3_v2f64(e1.end, e2.end, e1.start);
 
   if (((d1 > 0.0 && d2 < 0.0) || (d1 < 0.0 && d2 > 0.0)) &&
       ((d3 > 0.0 && d4 < 0.0) || (d3 < 0.0 && d4 > 0.0))) {
@@ -157,10 +139,10 @@ LM2_API bool lm2_edges_intersect_f64(lm2_edge_f64 e1, lm2_edge_f64 e2) {
 }
 
 LM2_API bool lm2_edges_intersect_f32(lm2_edge_f32 e1, lm2_edge_f32 e2) {
-  float d1 = _lm2_point_line_sign_f32(e1.start, e2.start, e2.end);
-  float d2 = _lm2_point_line_sign_f32(e1.end, e2.start, e2.end);
-  float d3 = _lm2_point_line_sign_f32(e2.start, e1.start, e1.end);
-  float d4 = _lm2_point_line_sign_f32(e2.end, e1.start, e1.end);
+  float d1 = lm2_cross3_v2f32(e2.end, e1.start, e2.start);
+  float d2 = lm2_cross3_v2f32(e2.end, e1.end, e2.start);
+  float d3 = lm2_cross3_v2f32(e1.end, e2.start, e1.start);
+  float d4 = lm2_cross3_v2f32(e1.end, e2.end, e1.start);
 
   if (((d1 > 0.0f && d2 < 0.0f) || (d1 < 0.0f && d2 > 0.0f)) &&
       ((d3 > 0.0f && d4 < 0.0f) || (d3 < 0.0f && d4 > 0.0f))) {

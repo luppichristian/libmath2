@@ -2,6 +2,33 @@
 
 This document provides guidelines for AI agents and developers working on the libmath2 codebase.
 
+## Library Modules Overview
+
+Quick reference of all libmath2 modules:
+
+| Module | Description |
+|--------|-------------|
+| **lm2_base.h** | Base types, macros, and core definitions |
+| **lm2_constants.h** | Mathematical constants (PI, E, etc.) |
+| **lm2_generic.h** | Type-generic macro utilities (`_LM2_GENERIC`) |
+| **lm2_safe_ops.h** | Safe arithmetic operations with overflow/underflow detection |
+| **lm2_scalar.h** | Scalar math functions (sqrt, pow, floor, ceil, abs, etc.) |
+| **lm2_trigonometry.h** | Trigonometric functions (sin, cos, tan, asin, acos, atan, atan2) |
+| **lm2_easings.h** | Easing functions for animations and interpolations |
+| **lm2_noise.h** | Noise generation functions (Perlin, simplex, etc.) |
+| **lm2_hash.h** | Hash functions for various data types |
+| **lm2_bezier_curves.h** | Bézier curve calculations |
+| **lm2_vector2.h** | 2D vector operations |
+| **lm2_vector3.h** | 3D vector operations |
+| **lm2_vector4.h** | 4D vector operations |
+| **lm2_vector_defines.h** | Vector type definitions and structure declarations |
+| **lm2_vector_operators.h** | Generic vector operator macros |
+| **lm2_vector_specifics.h** | Vector-specific utility functions |
+| **lm2_edge.h** | Edge calculations and operations |
+| **lm2_triangle.h** | Triangle calculations and operations |
+
+**Note:** Keep this list up to date when adding or modifying modules.
+
 ## Code Safety and Consistency Standards
 
 ### 1. Use Safe Operations Instead of Standard C Operators
@@ -98,6 +125,7 @@ double result = lm2_mul_f64(lm2_sin_f64(angle), lm2_cos_f64(angle));
 
 When implementing or modifying functions in libmath2, ensure:
 
+- [ ] Use `LM2_API` in all function declarations (both in headers and implementations)
 - [ ] Include `libmath2_safe_ops.h` for arithmetic operations
 - [ ] Include `libmath2_scalar.h` for scalar math functions
 - [ ] Include `libmath2_trigonometry.h` for trigonometric functions
@@ -128,12 +156,94 @@ The following files have been updated to follow these standards:
 
 The implementations of the safe operations themselves (in `libmath2_safe_ops.c`) and certain low-level wrappers (like `lm2_sin_f64` calling `sin()`) are exempt from these rules, as they form the foundation of the abstraction layer.
 
+## Creating Generic Functions
+
+libmath2 provides a consistent pattern for creating type-generic functions that work across all 10 standard numeric types (`f64`, `f32`, `i64`, `i32`, `i16`, `i8`, `u64`, `u32`, `u16`, `u8`).
+
+### The Generic Function Pattern
+
+**Step 1: Define Internal Generic Macro Utility**
+
+First, define an internal generic macro utility using the `_LM2_GENERIC` helper from `lm2_generic.h`. The internal utility should have an underscore prefix:
+
+```c
+#include <lm2/lm2_generic.h>
+
+// Internal generic macro utility (with underscore prefix)
+#define _lm2_my_function(x, y) _LM2_GENERIC(lm2_my_function, x, y)
+```
+
+**Step 2: Define Public Generic Function**
+
+Then define the public generic function macro using the internal utility:
+
+```c
+#ifndef LM2_NO_GENERICS
+  #define lm2_my_function(x, y) _lm2_my_function(x, y)
+#endif
+```
+
+**Step 3: Implement Type-Specific Variants**
+
+Implement all type-specific variants that the generic macro will dispatch to:
+
+```c
+// In header file
+double lm2_my_function_f64(double x, double y);
+float lm2_my_function_f32(float x, float y);
+int64_t lm2_my_function_i64(int64_t x, int64_t y);
+// ... (continue for all 10 types)
+
+// In source file
+double lm2_my_function_f64(double x, double y) {
+    return lm2_add_f64(x, y);  // Use safe operations!
+}
+// ... (implement remaining variants)
+```
+
+### Complete Example
+
+Here's a complete example from `lm2_safe_ops.h`:
+
+```c
+// 1. Define internal generic macro utility
+#define _lm2_add(a, b) _LM2_GENERIC(lm2_add, a, b)
+
+// 2. Define public generic function
+#ifndef LM2_NO_GENERICS
+  #define lm2_add(a, b) _lm2_add(a, b)
+#endif
+
+// 3. Type-specific implementations exist
+// lm2_add_f64, lm2_add_f32, lm2_add_i64, etc.
+```
+
+### Key Rules
+
+1. **Always define the internal utility first** (with underscore prefix)
+2. **Then define the public generic function** using the internal utility
+3. **Implement all 10 type-specific variants** (`_f64`, `_f32`, `_i64`, `_i32`, `_i16`, `_i8`, `_u64`, `_u32`, `_u16`, `_u8`)
+4. **Respect `LM2_NO_GENERICS`** - wrap public generic macros in `#ifndef LM2_NO_GENERICS`
+5. **The first argument determines the dispatch** - `_LM2_GENERIC` uses the first variadic argument to determine which type-specific function to call
+
+### How It Works
+
+- **C11**: Uses `_Generic` keyword for compile-time type selection
+- **C++17**: Uses template specialization with `std::is_same_v` for type selection
+- Both approaches provide zero runtime overhead - the correct function is selected at compile time
+
 ## Adding New Functions
 
 When adding new mathematical functions to libmath2:
 
-1. Define the function prototype in the appropriate header
-2. Implement both `_f64` and `_f32` variants
+1. Define the function prototype in the appropriate header using `LM2_API`
+2. Implement all 10 type-specific variants (`_f64`, `_f32`, `_i64`, `_i32`, `_i16`, `_i8`, `_u64`, `_u32`, `_u16`, `_u8`) with `LM2_API`
 3. Use safe operations and libmath2 functions internally
-4. Add generic macro support if applicable
+4. Add generic macro support following the pattern above:
+   - Define internal generic macro utility (`_lm2_function_name`)
+   - Define public generic function (`lm2_function_name`)
 5. Update this document if introducing new categories of functions
+
+**Note:** If a module doesn't define a specific function or helper that is strictly related to that module's domain, you can add it yourself. Ensure the new function follows the library's conventions and is placed in the appropriate module.
+
+**Important:** Do not create examples or tests unless specifically requested.

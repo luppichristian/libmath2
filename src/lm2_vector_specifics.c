@@ -31,27 +31,27 @@ SOFTWARE.
 // Dot Product - 2D
 // =============================================================================
 
-double lm2_dot_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
+LM2_API double lm2_dot_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
   return lm2_add_f64(lm2_mul_f64(a.x, b.x), lm2_mul_f64(a.y, b.y));
 }
 
-float lm2_dot_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
+LM2_API float lm2_dot_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
   return lm2_add_f32(lm2_mul_f32(a.x, b.x), lm2_mul_f32(a.y, b.y));
 }
 
-int64_t lm2_dot_v2i64(lm2_v2i64 a, lm2_v2i64 b) {
+LM2_API int64_t lm2_dot_v2i64(lm2_v2i64 a, lm2_v2i64 b) {
   return lm2_add_i64(lm2_mul_i64(a.x, b.x), lm2_mul_i64(a.y, b.y));
 }
 
-int32_t lm2_dot_v2i32(lm2_v2i32 a, lm2_v2i32 b) {
+LM2_API int32_t lm2_dot_v2i32(lm2_v2i32 a, lm2_v2i32 b) {
   return lm2_add_i32(lm2_mul_i32(a.x, b.x), lm2_mul_i32(a.y, b.y));
 }
 
-int16_t lm2_dot_v2i16(lm2_v2i16 a, lm2_v2i16 b) {
+LM2_API int16_t lm2_dot_v2i16(lm2_v2i16 a, lm2_v2i16 b) {
   return lm2_add_i16(lm2_mul_i16(a.x, b.x), lm2_mul_i16(a.y, b.y));
 }
 
-int8_t lm2_dot_v2i8(lm2_v2i8 a, lm2_v2i8 b) {
+LM2_API int8_t lm2_dot_v2i8(lm2_v2i8 a, lm2_v2i8 b) {
   return lm2_add_i8(lm2_mul_i8(a.x, b.x), lm2_mul_i8(a.y, b.y));
 }
 
@@ -59,37 +59,37 @@ int8_t lm2_dot_v2i8(lm2_v2i8 a, lm2_v2i8 b) {
 // Dot Product - 3D
 // =============================================================================
 
-double lm2_dot_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
+LM2_API double lm2_dot_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
   return lm2_add_f64(
       lm2_add_f64(lm2_mul_f64(a.x, b.x), lm2_mul_f64(a.y, b.y)),
       lm2_mul_f64(a.z, b.z));
 }
 
-float lm2_dot_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
+LM2_API float lm2_dot_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
   return lm2_add_f32(
       lm2_add_f32(lm2_mul_f32(a.x, b.x), lm2_mul_f32(a.y, b.y)),
       lm2_mul_f32(a.z, b.z));
 }
 
-int64_t lm2_dot_v3i64(lm2_v3i64 a, lm2_v3i64 b) {
+LM2_API int64_t lm2_dot_v3i64(lm2_v3i64 a, lm2_v3i64 b) {
   return lm2_add_i64(
       lm2_add_i64(lm2_mul_i64(a.x, b.x), lm2_mul_i64(a.y, b.y)),
       lm2_mul_i64(a.z, b.z));
 }
 
-int32_t lm2_dot_v3i32(lm2_v3i32 a, lm2_v3i32 b) {
+LM2_API int32_t lm2_dot_v3i32(lm2_v3i32 a, lm2_v3i32 b) {
   return lm2_add_i32(
       lm2_add_i32(lm2_mul_i32(a.x, b.x), lm2_mul_i32(a.y, b.y)),
       lm2_mul_i32(a.z, b.z));
 }
 
-int16_t lm2_dot_v3i16(lm2_v3i16 a, lm2_v3i16 b) {
+LM2_API int16_t lm2_dot_v3i16(lm2_v3i16 a, lm2_v3i16 b) {
   return lm2_add_i16(
       lm2_add_i16(lm2_mul_i16(a.x, b.x), lm2_mul_i16(a.y, b.y)),
       lm2_mul_i16(a.z, b.z));
 }
 
-int8_t lm2_dot_v3i8(lm2_v3i8 a, lm2_v3i8 b) {
+LM2_API int8_t lm2_dot_v3i8(lm2_v3i8 a, lm2_v3i8 b) {
   return lm2_add_i8(
       lm2_add_i8(lm2_mul_i8(a.x, b.x), lm2_mul_i8(a.y, b.y)),
       lm2_mul_i8(a.z, b.z));
@@ -99,37 +99,37 @@ int8_t lm2_dot_v3i8(lm2_v3i8 a, lm2_v3i8 b) {
 // Dot Product - 4D
 // =============================================================================
 
-double lm2_dot_v4f64(lm2_v4f64 a, lm2_v4f64 b) {
+LM2_API double lm2_dot_v4f64(lm2_v4f64 a, lm2_v4f64 b) {
   return lm2_add_f64(
       lm2_add_f64(lm2_mul_f64(a.x, b.x), lm2_mul_f64(a.y, b.y)),
       lm2_add_f64(lm2_mul_f64(a.z, b.z), lm2_mul_f64(a.w, b.w)));
 }
 
-float lm2_dot_v4f32(lm2_v4f32 a, lm2_v4f32 b) {
+LM2_API float lm2_dot_v4f32(lm2_v4f32 a, lm2_v4f32 b) {
   return lm2_add_f32(
       lm2_add_f32(lm2_mul_f32(a.x, b.x), lm2_mul_f32(a.y, b.y)),
       lm2_add_f32(lm2_mul_f32(a.z, b.z), lm2_mul_f32(a.w, b.w)));
 }
 
-int64_t lm2_dot_v4i64(lm2_v4i64 a, lm2_v4i64 b) {
+LM2_API int64_t lm2_dot_v4i64(lm2_v4i64 a, lm2_v4i64 b) {
   return lm2_add_i64(
       lm2_add_i64(lm2_mul_i64(a.x, b.x), lm2_mul_i64(a.y, b.y)),
       lm2_add_i64(lm2_mul_i64(a.z, b.z), lm2_mul_i64(a.w, b.w)));
 }
 
-int32_t lm2_dot_v4i32(lm2_v4i32 a, lm2_v4i32 b) {
+LM2_API int32_t lm2_dot_v4i32(lm2_v4i32 a, lm2_v4i32 b) {
   return lm2_add_i32(
       lm2_add_i32(lm2_mul_i32(a.x, b.x), lm2_mul_i32(a.y, b.y)),
       lm2_add_i32(lm2_mul_i32(a.z, b.z), lm2_mul_i32(a.w, b.w)));
 }
 
-int16_t lm2_dot_v4i16(lm2_v4i16 a, lm2_v4i16 b) {
+LM2_API int16_t lm2_dot_v4i16(lm2_v4i16 a, lm2_v4i16 b) {
   return lm2_add_i16(
       lm2_add_i16(lm2_mul_i16(a.x, b.x), lm2_mul_i16(a.y, b.y)),
       lm2_add_i16(lm2_mul_i16(a.z, b.z), lm2_mul_i16(a.w, b.w)));
 }
 
-int8_t lm2_dot_v4i8(lm2_v4i8 a, lm2_v4i8 b) {
+LM2_API int8_t lm2_dot_v4i8(lm2_v4i8 a, lm2_v4i8 b) {
   return lm2_add_i8(
       lm2_add_i8(lm2_mul_i8(a.x, b.x), lm2_mul_i8(a.y, b.y)),
       lm2_add_i8(lm2_mul_i8(a.z, b.z), lm2_mul_i8(a.w, b.w)));
@@ -139,7 +139,7 @@ int8_t lm2_dot_v4i8(lm2_v4i8 a, lm2_v4i8 b) {
 // Cross Product - 3D only
 // =============================================================================
 
-lm2_v3f64 lm2_cross_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
+LM2_API lm2_v3f64 lm2_cross_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
   lm2_v3f64 result;
   result.x = lm2_sub_f64(lm2_mul_f64(a.y, b.z), lm2_mul_f64(a.z, b.y));
   result.y = lm2_sub_f64(lm2_mul_f64(a.z, b.x), lm2_mul_f64(a.x, b.z));
@@ -147,7 +147,7 @@ lm2_v3f64 lm2_cross_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
   return result;
 }
 
-lm2_v3f32 lm2_cross_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
+LM2_API lm2_v3f32 lm2_cross_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
   lm2_v3f32 result;
   result.x = lm2_sub_f32(lm2_mul_f32(a.y, b.z), lm2_mul_f32(a.z, b.y));
   result.y = lm2_sub_f32(lm2_mul_f32(a.z, b.x), lm2_mul_f32(a.x, b.z));
@@ -155,7 +155,7 @@ lm2_v3f32 lm2_cross_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
   return result;
 }
 
-lm2_v3i64 lm2_cross_v3i64(lm2_v3i64 a, lm2_v3i64 b) {
+LM2_API lm2_v3i64 lm2_cross_v3i64(lm2_v3i64 a, lm2_v3i64 b) {
   lm2_v3i64 result;
   result.x = lm2_sub_i64(lm2_mul_i64(a.y, b.z), lm2_mul_i64(a.z, b.y));
   result.y = lm2_sub_i64(lm2_mul_i64(a.z, b.x), lm2_mul_i64(a.x, b.z));
@@ -163,7 +163,7 @@ lm2_v3i64 lm2_cross_v3i64(lm2_v3i64 a, lm2_v3i64 b) {
   return result;
 }
 
-lm2_v3i32 lm2_cross_v3i32(lm2_v3i32 a, lm2_v3i32 b) {
+LM2_API lm2_v3i32 lm2_cross_v3i32(lm2_v3i32 a, lm2_v3i32 b) {
   lm2_v3i32 result;
   result.x = lm2_sub_i32(lm2_mul_i32(a.y, b.z), lm2_mul_i32(a.z, b.y));
   result.y = lm2_sub_i32(lm2_mul_i32(a.z, b.x), lm2_mul_i32(a.x, b.z));
@@ -171,7 +171,7 @@ lm2_v3i32 lm2_cross_v3i32(lm2_v3i32 a, lm2_v3i32 b) {
   return result;
 }
 
-lm2_v3i16 lm2_cross_v3i16(lm2_v3i16 a, lm2_v3i16 b) {
+LM2_API lm2_v3i16 lm2_cross_v3i16(lm2_v3i16 a, lm2_v3i16 b) {
   lm2_v3i16 result;
   result.x = lm2_sub_i16(lm2_mul_i16(a.y, b.z), lm2_mul_i16(a.z, b.y));
   result.y = lm2_sub_i16(lm2_mul_i16(a.z, b.x), lm2_mul_i16(a.x, b.z));
@@ -179,7 +179,7 @@ lm2_v3i16 lm2_cross_v3i16(lm2_v3i16 a, lm2_v3i16 b) {
   return result;
 }
 
-lm2_v3i8 lm2_cross_v3i8(lm2_v3i8 a, lm2_v3i8 b) {
+LM2_API lm2_v3i8 lm2_cross_v3i8(lm2_v3i8 a, lm2_v3i8 b) {
   lm2_v3i8 result;
   result.x = lm2_sub_i8(lm2_mul_i8(a.y, b.z), lm2_mul_i8(a.z, b.y));
   result.y = lm2_sub_i8(lm2_mul_i8(a.z, b.x), lm2_mul_i8(a.x, b.z));
@@ -191,27 +191,27 @@ lm2_v3i8 lm2_cross_v3i8(lm2_v3i8 a, lm2_v3i8 b) {
 // 2D Cross Product (returns scalar)
 // =============================================================================
 
-double lm2_cross_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
+LM2_API double lm2_cross_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
   return lm2_sub_f64(lm2_mul_f64(a.x, b.y), lm2_mul_f64(a.y, b.x));
 }
 
-float lm2_cross_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
+LM2_API float lm2_cross_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
   return lm2_sub_f32(lm2_mul_f32(a.x, b.y), lm2_mul_f32(a.y, b.x));
 }
 
-int64_t lm2_cross_v2i64(lm2_v2i64 a, lm2_v2i64 b) {
+LM2_API int64_t lm2_cross_v2i64(lm2_v2i64 a, lm2_v2i64 b) {
   return lm2_sub_i64(lm2_mul_i64(a.x, b.y), lm2_mul_i64(a.y, b.x));
 }
 
-int32_t lm2_cross_v2i32(lm2_v2i32 a, lm2_v2i32 b) {
+LM2_API int32_t lm2_cross_v2i32(lm2_v2i32 a, lm2_v2i32 b) {
   return lm2_sub_i32(lm2_mul_i32(a.x, b.y), lm2_mul_i32(a.y, b.x));
 }
 
-int16_t lm2_cross_v2i16(lm2_v2i16 a, lm2_v2i16 b) {
+LM2_API int16_t lm2_cross_v2i16(lm2_v2i16 a, lm2_v2i16 b) {
   return lm2_sub_i16(lm2_mul_i16(a.x, b.y), lm2_mul_i16(a.y, b.x));
 }
 
-int8_t lm2_cross_v2i8(lm2_v2i8 a, lm2_v2i8 b) {
+LM2_API int8_t lm2_cross_v2i8(lm2_v2i8 a, lm2_v2i8 b) {
   return lm2_sub_i8(lm2_mul_i8(a.x, b.y), lm2_mul_i8(a.y, b.x));
 }
 
@@ -219,7 +219,7 @@ int8_t lm2_cross_v2i8(lm2_v2i8 a, lm2_v2i8 b) {
 // 2D Cross Product for Turn Detection (3-point version)
 // =============================================================================
 
-double lm2_cross3_v2f64(lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c) {
+LM2_API double lm2_cross3_v2f64(lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c) {
   // Compute vectors (b - a) and (c - a), then their cross product
   double abx = lm2_sub_f64(b.x, a.x);
   double aby = lm2_sub_f64(b.y, a.y);
@@ -228,7 +228,7 @@ double lm2_cross3_v2f64(lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c) {
   return lm2_sub_f64(lm2_mul_f64(abx, acy), lm2_mul_f64(aby, acx));
 }
 
-float lm2_cross3_v2f32(lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c) {
+LM2_API float lm2_cross3_v2f32(lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c) {
   // Compute vectors (b - a) and (c - a), then their cross product
   float abx = lm2_sub_f32(b.x, a.x);
   float aby = lm2_sub_f32(b.y, a.y);
@@ -237,7 +237,7 @@ float lm2_cross3_v2f32(lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c) {
   return lm2_sub_f32(lm2_mul_f32(abx, acy), lm2_mul_f32(aby, acx));
 }
 
-int64_t lm2_cross3_v2i64(lm2_v2i64 a, lm2_v2i64 b, lm2_v2i64 c) {
+LM2_API int64_t lm2_cross3_v2i64(lm2_v2i64 a, lm2_v2i64 b, lm2_v2i64 c) {
   // Compute vectors (b - a) and (c - a), then their cross product
   int64_t abx = lm2_sub_i64(b.x, a.x);
   int64_t aby = lm2_sub_i64(b.y, a.y);
@@ -246,7 +246,7 @@ int64_t lm2_cross3_v2i64(lm2_v2i64 a, lm2_v2i64 b, lm2_v2i64 c) {
   return lm2_sub_i64(lm2_mul_i64(abx, acy), lm2_mul_i64(aby, acx));
 }
 
-int32_t lm2_cross3_v2i32(lm2_v2i32 a, lm2_v2i32 b, lm2_v2i32 c) {
+LM2_API int32_t lm2_cross3_v2i32(lm2_v2i32 a, lm2_v2i32 b, lm2_v2i32 c) {
   // Compute vectors (b - a) and (c - a), then their cross product
   int32_t abx = lm2_sub_i32(b.x, a.x);
   int32_t aby = lm2_sub_i32(b.y, a.y);
@@ -255,7 +255,7 @@ int32_t lm2_cross3_v2i32(lm2_v2i32 a, lm2_v2i32 b, lm2_v2i32 c) {
   return lm2_sub_i32(lm2_mul_i32(abx, acy), lm2_mul_i32(aby, acx));
 }
 
-int16_t lm2_cross3_v2i16(lm2_v2i16 a, lm2_v2i16 b, lm2_v2i16 c) {
+LM2_API int16_t lm2_cross3_v2i16(lm2_v2i16 a, lm2_v2i16 b, lm2_v2i16 c) {
   // Compute vectors (b - a) and (c - a), then their cross product
   int16_t abx = lm2_sub_i16(b.x, a.x);
   int16_t aby = lm2_sub_i16(b.y, a.y);
@@ -264,7 +264,7 @@ int16_t lm2_cross3_v2i16(lm2_v2i16 a, lm2_v2i16 b, lm2_v2i16 c) {
   return lm2_sub_i16(lm2_mul_i16(abx, acy), lm2_mul_i16(aby, acx));
 }
 
-int8_t lm2_cross3_v2i8(lm2_v2i8 a, lm2_v2i8 b, lm2_v2i8 c) {
+LM2_API int8_t lm2_cross3_v2i8(lm2_v2i8 a, lm2_v2i8 b, lm2_v2i8 c) {
   // Compute vectors (b - a) and (c - a), then their cross product
   int8_t abx = lm2_sub_i8(b.x, a.x);
   int8_t aby = lm2_sub_i8(b.y, a.y);
@@ -277,36 +277,36 @@ int8_t lm2_cross3_v2i8(lm2_v2i8 a, lm2_v2i8 b, lm2_v2i8 c) {
 // Length / Magnitude
 // =============================================================================
 
-double lm2_length_v2f64(lm2_v2f64 v) {
+LM2_API double lm2_length_v2f64(lm2_v2f64 v) {
   return lm2_sqrt_f64(lm2_add_f64(lm2_mul_f64(v.x, v.x), lm2_mul_f64(v.y, v.y)));
 }
 
-float lm2_length_v2f32(lm2_v2f32 v) {
+LM2_API float lm2_length_v2f32(lm2_v2f32 v) {
   return lm2_sqrt_f32(lm2_add_f32(lm2_mul_f32(v.x, v.x), lm2_mul_f32(v.y, v.y)));
 }
 
-double lm2_length_v3f64(lm2_v3f64 v) {
+LM2_API double lm2_length_v3f64(lm2_v3f64 v) {
   return lm2_sqrt_f64(
       lm2_add_f64(
           lm2_add_f64(lm2_mul_f64(v.x, v.x), lm2_mul_f64(v.y, v.y)),
           lm2_mul_f64(v.z, v.z)));
 }
 
-float lm2_length_v3f32(lm2_v3f32 v) {
+LM2_API float lm2_length_v3f32(lm2_v3f32 v) {
   return lm2_sqrt_f32(
       lm2_add_f32(
           lm2_add_f32(lm2_mul_f32(v.x, v.x), lm2_mul_f32(v.y, v.y)),
           lm2_mul_f32(v.z, v.z)));
 }
 
-double lm2_length_v4f64(lm2_v4f64 v) {
+LM2_API double lm2_length_v4f64(lm2_v4f64 v) {
   return lm2_sqrt_f64(
       lm2_add_f64(
           lm2_add_f64(lm2_mul_f64(v.x, v.x), lm2_mul_f64(v.y, v.y)),
           lm2_add_f64(lm2_mul_f64(v.z, v.z), lm2_mul_f64(v.w, v.w))));
 }
 
-float lm2_length_v4f32(lm2_v4f32 v) {
+LM2_API float lm2_length_v4f32(lm2_v4f32 v) {
   return lm2_sqrt_f32(
       lm2_add_f32(
           lm2_add_f32(lm2_mul_f32(v.x, v.x), lm2_mul_f32(v.y, v.y)),
@@ -317,33 +317,33 @@ float lm2_length_v4f32(lm2_v4f32 v) {
 // Length Squared
 // =============================================================================
 
-double lm2_length_sq_v2f64(lm2_v2f64 v) {
+LM2_API double lm2_length_sq_v2f64(lm2_v2f64 v) {
   return lm2_add_f64(lm2_mul_f64(v.x, v.x), lm2_mul_f64(v.y, v.y));
 }
 
-float lm2_length_sq_v2f32(lm2_v2f32 v) {
+LM2_API float lm2_length_sq_v2f32(lm2_v2f32 v) {
   return lm2_add_f32(lm2_mul_f32(v.x, v.x), lm2_mul_f32(v.y, v.y));
 }
 
-double lm2_length_sq_v3f64(lm2_v3f64 v) {
+LM2_API double lm2_length_sq_v3f64(lm2_v3f64 v) {
   return lm2_add_f64(
       lm2_add_f64(lm2_mul_f64(v.x, v.x), lm2_mul_f64(v.y, v.y)),
       lm2_mul_f64(v.z, v.z));
 }
 
-float lm2_length_sq_v3f32(lm2_v3f32 v) {
+LM2_API float lm2_length_sq_v3f32(lm2_v3f32 v) {
   return lm2_add_f32(
       lm2_add_f32(lm2_mul_f32(v.x, v.x), lm2_mul_f32(v.y, v.y)),
       lm2_mul_f32(v.z, v.z));
 }
 
-double lm2_length_sq_v4f64(lm2_v4f64 v) {
+LM2_API double lm2_length_sq_v4f64(lm2_v4f64 v) {
   return lm2_add_f64(
       lm2_add_f64(lm2_mul_f64(v.x, v.x), lm2_mul_f64(v.y, v.y)),
       lm2_add_f64(lm2_mul_f64(v.z, v.z), lm2_mul_f64(v.w, v.w)));
 }
 
-float lm2_length_sq_v4f32(lm2_v4f32 v) {
+LM2_API float lm2_length_sq_v4f32(lm2_v4f32 v) {
   return lm2_add_f32(
       lm2_add_f32(lm2_mul_f32(v.x, v.x), lm2_mul_f32(v.y, v.y)),
       lm2_add_f32(lm2_mul_f32(v.z, v.z), lm2_mul_f32(v.w, v.w)));
@@ -353,19 +353,19 @@ float lm2_length_sq_v4f32(lm2_v4f32 v) {
 // Distance
 // =============================================================================
 
-double lm2_distance_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
+LM2_API double lm2_distance_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
   double dx = lm2_sub_f64(b.x, a.x);
   double dy = lm2_sub_f64(b.y, a.y);
   return lm2_sqrt_f64(lm2_add_f64(lm2_mul_f64(dx, dx), lm2_mul_f64(dy, dy)));
 }
 
-float lm2_distance_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
+LM2_API float lm2_distance_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
   float dx = lm2_sub_f32(b.x, a.x);
   float dy = lm2_sub_f32(b.y, a.y);
   return lm2_sqrt_f32(lm2_add_f32(lm2_mul_f32(dx, dx), lm2_mul_f32(dy, dy)));
 }
 
-double lm2_distance_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
+LM2_API double lm2_distance_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
   double dx = lm2_sub_f64(b.x, a.x);
   double dy = lm2_sub_f64(b.y, a.y);
   double dz = lm2_sub_f64(b.z, a.z);
@@ -375,7 +375,7 @@ double lm2_distance_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
           lm2_mul_f64(dz, dz)));
 }
 
-float lm2_distance_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
+LM2_API float lm2_distance_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
   float dx = lm2_sub_f32(b.x, a.x);
   float dy = lm2_sub_f32(b.y, a.y);
   float dz = lm2_sub_f32(b.z, a.z);
@@ -385,7 +385,7 @@ float lm2_distance_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
           lm2_mul_f32(dz, dz)));
 }
 
-double lm2_distance_v4f64(lm2_v4f64 a, lm2_v4f64 b) {
+LM2_API double lm2_distance_v4f64(lm2_v4f64 a, lm2_v4f64 b) {
   double dx = lm2_sub_f64(b.x, a.x);
   double dy = lm2_sub_f64(b.y, a.y);
   double dz = lm2_sub_f64(b.z, a.z);
@@ -396,7 +396,7 @@ double lm2_distance_v4f64(lm2_v4f64 a, lm2_v4f64 b) {
           lm2_add_f64(lm2_mul_f64(dz, dz), lm2_mul_f64(dw, dw))));
 }
 
-float lm2_distance_v4f32(lm2_v4f32 a, lm2_v4f32 b) {
+LM2_API float lm2_distance_v4f32(lm2_v4f32 a, lm2_v4f32 b) {
   float dx = lm2_sub_f32(b.x, a.x);
   float dy = lm2_sub_f32(b.y, a.y);
   float dz = lm2_sub_f32(b.z, a.z);
@@ -411,19 +411,19 @@ float lm2_distance_v4f32(lm2_v4f32 a, lm2_v4f32 b) {
 // Distance Squared
 // =============================================================================
 
-double lm2_distance_sq_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
+LM2_API double lm2_distance_sq_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
   double dx = lm2_sub_f64(b.x, a.x);
   double dy = lm2_sub_f64(b.y, a.y);
   return lm2_add_f64(lm2_mul_f64(dx, dx), lm2_mul_f64(dy, dy));
 }
 
-float lm2_distance_sq_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
+LM2_API float lm2_distance_sq_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
   float dx = lm2_sub_f32(b.x, a.x);
   float dy = lm2_sub_f32(b.y, a.y);
   return lm2_add_f32(lm2_mul_f32(dx, dx), lm2_mul_f32(dy, dy));
 }
 
-double lm2_distance_sq_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
+LM2_API double lm2_distance_sq_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
   double dx = lm2_sub_f64(b.x, a.x);
   double dy = lm2_sub_f64(b.y, a.y);
   double dz = lm2_sub_f64(b.z, a.z);
@@ -432,7 +432,7 @@ double lm2_distance_sq_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
       lm2_mul_f64(dz, dz));
 }
 
-float lm2_distance_sq_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
+LM2_API float lm2_distance_sq_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
   float dx = lm2_sub_f32(b.x, a.x);
   float dy = lm2_sub_f32(b.y, a.y);
   float dz = lm2_sub_f32(b.z, a.z);
@@ -441,7 +441,7 @@ float lm2_distance_sq_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
       lm2_mul_f32(dz, dz));
 }
 
-double lm2_distance_sq_v4f64(lm2_v4f64 a, lm2_v4f64 b) {
+LM2_API double lm2_distance_sq_v4f64(lm2_v4f64 a, lm2_v4f64 b) {
   double dx = lm2_sub_f64(b.x, a.x);
   double dy = lm2_sub_f64(b.y, a.y);
   double dz = lm2_sub_f64(b.z, a.z);
@@ -451,7 +451,7 @@ double lm2_distance_sq_v4f64(lm2_v4f64 a, lm2_v4f64 b) {
       lm2_add_f64(lm2_mul_f64(dz, dz), lm2_mul_f64(dw, dw)));
 }
 
-float lm2_distance_sq_v4f32(lm2_v4f32 a, lm2_v4f32 b) {
+LM2_API float lm2_distance_sq_v4f32(lm2_v4f32 a, lm2_v4f32 b) {
   float dx = lm2_sub_f32(b.x, a.x);
   float dy = lm2_sub_f32(b.y, a.y);
   float dz = lm2_sub_f32(b.z, a.z);
@@ -465,7 +465,7 @@ float lm2_distance_sq_v4f32(lm2_v4f32 a, lm2_v4f32 b) {
 // Normalize
 // =============================================================================
 
-lm2_v2f64 lm2_normalize_v2f64(lm2_v2f64 v) {
+LM2_API lm2_v2f64 lm2_normalize_v2f64(lm2_v2f64 v) {
   double len = lm2_length_v2f64(v);
   lm2_v2f64 result;
   if (len == 0.0) {
@@ -478,7 +478,7 @@ lm2_v2f64 lm2_normalize_v2f64(lm2_v2f64 v) {
   return result;
 }
 
-lm2_v2f32 lm2_normalize_v2f32(lm2_v2f32 v) {
+LM2_API lm2_v2f32 lm2_normalize_v2f32(lm2_v2f32 v) {
   float len = lm2_length_v2f32(v);
   lm2_v2f32 result;
   if (len == 0.0f) {
@@ -491,7 +491,7 @@ lm2_v2f32 lm2_normalize_v2f32(lm2_v2f32 v) {
   return result;
 }
 
-lm2_v3f64 lm2_normalize_v3f64(lm2_v3f64 v) {
+LM2_API lm2_v3f64 lm2_normalize_v3f64(lm2_v3f64 v) {
   double len = lm2_length_v3f64(v);
   lm2_v3f64 result;
   if (len == 0.0) {
@@ -506,7 +506,7 @@ lm2_v3f64 lm2_normalize_v3f64(lm2_v3f64 v) {
   return result;
 }
 
-lm2_v3f32 lm2_normalize_v3f32(lm2_v3f32 v) {
+LM2_API lm2_v3f32 lm2_normalize_v3f32(lm2_v3f32 v) {
   float len = lm2_length_v3f32(v);
   lm2_v3f32 result;
   if (len == 0.0f) {
@@ -521,7 +521,7 @@ lm2_v3f32 lm2_normalize_v3f32(lm2_v3f32 v) {
   return result;
 }
 
-lm2_v4f64 lm2_normalize_v4f64(lm2_v4f64 v) {
+LM2_API lm2_v4f64 lm2_normalize_v4f64(lm2_v4f64 v) {
   double len = lm2_length_v4f64(v);
   lm2_v4f64 result;
   if (len == 0.0) {
@@ -538,7 +538,7 @@ lm2_v4f64 lm2_normalize_v4f64(lm2_v4f64 v) {
   return result;
 }
 
-lm2_v4f32 lm2_normalize_v4f32(lm2_v4f32 v) {
+LM2_API lm2_v4f32 lm2_normalize_v4f32(lm2_v4f32 v) {
   float len = lm2_length_v4f32(v);
   lm2_v4f32 result;
   if (len == 0.0f) {
@@ -559,7 +559,7 @@ lm2_v4f32 lm2_normalize_v4f32(lm2_v4f32 v) {
 // Angle Between Vectors
 // =============================================================================
 
-double lm2_angle_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
+LM2_API double lm2_angle_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
   double dot = lm2_dot_v2f64(a, b);
   double len_a = lm2_length_v2f64(a);
   double len_b = lm2_length_v2f64(b);
@@ -567,7 +567,7 @@ double lm2_angle_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
   return lm2_acos_f64(cos_angle);
 }
 
-float lm2_angle_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
+LM2_API float lm2_angle_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
   float dot = lm2_dot_v2f32(a, b);
   float len_a = lm2_length_v2f32(a);
   float len_b = lm2_length_v2f32(b);
@@ -575,7 +575,7 @@ float lm2_angle_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
   return lm2_acos_f32(cos_angle);
 }
 
-double lm2_angle_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
+LM2_API double lm2_angle_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
   double dot = lm2_dot_v3f64(a, b);
   double len_a = lm2_length_v3f64(a);
   double len_b = lm2_length_v3f64(b);
@@ -583,7 +583,7 @@ double lm2_angle_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
   return lm2_acos_f64(cos_angle);
 }
 
-float lm2_angle_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
+LM2_API float lm2_angle_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
   float dot = lm2_dot_v3f32(a, b);
   float len_a = lm2_length_v3f32(a);
   float len_b = lm2_length_v3f32(b);
@@ -595,7 +595,7 @@ float lm2_angle_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
 // 2D Rotation
 // =============================================================================
 
-lm2_v2f64 lm2_rotate_v2f64(lm2_v2f64 v, double angle) {
+LM2_API lm2_v2f64 lm2_rotate_v2f64(lm2_v2f64 v, double angle) {
   double c = lm2_cos_f64(angle);
   double s = lm2_sin_f64(angle);
   lm2_v2f64 result;
@@ -604,7 +604,7 @@ lm2_v2f64 lm2_rotate_v2f64(lm2_v2f64 v, double angle) {
   return result;
 }
 
-lm2_v2f32 lm2_rotate_v2f32(lm2_v2f32 v, float angle) {
+LM2_API lm2_v2f32 lm2_rotate_v2f32(lm2_v2f32 v, float angle) {
   float c = lm2_cos_f32(angle);
   float s = lm2_sin_f32(angle);
   lm2_v2f32 result;
@@ -613,7 +613,7 @@ lm2_v2f32 lm2_rotate_v2f32(lm2_v2f32 v, float angle) {
   return result;
 }
 
-lm2_v2f64 lm2_rotate_around_v2f64(lm2_v2f64 v, lm2_v2f64 point, double angle) {
+LM2_API lm2_v2f64 lm2_rotate_around_v2f64(lm2_v2f64 v, lm2_v2f64 point, double angle) {
   // Translate to origin
   lm2_v2f64 translated;
   translated.x = lm2_sub_f64(v.x, point.x);
@@ -629,7 +629,7 @@ lm2_v2f64 lm2_rotate_around_v2f64(lm2_v2f64 v, lm2_v2f64 point, double angle) {
   return result;
 }
 
-lm2_v2f32 lm2_rotate_around_v2f32(lm2_v2f32 v, lm2_v2f32 point, float angle) {
+LM2_API lm2_v2f32 lm2_rotate_around_v2f32(lm2_v2f32 v, lm2_v2f32 point, float angle) {
   // Translate to origin
   lm2_v2f32 translated;
   translated.x = lm2_sub_f32(v.x, point.x);
@@ -649,84 +649,84 @@ lm2_v2f32 lm2_rotate_around_v2f32(lm2_v2f32 v, lm2_v2f32 point, float angle) {
 // 2D Perpendicular Vectors
 // =============================================================================
 
-lm2_v2f64 lm2_perp_ccw_v2f64(lm2_v2f64 v) {
+LM2_API lm2_v2f64 lm2_perp_ccw_v2f64(lm2_v2f64 v) {
   lm2_v2f64 result;
   result.x = lm2_neg_f64(v.y);
   result.y = v.x;
   return result;
 }
 
-lm2_v2f32 lm2_perp_ccw_v2f32(lm2_v2f32 v) {
+LM2_API lm2_v2f32 lm2_perp_ccw_v2f32(lm2_v2f32 v) {
   lm2_v2f32 result;
   result.x = lm2_neg_f32(v.y);
   result.y = v.x;
   return result;
 }
 
-lm2_v2i64 lm2_perp_ccw_v2i64(lm2_v2i64 v) {
+LM2_API lm2_v2i64 lm2_perp_ccw_v2i64(lm2_v2i64 v) {
   lm2_v2i64 result;
   result.x = lm2_neg_i64(v.y);
   result.y = v.x;
   return result;
 }
 
-lm2_v2i32 lm2_perp_ccw_v2i32(lm2_v2i32 v) {
+LM2_API lm2_v2i32 lm2_perp_ccw_v2i32(lm2_v2i32 v) {
   lm2_v2i32 result;
   result.x = lm2_neg_i32(v.y);
   result.y = v.x;
   return result;
 }
 
-lm2_v2i16 lm2_perp_ccw_v2i16(lm2_v2i16 v) {
+LM2_API lm2_v2i16 lm2_perp_ccw_v2i16(lm2_v2i16 v) {
   lm2_v2i16 result;
   result.x = lm2_neg_i16(v.y);
   result.y = v.x;
   return result;
 }
 
-lm2_v2i8 lm2_perp_ccw_v2i8(lm2_v2i8 v) {
+LM2_API lm2_v2i8 lm2_perp_ccw_v2i8(lm2_v2i8 v) {
   lm2_v2i8 result;
   result.x = lm2_neg_i8(v.y);
   result.y = v.x;
   return result;
 }
 
-lm2_v2f64 lm2_perp_cw_v2f64(lm2_v2f64 v) {
+LM2_API lm2_v2f64 lm2_perp_cw_v2f64(lm2_v2f64 v) {
   lm2_v2f64 result;
   result.x = v.y;
   result.y = lm2_neg_f64(v.x);
   return result;
 }
 
-lm2_v2f32 lm2_perp_cw_v2f32(lm2_v2f32 v) {
+LM2_API lm2_v2f32 lm2_perp_cw_v2f32(lm2_v2f32 v) {
   lm2_v2f32 result;
   result.x = v.y;
   result.y = lm2_neg_f32(v.x);
   return result;
 }
 
-lm2_v2i64 lm2_perp_cw_v2i64(lm2_v2i64 v) {
+LM2_API lm2_v2i64 lm2_perp_cw_v2i64(lm2_v2i64 v) {
   lm2_v2i64 result;
   result.x = v.y;
   result.y = lm2_neg_i64(v.x);
   return result;
 }
 
-lm2_v2i32 lm2_perp_cw_v2i32(lm2_v2i32 v) {
+LM2_API lm2_v2i32 lm2_perp_cw_v2i32(lm2_v2i32 v) {
   lm2_v2i32 result;
   result.x = v.y;
   result.y = lm2_neg_i32(v.x);
   return result;
 }
 
-lm2_v2i16 lm2_perp_cw_v2i16(lm2_v2i16 v) {
+LM2_API lm2_v2i16 lm2_perp_cw_v2i16(lm2_v2i16 v) {
   lm2_v2i16 result;
   result.x = v.y;
   result.y = lm2_neg_i16(v.x);
   return result;
 }
 
-lm2_v2i8 lm2_perp_cw_v2i8(lm2_v2i8 v) {
+LM2_API lm2_v2i8 lm2_perp_cw_v2i8(lm2_v2i8 v) {
   lm2_v2i8 result;
   result.x = v.y;
   result.y = lm2_neg_i8(v.x);
@@ -737,7 +737,7 @@ lm2_v2i8 lm2_perp_cw_v2i8(lm2_v2i8 v) {
 // Reflection
 // =============================================================================
 
-lm2_v2f64 lm2_reflect_v2f64(lm2_v2f64 v, lm2_v2f64 normal) {
+LM2_API lm2_v2f64 lm2_reflect_v2f64(lm2_v2f64 v, lm2_v2f64 normal) {
   // v - 2 * dot(v, n) * n
   double dot = lm2_dot_v2f64(v, normal);
   double factor = lm2_mul_f64(2.0, dot);
@@ -747,7 +747,7 @@ lm2_v2f64 lm2_reflect_v2f64(lm2_v2f64 v, lm2_v2f64 normal) {
   return result;
 }
 
-lm2_v2f32 lm2_reflect_v2f32(lm2_v2f32 v, lm2_v2f32 normal) {
+LM2_API lm2_v2f32 lm2_reflect_v2f32(lm2_v2f32 v, lm2_v2f32 normal) {
   // v - 2 * dot(v, n) * n
   float dot = lm2_dot_v2f32(v, normal);
   float factor = lm2_mul_f32(2.0f, dot);
@@ -757,7 +757,7 @@ lm2_v2f32 lm2_reflect_v2f32(lm2_v2f32 v, lm2_v2f32 normal) {
   return result;
 }
 
-lm2_v3f64 lm2_reflect_v3f64(lm2_v3f64 v, lm2_v3f64 normal) {
+LM2_API lm2_v3f64 lm2_reflect_v3f64(lm2_v3f64 v, lm2_v3f64 normal) {
   // v - 2 * dot(v, n) * n
   double dot = lm2_dot_v3f64(v, normal);
   double factor = lm2_mul_f64(2.0, dot);
@@ -768,7 +768,7 @@ lm2_v3f64 lm2_reflect_v3f64(lm2_v3f64 v, lm2_v3f64 normal) {
   return result;
 }
 
-lm2_v3f32 lm2_reflect_v3f32(lm2_v3f32 v, lm2_v3f32 normal) {
+LM2_API lm2_v3f32 lm2_reflect_v3f32(lm2_v3f32 v, lm2_v3f32 normal) {
   // v - 2 * dot(v, n) * n
   float dot = lm2_dot_v3f32(v, normal);
   float factor = lm2_mul_f32(2.0f, dot);
@@ -783,7 +783,7 @@ lm2_v3f32 lm2_reflect_v3f32(lm2_v3f32 v, lm2_v3f32 normal) {
 // Projection
 // =============================================================================
 
-lm2_v2f64 lm2_project_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
+LM2_API lm2_v2f64 lm2_project_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
   // (dot(a, b) / dot(b, b)) * b
   double dot_ab = lm2_dot_v2f64(a, b);
   double dot_bb = lm2_dot_v2f64(b, b);
@@ -794,7 +794,7 @@ lm2_v2f64 lm2_project_v2f64(lm2_v2f64 a, lm2_v2f64 b) {
   return result;
 }
 
-lm2_v2f32 lm2_project_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
+LM2_API lm2_v2f32 lm2_project_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
   // (dot(a, b) / dot(b, b)) * b
   float dot_ab = lm2_dot_v2f32(a, b);
   float dot_bb = lm2_dot_v2f32(b, b);
@@ -805,7 +805,7 @@ lm2_v2f32 lm2_project_v2f32(lm2_v2f32 a, lm2_v2f32 b) {
   return result;
 }
 
-lm2_v3f64 lm2_project_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
+LM2_API lm2_v3f64 lm2_project_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
   // (dot(a, b) / dot(b, b)) * b
   double dot_ab = lm2_dot_v3f64(a, b);
   double dot_bb = lm2_dot_v3f64(b, b);
@@ -817,7 +817,7 @@ lm2_v3f64 lm2_project_v3f64(lm2_v3f64 a, lm2_v3f64 b) {
   return result;
 }
 
-lm2_v3f32 lm2_project_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
+LM2_API lm2_v3f32 lm2_project_v3f32(lm2_v3f32 a, lm2_v3f32 b) {
   // (dot(a, b) / dot(b, b)) * b
   float dot_ab = lm2_dot_v3f32(a, b);
   float dot_bb = lm2_dot_v3f32(b, b);

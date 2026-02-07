@@ -26,6 +26,7 @@ SOFTWARE.
 #include <lm2/lm2_safe_ops.h>
 #include <lm2/lm2_scalar.h>
 #include <lm2/lm2_edge.h>
+#include <lm2/lm2_vector_specifics.h>
 
 // =============================================================================
 // Construction Helpers
@@ -94,30 +95,21 @@ LM2_API float lm2_triangle_area_f32(const lm2_triangle_f32 tri) {
   return lm2_abs_f32(lm2_triangle_signed_area_f32(tri));
 }
 
-// Helper function to calculate distance between two points
-static double _lm2_distance_f64(lm2_v2f64 a, lm2_v2f64 b) {
-  double dx = lm2_sub_f64(b.x, a.x);
-  double dy = lm2_sub_f64(b.y, a.y);
-  return lm2_sqrt_f64(lm2_add_f64(lm2_mul_f64(dx, dx), lm2_mul_f64(dy, dy)));
-}
-
-static float _lm2_distance_f32(lm2_v2f32 a, lm2_v2f32 b) {
-  float dx = lm2_sub_f32(b.x, a.x);
-  float dy = lm2_sub_f32(b.y, a.y);
-  return lm2_sqrt_f32(lm2_add_f32(lm2_mul_f32(dx, dx), lm2_mul_f32(dy, dy)));
-}
+// =============================================================================
+// Perimeter
+// =============================================================================
 
 LM2_API double lm2_triangle_perimeter_f64(const lm2_triangle_f64 tri) {
-  double ab = _lm2_distance_f64(tri[0], tri[1]);
-  double bc = _lm2_distance_f64(tri[1], tri[2]);
-  double ca = _lm2_distance_f64(tri[2], tri[0]);
+  double ab = lm2_distance_v2f64(tri[0], tri[1]);
+  double bc = lm2_distance_v2f64(tri[1], tri[2]);
+  double ca = lm2_distance_v2f64(tri[2], tri[0]);
   return lm2_add_f64(lm2_add_f64(ab, bc), ca);
 }
 
 LM2_API float lm2_triangle_perimeter_f32(const lm2_triangle_f32 tri) {
-  float ab = _lm2_distance_f32(tri[0], tri[1]);
-  float bc = _lm2_distance_f32(tri[1], tri[2]);
-  float ca = _lm2_distance_f32(tri[2], tri[0]);
+  float ab = lm2_distance_v2f32(tri[0], tri[1]);
+  float bc = lm2_distance_v2f32(tri[1], tri[2]);
+  float ca = lm2_distance_v2f32(tri[2], tri[0]);
   return lm2_add_f32(lm2_add_f32(ab, bc), ca);
 }
 
@@ -316,30 +308,11 @@ LM2_API lm2_triangle_type lm2_triangle_classify_f32(const lm2_triangle_f32 tri, 
 // Triangle-Point Intersection
 // =============================================================================
 
-// Helper to compute the sign of point relative to a line
-static double _lm2_point_line_sign_f64(lm2_v2f64 p, lm2_v2f64 a, lm2_v2f64 b) {
-  double dx1 = lm2_sub_f64(p.x, b.x);
-  double dy1 = lm2_sub_f64(a.y, b.y);
-  double dx2 = lm2_sub_f64(a.x, b.x);
-  double dy2 = lm2_sub_f64(p.y, b.y);
-
-  return lm2_sub_f64(lm2_mul_f64(dx1, dy1), lm2_mul_f64(dx2, dy2));
-}
-
-static float _lm2_point_line_sign_f32(lm2_v2f32 p, lm2_v2f32 a, lm2_v2f32 b) {
-  float dx1 = lm2_sub_f32(p.x, b.x);
-  float dy1 = lm2_sub_f32(a.y, b.y);
-  float dx2 = lm2_sub_f32(a.x, b.x);
-  float dy2 = lm2_sub_f32(p.y, b.y);
-
-  return lm2_sub_f32(lm2_mul_f32(dx1, dy1), lm2_mul_f32(dx2, dy2));
-}
-
 LM2_API bool lm2_triangle_contains_point_f64(const lm2_triangle_f64 tri, lm2_v2f64 point) {
   // Use barycentric coordinates method
-  double d1 = _lm2_point_line_sign_f64(point, tri[0], tri[1]);
-  double d2 = _lm2_point_line_sign_f64(point, tri[1], tri[2]);
-  double d3 = _lm2_point_line_sign_f64(point, tri[2], tri[0]);
+  double d1 = lm2_cross3_v2f64(tri[1], point, tri[0]);
+  double d2 = lm2_cross3_v2f64(tri[2], point, tri[1]);
+  double d3 = lm2_cross3_v2f64(tri[0], point, tri[2]);
 
   bool has_neg = (d1 < 0.0) || (d2 < 0.0) || (d3 < 0.0);
   bool has_pos = (d1 > 0.0) || (d2 > 0.0) || (d3 > 0.0);
@@ -348,9 +321,9 @@ LM2_API bool lm2_triangle_contains_point_f64(const lm2_triangle_f64 tri, lm2_v2f
 }
 
 LM2_API bool lm2_triangle_contains_point_f32(const lm2_triangle_f32 tri, lm2_v2f32 point) {
-  float d1 = _lm2_point_line_sign_f32(point, tri[0], tri[1]);
-  float d2 = _lm2_point_line_sign_f32(point, tri[1], tri[2]);
-  float d3 = _lm2_point_line_sign_f32(point, tri[2], tri[0]);
+  float d1 = lm2_cross3_v2f32(tri[1], point, tri[0]);
+  float d2 = lm2_cross3_v2f32(tri[2], point, tri[1]);
+  float d3 = lm2_cross3_v2f32(tri[0], point, tri[2]);
 
   bool has_neg = (d1 < 0.0f) || (d2 < 0.0f) || (d3 < 0.0f);
   bool has_pos = (d1 > 0.0f) || (d2 > 0.0f) || (d3 > 0.0f);

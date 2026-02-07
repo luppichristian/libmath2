@@ -36,6 +36,18 @@ LM2_HEADER_BEGIN;
 // checksums, and other non-security-critical applications.
 
 // =============================================================================
+// Low-Level Bit-Mixing Functions
+// =============================================================================
+
+// 64-bit integer mixing function using multiplication and XOR-shift operations
+// This is the core mixing function used by lm2_hash_u64, lm2_hash_i64, and lm2_hash_f64
+LM2_API uint64_t lm2_hash_mix_64(uint64_t x);
+
+// 32-bit integer mixing function using multiplication and XOR-shift operations
+// This is the core mixing function used by lm2_hash_u32, lm2_hash_i32, and lm2_hash_f32
+LM2_API uint32_t lm2_hash_mix_32(uint32_t x);
+
+// =============================================================================
 // Hash Functions for Numeric Types
 // =============================================================================
 
@@ -119,8 +131,40 @@ LM2_API uint64_t lm2_hash_combine_64(uint64_t seed, uint64_t hash);
 // Generics
 // =============================================================================
 
+// Internal generic dispatcher for uint32/uint64 hash functions
+// This is used for functions that only support these two types
 #ifndef LM2_NO_GENERICS
-#  define lm2_hash(...) _LM2_GENERIC(lm2_hash, __VA_ARGS__)
+#  ifdef __cplusplus
+
+// C++17 template-based dispatcher for uint32/uint64 types
+template <typename T, typename... Args>
+inline auto _lm2_hash_generic_32_64(auto&& u64, auto&& u32, T first, Args&&... rest) -> decltype(auto) {
+  using _LM2_T = std::remove_cvref_t<T>;
+  if constexpr (std::is_same_v<_LM2_T, uint64_t>) return u64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, uint32_t>)
+    return u32(first, rest...);
+  else
+    static_assert(sizeof(_LM2_T) == 0, "Only uint32_t and uint64_t are supported");
+}
+
+#    define _LM2_GENERIC_32_64(name, ...) \
+      _lm2_hash_generic_32_64(name##_64, name##_32, __VA_ARGS__)
+
+#  else
+
+// C11 _Generic-based dispatcher for uint32/uint64 types
+#    define _LM2_GENERIC_32_64(name, ...) \
+      _Generic((__VA_ARGS__),             \
+          uint64_t: name##_64,            \
+          uint32_t: name##_32)(__VA_ARGS__)
+
+#  endif
+
+// Public generic functions
+#  define lm2_hash(...)                _LM2_GENERIC(lm2_hash, __VA_ARGS__)
+#  define lm2_hash_mix(x)              _LM2_GENERIC_32_64(lm2_hash_mix, x)
+#  define lm2_hash_combine(seed, hash) _LM2_GENERIC_32_64(lm2_hash_combine, seed, hash)
+
 #endif
 
 // #############################################################################
