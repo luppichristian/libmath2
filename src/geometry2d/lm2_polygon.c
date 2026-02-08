@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 #include <lm2/geometry2d/lm2_polygon.h>
-#include <lm2/geometry2d/lm2_triangle.h>
+#include <lm2/geometry2d/lm2_triangle2.h>
 #include <lm2/lm2_constants.h>
 #include <lm2/ranges/lm2_range2.h>
 #include <lm2/scalar/lm2_safe_ops.h>
@@ -157,14 +157,14 @@ LM2_API void lm2_polygon_make_triangle_f32(lm2_v2f32* out_vertices, lm2_v2f32 po
   out_vertices[2] = lm2_sub_lm2_v2f32(position, lm2_mul_lm2_v2f32_float(perp, half_width));
 }
 
-LM2_API void lm2_polygon_from_triangle_f64(lm2_v2f64* out_vertices, const lm2_triangle_f64 triangle) {
+LM2_API void lm2_polygon_from_triangle_f64(lm2_v2f64* out_vertices, const lm2_triangle2_f64 triangle) {
   LM2_ASSERT(out_vertices != NULL);
   out_vertices[0] = triangle[0];
   out_vertices[1] = triangle[1];
   out_vertices[2] = triangle[2];
 }
 
-LM2_API void lm2_polygon_from_triangle_f32(lm2_v2f32* out_vertices, const lm2_triangle_f32 triangle) {
+LM2_API void lm2_polygon_from_triangle_f32(lm2_v2f32* out_vertices, const lm2_triangle2_f32 triangle) {
   LM2_ASSERT(out_vertices != NULL);
   out_vertices[0] = triangle[0];
   out_vertices[1] = triangle[1];

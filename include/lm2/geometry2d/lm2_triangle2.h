@@ -24,9 +24,9 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2_edge2.h"
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector2.h"
+#include "lm2_edge2.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -37,23 +37,23 @@ LM2_HEADER_BEGIN;
 // =============================================================================
 
 // 2D Triangle defined as an array of 3 vertices
-typedef lm2_v2f64 lm2_triangle_f64[3];
-typedef lm2_v2f32 lm2_triangle_f32[3];
+typedef lm2_v2f64 lm2_triangle2_f64[3];
+typedef lm2_v2f32 lm2_triangle2_f32[3];
 
 // Default triangle type
-typedef lm2_triangle_f32 lm2_triangle;
+typedef lm2_triangle2_f32 lm2_triangle2;
 
 // =============================================================================
 // Triangle Type Enums
 // =============================================================================
 
-typedef enum lm2_triangle_type {
-  LM2_TRIANGLE_SCALENE,      // All sides have different lengths
-  LM2_TRIANGLE_ISOSCELES,    // Two sides have equal length
-  LM2_TRIANGLE_EQUILATERAL,  // All sides have equal length
-  LM2_TRIANGLE_RIGHT,        // Has a 90-degree angle
-  LM2_TRIANGLE_DEGENERATE    // Collinear points (area = 0)
-} lm2_triangle_type;
+typedef enum lm2_triangle2_type {
+  LM2_TRIANGLE2_SCALENE,      // All sides have different lengths
+  LM2_TRIANGLE2_ISOSCELES,    // Two sides have equal length
+  LM2_TRIANGLE2_EQUILATERAL,  // All sides have equal length
+  LM2_TRIANGLE2_RIGHT,        // Has a 90-degree angle
+  LM2_TRIANGLE2_DEGENERATE    // Collinear points (area = 0)
+} lm2_triangle2_type;
 
 typedef enum lm2_winding_order {
   LM2_WINDING_NONE,             // Degenerate triangle
@@ -66,84 +66,84 @@ typedef enum lm2_winding_order {
 // =============================================================================
 
 // Create a triangle from three 2D points
-LM2_API void lm2_triangle_make_f64(lm2_triangle_f64 tri, lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c);
-LM2_API void lm2_triangle_make_f32(lm2_triangle_f32 tri, lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c);
+LM2_API void lm2_triangle2_make_f64(lm2_triangle2_f64 tri, lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c);
+LM2_API void lm2_triangle2_make_f32(lm2_triangle2_f32 tri, lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c);
 
 // Create a triangle from coordinate values
-LM2_API void lm2_triangle_make_coords_f64(lm2_triangle_f64 tri, double ax, double ay, double bx, double by, double cx, double cy);
-LM2_API void lm2_triangle_make_coords_f32(lm2_triangle_f32 tri, float ax, float ay, float bx, float by, float cx, float cy);
+LM2_API void lm2_triangle2_make_coords_f64(lm2_triangle2_f64 tri, double ax, double ay, double bx, double by, double cx, double cy);
+LM2_API void lm2_triangle2_make_coords_f32(lm2_triangle2_f32 tri, float ax, float ay, float bx, float by, float cx, float cy);
 
 // =============================================================================
 // Triangle Properties
 // =============================================================================
 
 // Calculate the signed area of a triangle (positive for CCW, negative for CW)
-LM2_API double lm2_triangle_signed_area_f64(const lm2_triangle_f64 tri);
-LM2_API float lm2_triangle_signed_area_f32(const lm2_triangle_f32 tri);
+LM2_API double lm2_triangle2_signed_area_f64(const lm2_triangle2_f64 tri);
+LM2_API float lm2_triangle2_signed_area_f32(const lm2_triangle2_f32 tri);
 
 // Calculate the area of a triangle (always positive)
-LM2_API double lm2_triangle_area_f64(const lm2_triangle_f64 tri);
-LM2_API float lm2_triangle_area_f32(const lm2_triangle_f32 tri);
+LM2_API double lm2_triangle2_area_f64(const lm2_triangle2_f64 tri);
+LM2_API float lm2_triangle2_area_f32(const lm2_triangle2_f32 tri);
 
 // Calculate the perimeter of a triangle
-LM2_API double lm2_triangle_perimeter_f64(const lm2_triangle_f64 tri);
-LM2_API float lm2_triangle_perimeter_f32(const lm2_triangle_f32 tri);
+LM2_API double lm2_triangle2_perimeter_f64(const lm2_triangle2_f64 tri);
+LM2_API float lm2_triangle2_perimeter_f32(const lm2_triangle2_f32 tri);
 
 // Get winding order
-LM2_API lm2_winding_order lm2_triangle_winding_f64(const lm2_triangle_f64 tri);
-LM2_API lm2_winding_order lm2_triangle_winding_f32(const lm2_triangle_f32 tri);
+LM2_API lm2_winding_order lm2_triangle2_winding_f64(const lm2_triangle2_f64 tri);
+LM2_API lm2_winding_order lm2_triangle2_winding_f32(const lm2_triangle2_f32 tri);
 
 // =============================================================================
 // Triangle Classification
 // =============================================================================
 
 // Check if triangle is degenerate (collinear points)
-LM2_API bool lm2_triangle_is_degenerate_f64(const lm2_triangle_f64 tri, double epsilon);
-LM2_API bool lm2_triangle_is_degenerate_f32(const lm2_triangle_f32 tri, float epsilon);
+LM2_API bool lm2_triangle2_is_degenerate_f64(const lm2_triangle2_f64 tri, double epsilon);
+LM2_API bool lm2_triangle2_is_degenerate_f32(const lm2_triangle2_f32 tri, float epsilon);
 
 // Check if triangle is a right triangle
-LM2_API bool lm2_triangle_is_right_f64(const lm2_triangle_f64 tri, double epsilon);
-LM2_API bool lm2_triangle_is_right_f32(const lm2_triangle_f32 tri, float epsilon);
+LM2_API bool lm2_triangle2_is_right_f64(const lm2_triangle2_f64 tri, double epsilon);
+LM2_API bool lm2_triangle2_is_right_f32(const lm2_triangle2_f32 tri, float epsilon);
 
 // Check if triangle is isosceles (two equal sides)
-LM2_API bool lm2_triangle_is_isosceles_f64(const lm2_triangle_f64 tri, double epsilon);
-LM2_API bool lm2_triangle_is_isosceles_f32(const lm2_triangle_f32 tri, float epsilon);
+LM2_API bool lm2_triangle2_is_isosceles_f64(const lm2_triangle2_f64 tri, double epsilon);
+LM2_API bool lm2_triangle2_is_isosceles_f32(const lm2_triangle2_f32 tri, float epsilon);
 
 // Check if triangle is equilateral (all equal sides)
-LM2_API bool lm2_triangle_is_equilateral_f64(const lm2_triangle_f64 tri, double epsilon);
-LM2_API bool lm2_triangle_is_equilateral_f32(const lm2_triangle_f32 tri, float epsilon);
+LM2_API bool lm2_triangle2_is_equilateral_f64(const lm2_triangle2_f64 tri, double epsilon);
+LM2_API bool lm2_triangle2_is_equilateral_f32(const lm2_triangle2_f32 tri, float epsilon);
 
 // Check if triangle is scalene (all different sides)
-LM2_API bool lm2_triangle_is_scalene_f64(const lm2_triangle_f64 tri, double epsilon);
-LM2_API bool lm2_triangle_is_scalene_f32(const lm2_triangle_f32 tri, float epsilon);
+LM2_API bool lm2_triangle2_is_scalene_f64(const lm2_triangle2_f64 tri, double epsilon);
+LM2_API bool lm2_triangle2_is_scalene_f32(const lm2_triangle2_f32 tri, float epsilon);
 
 // Get the primary type of the triangle
-LM2_API lm2_triangle_type lm2_triangle_classify_f64(const lm2_triangle_f64 tri, double epsilon);
-LM2_API lm2_triangle_type lm2_triangle_classify_f32(const lm2_triangle_f32 tri, float epsilon);
+LM2_API lm2_triangle2_type lm2_triangle2_classify_f64(const lm2_triangle2_f64 tri, double epsilon);
+LM2_API lm2_triangle2_type lm2_triangle2_classify_f32(const lm2_triangle2_f32 tri, float epsilon);
 
 // =============================================================================
 // Triangle-Point Intersection
 // =============================================================================
 
 // Check if a point is inside a triangle
-LM2_API bool lm2_triangle_contains_point_f64(const lm2_triangle_f64 tri, lm2_v2f64 point);
-LM2_API bool lm2_triangle_contains_point_f32(const lm2_triangle_f32 tri, lm2_v2f32 point);
+LM2_API bool lm2_triangle2_contains_point_f64(const lm2_triangle2_f64 tri, lm2_v2f64 point);
+LM2_API bool lm2_triangle2_contains_point_f32(const lm2_triangle2_f32 tri, lm2_v2f32 point);
 
 // =============================================================================
 // Triangle-Triangle Intersection
 // =============================================================================
 
 // Check if two triangles overlap
-LM2_API bool lm2_triangle_overlaps_f64(const lm2_triangle_f64 t1, const lm2_triangle_f64 t2);
-LM2_API bool lm2_triangle_overlaps_f32(const lm2_triangle_f32 t1, const lm2_triangle_f32 t2);
+LM2_API bool lm2_triangle2_overlaps_f64(const lm2_triangle2_f64 t1, const lm2_triangle2_f64 t2);
+LM2_API bool lm2_triangle2_overlaps_f32(const lm2_triangle2_f32 t1, const lm2_triangle2_f32 t2);
 
 // =============================================================================
 // Triangle-Edge Operations
 // =============================================================================
 
 // Check if two triangles share an edge and return it
-LM2_API lm2_edge2_result_f64 lm2_triangle_shared_edge_f64(const lm2_triangle_f64 t1, const lm2_triangle_f64 t2, double epsilon);
-LM2_API lm2_edge2_result_f32 lm2_triangle_shared_edge_f32(const lm2_triangle_f32 t1, const lm2_triangle_f32 t2, float epsilon);
+LM2_API lm2_edge2_result_f64 lm2_triangle2_shared_edge_f64(const lm2_triangle2_f64 t1, const lm2_triangle2_f64 t2, double epsilon);
+LM2_API lm2_edge2_result_f32 lm2_triangle2_shared_edge_f32(const lm2_triangle2_f32 t1, const lm2_triangle2_f32 t2, float epsilon);
 
 // #############################################################################
 LM2_HEADER_END;
@@ -152,6 +152,6 @@ LM2_HEADER_END;
 // C++ operator overloads (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_geometry_operators.h"
-_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle_f64, lm2_v2f64, double)
-_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle_f32, lm2_v2f32, float)
+_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle2_f64, lm2_v2f64, double)
+_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle2_f32, lm2_v2f32, float)
 #endif

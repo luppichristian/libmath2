@@ -25,10 +25,10 @@ SOFTWARE.
 #pragma once
 
 #include <stddef.h>
-#include "lm2_triangle.h"
 #include "lm2/lm2_base.h"
 #include "lm2/ranges/lm2_range2.h"
 #include "lm2/vectors/lm2_vector2.h"
+#include "lm2_triangle2.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -73,8 +73,8 @@ LM2_API void lm2_polygon_make_triangle_f64(lm2_v2f64* out_vertices, lm2_v2f64 po
 LM2_API void lm2_polygon_make_triangle_f32(lm2_v2f32* out_vertices, lm2_v2f32 position, lm2_v2f32 tip, float base_width);
 
 // Create a polygon from a triangle (caller provides output array of size 3)
-LM2_API void lm2_polygon_from_triangle_f64(lm2_v2f64* out_vertices, const lm2_triangle_f64 triangle);
-LM2_API void lm2_polygon_from_triangle_f32(lm2_v2f32* out_vertices, const lm2_triangle_f32 triangle);
+LM2_API void lm2_polygon_from_triangle_f64(lm2_v2f64* out_vertices, const lm2_triangle2_f64 triangle);
+LM2_API void lm2_polygon_from_triangle_f32(lm2_v2f32* out_vertices, const lm2_triangle2_f32 triangle);
 
 // =============================================================================
 // Polygon Properties

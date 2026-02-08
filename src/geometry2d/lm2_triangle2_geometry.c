@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <lm2/geometry2d/lm2_triangle_geometry.h>
+#include <lm2/geometry2d/lm2_triangle2_geometry.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <string.h>  // For memcpy
@@ -31,23 +31,23 @@ SOFTWARE.
 // Triangle List to Vertex Array Conversion
 // =============================================================================
 
-LM2_API size_t lm2_triangle_list_to_vertex_array_size_f64(size_t triangle_count) {
+LM2_API size_t lm2_triangle2_list_to_vertex_array_size_f64(size_t triangle_count) {
   return lm2_mul_u64(triangle_count, 3);
 }
 
-LM2_API size_t lm2_triangle_list_to_vertex_array_size_f32(size_t triangle_count) {
+LM2_API size_t lm2_triangle2_list_to_vertex_array_size_f32(size_t triangle_count) {
   return lm2_mul_u64(triangle_count, 3);
 }
 
-LM2_API void lm2_triangle_list_to_vertex_array_f64(
-    const lm2_triangle_f64* triangles,
+LM2_API void lm2_triangle2_list_to_vertex_array_f64(
+    const lm2_triangle2_f64* triangles,
     size_t triangle_count,
     lm2_v2f64* vertices,
     size_t vertex_buffer_size) {
   LM2_ASSERT(triangles != NULL);
   LM2_ASSERT(vertices != NULL);
 
-  size_t required_size = lm2_triangle_list_to_vertex_array_size_f64(triangle_count);
+  size_t required_size = lm2_triangle2_list_to_vertex_array_size_f64(triangle_count);
   LM2_ASSERT(vertex_buffer_size >= required_size);
 
   size_t vertex_index = 0;
@@ -63,15 +63,15 @@ LM2_API void lm2_triangle_list_to_vertex_array_f64(
   }
 }
 
-LM2_API void lm2_triangle_list_to_vertex_array_f32(
-    const lm2_triangle_f32* triangles,
+LM2_API void lm2_triangle2_list_to_vertex_array_f32(
+    const lm2_triangle2_f32* triangles,
     size_t triangle_count,
     lm2_v2f32* vertices,
     size_t vertex_buffer_size) {
   LM2_ASSERT(triangles != NULL);
   LM2_ASSERT(vertices != NULL);
 
-  size_t required_size = lm2_triangle_list_to_vertex_array_size_f32(triangle_count);
+  size_t required_size = lm2_triangle2_list_to_vertex_array_size_f32(triangle_count);
   LM2_ASSERT(vertex_buffer_size >= required_size);
 
   size_t vertex_index = 0;
@@ -104,7 +104,7 @@ LM2_API size_t lm2_vertex_array_to_triangle_list_size_f32(size_t vertex_count) {
 LM2_API void lm2_vertex_array_to_triangle_list_f64(
     const lm2_v2f64* vertices,
     size_t vertex_count,
-    lm2_triangle_f64* triangles,
+    lm2_triangle2_f64* triangles,
     size_t triangle_buffer_size) {
   LM2_ASSERT(vertices != NULL);
   LM2_ASSERT(triangles != NULL);
@@ -125,7 +125,7 @@ LM2_API void lm2_vertex_array_to_triangle_list_f64(
 LM2_API void lm2_vertex_array_to_triangle_list_f32(
     const lm2_v2f32* vertices,
     size_t vertex_count,
-    lm2_triangle_f32* triangles,
+    lm2_triangle2_f32* triangles,
     size_t triangle_buffer_size) {
   LM2_ASSERT(vertices != NULL);
   LM2_ASSERT(triangles != NULL);
@@ -201,8 +201,8 @@ static uint32_t _lm2_find_or_add_vertex_f32(
 // Triangle List to Indexed Mesh Conversion
 // =============================================================================
 
-LM2_API lm2_indexed_mesh_size lm2_triangle_list_to_indexed_mesh_size_f64(
-    const lm2_triangle_f64* triangles,
+LM2_API lm2_indexed_mesh_size lm2_triangle2_list_to_indexed_mesh_size_f64(
+    const lm2_triangle2_f64* triangles,
     size_t triangle_count,
     double epsilon) {
   LM2_ASSERT(triangles != NULL);
@@ -224,8 +224,8 @@ LM2_API lm2_indexed_mesh_size lm2_triangle_list_to_indexed_mesh_size_f64(
   return result;
 }
 
-LM2_API lm2_indexed_mesh_size lm2_triangle_list_to_indexed_mesh_size_f32(
-    const lm2_triangle_f32* triangles,
+LM2_API lm2_indexed_mesh_size lm2_triangle2_list_to_indexed_mesh_size_f32(
+    const lm2_triangle2_f32* triangles,
     size_t triangle_count,
     float epsilon) {
   LM2_ASSERT(triangles != NULL);
@@ -241,8 +241,8 @@ LM2_API lm2_indexed_mesh_size lm2_triangle_list_to_indexed_mesh_size_f32(
   return result;
 }
 
-LM2_API void lm2_triangle_list_to_indexed_mesh_f64(
-    const lm2_triangle_f64* triangles,
+LM2_API void lm2_triangle2_list_to_indexed_mesh_f64(
+    const lm2_triangle2_f64* triangles,
     size_t triangle_count,
     double epsilon,
     lm2_v2f64* vertices,
@@ -276,8 +276,8 @@ LM2_API void lm2_triangle_list_to_indexed_mesh_f64(
   }
 }
 
-LM2_API void lm2_triangle_list_to_indexed_mesh_f32(
-    const lm2_triangle_f32* triangles,
+LM2_API void lm2_triangle2_list_to_indexed_mesh_f32(
+    const lm2_triangle2_f32* triangles,
     size_t triangle_count,
     float epsilon,
     lm2_v2f32* vertices,
@@ -330,7 +330,7 @@ LM2_API void lm2_indexed_mesh_to_triangle_list_f64(
     size_t vertex_count,
     const uint32_t* indices,
     size_t index_count,
-    lm2_triangle_f64* triangles,
+    lm2_triangle2_f64* triangles,
     size_t triangle_buffer_size) {
   LM2_ASSERT(vertices != NULL);
   LM2_ASSERT(indices != NULL);
@@ -363,7 +363,7 @@ LM2_API void lm2_indexed_mesh_to_triangle_list_f32(
     size_t vertex_count,
     const uint32_t* indices,
     size_t index_count,
-    lm2_triangle_f32* triangles,
+    lm2_triangle2_f32* triangles,
     size_t triangle_buffer_size) {
   LM2_ASSERT(vertices != NULL);
   LM2_ASSERT(indices != NULL);
