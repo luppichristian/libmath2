@@ -36,7 +36,7 @@ SOFTWARE.
 // Low-Level Bit-Mixing Functions
 // =============================================================================
 
-LM2_API uint64_t lm2_hash_mix_64(uint64_t x) {
+LM2_API uint64_t lm2_hash_mix_u64(uint64_t x) {
   x ^= x >> 33;
   x *= 0xff51afd7ed558ccdull;
   x ^= x >> 33;
@@ -45,7 +45,7 @@ LM2_API uint64_t lm2_hash_mix_64(uint64_t x) {
   return x;
 }
 
-LM2_API uint32_t lm2_hash_mix_32(uint32_t x) {
+LM2_API uint32_t lm2_hash_mix_u32(uint32_t x) {
   x ^= x >> 16;
   x *= 0x85ebca6bu;
   x ^= x >> 13;
@@ -59,14 +59,14 @@ LM2_API uint32_t lm2_hash_mix_32(uint32_t x) {
 // =============================================================================
 
 LM2_API uint64_t lm2_hash_u64(uint64_t value) {
-  return lm2_hash_mix_64(value);
+  return lm2_hash_mix_u64(value);
 }
 
 LM2_API uint64_t lm2_hash_i64(int64_t value) {
   // Reinterpret as unsigned
   uint64_t u_value;
   memcpy(&u_value, &value, sizeof(uint64_t));
-  return lm2_hash_mix_64(u_value);
+  return lm2_hash_mix_u64(u_value);
 }
 
 LM2_API uint64_t lm2_hash_f64(double value) {
@@ -78,7 +78,7 @@ LM2_API uint64_t lm2_hash_f64(double value) {
   // Reinterpret bits as uint64_t
   uint64_t bits;
   memcpy(&bits, &value, sizeof(uint64_t));
-  return lm2_hash_mix_64(bits);
+  return lm2_hash_mix_u64(bits);
 }
 
 // =============================================================================
@@ -86,22 +86,22 @@ LM2_API uint64_t lm2_hash_f64(double value) {
 // =============================================================================
 
 LM2_API uint32_t lm2_hash_u32(uint32_t value) {
-  return lm2_hash_mix_32(value);
+  return lm2_hash_mix_u32(value);
 }
 
 LM2_API uint32_t lm2_hash_u16(uint16_t value) {
-  return lm2_hash_mix_32((uint32_t)value);
+  return lm2_hash_mix_u32((uint32_t)value);
 }
 
 LM2_API uint32_t lm2_hash_u8(uint8_t value) {
-  return lm2_hash_mix_32((uint32_t)value);
+  return lm2_hash_mix_u32((uint32_t)value);
 }
 
 LM2_API uint32_t lm2_hash_i32(int32_t value) {
   // Reinterpret as unsigned
   uint32_t u_value;
   memcpy(&u_value, &value, sizeof(uint32_t));
-  return lm2_hash_mix_32(u_value);
+  return lm2_hash_mix_u32(u_value);
 }
 
 LM2_API uint32_t lm2_hash_i16(int16_t value) {
@@ -123,14 +123,14 @@ LM2_API uint32_t lm2_hash_f32(float value) {
   // Reinterpret bits as uint32_t
   uint32_t bits;
   memcpy(&bits, &value, sizeof(uint32_t));
-  return lm2_hash_mix_32(bits);
+  return lm2_hash_mix_u32(bits);
 }
 
 // =============================================================================
 // FNV-1a Hash for Data Buffers
 // =============================================================================
 
-LM2_API uint32_t lm2_hash_fnv1a_32(const void* data, size_t size) {
+LM2_API uint32_t lm2_hash_fnv1a_u32(const void* data, size_t size) {
   if (data == NULL || size == 0) {
     return FNV1A_32_OFFSET;
   }
@@ -146,7 +146,7 @@ LM2_API uint32_t lm2_hash_fnv1a_32(const void* data, size_t size) {
   return hash;
 }
 
-LM2_API uint64_t lm2_hash_fnv1a_64(const void* data, size_t size) {
+LM2_API uint64_t lm2_hash_fnv1a_u64(const void* data, size_t size) {
   if (data == NULL || size == 0) {
     return FNV1A_64_OFFSET;
   }
@@ -166,14 +166,14 @@ LM2_API uint64_t lm2_hash_fnv1a_64(const void* data, size_t size) {
 // Hash Combining
 // =============================================================================
 
-LM2_API uint32_t lm2_hash_combine_32(uint32_t seed, uint32_t hash) {
+LM2_API uint32_t lm2_hash_combine_u32(uint32_t seed, uint32_t hash) {
   // Based on boost::hash_combine
   // Golden ratio approximation for 32-bit: 0x9e3779b9
   seed ^= hash + 0x9e3779b9u + (seed << 6) + (seed >> 2);
   return seed;
 }
 
-LM2_API uint64_t lm2_hash_combine_64(uint64_t seed, uint64_t hash) {
+LM2_API uint64_t lm2_hash_combine_u64(uint64_t seed, uint64_t hash) {
   // Based on boost::hash_combine
   // Golden ratio approximation for 64-bit: 0x9e3779b97f4a7c15
   seed ^= hash + 0x9e3779b97f4a7c15ull + (seed << 12) + (seed >> 4);

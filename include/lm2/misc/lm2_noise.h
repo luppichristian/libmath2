@@ -46,14 +46,6 @@ LM2_API float lm2_voronoi_2d_f32(float x, float y);
 LM2_API double lm2_voronoi_3d_f64(double x, double y, double z);
 LM2_API float lm2_voronoi_3d_f32(float x, float y, float z);
 
-// Generics
-#ifndef LM2_NO_GENERICS
-#  define lm2_perlin_2d(...)  _LM2_GENERIC(lm2_perlin_2d, __VA_ARGS__)
-#  define lm2_perlin_3d(...)  _LM2_GENERIC(lm2_perlin_3d, __VA_ARGS__)
-#  define lm2_voronoi_2d(...) _LM2_GENERIC(lm2_voronoi_2d, __VA_ARGS__)
-#  define lm2_voronoi_3d(...) _LM2_GENERIC(lm2_voronoi_3d, __VA_ARGS__)
-#endif
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

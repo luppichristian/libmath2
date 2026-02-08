@@ -242,30 +242,6 @@ LM2_API lm2_v2f32 lm2_project_v2f32(lm2_v2f32 a, lm2_v2f32 b);
 LM2_API lm2_v3f64 lm2_project_v3f64(lm2_v3f64 a, lm2_v3f64 b);
 LM2_API lm2_v3f32 lm2_project_v3f32(lm2_v3f32 a, lm2_v3f32 b);
 
-// =============================================================================
-// Generic Macros
-// =============================================================================
-
-#ifndef LM2_NO_GENERICS
-#  include "lm2_vector_generics.h"
-#  define lm2_dot(...)           _LM2_GENERIC_VALL(lm2_dot, __VA_ARGS__)
-#  define lm2_cross(...)         _LM2_GENERIC_V3(lm2_cross, __VA_ARGS__)
-#  define lm2_cross2d(...)       _LM2_GENERIC_V2(lm2_cross2d, __VA_ARGS__)
-#  define lm2_cross_tri(...)     _LM2_GENERIC_V2(lm2_cross_tri, __VA_ARGS__)
-#  define lm2_length(...)        _LM2_GENERIC_VF(lm2_length, __VA_ARGS__)
-#  define lm2_length_sq(...)     _LM2_GENERIC_VF(lm2_length_sq, __VA_ARGS__)
-#  define lm2_distance(...)      _LM2_GENERIC_VF(lm2_distance, __VA_ARGS__)
-#  define lm2_distance_sq(...)   _LM2_GENERIC_VF(lm2_distance_sq, __VA_ARGS__)
-#  define lm2_normalize(...)     _LM2_GENERIC_VF(lm2_normalize, __VA_ARGS__)
-#  define lm2_angle(...)         _LM2_GENERIC_V23F(lm2_angle, __VA_ARGS__)
-#  define lm2_rotate(...)        _LM2_GENERIC_V2(lm2_rotate, __VA_ARGS__)
-#  define lm2_rotate_around(...) _LM2_GENERIC_V2(lm2_rotate_around, __VA_ARGS__)
-#  define lm2_perp_ccw(...)      _LM2_GENERIC_V2(lm2_perp_ccw, __VA_ARGS__)
-#  define lm2_perp_cw(...)       _LM2_GENERIC_V2(lm2_perp_cw, __VA_ARGS__)
-#  define lm2_reflect(...)       _LM2_GENERIC_V23F(lm2_reflect, __VA_ARGS__)
-#  define lm2_project(...)       _LM2_GENERIC_V23F(lm2_project, __VA_ARGS__)
-#endif
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

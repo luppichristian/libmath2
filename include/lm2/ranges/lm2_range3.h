@@ -97,44 +97,6 @@ typedef lm2_r3f32 lm2_r3;
 LM2_HEADER_END;
 // #############################################################################
 
-// Generics
-#ifndef LM2_NO_GENERICS
-#  include "lm2_range_generics.h"
-#  define lm2_floor_r3(...)          _LM2_GENERIC_RANGE3(lm2_floor, __VA_ARGS__)
-#  define lm2_ceil_r3(...)           _LM2_GENERIC_RANGE3(lm2_ceil, __VA_ARGS__)
-#  define lm2_round_r3(...)          _LM2_GENERIC_RANGE3(lm2_round, __VA_ARGS__)
-#  define lm2_trunc_r3(...)          _LM2_GENERIC_RANGE3(lm2_trunc, __VA_ARGS__)
-#  define lm2_abs_r3(...)            _LM2_GENERIC_RANGE3(lm2_abs, __VA_ARGS__)
-#  define lm2_floor_multiple_r3(...) _LM2_GENERIC_RANGE3(lm2_floor_multiple, __VA_ARGS__)
-#  define lm2_ceil_multiple_r3(...)  _LM2_GENERIC_RANGE3(lm2_ceil_multiple, __VA_ARGS__)
-#  define lm2_round_multiple_r3(...) _LM2_GENERIC_RANGE3(lm2_round_multiple, __VA_ARGS__)
-#  define lm2_trunc_multiple_r3(...) _LM2_GENERIC_RANGE3(lm2_trunc_multiple, __VA_ARGS__)
-#  define lm2_min_r3(...)            _LM2_GENERIC_RANGE3(lm2_min, __VA_ARGS__)
-#  define lm2_max_r3(...)            _LM2_GENERIC_RANGE3(lm2_max, __VA_ARGS__)
-#  define lm2_clamp_r3(...)          _LM2_GENERIC_RANGE3(lm2_clamp, __VA_ARGS__)
-#  define lm2_lerp_r3(...)           _LM2_GENERIC_RANGE3(lm2_lerp, __VA_ARGS__)
-#  define lm2_normalize_r3(...)      _LM2_GENERIC_RANGE3(normalize, __VA_ARGS__)
-#  define lm2_translate_r3(...)      _LM2_GENERIC_RANGE3(translate, __VA_ARGS__)
-#  define lm2_scale_r3(...)          _LM2_GENERIC_RANGE3(scale, __VA_ARGS__)
-#  define lm2_expand_r3(...)         _LM2_GENERIC_RANGE3(expand, __VA_ARGS__)
-#  define lm2_contains_point_r3(...) _LM2_GENERIC_RANGE3(contains_point, __VA_ARGS__)
-#  define lm2_overlaps_r3(...)       _LM2_GENERIC_RANGE3(overlaps, __VA_ARGS__)
-#  define lm2_size_r3(...)           _LM2_GENERIC_RANGE3(size, __VA_ARGS__)
-#  define lm2_extents_r3(...)        _LM2_GENERIC_RANGE3(extents, __VA_ARGS__)
-#  define lm2_center_r3(...)         _LM2_GENERIC_RANGE3(center, __VA_ARGS__)
-#  define lm2_volume_r3(...)         _LM2_GENERIC_RANGE3(volume, __VA_ARGS__)
-// Arithmetic operations (support range+range, range+vector, range+scalar)
-#  define lm2_add_r3(r, x)                _LM2_RANGE3_ARITH(add, r, x)
-#  define lm2_sub_r3(r, x)                _LM2_RANGE3_ARITH(sub, r, x)
-#  define lm2_mul_r3(r, x)                _LM2_RANGE3_ARITH(mul, r, x)
-#  define lm2_div_r3(r, x)                _LM2_RANGE3_ARITH(div, r, x)
-#  define lm2_mod_r3(r, x)                _LM2_RANGE3_ARITH(mod, r, x)
-#  define lm2_r3_from_min_max(...)        _LM2_GENERIC_RANGE3(from_min_max, __VA_ARGS__)
-#  define lm2_r3_from_center_extents(...) _LM2_GENERIC_RANGE3(from_center_extents, __VA_ARGS__)
-#  define lm2_r3_from_center_size(...)    _LM2_GENERIC_RANGE3(from_center_size, __VA_ARGS__)
-#  define lm2_r3_from_position_size(...)  _LM2_GENERIC_RANGE3(from_position_size, __VA_ARGS__)
-#endif
-
 // C++ operator overloads and constructors (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_range_operators.h"

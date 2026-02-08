@@ -26,7 +26,6 @@ SOFTWARE.
 
 // Configurable defines:
 // - LM2_UNSAFE: Disable safe checks in safe ops (for performance)
-// - LM2_NO_GENERICS: Disable generic functions
 // - LM2_NO_CPP_OPERATORS: Disable C++ operator overloads
 
 #include "lm2/geometry/lm2_capsule.h"
@@ -40,7 +39,6 @@ SOFTWARE.
 #include "lm2/geometry/lm2_triangle_geometry.h"
 #include "lm2/lm2_base.h"
 #include "lm2/lm2_constants.h"
-#include "lm2/lm2_generic.h"
 #include "lm2/misc/lm2_bezier_curves.h"
 #include "lm2/misc/lm2_easings.h"
 #include "lm2/misc/lm2_hash.h"

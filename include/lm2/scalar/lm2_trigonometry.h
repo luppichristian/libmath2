@@ -80,25 +80,6 @@ LM2_API float lm2_shortest_deg_f32(float from_angle_deg, float to_angle_deg);
 LM2_API double lm2_lerp_deg_f64(double a_deg, double t, double b_deg);
 LM2_API float lm2_lerp_deg_f32(float a_deg, float t, float b_deg);
 
-// Generics
-#ifndef LM2_NO_GENERICS
-#  define lm2_cos(...)          _LM2_GENERIC(lm2_cos, __VA_ARGS__)
-#  define lm2_sin(...)          _LM2_GENERIC(lm2_sin, __VA_ARGS__)
-#  define lm2_tan(...)          _LM2_GENERIC(lm2_tan, __VA_ARGS__)
-#  define lm2_acos(...)         _LM2_GENERIC(lm2_acos, __VA_ARGS__)
-#  define lm2_asin(...)         _LM2_GENERIC(lm2_asin, __VA_ARGS__)
-#  define lm2_atan(...)         _LM2_GENERIC(lm2_atan, __VA_ARGS__)
-#  define lm2_atan2(...)        _LM2_GENERIC(lm2_atan2, __VA_ARGS__)
-#  define lm2_deg_to_rad(...)   _LM2_GENERIC(lm2_deg_to_rad, __VA_ARGS__)
-#  define lm2_rad_to_deg(...)   _LM2_GENERIC(lm2_rad_to_deg, __VA_ARGS__)
-#  define lm2_wrap_rad(...)     _LM2_GENERIC(lm2_wrap_rad, __VA_ARGS__)
-#  define lm2_shortest_rad(...) _LM2_GENERIC(lm2_shortest_rad, __VA_ARGS__)
-#  define lm2_lerp_rad(...)     _LM2_GENERIC(lm2_lerp_rad, __VA_ARGS__)
-#  define lm2_wrap_deg(...)     _LM2_GENERIC(lm2_wrap_deg, __VA_ARGS__)
-#  define lm2_shortest_deg(...) _LM2_GENERIC(lm2_shortest_deg, __VA_ARGS__)
-#  define lm2_lerp_deg(...)     _LM2_GENERIC(lm2_lerp_deg, __VA_ARGS__)
-#endif
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

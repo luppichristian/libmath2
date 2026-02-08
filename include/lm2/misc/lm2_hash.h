@@ -25,7 +25,6 @@ SOFTWARE.
 #pragma once
 
 #include "lm2/lm2_base.h"
-#include "lm2/lm2_generic.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -41,11 +40,11 @@ LM2_HEADER_BEGIN;
 
 // 64-bit integer mixing function using multiplication and XOR-shift operations
 // This is the core mixing function used by lm2_hash_u64, lm2_hash_i64, and lm2_hash_f64
-LM2_API uint64_t lm2_hash_mix_64(uint64_t x);
+LM2_API uint64_t lm2_hash_mix_u64(uint64_t x);
 
 // 32-bit integer mixing function using multiplication and XOR-shift operations
 // This is the core mixing function used by lm2_hash_u32, lm2_hash_i32, and lm2_hash_f32
-LM2_API uint32_t lm2_hash_mix_32(uint32_t x);
+LM2_API uint32_t lm2_hash_mix_u32(uint32_t x);
 
 // =============================================================================
 // Hash Functions for Numeric Types
@@ -100,14 +99,14 @@ LM2_API uint32_t lm2_hash_u8(uint8_t value);
 // data: pointer to the data buffer
 // size: size of the data buffer in bytes
 // Returns: 32-bit hash value
-LM2_API uint32_t lm2_hash_fnv1a_32(const void* data, size_t size);
+LM2_API uint32_t lm2_hash_fnv1a_u32(const void* data, size_t size);
 
 // FNV-1a hash algorithm for arbitrary data buffers (64-bit version)
 // This is a simple, fast, non-cryptographic hash function
 // data: pointer to the data buffer
 // size: size of the data buffer in bytes
 // Returns: 64-bit hash value
-LM2_API uint64_t lm2_hash_fnv1a_64(const void* data, size_t size);
+LM2_API uint64_t lm2_hash_fnv1a_u64(const void* data, size_t size);
 
 // =============================================================================
 // Hash Combining
@@ -118,51 +117,15 @@ LM2_API uint64_t lm2_hash_fnv1a_64(const void* data, size_t size);
 // seed: the initial hash value (or previous combined hash)
 // hash: the new hash value to combine
 // Returns: combined hash value
-LM2_API uint32_t lm2_hash_combine_32(uint32_t seed, uint32_t hash);
+LM2_API uint32_t lm2_hash_combine_u32(uint32_t seed, uint32_t hash);
 
 // Combine two 64-bit hash values into one
 // This is useful for hashing composite objects
 // seed: the initial hash value (or previous combined hash)
 // hash: the new hash value to combine
 // Returns: combined hash value
-LM2_API uint64_t lm2_hash_combine_64(uint64_t seed, uint64_t hash);
+LM2_API uint64_t lm2_hash_combine_u64(uint64_t seed, uint64_t hash);
 
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// Internal generic dispatcher for uint32/uint64 hash functions
-// This is used for functions that only support these two types
-#ifndef LM2_NO_GENERICS
-#  ifdef __cplusplus
-
-// C++17 template-based dispatcher for uint32/uint64 types
-template <typename T, typename... Args>
-inline auto _lm2_hash_generic_32_64(auto&& u64, auto&& u32, T first, Args&&... rest) -> decltype(auto) {
-  using _LM2_T = std::remove_cvref_t<T>;
-  if constexpr (std::is_same_v<_LM2_T, uint64_t>) return u64(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, uint32_t>)
-    return u32(first, rest...);
-  else
-    static_assert(sizeof(_LM2_T) == 0, "Only uint32_t and uint64_t are supported");
-}
-
-#    define _LM2_GENERIC_32_64(name, ...) \
-      _lm2_hash_generic_32_64(name##_64, name##_32, __VA_ARGS__)
-
-#  else
-
-// C11 _Generic-based dispatcher for uint32/uint64 types
-#    define _LM2_GENERIC_32_64(name, ...) \
-      _Generic((__VA_ARGS__),             \
-          uint64_t: name##_64,            \
-          uint32_t: name##_32)(__VA_ARGS__)
-
-#  endif
-
-// Public generic functions
-#  define lm2_hash(...)                _LM2_GENERIC(lm2_hash, __VA_ARGS__)
-#  define lm2_hash_mix(x)              _LM2_GENERIC_32_64(lm2_hash_mix, x)
-#  define lm2_hash_combine(seed, hash) _LM2_GENERIC_32_64(lm2_hash_combine, seed, hash)
-
-#endif

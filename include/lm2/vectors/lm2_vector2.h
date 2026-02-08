@@ -129,46 +129,6 @@ typedef lm2_v2f32 lm2_v2;
 LM2_HEADER_END;
 // #############################################################################
 
-// Generics
-#ifndef LM2_NO_GENERICS
-#  include "lm2_vector_generics.h"
-#  define lm2_add_v2(...)            _LM2_GENERIC_V2(lm2_add, __VA_ARGS__)
-#  define lm2_sub_v2(...)            _LM2_GENERIC_V2(lm2_sub, __VA_ARGS__)
-#  define lm2_mul_v2(...)            _LM2_GENERIC_V2(lm2_mul, __VA_ARGS__)
-#  define lm2_div_v2(...)            _LM2_GENERIC_V2(lm2_div, __VA_ARGS__)
-#  define lm2_add_v2_s(...)          _LM2_GENERIC_V2_SCALAR(lm2_add, __VA_ARGS__)
-#  define lm2_sub_v2_s(...)          _LM2_GENERIC_V2_SCALAR(lm2_sub, __VA_ARGS__)
-#  define lm2_mul_v2_s(...)          _LM2_GENERIC_V2_SCALAR(lm2_mul, __VA_ARGS__)
-#  define lm2_div_v2_s(...)          _LM2_GENERIC_V2_SCALAR(lm2_div, __VA_ARGS__)
-#  define lm2_neg_v2(...)            _LM2_GENERIC_V2_UNARY(lm2_neg, __VA_ARGS__)
-#  define lm2_floor_v2(...)          _LM2_GENERIC_V2_UNARY(lm2_floor, __VA_ARGS__)
-#  define lm2_ceil_v2(...)           _LM2_GENERIC_V2_UNARY(lm2_ceil, __VA_ARGS__)
-#  define lm2_round_v2(...)          _LM2_GENERIC_V2_UNARY(lm2_round, __VA_ARGS__)
-#  define lm2_trunc_v2(...)          _LM2_GENERIC_V2_UNARY(lm2_trunc, __VA_ARGS__)
-#  define lm2_abs_v2(...)            _LM2_GENERIC_V2_UNARY(lm2_abs, __VA_ARGS__)
-#  define lm2_sign_v2(...)           _LM2_GENERIC_V2_UNARY(lm2_sign, __VA_ARGS__)
-#  define lm2_sign0_v2(...)          _LM2_GENERIC_V2_UNARY(lm2_sign0, __VA_ARGS__)
-#  define lm2_saturate_v2(...)       _LM2_GENERIC_V2_UNARY(lm2_saturate, __VA_ARGS__)
-#  define lm2_fract_v2(...)          _LM2_GENERIC_V2_UNARY(lm2_fract, __VA_ARGS__)
-#  define lm2_sqrt_v2(...)           _LM2_GENERIC_V2_UNARY(lm2_sqrt, __VA_ARGS__)
-#  define lm2_floor_multiple_v2(...) _LM2_GENERIC_V2(lm2_floor_multiple, __VA_ARGS__)
-#  define lm2_ceil_multiple_v2(...)  _LM2_GENERIC_V2(lm2_ceil_multiple, __VA_ARGS__)
-#  define lm2_round_multiple_v2(...) _LM2_GENERIC_V2(lm2_round_multiple, __VA_ARGS__)
-#  define lm2_trunc_multiple_v2(...) _LM2_GENERIC_V2(lm2_trunc_multiple, __VA_ARGS__)
-#  define lm2_min_v2(...)            _LM2_GENERIC_V2(lm2_min, __VA_ARGS__)
-#  define lm2_min_abs_v2(...)        _LM2_GENERIC_V2(lm2_min_abs, __VA_ARGS__)
-#  define lm2_max_v2(...)            _LM2_GENERIC_V2(lm2_max, __VA_ARGS__)
-#  define lm2_max_abs_v2(...)        _LM2_GENERIC_V2(lm2_max_abs, __VA_ARGS__)
-#  define lm2_mod_v2(...)            _LM2_GENERIC_V2(lm2_mod, __VA_ARGS__)
-#  define lm2_pow_v2(...)            _LM2_GENERIC_V2(lm2_pow, __VA_ARGS__)
-#  define lm2_clamp_v2(...)          _LM2_GENERIC_V2(lm2_clamp, __VA_ARGS__)
-#  define lm2_lerp_v2(...)           _LM2_GENERIC_V2(lm2_lerp, __VA_ARGS__)
-#  define lm2_smoothstep_v2(...)     _LM2_GENERIC_V2(lm2_smoothstep, __VA_ARGS__)
-#  define lm2_alpha_v2(...)          _LM2_GENERIC_V2(lm2_alpha, __VA_ARGS__)
-#  define lm2_v2_make(...)           _LM2_GENERIC_V2_MAKE(__VA_ARGS__)
-#  define lm2_v2_splat(...)          _LM2_GENERIC_V2_SPLAT(__VA_ARGS__)
-#endif
-
 // C++ operator overloads (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_vector_operators.h"

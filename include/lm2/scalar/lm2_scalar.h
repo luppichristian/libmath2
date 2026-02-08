@@ -118,35 +118,6 @@ LM2_API float lm2_pow_f32(float base, float exponent);
 LM2_API double lm2_sqrt_f64(double a);
 LM2_API float lm2_sqrt_f32(float a);
 
-// Generics
-#ifndef LM2_NO_GENERICS
-#  define lm2_floor(...)          _LM2_GENERIC(lm2_floor, __VA_ARGS__)
-#  define lm2_floor_multiple(...) _LM2_GENERIC(lm2_floor_multiple, __VA_ARGS__)
-#  define lm2_ceil(...)           _LM2_GENERIC(lm2_ceil, __VA_ARGS__)
-#  define lm2_ceil_multiple(...)  _LM2_GENERIC(lm2_ceil_multiple, __VA_ARGS__)
-#  define lm2_round(...)          _LM2_GENERIC(lm2_round, __VA_ARGS__)
-#  define lm2_round_multiple(...) _LM2_GENERIC(lm2_round_multiple, __VA_ARGS__)
-#  define lm2_trunc(...)          _LM2_GENERIC(lm2_trunc, __VA_ARGS__)
-#  define lm2_trunc_multiple(...) _LM2_GENERIC(lm2_trunc_multiple, __VA_ARGS__)
-#  define lm2_abs(...)            _LM2_GENERIC(lm2_abs, __VA_ARGS__)
-#  define lm2_sign(...)           _LM2_GENERIC(lm2_sign, __VA_ARGS__)
-#  define lm2_sign0(...)          _LM2_GENERIC(lm2_sign0, __VA_ARGS__)
-#  define lm2_min(...)            _LM2_GENERIC(lm2_min, __VA_ARGS__)
-#  define lm2_min_abs(...)        _LM2_GENERIC(lm2_min_abs, __VA_ARGS__)
-#  define lm2_max(...)            _LM2_GENERIC(lm2_max, __VA_ARGS__)
-#  define lm2_max_abs(...)        _LM2_GENERIC(lm2_max_abs, __VA_ARGS__)
-#  define lm2_clamp(...)          _LM2_GENERIC(lm2_clamp, __VA_ARGS__)
-#  define lm2_saturate(...)       _LM2_GENERIC(lm2_saturate, __VA_ARGS__)
-#  define lm2_lerp(...)           _LM2_GENERIC(lm2_lerp, __VA_ARGS__)
-#  define lm2_smoothstep(...)     _LM2_GENERIC(lm2_smoothstep, __VA_ARGS__)
-#  define lm2_alpha(...)          _LM2_GENERIC(lm2_alpha, __VA_ARGS__)
-#  define lm2_fract(...)          _LM2_GENERIC(lm2_fract, __VA_ARGS__)
-#  define lm2_mod(...)            _LM2_GENERIC(lm2_mod, __VA_ARGS__)
-#  define lm2_norm(...)           _LM2_GENERIC(lm2_norm, __VA_ARGS__)
-#  define lm2_pow(...)            _LM2_GENERIC(lm2_pow, __VA_ARGS__)
-#  define lm2_sqrt(...)           _LM2_GENERIC(lm2_sqrt, __VA_ARGS__)
-#endif
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

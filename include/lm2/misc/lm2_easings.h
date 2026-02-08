@@ -157,42 +157,6 @@ LM2_API const char* lm2_easing_to_string(easing easing);
 LM2_API double lm2_ease_f64(easing easing, double t);
 LM2_API float lm2_ease_f32(easing easing, float t);
 
-// Generic macros
-#ifndef LM2_NO_GENERICS
-#  define lm2_ease_linear(...)         _LM2_GENERIC(lm2_ease_linear, __VA_ARGS__)
-#  define lm2_ease_sin_in(...)         _LM2_GENERIC(lm2_ease_sin_in, __VA_ARGS__)
-#  define lm2_ease_sin_out(...)        _LM2_GENERIC(lm2_ease_sin_out, __VA_ARGS__)
-#  define lm2_ease_sin_in_out(...)     _LM2_GENERIC(lm2_ease_sin_in_out, __VA_ARGS__)
-#  define lm2_ease_cubic_in(...)       _LM2_GENERIC(lm2_ease_cubic_in, __VA_ARGS__)
-#  define lm2_ease_cubic_out(...)      _LM2_GENERIC(lm2_ease_cubic_out, __VA_ARGS__)
-#  define lm2_ease_cubic_in_out(...)   _LM2_GENERIC(lm2_ease_cubic_in_out, __VA_ARGS__)
-#  define lm2_ease_quart_in(...)       _LM2_GENERIC(lm2_ease_quart_in, __VA_ARGS__)
-#  define lm2_ease_quart_out(...)      _LM2_GENERIC(lm2_ease_quart_out, __VA_ARGS__)
-#  define lm2_ease_quart_in_out(...)   _LM2_GENERIC(lm2_ease_quart_in_out, __VA_ARGS__)
-#  define lm2_ease_quint_in(...)       _LM2_GENERIC(lm2_ease_quint_in, __VA_ARGS__)
-#  define lm2_ease_quint_out(...)      _LM2_GENERIC(lm2_ease_quint_out, __VA_ARGS__)
-#  define lm2_ease_quint_in_out(...)   _LM2_GENERIC(lm2_ease_quint_in_out, __VA_ARGS__)
-#  define lm2_ease_exp_in(...)         _LM2_GENERIC(lm2_ease_exp_in, __VA_ARGS__)
-#  define lm2_ease_exp_out(...)        _LM2_GENERIC(lm2_ease_exp_out, __VA_ARGS__)
-#  define lm2_ease_exp_in_out(...)     _LM2_GENERIC(lm2_ease_exp_in_out, __VA_ARGS__)
-#  define lm2_ease_circ_in(...)        _LM2_GENERIC(lm2_ease_circ_in, __VA_ARGS__)
-#  define lm2_ease_circ_out(...)       _LM2_GENERIC(lm2_ease_circ_out, __VA_ARGS__)
-#  define lm2_ease_circ_in_out(...)    _LM2_GENERIC(lm2_ease_circ_in_out, __VA_ARGS__)
-#  define lm2_ease_back_in(...)        _LM2_GENERIC(lm2_ease_back_in, __VA_ARGS__)
-#  define lm2_ease_back_out(...)       _LM2_GENERIC(lm2_ease_back_out, __VA_ARGS__)
-#  define lm2_ease_back_in_out(...)    _LM2_GENERIC(lm2_ease_back_in_out, __VA_ARGS__)
-#  define lm2_ease_elastic_in(...)     _LM2_GENERIC(lm2_ease_elastic_in, __VA_ARGS__)
-#  define lm2_ease_elastic_out(...)    _LM2_GENERIC(lm2_ease_elastic_out, __VA_ARGS__)
-#  define lm2_ease_elastic_in_out(...) _LM2_GENERIC(lm2_ease_elastic_in_out, __VA_ARGS__)
-#  define lm2_ease_quad_in(...)        _LM2_GENERIC(lm2_ease_quad_in, __VA_ARGS__)
-#  define lm2_ease_quad_out(...)       _LM2_GENERIC(lm2_ease_quad_out, __VA_ARGS__)
-#  define lm2_ease_quad_in_out(...)    _LM2_GENERIC(lm2_ease_quad_in_out, __VA_ARGS__)
-#  define lm2_ease_bounce_in(...)      _LM2_GENERIC(lm2_ease_bounce_in, __VA_ARGS__)
-#  define lm2_ease_bounce_out(...)     _LM2_GENERIC(lm2_ease_bounce_out, __VA_ARGS__)
-#  define lm2_ease_bounce_in_out(...)  _LM2_GENERIC(lm2_ease_bounce_in_out, __VA_ARGS__)
-#  define lm2_ease(...)                _LM2_GENERIC(lm2_ease, __VA_ARGS__)
-#endif
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

@@ -97,46 +97,6 @@ typedef lm2_r2f32 lm2_r2;
 LM2_HEADER_END;
 // #############################################################################
 
-// Generics
-#ifndef LM2_NO_GENERICS
-#  include "lm2_range_generics.h"
-#  define lm2_floor_r2(...)          _LM2_GENERIC_RANGE2(lm2_floor, __VA_ARGS__)
-#  define lm2_ceil_r2(...)           _LM2_GENERIC_RANGE2(lm2_ceil, __VA_ARGS__)
-#  define lm2_round_r2(...)          _LM2_GENERIC_RANGE2(lm2_round, __VA_ARGS__)
-#  define lm2_trunc_r2(...)          _LM2_GENERIC_RANGE2(lm2_trunc, __VA_ARGS__)
-#  define lm2_abs_r2(...)            _LM2_GENERIC_RANGE2(lm2_abs, __VA_ARGS__)
-#  define lm2_floor_multiple_r2(...) _LM2_GENERIC_RANGE2(lm2_floor_multiple, __VA_ARGS__)
-#  define lm2_ceil_multiple_r2(...)  _LM2_GENERIC_RANGE2(lm2_ceil_multiple, __VA_ARGS__)
-#  define lm2_round_multiple_r2(...) _LM2_GENERIC_RANGE2(lm2_round_multiple, __VA_ARGS__)
-#  define lm2_trunc_multiple_r2(...) _LM2_GENERIC_RANGE2(lm2_trunc_multiple, __VA_ARGS__)
-#  define lm2_min_r2(...)            _LM2_GENERIC_RANGE2(lm2_min, __VA_ARGS__)
-#  define lm2_max_r2(...)            _LM2_GENERIC_RANGE2(lm2_max, __VA_ARGS__)
-#  define lm2_clamp_r2(...)          _LM2_GENERIC_RANGE2(lm2_clamp, __VA_ARGS__)
-#  define lm2_lerp_r2(...)           _LM2_GENERIC_RANGE2(lm2_lerp, __VA_ARGS__)
-#  define lm2_normalize_r2(...)      _LM2_GENERIC_RANGE2(normalize, __VA_ARGS__)
-#  define lm2_translate_r2(...)      _LM2_GENERIC_RANGE2(translate, __VA_ARGS__)
-#  define lm2_scale_r2(...)          _LM2_GENERIC_RANGE2(scale, __VA_ARGS__)
-#  define lm2_expand_r2(...)         _LM2_GENERIC_RANGE2(expand, __VA_ARGS__)
-#  define lm2_union_r2(...)          _LM2_GENERIC_RANGE2(union, __VA_ARGS__)
-#  define lm2_intersection_r2(...)   _LM2_GENERIC_RANGE2(intersection, __VA_ARGS__)
-#  define lm2_size_r2(...)           _LM2_GENERIC_RANGE2(size, __VA_ARGS__)
-#  define lm2_extents_r2(...)        _LM2_GENERIC_RANGE2(extents, __VA_ARGS__)
-#  define lm2_center_r2(...)         _LM2_GENERIC_RANGE2(center, __VA_ARGS__)
-#  define lm2_contains_point_r2(...) _LM2_GENERIC_RANGE2(contains_point, __VA_ARGS__)
-#  define lm2_overlaps_r2(...)       _LM2_GENERIC_RANGE2(overlaps, __VA_ARGS__)
-#  define lm2_area_r2(...)           _LM2_GENERIC_RANGE2(area, __VA_ARGS__)
-#  define lm2_add_r2(r, x)           _LM2_RANGE2_ARITH(add, r, x)
-#  define lm2_sub_r2(r, x)           _LM2_RANGE2_ARITH(sub, r, x)
-#  define lm2_mul_r2(r, x)           _LM2_RANGE2_ARITH(mul, r, x)
-#  define lm2_div_r2(r, x)           _LM2_RANGE2_ARITH(div, r, x)
-#  define lm2_mod_r2(r, x)           _LM2_RANGE2_ARITH(mod, r, x)
-// Constructor generics
-#  define lm2_r2_from_min_max(...)        _LM2_GENERIC_RANGE2(from_min_max, __VA_ARGS__)
-#  define lm2_r2_from_center_extents(...) _LM2_GENERIC_RANGE2(from_center_extents, __VA_ARGS__)
-#  define lm2_r2_from_center_size(...)    _LM2_GENERIC_RANGE2(from_center_size, __VA_ARGS__)
-#  define lm2_r2_from_position_size(...)  _LM2_GENERIC_RANGE2(from_position_size, __VA_ARGS__)
-#endif
-
 // C++ operator overloads and constructors (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_range_operators.h"

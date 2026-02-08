@@ -26,7 +26,6 @@ SOFTWARE.
 
 #include "lm2/geometry/lm2_triangle.h"
 #include "lm2/lm2_base.h"
-#include "lm2/lm2_generic.h"
 #include "lm2/vectors/lm2_vector2.h"
 
 // #############################################################################
@@ -179,79 +178,3 @@ LM2_API void lm2_indexed_mesh_to_triangle_list_f32(
 
 // #############################################################################
 LM2_HEADER_END;
-// #############################################################################
-
-// =============================================================================
-// Generic Utility Macros
-// =============================================================================
-
-#ifndef LM2_NO_GENERICS
-
-// Utility macro for dispatching based on triangle array type
-#  ifdef __cplusplus
-template <typename T, typename... Args>
-inline auto _lm2_generic_triangle(auto&& f64, auto&& f32, const T* first, Args&&... rest) -> decltype(auto) {
-  using VecType = std::remove_cvref_t<decltype(first[0][0])>;
-  if constexpr (std::is_same_v<VecType, lm2_v2f64>)
-    return f64(first, rest...);
-  else if constexpr (std::is_same_v<VecType, lm2_v2f32>)
-    return f32(first, rest...);
-  else
-    static_assert(sizeof(VecType) == 0, "Unsupported triangle type");
-}
-#    define _LM2_GENERIC_TRIANGLE(name, ...) \
-      _lm2_generic_triangle(name##_f64, name##_f32, __VA_ARGS__)
-#  else
-#    define _LM2_GENERIC_TRIANGLE(name, first, ...) \
-      _Generic((first),                             \
-          const lm2_triangle_f64*: name##_f64,      \
-          lm2_triangle_f64*: name##_f64,            \
-          const lm2_triangle_f32*: name##_f32,      \
-          lm2_triangle_f32*: name##_f32)(first, __VA_ARGS__)
-#  endif
-
-// Utility macro for dispatching based on vertex array type
-#  ifdef __cplusplus
-template <typename T, typename... Args>
-inline auto _lm2_generic_vertex(auto&& f64, auto&& f32, const T* first, Args&&... rest) -> decltype(auto) {
-  using VecType = std::remove_cvref_t<T>;
-  if constexpr (std::is_same_v<VecType, lm2_v2f64>)
-    return f64(first, rest...);
-  else if constexpr (std::is_same_v<VecType, lm2_v2f32>)
-    return f32(first, rest...);
-  else
-    static_assert(sizeof(VecType) == 0, "Unsupported vertex type");
-}
-#    define _LM2_GENERIC_VERTEX(name, ...) \
-      _lm2_generic_vertex(name##_f64, name##_f32, __VA_ARGS__)
-#  else
-#    define _LM2_GENERIC_VERTEX(name, first, ...) \
-      _Generic((first),                           \
-          const lm2_v2f64*: name##_f64,           \
-          lm2_v2f64*: name##_f64,                 \
-          const lm2_v2f32*: name##_f32,           \
-          lm2_v2f32*: name##_f32)(first, __VA_ARGS__)
-#  endif
-
-#endif
-
-// =============================================================================
-// Generic Functions
-// =============================================================================
-
-#ifndef LM2_NO_GENERICS
-#  define lm2_triangle_list_to_vertex_array(...) \
-    _LM2_GENERIC_TRIANGLE(lm2_triangle_list_to_vertex_array, __VA_ARGS__)
-
-#  define lm2_vertex_array_to_triangle_list(...) \
-    _LM2_GENERIC_VERTEX(lm2_vertex_array_to_triangle_list, __VA_ARGS__)
-
-#  define lm2_triangle_list_to_indexed_mesh_size(...) \
-    _LM2_GENERIC_TRIANGLE(lm2_triangle_list_to_indexed_mesh_size, __VA_ARGS__)
-
-#  define lm2_triangle_list_to_indexed_mesh(...) \
-    _LM2_GENERIC_TRIANGLE(lm2_triangle_list_to_indexed_mesh, __VA_ARGS__)
-
-#  define lm2_indexed_mesh_to_triangle_list(...) \
-    _LM2_GENERIC_VERTEX(lm2_indexed_mesh_to_triangle_list, __VA_ARGS__)
-#endif

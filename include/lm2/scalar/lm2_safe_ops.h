@@ -25,7 +25,6 @@ SOFTWARE.
 #pragma once
 
 #include "lm2/lm2_base.h"
-#include "lm2/lm2_generic.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -62,14 +61,6 @@ _LM2_DEFINE_SAFE_OP(lm2_mul);
 // Returns the quotient of a and b, or handles division by zero appropriately
 // LM2_ASSERTS will be triggered on division by zero conditions
 _LM2_DEFINE_SAFE_OP(lm2_div);
-
-// Generics
-#ifndef LM2_NO_GENERICS
-#  define lm2_add(...) _LM2_GENERIC(lm2_add, __VA_ARGS__)
-#  define lm2_sub(...) _LM2_GENERIC(lm2_sub, __VA_ARGS__)
-#  define lm2_mul(...) _LM2_GENERIC(lm2_mul, __VA_ARGS__)
-#  define lm2_div(...) _LM2_GENERIC(lm2_div, __VA_ARGS__)
-#endif
 
 // #############################################################################
 LM2_HEADER_END;
