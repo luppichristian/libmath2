@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <lm2/geometry/lm2_triangle.h>
+#include <lm2/geometry2d/lm2_triangle.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
-#include <lm2/geometry/lm2_edge.h>
+#include <lm2/geometry2d/lm2_edge.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
 
 // =============================================================================

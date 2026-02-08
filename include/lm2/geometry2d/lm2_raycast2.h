@@ -24,9 +24,9 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2/geometry/lm2_capsule.h"
-#include "lm2/geometry/lm2_circle.h"
-#include "lm2/geometry/lm2_polygon.h"
+#include "lm2_capsule.h"
+#include "lm2_circle.h"
+#include "lm2_polygon.h"
 #include "lm2/lm2_base.h"
 #include "lm2/ranges/lm2_range2.h"
 #include "lm2/vectors/lm2_vector2.h"

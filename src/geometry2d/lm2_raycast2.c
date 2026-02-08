@@ -24,7 +24,7 @@ SOFTWARE.
 
 #include <cute_c2.h>
 
-#include "lm2/geometry/lm2_raycast2.h"
+#include "lm2/geometry2d/lm2_raycast2.h"
 #include "lm2/scalar/lm2_safe_ops.h"
 #include "lm2/scalar/lm2_scalar.h"
 #include "lm2/vectors/lm2_vector_specifics.h"

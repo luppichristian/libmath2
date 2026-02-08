@@ -25,7 +25,7 @@ SOFTWARE.
 #pragma once
 
 #include <stddef.h>
-#include "lm2/geometry/lm2_triangle.h"
+#include "lm2_triangle.h"
 #include "lm2/lm2_base.h"
 #include "lm2/ranges/lm2_range2.h"
 #include "lm2/vectors/lm2_vector2.h"
