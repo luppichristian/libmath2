@@ -27,6 +27,8 @@ SOFTWARE.
 #include <stddef.h>
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector2.h"
+#include "lm2/ranges/lm2_range2.h"
+#include "lm2/geometry/lm2_triangle.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -66,13 +68,33 @@ LM2_API void lm2_polygon_make_regular_f32(lm2_v2f32* out_vertices, size_t num_si
 LM2_API void lm2_polygon_make_rect_f64(lm2_v2f64* out_vertices, lm2_v2f64 min, lm2_v2f64 max);
 LM2_API void lm2_polygon_make_rect_f32(lm2_v2f32* out_vertices, lm2_v2f32 min, lm2_v2f32 max);
 
+// Create a triangle polygon (caller provides output array of size 3)
+LM2_API void lm2_polygon_make_triangle_f64(lm2_v2f64* out_vertices, lm2_v2f64 position, lm2_v2f64 tip, double base_width);
+LM2_API void lm2_polygon_make_triangle_f32(lm2_v2f32* out_vertices, lm2_v2f32 position, lm2_v2f32 tip, float base_width);
+
+// Create a polygon from a triangle (caller provides output array of size 3)
+LM2_API void lm2_polygon_from_triangle_f64(lm2_v2f64* out_vertices, const lm2_triangle_f64 triangle);
+LM2_API void lm2_polygon_from_triangle_f32(lm2_v2f32* out_vertices, const lm2_triangle_f32 triangle);
+
 // =============================================================================
 // Polygon Properties
 // =============================================================================
 
-// Calculate the area of a polygon (signed, positive for CCW, negative for CW)
+// Validate a polygon (checks for null pointer and minimum vertex count)
+LM2_API bool lm2_polygon_validate_f64(lm2_polygon_f64 polygon);
+LM2_API bool lm2_polygon_validate_f32(lm2_polygon_f32 polygon);
+
+// Calculate the signed area of a polygon (positive for CCW, negative for CW)
+LM2_API double lm2_polygon_signed_area_f64(lm2_polygon_f64 polygon);
+LM2_API float lm2_polygon_signed_area_f32(lm2_polygon_f32 polygon);
+
+// Calculate the area of a polygon (absolute value, always positive)
 LM2_API double lm2_polygon_area_f64(lm2_polygon_f64 polygon);
 LM2_API float lm2_polygon_area_f32(lm2_polygon_f32 polygon);
+
+// Get the winding order of a polygon
+LM2_API lm2_winding_order lm2_polygon_winding_order_f64(lm2_polygon_f64 polygon);
+LM2_API lm2_winding_order lm2_polygon_winding_order_f32(lm2_polygon_f32 polygon);
 
 // Calculate the perimeter of a polygon
 LM2_API double lm2_polygon_perimeter_f64(lm2_polygon_f64 polygon);
@@ -85,6 +107,14 @@ LM2_API lm2_v2f32 lm2_polygon_centroid_f32(lm2_polygon_f32 polygon);
 // Check if polygon vertices are ordered counter-clockwise
 LM2_API bool lm2_polygon_is_ccw_f64(lm2_polygon_f64 polygon);
 LM2_API bool lm2_polygon_is_ccw_f32(lm2_polygon_f32 polygon);
+
+// Calculate the geometric center (alias for centroid)
+LM2_API lm2_v2f64 lm2_polygon_center_f64(lm2_polygon_f64 polygon);
+LM2_API lm2_v2f32 lm2_polygon_center_f32(lm2_polygon_f32 polygon);
+
+// Calculate the axis-aligned bounding box of a polygon
+LM2_API lm2_r2f64 lm2_polygon_bounds_f64(lm2_polygon_f64 polygon);
+LM2_API lm2_r2f32 lm2_polygon_bounds_f32(lm2_polygon_f32 polygon);
 
 // =============================================================================
 // Polygon Tests
@@ -101,6 +131,14 @@ LM2_API bool lm2_polygon_is_convex_f32(lm2_polygon_f32 polygon);
 // Check if a polygon is simple (no self-intersections)
 LM2_API bool lm2_polygon_is_simple_f64(lm2_polygon_f64 polygon);
 LM2_API bool lm2_polygon_is_simple_f32(lm2_polygon_f32 polygon);
+
+// Check if a polygon is a triangle (has exactly 3 vertices)
+LM2_API bool lm2_polygon_is_triangle_f64(lm2_polygon_f64 polygon);
+LM2_API bool lm2_polygon_is_triangle_f32(lm2_polygon_f32 polygon);
+
+// Check if a polygon is a quad (has exactly 4 vertices)
+LM2_API bool lm2_polygon_is_quad_f64(lm2_polygon_f64 polygon);
+LM2_API bool lm2_polygon_is_quad_f32(lm2_polygon_f32 polygon);
 
 // =============================================================================
 // Polygon Transformations
@@ -122,6 +160,43 @@ LM2_API void lm2_polygon_rotate_f32(lm2_polygon_f32 polygon, lm2_v2f32 center, f
 LM2_API void lm2_polygon_reverse_winding_f64(lm2_polygon_f64 polygon);
 LM2_API void lm2_polygon_reverse_winding_f32(lm2_polygon_f32 polygon);
 
+// Insert a vertex at a specific index (caller manages vertex array, must have space)
+LM2_API void lm2_polygon_insert_vertex_f64(lm2_v2f64* vertices, size_t* vertex_count, size_t index, lm2_v2f64 vertex);
+LM2_API void lm2_polygon_insert_vertex_f32(lm2_v2f32* vertices, size_t* vertex_count, size_t index, lm2_v2f32 vertex);
+
+// Remove a vertex at a specific index (shifts remaining vertices)
+LM2_API void lm2_polygon_remove_vertex_f64(lm2_v2f64* vertices, size_t* vertex_count, size_t index);
+LM2_API void lm2_polygon_remove_vertex_f32(lm2_v2f32* vertices, size_t* vertex_count, size_t index);
+
+// Move polygon so its centroid is at the specified position
+LM2_API void lm2_polygon_place_at_center_f64(lm2_polygon_f64 polygon, lm2_v2f64 position);
+LM2_API void lm2_polygon_place_at_center_f32(lm2_polygon_f32 polygon, lm2_v2f32 position);
+
+// =============================================================================
+// Polygon Triangulation
+// =============================================================================
+
+// Calculate the maximum number of triangles for a polygon (vertex_count - 2)
+LM2_API size_t lm2_polygon_max_triangle_count(size_t vertex_count);
+
+// Triangulate a polygon using ear clipping algorithm
+// out_indices: caller-provided array to store triangle indices (size = max_triangle_count * 3)
+// Returns: actual number of triangles generated
+LM2_API size_t lm2_polygon_triangulate_ear_clipping_f64(lm2_polygon_f64 polygon, size_t* out_indices);
+LM2_API size_t lm2_polygon_triangulate_ear_clipping_f32(lm2_polygon_f32 polygon, size_t* out_indices);
+
+// =============================================================================
+// Polygon Splitting
+// =============================================================================
+
+// Split polygon into subpolygons with max vertices each
+// out_polygons: caller-provided array of polygon structures (size = estimated split count)
+// out_vertices_buffer: caller-provided vertex buffer for all subpolygons
+// max_vertices: maximum vertices per subpolygon
+// Returns: actual number of subpolygons generated
+LM2_API size_t lm2_polygon_split_by_max_vertices_f64(lm2_polygon_f64 polygon, lm2_polygon_f64* out_polygons, lm2_v2f64* out_vertices_buffer, size_t max_vertices);
+LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm2_polygon_f32* out_polygons, lm2_v2f32* out_vertices_buffer, size_t max_vertices);
+
 // =============================================================================
 // Generic Macros
 // =============================================================================
@@ -132,91 +207,157 @@ LM2_API void lm2_polygon_reverse_winding_f32(lm2_polygon_f32 polygon);
       _Generic((__VA_ARGS__),               \
           lm2_polygon_f64: name##_f64,      \
           lm2_polygon_f32: name##_f32,      \
-          lm2_v2f64*: name##_f64,           \
-          lm2_v2f32*: name##_f32)(__VA_ARGS__)
+          lm2_v2f64 *: name##_f64,          \
+          lm2_v2f32 *: name##_f32)(__VA_ARGS__)
 #  else
 #    define _LM2_POLYGON_GENERIC(name, ...) \
       _Generic((__VA_ARGS__),               \
           lm2_polygon_f64: name##_f64,      \
           lm2_polygon_f32: name##_f32,      \
-          lm2_v2f64*: name##_f64,           \
-          lm2_v2f32*: name##_f32)(__VA_ARGS__)
+          lm2_v2f64 *: name##_f64,          \
+          lm2_v2f32 *: name##_f32)(__VA_ARGS__)
 #  endif
 
 // Construction helpers
 #  define lm2_polygon_make(vertices, count) \
     _Generic((vertices),                    \
-        lm2_v2f64*: lm2_polygon_make_f64,   \
-        lm2_v2f32*: lm2_polygon_make_f32)(vertices, count)
+        lm2_v2f64 *: lm2_polygon_make_f64,  \
+        lm2_v2f32 *: lm2_polygon_make_f32)(vertices, count)
 
 #  define lm2_polygon_make_regular(out, num_sides, center, radius) \
     _Generic((out),                                                \
-        lm2_v2f64*: lm2_polygon_make_regular_f64,                  \
-        lm2_v2f32*: lm2_polygon_make_regular_f32)(out, num_sides, center, radius)
+        lm2_v2f64 *: lm2_polygon_make_regular_f64,                 \
+        lm2_v2f32 *: lm2_polygon_make_regular_f32)(out, num_sides, center, radius)
 
-#  define lm2_polygon_make_rect(out, min, max) \
-    _Generic((out),                            \
-        lm2_v2f64*: lm2_polygon_make_rect_f64, \
-        lm2_v2f32*: lm2_polygon_make_rect_f32)(out, min, max)
+#  define lm2_polygon_make_rect(out, min, max)  \
+    _Generic((out),                             \
+        lm2_v2f64 *: lm2_polygon_make_rect_f64, \
+        lm2_v2f32 *: lm2_polygon_make_rect_f32)(out, min, max)
+
+#  define lm2_polygon_make_triangle(out, position, tip, base_width) \
+    _Generic((out),                                                 \
+        lm2_v2f64 *: lm2_polygon_make_triangle_f64,                 \
+        lm2_v2f32 *: lm2_polygon_make_triangle_f32)(out, position, tip, base_width)
+
+#  define lm2_polygon_from_triangle(out, triangle)  \
+    _Generic((out),                                 \
+        lm2_v2f64 *: lm2_polygon_from_triangle_f64, \
+        lm2_v2f32 *: lm2_polygon_from_triangle_f32)(out, triangle)
 
 // Polygon properties
-#  define lm2_polygon_area(polygon)       \
-    _Generic((polygon).vertices,          \
-        lm2_v2f64*: lm2_polygon_area_f64, \
-        lm2_v2f32*: lm2_polygon_area_f32)(polygon)
-
-#  define lm2_polygon_perimeter(polygon)       \
+#  define lm2_polygon_validate(polygon)        \
     _Generic((polygon).vertices,               \
-        lm2_v2f64*: lm2_polygon_perimeter_f64, \
-        lm2_v2f32*: lm2_polygon_perimeter_f32)(polygon)
+        lm2_v2f64 *: lm2_polygon_validate_f64, \
+        lm2_v2f32 *: lm2_polygon_validate_f32)(polygon)
 
-#  define lm2_polygon_centroid(polygon)       \
-    _Generic((polygon).vertices,              \
-        lm2_v2f64*: lm2_polygon_centroid_f64, \
-        lm2_v2f32*: lm2_polygon_centroid_f32)(polygon)
+#  define lm2_polygon_signed_area(polygon)        \
+    _Generic((polygon).vertices,                  \
+        lm2_v2f64 *: lm2_polygon_signed_area_f64, \
+        lm2_v2f32 *: lm2_polygon_signed_area_f32)(polygon)
 
-#  define lm2_polygon_is_ccw(polygon)       \
-    _Generic((polygon).vertices,            \
-        lm2_v2f64*: lm2_polygon_is_ccw_f64, \
-        lm2_v2f32*: lm2_polygon_is_ccw_f32)(polygon)
+#  define lm2_polygon_area(polygon)        \
+    _Generic((polygon).vertices,           \
+        lm2_v2f64 *: lm2_polygon_area_f64, \
+        lm2_v2f32 *: lm2_polygon_area_f32)(polygon)
 
+#  define lm2_polygon_winding_order(polygon)        \
+    _Generic((polygon).vertices,                    \
+        lm2_v2f64 *: lm2_polygon_winding_order_f64, \
+        lm2_v2f32 *: lm2_polygon_winding_order_f32)(polygon)
+
+#  define lm2_polygon_perimeter(polygon)        \
+    _Generic((polygon).vertices,                \
+        lm2_v2f64 *: lm2_polygon_perimeter_f64, \
+        lm2_v2f32 *: lm2_polygon_perimeter_f32)(polygon)
+
+#  define lm2_polygon_centroid(polygon)        \
+    _Generic((polygon).vertices,               \
+        lm2_v2f64 *: lm2_polygon_centroid_f64, \
+        lm2_v2f32 *: lm2_polygon_centroid_f32)(polygon)
+
+#  define lm2_polygon_is_ccw(polygon)        \
+    _Generic((polygon).vertices,             \
+        lm2_v2f64 *: lm2_polygon_is_ccw_f64, \
+        lm2_v2f32 *: lm2_polygon_is_ccw_f32)(polygon)
+#  define lm2_polygon_center(polygon)        \
+    _Generic((polygon).vertices,             \
+        lm2_v2f64 *: lm2_polygon_center_f64, \
+        lm2_v2f32 *: lm2_polygon_center_f32)(polygon)
+
+#  define lm2_polygon_bounds(polygon)        \
+    _Generic((polygon).vertices,             \
+        lm2_v2f64 *: lm2_polygon_bounds_f64, \
+        lm2_v2f32 *: lm2_polygon_bounds_f32)(polygon)
 // Polygon tests
 #  define lm2_polygon_contains_point(polygon, point) \
     _Generic((polygon).vertices,                     \
-        lm2_v2f64*: lm2_polygon_contains_point_f64,  \
-        lm2_v2f32*: lm2_polygon_contains_point_f32)(polygon, point)
+        lm2_v2f64 *: lm2_polygon_contains_point_f64, \
+        lm2_v2f32 *: lm2_polygon_contains_point_f32)(polygon, point)
 
-#  define lm2_polygon_is_convex(polygon)       \
-    _Generic((polygon).vertices,               \
-        lm2_v2f64*: lm2_polygon_is_convex_f64, \
-        lm2_v2f32*: lm2_polygon_is_convex_f32)(polygon)
+#  define lm2_polygon_is_convex(polygon)        \
+    _Generic((polygon).vertices,                \
+        lm2_v2f64 *: lm2_polygon_is_convex_f64, \
+        lm2_v2f32 *: lm2_polygon_is_convex_f32)(polygon)
 
-#  define lm2_polygon_is_simple(polygon)       \
-    _Generic((polygon).vertices,               \
-        lm2_v2f64*: lm2_polygon_is_simple_f64, \
-        lm2_v2f32*: lm2_polygon_is_simple_f32)(polygon)
+#  define lm2_polygon_is_simple(polygon)        \
+    _Generic((polygon).vertices,                \
+        lm2_v2f64 *: lm2_polygon_is_simple_f64, \
+        lm2_v2f32 *: lm2_polygon_is_simple_f32)(polygon)
+#  define lm2_polygon_is_triangle(polygon)        \
+    _Generic((polygon).vertices,                  \
+        lm2_v2f64 *: lm2_polygon_is_triangle_f64, \
+        lm2_v2f32 *: lm2_polygon_is_triangle_f32)(polygon)
 
+#  define lm2_polygon_is_quad(polygon)        \
+    _Generic((polygon).vertices,              \
+        lm2_v2f64 *: lm2_polygon_is_quad_f64, \
+        lm2_v2f32 *: lm2_polygon_is_quad_f32)(polygon)
 // Polygon transformations
 #  define lm2_polygon_translate(polygon, offset) \
     _Generic((polygon).vertices,                 \
-        lm2_v2f64*: lm2_polygon_translate_f64,   \
-        lm2_v2f32*: lm2_polygon_translate_f32)(polygon, offset)
+        lm2_v2f64 *: lm2_polygon_translate_f64,  \
+        lm2_v2f32 *: lm2_polygon_translate_f32)(polygon, offset)
 
 #  define lm2_polygon_scale(polygon, center, scale) \
     _Generic((polygon).vertices,                    \
-        lm2_v2f64*: lm2_polygon_scale_f64,          \
-        lm2_v2f32*: lm2_polygon_scale_f32)(polygon, center, scale)
+        lm2_v2f64 *: lm2_polygon_scale_f64,         \
+        lm2_v2f32 *: lm2_polygon_scale_f32)(polygon, center, scale)
 
 #  define lm2_polygon_rotate(polygon, center, angle) \
     _Generic((polygon).vertices,                     \
-        lm2_v2f64*: lm2_polygon_rotate_f64,          \
-        lm2_v2f32*: lm2_polygon_rotate_f32)(polygon, center, angle)
+        lm2_v2f64 *: lm2_polygon_rotate_f64,         \
+        lm2_v2f32 *: lm2_polygon_rotate_f32)(polygon, center, angle)
 
-#  define lm2_polygon_reverse_winding(polygon)       \
-    _Generic((polygon).vertices,                     \
-        lm2_v2f64*: lm2_polygon_reverse_winding_f64, \
-        lm2_v2f32*: lm2_polygon_reverse_winding_f32)(polygon)
+#  define lm2_polygon_reverse_winding(polygon)        \
+    _Generic((polygon).vertices,                      \
+        lm2_v2f64 *: lm2_polygon_reverse_winding_f64, \
+        lm2_v2f32 *: lm2_polygon_reverse_winding_f32)(polygon)
+#  define lm2_polygon_insert_vertex(vertices, vertex_count, index, vertex) \
+    _Generic((vertices),                                                   \
+        lm2_v2f64 *: lm2_polygon_insert_vertex_f64,                        \
+        lm2_v2f32 *: lm2_polygon_insert_vertex_f32)(vertices, vertex_count, index, vertex)
 
+#  define lm2_polygon_remove_vertex(vertices, vertex_count, index) \
+    _Generic((vertices),                                           \
+        lm2_v2f64 *: lm2_polygon_remove_vertex_f64,                \
+        lm2_v2f32 *: lm2_polygon_remove_vertex_f32)(vertices, vertex_count, index)
+
+#  define lm2_polygon_place_at_center(polygon, position) \
+    _Generic((polygon).vertices,                         \
+        lm2_v2f64 *: lm2_polygon_place_at_center_f64,    \
+        lm2_v2f32 *: lm2_polygon_place_at_center_f32)(polygon, position)
+
+// Polygon triangulation
+#  define lm2_polygon_triangulate_ear_clipping(polygon, out_indices) \
+    _Generic((polygon).vertices,                                     \
+        lm2_v2f64 *: lm2_polygon_triangulate_ear_clipping_f64,       \
+        lm2_v2f32 *: lm2_polygon_triangulate_ear_clipping_f32)(polygon, out_indices)
+
+// Polygon splitting
+#  define lm2_polygon_split_by_max_vertices(polygon, out_polygons, out_vertices_buffer, max_vertices) \
+    _Generic((polygon).vertices,                                                                      \
+        lm2_v2f64 *: lm2_polygon_split_by_max_vertices_f64,                                           \
+        lm2_v2f32 *: lm2_polygon_split_by_max_vertices_f32)(polygon, out_polygons, out_vertices_buffer, max_vertices)
 #endif
 
 // #############################################################################

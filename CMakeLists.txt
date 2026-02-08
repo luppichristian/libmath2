@@ -11,6 +11,19 @@ option(LM2_BUILD_SHARED "Build as a shared library" OFF)
 option(LM2_BUILD_TESTS "Build tests" ON)
 option(LM2_GTEST_FETCH "Fetch GoogleTest if not found" ON)
 
+# --- External Dependencies ---
+
+# Include FetchContent module for external dependencies
+include(FetchContent)
+
+# Fetch cute_c2 for collision detection
+FetchContent_Declare(
+    cute_c2
+    GIT_REPOSITORY https://github.com/RandyGaul/cute_headers.git
+    GIT_TAG master
+)
+FetchContent_MakeAvailable(cute_c2)
+
 # --- Library ---
 
 file(GLOB LM2_SOURCES src/*/*.c)
@@ -28,6 +41,10 @@ target_include_directories(libmath2 PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+target_include_directories(libmath2 PRIVATE
+    ${cute_c2_SOURCE_DIR}
+)
+
 # --- Tests ---
 
 if(LM2_BUILD_TESTS)
@@ -36,7 +53,6 @@ if(LM2_BUILD_TESTS)
     find_package(GTest 1.14.0 QUIET)
 
     if(NOT GTest_FOUND AND LM2_GTEST_FETCH)
-        include(FetchContent)
         FetchContent_Declare(
             googletest
             GIT_REPOSITORY https://github.com/google/googletest.git
