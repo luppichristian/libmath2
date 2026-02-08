@@ -39,15 +39,15 @@ SOFTWARE.
 // Capsule Operators
 // =============================================================================
 
-#  define _LM2_DEFINE_CAPSULE_OPERATORS(type_name, suffix, vec_type, scalar_type) \
-    inline type_name operator+(type_name capsule, vec_type offset) {              \
-      return lm2_capsule_translate_##suffix(capsule, offset);                     \
-    }                                                                             \
-    inline type_name operator-(type_name capsule, vec_type offset) {              \
-      return lm2_capsule_translate_##suffix(capsule, lm2_neg_##vec_type(offset)); \
-    }                                                                             \
-    inline type_name operator*(type_name capsule, scalar_type scale) {            \
-      return lm2_capsule_scale_radius_##suffix(capsule, scale);                   \
+#  define _LM2_DEFINE_CAPSULE_OPERATORS(type_name, suffix, vec_type, scalar_type)  \
+    inline type_name operator+(type_name capsule, vec_type offset) {               \
+      return lm2_capsule2_translate_##suffix(capsule, offset);                     \
+    }                                                                              \
+    inline type_name operator-(type_name capsule, vec_type offset) {               \
+      return lm2_capsule2_translate_##suffix(capsule, lm2_neg_##vec_type(offset)); \
+    }                                                                              \
+    inline type_name operator*(type_name capsule, scalar_type scale) {             \
+      return lm2_capsule2_scale_radius_##suffix(capsule, scale);                   \
     }
 
 // =============================================================================

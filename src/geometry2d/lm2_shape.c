@@ -77,7 +77,7 @@ static c2Circle lm2_circle_f64_to_c2(lm2_circle_f64 circle) {
   return result;
 }
 
-static c2Capsule lm2_capsule_f32_to_c2(lm2_capsule_f32 capsule) {
+static c2Capsule lm2_capsule2_f32_to_c2(lm2_capsule2_f32 capsule) {
   c2Capsule result;
   result.a = lm2_v2f32_to_c2v(capsule.start);
   result.b = lm2_v2f32_to_c2v(capsule.end);
@@ -85,7 +85,7 @@ static c2Capsule lm2_capsule_f32_to_c2(lm2_capsule_f32 capsule) {
   return result;
 }
 
-static c2Capsule lm2_capsule_f64_to_c2(lm2_capsule_f64 capsule) {
+static c2Capsule lm2_capsule2_f64_to_c2(lm2_capsule2_f64 capsule) {
   c2Capsule result;
   result.a = lm2_v2f64_to_c2v(capsule.start);
   result.b = lm2_v2f64_to_c2v(capsule.end);
@@ -175,8 +175,8 @@ LM2_API bool lm2_collide_circle_to_aabb_f64(lm2_circle_f64 circle, lm2_r2f64 aab
   return c2CircletoAABB(lm2_circle_f64_to_c2(circle), lm2_r2f64_to_c2(aabb)) != 0;
 }
 
-LM2_API bool lm2_collide_circle_to_capsule_f64(lm2_circle_f64 circle, lm2_capsule_f64 capsule) {
-  return c2CircletoCapsule(lm2_circle_f64_to_c2(circle), lm2_capsule_f64_to_c2(capsule)) != 0;
+LM2_API bool lm2_collide_circle_to_capsule_f64(lm2_circle_f64 circle, lm2_capsule2_f64 capsule) {
+  return c2CircletoCapsule(lm2_circle_f64_to_c2(circle), lm2_capsule2_f64_to_c2(capsule)) != 0;
 }
 
 LM2_API bool lm2_collide_circle_to_polygon_f64(lm2_circle_f64 circle, lm2_polygon_f64 polygon) {
@@ -188,8 +188,8 @@ LM2_API bool lm2_collide_aabb_to_aabb_f64(lm2_r2f64 a, lm2_r2f64 b) {
   return c2AABBtoAABB(lm2_r2f64_to_c2(a), lm2_r2f64_to_c2(b)) != 0;
 }
 
-LM2_API bool lm2_collide_aabb_to_capsule_f64(lm2_r2f64 aabb, lm2_capsule_f64 capsule) {
-  return c2AABBtoCapsule(lm2_r2f64_to_c2(aabb), lm2_capsule_f64_to_c2(capsule)) != 0;
+LM2_API bool lm2_collide_aabb_to_capsule_f64(lm2_r2f64 aabb, lm2_capsule2_f64 capsule) {
+  return c2AABBtoCapsule(lm2_r2f64_to_c2(aabb), lm2_capsule2_f64_to_c2(capsule)) != 0;
 }
 
 LM2_API bool lm2_collide_aabb_to_polygon_f64(lm2_r2f64 aabb, lm2_polygon_f64 polygon) {
@@ -197,13 +197,13 @@ LM2_API bool lm2_collide_aabb_to_polygon_f64(lm2_r2f64 aabb, lm2_polygon_f64 pol
   return c2AABBtoPoly(lm2_r2f64_to_c2(aabb), &poly, NULL) != 0;
 }
 
-LM2_API bool lm2_collide_capsule_to_capsule_f64(lm2_capsule_f64 a, lm2_capsule_f64 b) {
-  return c2CapsuletoCapsule(lm2_capsule_f64_to_c2(a), lm2_capsule_f64_to_c2(b)) != 0;
+LM2_API bool lm2_collide_capsule_to_capsule_f64(lm2_capsule2_f64 a, lm2_capsule2_f64 b) {
+  return c2CapsuletoCapsule(lm2_capsule2_f64_to_c2(a), lm2_capsule2_f64_to_c2(b)) != 0;
 }
 
-LM2_API bool lm2_collide_capsule_to_polygon_f64(lm2_capsule_f64 capsule, lm2_polygon_f64 polygon) {
+LM2_API bool lm2_collide_capsule_to_polygon_f64(lm2_capsule2_f64 capsule, lm2_polygon_f64 polygon) {
   c2Poly poly = lm2_polygon_f64_to_c2(polygon);
-  return c2CapsuletoPoly(lm2_capsule_f64_to_c2(capsule), &poly, NULL) != 0;
+  return c2CapsuletoPoly(lm2_capsule2_f64_to_c2(capsule), &poly, NULL) != 0;
 }
 
 LM2_API bool lm2_collide_polygon_to_polygon_f64(lm2_polygon_f64 a, lm2_polygon_f64 b) {
@@ -224,8 +224,8 @@ LM2_API bool lm2_collide_circle_to_aabb_f32(lm2_circle_f32 circle, lm2_r2f32 aab
   return c2CircletoAABB(lm2_circle_f32_to_c2(circle), lm2_r2f32_to_c2(aabb)) != 0;
 }
 
-LM2_API bool lm2_collide_circle_to_capsule_f32(lm2_circle_f32 circle, lm2_capsule_f32 capsule) {
-  return c2CircletoCapsule(lm2_circle_f32_to_c2(circle), lm2_capsule_f32_to_c2(capsule)) != 0;
+LM2_API bool lm2_collide_circle_to_capsule_f32(lm2_circle_f32 circle, lm2_capsule2_f32 capsule) {
+  return c2CircletoCapsule(lm2_circle_f32_to_c2(circle), lm2_capsule2_f32_to_c2(capsule)) != 0;
 }
 
 LM2_API bool lm2_collide_circle_to_polygon_f32(lm2_circle_f32 circle, lm2_polygon_f32 polygon) {
@@ -237,8 +237,8 @@ LM2_API bool lm2_collide_aabb_to_aabb_f32(lm2_r2f32 a, lm2_r2f32 b) {
   return c2AABBtoAABB(lm2_r2f32_to_c2(a), lm2_r2f32_to_c2(b)) != 0;
 }
 
-LM2_API bool lm2_collide_aabb_to_capsule_f32(lm2_r2f32 aabb, lm2_capsule_f32 capsule) {
-  return c2AABBtoCapsule(lm2_r2f32_to_c2(aabb), lm2_capsule_f32_to_c2(capsule)) != 0;
+LM2_API bool lm2_collide_aabb_to_capsule_f32(lm2_r2f32 aabb, lm2_capsule2_f32 capsule) {
+  return c2AABBtoCapsule(lm2_r2f32_to_c2(aabb), lm2_capsule2_f32_to_c2(capsule)) != 0;
 }
 
 LM2_API bool lm2_collide_aabb_to_polygon_f32(lm2_r2f32 aabb, lm2_polygon_f32 polygon) {
@@ -246,13 +246,13 @@ LM2_API bool lm2_collide_aabb_to_polygon_f32(lm2_r2f32 aabb, lm2_polygon_f32 pol
   return c2AABBtoPoly(lm2_r2f32_to_c2(aabb), &poly, NULL) != 0;
 }
 
-LM2_API bool lm2_collide_capsule_to_capsule_f32(lm2_capsule_f32 a, lm2_capsule_f32 b) {
-  return c2CapsuletoCapsule(lm2_capsule_f32_to_c2(a), lm2_capsule_f32_to_c2(b)) != 0;
+LM2_API bool lm2_collide_capsule_to_capsule_f32(lm2_capsule2_f32 a, lm2_capsule2_f32 b) {
+  return c2CapsuletoCapsule(lm2_capsule2_f32_to_c2(a), lm2_capsule2_f32_to_c2(b)) != 0;
 }
 
-LM2_API bool lm2_collide_capsule_to_polygon_f32(lm2_capsule_f32 capsule, lm2_polygon_f32 polygon) {
+LM2_API bool lm2_collide_capsule_to_polygon_f32(lm2_capsule2_f32 capsule, lm2_polygon_f32 polygon) {
   c2Poly poly = lm2_polygon_f32_to_c2(polygon);
-  return c2CapsuletoPoly(lm2_capsule_f32_to_c2(capsule), &poly, NULL) != 0;
+  return c2CapsuletoPoly(lm2_capsule2_f32_to_c2(capsule), &poly, NULL) != 0;
 }
 
 LM2_API bool lm2_collide_polygon_to_polygon_f32(lm2_polygon_f32 a, lm2_polygon_f32 b) {
@@ -279,10 +279,10 @@ LM2_API void lm2_manifold_circle_to_aabb_f64(lm2_circle_f64 circle, lm2_r2f64 aa
   c2_manifold_to_lm2_f64(m, out_manifold);
 }
 
-LM2_API void lm2_manifold_circle_to_capsule_f64(lm2_circle_f64 circle, lm2_capsule_f64 capsule, lm2_manifold_f64* out_manifold) {
+LM2_API void lm2_manifold_circle_to_capsule_f64(lm2_circle_f64 circle, lm2_capsule2_f64 capsule, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
   c2Manifold m;
-  c2CircletoCapsuleManifold(lm2_circle_f64_to_c2(circle), lm2_capsule_f64_to_c2(capsule), &m);
+  c2CircletoCapsuleManifold(lm2_circle_f64_to_c2(circle), lm2_capsule2_f64_to_c2(capsule), &m);
   c2_manifold_to_lm2_f64(m, out_manifold);
 }
 
@@ -301,10 +301,10 @@ LM2_API void lm2_manifold_aabb_to_aabb_f64(lm2_r2f64 a, lm2_r2f64 b, lm2_manifol
   c2_manifold_to_lm2_f64(m, out_manifold);
 }
 
-LM2_API void lm2_manifold_aabb_to_capsule_f64(lm2_r2f64 aabb, lm2_capsule_f64 capsule, lm2_manifold_f64* out_manifold) {
+LM2_API void lm2_manifold_aabb_to_capsule_f64(lm2_r2f64 aabb, lm2_capsule2_f64 capsule, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
   c2Manifold m;
-  c2AABBtoCapsuleManifold(lm2_r2f64_to_c2(aabb), lm2_capsule_f64_to_c2(capsule), &m);
+  c2AABBtoCapsuleManifold(lm2_r2f64_to_c2(aabb), lm2_capsule2_f64_to_c2(capsule), &m);
   c2_manifold_to_lm2_f64(m, out_manifold);
 }
 
@@ -316,18 +316,18 @@ LM2_API void lm2_manifold_aabb_to_polygon_f64(lm2_r2f64 aabb, lm2_polygon_f64 po
   c2_manifold_to_lm2_f64(m, out_manifold);
 }
 
-LM2_API void lm2_manifold_capsule_to_capsule_f64(lm2_capsule_f64 a, lm2_capsule_f64 b, lm2_manifold_f64* out_manifold) {
+LM2_API void lm2_manifold_capsule_to_capsule_f64(lm2_capsule2_f64 a, lm2_capsule2_f64 b, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
   c2Manifold m;
-  c2CapsuletoCapsuleManifold(lm2_capsule_f64_to_c2(a), lm2_capsule_f64_to_c2(b), &m);
+  c2CapsuletoCapsuleManifold(lm2_capsule2_f64_to_c2(a), lm2_capsule2_f64_to_c2(b), &m);
   c2_manifold_to_lm2_f64(m, out_manifold);
 }
 
-LM2_API void lm2_manifold_capsule_to_polygon_f64(lm2_capsule_f64 capsule, lm2_polygon_f64 polygon, lm2_manifold_f64* out_manifold) {
+LM2_API void lm2_manifold_capsule_to_polygon_f64(lm2_capsule2_f64 capsule, lm2_polygon_f64 polygon, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
   c2Manifold m;
   c2Poly poly = lm2_polygon_f64_to_c2(polygon);
-  c2CapsuletoPolyManifold(lm2_capsule_f64_to_c2(capsule), &poly, NULL, &m);
+  c2CapsuletoPolyManifold(lm2_capsule2_f64_to_c2(capsule), &poly, NULL, &m);
   c2_manifold_to_lm2_f64(m, out_manifold);
 }
 
@@ -358,10 +358,10 @@ LM2_API void lm2_manifold_circle_to_aabb_f32(lm2_circle_f32 circle, lm2_r2f32 aa
   c2_manifold_to_lm2_f32(m, out_manifold);
 }
 
-LM2_API void lm2_manifold_circle_to_capsule_f32(lm2_circle_f32 circle, lm2_capsule_f32 capsule, lm2_manifold_f32* out_manifold) {
+LM2_API void lm2_manifold_circle_to_capsule_f32(lm2_circle_f32 circle, lm2_capsule2_f32 capsule, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
   c2Manifold m;
-  c2CircletoCapsuleManifold(lm2_circle_f32_to_c2(circle), lm2_capsule_f32_to_c2(capsule), &m);
+  c2CircletoCapsuleManifold(lm2_circle_f32_to_c2(circle), lm2_capsule2_f32_to_c2(capsule), &m);
   c2_manifold_to_lm2_f32(m, out_manifold);
 }
 
@@ -380,10 +380,10 @@ LM2_API void lm2_manifold_aabb_to_aabb_f32(lm2_r2f32 a, lm2_r2f32 b, lm2_manifol
   c2_manifold_to_lm2_f32(m, out_manifold);
 }
 
-LM2_API void lm2_manifold_aabb_to_capsule_f32(lm2_r2f32 aabb, lm2_capsule_f32 capsule, lm2_manifold_f32* out_manifold) {
+LM2_API void lm2_manifold_aabb_to_capsule_f32(lm2_r2f32 aabb, lm2_capsule2_f32 capsule, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
   c2Manifold m;
-  c2AABBtoCapsuleManifold(lm2_r2f32_to_c2(aabb), lm2_capsule_f32_to_c2(capsule), &m);
+  c2AABBtoCapsuleManifold(lm2_r2f32_to_c2(aabb), lm2_capsule2_f32_to_c2(capsule), &m);
   c2_manifold_to_lm2_f32(m, out_manifold);
 }
 
@@ -395,18 +395,18 @@ LM2_API void lm2_manifold_aabb_to_polygon_f32(lm2_r2f32 aabb, lm2_polygon_f32 po
   c2_manifold_to_lm2_f32(m, out_manifold);
 }
 
-LM2_API void lm2_manifold_capsule_to_capsule_f32(lm2_capsule_f32 a, lm2_capsule_f32 b, lm2_manifold_f32* out_manifold) {
+LM2_API void lm2_manifold_capsule_to_capsule_f32(lm2_capsule2_f32 a, lm2_capsule2_f32 b, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
   c2Manifold m;
-  c2CapsuletoCapsuleManifold(lm2_capsule_f32_to_c2(a), lm2_capsule_f32_to_c2(b), &m);
+  c2CapsuletoCapsuleManifold(lm2_capsule2_f32_to_c2(a), lm2_capsule2_f32_to_c2(b), &m);
   c2_manifold_to_lm2_f32(m, out_manifold);
 }
 
-LM2_API void lm2_manifold_capsule_to_polygon_f32(lm2_capsule_f32 capsule, lm2_polygon_f32 polygon, lm2_manifold_f32* out_manifold) {
+LM2_API void lm2_manifold_capsule_to_polygon_f32(lm2_capsule2_f32 capsule, lm2_polygon_f32 polygon, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
   c2Manifold m;
   c2Poly poly = lm2_polygon_f32_to_c2(polygon);
-  c2CapsuletoPolyManifold(lm2_capsule_f32_to_c2(capsule), &poly, NULL, &m);
+  c2CapsuletoPolyManifold(lm2_capsule2_f32_to_c2(capsule), &poly, NULL, &m);
   c2_manifold_to_lm2_f32(m, out_manifold);
 }
 
@@ -608,3 +608,4 @@ LM2_API void lm2_make_convex_polygon_f32(lm2_polygon_f32* polygon, lm2_v2f32* ou
   free(temp_verts);
   free(temp_norms);
 }
+

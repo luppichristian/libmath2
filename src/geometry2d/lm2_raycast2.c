@@ -105,7 +105,7 @@ static c2AABB lm2_r2f64_to_c2(lm2_r2f64 aabb) {
   return result;
 }
 
-static c2Capsule lm2_capsule_f32_to_c2(lm2_capsule_f32 capsule) {
+static c2Capsule lm2_capsule2_f32_to_c2(lm2_capsule2_f32 capsule) {
   c2Capsule result;
   result.a = lm2_v2f32_to_c2v(capsule.start);
   result.b = lm2_v2f32_to_c2v(capsule.end);
@@ -113,7 +113,7 @@ static c2Capsule lm2_capsule_f32_to_c2(lm2_capsule_f32 capsule) {
   return result;
 }
 
-static c2Capsule lm2_capsule_f64_to_c2(lm2_capsule_f64 capsule) {
+static c2Capsule lm2_capsule2_f64_to_c2(lm2_capsule2_f64 capsule) {
   c2Capsule result;
   result.a = lm2_v2f64_to_c2v(capsule.start);
   result.b = lm2_v2f64_to_c2v(capsule.end);
@@ -255,11 +255,11 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_aabb_f64(lm2_ray2_f64 ray, lm2_r2f64 aabb) {
   return result;
 }
 
-LM2_API lm2_rayhit2_f64 lm2_raycast_capsule_f64(lm2_ray2_f64 ray, lm2_capsule_f64 capsule) {
+LM2_API lm2_rayhit2_f64 lm2_raycast_capsule_f64(lm2_ray2_f64 ray, lm2_capsule2_f64 capsule) {
   lm2_rayhit2_f64 result;
   c2Raycast hit;
   c2Ray c2_ray = lm2_ray2_f64_to_c2(ray);
-  c2Capsule c2_capsule = lm2_capsule_f64_to_c2(capsule);
+  c2Capsule c2_capsule = lm2_capsule2_f64_to_c2(capsule);
 
   int did_hit = c2RaytoCapsule(c2_ray, c2_capsule, &hit);
   result.hit = did_hit != 0;
@@ -301,7 +301,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_polygon_f64(lm2_ray2_f64 ray, lm2_polygon_f6
 
 LM2_API lm2_rayhit2_f64 lm2_raycast_segment_f64(lm2_ray2_f64 ray, lm2_v2f64 segment_start, lm2_v2f64 segment_end) {
   // Convert segment to capsule with zero radius
-  lm2_capsule_f64 capsule;
+  lm2_capsule2_f64 capsule;
   capsule.start = segment_start;
   capsule.end = segment_end;
   capsule.radius = 0.0;
@@ -357,11 +357,11 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_aabb_f32(lm2_ray2_f32 ray, lm2_r2f32 aabb) {
   return result;
 }
 
-LM2_API lm2_rayhit2_f32 lm2_raycast_capsule_f32(lm2_ray2_f32 ray, lm2_capsule_f32 capsule) {
+LM2_API lm2_rayhit2_f32 lm2_raycast_capsule_f32(lm2_ray2_f32 ray, lm2_capsule2_f32 capsule) {
   lm2_rayhit2_f32 result;
   c2Raycast hit;
   c2Ray c2_ray = lm2_ray2_f32_to_c2(ray);
-  c2Capsule c2_capsule = lm2_capsule_f32_to_c2(capsule);
+  c2Capsule c2_capsule = lm2_capsule2_f32_to_c2(capsule);
 
   int did_hit = c2RaytoCapsule(c2_ray, c2_capsule, &hit);
   result.hit = did_hit != 0;
@@ -403,10 +403,11 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_polygon_f32(lm2_ray2_f32 ray, lm2_polygon_f3
 
 LM2_API lm2_rayhit2_f32 lm2_raycast_segment_f32(lm2_ray2_f32 ray, lm2_v2f32 segment_start, lm2_v2f32 segment_end) {
   // Convert segment to capsule with zero radius
-  lm2_capsule_f32 capsule;
+  lm2_capsule2_f32 capsule;
   capsule.start = segment_start;
   capsule.end = segment_end;
   capsule.radius = 0.0f;
 
   return lm2_raycast_capsule_f32(ray, capsule);
 }
+

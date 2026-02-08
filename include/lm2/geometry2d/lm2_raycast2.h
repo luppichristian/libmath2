@@ -24,7 +24,7 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2_capsule.h"
+#include "lm2_capsule2.h"
 #include "lm2_circle.h"
 #include "lm2_polygon.h"
 #include "lm2/lm2_base.h"
@@ -107,8 +107,8 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_aabb_f64(lm2_ray2_f64 ray, lm2_r2f64 aabb);
 LM2_API lm2_rayhit2_f32 lm2_raycast_aabb_f32(lm2_ray2_f32 ray, lm2_r2f32 aabb);
 
 // Ray vs Capsule
-LM2_API lm2_rayhit2_f64 lm2_raycast_capsule_f64(lm2_ray2_f64 ray, lm2_capsule_f64 capsule);
-LM2_API lm2_rayhit2_f32 lm2_raycast_capsule_f32(lm2_ray2_f32 ray, lm2_capsule_f32 capsule);
+LM2_API lm2_rayhit2_f64 lm2_raycast_capsule_f64(lm2_ray2_f64 ray, lm2_capsule2_f64 capsule);
+LM2_API lm2_rayhit2_f32 lm2_raycast_capsule_f32(lm2_ray2_f32 ray, lm2_capsule2_f32 capsule);
 
 // Ray vs Polygon
 LM2_API lm2_rayhit2_f64 lm2_raycast_polygon_f64(lm2_ray2_f64 ray, lm2_polygon_f64 polygon);

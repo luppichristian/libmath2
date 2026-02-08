@@ -25,11 +25,11 @@ SOFTWARE.
 #pragma once
 
 #include "lm2/lm2_base.h"
-#include "lm2_circle.h"
-#include "lm2_capsule.h"
-#include "lm2_polygon.h"
 #include "lm2/ranges/lm2_range2.h"
 #include "lm2/vectors/lm2_vector2.h"
+#include "lm2_capsule2.h"
+#include "lm2_circle.h"
+#include "lm2_polygon.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -70,8 +70,8 @@ LM2_API bool lm2_collide_circle_to_aabb_f64(lm2_circle_f64 circle, lm2_r2f64 aab
 LM2_API bool lm2_collide_circle_to_aabb_f32(lm2_circle_f32 circle, lm2_r2f32 aabb);
 
 // Circle to Capsule
-LM2_API bool lm2_collide_circle_to_capsule_f64(lm2_circle_f64 circle, lm2_capsule_f64 capsule);
-LM2_API bool lm2_collide_circle_to_capsule_f32(lm2_circle_f32 circle, lm2_capsule_f32 capsule);
+LM2_API bool lm2_collide_circle_to_capsule_f64(lm2_circle_f64 circle, lm2_capsule2_f64 capsule);
+LM2_API bool lm2_collide_circle_to_capsule_f32(lm2_circle_f32 circle, lm2_capsule2_f32 capsule);
 
 // Circle to Polygon
 LM2_API bool lm2_collide_circle_to_polygon_f64(lm2_circle_f64 circle, lm2_polygon_f64 polygon);
@@ -82,20 +82,20 @@ LM2_API bool lm2_collide_aabb_to_aabb_f64(lm2_r2f64 a, lm2_r2f64 b);
 LM2_API bool lm2_collide_aabb_to_aabb_f32(lm2_r2f32 a, lm2_r2f32 b);
 
 // AABB to Capsule
-LM2_API bool lm2_collide_aabb_to_capsule_f64(lm2_r2f64 aabb, lm2_capsule_f64 capsule);
-LM2_API bool lm2_collide_aabb_to_capsule_f32(lm2_r2f32 aabb, lm2_capsule_f32 capsule);
+LM2_API bool lm2_collide_aabb_to_capsule_f64(lm2_r2f64 aabb, lm2_capsule2_f64 capsule);
+LM2_API bool lm2_collide_aabb_to_capsule_f32(lm2_r2f32 aabb, lm2_capsule2_f32 capsule);
 
 // AABB to Polygon
 LM2_API bool lm2_collide_aabb_to_polygon_f64(lm2_r2f64 aabb, lm2_polygon_f64 polygon);
 LM2_API bool lm2_collide_aabb_to_polygon_f32(lm2_r2f32 aabb, lm2_polygon_f32 polygon);
 
 // Capsule to Capsule
-LM2_API bool lm2_collide_capsule_to_capsule_f64(lm2_capsule_f64 a, lm2_capsule_f64 b);
-LM2_API bool lm2_collide_capsule_to_capsule_f32(lm2_capsule_f32 a, lm2_capsule_f32 capsule);
+LM2_API bool lm2_collide_capsule_to_capsule_f64(lm2_capsule2_f64 a, lm2_capsule2_f64 b);
+LM2_API bool lm2_collide_capsule_to_capsule_f32(lm2_capsule2_f32 a, lm2_capsule2_f32 capsule);
 
 // Capsule to Polygon
-LM2_API bool lm2_collide_capsule_to_polygon_f64(lm2_capsule_f64 capsule, lm2_polygon_f64 polygon);
-LM2_API bool lm2_collide_capsule_to_polygon_f32(lm2_capsule_f32 capsule, lm2_polygon_f32 polygon);
+LM2_API bool lm2_collide_capsule_to_polygon_f64(lm2_capsule2_f64 capsule, lm2_polygon_f64 polygon);
+LM2_API bool lm2_collide_capsule_to_polygon_f32(lm2_capsule2_f32 capsule, lm2_polygon_f32 polygon);
 
 // Polygon to Polygon
 LM2_API bool lm2_collide_polygon_to_polygon_f64(lm2_polygon_f64 a, lm2_polygon_f64 b);
@@ -114,8 +114,8 @@ LM2_API void lm2_manifold_circle_to_aabb_f64(lm2_circle_f64 circle, lm2_r2f64 aa
 LM2_API void lm2_manifold_circle_to_aabb_f32(lm2_circle_f32 circle, lm2_r2f32 aabb, lm2_manifold_f32* out_manifold);
 
 // Circle to Capsule Manifold
-LM2_API void lm2_manifold_circle_to_capsule_f64(lm2_circle_f64 circle, lm2_capsule_f64 capsule, lm2_manifold_f64* out_manifold);
-LM2_API void lm2_manifold_circle_to_capsule_f32(lm2_circle_f32 circle, lm2_capsule_f32 capsule, lm2_manifold_f32* out_manifold);
+LM2_API void lm2_manifold_circle_to_capsule_f64(lm2_circle_f64 circle, lm2_capsule2_f64 capsule, lm2_manifold_f64* out_manifold);
+LM2_API void lm2_manifold_circle_to_capsule_f32(lm2_circle_f32 circle, lm2_capsule2_f32 capsule, lm2_manifold_f32* out_manifold);
 
 // Circle to Polygon Manifold
 LM2_API void lm2_manifold_circle_to_polygon_f64(lm2_circle_f64 circle, lm2_polygon_f64 polygon, lm2_manifold_f64* out_manifold);
@@ -126,20 +126,20 @@ LM2_API void lm2_manifold_aabb_to_aabb_f64(lm2_r2f64 a, lm2_r2f64 b, lm2_manifol
 LM2_API void lm2_manifold_aabb_to_aabb_f32(lm2_r2f32 a, lm2_r2f32 b, lm2_manifold_f32* out_manifold);
 
 // AABB to Capsule Manifold
-LM2_API void lm2_manifold_aabb_to_capsule_f64(lm2_r2f64 aabb, lm2_capsule_f64 capsule, lm2_manifold_f64* out_manifold);
-LM2_API void lm2_manifold_aabb_to_capsule_f32(lm2_r2f32 aabb, lm2_capsule_f32 capsule, lm2_manifold_f32* out_manifold);
+LM2_API void lm2_manifold_aabb_to_capsule_f64(lm2_r2f64 aabb, lm2_capsule2_f64 capsule, lm2_manifold_f64* out_manifold);
+LM2_API void lm2_manifold_aabb_to_capsule_f32(lm2_r2f32 aabb, lm2_capsule2_f32 capsule, lm2_manifold_f32* out_manifold);
 
 // AABB to Polygon Manifold
 LM2_API void lm2_manifold_aabb_to_polygon_f64(lm2_r2f64 aabb, lm2_polygon_f64 polygon, lm2_manifold_f64* out_manifold);
 LM2_API void lm2_manifold_aabb_to_polygon_f32(lm2_r2f32 aabb, lm2_polygon_f32 polygon, lm2_manifold_f32* out_manifold);
 
 // Capsule to Capsule Manifold
-LM2_API void lm2_manifold_capsule_to_capsule_f64(lm2_capsule_f64 a, lm2_capsule_f64 b, lm2_manifold_f64* out_manifold);
-LM2_API void lm2_manifold_capsule_to_capsule_f32(lm2_capsule_f32 a, lm2_capsule_f32 b, lm2_manifold_f32* out_manifold);
+LM2_API void lm2_manifold_capsule_to_capsule_f64(lm2_capsule2_f64 a, lm2_capsule2_f64 b, lm2_manifold_f64* out_manifold);
+LM2_API void lm2_manifold_capsule_to_capsule_f32(lm2_capsule2_f32 a, lm2_capsule2_f32 b, lm2_manifold_f32* out_manifold);
 
 // Capsule to Polygon Manifold
-LM2_API void lm2_manifold_capsule_to_polygon_f64(lm2_capsule_f64 capsule, lm2_polygon_f64 polygon, lm2_manifold_f64* out_manifold);
-LM2_API void lm2_manifold_capsule_to_polygon_f32(lm2_capsule_f32 capsule, lm2_polygon_f32 polygon, lm2_manifold_f32* out_manifold);
+LM2_API void lm2_manifold_capsule_to_polygon_f64(lm2_capsule2_f64 capsule, lm2_polygon_f64 polygon, lm2_manifold_f64* out_manifold);
+LM2_API void lm2_manifold_capsule_to_polygon_f32(lm2_capsule2_f32 capsule, lm2_polygon_f32 polygon, lm2_manifold_f32* out_manifold);
 
 // Polygon to Polygon Manifold
 LM2_API void lm2_manifold_polygon_to_polygon_f64(lm2_polygon_f64 a, lm2_polygon_f64 b, lm2_manifold_f64* out_manifold);

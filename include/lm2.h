@@ -28,7 +28,7 @@ SOFTWARE.
 // - LM2_UNSAFE: Disable safe checks in safe ops (for performance)
 // - LM2_NO_CPP_OPERATORS: Disable C++ operator overloads
 
-#include "lm2/geometry2d/lm2_capsule.h"
+#include "lm2/geometry2d/lm2_capsule2.h"
 #include "lm2/geometry2d/lm2_circle.h"
 #include "lm2/geometry2d/lm2_edge2.h"
 #include "lm2/geometry2d/lm2_polygon.h"
@@ -37,6 +37,7 @@ SOFTWARE.
 #include "lm2/geometry2d/lm2_shape.h"
 #include "lm2/geometry2d/lm2_triangle.h"
 #include "lm2/geometry2d/lm2_triangle_geometry.h"
+#include "lm2/geometry3d/lm2_capsule3.h"
 #include "lm2/geometry3d/lm2_cuboid.h"
 #include "lm2/geometry3d/lm2_edge3.h"
 #include "lm2/geometry3d/lm2_plane3.h"
