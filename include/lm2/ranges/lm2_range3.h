@@ -26,167 +26,57 @@ SOFTWARE.
 
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector3.h"
-
-// C++ array subscript operator for range unions
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-#  define _LM2_RANGE_SUBSCRIPT_OP(vec_type)          \
-    inline vec_type& operator[](int i) {             \
-      return e[i];                                   \
-    }                                                \
-    inline const vec_type& operator[](int i) const { \
-      return e[i];                                   \
-    }
-#else
-#  define _LM2_RANGE_SUBSCRIPT_OP(vec_type)
-#endif
+#include "lm2_range_defines.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
 // #############################################################################
 
 // =============================================================================
-// Range3 Constructor Declaration Macros
-// =============================================================================
-
-// Create range from min and max points
-#define _LM2_DECLARE_RANGE3_FROM_MIN_MAX(type_name, vec_type) \
-  LM2_API type_name type_name##_from_min_max(vec_type min, vec_type max);
-
-// Create range from center point and extents (half-size)
-#define _LM2_DECLARE_RANGE3_FROM_CENTER_EXTENTS(type_name, vec_type) \
-  LM2_API type_name type_name##_from_center_extents(vec_type center, vec_type extents);
-
-// Create range from center point and full size
-#define _LM2_DECLARE_RANGE3_FROM_CENTER_SIZE(type_name, vec_type) \
-  LM2_API type_name type_name##_from_center_size(vec_type center, vec_type size);
-
-// Create range from position (min) and size
-#define _LM2_DECLARE_RANGE3_FROM_POSITION_SIZE(type_name, vec_type) \
-  LM2_API type_name type_name##_from_position_size(vec_type position, vec_type size);
-
-// Create zero range (min and max at origin)
-#define _LM2_DECLARE_RANGE3_ZERO(type_name) \
-  LM2_API type_name type_name##_zero(void);
-
-// =============================================================================
-// Range3 Operation Declaration Macros
-// =============================================================================
-
-// Normalize range (ensure min <= max)
-#define _LM2_DECLARE_RANGE3_NORMALIZE(type_name) \
-  LM2_API type_name type_name##_normalize(type_name r);
-
-// Translate range by offset
-#define _LM2_DECLARE_RANGE3_TRANSLATE(type_name, vec_type) \
-  LM2_API type_name type_name##_translate(type_name r, vec_type offset);
-
-// Scale range around center
-#define _LM2_DECLARE_RANGE3_SCALE(type_name, scalar_type) \
-  LM2_API type_name type_name##_scale(type_name r, scalar_type factor);
-
-// Expand range by amount (adds to extents)
-#define _LM2_DECLARE_RANGE3_EXPAND(type_name, scalar_type) \
-  LM2_API type_name type_name##_expand(type_name r, scalar_type amount);
-
-// Union of two ranges (bounding box containing both)
-#define _LM2_DECLARE_RANGE3_UNION(type_name) \
-  LM2_API type_name type_name##_union(type_name a, type_name b);
-
-// Intersection of two ranges (overlapping region)
-#define _LM2_DECLARE_RANGE3_INTERSECTION(type_name) \
-  LM2_API type_name type_name##_intersection(type_name a, type_name b);
-
-// =============================================================================
-// Range3 Query Declaration Macros
-// =============================================================================
-
-// Get size of range (max - min)
-#define _LM2_DECLARE_RANGE3_SIZE(type_name, vec_type) \
-  LM2_API vec_type type_name##_size(type_name r);
-
-// Get extents (half-size)
-#define _LM2_DECLARE_RANGE3_EXTENTS(type_name, vec_type) \
-  LM2_API vec_type type_name##_extents(type_name r);
-
-// Get center point
-#define _LM2_DECLARE_RANGE3_CENTER(type_name, vec_type) \
-  LM2_API vec_type type_name##_center(type_name r);
-
-// Check if point is inside range
-#define _LM2_DECLARE_RANGE3_CONTAINS_POINT(type_name, vec_type) \
-  LM2_API int type_name##_contains_point(type_name r, vec_type point);
-
-// Check if two ranges overlap
-#define _LM2_DECLARE_RANGE3_OVERLAPS(type_name) \
-  LM2_API int type_name##_overlaps(type_name a, type_name b);
-
-// Get volume of range
-#define _LM2_DECLARE_RANGE3_VOLUME(type_name, scalar_type) \
-  LM2_API scalar_type type_name##_volume(type_name r);
-
-// =============================================================================
-// Range3 Scalar Function Declaration Macros
-// =============================================================================
-// These macros forward scalar functions to ranges by applying them
-// component-wise to both min and max vectors.
-
-// Unary scalar function (e.g., floor, ceil, abs, sqrt)
-#define _LM2_DECLARE_RANGE3_SCALAR_FUNC_1(type_name, func_name) \
-  LM2_API type_name func_name##_##type_name(type_name a);
-
-// Binary scalar function (e.g., min, max, pow, mod)
-#define _LM2_DECLARE_RANGE3_SCALAR_FUNC_2(type_name, func_name) \
-  LM2_API type_name func_name##_##type_name(type_name a, type_name b);
-
-// Ternary scalar function (e.g., clamp, lerp, smoothstep)
-#define _LM2_DECLARE_RANGE3_SCALAR_FUNC_3(type_name, func_name) \
-  LM2_API type_name func_name##_##type_name(type_name a, type_name b, type_name c);
-
-// =============================================================================
 // 3D Range (AABB) Type Definitions
 // =============================================================================
 // A range3 represents a 3D axis-aligned bounding box (AABB) or cube/box
 // with minimum and maximum points.
-
-#define _LM2_DEFINE_RANGE3(type_name, vec_type, scalar_type)       \
-  typedef union type_name {                                        \
-    vec_type e[2];                                                 \
-    struct {                                                       \
-      vec_type min;                                                \
-      vec_type max;                                                \
-    };                                                             \
-    _LM2_RANGE_SUBSCRIPT_OP(vec_type)                              \
-  } type_name;                                                     \
-  _LM2_DECLARE_RANGE3_FROM_MIN_MAX(type_name, vec_type)            \
-  _LM2_DECLARE_RANGE3_FROM_CENTER_EXTENTS(type_name, vec_type)     \
-  _LM2_DECLARE_RANGE3_FROM_CENTER_SIZE(type_name, vec_type)        \
-  _LM2_DECLARE_RANGE3_FROM_POSITION_SIZE(type_name, vec_type)      \
-  _LM2_DECLARE_RANGE3_ZERO(type_name)                              \
-  _LM2_DECLARE_RANGE3_NORMALIZE(type_name)                         \
-  _LM2_DECLARE_RANGE3_TRANSLATE(type_name, vec_type)               \
-  _LM2_DECLARE_RANGE3_SCALE(type_name, scalar_type)                \
-  _LM2_DECLARE_RANGE3_EXPAND(type_name, scalar_type)               \
-  _LM2_DECLARE_RANGE3_UNION(type_name)                             \
-  _LM2_DECLARE_RANGE3_INTERSECTION(type_name)                      \
-  _LM2_DECLARE_RANGE3_SIZE(type_name, vec_type)                    \
-  _LM2_DECLARE_RANGE3_EXTENTS(type_name, vec_type)                 \
-  _LM2_DECLARE_RANGE3_CENTER(type_name, vec_type)                  \
-  _LM2_DECLARE_RANGE3_CONTAINS_POINT(type_name, vec_type)          \
-  _LM2_DECLARE_RANGE3_OVERLAPS(type_name)                          \
-  _LM2_DECLARE_RANGE3_VOLUME(type_name, scalar_type)               \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_1(type_name, lm2_floor)          \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_1(type_name, lm2_ceil)           \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_1(type_name, lm2_round)          \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_1(type_name, lm2_trunc)          \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_1(type_name, lm2_abs)            \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_2(type_name, lm2_floor_multiple) \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_2(type_name, lm2_ceil_multiple)  \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_2(type_name, lm2_round_multiple) \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_2(type_name, lm2_trunc_multiple) \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_2(type_name, lm2_min)            \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_2(type_name, lm2_max)            \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_3(type_name, lm2_clamp)          \
-  _LM2_DECLARE_RANGE3_SCALAR_FUNC_3(type_name, lm2_lerp)
+#define _LM2_DEFINE_RANGE3(type_name, vec_type, scalar_type)      \
+  typedef union type_name {                                       \
+    vec_type e[2];                                                \
+    struct {                                                      \
+      vec_type min;                                               \
+      vec_type max;                                               \
+    };                                                            \
+    _LM2_RANGE_SUBSCRIPT_OP(vec_type)                             \
+  } type_name;                                                    \
+  _LM2_DECLARE_RANGE_FROM_MIN_MAX(type_name, vec_type)            \
+  _LM2_DECLARE_RANGE_FROM_CENTER_EXTENTS(type_name, vec_type)     \
+  _LM2_DECLARE_RANGE_FROM_CENTER_SIZE(type_name, vec_type)        \
+  _LM2_DECLARE_RANGE_FROM_POSITION_SIZE(type_name, vec_type)      \
+  _LM2_DECLARE_RANGE_ZERO(type_name)                              \
+  _LM2_DECLARE_RANGE_NORMALIZE(type_name)                         \
+  _LM2_DECLARE_RANGE_TRANSLATE(type_name, vec_type)               \
+  _LM2_DECLARE_RANGE_SCALE(type_name, scalar_type)                \
+  _LM2_DECLARE_RANGE_EXPAND(type_name, scalar_type)               \
+  _LM2_DECLARE_RANGE_ARITHMETIC(type_name, vec_type, scalar_type) \
+  _LM2_DECLARE_RANGE_UNION(type_name)                             \
+  _LM2_DECLARE_RANGE_INTERSECTION(type_name)                      \
+  _LM2_DECLARE_RANGE_SIZE(type_name, vec_type)                    \
+  _LM2_DECLARE_RANGE_EXTENTS(type_name, vec_type)                 \
+  _LM2_DECLARE_RANGE_CENTER(type_name, vec_type)                  \
+  _LM2_DECLARE_RANGE_CONTAINS_POINT(type_name, vec_type)          \
+  _LM2_DECLARE_RANGE_OVERLAPS(type_name)                          \
+  _LM2_DECLARE_RANGE3_VOLUME(type_name, scalar_type)              \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_1(type_name, lm2_floor)          \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_1(type_name, lm2_ceil)           \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_1(type_name, lm2_round)          \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_1(type_name, lm2_trunc)          \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_1(type_name, lm2_abs)            \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_2(type_name, lm2_floor_multiple) \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_2(type_name, lm2_ceil_multiple)  \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_2(type_name, lm2_round_multiple) \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_2(type_name, lm2_trunc_multiple) \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_2(type_name, lm2_min)            \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_2(type_name, lm2_max)            \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_3(type_name, lm2_clamp)          \
+  _LM2_DECLARE_RANGE_SCALAR_FUNC_3(type_name, lm2_lerp)
 
 // 3D Range types for all 10 numeric types
 _LM2_DEFINE_RANGE3(lm2_range3f64, lm2_v3f64, double)
@@ -207,10 +97,43 @@ typedef lm2_range3f32 lm2_range3;
 LM2_HEADER_END;
 // #############################################################################
 
+// Generics
+#ifndef LM2_NO_GENERICS
+#  include "lm2_range_generics.h"
+#  define lm2_floor_range3(...)          _LM2_GENERIC_RANGE3(lm2_floor, __VA_ARGS__)
+#  define lm2_ceil_range3(...)           _LM2_GENERIC_RANGE3(lm2_ceil, __VA_ARGS__)
+#  define lm2_round_range3(...)          _LM2_GENERIC_RANGE3(lm2_round, __VA_ARGS__)
+#  define lm2_trunc_range3(...)          _LM2_GENERIC_RANGE3(lm2_trunc, __VA_ARGS__)
+#  define lm2_abs_range3(...)            _LM2_GENERIC_RANGE3(lm2_abs, __VA_ARGS__)
+#  define lm2_floor_multiple_range3(...) _LM2_GENERIC_RANGE3(lm2_floor_multiple, __VA_ARGS__)
+#  define lm2_ceil_multiple_range3(...)  _LM2_GENERIC_RANGE3(lm2_ceil_multiple, __VA_ARGS__)
+#  define lm2_round_multiple_range3(...) _LM2_GENERIC_RANGE3(lm2_round_multiple, __VA_ARGS__)
+#  define lm2_trunc_multiple_range3(...) _LM2_GENERIC_RANGE3(lm2_trunc_multiple, __VA_ARGS__)
+#  define lm2_min_range3(...)            _LM2_GENERIC_RANGE3(lm2_min, __VA_ARGS__)
+#  define lm2_max_range3(...)            _LM2_GENERIC_RANGE3(lm2_max, __VA_ARGS__)
+#  define lm2_clamp_range3(...)          _LM2_GENERIC_RANGE3(lm2_clamp, __VA_ARGS__)
+#  define lm2_lerp_range3(...)           _LM2_GENERIC_RANGE3(lm2_lerp, __VA_ARGS__)
+#  define lm2_range3_normalize(...)      _LM2_GENERIC_RANGE3(normalize, __VA_ARGS__)
+#  define lm2_range3_translate(...)      _LM2_GENERIC_RANGE3(translate, __VA_ARGS__)
+#  define lm2_range3_scale(...)          _LM2_GENERIC_RANGE3(scale, __VA_ARGS__)
+#  define lm2_range3_expand(...)         _LM2_GENERIC_RANGE3(expand, __VA_ARGS__)
+#  define lm2_range3_contains_point(...) _LM2_GENERIC_RANGE3(contains_point, __VA_ARGS__)
+#  define lm2_range3_overlaps(...)       _LM2_GENERIC_RANGE3(overlaps, __VA_ARGS__)
+#  define lm2_range3_size(...)           _LM2_GENERIC_RANGE3(size, __VA_ARGS__)
+#  define lm2_range3_extents(...)        _LM2_GENERIC_RANGE3(extents, __VA_ARGS__)
+#  define lm2_range3_center(...)         _LM2_GENERIC_RANGE3(center, __VA_ARGS__)
+#  define lm2_range3_volume(...)         _LM2_GENERIC_RANGE3(volume, __VA_ARGS__)
+// Arithmetic operations (support range+range, range+vector, range+scalar)
+#  define lm2_add_range3(r, x) _LM2_RANGE3_ARITH(add, r, x)
+#  define lm2_sub_range3(r, x) _LM2_RANGE3_ARITH(sub, r, x)
+#  define lm2_mul_range3(r, x) _LM2_RANGE3_ARITH(mul, r, x)
+#  define lm2_div_range3(r, x) _LM2_RANGE3_ARITH(div, r, x)
+#  define lm2_mod_range3(r, x) _LM2_RANGE3_ARITH(mod, r, x)
+#endif
+
 // C++ operator overloads and constructors (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_range_operators.h"
-
 _LM2_DEFINE_RANGE3_OPERATORS(lm2_range3f64, lm2_v3f64)
 _LM2_DEFINE_RANGE3_OPERATORS(lm2_range3f32, lm2_v3f32)
 _LM2_DEFINE_RANGE3_OPERATORS(lm2_range3i64, lm2_v3i64)
@@ -221,7 +144,6 @@ _LM2_DEFINE_RANGE3_OPERATORS(lm2_range3u64, lm2_v3u64)
 _LM2_DEFINE_RANGE3_OPERATORS(lm2_range3u32, lm2_v3u32)
 _LM2_DEFINE_RANGE3_OPERATORS(lm2_range3u16, lm2_v3u16)
 _LM2_DEFINE_RANGE3_OPERATORS(lm2_range3u8, lm2_v3u8)
-
 _LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_range3f64, lm2_v3f64)
 _LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_range3f32, lm2_v3f32)
 _LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_range3i64, lm2_v3i64)

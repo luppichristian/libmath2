@@ -192,6 +192,194 @@ SOFTWARE.
   }
 
 // =============================================================================
+// Range2 Arithmetic Operation Implementation Macros
+// =============================================================================
+// Component-wise arithmetic operations on ranges.
+
+// Range + Range (component-wise)
+#define _LM2_IMPL_RANGE2_ADD_RANGE(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_add(type_name a, type_name b) {              \
+    type_name result;                                                        \
+    result.min.x = lm2_add_##suffix(a.min.x, b.min.x);                       \
+    result.min.y = lm2_add_##suffix(a.min.y, b.min.y);                       \
+    result.max.x = lm2_add_##suffix(a.max.x, b.max.x);                       \
+    result.max.y = lm2_add_##suffix(a.max.y, b.max.y);                       \
+    return result;                                                           \
+  }
+
+// Range + Scalar (applies to all components)
+#define _LM2_IMPL_RANGE2_ADD_SCALAR(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_add_scalar(type_name r, scalar_type s) {      \
+    type_name result;                                                         \
+    result.min.x = lm2_add_##suffix(r.min.x, s);                              \
+    result.min.y = lm2_add_##suffix(r.min.y, s);                              \
+    result.max.x = lm2_add_##suffix(r.max.x, s);                              \
+    result.max.y = lm2_add_##suffix(r.max.y, s);                              \
+    return result;                                                            \
+  }
+
+// Range + Vector (applies to both min and max)
+#define _LM2_IMPL_RANGE2_ADD_VECTOR(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_add_vec(type_name r, vec_type v) {            \
+    type_name result;                                                         \
+    result.min.x = lm2_add_##suffix(r.min.x, v.x);                            \
+    result.min.y = lm2_add_##suffix(r.min.y, v.y);                            \
+    result.max.x = lm2_add_##suffix(r.max.x, v.x);                            \
+    result.max.y = lm2_add_##suffix(r.max.y, v.y);                            \
+    return result;                                                            \
+  }
+
+// Range - Range
+#define _LM2_IMPL_RANGE2_SUB_RANGE(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_sub(type_name a, type_name b) {              \
+    type_name result;                                                        \
+    result.min.x = lm2_sub_##suffix(a.min.x, b.min.x);                       \
+    result.min.y = lm2_sub_##suffix(a.min.y, b.min.y);                       \
+    result.max.x = lm2_sub_##suffix(a.max.x, b.max.x);                       \
+    result.max.y = lm2_sub_##suffix(a.max.y, b.max.y);                       \
+    return result;                                                           \
+  }
+
+// Range - Scalar
+#define _LM2_IMPL_RANGE2_SUB_SCALAR(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_sub_scalar(type_name r, scalar_type s) {      \
+    type_name result;                                                         \
+    result.min.x = lm2_sub_##suffix(r.min.x, s);                              \
+    result.min.y = lm2_sub_##suffix(r.min.y, s);                              \
+    result.max.x = lm2_sub_##suffix(r.max.x, s);                              \
+    result.max.y = lm2_sub_##suffix(r.max.y, s);                              \
+    return result;                                                            \
+  }
+
+// Range - Vector
+#define _LM2_IMPL_RANGE2_SUB_VECTOR(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_sub_vec(type_name r, vec_type v) {            \
+    type_name result;                                                         \
+    result.min.x = lm2_sub_##suffix(r.min.x, v.x);                            \
+    result.min.y = lm2_sub_##suffix(r.min.y, v.y);                            \
+    result.max.x = lm2_sub_##suffix(r.max.x, v.x);                            \
+    result.max.y = lm2_sub_##suffix(r.max.y, v.y);                            \
+    return result;                                                            \
+  }
+
+// Range * Range
+#define _LM2_IMPL_RANGE2_MUL_RANGE(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_mul(type_name a, type_name b) {              \
+    type_name result;                                                        \
+    result.min.x = lm2_mul_##suffix(a.min.x, b.min.x);                       \
+    result.min.y = lm2_mul_##suffix(a.min.y, b.min.y);                       \
+    result.max.x = lm2_mul_##suffix(a.max.x, b.max.x);                       \
+    result.max.y = lm2_mul_##suffix(a.max.y, b.max.y);                       \
+    return result;                                                           \
+  }
+
+// Range * Scalar
+#define _LM2_IMPL_RANGE2_MUL_SCALAR(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_mul_scalar(type_name r, scalar_type s) {      \
+    type_name result;                                                         \
+    result.min.x = lm2_mul_##suffix(r.min.x, s);                              \
+    result.min.y = lm2_mul_##suffix(r.min.y, s);                              \
+    result.max.x = lm2_mul_##suffix(r.max.x, s);                              \
+    result.max.y = lm2_mul_##suffix(r.max.y, s);                              \
+    return result;                                                            \
+  }
+
+// Range * Vector
+#define _LM2_IMPL_RANGE2_MUL_VECTOR(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_mul_vec(type_name r, vec_type v) {            \
+    type_name result;                                                         \
+    result.min.x = lm2_mul_##suffix(r.min.x, v.x);                            \
+    result.min.y = lm2_mul_##suffix(r.min.y, v.y);                            \
+    result.max.x = lm2_mul_##suffix(r.max.x, v.x);                            \
+    result.max.y = lm2_mul_##suffix(r.max.y, v.y);                            \
+    return result;                                                            \
+  }
+
+// Range / Range
+#define _LM2_IMPL_RANGE2_DIV_RANGE(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_div(type_name a, type_name b) {              \
+    type_name result;                                                        \
+    result.min.x = lm2_div_##suffix(a.min.x, b.min.x);                       \
+    result.min.y = lm2_div_##suffix(a.min.y, b.min.y);                       \
+    result.max.x = lm2_div_##suffix(a.max.x, b.max.x);                       \
+    result.max.y = lm2_div_##suffix(a.max.y, b.max.y);                       \
+    return result;                                                           \
+  }
+
+// Range / Scalar
+#define _LM2_IMPL_RANGE2_DIV_SCALAR(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_div_scalar(type_name r, scalar_type s) {      \
+    type_name result;                                                         \
+    result.min.x = lm2_div_##suffix(r.min.x, s);                              \
+    result.min.y = lm2_div_##suffix(r.min.y, s);                              \
+    result.max.x = lm2_div_##suffix(r.max.x, s);                              \
+    result.max.y = lm2_div_##suffix(r.max.y, s);                              \
+    return result;                                                            \
+  }
+
+// Range / Vector
+#define _LM2_IMPL_RANGE2_DIV_VECTOR(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_div_vec(type_name r, vec_type v) {            \
+    type_name result;                                                         \
+    result.min.x = lm2_div_##suffix(r.min.x, v.x);                            \
+    result.min.y = lm2_div_##suffix(r.min.y, v.y);                            \
+    result.max.x = lm2_div_##suffix(r.max.x, v.x);                            \
+    result.max.y = lm2_div_##suffix(r.max.y, v.y);                            \
+    return result;                                                            \
+  }
+
+// Range % Range
+#define _LM2_IMPL_RANGE2_MOD_RANGE(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_mod(type_name a, type_name b) {              \
+    type_name result;                                                        \
+    result.min.x = lm2_mod_##suffix(a.min.x, b.min.x);                       \
+    result.min.y = lm2_mod_##suffix(a.min.y, b.min.y);                       \
+    result.max.x = lm2_mod_##suffix(a.max.x, b.max.x);                       \
+    result.max.y = lm2_mod_##suffix(a.max.y, b.max.y);                       \
+    return result;                                                           \
+  }
+
+// Range % Scalar
+#define _LM2_IMPL_RANGE2_MOD_SCALAR(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_mod_scalar(type_name r, scalar_type s) {      \
+    type_name result;                                                         \
+    result.min.x = lm2_mod_##suffix(r.min.x, s);                              \
+    result.min.y = lm2_mod_##suffix(r.min.y, s);                              \
+    result.max.x = lm2_mod_##suffix(r.max.x, s);                              \
+    result.max.y = lm2_mod_##suffix(r.max.y, s);                              \
+    return result;                                                            \
+  }
+
+// Range % Vector
+#define _LM2_IMPL_RANGE2_MOD_VECTOR(type_name, vec_type, scalar_type, suffix) \
+  LM2_API type_name type_name##_mod_vec(type_name r, vec_type v) {            \
+    type_name result;                                                         \
+    result.min.x = lm2_mod_##suffix(r.min.x, v.x);                            \
+    result.min.y = lm2_mod_##suffix(r.min.y, v.y);                            \
+    result.max.x = lm2_mod_##suffix(r.max.x, v.x);                            \
+    result.max.y = lm2_mod_##suffix(r.max.y, v.y);                            \
+    return result;                                                            \
+  }
+
+// Convenience macro to implement all arithmetic operations
+#define _LM2_IMPL_RANGE2_ARITHMETIC(type_name, vec_type, scalar_type, suffix) \
+  _LM2_IMPL_RANGE2_ADD_RANGE(type_name, vec_type, scalar_type, suffix)        \
+  _LM2_IMPL_RANGE2_ADD_SCALAR(type_name, vec_type, scalar_type, suffix)       \
+  _LM2_IMPL_RANGE2_ADD_VECTOR(type_name, vec_type, scalar_type, suffix)       \
+  _LM2_IMPL_RANGE2_SUB_RANGE(type_name, vec_type, scalar_type, suffix)        \
+  _LM2_IMPL_RANGE2_SUB_SCALAR(type_name, vec_type, scalar_type, suffix)       \
+  _LM2_IMPL_RANGE2_SUB_VECTOR(type_name, vec_type, scalar_type, suffix)       \
+  _LM2_IMPL_RANGE2_MUL_RANGE(type_name, vec_type, scalar_type, suffix)        \
+  _LM2_IMPL_RANGE2_MUL_SCALAR(type_name, vec_type, scalar_type, suffix)       \
+  _LM2_IMPL_RANGE2_MUL_VECTOR(type_name, vec_type, scalar_type, suffix)       \
+  _LM2_IMPL_RANGE2_DIV_RANGE(type_name, vec_type, scalar_type, suffix)        \
+  _LM2_IMPL_RANGE2_DIV_SCALAR(type_name, vec_type, scalar_type, suffix)       \
+  _LM2_IMPL_RANGE2_DIV_VECTOR(type_name, vec_type, scalar_type, suffix)       \
+  _LM2_IMPL_RANGE2_MOD_RANGE(type_name, vec_type, scalar_type, suffix)        \
+  _LM2_IMPL_RANGE2_MOD_SCALAR(type_name, vec_type, scalar_type, suffix)       \
+  _LM2_IMPL_RANGE2_MOD_VECTOR(type_name, vec_type, scalar_type, suffix)
+
+// =============================================================================
 // Range2 Scalar Function Implementation Macros
 // =============================================================================
 // These macros forward scalar functions to ranges by applying them
@@ -235,6 +423,7 @@ SOFTWARE.
   _LM2_IMPL_RANGE2_TRANSLATE(type_name, vec_type, scalar_type, suffix)           \
   _LM2_IMPL_RANGE2_SCALE(type_name, vec_type, scalar_type, suffix)               \
   _LM2_IMPL_RANGE2_EXPAND(type_name, vec_type, scalar_type, suffix)              \
+  _LM2_IMPL_RANGE2_ARITHMETIC(type_name, vec_type, scalar_type, suffix)          \
   _LM2_IMPL_RANGE2_UNION(type_name, vec_type, scalar_type, suffix)               \
   _LM2_IMPL_RANGE2_INTERSECTION(type_name, vec_type, scalar_type, suffix)        \
   _LM2_IMPL_RANGE2_SIZE(type_name, vec_type, scalar_type, suffix)                \

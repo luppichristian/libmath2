@@ -247,7 +247,7 @@ LM2_API lm2_v3f32 lm2_project_v3f32(lm2_v3f32 a, lm2_v3f32 b);
 // =============================================================================
 
 #ifndef LM2_NO_GENERICS
-
+#  include "lm2_vector_generics.h"
 #  define lm2_dot(...)           _LM2_GENERIC_VALL(lm2_dot, __VA_ARGS__)
 #  define lm2_cross(...)         _LM2_GENERIC_V3(lm2_cross, __VA_ARGS__)
 #  define lm2_cross2d(...)       _LM2_GENERIC_V2(lm2_cross2d, __VA_ARGS__)
@@ -264,8 +264,7 @@ LM2_API lm2_v3f32 lm2_project_v3f32(lm2_v3f32 a, lm2_v3f32 b);
 #  define lm2_perp_cw(...)       _LM2_GENERIC_V2(lm2_perp_cw, __VA_ARGS__)
 #  define lm2_reflect(...)       _LM2_GENERIC_V23F(lm2_reflect, __VA_ARGS__)
 #  define lm2_project(...)       _LM2_GENERIC_V23F(lm2_project, __VA_ARGS__)
-
-#endif  // LM2_NO_GENERICS
+#endif
 
 // #############################################################################
 LM2_HEADER_END;

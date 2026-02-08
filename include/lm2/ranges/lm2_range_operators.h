@@ -44,6 +44,15 @@ SOFTWARE.
     inline type_name operator+(type_name r, vec_type offset) { \
       return type_name##_translate(r, offset);                 \
     }                                                          \
+    inline type_name operator-(type_name r, vec_type offset) { \
+      return type_name##_sub_vec(r, offset);                   \
+    }                                                          \
+    inline type_name operator*(type_name r, type_name b) {     \
+      return type_name##_mul(r, b);                            \
+    }                                                          \
+    inline type_name operator/(type_name r, type_name b) {     \
+      return type_name##_div(r, b);                            \
+    }                                                          \
     inline type_name operator|(type_name a, type_name b) {     \
       return type_name##_union(a, b);                          \
     }                                                          \
@@ -59,6 +68,15 @@ SOFTWARE.
     inline type_name operator+(type_name r, vec_type offset) { \
       return type_name##_translate(r, offset);                 \
     }                                                          \
+    inline type_name operator-(type_name r, vec_type offset) { \
+      return type_name##_sub_vec(r, offset);                   \
+    }                                                          \
+    inline type_name operator*(type_name r, type_name b) {     \
+      return type_name##_mul(r, b);                            \
+    }                                                          \
+    inline type_name operator/(type_name r, type_name b) {     \
+      return type_name##_div(r, b);                            \
+    }                                                          \
     inline type_name operator|(type_name a, type_name b) {     \
       return type_name##_union(a, b);                          \
     }                                                          \
@@ -73,6 +91,15 @@ SOFTWARE.
 #  define _LM2_DEFINE_RANGE4_OPERATORS(type_name, vec_type)    \
     inline type_name operator+(type_name r, vec_type offset) { \
       return type_name##_translate(r, offset);                 \
+    }                                                          \
+    inline type_name operator-(type_name r, vec_type offset) { \
+      return type_name##_sub_vec(r, offset);                   \
+    }                                                          \
+    inline type_name operator*(type_name r, type_name b) {     \
+      return type_name##_mul(r, b);                            \
+    }                                                          \
+    inline type_name operator/(type_name r, type_name b) {     \
+      return type_name##_div(r, b);                            \
     }                                                          \
     inline type_name operator|(type_name a, type_name b) {     \
       return type_name##_union(a, b);                          \
