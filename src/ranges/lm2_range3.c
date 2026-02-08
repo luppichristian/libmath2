@@ -504,13 +504,13 @@ SOFTWARE.
 // Range3 Implementations for All 10 Numeric Types
 // =============================================================================
 
-_LM2_IMPL_RANGE3_ALL(lm2_range3f64, lm2_v3f64, double, f64)
-_LM2_IMPL_RANGE3_ALL(lm2_range3f32, lm2_v3f32, float, f32)
-_LM2_IMPL_RANGE3_ALL(lm2_range3i64, lm2_v3i64, int64_t, i64)
-_LM2_IMPL_RANGE3_ALL(lm2_range3i32, lm2_v3i32, int32_t, i32)
-_LM2_IMPL_RANGE3_ALL(lm2_range3i16, lm2_v3i16, int16_t, i16)
-_LM2_IMPL_RANGE3_ALL(lm2_range3i8, lm2_v3i8, int8_t, i8)
-_LM2_IMPL_RANGE3_ALL(lm2_range3u64, lm2_v3u64, uint64_t, u64)
-_LM2_IMPL_RANGE3_ALL(lm2_range3u32, lm2_v3u32, uint32_t, u32)
-_LM2_IMPL_RANGE3_ALL(lm2_range3u16, lm2_v3u16, uint16_t, u16)
-_LM2_IMPL_RANGE3_ALL(lm2_range3u8, lm2_v3u8, uint8_t, u8)
+_LM2_IMPL_RANGE3_ALL(lm2_r3f64, lm2_v3f64, double, f64)
+_LM2_IMPL_RANGE3_ALL(lm2_r3f32, lm2_v3f32, float, f32)
+_LM2_IMPL_RANGE3_ALL(lm2_r3i64, lm2_v3i64, int64_t, i64)
+_LM2_IMPL_RANGE3_ALL(lm2_r3i32, lm2_v3i32, int32_t, i32)
+_LM2_IMPL_RANGE3_ALL(lm2_r3i16, lm2_v3i16, int16_t, i16)
+_LM2_IMPL_RANGE3_ALL(lm2_r3i8, lm2_v3i8, int8_t, i8)
+_LM2_IMPL_RANGE3_ALL(lm2_r3u64, lm2_v3u64, uint64_t, u64)
+_LM2_IMPL_RANGE3_ALL(lm2_r3u32, lm2_v3u32, uint32_t, u32)
+_LM2_IMPL_RANGE3_ALL(lm2_r3u16, lm2_v3u16, uint16_t, u16)
+_LM2_IMPL_RANGE3_ALL(lm2_r3u8, lm2_v3u8, uint8_t, u8)

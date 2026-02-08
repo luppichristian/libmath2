@@ -34,40 +34,40 @@ SOFTWARE.
 #    include <type_traits>
 
 // Forward declarations for range types
-union lm2_range2f64;
-union lm2_range2f32;
-union lm2_range2i64;
-union lm2_range2i32;
-union lm2_range2i16;
-union lm2_range2i8;
-union lm2_range2u64;
-union lm2_range2u32;
-union lm2_range2u16;
-union lm2_range2u8;
-union lm2_range3f64;
-union lm2_range3f32;
-union lm2_range3i64;
-union lm2_range3i32;
-union lm2_range3i16;
-union lm2_range3i8;
-union lm2_range3u64;
-union lm2_range3u32;
-union lm2_range3u16;
-union lm2_range3u8;
-union lm2_range4f64;
-union lm2_range4f32;
-union lm2_range4i64;
-union lm2_range4i32;
-union lm2_range4i16;
-union lm2_range4i8;
-union lm2_range4u64;
-union lm2_range4u32;
-union lm2_range4u16;
-union lm2_range4u8;
+union lm2_r2f64;
+union lm2_r2f32;
+union lm2_r2i64;
+union lm2_r2i32;
+union lm2_r2i16;
+union lm2_r2i8;
+union lm2_r2u64;
+union lm2_r2u32;
+union lm2_r2u16;
+union lm2_r2u8;
+union lm2_r3f64;
+union lm2_r3f32;
+union lm2_r3i64;
+union lm2_r3i32;
+union lm2_r3i16;
+union lm2_r3i8;
+union lm2_r3u64;
+union lm2_r3u32;
+union lm2_r3u16;
+union lm2_r3u8;
+union lm2_r4f64;
+union lm2_r4f32;
+union lm2_r4i64;
+union lm2_r4i32;
+union lm2_r4i16;
+union lm2_r4i8;
+union lm2_r4u64;
+union lm2_r4u32;
+union lm2_r4u16;
+union lm2_r4u8;
 
 // Generic dispatcher for range2 operations
 template <typename T, typename... Args>
-inline auto _lm2_generic_range2(
+inline auto _lm2_generic_r2(
     auto&& f64,
     auto&& f32,
     auto&& i64,
@@ -81,24 +81,24 @@ inline auto _lm2_generic_range2(
     T first,
     Args&&... rest) -> decltype(auto) {
   using _LM2_T = std::remove_cvref_t<T>;
-  if constexpr (std::is_same_v<_LM2_T, lm2_range2f64>) return f64(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range2f32>)
+  if constexpr (std::is_same_v<_LM2_T, lm2_r2f64>) return f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r2f32>)
     return f32(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range2i64>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r2i64>)
     return i64(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range2i32>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r2i32>)
     return i32(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range2i16>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r2i16>)
     return i16(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range2i8>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r2i8>)
     return i8(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range2u64>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r2u64>)
     return u64(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range2u32>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r2u32>)
     return u32(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range2u16>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r2u16>)
     return u16(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range2u8>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r2u8>)
     return u8(first, rest...);
   else
     static_assert(sizeof(_LM2_T) == 0, "Unsupported range2 type");
@@ -106,7 +106,7 @@ inline auto _lm2_generic_range2(
 
 // Generic dispatcher for range3 operations
 template <typename T, typename... Args>
-inline auto _lm2_generic_range3(
+inline auto _lm2_generic_r3(
     auto&& f64,
     auto&& f32,
     auto&& i64,
@@ -120,24 +120,24 @@ inline auto _lm2_generic_range3(
     T first,
     Args&&... rest) -> decltype(auto) {
   using _LM2_T = std::remove_cvref_t<T>;
-  if constexpr (std::is_same_v<_LM2_T, lm2_range3f64>) return f64(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range3f32>)
+  if constexpr (std::is_same_v<_LM2_T, lm2_r3f64>) return f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r3f32>)
     return f32(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range3i64>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r3i64>)
     return i64(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range3i32>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r3i32>)
     return i32(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range3i16>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r3i16>)
     return i16(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range3i8>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r3i8>)
     return i8(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range3u64>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r3u64>)
     return u64(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range3u32>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r3u32>)
     return u32(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range3u16>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r3u16>)
     return u16(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range3u8>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r3u8>)
     return u8(first, rest...);
   else
     static_assert(sizeof(_LM2_T) == 0, "Unsupported range3 type");
@@ -145,7 +145,7 @@ inline auto _lm2_generic_range3(
 
 // Generic dispatcher for range4 operations
 template <typename T, typename... Args>
-inline auto _lm2_generic_range4(
+inline auto _lm2_generic_r4(
     auto&& f64,
     auto&& f32,
     auto&& i64,
@@ -159,24 +159,24 @@ inline auto _lm2_generic_range4(
     T first,
     Args&&... rest) -> decltype(auto) {
   using _LM2_T = std::remove_cvref_t<T>;
-  if constexpr (std::is_same_v<_LM2_T, lm2_range4f64>) return f64(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range4f32>)
+  if constexpr (std::is_same_v<_LM2_T, lm2_r4f64>) return f64(first, rest...);
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r4f32>)
     return f32(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range4i64>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r4i64>)
     return i64(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range4i32>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r4i32>)
     return i32(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range4i16>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r4i16>)
     return i16(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range4i8>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r4i8>)
     return i8(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range4u64>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r4u64>)
     return u64(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range4u32>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r4u32>)
     return u32(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range4u16>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r4u16>)
     return u16(first, rest...);
-  else if constexpr (std::is_same_v<_LM2_T, lm2_range4u8>)
+  else if constexpr (std::is_same_v<_LM2_T, lm2_r4u8>)
     return u8(first, rest...);
   else
     static_assert(sizeof(_LM2_T) == 0, "Unsupported range4 type");
@@ -184,57 +184,57 @@ inline auto _lm2_generic_range4(
 
 // C++ expression-level dispatch macros
 #    define _LM2_GENERIC_RANGE2(name, ...) \
-      _lm2_generic_range2(lm2_range2f64_##name, lm2_range2f32_##name, lm2_range2i64_##name, lm2_range2i32_##name, lm2_range2i16_##name, lm2_range2i8_##name, lm2_range2u64_##name, lm2_range2u32_##name, lm2_range2u16_##name, lm2_range2u8_##name, __VA_ARGS__)
+      _lm2_generic_r2(lm2_r2f64_##name, lm2_r2f32_##name, lm2_r2i64_##name, lm2_r2i32_##name, lm2_r2i16_##name, lm2_r2i8_##name, lm2_r2u64_##name, lm2_r2u32_##name, lm2_r2u16_##name, lm2_r2u8_##name, __VA_ARGS__)
 
 #    define _LM2_GENERIC_RANGE3(name, ...) \
-      _lm2_generic_range3(lm2_range3f64_##name, lm2_range3f32_##name, lm2_range3i64_##name, lm2_range3i32_##name, lm2_range3i16_##name, lm2_range3i8_##name, lm2_range3u64_##name, lm2_range3u32_##name, lm2_range3u16_##name, lm2_range3u8_##name, __VA_ARGS__)
+      _lm2_generic_r3(lm2_r3f64_##name, lm2_r3f32_##name, lm2_r3i64_##name, lm2_r3i32_##name, lm2_r3i16_##name, lm2_r3i8_##name, lm2_r3u64_##name, lm2_r3u32_##name, lm2_r3u16_##name, lm2_r3u8_##name, __VA_ARGS__)
 
 #    define _LM2_GENERIC_RANGE4(name, ...) \
-      _lm2_generic_range4(lm2_range4f64_##name, lm2_range4f32_##name, lm2_range4i64_##name, lm2_range4i32_##name, lm2_range4i16_##name, lm2_range4i8_##name, lm2_range4u64_##name, lm2_range4u32_##name, lm2_range4u16_##name, lm2_range4u8_##name, __VA_ARGS__)
+      _lm2_generic_r4(lm2_r4f64_##name, lm2_r4f32_##name, lm2_r4i64_##name, lm2_r4i32_##name, lm2_r4i16_##name, lm2_r4i8_##name, lm2_r4u64_##name, lm2_r4u32_##name, lm2_r4u16_##name, lm2_r4u8_##name, __VA_ARGS__)
 
 #  else
 
 // C11 _Generic dispatch for range2 operations
 #    define _LM2_GENERIC_RANGE2(name, first, ...) \
       _Generic((first),                           \
-          lm2_range2f64: lm2_range2f64_##name,    \
-          lm2_range2f32: lm2_range2f32_##name,    \
-          lm2_range2i64: lm2_range2i64_##name,    \
-          lm2_range2i32: lm2_range2i32_##name,    \
-          lm2_range2i16: lm2_range2i16_##name,    \
-          lm2_range2i8: lm2_range2i8_##name,      \
-          lm2_range2u64: lm2_range2u64_##name,    \
-          lm2_range2u32: lm2_range2u32_##name,    \
-          lm2_range2u16: lm2_range2u16_##name,    \
-          lm2_range2u8: lm2_range2u8_##name)(first, __VA_ARGS__)
+          lm2_r2f64: lm2_r2f64_##name,            \
+          lm2_r2f32: lm2_r2f32_##name,            \
+          lm2_r2i64: lm2_r2i64_##name,            \
+          lm2_r2i32: lm2_r2i32_##name,            \
+          lm2_r2i16: lm2_r2i16_##name,            \
+          lm2_r2i8: lm2_r2i8_##name,              \
+          lm2_r2u64: lm2_r2u64_##name,            \
+          lm2_r2u32: lm2_r2u32_##name,            \
+          lm2_r2u16: lm2_r2u16_##name,            \
+          lm2_r2u8: lm2_r2u8_##name)(first, __VA_ARGS__)
 
 // C11 _Generic dispatch for range3 operations
 #    define _LM2_GENERIC_RANGE3(name, first, ...) \
       _Generic((first),                           \
-          lm2_range3f64: lm2_range3f64_##name,    \
-          lm2_range3f32: lm2_range3f32_##name,    \
-          lm2_range3i64: lm2_range3i64_##name,    \
-          lm2_range3i32: lm2_range3i32_##name,    \
-          lm2_range3i16: lm2_range3i16_##name,    \
-          lm2_range3i8: lm2_range3i8_##name,      \
-          lm2_range3u64: lm2_range3u64_##name,    \
-          lm2_range3u32: lm2_range3u32_##name,    \
-          lm2_range3u16: lm2_range3u16_##name,    \
-          lm2_range3u8: lm2_range3u8_##name)(first, __VA_ARGS__)
+          lm2_r3f64: lm2_r3f64_##name,            \
+          lm2_r3f32: lm2_r3f32_##name,            \
+          lm2_r3i64: lm2_r3i64_##name,            \
+          lm2_r3i32: lm2_r3i32_##name,            \
+          lm2_r3i16: lm2_r3i16_##name,            \
+          lm2_r3i8: lm2_r3i8_##name,              \
+          lm2_r3u64: lm2_r3u64_##name,            \
+          lm2_r3u32: lm2_r3u32_##name,            \
+          lm2_r3u16: lm2_r3u16_##name,            \
+          lm2_r3u8: lm2_r3u8_##name)(first, __VA_ARGS__)
 
 // C11 _Generic dispatch for range4 operations
 #    define _LM2_GENERIC_RANGE4(name, first, ...) \
       _Generic((first),                           \
-          lm2_range4f64: lm2_range4f64_##name,    \
-          lm2_range4f32: lm2_range4f32_##name,    \
-          lm2_range4i64: lm2_range4i64_##name,    \
-          lm2_range4i32: lm2_range4i32_##name,    \
-          lm2_range4i16: lm2_range4i16_##name,    \
-          lm2_range4i8: lm2_range4i8_##name,      \
-          lm2_range4u64: lm2_range4u64_##name,    \
-          lm2_range4u32: lm2_range4u32_##name,    \
-          lm2_range4u16: lm2_range4u16_##name,    \
-          lm2_range4u8: lm2_range4u8_##name)(first, __VA_ARGS__)
+          lm2_r4f64: lm2_r4f64_##name,            \
+          lm2_r4f32: lm2_r4f32_##name,            \
+          lm2_r4i64: lm2_r4i64_##name,            \
+          lm2_r4i32: lm2_r4i32_##name,            \
+          lm2_r4i16: lm2_r4i16_##name,            \
+          lm2_r4i8: lm2_r4i8_##name,              \
+          lm2_r4u64: lm2_r4u64_##name,            \
+          lm2_r4u32: lm2_r4u32_##name,            \
+          lm2_r4u16: lm2_r4u16_##name,            \
+          lm2_r4u8: lm2_r4u8_##name)(first, __VA_ARGS__)
 
 #  endif
 
@@ -251,36 +251,36 @@ inline auto _lm2_generic_range4(
 
 #    define _LM2_RANGE_ARITHMETIC_DISPATCH(range_prefix, func, r, x) \
       _Generic((x),                                                  \
-          lm2_range2f64: range_prefix##_##func,                      \
-          lm2_range2f32: range_prefix##_##func,                      \
-          lm2_range2i64: range_prefix##_##func,                      \
-          lm2_range2i32: range_prefix##_##func,                      \
-          lm2_range2i16: range_prefix##_##func,                      \
-          lm2_range2i8: range_prefix##_##func,                       \
-          lm2_range2u64: range_prefix##_##func,                      \
-          lm2_range2u32: range_prefix##_##func,                      \
-          lm2_range2u16: range_prefix##_##func,                      \
-          lm2_range2u8: range_prefix##_##func,                       \
-          lm2_range3f64: range_prefix##_##func,                      \
-          lm2_range3f32: range_prefix##_##func,                      \
-          lm2_range3i64: range_prefix##_##func,                      \
-          lm2_range3i32: range_prefix##_##func,                      \
-          lm2_range3i16: range_prefix##_##func,                      \
-          lm2_range3i8: range_prefix##_##func,                       \
-          lm2_range3u64: range_prefix##_##func,                      \
-          lm2_range3u32: range_prefix##_##func,                      \
-          lm2_range3u16: range_prefix##_##func,                      \
-          lm2_range3u8: range_prefix##_##func,                       \
-          lm2_range4f64: range_prefix##_##func,                      \
-          lm2_range4f32: range_prefix##_##func,                      \
-          lm2_range4i64: range_prefix##_##func,                      \
-          lm2_range4i32: range_prefix##_##func,                      \
-          lm2_range4i16: range_prefix##_##func,                      \
-          lm2_range4i8: range_prefix##_##func,                       \
-          lm2_range4u64: range_prefix##_##func,                      \
-          lm2_range4u32: range_prefix##_##func,                      \
-          lm2_range4u16: range_prefix##_##func,                      \
-          lm2_range4u8: range_prefix##_##func,                       \
+          lm2_r2f64: range_prefix##_##func,                          \
+          lm2_r2f32: range_prefix##_##func,                          \
+          lm2_r2i64: range_prefix##_##func,                          \
+          lm2_r2i32: range_prefix##_##func,                          \
+          lm2_r2i16: range_prefix##_##func,                          \
+          lm2_r2i8: range_prefix##_##func,                           \
+          lm2_r2u64: range_prefix##_##func,                          \
+          lm2_r2u32: range_prefix##_##func,                          \
+          lm2_r2u16: range_prefix##_##func,                          \
+          lm2_r2u8: range_prefix##_##func,                           \
+          lm2_r3f64: range_prefix##_##func,                          \
+          lm2_r3f32: range_prefix##_##func,                          \
+          lm2_r3i64: range_prefix##_##func,                          \
+          lm2_r3i32: range_prefix##_##func,                          \
+          lm2_r3i16: range_prefix##_##func,                          \
+          lm2_r3i8: range_prefix##_##func,                           \
+          lm2_r3u64: range_prefix##_##func,                          \
+          lm2_r3u32: range_prefix##_##func,                          \
+          lm2_r3u16: range_prefix##_##func,                          \
+          lm2_r3u8: range_prefix##_##func,                           \
+          lm2_r4f64: range_prefix##_##func,                          \
+          lm2_r4f32: range_prefix##_##func,                          \
+          lm2_r4i64: range_prefix##_##func,                          \
+          lm2_r4i32: range_prefix##_##func,                          \
+          lm2_r4i16: range_prefix##_##func,                          \
+          lm2_r4i8: range_prefix##_##func,                           \
+          lm2_r4u64: range_prefix##_##func,                          \
+          lm2_r4u32: range_prefix##_##func,                          \
+          lm2_r4u16: range_prefix##_##func,                          \
+          lm2_r4u8: range_prefix##_##func,                           \
           lm2_v2f64: range_prefix##_##func##_vec,                    \
           lm2_v2f32: range_prefix##_##func##_vec,                    \
           lm2_v2i64: range_prefix##_##func##_vec,                    \
@@ -323,46 +323,46 @@ inline auto _lm2_generic_range4(
           uint8_t: range_prefix##_##func##_scalar)(r, x)
 
 // Range2 arithmetic dispatch
-#    define _LM2_RANGE2_ARITH(func, r, x)                                           \
-      _Generic((r),                                                                 \
-          lm2_range2f64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range2f64, func, r, x), \
-          lm2_range2f32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range2f32, func, r, x), \
-          lm2_range2i64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range2i64, func, r, x), \
-          lm2_range2i32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range2i32, func, r, x), \
-          lm2_range2i16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range2i16, func, r, x), \
-          lm2_range2i8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range2i8, func, r, x),   \
-          lm2_range2u64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range2u64, func, r, x), \
-          lm2_range2u32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range2u32, func, r, x), \
-          lm2_range2u16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range2u16, func, r, x), \
-          lm2_range2u8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range2u8, func, r, x))
+#    define _LM2_RANGE2_ARITH(func, r, x)                                   \
+      _Generic((r),                                                         \
+          lm2_r2f64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r2f64, func, r, x), \
+          lm2_r2f32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r2f32, func, r, x), \
+          lm2_r2i64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r2i64, func, r, x), \
+          lm2_r2i32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r2i32, func, r, x), \
+          lm2_r2i16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r2i16, func, r, x), \
+          lm2_r2i8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r2i8, func, r, x),   \
+          lm2_r2u64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r2u64, func, r, x), \
+          lm2_r2u32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r2u32, func, r, x), \
+          lm2_r2u16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r2u16, func, r, x), \
+          lm2_r2u8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r2u8, func, r, x))
 
 // Range3 arithmetic dispatch
-#    define _LM2_RANGE3_ARITH(func, r, x)                                           \
-      _Generic((r),                                                                 \
-          lm2_range3f64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range3f64, func, r, x), \
-          lm2_range3f32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range3f32, func, r, x), \
-          lm2_range3i64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range3i64, func, r, x), \
-          lm2_range3i32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range3i32, func, r, x), \
-          lm2_range3i16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range3i16, func, r, x), \
-          lm2_range3i8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range3i8, func, r, x),   \
-          lm2_range3u64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range3u64, func, r, x), \
-          lm2_range3u32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range3u32, func, r, x), \
-          lm2_range3u16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range3u16, func, r, x), \
-          lm2_range3u8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range3u8, func, r, x))
+#    define _LM2_RANGE3_ARITH(func, r, x)                                   \
+      _Generic((r),                                                         \
+          lm2_r3f64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r3f64, func, r, x), \
+          lm2_r3f32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r3f32, func, r, x), \
+          lm2_r3i64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r3i64, func, r, x), \
+          lm2_r3i32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r3i32, func, r, x), \
+          lm2_r3i16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r3i16, func, r, x), \
+          lm2_r3i8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r3i8, func, r, x),   \
+          lm2_r3u64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r3u64, func, r, x), \
+          lm2_r3u32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r3u32, func, r, x), \
+          lm2_r3u16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r3u16, func, r, x), \
+          lm2_r3u8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r3u8, func, r, x))
 
 // Range4 arithmetic dispatch
-#    define _LM2_RANGE4_ARITH(func, r, x)                                           \
-      _Generic((r),                                                                 \
-          lm2_range4f64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range4f64, func, r, x), \
-          lm2_range4f32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range4f32, func, r, x), \
-          lm2_range4i64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range4i64, func, r, x), \
-          lm2_range4i32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range4i32, func, r, x), \
-          lm2_range4i16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range4i16, func, r, x), \
-          lm2_range4i8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range4i8, func, r, x),   \
-          lm2_range4u64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range4u64, func, r, x), \
-          lm2_range4u32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range4u32, func, r, x), \
-          lm2_range4u16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range4u16, func, r, x), \
-          lm2_range4u8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_range4u8, func, r, x))
+#    define _LM2_RANGE4_ARITH(func, r, x)                                   \
+      _Generic((r),                                                         \
+          lm2_r4f64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r4f64, func, r, x), \
+          lm2_r4f32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r4f32, func, r, x), \
+          lm2_r4i64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r4i64, func, r, x), \
+          lm2_r4i32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r4i32, func, r, x), \
+          lm2_r4i16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r4i16, func, r, x), \
+          lm2_r4i8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r4i8, func, r, x),   \
+          lm2_r4u64: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r4u64, func, r, x), \
+          lm2_r4u32: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r4u32, func, r, x), \
+          lm2_r4u16: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r4u16, func, r, x), \
+          lm2_r4u8: _LM2_RANGE_ARITHMETIC_DISPATCH(lm2_r4u8, func, r, x))
 
 #  else
 

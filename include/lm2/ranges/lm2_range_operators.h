@@ -30,10 +30,10 @@ SOFTWARE.
 // C++ Operator Overloads for Range Types
 // =============================================================================
 // These operators provide natural syntax for range operations in C++:
-//   lm2_range2f32 r = {{0, 0}, {10, 10}};
+//   lm2_r2f32 r = {{0, 0}, {10, 10}};
 //   lm2_v2f32 offset = {5, 5};
-//   lm2_range2f32 translated = r + offset;  // translate range
-//   lm2_range2f32 scaled = r * 2.0f;        // scale around center
+//   lm2_r2f32 translated = r + offset;  // translate range
+//   lm2_r2f32 scaled = r * 2.0f;        // scale around center
 //   lm2_v2f32 min = r[0];                   // array access to min/max
 
 // =============================================================================

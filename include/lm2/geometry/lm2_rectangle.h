@@ -212,16 +212,16 @@ typedef enum lm2_align {
 // Rectangle Operations for All 10 Types
 // =============================================================================
 
-_LM2_DECLARE_RECT2_ALL(lm2_range2f64, lm2_v2f64, double)
-_LM2_DECLARE_RECT2_ALL(lm2_range2f32, lm2_v2f32, float)
-_LM2_DECLARE_RECT2_ALL(lm2_range2i64, lm2_v2i64, int64_t)
-_LM2_DECLARE_RECT2_ALL(lm2_range2i32, lm2_v2i32, int32_t)
-_LM2_DECLARE_RECT2_ALL(lm2_range2i16, lm2_v2i16, int16_t)
-_LM2_DECLARE_RECT2_ALL(lm2_range2i8, lm2_v2i8, int8_t)
-_LM2_DECLARE_RECT2_ALL(lm2_range2u64, lm2_v2u64, uint64_t)
-_LM2_DECLARE_RECT2_ALL(lm2_range2u32, lm2_v2u32, uint32_t)
-_LM2_DECLARE_RECT2_ALL(lm2_range2u16, lm2_v2u16, uint16_t)
-_LM2_DECLARE_RECT2_ALL(lm2_range2u8, lm2_v2u8, uint8_t)
+_LM2_DECLARE_RECT2_ALL(lm2_r2f64, lm2_v2f64, double)
+_LM2_DECLARE_RECT2_ALL(lm2_r2f32, lm2_v2f32, float)
+_LM2_DECLARE_RECT2_ALL(lm2_r2i64, lm2_v2i64, int64_t)
+_LM2_DECLARE_RECT2_ALL(lm2_r2i32, lm2_v2i32, int32_t)
+_LM2_DECLARE_RECT2_ALL(lm2_r2i16, lm2_v2i16, int16_t)
+_LM2_DECLARE_RECT2_ALL(lm2_r2i8, lm2_v2i8, int8_t)
+_LM2_DECLARE_RECT2_ALL(lm2_r2u64, lm2_v2u64, uint64_t)
+_LM2_DECLARE_RECT2_ALL(lm2_r2u32, lm2_v2u32, uint32_t)
+_LM2_DECLARE_RECT2_ALL(lm2_r2u16, lm2_v2u16, uint16_t)
+_LM2_DECLARE_RECT2_ALL(lm2_r2u8, lm2_v2u8, uint8_t)
 
 // Segments intersect functions for all vector types
 _LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2f64)
@@ -240,19 +240,19 @@ _LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2u8)
 // =============================================================================
 
 // The range2 types are the rectangle types (rectangles are AABBs)
-typedef lm2_range2f64 lm2_rect2f64;
-typedef lm2_range2f32 lm2_rect2f32;
-typedef lm2_range2i64 lm2_rect2i64;
-typedef lm2_range2i32 lm2_rect2i32;
-typedef lm2_range2i16 lm2_rect2i16;
-typedef lm2_range2i8 lm2_rect2i8;
-typedef lm2_range2u64 lm2_rect2u64;
-typedef lm2_range2u32 lm2_rect2u32;
-typedef lm2_range2u16 lm2_rect2u16;
-typedef lm2_range2u8 lm2_rect2u8;
+typedef lm2_r2f64 lm2_rect2f64;
+typedef lm2_r2f32 lm2_rect2f32;
+typedef lm2_r2i64 lm2_rect2i64;
+typedef lm2_r2i32 lm2_rect2i32;
+typedef lm2_r2i16 lm2_rect2i16;
+typedef lm2_r2i8 lm2_rect2i8;
+typedef lm2_r2u64 lm2_rect2u64;
+typedef lm2_r2u32 lm2_rect2u32;
+typedef lm2_r2u16 lm2_rect2u16;
+typedef lm2_r2u8 lm2_rect2u8;
 
 // Default rectangle type (float-based)
-typedef lm2_range2f32 lm2_rect2;
+typedef lm2_r2f32 lm2_rect2;
 
 // #############################################################################
 LM2_HEADER_END;

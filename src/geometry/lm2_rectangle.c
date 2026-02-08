@@ -376,16 +376,16 @@ SOFTWARE.
 // Rectangle Implementations for All 10 Types
 // =============================================================================
 
-_LM2_IMPL_RECT2_ALL(lm2_range2f64, lm2_v2f64, double, f64)
-_LM2_IMPL_RECT2_ALL(lm2_range2f32, lm2_v2f32, float, f32)
-_LM2_IMPL_RECT2_ALL(lm2_range2i64, lm2_v2i64, int64_t, i64)
-_LM2_IMPL_RECT2_ALL(lm2_range2i32, lm2_v2i32, int32_t, i32)
-_LM2_IMPL_RECT2_ALL(lm2_range2i16, lm2_v2i16, int16_t, i16)
-_LM2_IMPL_RECT2_ALL(lm2_range2i8, lm2_v2i8, int8_t, i8)
-_LM2_IMPL_RECT2_ALL(lm2_range2u64, lm2_v2u64, uint64_t, u64)
-_LM2_IMPL_RECT2_ALL(lm2_range2u32, lm2_v2u32, uint32_t, u32)
-_LM2_IMPL_RECT2_ALL(lm2_range2u16, lm2_v2u16, uint16_t, u16)
-_LM2_IMPL_RECT2_ALL(lm2_range2u8, lm2_v2u8, uint8_t, u8)
+_LM2_IMPL_RECT2_ALL(lm2_r2f64, lm2_v2f64, double, f64)
+_LM2_IMPL_RECT2_ALL(lm2_r2f32, lm2_v2f32, float, f32)
+_LM2_IMPL_RECT2_ALL(lm2_r2i64, lm2_v2i64, int64_t, i64)
+_LM2_IMPL_RECT2_ALL(lm2_r2i32, lm2_v2i32, int32_t, i32)
+_LM2_IMPL_RECT2_ALL(lm2_r2i16, lm2_v2i16, int16_t, i16)
+_LM2_IMPL_RECT2_ALL(lm2_r2i8, lm2_v2i8, int8_t, i8)
+_LM2_IMPL_RECT2_ALL(lm2_r2u64, lm2_v2u64, uint64_t, u64)
+_LM2_IMPL_RECT2_ALL(lm2_r2u32, lm2_v2u32, uint32_t, u32)
+_LM2_IMPL_RECT2_ALL(lm2_r2u16, lm2_v2u16, uint16_t, u16)
+_LM2_IMPL_RECT2_ALL(lm2_r2u8, lm2_v2u8, uint8_t, u8)
 
 // Segments intersect implementations for all vector types
 _LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2f64, double, f64)

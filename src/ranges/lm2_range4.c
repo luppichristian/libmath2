@@ -560,13 +560,13 @@ SOFTWARE.
 // Range4 Implementations for All 10 Numeric Types
 // =============================================================================
 
-_LM2_IMPL_RANGE4_ALL(lm2_range4f64, lm2_v4f64, double, f64)
-_LM2_IMPL_RANGE4_ALL(lm2_range4f32, lm2_v4f32, float, f32)
-_LM2_IMPL_RANGE4_ALL(lm2_range4i64, lm2_v4i64, int64_t, i64)
-_LM2_IMPL_RANGE4_ALL(lm2_range4i32, lm2_v4i32, int32_t, i32)
-_LM2_IMPL_RANGE4_ALL(lm2_range4i16, lm2_v4i16, int16_t, i16)
-_LM2_IMPL_RANGE4_ALL(lm2_range4i8, lm2_v4i8, int8_t, i8)
-_LM2_IMPL_RANGE4_ALL(lm2_range4u64, lm2_v4u64, uint64_t, u64)
-_LM2_IMPL_RANGE4_ALL(lm2_range4u32, lm2_v4u32, uint32_t, u32)
-_LM2_IMPL_RANGE4_ALL(lm2_range4u16, lm2_v4u16, uint16_t, u16)
-_LM2_IMPL_RANGE4_ALL(lm2_range4u8, lm2_v4u8, uint8_t, u8)
+_LM2_IMPL_RANGE4_ALL(lm2_r4f64, lm2_v4f64, double, f64)
+_LM2_IMPL_RANGE4_ALL(lm2_r4f32, lm2_v4f32, float, f32)
+_LM2_IMPL_RANGE4_ALL(lm2_r4i64, lm2_v4i64, int64_t, i64)
+_LM2_IMPL_RANGE4_ALL(lm2_r4i32, lm2_v4i32, int32_t, i32)
+_LM2_IMPL_RANGE4_ALL(lm2_r4i16, lm2_v4i16, int16_t, i16)
+_LM2_IMPL_RANGE4_ALL(lm2_r4i8, lm2_v4i8, int8_t, i8)
+_LM2_IMPL_RANGE4_ALL(lm2_r4u64, lm2_v4u64, uint64_t, u64)
+_LM2_IMPL_RANGE4_ALL(lm2_r4u32, lm2_v4u32, uint32_t, u32)
+_LM2_IMPL_RANGE4_ALL(lm2_r4u16, lm2_v4u16, uint16_t, u16)
+_LM2_IMPL_RANGE4_ALL(lm2_r4u8, lm2_v4u8, uint8_t, u8)
