@@ -31,6 +31,7 @@ SOFTWARE.
 #include "lm2/geometry2d/lm2_capsule2.h"
 #include "lm2/geometry2d/lm2_circle.h"
 #include "lm2/geometry2d/lm2_edge2.h"
+#include "lm2/geometry2d/lm2_plane2.h"
 #include "lm2/geometry2d/lm2_polygon.h"
 #include "lm2/geometry2d/lm2_raycast2.h"
 #include "lm2/geometry2d/lm2_rectangle.h"
