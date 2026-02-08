@@ -23,6 +23,13 @@ SOFTWARE.
 */
 
 #include "lm2/geometry3d/lm2_raycast3.h"
+#include "lm2/geometry3d/lm2_shape3.h"
+#include "lm2/geometry3d/lm2_edge3.h"
+#include "lm2/geometry3d/lm2_plane3.h"
+#include "lm2/geometry3d/lm2_sphere.h"
+#include "lm2/geometry3d/lm2_capsule3.h"
+#include "lm2/geometry3d/lm2_cuboid.h"
+#include "lm2/geometry3d/lm2_triangle3.h"
 #include "lm2/scalar/lm2_safe_ops.h"
 #include "lm2/scalar/lm2_scalar.h"
 #include "lm2/vectors/lm2_vector_specifics.h"
@@ -871,6 +878,125 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3f32 edge_st
     result.t = 0.0f;
     result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
     result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+  }
+
+  return result;
+}
+
+// =============================================================================
+// Generic Shape Raycasting - f64
+// =============================================================================
+
+LM2_API lm2_rayhit3_f64 lm2_raycast_shape3_f64(lm2_ray3_f64 ray, lm2_shape3_f64 shape) {
+  LM2_ASSERT(shape.data != NULL);
+
+  lm2_rayhit3_f64 result;
+  result.hit = false;
+  result.t = 0.0;
+  result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
+  result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
+
+  switch (shape.type) {
+    case LM2_SHAPE3_SPHERE: {
+      lm2_sphere_f64* sphere = (lm2_sphere_f64*)shape.data;
+      result = lm2_raycast_sphere_f64(ray, sphere->center, sphere->radius);
+      break;
+    }
+
+    case LM2_SHAPE3_CAPSULE: {
+      lm2_capsule3_f64* capsule = (lm2_capsule3_f64*)shape.data;
+      result = lm2_raycast_capsule_f64(ray, capsule->start, capsule->end, capsule->radius);
+      break;
+    }
+
+    case LM2_SHAPE3_CUBOID: {
+      lm2_cuboid_f64* cuboid = (lm2_cuboid_f64*)shape.data;
+      lm2_r3f64 aabb = {cuboid->center, cuboid->half_extents};
+      result = lm2_raycast_aabb3_f64(ray, aabb);
+      break;
+    }
+
+    case LM2_SHAPE3_TRIANGLE: {
+      lm2_triangle3_f64* tri = (lm2_triangle3_f64*)shape.data;
+      result = lm2_raycast_triangle_f64(ray, tri->a, tri->b, tri->c);
+      break;
+    }
+
+    case LM2_SHAPE3_EDGE: {
+      lm2_edge3_f64* edge = (lm2_edge3_f64*)shape.data;
+      result = lm2_raycast_edge_f64(ray, edge->start, edge->end, LM2_RAYCAST3_EPSILON_F64);
+      break;
+    }
+
+    case LM2_SHAPE3_PLANE: {
+      lm2_plane3_f64* plane = (lm2_plane3_f64*)shape.data;
+      // Calculate a point on the plane from normal and distance
+      lm2_v3f64 plane_point = lm2_mul_lm2_v3f64_double(plane->normal, plane->distance);
+      result = lm2_raycast_plane_f64(ray, plane_point, plane->normal);
+      break;
+    }
+
+    default:
+      break;
+  }
+
+  return result;
+}
+
+// =============================================================================
+// Generic Shape Raycasting - f32
+// =============================================================================
+
+LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 shape) {
+  LM2_ASSERT(shape.data != NULL);
+
+  lm2_rayhit3_f32 result;
+  result.hit = false;
+  result.t = 0.0f;
+  result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+  result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+
+  switch (shape.type) {
+    case LM2_SHAPE3_SPHERE: {
+      lm2_sphere_f32* sphere = (lm2_sphere_f32*)shape.data;
+      result = lm2_raycast_sphere_f32(ray, sphere->center, sphere->radius);
+      break;
+    }
+
+    case LM2_SHAPE3_CAPSULE: {
+      lm2_capsule3_f32* capsule = (lm2_capsule3_f32*)shape.data;
+      result = lm2_raycast_capsule_f32(ray, capsule->start, capsule->end, capsule->radius);
+      break;
+    }
+
+    case LM2_SHAPE3_CUBOID: {
+      lm2_cuboid_f32* cuboid = (lm2_cuboid_f32*)shape.data;
+      lm2_r3f32 aabb = {cuboid->center, cuboid->half_extents};
+      result = lm2_raycast_aabb3_f32(ray, aabb);
+      break;
+    }
+
+    case LM2_SHAPE3_TRIANGLE: {
+      lm2_triangle3_f32* tri = (lm2_triangle3_f32*)shape.data;
+      result = lm2_raycast_triangle_f32(ray, tri->a, tri->b, tri->c);
+      break;
+    }
+
+    case LM2_SHAPE3_EDGE: {
+      lm2_edge3_f32* edge = (lm2_edge3_f32*)shape.data;
+      result = lm2_raycast_edge_f32(ray, edge->start, edge->end, LM2_RAYCAST3_EPSILON_F32);
+      break;
+    }
+
+    case LM2_SHAPE3_PLANE: {
+      lm2_plane3_f32* plane = (lm2_plane3_f32*)shape.data;
+      lm2_v3f32 plane_point = lm2_mul_lm2_v3f32_float(plane->normal, plane->distance);
+      result = lm2_raycast_plane_f32(ray, plane_point, plane->normal);
+      break;
+    }
+
+    default:
+      break;
   }
 
   return result;

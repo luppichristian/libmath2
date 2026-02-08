@@ -24,7 +24,9 @@ SOFTWARE.
 
 #include <cute_c2.h>
 
+#include "lm2/geometry2d/lm2_edge2.h"
 #include "lm2/geometry2d/lm2_raycast2.h"
+#include "lm2/geometry2d/lm2_shape2.h"
 #include "lm2/scalar/lm2_safe_ops.h"
 #include "lm2/scalar/lm2_scalar.h"
 #include "lm2/vectors/lm2_vector_specifics.h"
@@ -578,6 +580,134 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_plane2_f32(lm2_ray2_f32 ray, lm2_plane2_f32 
     } else {
       result.normal = plane.normal;
     }
+  }
+
+  return result;
+}
+
+// =============================================================================
+// Generic Shape Raycasting - f64
+// =============================================================================
+
+LM2_API lm2_rayhit2_f64 lm2_raycast_shape2_f64(lm2_ray2_f64 ray, lm2_shape2_f64 shape) {
+  LM2_ASSERT(shape.data != NULL);
+
+  lm2_rayhit2_f64 result;
+  result.hit = false;
+  result.t = 0.0;
+  result.point = (lm2_v2f64) {0.0, 0.0};
+  result.normal = (lm2_v2f64) {0.0, 0.0};
+
+  switch (shape.type) {
+    case LM2_SHAPE2_CIRCLE: {
+      lm2_circle_f64* circle = (lm2_circle_f64*)shape.data;
+      result = lm2_raycast_circle_f64(ray, *circle);
+      break;
+    }
+
+    case LM2_SHAPE2_CAPSULE: {
+      lm2_capsule2_f64* capsule = (lm2_capsule2_f64*)shape.data;
+      result = lm2_raycast_capsule2_f64(ray, *capsule);
+      break;
+    }
+
+    case LM2_SHAPE2_RECTANGLE: {
+      lm2_rect2f64* rect = (lm2_rect2f64*)shape.data;
+      lm2_r2f64 aabb = {rect->center_x, rect->center_y, rect->half_width, rect->half_height};
+      result = lm2_raycast_aabb_f64(ray, aabb);
+      break;
+    }
+
+    case LM2_SHAPE2_TRIANGLE: {
+      lm2_triangle2_f64* tri = (lm2_triangle2_f64*)shape.data;
+      result = lm2_raycast_triangle2_f64(ray, *tri);
+      break;
+    }
+
+    case LM2_SHAPE2_POLYGON: {
+      lm2_polygon_f64* poly = (lm2_polygon_f64*)shape.data;
+      result = lm2_raycast_polygon_f64(ray, *poly);
+      break;
+    }
+
+    case LM2_SHAPE2_EDGE: {
+      lm2_edge2_f64* edge = (lm2_edge2_f64*)shape.data;
+      result = lm2_raycast_segment_f64(ray, edge->start, edge->end);
+      break;
+    }
+
+    case LM2_SHAPE2_PLANE: {
+      lm2_plane2_f64* plane = (lm2_plane2_f64*)shape.data;
+      result = lm2_raycast_plane2_f64(ray, *plane);
+      break;
+    }
+
+    default:
+      break;
+  }
+
+  return result;
+}
+
+// =============================================================================
+// Generic Shape Raycasting - f32
+// =============================================================================
+
+LM2_API lm2_rayhit2_f32 lm2_raycast_shape2_f32(lm2_ray2_f32 ray, lm2_shape2_f32 shape) {
+  LM2_ASSERT(shape.data != NULL);
+
+  lm2_rayhit2_f32 result;
+  result.hit = false;
+  result.t = 0.0f;
+  result.point = (lm2_v2f32) {0.0f, 0.0f};
+  result.normal = (lm2_v2f32) {0.0f, 0.0f};
+
+  switch (shape.type) {
+    case LM2_SHAPE2_CIRCLE: {
+      lm2_circle_f32* circle = (lm2_circle_f32*)shape.data;
+      result = lm2_raycast_circle_f32(ray, *circle);
+      break;
+    }
+
+    case LM2_SHAPE2_CAPSULE: {
+      lm2_capsule2_f32* capsule = (lm2_capsule2_f32*)shape.data;
+      result = lm2_raycast_capsule2_f32(ray, *capsule);
+      break;
+    }
+
+    case LM2_SHAPE2_RECTANGLE: {
+      lm2_rect2f32* rect = (lm2_rect2f32*)shape.data;
+      lm2_r2f32 aabb = {rect->center_x, rect->center_y, rect->half_width, rect->half_height};
+      result = lm2_raycast_aabb_f32(ray, aabb);
+      break;
+    }
+
+    case LM2_SHAPE2_TRIANGLE: {
+      lm2_triangle2_f32* tri = (lm2_triangle2_f32*)shape.data;
+      result = lm2_raycast_triangle2_f32(ray, *tri);
+      break;
+    }
+
+    case LM2_SHAPE2_POLYGON: {
+      lm2_polygon_f32* poly = (lm2_polygon_f32*)shape.data;
+      result = lm2_raycast_polygon_f32(ray, *poly);
+      break;
+    }
+
+    case LM2_SHAPE2_EDGE: {
+      lm2_edge2_f32* edge = (lm2_edge2_f32*)shape.data;
+      result = lm2_raycast_segment_f32(ray, edge->start, edge->end);
+      break;
+    }
+
+    case LM2_SHAPE2_PLANE: {
+      lm2_plane2_f32* plane = (lm2_plane2_f32*)shape.data;
+      result = lm2_raycast_plane2_f32(ray, *plane);
+      break;
+    }
+
+    default:
+      break;
   }
 
   return result;

@@ -29,6 +29,7 @@ SOFTWARE.
 #include "lm2/vectors/lm2_vector2.h"
 #include "lm2_capsule2.h"
 #include "lm2_circle.h"
+#include "lm2_plane2.h"
 #include "lm2_polygon.h"
 #include "lm2_triangle2.h"
 
@@ -193,6 +194,40 @@ LM2_API void lm2_manifold_triangle_to_capsule_f32(const lm2_triangle2_f32 tri, l
 // Triangle to Polygon Manifold
 LM2_API void lm2_manifold_triangle_to_polygon_f64(const lm2_triangle2_f64 tri, lm2_polygon_f64 polygon, lm2_manifold_f64* out_manifold);
 LM2_API void lm2_manifold_triangle_to_polygon_f32(const lm2_triangle2_f32 tri, lm2_polygon_f32 polygon, lm2_manifold_f32* out_manifold);
+
+// =============================================================================
+// Plane Manifold Generation (Slower, provides collision details)
+// =============================================================================
+
+// Circle to Plane Manifold
+LM2_API void lm2_manifold_circle_to_plane_f64(lm2_circle_f64 circle, lm2_plane2_f64 plane, lm2_manifold_f64* out_manifold);
+LM2_API void lm2_manifold_circle_to_plane_f32(lm2_circle_f32 circle, lm2_plane2_f32 plane, lm2_manifold_f32* out_manifold);
+
+// Capsule to Plane Manifold
+LM2_API void lm2_manifold_capsule_to_plane_f64(lm2_capsule2_f64 capsule, lm2_plane2_f64 plane, lm2_manifold_f64* out_manifold);
+LM2_API void lm2_manifold_capsule_to_plane_f32(lm2_capsule2_f32 capsule, lm2_plane2_f32 plane, lm2_manifold_f32* out_manifold);
+
+// AABB to Plane Manifold
+LM2_API void lm2_manifold_aabb_to_plane_f64(lm2_r2f64 aabb, lm2_plane2_f64 plane, lm2_manifold_f64* out_manifold);
+LM2_API void lm2_manifold_aabb_to_plane_f32(lm2_r2f32 aabb, lm2_plane2_f32 plane, lm2_manifold_f32* out_manifold);
+
+// Triangle to Plane Manifold
+LM2_API void lm2_manifold_triangle_to_plane_f64(const lm2_triangle2_f64 tri, lm2_plane2_f64 plane, lm2_manifold_f64* out_manifold);
+LM2_API void lm2_manifold_triangle_to_plane_f32(const lm2_triangle2_f32 tri, lm2_plane2_f32 plane, lm2_manifold_f32* out_manifold);
+
+// Polygon to Plane Manifold
+LM2_API void lm2_manifold_polygon_to_plane_f64(lm2_polygon_f64 polygon, lm2_plane2_f64 plane, lm2_manifold_f64* out_manifold);
+LM2_API void lm2_manifold_polygon_to_plane_f32(lm2_polygon_f32 polygon, lm2_plane2_f32 plane, lm2_manifold_f32* out_manifold);
+
+// =============================================================================
+// Generic Shape Manifold Generation
+// =============================================================================
+
+#include "lm2_shape2.h"
+
+// Generic shape-to-shape manifold (dispatches based on shape types)
+LM2_API void lm2_manifold_shape_to_shape_f64(lm2_shape2_f64 shape_a, lm2_shape2_f64 shape_b, lm2_manifold_f64* out_manifold);
+LM2_API void lm2_manifold_shape_to_shape_f32(lm2_shape2_f32 shape_a, lm2_shape2_f32 shape_b, lm2_manifold_f32* out_manifold);
 
 // =============================================================================
 // Convex Hull Generation

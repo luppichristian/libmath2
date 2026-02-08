@@ -119,6 +119,16 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3f64 edge_st
 LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3f32 edge_start, lm2_v3f32 edge_end, float tolerance);
 
 // =============================================================================
+// Generic Shape Raycasting
+// =============================================================================
+
+#include "lm2_shape3.h"
+
+// Generic ray vs shape (dispatches based on shape type)
+LM2_API lm2_rayhit3_f64 lm2_raycast_shape3_f64(lm2_ray3_f64 ray, lm2_shape3_f64 shape);
+LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 shape);
+
+// =============================================================================
 // Epsilon/Tolerance Constants
 // =============================================================================
 
