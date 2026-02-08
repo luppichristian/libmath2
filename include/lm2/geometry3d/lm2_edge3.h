@@ -25,7 +25,7 @@ SOFTWARE.
 #pragma once
 
 #include "lm2/lm2_base.h"
-#include "lm2/vectors/lm2_vector2.h"
+#include "lm2/vectors/lm2_vector3.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -35,82 +35,76 @@ LM2_HEADER_BEGIN;
 // Edge Types
 // =============================================================================
 
-// Edge structure to represent a 2D line segment
-typedef struct lm2_edge_f64 {
-  lm2_v2f64 start, end;
-} lm2_edge_f64;
+// Edge structure to represent a 3D line segment
+typedef struct lm2_edge3_f64 {
+  lm2_v3f64 start, end;
+} lm2_edge3_f64;
 
-typedef struct lm2_edge_f32 {
-  lm2_v2f32 start, end;
-} lm2_edge_f32;
+typedef struct lm2_edge3_f32 {
+  lm2_v3f32 start, end;
+} lm2_edge3_f32;
 
 // Default edge type
-typedef lm2_edge_f32 lm2_edge;
+typedef lm2_edge3_f32 lm2_edge3;
 
 // Edge result with existence flag
-typedef struct lm2_edge_result_f64 {
-  lm2_edge_f64 edge;
+typedef struct lm2_edge3_result_f64 {
+  lm2_edge3_f64 edge;
   bool exists;
-} lm2_edge_result_f64;
+} lm2_edge3_result_f64;
 
-typedef struct lm2_edge_result_f32 {
-  lm2_edge_f32 edge;
+typedef struct lm2_edge3_result_f32 {
+  lm2_edge3_f32 edge;
   bool exists;
-} lm2_edge_result_f32;
+} lm2_edge3_result_f32;
 
-typedef lm2_edge_result_f32 lm2_edge_result;
+typedef lm2_edge3_result_f32 lm2_edge3_result;
 
 // =============================================================================
 // Construction Helpers
 // =============================================================================
 
 // Create an edge from two points
-LM2_API lm2_edge_f64 lm2_edge_make_f64(lm2_v2f64 start, lm2_v2f64 end);
-LM2_API lm2_edge_f32 lm2_edge_make_f32(lm2_v2f32 start, lm2_v2f32 end);
+LM2_API lm2_edge3_f64 lm2_edge3_make_f64(lm2_v3f64 start, lm2_v3f64 end);
+LM2_API lm2_edge3_f32 lm2_edge3_make_f32(lm2_v3f32 start, lm2_v3f32 end);
 
 // Create an edge from coordinates
-LM2_API lm2_edge_f64 lm2_edge_make_coords_f64(double x1, double y1, double x2, double y2);
-LM2_API lm2_edge_f32 lm2_edge_make_coords_f32(float x1, float y1, float x2, float y2);
+LM2_API lm2_edge3_f64 lm2_edge3_make_coords_f64(double x1, double y1, double z1, double x2, double y2, double z2);
+LM2_API lm2_edge3_f32 lm2_edge3_make_coords_f32(float x1, float y1, float z1, float x2, float y2, float z2);
 
 // =============================================================================
 // Edge Properties
 // =============================================================================
 
 // Get the length of an edge
-LM2_API double lm2_edge_length_f64(lm2_edge_f64 edge);
-LM2_API float lm2_edge_length_f32(lm2_edge_f32 edge);
+LM2_API double lm2_edge3_length_f64(lm2_edge3_f64 edge);
+LM2_API float lm2_edge3_length_f32(lm2_edge3_f32 edge);
 
 // Get the squared length of an edge (faster, avoids sqrt)
-LM2_API double lm2_edge_length_sq_f64(lm2_edge_f64 edge);
-LM2_API float lm2_edge_length_sq_f32(lm2_edge_f32 edge);
+LM2_API double lm2_edge3_length_sq_f64(lm2_edge3_f64 edge);
+LM2_API float lm2_edge3_length_sq_f32(lm2_edge3_f32 edge);
 
 // =============================================================================
 // Edge Comparison
 // =============================================================================
 
 // Check if two points are equal within epsilon
-LM2_API bool lm2_points_equal_f64(lm2_v2f64 a, lm2_v2f64 b, double epsilon);
-LM2_API bool lm2_points_equal_f32(lm2_v2f32 a, lm2_v2f32 b, float epsilon);
+LM2_API bool lm2_points3_equal_f64(lm2_v3f64 a, lm2_v3f64 b, double epsilon);
+LM2_API bool lm2_points3_equal_f32(lm2_v3f32 a, lm2_v3f32 b, float epsilon);
 
 // Check if two edges are the same (regardless of direction)
-LM2_API bool lm2_edges_equal_f64(lm2_edge_f64 e1, lm2_edge_f64 e2, double epsilon);
-LM2_API bool lm2_edges_equal_f32(lm2_edge_f32 e1, lm2_edge_f32 e2, float epsilon);
+LM2_API bool lm2_edges3_equal_f64(lm2_edge3_f64 e1, lm2_edge3_f64 e2, double epsilon);
+LM2_API bool lm2_edges3_equal_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2, float epsilon);
 
 // =============================================================================
 // Edge Intersection
 // =============================================================================
 
-// Check if two line segments intersect
-LM2_API bool lm2_edges_intersect_f64(lm2_edge_f64 e1, lm2_edge_f64 e2);
-LM2_API bool lm2_edges_intersect_f32(lm2_edge_f32 e1, lm2_edge_f32 e2);
+// Check if two line segments intersect (for 3D, they may be skew lines)
+// Returns true if the segments actually intersect or come within epsilon distance
+LM2_API bool lm2_edges3_intersect_f64(lm2_edge3_f64 e1, lm2_edge3_f64 e2, double epsilon);
+LM2_API bool lm2_edges3_intersect_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2, float epsilon);
 
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// C++ operator overloads (must be outside extern "C")
-#ifndef LM2_NO_CPP_OPERATORS
-#  include "lm2_geometry_operators.h"
-_LM2_DEFINE_EDGE_OPERATORS(lm2_edge_f64, lm2_v2f64, double)
-_LM2_DEFINE_EDGE_OPERATORS(lm2_edge_f32, lm2_v2f32, float)
-#endif

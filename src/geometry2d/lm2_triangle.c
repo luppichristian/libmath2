@@ -25,7 +25,7 @@ SOFTWARE.
 #include <lm2/geometry2d/lm2_triangle.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
-#include <lm2/geometry2d/lm2_edge.h>
+#include <lm2/geometry2d/lm2_edge2.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
 
 // =============================================================================
@@ -351,12 +351,12 @@ LM2_API bool lm2_triangle_overlaps_f64(const lm2_triangle_f64 t1, const lm2_tria
   }
 
   // Check if any edges intersect
-  lm2_edge_f64 t1_edges[3] = {
+  lm2_edge2_f64 t1_edges[3] = {
       {t1[0], t1[1]},
       {t1[1], t1[2]},
       {t1[2], t1[0]}
   };
-  lm2_edge_f64 t2_edges[3] = {
+  lm2_edge2_f64 t2_edges[3] = {
       {t2[0], t2[1]},
       {t2[1], t2[2]},
       {t2[2], t2[0]}
@@ -386,12 +386,12 @@ LM2_API bool lm2_triangle_overlaps_f32(const lm2_triangle_f32 t1, const lm2_tria
     return true;
   }
 
-  lm2_edge_f32 t1_edges[3] = {
+  lm2_edge2_f32 t1_edges[3] = {
       {t1[0], t1[1]},
       {t1[1], t1[2]},
       {t1[2], t1[0]}
   };
-  lm2_edge_f32 t2_edges[3] = {
+  lm2_edge2_f32 t2_edges[3] = {
       {t2[0], t2[1]},
       {t2[1], t2[2]},
       {t2[2], t2[0]}
@@ -412,17 +412,17 @@ LM2_API bool lm2_triangle_overlaps_f32(const lm2_triangle_f32 t1, const lm2_tria
 // Triangle-Edge Operations
 // =============================================================================
 
-LM2_API lm2_edge_result_f64 lm2_triangle_shared_edge_f64(const lm2_triangle_f64 t1, const lm2_triangle_f64 t2, double epsilon) {
-  lm2_edge_result_f64 result;
+LM2_API lm2_edge2_result_f64 lm2_triangle_shared_edge_f64(const lm2_triangle_f64 t1, const lm2_triangle_f64 t2, double epsilon) {
+  lm2_edge2_result_f64 result;
   result.exists = false;
 
   // Define edges of both triangles
-  lm2_edge_f64 t1_edges[3] = {
+  lm2_edge2_f64 t1_edges[3] = {
       {t1[0], t1[1]},
       {t1[1], t1[2]},
       {t1[2], t1[0]}
   };
-  lm2_edge_f64 t2_edges[3] = {
+  lm2_edge2_f64 t2_edges[3] = {
       {t2[0], t2[1]},
       {t2[1], t2[2]},
       {t2[2], t2[0]}
@@ -442,16 +442,16 @@ LM2_API lm2_edge_result_f64 lm2_triangle_shared_edge_f64(const lm2_triangle_f64 
   return result;
 }
 
-LM2_API lm2_edge_result_f32 lm2_triangle_shared_edge_f32(const lm2_triangle_f32 t1, const lm2_triangle_f32 t2, float epsilon) {
-  lm2_edge_result_f32 result;
+LM2_API lm2_edge2_result_f32 lm2_triangle_shared_edge_f32(const lm2_triangle_f32 t1, const lm2_triangle_f32 t2, float epsilon) {
+  lm2_edge2_result_f32 result;
   result.exists = false;
 
-  lm2_edge_f32 t1_edges[3] = {
+  lm2_edge2_f32 t1_edges[3] = {
       {t1[0], t1[1]},
       {t1[1], t1[2]},
       {t1[2], t1[0]}
   };
-  lm2_edge_f32 t2_edges[3] = {
+  lm2_edge2_f32 t2_edges[3] = {
       {t2[0], t2[1]},
       {t2[1], t2[2]},
       {t2[2], t2[0]}

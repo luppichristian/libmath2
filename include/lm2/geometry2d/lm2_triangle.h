@@ -24,7 +24,7 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2_edge.h"
+#include "lm2_edge2.h"
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector2.h"
 
@@ -142,8 +142,8 @@ LM2_API bool lm2_triangle_overlaps_f32(const lm2_triangle_f32 t1, const lm2_tria
 // =============================================================================
 
 // Check if two triangles share an edge and return it
-LM2_API lm2_edge_result_f64 lm2_triangle_shared_edge_f64(const lm2_triangle_f64 t1, const lm2_triangle_f64 t2, double epsilon);
-LM2_API lm2_edge_result_f32 lm2_triangle_shared_edge_f32(const lm2_triangle_f32 t1, const lm2_triangle_f32 t2, float epsilon);
+LM2_API lm2_edge2_result_f64 lm2_triangle_shared_edge_f64(const lm2_triangle_f64 t1, const lm2_triangle_f64 t2, double epsilon);
+LM2_API lm2_edge2_result_f32 lm2_triangle_shared_edge_f32(const lm2_triangle_f32 t1, const lm2_triangle_f32 t2, float epsilon);
 
 // #############################################################################
 LM2_HEADER_END;
