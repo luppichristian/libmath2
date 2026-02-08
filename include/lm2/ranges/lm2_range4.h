@@ -45,7 +45,6 @@ LM2_HEADER_BEGIN;
       vec_type min;                                               \
       vec_type max;                                               \
     };                                                            \
-    _LM2_RANGE4_CPP_CONSTRUCTORS(type_name, vec_type)             \
     _LM2_RANGE_SUBSCRIPT_OP(vec_type)                             \
   } type_name;                                                    \
   _LM2_DECLARE_RANGE_FROM_MIN_MAX(type_name, vec_type)            \

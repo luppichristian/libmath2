@@ -26,10 +26,6 @@ SOFTWARE.
 
 #include "lm2/vectors/lm2_vector_defines.h"
 
-// #############################################################################
-LM2_HEADER_BEGIN;
-// #############################################################################
-
 // Define a vector type with 3 components and associated operations
 #define _LM2_DEFINE_V3(type_name, scalar_type)                                               \
   typedef union type_name {                                                                  \
@@ -40,7 +36,6 @@ LM2_HEADER_BEGIN;
     struct {                                                                                 \
       scalar_type s, t, r;                                                                   \
     };                                                                                       \
-    _LM2_V3_CPP_CONSTRUCTORS(type_name, scalar_type)                                         \
     _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, 3)                                                 \
   } type_name;                                                                               \
   _LM2_DECLARE_VECTOR_OP(type_name, lm2_add_##type_name)                                     \
@@ -89,6 +84,10 @@ _LM2_DEFINE_V3(lm2_v3u64, uint64_t)
 _LM2_DEFINE_V3(lm2_v3u32, uint32_t)
 _LM2_DEFINE_V3(lm2_v3u16, uint16_t)
 _LM2_DEFINE_V3(lm2_v3u8, uint8_t)
+
+// #############################################################################
+LM2_HEADER_BEGIN;
+// #############################################################################
 
 // V3 constructors
 _LM2_DECLARE_V3_MAKE(lm2_v3f64, double)

@@ -237,42 +237,6 @@ LM2_HEADER_BEGIN;
 
 // =============================================================================
 // C++ Constructors for Range Types
-// =============================================================================
-// These macros inject actual C++ constructors into range unions.
-
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-// Range2 constructors
-#  define _LM2_RANGE2_CPP_CONSTRUCTORS(type_name, vec_type)     \
-    type_name() {                                               \
-      min = vec_type();                                         \
-      max = vec_type();                                         \
-    }                                                           \
-    type_name(vec_type min, vec_type max): min(min), max(max) { \
-    }
-
-// Range3 constructors
-#  define _LM2_RANGE3_CPP_CONSTRUCTORS(type_name, vec_type)     \
-    type_name() {                                               \
-      min = vec_type();                                         \
-      max = vec_type();                                         \
-    }                                                           \
-    type_name(vec_type min, vec_type max): min(min), max(max) { \
-    }
-
-// Range4 constructors
-#  define _LM2_RANGE4_CPP_CONSTRUCTORS(type_name, vec_type)     \
-    type_name() {                                               \
-      min = vec_type();                                         \
-      max = vec_type();                                         \
-    }                                                           \
-    type_name(vec_type min, vec_type max): min(min), max(max) { \
-    }
-#else
-#  define _LM2_RANGE2_CPP_CONSTRUCTORS(type_name, vec_type)
-#  define _LM2_RANGE3_CPP_CONSTRUCTORS(type_name, vec_type)
-#  define _LM2_RANGE4_CPP_CONSTRUCTORS(type_name, vec_type)
-#endif
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
