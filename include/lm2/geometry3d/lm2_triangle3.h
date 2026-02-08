@@ -24,9 +24,9 @@ SOFTWARE.
 
 #pragma once
 
+#include "lm2/geometry3d/lm2_edge3.h"
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector3.h"
-#include "lm2/geometry3d/lm2_edge3.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -144,11 +144,8 @@ LM2_HEADER_END;
 // #############################################################################
 
 // C++ operator overloads (must be outside extern "C")
-// TODO: Create lm2/geometry3d/lm2_geometry_operators.h for 3D types
-/*
 #ifndef LM2_NO_CPP_OPERATORS
-#  include "lm2/geometry2d/lm2_geometry_operators.h"
-_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle3_f64, lm2_v3f64, double)
-_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle3_f32, lm2_v3f32, float)
+#  include "lm2_geometry_operators.h"
+_LM2_DEFINE_TRIANGLE3_OPERATORS(lm2_triangle3_f64, lm2_v3f64, double)
+_LM2_DEFINE_TRIANGLE3_OPERATORS(lm2_triangle3_f32, lm2_v3f32, float)
 #endif
-*/

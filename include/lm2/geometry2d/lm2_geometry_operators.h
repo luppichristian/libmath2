@@ -114,6 +114,34 @@ SOFTWARE.
       }                                                                                         \
     }
 
+// =============================================================================
+// Plane Operators
+// =============================================================================
+
+#  define _LM2_DEFINE_PLANE2_OPERATORS(type_name, suffix, vec_type, scalar_type) \
+    inline type_name operator+(type_name plane, vec_type offset) {               \
+      return lm2_plane2_translate_##suffix(plane, offset);                       \
+    }                                                                            \
+    inline type_name operator-(type_name plane, vec_type offset) {               \
+      return lm2_plane2_translate_##suffix(plane, lm2_neg_##vec_type(offset));   \
+    }
+
+// =============================================================================
+// Ray Operators
+// =============================================================================
+
+#  define _LM2_DEFINE_RAY2_OPERATORS(type_name, vec_type, scalar_type) \
+    inline type_name operator+(type_name ray, vec_type offset) {       \
+      return type_name {lm2_add_##vec_type(ray.origin, offset),        \
+                        ray.direction,                                 \
+                        ray.t_max};                                    \
+    }                                                                  \
+    inline type_name operator-(type_name ray, vec_type offset) {       \
+      return type_name {lm2_sub_##vec_type(ray.origin, offset),        \
+                        ray.direction,                                 \
+                        ray.t_max};                                    \
+    }
+
 #else
 
 #  define _LM2_DEFINE_CAPSULE_OPERATORS(type_name, suffix, vec_type, scalar_type)
@@ -121,5 +149,7 @@ SOFTWARE.
 #  define _LM2_DEFINE_EDGE_OPERATORS(type_name, vec_type, scalar_type)
 #  define _LM2_DEFINE_TRIANGLE_OPERATORS(triangle_type, vec_type, scalar_type)
 #  define _LM2_DEFINE_POLYGON_OPERATORS(type_name, vec_type, scalar_type)
+#  define _LM2_DEFINE_PLANE2_OPERATORS(type_name, suffix, vec_type, scalar_type)
+#  define _LM2_DEFINE_RAY2_OPERATORS(type_name, vec_type, scalar_type)
 
 #endif

@@ -112,3 +112,10 @@ LM2_API lm2_sphere_f32 lm2_sphere_scale_f32(lm2_sphere_f32 sphere, float scale);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+// C++ operator overloads (must be outside extern "C")
+#ifndef LM2_NO_CPP_OPERATORS
+#  include "lm2_geometry_operators.h"
+_LM2_DEFINE_SPHERE_OPERATORS(lm2_sphere_f64, f64, lm2_v3f64, double)
+_LM2_DEFINE_SPHERE_OPERATORS(lm2_sphere_f32, f32, lm2_v3f32, float)
+#endif

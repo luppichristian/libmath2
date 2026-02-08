@@ -256,3 +256,4 @@ typedef lm2_r2f32 lm2_rect2;
 
 // #############################################################################
 LM2_HEADER_END;
+// Note: C++ operators are defined in lm2_range2.h since rectangles are range2 types

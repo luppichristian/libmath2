@@ -169,3 +169,4 @@ LM2_API lm2_v3f32 lm2_cuboid_face_normal_f32(lm2_cuboid_face face);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+// Note: C++ operators are defined in lm2_range3.h since cuboids are range3 types

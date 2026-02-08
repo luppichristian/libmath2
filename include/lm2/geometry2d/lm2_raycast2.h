@@ -24,12 +24,12 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2_capsule2.h"
-#include "lm2_circle.h"
-#include "lm2_polygon.h"
 #include "lm2/lm2_base.h"
 #include "lm2/ranges/lm2_range2.h"
 #include "lm2/vectors/lm2_vector2.h"
+#include "lm2_capsule2.h"
+#include "lm2_circle.h"
+#include "lm2_polygon.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -129,3 +129,10 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_segment_f32(lm2_ray2_f32 ray, lm2_v2f32 segm
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+// C++ operator overloads (must be outside extern "C")
+#ifndef LM2_NO_CPP_OPERATORS
+#  include "lm2_geometry_operators.h"
+_LM2_DEFINE_RAY2_OPERATORS(lm2_ray2_f64, lm2_v2f64, double)
+_LM2_DEFINE_RAY2_OPERATORS(lm2_ray2_f32, lm2_v2f32, float)
+#endif

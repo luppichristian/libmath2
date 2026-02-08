@@ -124,3 +124,10 @@ LM2_API lm2_plane3_f32 lm2_plane3_translate_f32(lm2_plane3_f32 plane, lm2_v3f32 
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+// C++ operator overloads (must be outside extern "C")
+#ifndef LM2_NO_CPP_OPERATORS
+#  include "lm2_geometry_operators.h"
+_LM2_DEFINE_PLANE3_OPERATORS(lm2_plane3_f64, f64, lm2_v3f64, double)
+_LM2_DEFINE_PLANE3_OPERATORS(lm2_plane3_f32, f32, lm2_v3f32, float)
+#endif
