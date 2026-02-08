@@ -110,6 +110,14 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3f32 v0,
 LM2_API lm2_rayhit3_f64 lm2_raycast_plane_f64(lm2_ray3_f64 ray, lm2_v3f64 plane_point, lm2_v3f64 plane_normal);
 LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3f32 plane_point, lm2_v3f32 plane_normal);
 
+// Ray vs Capsule (3D)
+LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3f64 start, lm2_v3f64 end, double radius);
+LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3f32 start, lm2_v3f32 end, float radius);
+
+// Ray vs Edge/Line Segment (3D) - returns closest approach
+LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3f64 edge_start, lm2_v3f64 edge_end, double tolerance);
+LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3f32 edge_start, lm2_v3f32 edge_end, float tolerance);
+
 // =============================================================================
 // Epsilon/Tolerance Constants
 // =============================================================================

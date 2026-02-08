@@ -255,7 +255,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_aabb_f64(lm2_ray2_f64 ray, lm2_r2f64 aabb) {
   return result;
 }
 
-LM2_API lm2_rayhit2_f64 lm2_raycast_capsule_f64(lm2_ray2_f64 ray, lm2_capsule2_f64 capsule) {
+LM2_API lm2_rayhit2_f64 lm2_raycast_capsule2_f64(lm2_ray2_f64 ray, lm2_capsule2_f64 capsule) {
   lm2_rayhit2_f64 result;
   c2Raycast hit;
   c2Ray c2_ray = lm2_ray2_f64_to_c2(ray);
@@ -306,7 +306,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_segment_f64(lm2_ray2_f64 ray, lm2_v2f64 segm
   capsule.end = segment_end;
   capsule.radius = 0.0;
 
-  return lm2_raycast_capsule_f64(ray, capsule);
+  return lm2_raycast_capsule2_f64(ray, capsule);
 }
 
 // =============================================================================
@@ -357,7 +357,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_aabb_f32(lm2_ray2_f32 ray, lm2_r2f32 aabb) {
   return result;
 }
 
-LM2_API lm2_rayhit2_f32 lm2_raycast_capsule_f32(lm2_ray2_f32 ray, lm2_capsule2_f32 capsule) {
+LM2_API lm2_rayhit2_f32 lm2_raycast_capsule2_f32(lm2_ray2_f32 ray, lm2_capsule2_f32 capsule) {
   lm2_rayhit2_f32 result;
   c2Raycast hit;
   c2Ray c2_ray = lm2_ray2_f32_to_c2(ray);
@@ -408,7 +408,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_segment_f32(lm2_ray2_f32 ray, lm2_v2f32 segm
   capsule.end = segment_end;
   capsule.radius = 0.0f;
 
-  return lm2_raycast_capsule_f32(ray, capsule);
+  return lm2_raycast_capsule2_f32(ray, capsule);
 }
 
 // =============================================================================
@@ -439,7 +439,7 @@ static c2Poly lm2_triangle2_f32_to_c2_for_raycast(const lm2_triangle2_f32 tri) {
 // Ray vs Triangle - f64
 // =============================================================================
 
-LM2_API lm2_rayhit2_f64 lm2_raycast_triangle_f64(lm2_ray2_f64 ray, const lm2_triangle2_f64 tri) {
+LM2_API lm2_rayhit2_f64 lm2_raycast_triangle2_f64(lm2_ray2_f64 ray, const lm2_triangle2_f64 tri) {
   lm2_rayhit2_f64 result;
   result.hit = false;
   result.t = 0.0;
@@ -459,7 +459,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_triangle_f64(lm2_ray2_f64 ray, const lm2_tri
   if (hit) {
     result.hit = true;
     result.t = (double)out.t;
-    result.point = lm2_add_f64(ray.origin, lm2_mul_f64(ray.direction, result.t));
+    result.point = lm2_add_lm2_v2f64(ray.origin, lm2_mul_lm2_v2f64_double(ray.direction, result.t));
     result.normal = c2v_to_lm2_v2f64(out.n);
   }
 
@@ -470,7 +470,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_triangle_f64(lm2_ray2_f64 ray, const lm2_tri
 // Ray vs Triangle - f32
 // =============================================================================
 
-LM2_API lm2_rayhit2_f32 lm2_raycast_triangle_f32(lm2_ray2_f32 ray, const lm2_triangle2_f32 tri) {
+LM2_API lm2_rayhit2_f32 lm2_raycast_triangle2_f32(lm2_ray2_f32 ray, const lm2_triangle2_f32 tri) {
   lm2_rayhit2_f32 result;
   result.hit = false;
   result.t = 0.0f;
@@ -490,7 +490,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_triangle_f32(lm2_ray2_f32 ray, const lm2_tri
   if (hit) {
     result.hit = true;
     result.t = out.t;
-    result.point = lm2_add_f32(ray.origin, lm2_mul_f32(ray.direction, result.t));
+    result.point = lm2_add_lm2_v2f32(ray.origin, lm2_mul_lm2_v2f32_float(ray.direction, result.t));
     result.normal = c2v_to_lm2_v2f32(out.n);
   }
 
@@ -501,7 +501,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_triangle_f32(lm2_ray2_f32 ray, const lm2_tri
 // Ray vs Plane (Infinite Line in 2D) - f64
 // =============================================================================
 
-LM2_API lm2_rayhit2_f64 lm2_raycast_plane_f64(lm2_ray2_f64 ray, lm2_plane2_f64 plane) {
+LM2_API lm2_rayhit2_f64 lm2_raycast_plane2_f64(lm2_ray2_f64 ray, lm2_plane2_f64 plane) {
   lm2_rayhit2_f64 result;
   result.hit = false;
   result.t = 0.0;
@@ -526,12 +526,12 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_plane_f64(lm2_ray2_f64 ray, lm2_plane2_f64 p
   if (t >= 0.0 && t <= ray.t_max) {
     result.hit = true;
     result.t = t;
-    result.point = lm2_add_f64(ray.origin, lm2_mul_f64(ray.direction, t));
+    result.point = lm2_add_lm2_v2f64(ray.origin, lm2_mul_lm2_v2f64_double(ray.direction, t));
 
     // Normal points in the direction of the plane normal
     // If ray is hitting from the back side, we might want to flip it
     if (denom > 0.0) {
-      result.normal = lm2_mul_f64(plane.normal, -1.0);
+      result.normal = lm2_mul_lm2_v2f64_double(plane.normal, -1.0);
     } else {
       result.normal = plane.normal;
     }
@@ -544,7 +544,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_plane_f64(lm2_ray2_f64 ray, lm2_plane2_f64 p
 // Ray vs Plane (Infinite Line in 2D) - f32
 // =============================================================================
 
-LM2_API lm2_rayhit2_f32 lm2_raycast_plane_f32(lm2_ray2_f32 ray, lm2_plane2_f32 plane) {
+LM2_API lm2_rayhit2_f32 lm2_raycast_plane2_f32(lm2_ray2_f32 ray, lm2_plane2_f32 plane) {
   lm2_rayhit2_f32 result;
   result.hit = false;
   result.t = 0.0f;
@@ -569,12 +569,12 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_plane_f32(lm2_ray2_f32 ray, lm2_plane2_f32 p
   if (t >= 0.0f && t <= ray.t_max) {
     result.hit = true;
     result.t = t;
-    result.point = lm2_add_f32(ray.origin, lm2_mul_f32(ray.direction, t));
+    result.point = lm2_add_lm2_v2f32(ray.origin, lm2_mul_lm2_v2f32_float(ray.direction, t));
 
     // Normal points in the direction of the plane normal
     // If ray is hitting from the back side, we might want to flip it
     if (denom > 0.0f) {
-      result.normal = lm2_mul_f32(plane.normal, -1.0f);
+      result.normal = lm2_mul_lm2_v2f32_float(plane.normal, -1.0f);
     } else {
       result.normal = plane.normal;
     }
