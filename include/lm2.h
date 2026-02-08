@@ -30,7 +30,10 @@ SOFTWARE.
 // - LM2_NO_CPP_OPERATORS: Disable C++ operator overloads
 
 #include "lm2/geometry/lm2_bezier_curves.h"
+#include "lm2/geometry/lm2_capsule.h"
+#include "lm2/geometry/lm2_circle.h"
 #include "lm2/geometry/lm2_edge.h"
+#include "lm2/geometry/lm2_polygon.h"
 #include "lm2/geometry/lm2_rectangle.h"
 #include "lm2/geometry/lm2_triangle.h"
 #include "lm2/geometry/lm2_triangle_geometry.h"
