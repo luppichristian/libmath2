@@ -911,14 +911,13 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_shape3_f64(lm2_ray3_f64 ray, lm2_shape3_f64 
 
     case LM2_SHAPE3_CUBOID: {
       lm2_cuboid_f64* cuboid = (lm2_cuboid_f64*)shape.data;
-      lm2_r3f64 aabb = {cuboid->center, cuboid->half_extents};
-      result = lm2_raycast_aabb3_f64(ray, aabb);
+      result = lm2_raycast_aabb3_f64(ray, *cuboid);
       break;
     }
 
     case LM2_SHAPE3_TRIANGLE: {
       lm2_triangle3_f64* tri = (lm2_triangle3_f64*)shape.data;
-      result = lm2_raycast_triangle_f64(ray, tri->a, tri->b, tri->c);
+      result = lm2_raycast_triangle_f64(ray, (*tri)[0], (*tri)[1], (*tri)[2]);
       break;
     }
 
@@ -971,14 +970,13 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 
 
     case LM2_SHAPE3_CUBOID: {
       lm2_cuboid_f32* cuboid = (lm2_cuboid_f32*)shape.data;
-      lm2_r3f32 aabb = {cuboid->center, cuboid->half_extents};
-      result = lm2_raycast_aabb3_f32(ray, aabb);
+      result = lm2_raycast_aabb3_f32(ray, *cuboid);
       break;
     }
 
     case LM2_SHAPE3_TRIANGLE: {
       lm2_triangle3_f32* tri = (lm2_triangle3_f32*)shape.data;
-      result = lm2_raycast_triangle_f32(ray, tri->a, tri->b, tri->c);
+      result = lm2_raycast_triangle_f32(ray, (*tri)[0], (*tri)[1], (*tri)[2]);
       break;
     }
 

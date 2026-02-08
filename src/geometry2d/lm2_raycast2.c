@@ -613,8 +613,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_shape2_f64(lm2_ray2_f64 ray, lm2_shape2_f64 
 
     case LM2_SHAPE2_RECTANGLE: {
       lm2_rect2f64* rect = (lm2_rect2f64*)shape.data;
-      lm2_r2f64 aabb = {rect->center_x, rect->center_y, rect->half_width, rect->half_height};
-      result = lm2_raycast_aabb_f64(ray, aabb);
+      result = lm2_raycast_aabb_f64(ray, *rect);
       break;
     }
 
@@ -677,8 +676,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_shape2_f32(lm2_ray2_f32 ray, lm2_shape2_f32 
 
     case LM2_SHAPE2_RECTANGLE: {
       lm2_rect2f32* rect = (lm2_rect2f32*)shape.data;
-      lm2_r2f32 aabb = {rect->center_x, rect->center_y, rect->half_width, rect->half_height};
-      result = lm2_raycast_aabb_f32(ray, aabb);
+      result = lm2_raycast_aabb_f32(ray, *rect);
       break;
     }
 
