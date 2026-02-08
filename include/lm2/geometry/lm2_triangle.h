@@ -147,3 +147,11 @@ LM2_API lm2_edge_result_f32 lm2_triangle_shared_edge_f32(const lm2_triangle_f32 
 
 // #############################################################################
 LM2_HEADER_END;
+// #############################################################################
+
+// C++ operator overloads (must be outside extern "C")
+#ifndef LM2_NO_CPP_OPERATORS
+#  include "lm2_geometry_operators.h"
+_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle_f64, lm2_v2f64, double)
+_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle_f32, lm2_v2f32, float)
+#endif

@@ -106,3 +106,11 @@ LM2_API bool lm2_edges_intersect_f32(lm2_edge_f32 e1, lm2_edge_f32 e2);
 
 // #############################################################################
 LM2_HEADER_END;
+// #############################################################################
+
+// C++ operator overloads (must be outside extern "C")
+#ifndef LM2_NO_CPP_OPERATORS
+#  include "lm2_geometry_operators.h"
+_LM2_DEFINE_EDGE_OPERATORS(lm2_edge_f64, lm2_v2f64, double)
+_LM2_DEFINE_EDGE_OPERATORS(lm2_edge_f32, lm2_v2f32, float)
+#endif

@@ -25,10 +25,10 @@ SOFTWARE.
 #pragma once
 
 #include <stddef.h>
-#include "lm2/lm2_base.h"
-#include "lm2/vectors/lm2_vector2.h"
-#include "lm2/ranges/lm2_range2.h"
 #include "lm2/geometry/lm2_triangle.h"
+#include "lm2/lm2_base.h"
+#include "lm2/ranges/lm2_range2.h"
+#include "lm2/vectors/lm2_vector2.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -200,3 +200,10 @@ LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+// C++ operator overloads (must be outside extern "C")
+#ifndef LM2_NO_CPP_OPERATORS
+#  include "lm2_geometry_operators.h"
+_LM2_DEFINE_POLYGON_OPERATORS(lm2_polygon_f64, lm2_v2f64, double)
+_LM2_DEFINE_POLYGON_OPERATORS(lm2_polygon_f32, lm2_v2f32, float)
+#endif
