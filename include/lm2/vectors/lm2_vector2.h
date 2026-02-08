@@ -26,6 +26,10 @@ SOFTWARE.
 
 #include "lm2/vectors/lm2_vector_defines.h"
 
+// #############################################################################
+LM2_HEADER_BEGIN;
+// #############################################################################
+
 // Define a vector type with 2 components and associated operations
 #define _LM2_DEFINE_V2(type_name, scalar_type)                                               \
   typedef union type_name {                                                                  \
@@ -83,10 +87,6 @@ _LM2_DEFINE_V2(lm2_v2u64, uint64_t)
 _LM2_DEFINE_V2(lm2_v2u32, uint32_t)
 _LM2_DEFINE_V2(lm2_v2u16, uint16_t)
 _LM2_DEFINE_V2(lm2_v2u8, uint8_t)
-
-// #############################################################################
-LM2_HEADER_BEGIN;
-// #############################################################################
 
 // V2 constructors
 _LM2_DECLARE_V2_MAKE(lm2_v2f64, double)

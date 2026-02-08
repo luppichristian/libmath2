@@ -26,6 +26,7 @@ SOFTWARE.
 #include <lm2/lm2_constants.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
+#include <lm2/vectors/lm2_vector2.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
 
 // =============================================================================
@@ -75,11 +76,11 @@ LM2_API lm2_capsule_f32 lm2_capsule_make_coords_f32(float x1, float y1, float x2
 LM2_API lm2_capsule_f64 lm2_capsule_from_center_f64(lm2_v2f64 center, lm2_v2f64 direction, double half_length, double radius) {
   LM2_ASSERT(radius >= 0.0);
   LM2_ASSERT(half_length >= 0.0);
-  lm2_v2f64 normalized = lm2_v2_normalize_f64(direction);
-  lm2_v2f64 offset = lm2_v2_scale_f64(normalized, half_length);
+  lm2_v2f64 normalized = lm2_normalize_v2f64(direction);
+  lm2_v2f64 offset = lm2_mul_lm2_v2f64_double(normalized, half_length);
   lm2_capsule_f64 capsule;
-  capsule.start = lm2_v2_sub_f64(center, offset);
-  capsule.end = lm2_v2_add_f64(center, offset);
+  capsule.start = lm2_sub_lm2_v2f64(center, offset);
+  capsule.end = lm2_add_lm2_v2f64(center, offset);
   capsule.radius = radius;
   return capsule;
 }
@@ -87,11 +88,11 @@ LM2_API lm2_capsule_f64 lm2_capsule_from_center_f64(lm2_v2f64 center, lm2_v2f64 
 LM2_API lm2_capsule_f32 lm2_capsule_from_center_f32(lm2_v2f32 center, lm2_v2f32 direction, float half_length, float radius) {
   LM2_ASSERT(radius >= 0.0f);
   LM2_ASSERT(half_length >= 0.0f);
-  lm2_v2f32 normalized = lm2_v2_normalize_f32(direction);
-  lm2_v2f32 offset = lm2_v2_scale_f32(normalized, half_length);
+  lm2_v2f32 normalized = lm2_normalize_v2f32(direction);
+  lm2_v2f32 offset = lm2_mul_lm2_v2f32_float(normalized, half_length);
   lm2_capsule_f32 capsule;
-  capsule.start = lm2_v2_sub_f32(center, offset);
-  capsule.end = lm2_v2_add_f32(center, offset);
+  capsule.start = lm2_sub_lm2_v2f32(center, offset);
+  capsule.end = lm2_add_lm2_v2f32(center, offset);
   capsule.radius = radius;
   return capsule;
 }
@@ -101,28 +102,28 @@ LM2_API lm2_capsule_f32 lm2_capsule_from_center_f32(lm2_v2f32 center, lm2_v2f32 
 // =============================================================================
 
 LM2_API double lm2_capsule_length_f64(lm2_capsule_f64 capsule) {
-  return lm2_v2_distance_f64(capsule.start, capsule.end);
+  return lm2_distance_v2f64(capsule.start, capsule.end);
 }
 
 LM2_API float lm2_capsule_length_f32(lm2_capsule_f32 capsule) {
-  return lm2_v2_distance_f32(capsule.start, capsule.end);
+  return lm2_distance_v2f32(capsule.start, capsule.end);
 }
 
 LM2_API double lm2_capsule_total_length_f64(lm2_capsule_f64 capsule) {
-  double seg_length = lm2_v2_distance_f64(capsule.start, capsule.end);
+  double seg_length = lm2_distance_v2f64(capsule.start, capsule.end);
   double diameter = lm2_mul_f64(2.0, capsule.radius);
   return lm2_add_f64(seg_length, diameter);
 }
 
 LM2_API float lm2_capsule_total_length_f32(lm2_capsule_f32 capsule) {
-  float seg_length = lm2_v2_distance_f32(capsule.start, capsule.end);
+  float seg_length = lm2_distance_v2f32(capsule.start, capsule.end);
   float diameter = lm2_mul_f32(2.0f, capsule.radius);
   return lm2_add_f32(seg_length, diameter);
 }
 
 LM2_API double lm2_capsule_area_f64(lm2_capsule_f64 capsule) {
   // Area = π * r² + 2 * r * length (circle + rectangle)
-  double seg_length = lm2_v2_distance_f64(capsule.start, capsule.end);
+  double seg_length = lm2_distance_v2f64(capsule.start, capsule.end);
   double r_squared = lm2_mul_f64(capsule.radius, capsule.radius);
   double circle_area = lm2_mul_f64(LM2_PI_F64, r_squared);
   double rect_area = lm2_mul_f64(lm2_mul_f64(2.0, capsule.radius), seg_length);
@@ -131,7 +132,7 @@ LM2_API double lm2_capsule_area_f64(lm2_capsule_f64 capsule) {
 
 LM2_API float lm2_capsule_area_f32(lm2_capsule_f32 capsule) {
   // Area = π * r² + 2 * r * length (circle + rectangle)
-  float seg_length = lm2_v2_distance_f32(capsule.start, capsule.end);
+  float seg_length = lm2_distance_v2f32(capsule.start, capsule.end);
   float r_squared = lm2_mul_f32(capsule.radius, capsule.radius);
   float circle_area = lm2_mul_f32(LM2_PI_F32, r_squared);
   float rect_area = lm2_mul_f32(lm2_mul_f32(2.0f, capsule.radius), seg_length);
@@ -140,7 +141,7 @@ LM2_API float lm2_capsule_area_f32(lm2_capsule_f32 capsule) {
 
 LM2_API double lm2_capsule_perimeter_f64(lm2_capsule_f64 capsule) {
   // Perimeter = 2 * π * r + 2 * length
-  double seg_length = lm2_v2_distance_f64(capsule.start, capsule.end);
+  double seg_length = lm2_distance_v2f64(capsule.start, capsule.end);
   double circle_perim = lm2_mul_f64(lm2_mul_f64(2.0, LM2_PI_F64), capsule.radius);
   double line_perim = lm2_mul_f64(2.0, seg_length);
   return lm2_add_f64(circle_perim, line_perim);
@@ -148,20 +149,20 @@ LM2_API double lm2_capsule_perimeter_f64(lm2_capsule_f64 capsule) {
 
 LM2_API float lm2_capsule_perimeter_f32(lm2_capsule_f32 capsule) {
   // Perimeter = 2 * π * r + 2 * length
-  float seg_length = lm2_v2_distance_f32(capsule.start, capsule.end);
+  float seg_length = lm2_distance_v2f32(capsule.start, capsule.end);
   float circle_perim = lm2_mul_f32(lm2_mul_f32(2.0f, LM2_PI_F32), capsule.radius);
   float line_perim = lm2_mul_f32(2.0f, seg_length);
   return lm2_add_f32(circle_perim, line_perim);
 }
 
 LM2_API lm2_v2f64 lm2_capsule_center_f64(lm2_capsule_f64 capsule) {
-  lm2_v2f64 sum = lm2_v2_add_f64(capsule.start, capsule.end);
-  return lm2_v2_scale_f64(sum, 0.5);
+  lm2_v2f64 sum = lm2_add_lm2_v2f64(capsule.start, capsule.end);
+  return lm2_mul_lm2_v2f64_double(sum, 0.5);
 }
 
 LM2_API lm2_v2f32 lm2_capsule_center_f32(lm2_capsule_f32 capsule) {
-  lm2_v2f32 sum = lm2_v2_add_f32(capsule.start, capsule.end);
-  return lm2_v2_scale_f32(sum, 0.5f);
+  lm2_v2f32 sum = lm2_add_lm2_v2f32(capsule.start, capsule.end);
+  return lm2_mul_lm2_v2f32_float(sum, 0.5f);
 }
 
 // =============================================================================
@@ -170,47 +171,47 @@ LM2_API lm2_v2f32 lm2_capsule_center_f32(lm2_capsule_f32 capsule) {
 
 // Helper function to compute distance from point to line segment
 static double point_to_segment_distance_sq_f64(lm2_v2f64 p, lm2_v2f64 a, lm2_v2f64 b) {
-  lm2_v2f64 ab = lm2_v2_sub_f64(b, a);
-  lm2_v2f64 ap = lm2_v2_sub_f64(p, a);
+  lm2_v2f64 ab = lm2_sub_lm2_v2f64(b, a);
+  lm2_v2f64 ap = lm2_sub_lm2_v2f64(p, a);
 
-  double ab_len_sq = lm2_v2_length_sq_f64(ab);
+  double ab_len_sq = lm2_length_sq_v2f64(ab);
 
   // If segment is degenerate (a == b), return distance squared to point a
   if (ab_len_sq == 0.0) {
-    return lm2_v2_length_sq_f64(ap);
+    return lm2_length_sq_v2f64(ap);
   }
 
   // Project p onto line ab, clamped to [0, 1]
-  double t = lm2_div_f64(lm2_v2_dot_f64(ap, ab), ab_len_sq);
+  double t = lm2_div_f64(lm2_dot_v2f64(ap, ab), ab_len_sq);
   t = lm2_clamp_f64(t, 0.0, 1.0);
 
   // Find closest point on segment
-  lm2_v2f64 closest = lm2_v2_add_f64(a, lm2_v2_scale_f64(ab, t));
-  lm2_v2f64 pc = lm2_v2_sub_f64(p, closest);
+  lm2_v2f64 closest = lm2_add_lm2_v2f64(a, lm2_mul_lm2_v2f64_double(ab, t));
+  lm2_v2f64 pc = lm2_sub_lm2_v2f64(p, closest);
 
-  return lm2_v2_length_sq_f64(pc);
+  return lm2_length_sq_v2f64(pc);
 }
 
 static float point_to_segment_distance_sq_f32(lm2_v2f32 p, lm2_v2f32 a, lm2_v2f32 b) {
-  lm2_v2f32 ab = lm2_v2_sub_f32(b, a);
-  lm2_v2f32 ap = lm2_v2_sub_f32(p, a);
+  lm2_v2f32 ab = lm2_sub_lm2_v2f32(b, a);
+  lm2_v2f32 ap = lm2_sub_lm2_v2f32(p, a);
 
-  float ab_len_sq = lm2_v2_length_sq_f32(ab);
+  float ab_len_sq = lm2_length_sq_v2f32(ab);
 
   // If segment is degenerate (a == b), return distance squared to point a
   if (ab_len_sq == 0.0f) {
-    return lm2_v2_length_sq_f32(ap);
+    return lm2_length_sq_v2f32(ap);
   }
 
   // Project p onto line ab, clamped to [0, 1]
-  float t = lm2_div_f32(lm2_v2_dot_f32(ap, ab), ab_len_sq);
+  float t = lm2_div_f32(lm2_dot_v2f32(ap, ab), ab_len_sq);
   t = lm2_clamp_f32(t, 0.0f, 1.0f);
 
   // Find closest point on segment
-  lm2_v2f32 closest = lm2_v2_add_f32(a, lm2_v2_scale_f32(ab, t));
-  lm2_v2f32 pc = lm2_v2_sub_f32(p, closest);
+  lm2_v2f32 closest = lm2_add_lm2_v2f32(a, lm2_mul_lm2_v2f32_float(ab, t));
+  lm2_v2f32 pc = lm2_sub_lm2_v2f32(p, closest);
 
-  return lm2_v2_length_sq_f32(pc);
+  return lm2_length_sq_v2f32(pc);
 }
 
 LM2_API bool lm2_capsule_contains_point_f64(lm2_capsule_f64 capsule, lm2_v2f64 point) {
@@ -270,16 +271,16 @@ LM2_API bool lm2_capsules_overlap_f32(lm2_capsule_f32 a, lm2_capsule_f32 b) {
 
 LM2_API lm2_capsule_f64 lm2_capsule_translate_f64(lm2_capsule_f64 capsule, lm2_v2f64 offset) {
   lm2_capsule_f64 result;
-  result.start = lm2_v2_add_f64(capsule.start, offset);
-  result.end = lm2_v2_add_f64(capsule.end, offset);
+  result.start = lm2_add_lm2_v2f64(capsule.start, offset);
+  result.end = lm2_add_lm2_v2f64(capsule.end, offset);
   result.radius = capsule.radius;
   return result;
 }
 
 LM2_API lm2_capsule_f32 lm2_capsule_translate_f32(lm2_capsule_f32 capsule, lm2_v2f32 offset) {
   lm2_capsule_f32 result;
-  result.start = lm2_v2_add_f32(capsule.start, offset);
-  result.end = lm2_v2_add_f32(capsule.end, offset);
+  result.start = lm2_add_lm2_v2f32(capsule.start, offset);
+  result.end = lm2_add_lm2_v2f32(capsule.end, offset);
   result.radius = capsule.radius;
   return result;
 }

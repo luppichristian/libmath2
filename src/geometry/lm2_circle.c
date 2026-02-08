@@ -170,14 +170,14 @@ LM2_API bool lm2_circle_contains_circle_f32(lm2_circle_f32 a, lm2_circle_f32 b) 
 
 LM2_API lm2_circle_f64 lm2_circle_translate_f64(lm2_circle_f64 circle, lm2_v2f64 offset) {
   lm2_circle_f64 result;
-  result.center = lm2_v2_add_f64(circle.center, offset);
+  result.center = lm2_add_lm2_v2f64(circle.center, offset);
   result.radius = circle.radius;
   return result;
 }
 
 LM2_API lm2_circle_f32 lm2_circle_translate_f32(lm2_circle_f32 circle, lm2_v2f32 offset) {
   lm2_circle_f32 result;
-  result.center = lm2_v2_add_f32(circle.center, offset);
+  result.center = lm2_add_lm2_v2f32(circle.center, offset);
   result.radius = circle.radius;
   return result;
 }

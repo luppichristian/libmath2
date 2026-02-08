@@ -27,6 +27,7 @@ SOFTWARE.
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/scalar/lm2_trigonometry.h>
+#include <lm2/vectors/lm2_vector2.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
 
 // =============================================================================
@@ -146,7 +147,7 @@ LM2_API double lm2_polygon_perimeter_f64(lm2_polygon_f64 polygon) {
   double perimeter = 0.0;
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
-    double dist = lm2_v2_distance_f64(polygon.vertices[i], polygon.vertices[j]);
+    double dist = lm2_distance_v2f64(polygon.vertices[i], polygon.vertices[j]);
     perimeter = lm2_add_f64(perimeter, dist);
   }
   return perimeter;
@@ -159,7 +160,7 @@ LM2_API float lm2_polygon_perimeter_f32(lm2_polygon_f32 polygon) {
   float perimeter = 0.0f;
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
-    float dist = lm2_v2_distance_f32(polygon.vertices[i], polygon.vertices[j]);
+    float dist = lm2_distance_v2f32(polygon.vertices[i], polygon.vertices[j]);
     perimeter = lm2_add_f32(perimeter, dist);
   }
   return perimeter;
@@ -422,14 +423,14 @@ LM2_API bool lm2_polygon_is_simple_f32(lm2_polygon_f32 polygon) {
 LM2_API void lm2_polygon_translate_f64(lm2_polygon_f64 polygon, lm2_v2f64 offset) {
   LM2_ASSERT(polygon.vertices != NULL);
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    polygon.vertices[i] = lm2_v2_add_f64(polygon.vertices[i], offset);
+    polygon.vertices[i] = lm2_add_lm2_v2f64(polygon.vertices[i], offset);
   }
 }
 
 LM2_API void lm2_polygon_translate_f32(lm2_polygon_f32 polygon, lm2_v2f32 offset) {
   LM2_ASSERT(polygon.vertices != NULL);
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    polygon.vertices[i] = lm2_v2_add_f32(polygon.vertices[i], offset);
+    polygon.vertices[i] = lm2_add_lm2_v2f32(polygon.vertices[i], offset);
   }
 }
 
@@ -437,9 +438,9 @@ LM2_API void lm2_polygon_scale_f64(lm2_polygon_f64 polygon, lm2_v2f64 center, do
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(scale >= 0.0);
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    lm2_v2f64 offset = lm2_v2_sub_f64(polygon.vertices[i], center);
-    offset = lm2_v2_scale_f64(offset, scale);
-    polygon.vertices[i] = lm2_v2_add_f64(center, offset);
+    lm2_v2f64 offset = lm2_sub_lm2_v2f64(polygon.vertices[i], center);
+    offset = lm2_mul_lm2_v2f64_double(offset, scale);
+    polygon.vertices[i] = lm2_add_lm2_v2f64(center, offset);
   }
 }
 
@@ -447,9 +448,9 @@ LM2_API void lm2_polygon_scale_f32(lm2_polygon_f32 polygon, lm2_v2f32 center, fl
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(scale >= 0.0f);
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    lm2_v2f32 offset = lm2_v2_sub_f32(polygon.vertices[i], center);
-    offset = lm2_v2_scale_f32(offset, scale);
-    polygon.vertices[i] = lm2_v2_add_f32(center, offset);
+    lm2_v2f32 offset = lm2_sub_lm2_v2f32(polygon.vertices[i], center);
+    offset = lm2_mul_lm2_v2f32_float(offset, scale);
+    polygon.vertices[i] = lm2_add_lm2_v2f32(center, offset);
   }
 }
 
@@ -459,7 +460,7 @@ LM2_API void lm2_polygon_rotate_f64(lm2_polygon_f64 polygon, lm2_v2f64 center, d
   double sin_a = lm2_sin_f64(angle_radians);
 
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    lm2_v2f64 offset = lm2_v2_sub_f64(polygon.vertices[i], center);
+    lm2_v2f64 offset = lm2_sub_lm2_v2f64(polygon.vertices[i], center);
     double new_x = lm2_sub_f64(lm2_mul_f64(offset.x, cos_a), lm2_mul_f64(offset.y, sin_a));
     double new_y = lm2_add_f64(lm2_mul_f64(offset.x, sin_a), lm2_mul_f64(offset.y, cos_a));
     polygon.vertices[i].x = lm2_add_f64(center.x, new_x);
@@ -473,7 +474,7 @@ LM2_API void lm2_polygon_rotate_f32(lm2_polygon_f32 polygon, lm2_v2f32 center, f
   float sin_a = lm2_sin_f32(angle_radians);
 
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    lm2_v2f32 offset = lm2_v2_sub_f32(polygon.vertices[i], center);
+    lm2_v2f32 offset = lm2_sub_lm2_v2f32(polygon.vertices[i], center);
     float new_x = lm2_sub_f32(lm2_mul_f32(offset.x, cos_a), lm2_mul_f32(offset.y, sin_a));
     float new_y = lm2_add_f32(lm2_mul_f32(offset.x, sin_a), lm2_mul_f32(offset.y, cos_a));
     polygon.vertices[i].x = lm2_add_f32(center.x, new_x);
