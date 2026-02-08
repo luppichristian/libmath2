@@ -44,6 +44,7 @@ LM2_HEADER_BEGIN;
       vec_type min;                                               \
       vec_type max;                                               \
     };                                                            \
+    _LM2_RANGE3_CPP_CONSTRUCTORS(type_name, vec_type)             \
     _LM2_RANGE_SUBSCRIPT_OP(vec_type)                             \
   } type_name;                                                    \
   _LM2_DECLARE_RANGE_FROM_MIN_MAX(type_name, vec_type)            \
@@ -124,11 +125,15 @@ LM2_HEADER_END;
 #  define lm2_center_r3(...)         _LM2_GENERIC_RANGE3(center, __VA_ARGS__)
 #  define lm2_volume_r3(...)         _LM2_GENERIC_RANGE3(volume, __VA_ARGS__)
 // Arithmetic operations (support range+range, range+vector, range+scalar)
-#  define lm2_add_r3(r, x) _LM2_RANGE3_ARITH(add, r, x)
-#  define lm2_sub_r3(r, x) _LM2_RANGE3_ARITH(sub, r, x)
-#  define lm2_mul_r3(r, x) _LM2_RANGE3_ARITH(mul, r, x)
-#  define lm2_div_r3(r, x) _LM2_RANGE3_ARITH(div, r, x)
-#  define lm2_mod_r3(r, x) _LM2_RANGE3_ARITH(mod, r, x)
+#  define lm2_add_r3(r, x)                _LM2_RANGE3_ARITH(add, r, x)
+#  define lm2_sub_r3(r, x)                _LM2_RANGE3_ARITH(sub, r, x)
+#  define lm2_mul_r3(r, x)                _LM2_RANGE3_ARITH(mul, r, x)
+#  define lm2_div_r3(r, x)                _LM2_RANGE3_ARITH(div, r, x)
+#  define lm2_mod_r3(r, x)                _LM2_RANGE3_ARITH(mod, r, x)
+#  define lm2_r3_from_min_max(...)        _LM2_GENERIC_RANGE3(from_min_max, __VA_ARGS__)
+#  define lm2_r3_from_center_extents(...) _LM2_GENERIC_RANGE3(from_center_extents, __VA_ARGS__)
+#  define lm2_r3_from_center_size(...)    _LM2_GENERIC_RANGE3(from_center_size, __VA_ARGS__)
+#  define lm2_r3_from_position_size(...)  _LM2_GENERIC_RANGE3(from_position_size, __VA_ARGS__)
 #endif
 
 // C++ operator overloads and constructors (must be outside extern "C")
@@ -144,14 +149,4 @@ _LM2_DEFINE_RANGE3_OPERATORS(lm2_r3u64, lm2_v3u64)
 _LM2_DEFINE_RANGE3_OPERATORS(lm2_r3u32, lm2_v3u32)
 _LM2_DEFINE_RANGE3_OPERATORS(lm2_r3u16, lm2_v3u16)
 _LM2_DEFINE_RANGE3_OPERATORS(lm2_r3u8, lm2_v3u8)
-_LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_r3f64, lm2_v3f64)
-_LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_r3f32, lm2_v3f32)
-_LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_r3i64, lm2_v3i64)
-_LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_r3i32, lm2_v3i32)
-_LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_r3i16, lm2_v3i16)
-_LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_r3i8, lm2_v3i8)
-_LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_r3u64, lm2_v3u64)
-_LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_r3u32, lm2_v3u32)
-_LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_r3u16, lm2_v3u16)
-_LM2_DEFINE_RANGE3_CONSTRUCTORS(lm2_r3u8, lm2_v3u8)
 #endif

@@ -110,6 +110,46 @@ LM2_HEADER_BEGIN;
 #  define _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, size)
 #endif
 
+// =============================================================================
+// C++ Constructors for Vector Types
+// =============================================================================
+// These macros inject actual C++ constructors into vector unions.
+
+#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
+// V2 constructors (make, splat, default zero)
+#  define _LM2_V2_CPP_CONSTRUCTORS(type_name, scalar_type) \
+    type_name(): x(0), y(0) {                              \
+    }                                                      \
+    type_name(scalar_type x, scalar_type y): x(x), y(y) {  \
+    }                                                      \
+    explicit type_name(scalar_type v): x(v), y(v) {        \
+    }
+
+// V3 constructors (make, splat, default zero)
+#  define _LM2_V3_CPP_CONSTRUCTORS(type_name, scalar_type) \
+    type_name(): x(0), y(0), z(0) {                        \
+    }                                                      \
+    type_name(scalar_type x, scalar_type y, scalar_type z) \
+        : x(x), y(y), z(z) {                               \
+    }                                                      \
+    explicit type_name(scalar_type v): x(v), y(v), z(v) {  \
+    }
+
+// V4 constructors (make, splat, default zero)
+#  define _LM2_V4_CPP_CONSTRUCTORS(type_name, scalar_type)                \
+    type_name(): x(0), y(0), z(0), w(0) {                                 \
+    }                                                                     \
+    type_name(scalar_type x, scalar_type y, scalar_type z, scalar_type w) \
+        : x(x), y(y), z(z), w(w) {                                        \
+    }                                                                     \
+    explicit type_name(scalar_type v): x(v), y(v), z(v), w(v) {           \
+    }
+#else
+#  define _LM2_V2_CPP_CONSTRUCTORS(type_name, scalar_type)
+#  define _LM2_V3_CPP_CONSTRUCTORS(type_name, scalar_type)
+#  define _LM2_V4_CPP_CONSTRUCTORS(type_name, scalar_type)
+#endif
+
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

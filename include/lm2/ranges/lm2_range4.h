@@ -45,6 +45,7 @@ LM2_HEADER_BEGIN;
       vec_type min;                                               \
       vec_type max;                                               \
     };                                                            \
+    _LM2_RANGE4_CPP_CONSTRUCTORS(type_name, vec_type)             \
     _LM2_RANGE_SUBSCRIPT_OP(vec_type)                             \
   } type_name;                                                    \
   _LM2_DECLARE_RANGE_FROM_MIN_MAX(type_name, vec_type)            \
@@ -125,11 +126,15 @@ LM2_HEADER_END;
 #  define lm2_center_r4(...)         _LM2_GENERIC_RANGE4(center, __VA_ARGS__)
 #  define lm2_hypervolume_r4(...)    _LM2_GENERIC_RANGE4(hypervolume, __VA_ARGS__)
 // Arithmetic operations (support range+range, range+vector, range+scalar)
-#  define lm2_add_r4(r, x) _LM2_RANGE4_ARITH(add, r, x)
-#  define lm2_sub_r4(r, x) _LM2_RANGE4_ARITH(sub, r, x)
-#  define lm2_mul_r4(r, x) _LM2_RANGE4_ARITH(mul, r, x)
-#  define lm2_div_r4(r, x) _LM2_RANGE4_ARITH(div, r, x)
-#  define lm2_mod_r4(r, x) _LM2_RANGE4_ARITH(mod, r, x)
+#  define lm2_add_r4(r, x)                _LM2_RANGE4_ARITH(add, r, x)
+#  define lm2_sub_r4(r, x)                _LM2_RANGE4_ARITH(sub, r, x)
+#  define lm2_mul_r4(r, x)                _LM2_RANGE4_ARITH(mul, r, x)
+#  define lm2_div_r4(r, x)                _LM2_RANGE4_ARITH(div, r, x)
+#  define lm2_mod_r4(r, x)                _LM2_RANGE4_ARITH(mod, r, x)
+#  define lm2_r4_from_min_max(...)        _LM2_GENERIC_RANGE4(from_min_max, __VA_ARGS__)
+#  define lm2_r4_from_center_extents(...) _LM2_GENERIC_RANGE4(from_center_extents, __VA_ARGS__)
+#  define lm2_r4_from_center_size(...)    _LM2_GENERIC_RANGE4(from_center_size, __VA_ARGS__)
+#  define lm2_r4_from_position_size(...)  _LM2_GENERIC_RANGE4(from_position_size, __VA_ARGS__)
 #endif
 
 // C++ operator overloads and constructors (must be outside extern "C")
@@ -145,14 +150,4 @@ _LM2_DEFINE_RANGE4_OPERATORS(lm2_r4u64, lm2_v4u64)
 _LM2_DEFINE_RANGE4_OPERATORS(lm2_r4u32, lm2_v4u32)
 _LM2_DEFINE_RANGE4_OPERATORS(lm2_r4u16, lm2_v4u16)
 _LM2_DEFINE_RANGE4_OPERATORS(lm2_r4u8, lm2_v4u8)
-_LM2_DEFINE_RANGE4_CONSTRUCTORS(lm2_r4f64, lm2_v4f64)
-_LM2_DEFINE_RANGE4_CONSTRUCTORS(lm2_r4f32, lm2_v4f32)
-_LM2_DEFINE_RANGE4_CONSTRUCTORS(lm2_r4i64, lm2_v4i64)
-_LM2_DEFINE_RANGE4_CONSTRUCTORS(lm2_r4i32, lm2_v4i32)
-_LM2_DEFINE_RANGE4_CONSTRUCTORS(lm2_r4i16, lm2_v4i16)
-_LM2_DEFINE_RANGE4_CONSTRUCTORS(lm2_r4i8, lm2_v4i8)
-_LM2_DEFINE_RANGE4_CONSTRUCTORS(lm2_r4u64, lm2_v4u64)
-_LM2_DEFINE_RANGE4_CONSTRUCTORS(lm2_r4u32, lm2_v4u32)
-_LM2_DEFINE_RANGE4_CONSTRUCTORS(lm2_r4u16, lm2_v4u16)
-_LM2_DEFINE_RANGE4_CONSTRUCTORS(lm2_r4u8, lm2_v4u8)
 #endif

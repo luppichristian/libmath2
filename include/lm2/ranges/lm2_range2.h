@@ -44,6 +44,7 @@ LM2_HEADER_BEGIN;
       vec_type min;                                               \
       vec_type max;                                               \
     };                                                            \
+    _LM2_RANGE2_CPP_CONSTRUCTORS(type_name, vec_type)             \
     _LM2_RANGE_SUBSCRIPT_OP(vec_type)                             \
   } type_name;                                                    \
   _LM2_DECLARE_RANGE_FROM_MIN_MAX(type_name, vec_type)            \
@@ -130,6 +131,11 @@ LM2_HEADER_END;
 #  define lm2_mul_r2(r, x)           _LM2_RANGE2_ARITH(mul, r, x)
 #  define lm2_div_r2(r, x)           _LM2_RANGE2_ARITH(div, r, x)
 #  define lm2_mod_r2(r, x)           _LM2_RANGE2_ARITH(mod, r, x)
+// Constructor generics
+#  define lm2_r2_from_min_max(...)        _LM2_GENERIC_RANGE2(from_min_max, __VA_ARGS__)
+#  define lm2_r2_from_center_extents(...) _LM2_GENERIC_RANGE2(from_center_extents, __VA_ARGS__)
+#  define lm2_r2_from_center_size(...)    _LM2_GENERIC_RANGE2(from_center_size, __VA_ARGS__)
+#  define lm2_r2_from_position_size(...)  _LM2_GENERIC_RANGE2(from_position_size, __VA_ARGS__)
 #endif
 
 // C++ operator overloads and constructors (must be outside extern "C")
@@ -145,14 +151,4 @@ _LM2_DEFINE_RANGE2_OPERATORS(lm2_r2u64, lm2_v2u64)
 _LM2_DEFINE_RANGE2_OPERATORS(lm2_r2u32, lm2_v2u32)
 _LM2_DEFINE_RANGE2_OPERATORS(lm2_r2u16, lm2_v2u16)
 _LM2_DEFINE_RANGE2_OPERATORS(lm2_r2u8, lm2_v2u8)
-_LM2_DEFINE_RANGE2_CONSTRUCTORS(lm2_r2f64, lm2_v2f64)
-_LM2_DEFINE_RANGE2_CONSTRUCTORS(lm2_r2f32, lm2_v2f32)
-_LM2_DEFINE_RANGE2_CONSTRUCTORS(lm2_r2i64, lm2_v2i64)
-_LM2_DEFINE_RANGE2_CONSTRUCTORS(lm2_r2i32, lm2_v2i32)
-_LM2_DEFINE_RANGE2_CONSTRUCTORS(lm2_r2i16, lm2_v2i16)
-_LM2_DEFINE_RANGE2_CONSTRUCTORS(lm2_r2i8, lm2_v2i8)
-_LM2_DEFINE_RANGE2_CONSTRUCTORS(lm2_r2u64, lm2_v2u64)
-_LM2_DEFINE_RANGE2_CONSTRUCTORS(lm2_r2u32, lm2_v2u32)
-_LM2_DEFINE_RANGE2_CONSTRUCTORS(lm2_r2u16, lm2_v2u16)
-_LM2_DEFINE_RANGE2_CONSTRUCTORS(lm2_r2u8, lm2_v2u8)
 #endif

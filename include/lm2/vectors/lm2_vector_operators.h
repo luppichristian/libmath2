@@ -89,20 +89,6 @@ SOFTWARE.
       return lm2_neg_##type_name(a);                               \
     }
 
-// C++ Constructors for V2 types
-#  define _LM2_DEFINE_V2_CONSTRUCTORS(type_name, scalar_type)      \
-    struct type_name##_cpp_constructors {                          \
-      static inline type_name make(scalar_type x, scalar_type y) { \
-        return type_name##_make(x, y);                             \
-      }                                                            \
-      static inline type_name splat(scalar_type v) {               \
-        return type_name##_splat(v);                               \
-      }                                                            \
-      static inline type_name zero() {                             \
-        return type_name##_zero();                                 \
-      }                                                            \
-    };
-
 // =============================================================================
 // V3 Operators
 // =============================================================================
@@ -155,20 +141,6 @@ SOFTWARE.
       return lm2_neg_##type_name(a);                                                          \
     }
 
-// C++ Constructors for V3 types
-#  define _LM2_DEFINE_V3_CONSTRUCTORS(type_name, scalar_type)                     \
-    struct type_name##_cpp_constructors {                                         \
-      static inline type_name make(scalar_type x, scalar_type y, scalar_type z) { \
-        return type_name##_make(x, y, z);                                         \
-      }                                                                           \
-      static inline type_name splat(scalar_type v) {                              \
-        return type_name##_splat(v);                                              \
-      }                                                                           \
-      static inline type_name zero() {                                            \
-        return type_name##_zero();                                                \
-      }                                                                           \
-    };
-
 // =============================================================================
 // V4 Operators
 // =============================================================================
@@ -220,20 +192,6 @@ SOFTWARE.
     inline type_name operator-(type_name a) {                                                                            \
       return lm2_neg_##type_name(a);                                                                                     \
     }
-
-// C++ Constructors for V4 types
-#  define _LM2_DEFINE_V4_CONSTRUCTORS(type_name, scalar_type)                                    \
-    struct type_name##_cpp_constructors {                                                        \
-      static inline type_name make(scalar_type x, scalar_type y, scalar_type z, scalar_type w) { \
-        return type_name##_make(x, y, z, w);                                                     \
-      }                                                                                          \
-      static inline type_name splat(scalar_type v) {                                             \
-        return type_name##_splat(v);                                                             \
-      }                                                                                          \
-      static inline type_name zero() {                                                           \
-        return type_name##_zero();                                                               \
-      }                                                                                          \
-    };
 
 #else
 

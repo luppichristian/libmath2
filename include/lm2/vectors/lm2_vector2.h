@@ -40,6 +40,7 @@ LM2_HEADER_BEGIN;
     struct {                                                                                 \
       scalar_type s, t;                                                                      \
     };                                                                                       \
+    _LM2_V2_CPP_CONSTRUCTORS(type_name, scalar_type)                                         \
     _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, 2)                                                 \
   } type_name;                                                                               \
   _LM2_DECLARE_VECTOR_OP(type_name, lm2_add_##type_name)                                     \
@@ -182,14 +183,4 @@ _LM2_DEFINE_V2_OPERATORS(lm2_v2u64, uint64_t)
 _LM2_DEFINE_V2_OPERATORS(lm2_v2u32, uint32_t)
 _LM2_DEFINE_V2_OPERATORS(lm2_v2u16, uint16_t)
 _LM2_DEFINE_V2_OPERATORS(lm2_v2u8, uint8_t)
-_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2f64, double)
-_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2f32, float)
-_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2i64, int64_t)
-_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2i32, int32_t)
-_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2i16, int16_t)
-_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2i8, int8_t)
-_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2u64, uint64_t)
-_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2u32, uint32_t)
-_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2u16, uint16_t)
-_LM2_DEFINE_V2_CONSTRUCTORS(lm2_v2u8, uint8_t)
 #endif
