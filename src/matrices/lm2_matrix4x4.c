@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include <lm2/matrices/lm2_matrix4x4.h>
+#include <lm2/misc/lm2_quaternion.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/scalar/lm2_trigonometry.h>
@@ -631,6 +632,76 @@ SOFTWARE.
     result.m33 = (scalar_type)1;                                                                                                                               \
     return result;                                                                                                                                             \
   }
+
+#define _LM2_IMPL_M4X4_QUATERNION(mat_type, scalar_type, scalar_suffix, quat_type)                                                    \
+  LM2_API mat_type mat_type##_from_quaternion(quat_type q) {                                                                          \
+    scalar_type qx = q.x;                                                                                                             \
+    scalar_type qy = q.y;                                                                                                             \
+    scalar_type qz = q.z;                                                                                                             \
+    scalar_type qw = q.w;                                                                                                             \
+    scalar_type qxx = lm2_mul_##scalar_suffix(qx, qx);                                                                                \
+    scalar_type qyy = lm2_mul_##scalar_suffix(qy, qy);                                                                                \
+    scalar_type qzz = lm2_mul_##scalar_suffix(qz, qz);                                                                                \
+    scalar_type qxy = lm2_mul_##scalar_suffix(qx, qy);                                                                                \
+    scalar_type qxz = lm2_mul_##scalar_suffix(qx, qz);                                                                                \
+    scalar_type qxw = lm2_mul_##scalar_suffix(qx, qw);                                                                                \
+    scalar_type qyz = lm2_mul_##scalar_suffix(qy, qz);                                                                                \
+    scalar_type qyw = lm2_mul_##scalar_suffix(qy, qw);                                                                                \
+    scalar_type qzw = lm2_mul_##scalar_suffix(qz, qw);                                                                                \
+    mat_type result;                                                                                                                  \
+    result.m00 = lm2_sub_##scalar_suffix((scalar_type)1, lm2_mul_##scalar_suffix((scalar_type)2, lm2_add_##scalar_suffix(qyy, qzz))); \
+    result.m01 = lm2_mul_##scalar_suffix((scalar_type)2, lm2_sub_##scalar_suffix(qxy, qzw));                                          \
+    result.m02 = lm2_mul_##scalar_suffix((scalar_type)2, lm2_add_##scalar_suffix(qxz, qyw));                                          \
+    result.m03 = (scalar_type)0;                                                                                                      \
+    result.m10 = lm2_mul_##scalar_suffix((scalar_type)2, lm2_add_##scalar_suffix(qxy, qzw));
+
+_LM2_IMPL_M4X4_QUATERNION(lm2_m4x4f64, double, f64, lm2_quatf64)
+_LM2_IMPL_M4X4_QUATERNION(lm2_m4x4f32, float, f32, lm2_quatf32)
+result.m11 = lm2_sub_##scalar_suffix((scalar_type)1, lm2_mul_##scalar_suffix((scalar_type)2, lm2_add_##scalar_suffix(qxx, qzz)));
+result.m12 = lm2_mul_##scalar_suffix((scalar_type)2, lm2_sub_##scalar_suffix(qyz, qxw));
+result.m13 = (scalar_type)0;
+result.m20 = lm2_mul_##scalar_suffix((scalar_type)2, lm2_sub_##scalar_suffix(qxz, qyw));
+result.m21 = lm2_mul_##scalar_suffix((scalar_type)2, lm2_add_##scalar_suffix(qyz, qxw));
+result.m22 = lm2_sub_##scalar_suffix((scalar_type)1, lm2_mul_##scalar_suffix((scalar_type)2, lm2_add_##scalar_suffix(qxx, qyy)));
+result.m23 = (scalar_type)0;
+result.m30 = (scalar_type)0;
+result.m31 = (scalar_type)0;
+result.m32 = (scalar_type)0;
+result.m33 = (scalar_type)1;
+return result;
+}
+LM2_API quat_type mat_type##_to_quaternion(mat_type m) {
+  quat_type result;
+  scalar_type trace = lm2_add_##scalar_suffix(lm2_add_##scalar_suffix(m.m00, m.m11), m.m22);
+  if (trace > (scalar_type)0) {
+    scalar_type s = lm2_mul_##scalar_suffix((scalar_type)0.5, lm2_div_##scalar_suffix((scalar_type)1, lm2_sqrt_##scalar_suffix(lm2_add_##scalar_suffix(trace, (scalar_type)1))));
+    result.w = lm2_mul_##scalar_suffix((scalar_type)0.25, lm2_div_##scalar_suffix((scalar_type)1, s));
+    result.x = lm2_mul_##scalar_suffix(lm2_sub_##scalar_suffix(m.m21, m.m12), s);
+    result.y = lm2_mul_##scalar_suffix(lm2_sub_##scalar_suffix(m.m02, m.m20), s);
+    result.z = lm2_mul_##scalar_suffix(lm2_sub_##scalar_suffix(m.m10, m.m01), s);
+  } else {
+    if ((m.m00 > m.m11) && (m.m00 > m.m22)) {
+      scalar_type s = lm2_mul_##scalar_suffix((scalar_type)2, lm2_sqrt_##scalar_suffix(lm2_add_##scalar_suffix(lm2_sub_##scalar_suffix(lm2_add_##scalar_suffix((scalar_type)1, m.m00), m.m11), m.m22)));
+      result.w = lm2_div_##scalar_suffix(lm2_sub_##scalar_suffix(m.m21, m.m12), s);
+      result.x = lm2_mul_##scalar_suffix((scalar_type)0.25, s);
+      result.y = lm2_div_##scalar_suffix(lm2_add_##scalar_suffix(m.m01, m.m10), s);
+      result.z = lm2_div_##scalar_suffix(lm2_add_##scalar_suffix(m.m02, m.m20), s);
+    } else if (m.m11 > m.m22) {
+      scalar_type s = lm2_mul_##scalar_suffix((scalar_type)2, lm2_sqrt_##scalar_suffix(lm2_add_##scalar_suffix(lm2_sub_##scalar_suffix(lm2_add_##scalar_suffix((scalar_type)1, m.m11), m.m00), m.m22)));
+      result.w = lm2_div_##scalar_suffix(lm2_sub_##scalar_suffix(m.m02, m.m20), s);
+      result.x = lm2_div_##scalar_suffix(lm2_add_##scalar_suffix(m.m01, m.m10), s);
+      result.y = lm2_mul_##scalar_suffix((scalar_type)0.25, s);
+      result.z = lm2_div_##scalar_suffix(lm2_add_##scalar_suffix(m.m12, m.m21), s);
+    } else {
+      scalar_type s = lm2_mul_##scalar_suffix((scalar_type)2, lm2_sqrt_##scalar_suffix(lm2_add_##scalar_suffix(lm2_sub_##scalar_suffix(lm2_add_##scalar_suffix((scalar_type)1, m.m22), m.m00), m.m11)));
+      result.w = lm2_div_##scalar_suffix(lm2_sub_##scalar_suffix(m.m10, m.m01), s);
+      result.x = lm2_div_##scalar_suffix(lm2_add_##scalar_suffix(m.m02, m.m20), s);
+      result.y = lm2_div_##scalar_suffix(lm2_add_##scalar_suffix(m.m12, m.m21), s);
+      result.z = lm2_mul_##scalar_suffix((scalar_type)0.25, s);
+    }
+  }
+  return result;
+}
 
 // =============================================================================
 // Matrix 4x4 Implementations

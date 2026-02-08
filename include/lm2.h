@@ -57,6 +57,7 @@ SOFTWARE.
 #include "lm2/misc/lm2_easings.h"
 #include "lm2/misc/lm2_hash.h"
 #include "lm2/misc/lm2_noise.h"
+#include "lm2/misc/lm2_quaternion.h"
 #include "lm2/ranges/lm2_range2.h"
 #include "lm2/ranges/lm2_range3.h"
 #include "lm2/ranges/lm2_range4.h"

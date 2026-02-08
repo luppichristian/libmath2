@@ -28,6 +28,10 @@ SOFTWARE.
 #include "lm2/vectors/lm2_vector3.h"
 #include "lm2/vectors/lm2_vector4.h"
 
+// Forward declare quaternion types
+typedef union lm2_quatf64 lm2_quatf64;
+typedef union lm2_quatf32 lm2_quatf32;
+
 // #############################################################################
 LM2_HEADER_BEGIN;
 // #############################################################################
@@ -116,6 +120,10 @@ typedef lm2_m4x4f32 lm2_m4x4;
   LM2_API mat_type mat_type##_perspective(scalar_type fov_y, scalar_type aspect, scalar_type near_plane, scalar_type far_plane);                              \
   LM2_API mat_type mat_type##_look_at(vec3_type eye, vec3_type target, vec3_type up);
 
+#define _LM2_DECLARE_M4X4_QUATERNION(mat_type, quat_type)   \
+  LM2_API mat_type mat_type##_from_quaternion(quat_type q); \
+  LM2_API quat_type mat_type##_to_quaternion(mat_type m);
+
 // =============================================================================
 // Matrix 4x4 Function Declarations
 // =============================================================================
@@ -138,6 +146,15 @@ _LM2_DECLARE_M4X4_PROJECTION(lm2_m4x4f32, float, lm2_v3f32)
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+// =============================================================================
+// Quaternion Conversion Functions (Outside extern "C" for C++ compatibility)
+// =============================================================================
+// These functions return/accept quaternion types which have C++ operators,
+// so they cannot use C linkage in C++ mode.
+
+_LM2_DECLARE_M4X4_QUATERNION(lm2_m4x4f64, lm2_quatf64)
+_LM2_DECLARE_M4X4_QUATERNION(lm2_m4x4f32, lm2_quatf32)
 
 // C++ operator overloads (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
