@@ -29,7 +29,9 @@ SOFTWARE.
 #include "lm2/vectors/lm2_vector2.h"
 #include "lm2_capsule2.h"
 #include "lm2_circle.h"
+#include "lm2_plane2.h"
 #include "lm2_polygon.h"
+#include "lm2_triangle2.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -117,6 +119,14 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_polygon_f32(lm2_ray2_f32 ray, lm2_polygon_f3
 // Ray vs Line Segment (edge)
 LM2_API lm2_rayhit2_f64 lm2_raycast_segment_f64(lm2_ray2_f64 ray, lm2_v2f64 segment_start, lm2_v2f64 segment_end);
 LM2_API lm2_rayhit2_f32 lm2_raycast_segment_f32(lm2_ray2_f32 ray, lm2_v2f32 segment_start, lm2_v2f32 segment_end);
+
+// Ray vs Triangle
+LM2_API lm2_rayhit2_f64 lm2_raycast_triangle_f64(lm2_ray2_f64 ray, const lm2_triangle2_f64 tri);
+LM2_API lm2_rayhit2_f32 lm2_raycast_triangle_f32(lm2_ray2_f32 ray, const lm2_triangle2_f32 tri);
+
+// Ray vs Plane (infinite line in 2D)
+LM2_API lm2_rayhit2_f64 lm2_raycast_plane_f64(lm2_ray2_f64 ray, lm2_plane2_f64 plane);
+LM2_API lm2_rayhit2_f32 lm2_raycast_plane_f32(lm2_ray2_f32 ray, lm2_plane2_f32 plane);
 
 // =============================================================================
 // Epsilon/Tolerance Constants

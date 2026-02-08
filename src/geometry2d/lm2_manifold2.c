@@ -25,7 +25,7 @@ SOFTWARE.
 #define CUTE_C2_IMPLEMENTATION
 #include <cute_c2.h>
 
-#include "lm2/geometry2d/lm2_shape.h"
+#include "lm2/geometry2d/lm2_manifold2.h"
 #include "lm2/scalar/lm2_safe_ops.h"
 #include "lm2/scalar/lm2_scalar.h"
 
@@ -609,3 +609,180 @@ LM2_API void lm2_make_convex_polygon_f32(lm2_polygon_f32* polygon, lm2_v2f32* ou
   free(temp_norms);
 }
 
+// =============================================================================
+// Helper Functions: Triangle to Polygon conversion
+// =============================================================================
+
+static c2Poly lm2_triangle2_f64_to_c2(const lm2_triangle2_f64 tri) {
+  c2Poly result;
+  result.count = 3;
+  result.verts[0] = lm2_v2f64_to_c2v(tri[0]);
+  result.verts[1] = lm2_v2f64_to_c2v(tri[1]);
+  result.verts[2] = lm2_v2f64_to_c2v(tri[2]);
+  c2Norms(result.verts, result.norms, result.count);
+  return result;
+}
+
+static c2Poly lm2_triangle2_f32_to_c2(const lm2_triangle2_f32 tri) {
+  c2Poly result;
+  result.count = 3;
+  result.verts[0] = lm2_v2f32_to_c2v(tri[0]);
+  result.verts[1] = lm2_v2f32_to_c2v(tri[1]);
+  result.verts[2] = lm2_v2f32_to_c2v(tri[2]);
+  c2Norms(result.verts, result.norms, result.count);
+  return result;
+}
+
+// =============================================================================
+// Triangle Collision Detection - f64
+// =============================================================================
+
+LM2_API bool lm2_collide_triangle_to_triangle_f64(const lm2_triangle2_f64 a, const lm2_triangle2_f64 b) {
+  c2Poly poly_a = lm2_triangle2_f64_to_c2(a);
+  c2Poly poly_b = lm2_triangle2_f64_to_c2(b);
+  return c2PolytoPoly(&poly_a, NULL, &poly_b, NULL) != 0;
+}
+
+LM2_API bool lm2_collide_triangle_to_circle_f64(const lm2_triangle2_f64 tri, lm2_circle_f64 circle) {
+  c2Poly poly = lm2_triangle2_f64_to_c2(tri);
+  return c2CircletoPoly(lm2_circle_f64_to_c2(circle), &poly, NULL) != 0;
+}
+
+LM2_API bool lm2_collide_triangle_to_aabb_f64(const lm2_triangle2_f64 tri, lm2_r2f64 aabb) {
+  c2Poly poly = lm2_triangle2_f64_to_c2(tri);
+  return c2AABBtoPoly(lm2_r2f64_to_c2(aabb), &poly, NULL) != 0;
+}
+
+LM2_API bool lm2_collide_triangle_to_capsule_f64(const lm2_triangle2_f64 tri, lm2_capsule2_f64 capsule) {
+  c2Poly poly = lm2_triangle2_f64_to_c2(tri);
+  return c2CapsuletoPoly(lm2_capsule2_f64_to_c2(capsule), &poly, NULL) != 0;
+}
+
+LM2_API bool lm2_collide_triangle_to_polygon_f64(const lm2_triangle2_f64 tri, lm2_polygon_f64 polygon) {
+  c2Poly poly_tri = lm2_triangle2_f64_to_c2(tri);
+  c2Poly poly = lm2_polygon_f64_to_c2(polygon);
+  return c2PolytoPoly(&poly_tri, NULL, &poly, NULL) != 0;
+}
+
+// =============================================================================
+// Triangle Collision Detection - f32
+// =============================================================================
+
+LM2_API bool lm2_collide_triangle_to_triangle_f32(const lm2_triangle2_f32 a, const lm2_triangle2_f32 b) {
+  c2Poly poly_a = lm2_triangle2_f32_to_c2(a);
+  c2Poly poly_b = lm2_triangle2_f32_to_c2(b);
+  return c2PolytoPoly(&poly_a, NULL, &poly_b, NULL) != 0;
+}
+
+LM2_API bool lm2_collide_triangle_to_circle_f32(const lm2_triangle2_f32 tri, lm2_circle_f32 circle) {
+  c2Poly poly = lm2_triangle2_f32_to_c2(tri);
+  return c2CircletoPoly(lm2_circle_f32_to_c2(circle), &poly, NULL) != 0;
+}
+
+LM2_API bool lm2_collide_triangle_to_aabb_f32(const lm2_triangle2_f32 tri, lm2_r2f32 aabb) {
+  c2Poly poly = lm2_triangle2_f32_to_c2(tri);
+  return c2AABBtoPoly(lm2_r2f32_to_c2(aabb), &poly, NULL) != 0;
+}
+
+LM2_API bool lm2_collide_triangle_to_capsule_f32(const lm2_triangle2_f32 tri, lm2_capsule2_f32 capsule) {
+  c2Poly poly = lm2_triangle2_f32_to_c2(tri);
+  return c2CapsuletoPoly(lm2_capsule2_f32_to_c2(capsule), &poly, NULL) != 0;
+}
+
+LM2_API bool lm2_collide_triangle_to_polygon_f32(const lm2_triangle2_f32 tri, lm2_polygon_f32 polygon) {
+  c2Poly poly_tri = lm2_triangle2_f32_to_c2(tri);
+  c2Poly poly = lm2_polygon_f32_to_c2(polygon);
+  return c2PolytoPoly(&poly_tri, NULL, &poly, NULL) != 0;
+}
+
+// =============================================================================
+// Triangle Manifold Generation - f64
+// =============================================================================
+
+LM2_API void lm2_manifold_triangle_to_triangle_f64(const lm2_triangle2_f64 a, const lm2_triangle2_f64 b, lm2_manifold_f64* out_manifold) {
+  LM2_ASSERT(out_manifold != NULL);
+  c2Manifold m;
+  c2Poly poly_a = lm2_triangle2_f64_to_c2(a);
+  c2Poly poly_b = lm2_triangle2_f64_to_c2(b);
+  c2PolytoPolyManifold(&poly_a, NULL, &poly_b, NULL, &m);
+  c2_manifold_to_lm2_f64(m, out_manifold);
+}
+
+LM2_API void lm2_manifold_triangle_to_circle_f64(const lm2_triangle2_f64 tri, lm2_circle_f64 circle, lm2_manifold_f64* out_manifold) {
+  LM2_ASSERT(out_manifold != NULL);
+  c2Manifold m;
+  c2Poly poly = lm2_triangle2_f64_to_c2(tri);
+  c2CircletoPolyManifold(lm2_circle_f64_to_c2(circle), &poly, NULL, &m);
+  c2_manifold_to_lm2_f64(m, out_manifold);
+}
+
+LM2_API void lm2_manifold_triangle_to_aabb_f64(const lm2_triangle2_f64 tri, lm2_r2f64 aabb, lm2_manifold_f64* out_manifold) {
+  LM2_ASSERT(out_manifold != NULL);
+  c2Manifold m;
+  c2Poly poly = lm2_triangle2_f64_to_c2(tri);
+  c2AABBtoPolyManifold(lm2_r2f64_to_c2(aabb), &poly, NULL, &m);
+  c2_manifold_to_lm2_f64(m, out_manifold);
+}
+
+LM2_API void lm2_manifold_triangle_to_capsule_f64(const lm2_triangle2_f64 tri, lm2_capsule2_f64 capsule, lm2_manifold_f64* out_manifold) {
+  LM2_ASSERT(out_manifold != NULL);
+  c2Manifold m;
+  c2Poly poly = lm2_triangle2_f64_to_c2(tri);
+  c2CapsuletoPolyManifold(lm2_capsule2_f64_to_c2(capsule), &poly, NULL, &m);
+  c2_manifold_to_lm2_f64(m, out_manifold);
+}
+
+LM2_API void lm2_manifold_triangle_to_polygon_f64(const lm2_triangle2_f64 tri, lm2_polygon_f64 polygon, lm2_manifold_f64* out_manifold) {
+  LM2_ASSERT(out_manifold != NULL);
+  c2Manifold m;
+  c2Poly poly_tri = lm2_triangle2_f64_to_c2(tri);
+  c2Poly poly = lm2_polygon_f64_to_c2(polygon);
+  c2PolytoPolyManifold(&poly_tri, NULL, &poly, NULL, &m);
+  c2_manifold_to_lm2_f64(m, out_manifold);
+}
+
+// =============================================================================
+// Triangle Manifold Generation - f32
+// =============================================================================
+
+LM2_API void lm2_manifold_triangle_to_triangle_f32(const lm2_triangle2_f32 a, const lm2_triangle2_f32 b, lm2_manifold_f32* out_manifold) {
+  LM2_ASSERT(out_manifold != NULL);
+  c2Manifold m;
+  c2Poly poly_a = lm2_triangle2_f32_to_c2(a);
+  c2Poly poly_b = lm2_triangle2_f32_to_c2(b);
+  c2PolytoPolyManifold(&poly_a, NULL, &poly_b, NULL, &m);
+  c2_manifold_to_lm2_f32(m, out_manifold);
+}
+
+LM2_API void lm2_manifold_triangle_to_circle_f32(const lm2_triangle2_f32 tri, lm2_circle_f32 circle, lm2_manifold_f32* out_manifold) {
+  LM2_ASSERT(out_manifold != NULL);
+  c2Manifold m;
+  c2Poly poly = lm2_triangle2_f32_to_c2(tri);
+  c2CircletoPolyManifold(lm2_circle_f32_to_c2(circle), &poly, NULL, &m);
+  c2_manifold_to_lm2_f32(m, out_manifold);
+}
+
+LM2_API void lm2_manifold_triangle_to_aabb_f32(const lm2_triangle2_f32 tri, lm2_r2f32 aabb, lm2_manifold_f32* out_manifold) {
+  LM2_ASSERT(out_manifold != NULL);
+  c2Manifold m;
+  c2Poly poly = lm2_triangle2_f32_to_c2(tri);
+  c2AABBtoPolyManifold(lm2_r2f32_to_c2(aabb), &poly, NULL, &m);
+  c2_manifold_to_lm2_f32(m, out_manifold);
+}
+
+LM2_API void lm2_manifold_triangle_to_capsule_f32(const lm2_triangle2_f32 tri, lm2_capsule2_f32 capsule, lm2_manifold_f32* out_manifold) {
+  LM2_ASSERT(out_manifold != NULL);
+  c2Manifold m;
+  c2Poly poly = lm2_triangle2_f32_to_c2(tri);
+  c2CapsuletoPolyManifold(lm2_capsule2_f32_to_c2(capsule), &poly, NULL, &m);
+  c2_manifold_to_lm2_f32(m, out_manifold);
+}
+
+LM2_API void lm2_manifold_triangle_to_polygon_f32(const lm2_triangle2_f32 tri, lm2_polygon_f32 polygon, lm2_manifold_f32* out_manifold) {
+  LM2_ASSERT(out_manifold != NULL);
+  c2Manifold m;
+  c2Poly poly_tri = lm2_triangle2_f32_to_c2(tri);
+  c2Poly poly = lm2_polygon_f32_to_c2(polygon);
+  c2PolytoPolyManifold(&poly_tri, NULL, &poly, NULL, &m);
+  c2_manifold_to_lm2_f32(m, out_manifold);
+}

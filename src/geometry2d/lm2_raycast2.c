@@ -411,3 +411,174 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_segment_f32(lm2_ray2_f32 ray, lm2_v2f32 segm
   return lm2_raycast_capsule_f32(ray, capsule);
 }
 
+// =============================================================================
+// Helper Functions: Triangle to Polygon conversion
+// =============================================================================
+
+static c2Poly lm2_triangle2_f64_to_c2_for_raycast(const lm2_triangle2_f64 tri) {
+  c2Poly result;
+  result.count = 3;
+  result.verts[0] = lm2_v2f64_to_c2v(tri[0]);
+  result.verts[1] = lm2_v2f64_to_c2v(tri[1]);
+  result.verts[2] = lm2_v2f64_to_c2v(tri[2]);
+  c2Norms(result.verts, result.norms, result.count);
+  return result;
+}
+
+static c2Poly lm2_triangle2_f32_to_c2_for_raycast(const lm2_triangle2_f32 tri) {
+  c2Poly result;
+  result.count = 3;
+  result.verts[0] = lm2_v2f32_to_c2v(tri[0]);
+  result.verts[1] = lm2_v2f32_to_c2v(tri[1]);
+  result.verts[2] = lm2_v2f32_to_c2v(tri[2]);
+  c2Norms(result.verts, result.norms, result.count);
+  return result;
+}
+
+// =============================================================================
+// Ray vs Triangle - f64
+// =============================================================================
+
+LM2_API lm2_rayhit2_f64 lm2_raycast_triangle_f64(lm2_ray2_f64 ray, const lm2_triangle2_f64 tri) {
+  lm2_rayhit2_f64 result;
+  result.hit = false;
+  result.t = 0.0;
+  result.point = (lm2_v2f64) {0.0, 0.0};
+  result.normal = (lm2_v2f64) {0.0, 0.0};
+
+  // Convert triangle to polygon
+  c2Poly poly = lm2_triangle2_f64_to_c2_for_raycast(tri);
+
+  // Convert ray to c2Ray
+  c2Ray c2ray = lm2_ray2_f64_to_c2(ray);
+
+  // Perform raycast
+  c2Raycast out;
+  int hit = c2RaytoPoly(c2ray, &poly, NULL, &out);
+
+  if (hit) {
+    result.hit = true;
+    result.t = (double)out.t;
+    result.point = lm2_add_f64(ray.origin, lm2_mul_f64(ray.direction, result.t));
+    result.normal = c2v_to_lm2_v2f64(out.n);
+  }
+
+  return result;
+}
+
+// =============================================================================
+// Ray vs Triangle - f32
+// =============================================================================
+
+LM2_API lm2_rayhit2_f32 lm2_raycast_triangle_f32(lm2_ray2_f32 ray, const lm2_triangle2_f32 tri) {
+  lm2_rayhit2_f32 result;
+  result.hit = false;
+  result.t = 0.0f;
+  result.point = (lm2_v2f32) {0.0f, 0.0f};
+  result.normal = (lm2_v2f32) {0.0f, 0.0f};
+
+  // Convert triangle to polygon
+  c2Poly poly = lm2_triangle2_f32_to_c2_for_raycast(tri);
+
+  // Convert ray to c2Ray
+  c2Ray c2ray = lm2_ray2_f32_to_c2(ray);
+
+  // Perform raycast
+  c2Raycast out;
+  int hit = c2RaytoPoly(c2ray, &poly, NULL, &out);
+
+  if (hit) {
+    result.hit = true;
+    result.t = out.t;
+    result.point = lm2_add_f32(ray.origin, lm2_mul_f32(ray.direction, result.t));
+    result.normal = c2v_to_lm2_v2f32(out.n);
+  }
+
+  return result;
+}
+
+// =============================================================================
+// Ray vs Plane (Infinite Line in 2D) - f64
+// =============================================================================
+
+LM2_API lm2_rayhit2_f64 lm2_raycast_plane_f64(lm2_ray2_f64 ray, lm2_plane2_f64 plane) {
+  lm2_rayhit2_f64 result;
+  result.hit = false;
+  result.t = 0.0;
+  result.point = (lm2_v2f64) {0.0, 0.0};
+  result.normal = (lm2_v2f64) {0.0, 0.0};
+
+  // Compute denominator (dot product of ray direction and plane normal)
+  double denom = lm2_dot_f64(ray.direction, plane.normal);
+
+  // Check if ray is parallel to plane (denom close to zero)
+  if (lm2_abs_f64(denom) < LM2_RAYCAST2_EPSILON_F64) {
+    return result;  // No intersection (parallel or nearly parallel)
+  }
+
+  // Compute signed distance from ray origin to plane
+  double origin_dist = lm2_sub_f64(lm2_dot_f64(ray.origin, plane.normal), plane.distance);
+
+  // Compute t parameter
+  double t = lm2_div_f64(lm2_mul_f64(origin_dist, -1.0), denom);
+
+  // Check if intersection is within ray bounds (t >= 0 and t <= ray.t_max)
+  if (t >= 0.0 && t <= ray.t_max) {
+    result.hit = true;
+    result.t = t;
+    result.point = lm2_add_f64(ray.origin, lm2_mul_f64(ray.direction, t));
+
+    // Normal points in the direction of the plane normal
+    // If ray is hitting from the back side, we might want to flip it
+    if (denom > 0.0) {
+      result.normal = lm2_mul_f64(plane.normal, -1.0);
+    } else {
+      result.normal = plane.normal;
+    }
+  }
+
+  return result;
+}
+
+// =============================================================================
+// Ray vs Plane (Infinite Line in 2D) - f32
+// =============================================================================
+
+LM2_API lm2_rayhit2_f32 lm2_raycast_plane_f32(lm2_ray2_f32 ray, lm2_plane2_f32 plane) {
+  lm2_rayhit2_f32 result;
+  result.hit = false;
+  result.t = 0.0f;
+  result.point = (lm2_v2f32) {0.0f, 0.0f};
+  result.normal = (lm2_v2f32) {0.0f, 0.0f};
+
+  // Compute denominator (dot product of ray direction and plane normal)
+  float denom = lm2_dot_f32(ray.direction, plane.normal);
+
+  // Check if ray is parallel to plane (denom close to zero)
+  if (lm2_abs_f32(denom) < LM2_RAYCAST2_EPSILON_F32) {
+    return result;  // No intersection (parallel or nearly parallel)
+  }
+
+  // Compute signed distance from ray origin to plane
+  float origin_dist = lm2_sub_f32(lm2_dot_f32(ray.origin, plane.normal), plane.distance);
+
+  // Compute t parameter
+  float t = lm2_div_f32(lm2_mul_f32(origin_dist, -1.0f), denom);
+
+  // Check if intersection is within ray bounds (t >= 0 and t <= ray.t_max)
+  if (t >= 0.0f && t <= ray.t_max) {
+    result.hit = true;
+    result.t = t;
+    result.point = lm2_add_f32(ray.origin, lm2_mul_f32(ray.direction, t));
+
+    // Normal points in the direction of the plane normal
+    // If ray is hitting from the back side, we might want to flip it
+    if (denom > 0.0f) {
+      result.normal = lm2_mul_f32(plane.normal, -1.0f);
+    } else {
+      result.normal = plane.normal;
+    }
+  }
+
+  return result;
+}
