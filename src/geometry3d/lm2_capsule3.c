@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include <lm2/geometry3d/lm2_capsule3.h>
+#include <lm2/geometry3d/lm2_edge3.h>
 #include <lm2/lm2_constants.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
@@ -194,62 +195,19 @@ LM2_API lm2_v3f32 lm2_capsule3_center_f32(lm2_capsule3_f32 capsule) {
 }
 
 // =============================================================================
-// Capsule Tests
+// Capsule-Point Collision
 // =============================================================================
 
-// Helper function to compute distance from point to line segment
-static double point_to_segment_distance_sq_f64(lm2_v3f64 p, lm2_v3f64 a, lm2_v3f64 b) {
-  lm2_v3f64 ab = lm2_sub_lm2_v3f64(b, a);
-  lm2_v3f64 ap = lm2_sub_lm2_v3f64(p, a);
-
-  double ab_len_sq = lm2_length_sq_v3f64(ab);
-
-  // If segment is degenerate (a == b), return distance squared to point a
-  if (ab_len_sq == 0.0) {
-    return lm2_length_sq_v3f64(ap);
-  }
-
-  // Project p onto line ab, clamped to [0, 1]
-  double t = lm2_div_f64(lm2_dot_v3f64(ap, ab), ab_len_sq);
-  t = lm2_clamp_f64(t, 0.0, 1.0);
-
-  // Find closest point on segment
-  lm2_v3f64 closest = lm2_add_lm2_v3f64(a, lm2_mul_lm2_v3f64_double(ab, t));
-  lm2_v3f64 pc = lm2_sub_lm2_v3f64(p, closest);
-
-  return lm2_length_sq_v3f64(pc);
-}
-
-static float point_to_segment_distance_sq_f32(lm2_v3f32 p, lm2_v3f32 a, lm2_v3f32 b) {
-  lm2_v3f32 ab = lm2_sub_lm2_v3f32(b, a);
-  lm2_v3f32 ap = lm2_sub_lm2_v3f32(p, a);
-
-  float ab_len_sq = lm2_length_sq_v3f32(ab);
-
-  // If segment is degenerate (a == b), return distance squared to point a
-  if (ab_len_sq == 0.0f) {
-    return lm2_length_sq_v3f32(ap);
-  }
-
-  // Project p onto line ab, clamped to [0, 1]
-  float t = lm2_div_f32(lm2_dot_v3f32(ap, ab), ab_len_sq);
-  t = lm2_clamp_f32(t, 0.0f, 1.0f);
-
-  // Find closest point on segment
-  lm2_v3f32 closest = lm2_add_lm2_v3f32(a, lm2_mul_lm2_v3f32_float(ab, t));
-  lm2_v3f32 pc = lm2_sub_lm2_v3f32(p, closest);
-
-  return lm2_length_sq_v3f32(pc);
-}
-
 LM2_API bool lm2_capsule3_contains_point_f64(lm2_capsule3_f64 capsule, lm2_v3f64 point) {
-  double dist_sq = point_to_segment_distance_sq_f64(point, capsule.start, capsule.end);
+  lm2_edge3_f64 edge = {capsule.start, capsule.end};
+  double dist_sq = lm2_point_to_edge3_distance_sq_f64(point, edge);
   double radius_sq = lm2_mul_f64(capsule.radius, capsule.radius);
   return dist_sq <= radius_sq;
 }
 
 LM2_API bool lm2_capsule3_contains_point_f32(lm2_capsule3_f32 capsule, lm2_v3f32 point) {
-  float dist_sq = point_to_segment_distance_sq_f32(point, capsule.start, capsule.end);
+  lm2_edge3_f32 edge = {capsule.start, capsule.end};
+  float dist_sq = lm2_point_to_edge3_distance_sq_f32(point, edge);
   float radius_sq = lm2_mul_f32(capsule.radius, capsule.radius);
   return dist_sq <= radius_sq;
 }

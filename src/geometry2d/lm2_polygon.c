@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include <lm2/geometry2d/lm2_polygon.h>
+#include <lm2/geometry2d/lm2_edge2.h>
 #include <lm2/geometry2d/lm2_triangle2.h>
 #include <lm2/lm2_constants.h>
 #include <lm2/ranges/lm2_range2.h>
@@ -496,10 +497,10 @@ static bool segments_intersect_f64(lm2_v2f64 a1, lm2_v2f64 a2, lm2_v2f64 b1, lm2
 }
 
 static bool segments_intersect_f32(lm2_v2f32 a1, lm2_v2f32 a2, lm2_v2f32 b1, lm2_v2f32 b2) {
-  float d1 = cross_product_f32(b1, b2, a1);
-  float d2 = cross_product_f32(b1, b2, a2);
-  float d3 = cross_product_f32(a1, a2, b1);
-  float d4 = cross_product_f32(a1, a2, b2);
+  float d1 = lm2_cross_product_2d_f32(b1, b2, a1);
+  float d2 = lm2_cross_product_2d_f32(b1, b2, a2);
+  float d3 = lm2_cross_product_2d_f32(a1, a2, b1);
+  float d4 = lm2_cross_product_2d_f32(a1, a2, b2);
 
   if (((d1 > 0.0f && d2 < 0.0f) || (d1 < 0.0f && d2 > 0.0f)) &&
       ((d3 > 0.0f && d4 < 0.0f) || (d3 < 0.0f && d4 > 0.0f))) {
@@ -760,44 +761,22 @@ LM2_API size_t lm2_polygon_max_triangle_count(size_t vertex_count) {
   return vertex_count - 2;
 }
 
-// Helper function to check if a point is inside a triangle
-static bool point_in_triangle_f64(lm2_v2f64 p, lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c) {
-  double cross1 = cross_product_f64(a, b, p);
-  double cross2 = cross_product_f64(b, c, p);
-  double cross3 = cross_product_f64(c, a, p);
-
-  bool has_neg = (cross1 < 0.0) || (cross2 < 0.0) || (cross3 < 0.0);
-  bool has_pos = (cross1 > 0.0) || (cross2 > 0.0) || (cross3 > 0.0);
-
-  return !(has_neg && has_pos);
-}
-
-static bool point_in_triangle_f32(lm2_v2f32 p, lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c) {
-  float cross1 = cross_product_f32(a, b, p);
-  float cross2 = cross_product_f32(b, c, p);
-  float cross3 = cross_product_f32(c, a, p);
-
-  bool has_neg = (cross1 < 0.0f) || (cross2 < 0.0f) || (cross3 < 0.0f);
-  bool has_pos = (cross1 > 0.0f) || (cross2 > 0.0f) || (cross3 > 0.0f);
-
-  return !(has_neg && has_pos);
-}
-
 // Helper function to check if a triangle at indices (i, j, k) is an ear
 static bool is_ear_f64(const lm2_v2f64* vertices, const size_t* indices, size_t n, size_t i, size_t j, size_t k) {
   lm2_v2f64 a = vertices[indices[i]];
   lm2_v2f64 b = vertices[indices[j]];
   lm2_v2f64 c = vertices[indices[k]];
+  lm2_triangle2_f64 tri = {a, b, c};
 
   // Check if triangle is convex
-  if (cross_product_f64(a, b, c) < 0.0) {
+  if (lm2_cross_product_2d_f64(a, b, c) < 0.0) {
     return false;
   }
 
   // Check if any other vertex is inside this triangle
   for (size_t m = 0; m < n; m++) {
     if (m == i || m == j || m == k) continue;
-    if (point_in_triangle_f64(vertices[indices[m]], a, b, c)) {
+    if (lm2_triangle2_contains_point_f64(tri, vertices[indices[m]])) {
       return false;
     }
   }
@@ -809,16 +788,17 @@ static bool is_ear_f32(const lm2_v2f32* vertices, const size_t* indices, size_t 
   lm2_v2f32 a = vertices[indices[i]];
   lm2_v2f32 b = vertices[indices[j]];
   lm2_v2f32 c = vertices[indices[k]];
+  lm2_triangle2_f32 tri = {a, b, c};
 
   // Check if triangle is convex
-  if (cross_product_f32(a, b, c) < 0.0f) {
+  if (lm2_cross_product_2d_f32(a, b, c) < 0.0f) {
     return false;
   }
 
   // Check if any other vertex is inside this triangle
   for (size_t m = 0; m < n; m++) {
     if (m == i || m == j || m == k) continue;
-    if (point_in_triangle_f32(vertices[indices[m]], a, b, c)) {
+    if (lm2_triangle2_contains_point_f32(tri, vertices[indices[m]])) {
       return false;
     }
   }

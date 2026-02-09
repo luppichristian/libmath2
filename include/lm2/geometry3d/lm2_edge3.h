@@ -105,6 +105,18 @@ LM2_API bool lm2_edges3_equal_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2, float epsi
 LM2_API bool lm2_edges3_intersect_f64(lm2_edge3_f64 e1, lm2_edge3_f64 e2, double epsilon);
 LM2_API bool lm2_edges3_intersect_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2, float epsilon);
 
+// =============================================================================
+// Edge Distance
+// =============================================================================
+
+// Compute squared distance from point to edge (line segment)
+LM2_API double lm2_point_to_edge3_distance_sq_f64(lm2_v3f64 point, lm2_edge3_f64 edge);
+LM2_API float lm2_point_to_edge3_distance_sq_f32(lm2_v3f32 point, lm2_edge3_f32 edge);
+
+// Compute squared distance between two edges (line segments)
+LM2_API double lm2_edge3_to_edge3_distance_sq_f64(lm2_edge3_f64 e1, lm2_edge3_f64 e2);
+LM2_API float lm2_edge3_to_edge3_distance_sq_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2);
+
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

@@ -224,3 +224,75 @@ LM2_API bool lm2_edges3_intersect_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2, float 
   // Check distance between closest points
   return lm2_distance_v3f32(p1, p2) < epsilon;
 }
+
+// =============================================================================
+// Edge Distance
+// =============================================================================
+
+LM2_API double lm2_point_to_edge3_distance_sq_f64(lm2_v3f64 point, lm2_edge3_f64 edge) {
+  lm2_v3f64 ab = lm2_sub_lm2_v3f64(edge.end, edge.start);
+  lm2_v3f64 ap = lm2_sub_lm2_v3f64(point, edge.start);
+
+  double ab_len_sq = lm2_length_sq_v3f64(ab);
+
+  // If segment is degenerate (start == end), return distance squared to start point
+  if (ab_len_sq == 0.0) {
+    return lm2_length_sq_v3f64(ap);
+  }
+
+  // Project p onto line ab, clamped to [0, 1]
+  double t = lm2_div_f64(lm2_dot_v3f64(ap, ab), ab_len_sq);
+  t = lm2_clamp_f64(t, 0.0, 1.0);
+
+  // Find closest point on segment
+  lm2_v3f64 closest = lm2_add_lm2_v3f64(edge.start, lm2_mul_lm2_v3f64_double(ab, t));
+  lm2_v3f64 pc = lm2_sub_lm2_v3f64(point, closest);
+
+  return lm2_length_sq_v3f64(pc);
+}
+
+LM2_API float lm2_point_to_edge3_distance_sq_f32(lm2_v3f32 point, lm2_edge3_f32 edge) {
+  lm2_v3f32 ab = lm2_sub_lm2_v3f32(edge.end, edge.start);
+  lm2_v3f32 ap = lm2_sub_lm2_v3f32(point, edge.start);
+
+  float ab_len_sq = lm2_length_sq_v3f32(ab);
+
+  // If segment is degenerate (start == end), return distance squared to start point
+  if (ab_len_sq == 0.0f) {
+    return lm2_length_sq_v3f32(ap);
+  }
+
+  // Project p onto line ab, clamped to [0, 1]
+  float t = lm2_div_f32(lm2_dot_v3f32(ap, ab), ab_len_sq);
+  t = lm2_clamp_f32(t, 0.0f, 1.0f);
+
+  // Find closest point on segment
+  lm2_v3f32 closest = lm2_add_lm2_v3f32(edge.start, lm2_mul_lm2_v3f32_float(ab, t));
+  lm2_v3f32 pc = lm2_sub_lm2_v3f32(point, closest);
+
+  return lm2_length_sq_v3f32(pc);
+}
+
+LM2_API double lm2_edge3_to_edge3_distance_sq_f64(lm2_edge3_f64 e1, lm2_edge3_f64 e2) {
+  // Use the minimum of four point-to-segment distances
+  double d1 = lm2_point_to_edge3_distance_sq_f64(e1.start, e2);
+  double d2 = lm2_point_to_edge3_distance_sq_f64(e1.end, e2);
+  double d3 = lm2_point_to_edge3_distance_sq_f64(e2.start, e1);
+  double d4 = lm2_point_to_edge3_distance_sq_f64(e2.end, e1);
+
+  double min1 = lm2_min_f64(d1, d2);
+  double min2 = lm2_min_f64(d3, d4);
+  return lm2_min_f64(min1, min2);
+}
+
+LM2_API float lm2_edge3_to_edge3_distance_sq_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2) {
+  // Use the minimum of four point-to-segment distances
+  float d1 = lm2_point_to_edge3_distance_sq_f32(e1.start, e2);
+  float d2 = lm2_point_to_edge3_distance_sq_f32(e1.end, e2);
+  float d3 = lm2_point_to_edge3_distance_sq_f32(e2.start, e1);
+  float d4 = lm2_point_to_edge3_distance_sq_f32(e2.end, e1);
+
+  float min1 = lm2_min_f32(d1, d2);
+  float min2 = lm2_min_f32(d3, d4);
+  return lm2_min_f32(min1, min2);
+}
