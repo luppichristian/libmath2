@@ -57,183 +57,409 @@ typedef enum lm2_align {
 } lm2_align;
 
 // =============================================================================
-// Rectangle Corner Declaration Macros
+// Rectangle Operations for f64
 // =============================================================================
 
-// Get corner by enum
-#define _LM2_DECLARE_RECT2_GET_CORNER(type_name, vec_type) \
-  LM2_API vec_type type_name##_get_corner(type_name rect, lm2_corner2 corner);
+// Corner operations
+LM2_API lm2_v2f64 lm2_r2f64_get_corner(lm2_r2f64 rect, lm2_corner2 corner);
+LM2_API lm2_v2f64 lm2_r2f64_get_bottom_left(lm2_r2f64 rect);
+LM2_API lm2_v2f64 lm2_r2f64_get_top_right(lm2_r2f64 rect);
+LM2_API lm2_v2f64 lm2_r2f64_get_bottom_right(lm2_r2f64 rect);
+LM2_API lm2_v2f64 lm2_r2f64_get_top_left(lm2_r2f64 rect);
 
-// Get specific corners
-#define _LM2_DECLARE_RECT2_GET_BOTTOM_LEFT(type_name, vec_type) \
-  LM2_API vec_type type_name##_get_bottom_left(type_name rect);
+// Transform operations
+LM2_API lm2_r2f64 lm2_r2f64_scale_from_center(lm2_r2f64 rect, lm2_v2f64 scale);
+LM2_API lm2_r2f64 lm2_r2f64_scale_from_min(lm2_r2f64 rect, lm2_v2f64 scale);
+LM2_API lm2_r2f64 lm2_r2f64_scale_from_max(lm2_r2f64 rect, lm2_v2f64 scale);
+LM2_API lm2_r2f64 lm2_r2f64_shrink_vec(lm2_r2f64 rect, lm2_v2f64 amount);
+LM2_API lm2_r2f64 lm2_r2f64_shrink_scalar(lm2_r2f64 rect, double amount);
+LM2_API lm2_r2f64 lm2_r2f64_inflate_vec(lm2_r2f64 rect, lm2_v2f64 amount);
+LM2_API lm2_r2f64 lm2_r2f64_inflate_scalar(lm2_r2f64 rect, double amount);
 
-#define _LM2_DECLARE_RECT2_GET_TOP_RIGHT(type_name, vec_type) \
-  LM2_API vec_type type_name##_get_top_right(type_name rect);
+// Query operations
+LM2_API lm2_v2f64 lm2_r2f64_get_dim(lm2_r2f64 rect);
+LM2_API int lm2_r2f64_overlap_rect(lm2_r2f64 a, lm2_r2f64 b);
+LM2_API int lm2_r2f64_overlap_point(lm2_r2f64 rect, lm2_v2f64 point);
+LM2_API int lm2_r2f64_contains(lm2_r2f64 rect, lm2_r2f64 subrect);
+LM2_API double lm2_r2f64_distance(lm2_r2f64 rect, lm2_v2f64 point);
+LM2_API lm2_v2f64 lm2_r2f64_get_closest_point(lm2_r2f64 rect, lm2_v2f64 point);
+LM2_API double lm2_r2f64_closest_distance_from_edges(lm2_r2f64 a, lm2_r2f64 b);
 
-#define _LM2_DECLARE_RECT2_GET_BOTTOM_RIGHT(type_name, vec_type) \
-  LM2_API vec_type type_name##_get_bottom_right(type_name rect);
+// Cut operations
+LM2_API lm2_r2f64 lm2_r2f64_cut(lm2_r2f64* rect, lm2_rect_cut cut_type, double amount);
+LM2_API lm2_r2f64 lm2_r2f64_cut_left(lm2_r2f64* rect, double amount);
+LM2_API lm2_r2f64 lm2_r2f64_cut_right(lm2_r2f64* rect, double amount);
+LM2_API lm2_r2f64 lm2_r2f64_cut_bottom(lm2_r2f64* rect, double amount);
+LM2_API lm2_r2f64 lm2_r2f64_cut_top(lm2_r2f64* rect, double amount);
 
-#define _LM2_DECLARE_RECT2_GET_TOP_LEFT(type_name, vec_type) \
-  LM2_API vec_type type_name##_get_top_left(type_name rect);
-
-// =============================================================================
-// Rectangle Transform Declaration Macros
-// =============================================================================
-
-// Scale from center point
-#define _LM2_DECLARE_RECT2_SCALE_FROM_CENTER(type_name, vec_type) \
-  LM2_API type_name type_name##_scale_from_center(type_name rect, vec_type scale);
-
-// Scale from min point
-#define _LM2_DECLARE_RECT2_SCALE_FROM_MIN(type_name, vec_type) \
-  LM2_API type_name type_name##_scale_from_min(type_name rect, vec_type scale);
-
-// Scale from max point
-#define _LM2_DECLARE_RECT2_SCALE_FROM_MAX(type_name, vec_type) \
-  LM2_API type_name type_name##_scale_from_max(type_name rect, vec_type scale);
-
-// Shrink by vector amount
-#define _LM2_DECLARE_RECT2_SHRINK_VEC(type_name, vec_type) \
-  LM2_API type_name type_name##_shrink_vec(type_name rect, vec_type amount);
-
-// Shrink by scalar amount
-#define _LM2_DECLARE_RECT2_SHRINK_SCALAR(type_name, scalar_type) \
-  LM2_API type_name type_name##_shrink_scalar(type_name rect, scalar_type amount);
-
-// Inflate by vector amount
-#define _LM2_DECLARE_RECT2_INFLATE_VEC(type_name, vec_type) \
-  LM2_API type_name type_name##_inflate_vec(type_name rect, vec_type amount);
-
-// Inflate by scalar amount
-#define _LM2_DECLARE_RECT2_INFLATE_SCALAR(type_name, scalar_type) \
-  LM2_API type_name type_name##_inflate_scalar(type_name rect, scalar_type amount);
+// Alignment
+LM2_API lm2_r2f64 lm2_r2f64_align_subrect(lm2_r2f64 rect, lm2_r2f64 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Query Declaration Macros
+// Rectangle Operations for f32
 // =============================================================================
 
-// Get dimension (size) of rectangle
-#define _LM2_DECLARE_RECT2_GET_DIM(type_name, vec_type) \
-  LM2_API vec_type type_name##_get_dim(type_name rect);
+// Corner operations
+LM2_API lm2_v2f32 lm2_r2f32_get_corner(lm2_r2f32 rect, lm2_corner2 corner);
+LM2_API lm2_v2f32 lm2_r2f32_get_bottom_left(lm2_r2f32 rect);
+LM2_API lm2_v2f32 lm2_r2f32_get_top_right(lm2_r2f32 rect);
+LM2_API lm2_v2f32 lm2_r2f32_get_bottom_right(lm2_r2f32 rect);
+LM2_API lm2_v2f32 lm2_r2f32_get_top_left(lm2_r2f32 rect);
 
-// Check if rectangles overlap
-#define _LM2_DECLARE_RECT2_OVERLAP_RECT(type_name) \
-  LM2_API int type_name##_overlap_rect(type_name a, type_name b);
+// Transform operations
+LM2_API lm2_r2f32 lm2_r2f32_scale_from_center(lm2_r2f32 rect, lm2_v2f32 scale);
+LM2_API lm2_r2f32 lm2_r2f32_scale_from_min(lm2_r2f32 rect, lm2_v2f32 scale);
+LM2_API lm2_r2f32 lm2_r2f32_scale_from_max(lm2_r2f32 rect, lm2_v2f32 scale);
+LM2_API lm2_r2f32 lm2_r2f32_shrink_vec(lm2_r2f32 rect, lm2_v2f32 amount);
+LM2_API lm2_r2f32 lm2_r2f32_shrink_scalar(lm2_r2f32 rect, float amount);
+LM2_API lm2_r2f32 lm2_r2f32_inflate_vec(lm2_r2f32 rect, lm2_v2f32 amount);
+LM2_API lm2_r2f32 lm2_r2f32_inflate_scalar(lm2_r2f32 rect, float amount);
 
-// Check if point is in rectangle
-#define _LM2_DECLARE_RECT2_OVERLAP_POINT(type_name, vec_type) \
-  LM2_API int type_name##_overlap_point(type_name rect, vec_type point);
+// Query operations
+LM2_API lm2_v2f32 lm2_r2f32_get_dim(lm2_r2f32 rect);
+LM2_API int lm2_r2f32_overlap_rect(lm2_r2f32 a, lm2_r2f32 b);
+LM2_API int lm2_r2f32_overlap_point(lm2_r2f32 rect, lm2_v2f32 point);
+LM2_API int lm2_r2f32_contains(lm2_r2f32 rect, lm2_r2f32 subrect);
+LM2_API float lm2_r2f32_distance(lm2_r2f32 rect, lm2_v2f32 point);
+LM2_API lm2_v2f32 lm2_r2f32_get_closest_point(lm2_r2f32 rect, lm2_v2f32 point);
+LM2_API float lm2_r2f32_closest_distance_from_edges(lm2_r2f32 a, lm2_r2f32 b);
 
-// Check if rectangle contains another rectangle
-#define _LM2_DECLARE_RECT2_CONTAINS(type_name) \
-  LM2_API int type_name##_contains(type_name rect, type_name subrect);
+// Cut operations
+LM2_API lm2_r2f32 lm2_r2f32_cut(lm2_r2f32* rect, lm2_rect_cut cut_type, float amount);
+LM2_API lm2_r2f32 lm2_r2f32_cut_left(lm2_r2f32* rect, float amount);
+LM2_API lm2_r2f32 lm2_r2f32_cut_right(lm2_r2f32* rect, float amount);
+LM2_API lm2_r2f32 lm2_r2f32_cut_bottom(lm2_r2f32* rect, float amount);
+LM2_API lm2_r2f32 lm2_r2f32_cut_top(lm2_r2f32* rect, float amount);
 
-// Distance from rectangle to point
-#define _LM2_DECLARE_RECT2_DISTANCE(type_name, vec_type, scalar_type) \
-  LM2_API scalar_type type_name##_distance(type_name rect, vec_type point);
-
-// Get closest point on/in rectangle to a point
-#define _LM2_DECLARE_RECT2_GET_CLOSEST_POINT(type_name, vec_type) \
-  LM2_API vec_type type_name##_get_closest_point(type_name rect, vec_type point);
-
-// Closest distance between edges of two rectangles
-#define _LM2_DECLARE_RECT2_CLOSEST_DISTANCE_FROM_EDGES(type_name, scalar_type) \
-  LM2_API scalar_type type_name##_closest_distance_from_edges(type_name a, type_name b);
-
-// Check if two line segments intersect
-#define _LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(vec_type) \
-  LM2_API int lm2_segments_intersect_##vec_type(vec_type a0, vec_type a1, vec_type b0, vec_type b1);
-
-// =============================================================================
-// Rectangle Cut Declaration Macros
-// =============================================================================
-
-// Cut by direction and amount (modifies rect, returns cut piece)
-#define _LM2_DECLARE_RECT2_CUT(type_name, scalar_type) \
-  LM2_API type_name type_name##_cut(type_name* rect, lm2_rect_cut cut_type, scalar_type amount);
-
-// Cut from left (modifies rect, returns cut piece)
-#define _LM2_DECLARE_RECT2_CUT_LEFT(type_name, scalar_type) \
-  LM2_API type_name type_name##_cut_left(type_name* rect, scalar_type amount);
-
-// Cut from right (modifies rect, returns cut piece)
-#define _LM2_DECLARE_RECT2_CUT_RIGHT(type_name, scalar_type) \
-  LM2_API type_name type_name##_cut_right(type_name* rect, scalar_type amount);
-
-// Cut from bottom (modifies rect, returns cut piece)
-#define _LM2_DECLARE_RECT2_CUT_BOTTOM(type_name, scalar_type) \
-  LM2_API type_name type_name##_cut_bottom(type_name* rect, scalar_type amount);
-
-// Cut from top (modifies rect, returns cut piece)
-#define _LM2_DECLARE_RECT2_CUT_TOP(type_name, scalar_type) \
-  LM2_API type_name type_name##_cut_top(type_name* rect, scalar_type amount);
+// Alignment
+LM2_API lm2_r2f32 lm2_r2f32_align_subrect(lm2_r2f32 rect, lm2_r2f32 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Alignment Declaration Macros
+// Rectangle Operations for i64
 // =============================================================================
 
-// Align subrectangle within rectangle
-#define _LM2_DECLARE_RECT2_ALIGN_SUBRECT(type_name) \
-  LM2_API type_name type_name##_align_subrect(type_name rect, type_name subrect, lm2_align align_x, lm2_align align_y);
+// Corner operations
+LM2_API lm2_v2i64 lm2_r2i64_get_corner(lm2_r2i64 rect, lm2_corner2 corner);
+LM2_API lm2_v2i64 lm2_r2i64_get_bottom_left(lm2_r2i64 rect);
+LM2_API lm2_v2i64 lm2_r2i64_get_top_right(lm2_r2i64 rect);
+LM2_API lm2_v2i64 lm2_r2i64_get_bottom_right(lm2_r2i64 rect);
+LM2_API lm2_v2i64 lm2_r2i64_get_top_left(lm2_r2i64 rect);
+
+// Transform operations
+LM2_API lm2_r2i64 lm2_r2i64_scale_from_center(lm2_r2i64 rect, lm2_v2i64 scale);
+LM2_API lm2_r2i64 lm2_r2i64_scale_from_min(lm2_r2i64 rect, lm2_v2i64 scale);
+LM2_API lm2_r2i64 lm2_r2i64_scale_from_max(lm2_r2i64 rect, lm2_v2i64 scale);
+LM2_API lm2_r2i64 lm2_r2i64_shrink_vec(lm2_r2i64 rect, lm2_v2i64 amount);
+LM2_API lm2_r2i64 lm2_r2i64_shrink_scalar(lm2_r2i64 rect, int64_t amount);
+LM2_API lm2_r2i64 lm2_r2i64_inflate_vec(lm2_r2i64 rect, lm2_v2i64 amount);
+LM2_API lm2_r2i64 lm2_r2i64_inflate_scalar(lm2_r2i64 rect, int64_t amount);
+
+// Query operations
+LM2_API lm2_v2i64 lm2_r2i64_get_dim(lm2_r2i64 rect);
+LM2_API int lm2_r2i64_overlap_rect(lm2_r2i64 a, lm2_r2i64 b);
+LM2_API int lm2_r2i64_overlap_point(lm2_r2i64 rect, lm2_v2i64 point);
+LM2_API int lm2_r2i64_contains(lm2_r2i64 rect, lm2_r2i64 subrect);
+LM2_API int64_t lm2_r2i64_distance(lm2_r2i64 rect, lm2_v2i64 point);
+LM2_API lm2_v2i64 lm2_r2i64_get_closest_point(lm2_r2i64 rect, lm2_v2i64 point);
+LM2_API int64_t lm2_r2i64_closest_distance_from_edges(lm2_r2i64 a, lm2_r2i64 b);
+
+// Cut operations
+LM2_API lm2_r2i64 lm2_r2i64_cut(lm2_r2i64* rect, lm2_rect_cut cut_type, int64_t amount);
+LM2_API lm2_r2i64 lm2_r2i64_cut_left(lm2_r2i64* rect, int64_t amount);
+LM2_API lm2_r2i64 lm2_r2i64_cut_right(lm2_r2i64* rect, int64_t amount);
+LM2_API lm2_r2i64 lm2_r2i64_cut_bottom(lm2_r2i64* rect, int64_t amount);
+LM2_API lm2_r2i64 lm2_r2i64_cut_top(lm2_r2i64* rect, int64_t amount);
+
+// Alignment
+LM2_API lm2_r2i64 lm2_r2i64_align_subrect(lm2_r2i64 rect, lm2_r2i64 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Type Macro - Declares all rectangle operations for a type
+// Rectangle Operations for i32
 // =============================================================================
 
-#define _LM2_DECLARE_RECT2_ALL(type_name, vec_type, scalar_type)         \
-  _LM2_DECLARE_RECT2_GET_CORNER(type_name, vec_type)                     \
-  _LM2_DECLARE_RECT2_GET_BOTTOM_LEFT(type_name, vec_type)                \
-  _LM2_DECLARE_RECT2_GET_TOP_RIGHT(type_name, vec_type)                  \
-  _LM2_DECLARE_RECT2_GET_BOTTOM_RIGHT(type_name, vec_type)               \
-  _LM2_DECLARE_RECT2_GET_TOP_LEFT(type_name, vec_type)                   \
-  _LM2_DECLARE_RECT2_SCALE_FROM_CENTER(type_name, vec_type)              \
-  _LM2_DECLARE_RECT2_SCALE_FROM_MIN(type_name, vec_type)                 \
-  _LM2_DECLARE_RECT2_SCALE_FROM_MAX(type_name, vec_type)                 \
-  _LM2_DECLARE_RECT2_SHRINK_VEC(type_name, vec_type)                     \
-  _LM2_DECLARE_RECT2_SHRINK_SCALAR(type_name, scalar_type)               \
-  _LM2_DECLARE_RECT2_INFLATE_VEC(type_name, vec_type)                    \
-  _LM2_DECLARE_RECT2_INFLATE_SCALAR(type_name, scalar_type)              \
-  _LM2_DECLARE_RECT2_GET_DIM(type_name, vec_type)                        \
-  _LM2_DECLARE_RECT2_OVERLAP_RECT(type_name)                             \
-  _LM2_DECLARE_RECT2_OVERLAP_POINT(type_name, vec_type)                  \
-  _LM2_DECLARE_RECT2_CONTAINS(type_name)                                 \
-  _LM2_DECLARE_RECT2_DISTANCE(type_name, vec_type, scalar_type)          \
-  _LM2_DECLARE_RECT2_GET_CLOSEST_POINT(type_name, vec_type)              \
-  _LM2_DECLARE_RECT2_CLOSEST_DISTANCE_FROM_EDGES(type_name, scalar_type) \
-  _LM2_DECLARE_RECT2_CUT(type_name, scalar_type)                         \
-  _LM2_DECLARE_RECT2_CUT_LEFT(type_name, scalar_type)                    \
-  _LM2_DECLARE_RECT2_CUT_RIGHT(type_name, scalar_type)                   \
-  _LM2_DECLARE_RECT2_CUT_BOTTOM(type_name, scalar_type)                  \
-  _LM2_DECLARE_RECT2_CUT_TOP(type_name, scalar_type)                     \
-  _LM2_DECLARE_RECT2_ALIGN_SUBRECT(type_name)
+// Corner operations
+LM2_API lm2_v2i32 lm2_r2i32_get_corner(lm2_r2i32 rect, lm2_corner2 corner);
+LM2_API lm2_v2i32 lm2_r2i32_get_bottom_left(lm2_r2i32 rect);
+LM2_API lm2_v2i32 lm2_r2i32_get_top_right(lm2_r2i32 rect);
+LM2_API lm2_v2i32 lm2_r2i32_get_bottom_right(lm2_r2i32 rect);
+LM2_API lm2_v2i32 lm2_r2i32_get_top_left(lm2_r2i32 rect);
+
+// Transform operations
+LM2_API lm2_r2i32 lm2_r2i32_scale_from_center(lm2_r2i32 rect, lm2_v2i32 scale);
+LM2_API lm2_r2i32 lm2_r2i32_scale_from_min(lm2_r2i32 rect, lm2_v2i32 scale);
+LM2_API lm2_r2i32 lm2_r2i32_scale_from_max(lm2_r2i32 rect, lm2_v2i32 scale);
+LM2_API lm2_r2i32 lm2_r2i32_shrink_vec(lm2_r2i32 rect, lm2_v2i32 amount);
+LM2_API lm2_r2i32 lm2_r2i32_shrink_scalar(lm2_r2i32 rect, int32_t amount);
+LM2_API lm2_r2i32 lm2_r2i32_inflate_vec(lm2_r2i32 rect, lm2_v2i32 amount);
+LM2_API lm2_r2i32 lm2_r2i32_inflate_scalar(lm2_r2i32 rect, int32_t amount);
+
+// Query operations
+LM2_API lm2_v2i32 lm2_r2i32_get_dim(lm2_r2i32 rect);
+LM2_API int lm2_r2i32_overlap_rect(lm2_r2i32 a, lm2_r2i32 b);
+LM2_API int lm2_r2i32_overlap_point(lm2_r2i32 rect, lm2_v2i32 point);
+LM2_API int lm2_r2i32_contains(lm2_r2i32 rect, lm2_r2i32 subrect);
+LM2_API int32_t lm2_r2i32_distance(lm2_r2i32 rect, lm2_v2i32 point);
+LM2_API lm2_v2i32 lm2_r2i32_get_closest_point(lm2_r2i32 rect, lm2_v2i32 point);
+LM2_API int32_t lm2_r2i32_closest_distance_from_edges(lm2_r2i32 a, lm2_r2i32 b);
+
+// Cut operations
+LM2_API lm2_r2i32 lm2_r2i32_cut(lm2_r2i32* rect, lm2_rect_cut cut_type, int32_t amount);
+LM2_API lm2_r2i32 lm2_r2i32_cut_left(lm2_r2i32* rect, int32_t amount);
+LM2_API lm2_r2i32 lm2_r2i32_cut_right(lm2_r2i32* rect, int32_t amount);
+LM2_API lm2_r2i32 lm2_r2i32_cut_bottom(lm2_r2i32* rect, int32_t amount);
+LM2_API lm2_r2i32 lm2_r2i32_cut_top(lm2_r2i32* rect, int32_t amount);
+
+// Alignment
+LM2_API lm2_r2i32 lm2_r2i32_align_subrect(lm2_r2i32 rect, lm2_r2i32 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Operations for All 10 Types
+// Rectangle Operations for i16
 // =============================================================================
 
-_LM2_DECLARE_RECT2_ALL(lm2_r2f64, lm2_v2f64, double)
-_LM2_DECLARE_RECT2_ALL(lm2_r2f32, lm2_v2f32, float)
-_LM2_DECLARE_RECT2_ALL(lm2_r2i64, lm2_v2i64, int64_t)
-_LM2_DECLARE_RECT2_ALL(lm2_r2i32, lm2_v2i32, int32_t)
-_LM2_DECLARE_RECT2_ALL(lm2_r2i16, lm2_v2i16, int16_t)
-_LM2_DECLARE_RECT2_ALL(lm2_r2i8, lm2_v2i8, int8_t)
-_LM2_DECLARE_RECT2_ALL(lm2_r2u64, lm2_v2u64, uint64_t)
-_LM2_DECLARE_RECT2_ALL(lm2_r2u32, lm2_v2u32, uint32_t)
-_LM2_DECLARE_RECT2_ALL(lm2_r2u16, lm2_v2u16, uint16_t)
-_LM2_DECLARE_RECT2_ALL(lm2_r2u8, lm2_v2u8, uint8_t)
+// Corner operations
+LM2_API lm2_v2i16 lm2_r2i16_get_corner(lm2_r2i16 rect, lm2_corner2 corner);
+LM2_API lm2_v2i16 lm2_r2i16_get_bottom_left(lm2_r2i16 rect);
+LM2_API lm2_v2i16 lm2_r2i16_get_top_right(lm2_r2i16 rect);
+LM2_API lm2_v2i16 lm2_r2i16_get_bottom_right(lm2_r2i16 rect);
+LM2_API lm2_v2i16 lm2_r2i16_get_top_left(lm2_r2i16 rect);
 
-// Segments intersect functions for all vector types
-_LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2f64)
-_LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2f32)
-_LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2i64)
-_LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2i32)
-_LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2i16)
-_LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2i8)
-_LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2u64)
-_LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2u32)
-_LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2u16)
-_LM2_DECLARE_RECT2_SEGMENTS_INTERSECT(lm2_v2u8)
+// Transform operations
+LM2_API lm2_r2i16 lm2_r2i16_scale_from_center(lm2_r2i16 rect, lm2_v2i16 scale);
+LM2_API lm2_r2i16 lm2_r2i16_scale_from_min(lm2_r2i16 rect, lm2_v2i16 scale);
+LM2_API lm2_r2i16 lm2_r2i16_scale_from_max(lm2_r2i16 rect, lm2_v2i16 scale);
+LM2_API lm2_r2i16 lm2_r2i16_shrink_vec(lm2_r2i16 rect, lm2_v2i16 amount);
+LM2_API lm2_r2i16 lm2_r2i16_shrink_scalar(lm2_r2i16 rect, int16_t amount);
+LM2_API lm2_r2i16 lm2_r2i16_inflate_vec(lm2_r2i16 rect, lm2_v2i16 amount);
+LM2_API lm2_r2i16 lm2_r2i16_inflate_scalar(lm2_r2i16 rect, int16_t amount);
+
+// Query operations
+LM2_API lm2_v2i16 lm2_r2i16_get_dim(lm2_r2i16 rect);
+LM2_API int lm2_r2i16_overlap_rect(lm2_r2i16 a, lm2_r2i16 b);
+LM2_API int lm2_r2i16_overlap_point(lm2_r2i16 rect, lm2_v2i16 point);
+LM2_API int lm2_r2i16_contains(lm2_r2i16 rect, lm2_r2i16 subrect);
+LM2_API int16_t lm2_r2i16_distance(lm2_r2i16 rect, lm2_v2i16 point);
+LM2_API lm2_v2i16 lm2_r2i16_get_closest_point(lm2_r2i16 rect, lm2_v2i16 point);
+LM2_API int16_t lm2_r2i16_closest_distance_from_edges(lm2_r2i16 a, lm2_r2i16 b);
+
+// Cut operations
+LM2_API lm2_r2i16 lm2_r2i16_cut(lm2_r2i16* rect, lm2_rect_cut cut_type, int16_t amount);
+LM2_API lm2_r2i16 lm2_r2i16_cut_left(lm2_r2i16* rect, int16_t amount);
+LM2_API lm2_r2i16 lm2_r2i16_cut_right(lm2_r2i16* rect, int16_t amount);
+LM2_API lm2_r2i16 lm2_r2i16_cut_bottom(lm2_r2i16* rect, int16_t amount);
+LM2_API lm2_r2i16 lm2_r2i16_cut_top(lm2_r2i16* rect, int16_t amount);
+
+// Alignment
+LM2_API lm2_r2i16 lm2_r2i16_align_subrect(lm2_r2i16 rect, lm2_r2i16 subrect, lm2_align align_x, lm2_align align_y);
+
+// =============================================================================
+// Rectangle Operations for i8
+// =============================================================================
+
+// Corner operations
+LM2_API lm2_v2i8 lm2_r2i8_get_corner(lm2_r2i8 rect, lm2_corner2 corner);
+LM2_API lm2_v2i8 lm2_r2i8_get_bottom_left(lm2_r2i8 rect);
+LM2_API lm2_v2i8 lm2_r2i8_get_top_right(lm2_r2i8 rect);
+LM2_API lm2_v2i8 lm2_r2i8_get_bottom_right(lm2_r2i8 rect);
+LM2_API lm2_v2i8 lm2_r2i8_get_top_left(lm2_r2i8 rect);
+
+// Transform operations
+LM2_API lm2_r2i8 lm2_r2i8_scale_from_center(lm2_r2i8 rect, lm2_v2i8 scale);
+LM2_API lm2_r2i8 lm2_r2i8_scale_from_min(lm2_r2i8 rect, lm2_v2i8 scale);
+LM2_API lm2_r2i8 lm2_r2i8_scale_from_max(lm2_r2i8 rect, lm2_v2i8 scale);
+LM2_API lm2_r2i8 lm2_r2i8_shrink_vec(lm2_r2i8 rect, lm2_v2i8 amount);
+LM2_API lm2_r2i8 lm2_r2i8_shrink_scalar(lm2_r2i8 rect, int8_t amount);
+LM2_API lm2_r2i8 lm2_r2i8_inflate_vec(lm2_r2i8 rect, lm2_v2i8 amount);
+LM2_API lm2_r2i8 lm2_r2i8_inflate_scalar(lm2_r2i8 rect, int8_t amount);
+
+// Query operations
+LM2_API lm2_v2i8 lm2_r2i8_get_dim(lm2_r2i8 rect);
+LM2_API int lm2_r2i8_overlap_rect(lm2_r2i8 a, lm2_r2i8 b);
+LM2_API int lm2_r2i8_overlap_point(lm2_r2i8 rect, lm2_v2i8 point);
+LM2_API int lm2_r2i8_contains(lm2_r2i8 rect, lm2_r2i8 subrect);
+LM2_API int8_t lm2_r2i8_distance(lm2_r2i8 rect, lm2_v2i8 point);
+LM2_API lm2_v2i8 lm2_r2i8_get_closest_point(lm2_r2i8 rect, lm2_v2i8 point);
+LM2_API int8_t lm2_r2i8_closest_distance_from_edges(lm2_r2i8 a, lm2_r2i8 b);
+
+// Cut operations
+LM2_API lm2_r2i8 lm2_r2i8_cut(lm2_r2i8* rect, lm2_rect_cut cut_type, int8_t amount);
+LM2_API lm2_r2i8 lm2_r2i8_cut_left(lm2_r2i8* rect, int8_t amount);
+LM2_API lm2_r2i8 lm2_r2i8_cut_right(lm2_r2i8* rect, int8_t amount);
+LM2_API lm2_r2i8 lm2_r2i8_cut_bottom(lm2_r2i8* rect, int8_t amount);
+LM2_API lm2_r2i8 lm2_r2i8_cut_top(lm2_r2i8* rect, int8_t amount);
+
+// Alignment
+LM2_API lm2_r2i8 lm2_r2i8_align_subrect(lm2_r2i8 rect, lm2_r2i8 subrect, lm2_align align_x, lm2_align align_y);
+
+// =============================================================================
+// Rectangle Operations for u64
+// =============================================================================
+
+// Corner operations
+LM2_API lm2_v2u64 lm2_r2u64_get_corner(lm2_r2u64 rect, lm2_corner2 corner);
+LM2_API lm2_v2u64 lm2_r2u64_get_bottom_left(lm2_r2u64 rect);
+LM2_API lm2_v2u64 lm2_r2u64_get_top_right(lm2_r2u64 rect);
+LM2_API lm2_v2u64 lm2_r2u64_get_bottom_right(lm2_r2u64 rect);
+LM2_API lm2_v2u64 lm2_r2u64_get_top_left(lm2_r2u64 rect);
+
+// Transform operations
+LM2_API lm2_r2u64 lm2_r2u64_scale_from_center(lm2_r2u64 rect, lm2_v2u64 scale);
+LM2_API lm2_r2u64 lm2_r2u64_scale_from_min(lm2_r2u64 rect, lm2_v2u64 scale);
+LM2_API lm2_r2u64 lm2_r2u64_scale_from_max(lm2_r2u64 rect, lm2_v2u64 scale);
+LM2_API lm2_r2u64 lm2_r2u64_shrink_vec(lm2_r2u64 rect, lm2_v2u64 amount);
+LM2_API lm2_r2u64 lm2_r2u64_shrink_scalar(lm2_r2u64 rect, uint64_t amount);
+LM2_API lm2_r2u64 lm2_r2u64_inflate_vec(lm2_r2u64 rect, lm2_v2u64 amount);
+LM2_API lm2_r2u64 lm2_r2u64_inflate_scalar(lm2_r2u64 rect, uint64_t amount);
+
+// Query operations
+LM2_API lm2_v2u64 lm2_r2u64_get_dim(lm2_r2u64 rect);
+LM2_API int lm2_r2u64_overlap_rect(lm2_r2u64 a, lm2_r2u64 b);
+LM2_API int lm2_r2u64_overlap_point(lm2_r2u64 rect, lm2_v2u64 point);
+LM2_API int lm2_r2u64_contains(lm2_r2u64 rect, lm2_r2u64 subrect);
+LM2_API uint64_t lm2_r2u64_distance(lm2_r2u64 rect, lm2_v2u64 point);
+LM2_API lm2_v2u64 lm2_r2u64_get_closest_point(lm2_r2u64 rect, lm2_v2u64 point);
+LM2_API uint64_t lm2_r2u64_closest_distance_from_edges(lm2_r2u64 a, lm2_r2u64 b);
+
+// Cut operations
+LM2_API lm2_r2u64 lm2_r2u64_cut(lm2_r2u64* rect, lm2_rect_cut cut_type, uint64_t amount);
+LM2_API lm2_r2u64 lm2_r2u64_cut_left(lm2_r2u64* rect, uint64_t amount);
+LM2_API lm2_r2u64 lm2_r2u64_cut_right(lm2_r2u64* rect, uint64_t amount);
+LM2_API lm2_r2u64 lm2_r2u64_cut_bottom(lm2_r2u64* rect, uint64_t amount);
+LM2_API lm2_r2u64 lm2_r2u64_cut_top(lm2_r2u64* rect, uint64_t amount);
+
+// Alignment
+LM2_API lm2_r2u64 lm2_r2u64_align_subrect(lm2_r2u64 rect, lm2_r2u64 subrect, lm2_align align_x, lm2_align align_y);
+
+// =============================================================================
+// Rectangle Operations for u32
+// =============================================================================
+
+// Corner operations
+LM2_API lm2_v2u32 lm2_r2u32_get_corner(lm2_r2u32 rect, lm2_corner2 corner);
+LM2_API lm2_v2u32 lm2_r2u32_get_bottom_left(lm2_r2u32 rect);
+LM2_API lm2_v2u32 lm2_r2u32_get_top_right(lm2_r2u32 rect);
+LM2_API lm2_v2u32 lm2_r2u32_get_bottom_right(lm2_r2u32 rect);
+LM2_API lm2_v2u32 lm2_r2u32_get_top_left(lm2_r2u32 rect);
+
+// Transform operations
+LM2_API lm2_r2u32 lm2_r2u32_scale_from_center(lm2_r2u32 rect, lm2_v2u32 scale);
+LM2_API lm2_r2u32 lm2_r2u32_scale_from_min(lm2_r2u32 rect, lm2_v2u32 scale);
+LM2_API lm2_r2u32 lm2_r2u32_scale_from_max(lm2_r2u32 rect, lm2_v2u32 scale);
+LM2_API lm2_r2u32 lm2_r2u32_shrink_vec(lm2_r2u32 rect, lm2_v2u32 amount);
+LM2_API lm2_r2u32 lm2_r2u32_shrink_scalar(lm2_r2u32 rect, uint32_t amount);
+LM2_API lm2_r2u32 lm2_r2u32_inflate_vec(lm2_r2u32 rect, lm2_v2u32 amount);
+LM2_API lm2_r2u32 lm2_r2u32_inflate_scalar(lm2_r2u32 rect, uint32_t amount);
+
+// Query operations
+LM2_API lm2_v2u32 lm2_r2u32_get_dim(lm2_r2u32 rect);
+LM2_API int lm2_r2u32_overlap_rect(lm2_r2u32 a, lm2_r2u32 b);
+LM2_API int lm2_r2u32_overlap_point(lm2_r2u32 rect, lm2_v2u32 point);
+LM2_API int lm2_r2u32_contains(lm2_r2u32 rect, lm2_r2u32 subrect);
+LM2_API uint32_t lm2_r2u32_distance(lm2_r2u32 rect, lm2_v2u32 point);
+LM2_API lm2_v2u32 lm2_r2u32_get_closest_point(lm2_r2u32 rect, lm2_v2u32 point);
+LM2_API uint32_t lm2_r2u32_closest_distance_from_edges(lm2_r2u32 a, lm2_r2u32 b);
+
+// Cut operations
+LM2_API lm2_r2u32 lm2_r2u32_cut(lm2_r2u32* rect, lm2_rect_cut cut_type, uint32_t amount);
+LM2_API lm2_r2u32 lm2_r2u32_cut_left(lm2_r2u32* rect, uint32_t amount);
+LM2_API lm2_r2u32 lm2_r2u32_cut_right(lm2_r2u32* rect, uint32_t amount);
+LM2_API lm2_r2u32 lm2_r2u32_cut_bottom(lm2_r2u32* rect, uint32_t amount);
+LM2_API lm2_r2u32 lm2_r2u32_cut_top(lm2_r2u32* rect, uint32_t amount);
+
+// Alignment
+LM2_API lm2_r2u32 lm2_r2u32_align_subrect(lm2_r2u32 rect, lm2_r2u32 subrect, lm2_align align_x, lm2_align align_y);
+
+// =============================================================================
+// Rectangle Operations for u16
+// =============================================================================
+
+// Corner operations
+LM2_API lm2_v2u16 lm2_r2u16_get_corner(lm2_r2u16 rect, lm2_corner2 corner);
+LM2_API lm2_v2u16 lm2_r2u16_get_bottom_left(lm2_r2u16 rect);
+LM2_API lm2_v2u16 lm2_r2u16_get_top_right(lm2_r2u16 rect);
+LM2_API lm2_v2u16 lm2_r2u16_get_bottom_right(lm2_r2u16 rect);
+LM2_API lm2_v2u16 lm2_r2u16_get_top_left(lm2_r2u16 rect);
+
+// Transform operations
+LM2_API lm2_r2u16 lm2_r2u16_scale_from_center(lm2_r2u16 rect, lm2_v2u16 scale);
+LM2_API lm2_r2u16 lm2_r2u16_scale_from_min(lm2_r2u16 rect, lm2_v2u16 scale);
+LM2_API lm2_r2u16 lm2_r2u16_scale_from_max(lm2_r2u16 rect, lm2_v2u16 scale);
+LM2_API lm2_r2u16 lm2_r2u16_shrink_vec(lm2_r2u16 rect, lm2_v2u16 amount);
+LM2_API lm2_r2u16 lm2_r2u16_shrink_scalar(lm2_r2u16 rect, uint16_t amount);
+LM2_API lm2_r2u16 lm2_r2u16_inflate_vec(lm2_r2u16 rect, lm2_v2u16 amount);
+LM2_API lm2_r2u16 lm2_r2u16_inflate_scalar(lm2_r2u16 rect, uint16_t amount);
+
+// Query operations
+LM2_API lm2_v2u16 lm2_r2u16_get_dim(lm2_r2u16 rect);
+LM2_API int lm2_r2u16_overlap_rect(lm2_r2u16 a, lm2_r2u16 b);
+LM2_API int lm2_r2u16_overlap_point(lm2_r2u16 rect, lm2_v2u16 point);
+LM2_API int lm2_r2u16_contains(lm2_r2u16 rect, lm2_r2u16 subrect);
+LM2_API uint16_t lm2_r2u16_distance(lm2_r2u16 rect, lm2_v2u16 point);
+LM2_API lm2_v2u16 lm2_r2u16_get_closest_point(lm2_r2u16 rect, lm2_v2u16 point);
+LM2_API uint16_t lm2_r2u16_closest_distance_from_edges(lm2_r2u16 a, lm2_r2u16 b);
+
+// Cut operations
+LM2_API lm2_r2u16 lm2_r2u16_cut(lm2_r2u16* rect, lm2_rect_cut cut_type, uint16_t amount);
+LM2_API lm2_r2u16 lm2_r2u16_cut_left(lm2_r2u16* rect, uint16_t amount);
+LM2_API lm2_r2u16 lm2_r2u16_cut_right(lm2_r2u16* rect, uint16_t amount);
+LM2_API lm2_r2u16 lm2_r2u16_cut_bottom(lm2_r2u16* rect, uint16_t amount);
+LM2_API lm2_r2u16 lm2_r2u16_cut_top(lm2_r2u16* rect, uint16_t amount);
+
+// Alignment
+LM2_API lm2_r2u16 lm2_r2u16_align_subrect(lm2_r2u16 rect, lm2_r2u16 subrect, lm2_align align_x, lm2_align align_y);
+
+// =============================================================================
+// Rectangle Operations for u8
+// =============================================================================
+
+// Corner operations
+LM2_API lm2_v2u8 lm2_r2u8_get_corner(lm2_r2u8 rect, lm2_corner2 corner);
+LM2_API lm2_v2u8 lm2_r2u8_get_bottom_left(lm2_r2u8 rect);
+LM2_API lm2_v2u8 lm2_r2u8_get_top_right(lm2_r2u8 rect);
+LM2_API lm2_v2u8 lm2_r2u8_get_bottom_right(lm2_r2u8 rect);
+LM2_API lm2_v2u8 lm2_r2u8_get_top_left(lm2_r2u8 rect);
+
+// Transform operations
+LM2_API lm2_r2u8 lm2_r2u8_scale_from_center(lm2_r2u8 rect, lm2_v2u8 scale);
+LM2_API lm2_r2u8 lm2_r2u8_scale_from_min(lm2_r2u8 rect, lm2_v2u8 scale);
+LM2_API lm2_r2u8 lm2_r2u8_scale_from_max(lm2_r2u8 rect, lm2_v2u8 scale);
+LM2_API lm2_r2u8 lm2_r2u8_shrink_vec(lm2_r2u8 rect, lm2_v2u8 amount);
+LM2_API lm2_r2u8 lm2_r2u8_shrink_scalar(lm2_r2u8 rect, uint8_t amount);
+LM2_API lm2_r2u8 lm2_r2u8_inflate_vec(lm2_r2u8 rect, lm2_v2u8 amount);
+LM2_API lm2_r2u8 lm2_r2u8_inflate_scalar(lm2_r2u8 rect, uint8_t amount);
+
+// Query operations
+LM2_API lm2_v2u8 lm2_r2u8_get_dim(lm2_r2u8 rect);
+LM2_API int lm2_r2u8_overlap_rect(lm2_r2u8 a, lm2_r2u8 b);
+LM2_API int lm2_r2u8_overlap_point(lm2_r2u8 rect, lm2_v2u8 point);
+LM2_API int lm2_r2u8_contains(lm2_r2u8 rect, lm2_r2u8 subrect);
+LM2_API uint8_t lm2_r2u8_distance(lm2_r2u8 rect, lm2_v2u8 point);
+LM2_API lm2_v2u8 lm2_r2u8_get_closest_point(lm2_r2u8 rect, lm2_v2u8 point);
+LM2_API uint8_t lm2_r2u8_closest_distance_from_edges(lm2_r2u8 a, lm2_r2u8 b);
+
+// Cut operations
+LM2_API lm2_r2u8 lm2_r2u8_cut(lm2_r2u8* rect, lm2_rect_cut cut_type, uint8_t amount);
+LM2_API lm2_r2u8 lm2_r2u8_cut_left(lm2_r2u8* rect, uint8_t amount);
+LM2_API lm2_r2u8 lm2_r2u8_cut_right(lm2_r2u8* rect, uint8_t amount);
+LM2_API lm2_r2u8 lm2_r2u8_cut_bottom(lm2_r2u8* rect, uint8_t amount);
+LM2_API lm2_r2u8 lm2_r2u8_cut_top(lm2_r2u8* rect, uint8_t amount);
+
+// Alignment
+LM2_API lm2_r2u8 lm2_r2u8_align_subrect(lm2_r2u8 rect, lm2_r2u8 subrect, lm2_align align_x, lm2_align align_y);
+
+// =============================================================================
+// Segment Intersection Functions for All Vector Types
+// =============================================================================
+
+LM2_API int lm2_segments_intersect_lm2_v2f64(lm2_v2f64 a0, lm2_v2f64 a1, lm2_v2f64 b0, lm2_v2f64 b1);
+LM2_API int lm2_segments_intersect_lm2_v2f32(lm2_v2f32 a0, lm2_v2f32 a1, lm2_v2f32 b0, lm2_v2f32 b1);
+LM2_API int lm2_segments_intersect_lm2_v2i64(lm2_v2i64 a0, lm2_v2i64 a1, lm2_v2i64 b0, lm2_v2i64 b1);
+LM2_API int lm2_segments_intersect_lm2_v2i32(lm2_v2i32 a0, lm2_v2i32 a1, lm2_v2i32 b0, lm2_v2i32 b1);
+LM2_API int lm2_segments_intersect_lm2_v2i16(lm2_v2i16 a0, lm2_v2i16 a1, lm2_v2i16 b0, lm2_v2i16 b1);
+LM2_API int lm2_segments_intersect_lm2_v2i8(lm2_v2i8 a0, lm2_v2i8 a1, lm2_v2i8 b0, lm2_v2i8 b1);
+LM2_API int lm2_segments_intersect_lm2_v2u64(lm2_v2u64 a0, lm2_v2u64 a1, lm2_v2u64 b0, lm2_v2u64 b1);
+LM2_API int lm2_segments_intersect_lm2_v2u32(lm2_v2u32 a0, lm2_v2u32 a1, lm2_v2u32 b0, lm2_v2u32 b1);
+LM2_API int lm2_segments_intersect_lm2_v2u16(lm2_v2u16 a0, lm2_v2u16 a1, lm2_v2u16 b0, lm2_v2u16 b1);
+LM2_API int lm2_segments_intersect_lm2_v2u8(lm2_v2u8 a0, lm2_v2u8 a1, lm2_v2u8 b0, lm2_v2u8 b1);
 
 // =============================================================================
 // Convenience typedefs

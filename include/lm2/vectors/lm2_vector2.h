@@ -30,99 +30,534 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
-// Define a vector type with 2 components and associated operations
-#define _LM2_DEFINE_V2(type_name, scalar_type)                                               \
-  typedef union type_name {                                                                  \
-    scalar_type e[2];                                                                        \
-    struct {                                                                                 \
-      scalar_type x, y;                                                                      \
-    };                                                                                       \
-    struct {                                                                                 \
-      scalar_type s, t;                                                                      \
-    };                                                                                       \
-    _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, 2)                                                 \
-  } type_name;                                                                               \
-  _LM2_DECLARE_VECTOR_OP(type_name, lm2_add_##type_name)                                     \
-  _LM2_DECLARE_VECTOR_OP(type_name, lm2_sub_##type_name)                                     \
-  _LM2_DECLARE_VECTOR_OP(type_name, lm2_mul_##type_name)                                     \
-  _LM2_DECLARE_VECTOR_OP(type_name, lm2_div_##type_name)                                     \
-  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_add_##type_name##_##scalar_type) \
-  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_sub_##type_name##_##scalar_type) \
-  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_mul_##type_name##_##scalar_type) \
-  _LM2_DECLARE_VECTOR_OP_SCALAR(type_name, scalar_type, lm2_div_##type_name##_##scalar_type) \
-  _LM2_DECLARE_VECTOR_UNARY_OP(type_name, lm2_neg_##type_name)                               \
-  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_floor_##type_name)                               \
-  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_ceil_##type_name)                                \
-  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_round_##type_name)                               \
-  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_trunc_##type_name)                               \
-  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_abs_##type_name)                                 \
-  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_sign_##type_name)                                \
-  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_sign0_##type_name)                               \
-  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_saturate_##type_name)                            \
-  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_fract_##type_name)                               \
-  _LM2_DECLARE_SCALAR_FUNC_1(type_name, lm2_sqrt_##type_name)                                \
-  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_floor_multiple_##type_name)                      \
-  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_ceil_multiple_##type_name)                       \
-  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_round_multiple_##type_name)                      \
-  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_trunc_multiple_##type_name)                      \
-  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_min_##type_name)                                 \
-  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_min_abs_##type_name)                             \
-  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_max_##type_name)                                 \
-  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_max_abs_##type_name)                             \
-  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_mod_##type_name)                                 \
-  _LM2_DECLARE_SCALAR_FUNC_2(type_name, lm2_pow_##type_name)                                 \
-  _LM2_DECLARE_SCALAR_FUNC_3(type_name, lm2_clamp_##type_name)                               \
-  _LM2_DECLARE_SCALAR_FUNC_3(type_name, lm2_lerp_##type_name)                                \
-  _LM2_DECLARE_SCALAR_FUNC_3(type_name, lm2_smoothstep_##type_name)                          \
-  _LM2_DECLARE_SCALAR_FUNC_3(type_name, lm2_alpha_##type_name)
+// =============================================================================
+// 2D Vector Type Definitions
+// =============================================================================
 
-// 2D vector types
-_LM2_DEFINE_V2(lm2_v2f64, double)
-_LM2_DEFINE_V2(lm2_v2f32, float)
-_LM2_DEFINE_V2(lm2_v2i64, int64_t)
-_LM2_DEFINE_V2(lm2_v2i32, int32_t)
-_LM2_DEFINE_V2(lm2_v2i16, int16_t)
-_LM2_DEFINE_V2(lm2_v2i8, int8_t)
-_LM2_DEFINE_V2(lm2_v2u64, uint64_t)
-_LM2_DEFINE_V2(lm2_v2u32, uint32_t)
-_LM2_DEFINE_V2(lm2_v2u16, uint16_t)
-_LM2_DEFINE_V2(lm2_v2u8, uint8_t)
+// lm2_v2f64 - 64-bit floating-point 2D vector
+typedef union lm2_v2f64 {
+  double e[2];
+  struct {
+    double x, y;
+  };
+  struct {
+    double s, t;
+  };
+  _LM2_VECTOR_SUBSCRIPT_OP(double, 2)
+} lm2_v2f64;
 
-// V2 constructors
-_LM2_DECLARE_V2_MAKE(lm2_v2f64, double)
-_LM2_DECLARE_V2_MAKE(lm2_v2f32, float)
-_LM2_DECLARE_V2_MAKE(lm2_v2i64, int64_t)
-_LM2_DECLARE_V2_MAKE(lm2_v2i32, int32_t)
-_LM2_DECLARE_V2_MAKE(lm2_v2i16, int16_t)
-_LM2_DECLARE_V2_MAKE(lm2_v2i8, int8_t)
-_LM2_DECLARE_V2_MAKE(lm2_v2u64, uint64_t)
-_LM2_DECLARE_V2_MAKE(lm2_v2u32, uint32_t)
-_LM2_DECLARE_V2_MAKE(lm2_v2u16, uint16_t)
-_LM2_DECLARE_V2_MAKE(lm2_v2u8, uint8_t)
+// lm2_v2f32 - 32-bit floating-point 2D vector
+typedef union lm2_v2f32 {
+  float e[2];
+  struct {
+    float x, y;
+  };
+  struct {
+    float s, t;
+  };
+  _LM2_VECTOR_SUBSCRIPT_OP(float, 2)
+} lm2_v2f32;
 
-_LM2_DECLARE_V2_SPLAT(lm2_v2f64, double)
-_LM2_DECLARE_V2_SPLAT(lm2_v2f32, float)
-_LM2_DECLARE_V2_SPLAT(lm2_v2i64, int64_t)
-_LM2_DECLARE_V2_SPLAT(lm2_v2i32, int32_t)
-_LM2_DECLARE_V2_SPLAT(lm2_v2i16, int16_t)
-_LM2_DECLARE_V2_SPLAT(lm2_v2i8, int8_t)
-_LM2_DECLARE_V2_SPLAT(lm2_v2u64, uint64_t)
-_LM2_DECLARE_V2_SPLAT(lm2_v2u32, uint32_t)
-_LM2_DECLARE_V2_SPLAT(lm2_v2u16, uint16_t)
-_LM2_DECLARE_V2_SPLAT(lm2_v2u8, uint8_t)
+// lm2_v2i64 - 64-bit signed integer 2D vector
+typedef union lm2_v2i64 {
+  int64_t e[2];
+  struct {
+    int64_t x, y;
+  };
+  struct {
+    int64_t s, t;
+  };
+  _LM2_VECTOR_SUBSCRIPT_OP(int64_t, 2)
+} lm2_v2i64;
 
-_LM2_DECLARE_V2_ZERO(lm2_v2f64)
-_LM2_DECLARE_V2_ZERO(lm2_v2f32)
-_LM2_DECLARE_V2_ZERO(lm2_v2i64)
-_LM2_DECLARE_V2_ZERO(lm2_v2i32)
-_LM2_DECLARE_V2_ZERO(lm2_v2i16)
-_LM2_DECLARE_V2_ZERO(lm2_v2i8)
-_LM2_DECLARE_V2_ZERO(lm2_v2u64)
-_LM2_DECLARE_V2_ZERO(lm2_v2u32)
-_LM2_DECLARE_V2_ZERO(lm2_v2u16)
-_LM2_DECLARE_V2_ZERO(lm2_v2u8)
+// lm2_v2i32 - 32-bit signed integer 2D vector
+typedef union lm2_v2i32 {
+  int32_t e[2];
+  struct {
+    int32_t x, y;
+  };
+  struct {
+    int32_t s, t;
+  };
+  _LM2_VECTOR_SUBSCRIPT_OP(int32_t, 2)
+} lm2_v2i32;
 
-// Default vector type
+// lm2_v2i16 - 16-bit signed integer 2D vector
+typedef union lm2_v2i16 {
+  int16_t e[2];
+  struct {
+    int16_t x, y;
+  };
+  struct {
+    int16_t s, t;
+  };
+  _LM2_VECTOR_SUBSCRIPT_OP(int16_t, 2)
+} lm2_v2i16;
+
+// lm2_v2i8 - 8-bit signed integer 2D vector
+typedef union lm2_v2i8 {
+  int8_t e[2];
+  struct {
+    int8_t x, y;
+  };
+  struct {
+    int8_t s, t;
+  };
+  _LM2_VECTOR_SUBSCRIPT_OP(int8_t, 2)
+} lm2_v2i8;
+
+// lm2_v2u64 - 64-bit unsigned integer 2D vector
+typedef union lm2_v2u64 {
+  uint64_t e[2];
+  struct {
+    uint64_t x, y;
+  };
+  struct {
+    uint64_t s, t;
+  };
+  _LM2_VECTOR_SUBSCRIPT_OP(uint64_t, 2)
+} lm2_v2u64;
+
+// lm2_v2u32 - 32-bit unsigned integer 2D vector
+typedef union lm2_v2u32 {
+  uint32_t e[2];
+  struct {
+    uint32_t x, y;
+  };
+  struct {
+    uint32_t s, t;
+  };
+  _LM2_VECTOR_SUBSCRIPT_OP(uint32_t, 2)
+} lm2_v2u32;
+
+// lm2_v2u16 - 16-bit unsigned integer 2D vector
+typedef union lm2_v2u16 {
+  uint16_t e[2];
+  struct {
+    uint16_t x, y;
+  };
+  struct {
+    uint16_t s, t;
+  };
+  _LM2_VECTOR_SUBSCRIPT_OP(uint16_t, 2)
+} lm2_v2u16;
+
+// lm2_v2u8 - 8-bit unsigned integer 2D vector
+typedef union lm2_v2u8 {
+  uint8_t e[2];
+  struct {
+    uint8_t x, y;
+  };
+  struct {
+    uint8_t s, t;
+  };
+  _LM2_VECTOR_SUBSCRIPT_OP(uint8_t, 2)
+} lm2_v2u8;
+
+// =============================================================================
+// lm2_v2f64 Operations
+// =============================================================================
+LM2_API lm2_v2f64 lm2_add_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_sub_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_mul_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_div_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_add_lm2_v2f64_double(lm2_v2f64 a, double b);
+LM2_API lm2_v2f64 lm2_sub_lm2_v2f64_double(lm2_v2f64 a, double b);
+LM2_API lm2_v2f64 lm2_mul_lm2_v2f64_double(lm2_v2f64 a, double b);
+LM2_API lm2_v2f64 lm2_div_lm2_v2f64_double(lm2_v2f64 a, double b);
+LM2_API lm2_v2f64 lm2_neg_lm2_v2f64(lm2_v2f64 a);
+LM2_API lm2_v2f64 lm2_floor_lm2_v2f64(lm2_v2f64 a);
+LM2_API lm2_v2f64 lm2_ceil_lm2_v2f64(lm2_v2f64 a);
+LM2_API lm2_v2f64 lm2_round_lm2_v2f64(lm2_v2f64 a);
+LM2_API lm2_v2f64 lm2_trunc_lm2_v2f64(lm2_v2f64 a);
+LM2_API lm2_v2f64 lm2_abs_lm2_v2f64(lm2_v2f64 a);
+LM2_API lm2_v2f64 lm2_sign_lm2_v2f64(lm2_v2f64 a);
+LM2_API lm2_v2f64 lm2_sign0_lm2_v2f64(lm2_v2f64 a);
+LM2_API lm2_v2f64 lm2_saturate_lm2_v2f64(lm2_v2f64 a);
+LM2_API lm2_v2f64 lm2_fract_lm2_v2f64(lm2_v2f64 a);
+LM2_API lm2_v2f64 lm2_sqrt_lm2_v2f64(lm2_v2f64 a);
+LM2_API lm2_v2f64 lm2_floor_multiple_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_ceil_multiple_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_round_multiple_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_trunc_multiple_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_min_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_min_abs_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_max_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_max_abs_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_mod_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_pow_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b);
+LM2_API lm2_v2f64 lm2_clamp_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c);
+LM2_API lm2_v2f64 lm2_lerp_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c);
+LM2_API lm2_v2f64 lm2_smoothstep_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c);
+LM2_API lm2_v2f64 lm2_alpha_lm2_v2f64(lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c);
+LM2_API lm2_v2f64 lm2_v2f64_make(double x, double y);
+LM2_API lm2_v2f64 lm2_v2f64_splat(double v);
+LM2_API lm2_v2f64 lm2_v2f64_zero(void);
+
+// =============================================================================
+// lm2_v2f32 Operations
+// =============================================================================
+LM2_API lm2_v2f32 lm2_add_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_sub_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_mul_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_div_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_add_lm2_v2f32_float(lm2_v2f32 a, float b);
+LM2_API lm2_v2f32 lm2_sub_lm2_v2f32_float(lm2_v2f32 a, float b);
+LM2_API lm2_v2f32 lm2_mul_lm2_v2f32_float(lm2_v2f32 a, float b);
+LM2_API lm2_v2f32 lm2_div_lm2_v2f32_float(lm2_v2f32 a, float b);
+LM2_API lm2_v2f32 lm2_neg_lm2_v2f32(lm2_v2f32 a);
+LM2_API lm2_v2f32 lm2_floor_lm2_v2f32(lm2_v2f32 a);
+LM2_API lm2_v2f32 lm2_ceil_lm2_v2f32(lm2_v2f32 a);
+LM2_API lm2_v2f32 lm2_round_lm2_v2f32(lm2_v2f32 a);
+LM2_API lm2_v2f32 lm2_trunc_lm2_v2f32(lm2_v2f32 a);
+LM2_API lm2_v2f32 lm2_abs_lm2_v2f32(lm2_v2f32 a);
+LM2_API lm2_v2f32 lm2_sign_lm2_v2f32(lm2_v2f32 a);
+LM2_API lm2_v2f32 lm2_sign0_lm2_v2f32(lm2_v2f32 a);
+LM2_API lm2_v2f32 lm2_saturate_lm2_v2f32(lm2_v2f32 a);
+LM2_API lm2_v2f32 lm2_fract_lm2_v2f32(lm2_v2f32 a);
+LM2_API lm2_v2f32 lm2_sqrt_lm2_v2f32(lm2_v2f32 a);
+LM2_API lm2_v2f32 lm2_floor_multiple_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_ceil_multiple_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_round_multiple_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_trunc_multiple_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_min_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_min_abs_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_max_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_max_abs_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_mod_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_pow_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API lm2_v2f32 lm2_clamp_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c);
+LM2_API lm2_v2f32 lm2_lerp_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c);
+LM2_API lm2_v2f32 lm2_smoothstep_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c);
+LM2_API lm2_v2f32 lm2_alpha_lm2_v2f32(lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c);
+LM2_API lm2_v2f32 lm2_v2f32_make(float x, float y);
+LM2_API lm2_v2f32 lm2_v2f32_splat(float v);
+LM2_API lm2_v2f32 lm2_v2f32_zero(void);
+
+// =============================================================================
+// lm2_v2i64 Operations
+// =============================================================================
+LM2_API lm2_v2i64 lm2_add_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_sub_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_mul_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_div_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_add_lm2_v2i64_int64_t(lm2_v2i64 a, int64_t b);
+LM2_API lm2_v2i64 lm2_sub_lm2_v2i64_int64_t(lm2_v2i64 a, int64_t b);
+LM2_API lm2_v2i64 lm2_mul_lm2_v2i64_int64_t(lm2_v2i64 a, int64_t b);
+LM2_API lm2_v2i64 lm2_div_lm2_v2i64_int64_t(lm2_v2i64 a, int64_t b);
+LM2_API lm2_v2i64 lm2_neg_lm2_v2i64(lm2_v2i64 a);
+LM2_API lm2_v2i64 lm2_floor_lm2_v2i64(lm2_v2i64 a);
+LM2_API lm2_v2i64 lm2_ceil_lm2_v2i64(lm2_v2i64 a);
+LM2_API lm2_v2i64 lm2_round_lm2_v2i64(lm2_v2i64 a);
+LM2_API lm2_v2i64 lm2_trunc_lm2_v2i64(lm2_v2i64 a);
+LM2_API lm2_v2i64 lm2_abs_lm2_v2i64(lm2_v2i64 a);
+LM2_API lm2_v2i64 lm2_sign_lm2_v2i64(lm2_v2i64 a);
+LM2_API lm2_v2i64 lm2_sign0_lm2_v2i64(lm2_v2i64 a);
+LM2_API lm2_v2i64 lm2_saturate_lm2_v2i64(lm2_v2i64 a);
+LM2_API lm2_v2i64 lm2_fract_lm2_v2i64(lm2_v2i64 a);
+LM2_API lm2_v2i64 lm2_sqrt_lm2_v2i64(lm2_v2i64 a);
+LM2_API lm2_v2i64 lm2_floor_multiple_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_ceil_multiple_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_round_multiple_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_trunc_multiple_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_min_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_min_abs_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_max_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_max_abs_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_mod_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_pow_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b);
+LM2_API lm2_v2i64 lm2_clamp_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b, lm2_v2i64 c);
+LM2_API lm2_v2i64 lm2_lerp_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b, lm2_v2i64 c);
+LM2_API lm2_v2i64 lm2_smoothstep_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b, lm2_v2i64 c);
+LM2_API lm2_v2i64 lm2_alpha_lm2_v2i64(lm2_v2i64 a, lm2_v2i64 b, lm2_v2i64 c);
+LM2_API lm2_v2i64 lm2_v2i64_make(int64_t x, int64_t y);
+LM2_API lm2_v2i64 lm2_v2i64_splat(int64_t v);
+LM2_API lm2_v2i64 lm2_v2i64_zero(void);
+
+// =============================================================================
+// lm2_v2i32 Operations
+// =============================================================================
+LM2_API lm2_v2i32 lm2_add_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_sub_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_mul_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_div_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_add_lm2_v2i32_int32_t(lm2_v2i32 a, int32_t b);
+LM2_API lm2_v2i32 lm2_sub_lm2_v2i32_int32_t(lm2_v2i32 a, int32_t b);
+LM2_API lm2_v2i32 lm2_mul_lm2_v2i32_int32_t(lm2_v2i32 a, int32_t b);
+LM2_API lm2_v2i32 lm2_div_lm2_v2i32_int32_t(lm2_v2i32 a, int32_t b);
+LM2_API lm2_v2i32 lm2_neg_lm2_v2i32(lm2_v2i32 a);
+LM2_API lm2_v2i32 lm2_floor_lm2_v2i32(lm2_v2i32 a);
+LM2_API lm2_v2i32 lm2_ceil_lm2_v2i32(lm2_v2i32 a);
+LM2_API lm2_v2i32 lm2_round_lm2_v2i32(lm2_v2i32 a);
+LM2_API lm2_v2i32 lm2_trunc_lm2_v2i32(lm2_v2i32 a);
+LM2_API lm2_v2i32 lm2_abs_lm2_v2i32(lm2_v2i32 a);
+LM2_API lm2_v2i32 lm2_sign_lm2_v2i32(lm2_v2i32 a);
+LM2_API lm2_v2i32 lm2_sign0_lm2_v2i32(lm2_v2i32 a);
+LM2_API lm2_v2i32 lm2_saturate_lm2_v2i32(lm2_v2i32 a);
+LM2_API lm2_v2i32 lm2_fract_lm2_v2i32(lm2_v2i32 a);
+LM2_API lm2_v2i32 lm2_sqrt_lm2_v2i32(lm2_v2i32 a);
+LM2_API lm2_v2i32 lm2_floor_multiple_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_ceil_multiple_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_round_multiple_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_trunc_multiple_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_min_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_min_abs_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_max_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_max_abs_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_mod_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_pow_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b);
+LM2_API lm2_v2i32 lm2_clamp_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b, lm2_v2i32 c);
+LM2_API lm2_v2i32 lm2_lerp_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b, lm2_v2i32 c);
+LM2_API lm2_v2i32 lm2_smoothstep_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b, lm2_v2i32 c);
+LM2_API lm2_v2i32 lm2_alpha_lm2_v2i32(lm2_v2i32 a, lm2_v2i32 b, lm2_v2i32 c);
+LM2_API lm2_v2i32 lm2_v2i32_make(int32_t x, int32_t y);
+LM2_API lm2_v2i32 lm2_v2i32_splat(int32_t v);
+LM2_API lm2_v2i32 lm2_v2i32_zero(void);
+
+// =============================================================================
+// lm2_v2i16 Operations
+// =============================================================================
+LM2_API lm2_v2i16 lm2_add_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_sub_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_mul_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_div_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_add_lm2_v2i16_int16_t(lm2_v2i16 a, int16_t b);
+LM2_API lm2_v2i16 lm2_sub_lm2_v2i16_int16_t(lm2_v2i16 a, int16_t b);
+LM2_API lm2_v2i16 lm2_mul_lm2_v2i16_int16_t(lm2_v2i16 a, int16_t b);
+LM2_API lm2_v2i16 lm2_div_lm2_v2i16_int16_t(lm2_v2i16 a, int16_t b);
+LM2_API lm2_v2i16 lm2_neg_lm2_v2i16(lm2_v2i16 a);
+LM2_API lm2_v2i16 lm2_floor_lm2_v2i16(lm2_v2i16 a);
+LM2_API lm2_v2i16 lm2_ceil_lm2_v2i16(lm2_v2i16 a);
+LM2_API lm2_v2i16 lm2_round_lm2_v2i16(lm2_v2i16 a);
+LM2_API lm2_v2i16 lm2_trunc_lm2_v2i16(lm2_v2i16 a);
+LM2_API lm2_v2i16 lm2_abs_lm2_v2i16(lm2_v2i16 a);
+LM2_API lm2_v2i16 lm2_sign_lm2_v2i16(lm2_v2i16 a);
+LM2_API lm2_v2i16 lm2_sign0_lm2_v2i16(lm2_v2i16 a);
+LM2_API lm2_v2i16 lm2_saturate_lm2_v2i16(lm2_v2i16 a);
+LM2_API lm2_v2i16 lm2_fract_lm2_v2i16(lm2_v2i16 a);
+LM2_API lm2_v2i16 lm2_sqrt_lm2_v2i16(lm2_v2i16 a);
+LM2_API lm2_v2i16 lm2_floor_multiple_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_ceil_multiple_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_round_multiple_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_trunc_multiple_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_min_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_min_abs_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_max_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_max_abs_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_mod_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_pow_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b);
+LM2_API lm2_v2i16 lm2_clamp_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b, lm2_v2i16 c);
+LM2_API lm2_v2i16 lm2_lerp_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b, lm2_v2i16 c);
+LM2_API lm2_v2i16 lm2_smoothstep_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b, lm2_v2i16 c);
+LM2_API lm2_v2i16 lm2_alpha_lm2_v2i16(lm2_v2i16 a, lm2_v2i16 b, lm2_v2i16 c);
+LM2_API lm2_v2i16 lm2_v2i16_make(int16_t x, int16_t y);
+LM2_API lm2_v2i16 lm2_v2i16_splat(int16_t v);
+LM2_API lm2_v2i16 lm2_v2i16_zero(void);
+
+// =============================================================================
+// lm2_v2i8 Operations
+// =============================================================================
+LM2_API lm2_v2i8 lm2_add_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_sub_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_mul_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_div_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_add_lm2_v2i8_int8_t(lm2_v2i8 a, int8_t b);
+LM2_API lm2_v2i8 lm2_sub_lm2_v2i8_int8_t(lm2_v2i8 a, int8_t b);
+LM2_API lm2_v2i8 lm2_mul_lm2_v2i8_int8_t(lm2_v2i8 a, int8_t b);
+LM2_API lm2_v2i8 lm2_div_lm2_v2i8_int8_t(lm2_v2i8 a, int8_t b);
+LM2_API lm2_v2i8 lm2_neg_lm2_v2i8(lm2_v2i8 a);
+LM2_API lm2_v2i8 lm2_floor_lm2_v2i8(lm2_v2i8 a);
+LM2_API lm2_v2i8 lm2_ceil_lm2_v2i8(lm2_v2i8 a);
+LM2_API lm2_v2i8 lm2_round_lm2_v2i8(lm2_v2i8 a);
+LM2_API lm2_v2i8 lm2_trunc_lm2_v2i8(lm2_v2i8 a);
+LM2_API lm2_v2i8 lm2_abs_lm2_v2i8(lm2_v2i8 a);
+LM2_API lm2_v2i8 lm2_sign_lm2_v2i8(lm2_v2i8 a);
+LM2_API lm2_v2i8 lm2_sign0_lm2_v2i8(lm2_v2i8 a);
+LM2_API lm2_v2i8 lm2_saturate_lm2_v2i8(lm2_v2i8 a);
+LM2_API lm2_v2i8 lm2_fract_lm2_v2i8(lm2_v2i8 a);
+LM2_API lm2_v2i8 lm2_sqrt_lm2_v2i8(lm2_v2i8 a);
+LM2_API lm2_v2i8 lm2_floor_multiple_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_ceil_multiple_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_round_multiple_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_trunc_multiple_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_min_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_min_abs_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_max_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_max_abs_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_mod_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_pow_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API lm2_v2i8 lm2_clamp_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b, lm2_v2i8 c);
+LM2_API lm2_v2i8 lm2_lerp_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b, lm2_v2i8 c);
+LM2_API lm2_v2i8 lm2_smoothstep_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b, lm2_v2i8 c);
+LM2_API lm2_v2i8 lm2_alpha_lm2_v2i8(lm2_v2i8 a, lm2_v2i8 b, lm2_v2i8 c);
+LM2_API lm2_v2i8 lm2_v2i8_make(int8_t x, int8_t y);
+LM2_API lm2_v2i8 lm2_v2i8_splat(int8_t v);
+LM2_API lm2_v2i8 lm2_v2i8_zero(void);
+
+// =============================================================================
+// lm2_v2u64 Operations
+// =============================================================================
+LM2_API lm2_v2u64 lm2_add_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_sub_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_mul_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_div_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_add_lm2_v2u64_uint64_t(lm2_v2u64 a, uint64_t b);
+LM2_API lm2_v2u64 lm2_sub_lm2_v2u64_uint64_t(lm2_v2u64 a, uint64_t b);
+LM2_API lm2_v2u64 lm2_mul_lm2_v2u64_uint64_t(lm2_v2u64 a, uint64_t b);
+LM2_API lm2_v2u64 lm2_div_lm2_v2u64_uint64_t(lm2_v2u64 a, uint64_t b);
+LM2_API lm2_v2u64 lm2_neg_lm2_v2u64(lm2_v2u64 a);
+LM2_API lm2_v2u64 lm2_floor_lm2_v2u64(lm2_v2u64 a);
+LM2_API lm2_v2u64 lm2_ceil_lm2_v2u64(lm2_v2u64 a);
+LM2_API lm2_v2u64 lm2_round_lm2_v2u64(lm2_v2u64 a);
+LM2_API lm2_v2u64 lm2_trunc_lm2_v2u64(lm2_v2u64 a);
+LM2_API lm2_v2u64 lm2_abs_lm2_v2u64(lm2_v2u64 a);
+LM2_API lm2_v2u64 lm2_sign_lm2_v2u64(lm2_v2u64 a);
+LM2_API lm2_v2u64 lm2_sign0_lm2_v2u64(lm2_v2u64 a);
+LM2_API lm2_v2u64 lm2_saturate_lm2_v2u64(lm2_v2u64 a);
+LM2_API lm2_v2u64 lm2_fract_lm2_v2u64(lm2_v2u64 a);
+LM2_API lm2_v2u64 lm2_sqrt_lm2_v2u64(lm2_v2u64 a);
+LM2_API lm2_v2u64 lm2_floor_multiple_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_ceil_multiple_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_round_multiple_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_trunc_multiple_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_min_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_min_abs_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_max_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_max_abs_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_mod_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_pow_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b);
+LM2_API lm2_v2u64 lm2_clamp_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b, lm2_v2u64 c);
+LM2_API lm2_v2u64 lm2_lerp_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b, lm2_v2u64 c);
+LM2_API lm2_v2u64 lm2_smoothstep_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b, lm2_v2u64 c);
+LM2_API lm2_v2u64 lm2_alpha_lm2_v2u64(lm2_v2u64 a, lm2_v2u64 b, lm2_v2u64 c);
+LM2_API lm2_v2u64 lm2_v2u64_make(uint64_t x, uint64_t y);
+LM2_API lm2_v2u64 lm2_v2u64_splat(uint64_t v);
+LM2_API lm2_v2u64 lm2_v2u64_zero(void);
+
+// =============================================================================
+// lm2_v2u32 Operations
+// =============================================================================
+LM2_API lm2_v2u32 lm2_add_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_sub_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_mul_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_div_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_add_lm2_v2u32_uint32_t(lm2_v2u32 a, uint32_t b);
+LM2_API lm2_v2u32 lm2_sub_lm2_v2u32_uint32_t(lm2_v2u32 a, uint32_t b);
+LM2_API lm2_v2u32 lm2_mul_lm2_v2u32_uint32_t(lm2_v2u32 a, uint32_t b);
+LM2_API lm2_v2u32 lm2_div_lm2_v2u32_uint32_t(lm2_v2u32 a, uint32_t b);
+LM2_API lm2_v2u32 lm2_neg_lm2_v2u32(lm2_v2u32 a);
+LM2_API lm2_v2u32 lm2_floor_lm2_v2u32(lm2_v2u32 a);
+LM2_API lm2_v2u32 lm2_ceil_lm2_v2u32(lm2_v2u32 a);
+LM2_API lm2_v2u32 lm2_round_lm2_v2u32(lm2_v2u32 a);
+LM2_API lm2_v2u32 lm2_trunc_lm2_v2u32(lm2_v2u32 a);
+LM2_API lm2_v2u32 lm2_abs_lm2_v2u32(lm2_v2u32 a);
+LM2_API lm2_v2u32 lm2_sign_lm2_v2u32(lm2_v2u32 a);
+LM2_API lm2_v2u32 lm2_sign0_lm2_v2u32(lm2_v2u32 a);
+LM2_API lm2_v2u32 lm2_saturate_lm2_v2u32(lm2_v2u32 a);
+LM2_API lm2_v2u32 lm2_fract_lm2_v2u32(lm2_v2u32 a);
+LM2_API lm2_v2u32 lm2_sqrt_lm2_v2u32(lm2_v2u32 a);
+LM2_API lm2_v2u32 lm2_floor_multiple_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_ceil_multiple_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_round_multiple_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_trunc_multiple_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_min_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_min_abs_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_max_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_max_abs_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_mod_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_pow_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b);
+LM2_API lm2_v2u32 lm2_clamp_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b, lm2_v2u32 c);
+LM2_API lm2_v2u32 lm2_lerp_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b, lm2_v2u32 c);
+LM2_API lm2_v2u32 lm2_smoothstep_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b, lm2_v2u32 c);
+LM2_API lm2_v2u32 lm2_alpha_lm2_v2u32(lm2_v2u32 a, lm2_v2u32 b, lm2_v2u32 c);
+LM2_API lm2_v2u32 lm2_v2u32_make(uint32_t x, uint32_t y);
+LM2_API lm2_v2u32 lm2_v2u32_splat(uint32_t v);
+LM2_API lm2_v2u32 lm2_v2u32_zero(void);
+
+// =============================================================================
+// lm2_v2u16 Operations
+// =============================================================================
+LM2_API lm2_v2u16 lm2_add_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_sub_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_mul_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_div_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_add_lm2_v2u16_uint16_t(lm2_v2u16 a, uint16_t b);
+LM2_API lm2_v2u16 lm2_sub_lm2_v2u16_uint16_t(lm2_v2u16 a, uint16_t b);
+LM2_API lm2_v2u16 lm2_mul_lm2_v2u16_uint16_t(lm2_v2u16 a, uint16_t b);
+LM2_API lm2_v2u16 lm2_div_lm2_v2u16_uint16_t(lm2_v2u16 a, uint16_t b);
+LM2_API lm2_v2u16 lm2_neg_lm2_v2u16(lm2_v2u16 a);
+LM2_API lm2_v2u16 lm2_floor_lm2_v2u16(lm2_v2u16 a);
+LM2_API lm2_v2u16 lm2_ceil_lm2_v2u16(lm2_v2u16 a);
+LM2_API lm2_v2u16 lm2_round_lm2_v2u16(lm2_v2u16 a);
+LM2_API lm2_v2u16 lm2_trunc_lm2_v2u16(lm2_v2u16 a);
+LM2_API lm2_v2u16 lm2_abs_lm2_v2u16(lm2_v2u16 a);
+LM2_API lm2_v2u16 lm2_sign_lm2_v2u16(lm2_v2u16 a);
+LM2_API lm2_v2u16 lm2_sign0_lm2_v2u16(lm2_v2u16 a);
+LM2_API lm2_v2u16 lm2_saturate_lm2_v2u16(lm2_v2u16 a);
+LM2_API lm2_v2u16 lm2_fract_lm2_v2u16(lm2_v2u16 a);
+LM2_API lm2_v2u16 lm2_sqrt_lm2_v2u16(lm2_v2u16 a);
+LM2_API lm2_v2u16 lm2_floor_multiple_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_ceil_multiple_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_round_multiple_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_trunc_multiple_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_min_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_min_abs_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_max_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_max_abs_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_mod_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_pow_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b);
+LM2_API lm2_v2u16 lm2_clamp_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b, lm2_v2u16 c);
+LM2_API lm2_v2u16 lm2_lerp_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b, lm2_v2u16 c);
+LM2_API lm2_v2u16 lm2_smoothstep_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b, lm2_v2u16 c);
+LM2_API lm2_v2u16 lm2_alpha_lm2_v2u16(lm2_v2u16 a, lm2_v2u16 b, lm2_v2u16 c);
+LM2_API lm2_v2u16 lm2_v2u16_make(uint16_t x, uint16_t y);
+LM2_API lm2_v2u16 lm2_v2u16_splat(uint16_t v);
+LM2_API lm2_v2u16 lm2_v2u16_zero(void);
+
+// =============================================================================
+// lm2_v2u8 Operations
+// =============================================================================
+LM2_API lm2_v2u8 lm2_add_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_sub_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_mul_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_div_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_add_lm2_v2u8_uint8_t(lm2_v2u8 a, uint8_t b);
+LM2_API lm2_v2u8 lm2_sub_lm2_v2u8_uint8_t(lm2_v2u8 a, uint8_t b);
+LM2_API lm2_v2u8 lm2_mul_lm2_v2u8_uint8_t(lm2_v2u8 a, uint8_t b);
+LM2_API lm2_v2u8 lm2_div_lm2_v2u8_uint8_t(lm2_v2u8 a, uint8_t b);
+LM2_API lm2_v2u8 lm2_neg_lm2_v2u8(lm2_v2u8 a);
+LM2_API lm2_v2u8 lm2_floor_lm2_v2u8(lm2_v2u8 a);
+LM2_API lm2_v2u8 lm2_ceil_lm2_v2u8(lm2_v2u8 a);
+LM2_API lm2_v2u8 lm2_round_lm2_v2u8(lm2_v2u8 a);
+LM2_API lm2_v2u8 lm2_trunc_lm2_v2u8(lm2_v2u8 a);
+LM2_API lm2_v2u8 lm2_abs_lm2_v2u8(lm2_v2u8 a);
+LM2_API lm2_v2u8 lm2_sign_lm2_v2u8(lm2_v2u8 a);
+LM2_API lm2_v2u8 lm2_sign0_lm2_v2u8(lm2_v2u8 a);
+LM2_API lm2_v2u8 lm2_saturate_lm2_v2u8(lm2_v2u8 a);
+LM2_API lm2_v2u8 lm2_fract_lm2_v2u8(lm2_v2u8 a);
+LM2_API lm2_v2u8 lm2_sqrt_lm2_v2u8(lm2_v2u8 a);
+LM2_API lm2_v2u8 lm2_floor_multiple_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_ceil_multiple_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_round_multiple_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_trunc_multiple_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_min_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_min_abs_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_max_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_max_abs_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_mod_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_pow_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b);
+LM2_API lm2_v2u8 lm2_clamp_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b, lm2_v2u8 c);
+LM2_API lm2_v2u8 lm2_lerp_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b, lm2_v2u8 c);
+LM2_API lm2_v2u8 lm2_smoothstep_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b, lm2_v2u8 c);
+LM2_API lm2_v2u8 lm2_alpha_lm2_v2u8(lm2_v2u8 a, lm2_v2u8 b, lm2_v2u8 c);
+LM2_API lm2_v2u8 lm2_v2u8_make(uint8_t x, uint8_t y);
+LM2_API lm2_v2u8 lm2_v2u8_splat(uint8_t v);
+LM2_API lm2_v2u8 lm2_v2u8_zero(void);
+
+// =============================================================================
+// Type Alias
+// =============================================================================
+// Default vector type (32-bit float)
 typedef lm2_v2f32 lm2_v2;
 
 // #############################################################################

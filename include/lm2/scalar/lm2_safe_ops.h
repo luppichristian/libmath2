@@ -30,37 +30,73 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
-#define _LM2_DEFINE_SAFE_OP(name)                      \
-  LM2_API double name##_f64(double a, double b);       \
-  LM2_API float name##_f32(float a, float b);          \
-  LM2_API int64_t name##_i64(int64_t a, int64_t b);    \
-  LM2_API int32_t name##_i32(int32_t a, int32_t b);    \
-  LM2_API int16_t name##_i16(int16_t a, int16_t b);    \
-  LM2_API int8_t name##_i8(int8_t a, int8_t b);        \
-  LM2_API uint64_t name##_u64(uint64_t a, uint64_t b); \
-  LM2_API uint32_t name##_u32(uint32_t a, uint32_t b); \
-  LM2_API uint16_t name##_u16(uint16_t a, uint16_t b); \
-  LM2_API uint8_t name##_u8(uint8_t a, uint8_t b);
-
-// Safe addition for numeric types
+// =============================================================================
+// Safe Addition for Numeric Types
+// =============================================================================
 // Returns the sum of a and b, or handles overflow/underflow appropriately
 // LM2_ASSERTS will be triggered on overflow/underflow conditions
-_LM2_DEFINE_SAFE_OP(lm2_add);
 
-// Safe subtraction for numeric types
+LM2_API double lm2_add_f64(double a, double b);
+LM2_API float lm2_add_f32(float a, float b);
+LM2_API int64_t lm2_add_i64(int64_t a, int64_t b);
+LM2_API int32_t lm2_add_i32(int32_t a, int32_t b);
+LM2_API int16_t lm2_add_i16(int16_t a, int16_t b);
+LM2_API int8_t lm2_add_i8(int8_t a, int8_t b);
+LM2_API uint64_t lm2_add_u64(uint64_t a, uint64_t b);
+LM2_API uint32_t lm2_add_u32(uint32_t a, uint32_t b);
+LM2_API uint16_t lm2_add_u16(uint16_t a, uint16_t b);
+LM2_API uint8_t lm2_add_u8(uint8_t a, uint8_t b);
+
+// =============================================================================
+// Safe Subtraction for Numeric Types
+// =============================================================================
 // Returns the difference of a and b, or handles overflow/underflow appropriately
 // LM2_ASSERTS will be triggered on overflow/underflow conditions
-_LM2_DEFINE_SAFE_OP(lm2_sub);
 
-// Safe multiplication for numeric types
+LM2_API double lm2_sub_f64(double a, double b);
+LM2_API float lm2_sub_f32(float a, float b);
+LM2_API int64_t lm2_sub_i64(int64_t a, int64_t b);
+LM2_API int32_t lm2_sub_i32(int32_t a, int32_t b);
+LM2_API int16_t lm2_sub_i16(int16_t a, int16_t b);
+LM2_API int8_t lm2_sub_i8(int8_t a, int8_t b);
+LM2_API uint64_t lm2_sub_u64(uint64_t a, uint64_t b);
+LM2_API uint32_t lm2_sub_u32(uint32_t a, uint32_t b);
+LM2_API uint16_t lm2_sub_u16(uint16_t a, uint16_t b);
+LM2_API uint8_t lm2_sub_u8(uint8_t a, uint8_t b);
+
+// =============================================================================
+// Safe Multiplication for Numeric Types
+// =============================================================================
 // Returns the product of a and b, or handles overflow/underflow appropriately
 // LM2_ASSERTS will be triggered on overflow/underflow conditions
-_LM2_DEFINE_SAFE_OP(lm2_mul);
 
-// Safe division for numeric types
+LM2_API double lm2_mul_f64(double a, double b);
+LM2_API float lm2_mul_f32(float a, float b);
+LM2_API int64_t lm2_mul_i64(int64_t a, int64_t b);
+LM2_API int32_t lm2_mul_i32(int32_t a, int32_t b);
+LM2_API int16_t lm2_mul_i16(int16_t a, int16_t b);
+LM2_API int8_t lm2_mul_i8(int8_t a, int8_t b);
+LM2_API uint64_t lm2_mul_u64(uint64_t a, uint64_t b);
+LM2_API uint32_t lm2_mul_u32(uint32_t a, uint32_t b);
+LM2_API uint16_t lm2_mul_u16(uint16_t a, uint16_t b);
+LM2_API uint8_t lm2_mul_u8(uint8_t a, uint8_t b);
+
+// =============================================================================
+// Safe Division for Numeric Types
+// =============================================================================
 // Returns the quotient of a and b, or handles division by zero appropriately
 // LM2_ASSERTS will be triggered on division by zero conditions
-_LM2_DEFINE_SAFE_OP(lm2_div);
+
+LM2_API double lm2_div_f64(double a, double b);
+LM2_API float lm2_div_f32(float a, float b);
+LM2_API int64_t lm2_div_i64(int64_t a, int64_t b);
+LM2_API int32_t lm2_div_i32(int32_t a, int32_t b);
+LM2_API int16_t lm2_div_i16(int16_t a, int16_t b);
+LM2_API int8_t lm2_div_i8(int8_t a, int8_t b);
+LM2_API uint64_t lm2_div_u64(uint64_t a, uint64_t b);
+LM2_API uint32_t lm2_div_u32(uint32_t a, uint32_t b);
+LM2_API uint16_t lm2_div_u16(uint16_t a, uint16_t b);
+LM2_API uint8_t lm2_div_u8(uint8_t a, uint8_t b);
 
 // #############################################################################
 LM2_HEADER_END;

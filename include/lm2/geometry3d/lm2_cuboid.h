@@ -79,19 +79,19 @@ typedef enum lm2_cuboid_face {
 // Construction Helpers (using range3 functions)
 // =============================================================================
 // Note: Most construction is already provided by lm2_range3
-// These are just convenient aliases for cuboid-specific clarity
+// These are convenient wrappers for cuboid-specific clarity
 
-#define lm2_cuboid_from_min_max_f64(min, max) lm2_r3f64_from_min_max(min, max)
-#define lm2_cuboid_from_min_max_f32(min, max) lm2_r3f32_from_min_max(min, max)
+LM2_API lm2_cuboid_f64 lm2_cuboid_from_min_max_f64(lm2_v3f64 min, lm2_v3f64 max);
+LM2_API lm2_cuboid_f32 lm2_cuboid_from_min_max_f32(lm2_v3f32 min, lm2_v3f32 max);
 
-#define lm2_cuboid_from_center_size_f64(center, size) lm2_r3f64_from_center_size(center, size)
-#define lm2_cuboid_from_center_size_f32(center, size) lm2_r3f32_from_center_size(center, size)
+LM2_API lm2_cuboid_f64 lm2_cuboid_from_center_size_f64(lm2_v3f64 center, lm2_v3f64 size);
+LM2_API lm2_cuboid_f32 lm2_cuboid_from_center_size_f32(lm2_v3f32 center, lm2_v3f32 size);
 
-#define lm2_cuboid_from_center_extents_f64(center, extents) lm2_r3f64_from_center_extents(center, extents)
-#define lm2_cuboid_from_center_extents_f32(center, extents) lm2_r3f32_from_center_extents(center, extents)
+LM2_API lm2_cuboid_f64 lm2_cuboid_from_center_extents_f64(lm2_v3f64 center, lm2_v3f64 extents);
+LM2_API lm2_cuboid_f32 lm2_cuboid_from_center_extents_f32(lm2_v3f32 center, lm2_v3f32 extents);
 
-#define lm2_cuboid_from_position_size_f64(pos, size) lm2_r3f64_from_position_size(pos, size)
-#define lm2_cuboid_from_position_size_f32(pos, size) lm2_r3f32_from_position_size(pos, size)
+LM2_API lm2_cuboid_f64 lm2_cuboid_from_position_size_f64(lm2_v3f64 pos, lm2_v3f64 size);
+LM2_API lm2_cuboid_f32 lm2_cuboid_from_position_size_f32(lm2_v3f32 pos, lm2_v3f32 size);
 
 // Create a unit cuboid (0,0,0) to (1,1,1)
 LM2_API lm2_cuboid_f64 lm2_cuboid_unit_f64(void);
@@ -147,24 +147,24 @@ LM2_API lm2_v3f32 lm2_cuboid_face_normal_f32(lm2_cuboid_face face);
 // Cuboid Tests (using range3 functions)
 // =============================================================================
 
-#define lm2_cuboid_contains_point_f64(cuboid, point) lm2_r3f64_contains_point(cuboid, point)
-#define lm2_cuboid_contains_point_f32(cuboid, point) lm2_r3f32_contains_point(cuboid, point)
+LM2_API int lm2_cuboid_contains_point_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 point);
+LM2_API int lm2_cuboid_contains_point_f32(lm2_cuboid_f32 cuboid, lm2_v3f32 point);
 
-#define lm2_cuboid_overlaps_f64(a, b) lm2_r3f64_overlaps(a, b)
-#define lm2_cuboid_overlaps_f32(a, b) lm2_r3f32_overlaps(a, b)
+LM2_API int lm2_cuboid_overlaps_f64(lm2_cuboid_f64 a, lm2_cuboid_f64 b);
+LM2_API int lm2_cuboid_overlaps_f32(lm2_cuboid_f32 a, lm2_cuboid_f32 b);
 
 // =============================================================================
 // Cuboid Transformations (using range3 functions)
 // =============================================================================
 
-#define lm2_cuboid_translate_f64(cuboid, offset) lm2_r3f64_translate(cuboid, offset)
-#define lm2_cuboid_translate_f32(cuboid, offset) lm2_r3f32_translate(cuboid, offset)
+LM2_API lm2_cuboid_f64 lm2_cuboid_translate_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 offset);
+LM2_API lm2_cuboid_f32 lm2_cuboid_translate_f32(lm2_cuboid_f32 cuboid, lm2_v3f32 offset);
 
-#define lm2_cuboid_scale_f64(cuboid, scale) lm2_r3f64_scale(cuboid, scale)
-#define lm2_cuboid_scale_f32(cuboid, scale) lm2_r3f32_scale(cuboid, scale)
+LM2_API lm2_cuboid_f64 lm2_cuboid_scale_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 scale);
+LM2_API lm2_cuboid_f32 lm2_cuboid_scale_f32(lm2_cuboid_f32 cuboid, lm2_v3f32 scale);
 
-#define lm2_cuboid_expand_f64(cuboid, amount) lm2_r3f64_expand(cuboid, amount)
-#define lm2_cuboid_expand_f32(cuboid, amount) lm2_r3f32_expand(cuboid, amount)
+LM2_API lm2_cuboid_f64 lm2_cuboid_expand_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 amount);
+LM2_API lm2_cuboid_f32 lm2_cuboid_expand_f32(lm2_cuboid_f32 cuboid, lm2_v3f32 amount);
 
 // #############################################################################
 LM2_HEADER_END;

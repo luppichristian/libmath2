@@ -73,61 +73,79 @@ typedef union lm2_m3x3f32 {
 typedef lm2_m3x3f32 lm2_m3x3;
 
 // =============================================================================
-// Helper Macros for Declarations
+// Matrix 3x3 Function Declarations - f64
 // =============================================================================
 
-#define _LM2_DECLARE_M3X3_BASIC(mat_type, scalar_type) \
-  LM2_API mat_type mat_type##_identity(void);          \
-  LM2_API mat_type mat_type##_zero(void);              \
-  LM2_API mat_type mat_type##_make(scalar_type m00, scalar_type m01, scalar_type m02, scalar_type m10, scalar_type m11, scalar_type m12, scalar_type m20, scalar_type m21, scalar_type m22);
+// Basic constructors
+LM2_API lm2_m3x3f64 lm2_m3x3f64_identity(void);
+LM2_API lm2_m3x3f64 lm2_m3x3f64_zero(void);
+LM2_API lm2_m3x3f64 lm2_m3x3f64_make(double m00, double m01, double m02, double m10, double m11, double m12, double m20, double m21, double m22);
 
-#define _LM2_DECLARE_M3X3_TRANSFORM(mat_type, scalar_type, vec2_type)                  \
-  LM2_API mat_type mat_type##_scale(vec2_type scale);                                  \
-  LM2_API mat_type mat_type##_scale_uniform(scalar_type scale);                        \
-  LM2_API mat_type mat_type##_translate(vec2_type translation);                        \
-  LM2_API mat_type mat_type##_rotate(scalar_type angle);                               \
-  LM2_API mat_type mat_type##_rotate_around_pivot(scalar_type angle, vec2_type pivot); \
-  LM2_API mat_type mat_type##_scale_translate(vec2_type scale, vec2_type translation);
+// Transformations
+LM2_API lm2_m3x3f64 lm2_m3x3f64_scale(lm2_v2f64 scale);
+LM2_API lm2_m3x3f64 lm2_m3x3f64_scale_uniform(double scale);
+LM2_API lm2_m3x3f64 lm2_m3x3f64_translate(lm2_v2f64 translation);
+LM2_API lm2_m3x3f64 lm2_m3x3f64_rotate(double angle);
+LM2_API lm2_m3x3f64 lm2_m3x3f64_rotate_around_pivot(double angle, lm2_v2f64 pivot);
+LM2_API lm2_m3x3f64 lm2_m3x3f64_scale_translate(lm2_v2f64 scale, lm2_v2f64 translation);
 
-#define _LM2_DECLARE_M3X3_OPS(mat_type, scalar_type, vec2_type, vec3_type)                 \
-  LM2_API mat_type mat_type##_multiply(mat_type a, mat_type b);                            \
-  LM2_API mat_type mat_type##_transpose(mat_type m);                                       \
-  LM2_API mat_type mat_type##_inverse(mat_type m);                                         \
-  LM2_API scalar_type mat_type##_determinant(mat_type m);                                  \
-  LM2_API scalar_type mat_type##_trace(mat_type m);                                        \
-  LM2_API vec2_type mat_type##_transform_point(mat_type m, vec2_type v);                   \
-  LM2_API vec2_type mat_type##_transform_vector(mat_type m, vec2_type v);                  \
-  LM2_API vec3_type mat_type##_transform(mat_type m, vec3_type v);                         \
-  LM2_API void mat_type##_transform_points(mat_type m, vec2_type* points, uint32_t count); \
-  LM2_API void mat_type##_transform_points_src_dst(mat_type m, const vec2_type* src, vec2_type* dst, uint32_t count);
+// Operations
+LM2_API lm2_m3x3f64 lm2_m3x3f64_multiply(lm2_m3x3f64 a, lm2_m3x3f64 b);
+LM2_API lm2_m3x3f64 lm2_m3x3f64_transpose(lm2_m3x3f64 m);
+LM2_API lm2_m3x3f64 lm2_m3x3f64_inverse(lm2_m3x3f64 m);
+LM2_API double lm2_m3x3f64_determinant(lm2_m3x3f64 m);
+LM2_API double lm2_m3x3f64_trace(lm2_m3x3f64 m);
+LM2_API lm2_v2f64 lm2_m3x3f64_transform_point(lm2_m3x3f64 m, lm2_v2f64 v);
+LM2_API lm2_v2f64 lm2_m3x3f64_transform_vector(lm2_m3x3f64 m, lm2_v2f64 v);
+LM2_API lm2_v3f64 lm2_m3x3f64_transform(lm2_m3x3f64 m, lm2_v3f64 v);
+LM2_API void lm2_m3x3f64_transform_points(lm2_m3x3f64 m, lm2_v2f64* points, uint32_t count);
+LM2_API void lm2_m3x3f64_transform_points_src_dst(lm2_m3x3f64 m, const lm2_v2f64* src, lm2_v2f64* dst, uint32_t count);
 
-#define _LM2_DECLARE_M3X3_GETTERS(mat_type, scalar_type, vec2_type) \
-  LM2_API scalar_type mat_type##_get_rotation(mat_type m);          \
-  LM2_API vec2_type mat_type##_get_scale(mat_type m);               \
-  LM2_API vec2_type mat_type##_get_translation(mat_type m);
+// Getters
+LM2_API double lm2_m3x3f64_get_rotation(lm2_m3x3f64 m);
+LM2_API lm2_v2f64 lm2_m3x3f64_get_scale(lm2_m3x3f64 m);
+LM2_API lm2_v2f64 lm2_m3x3f64_get_translation(lm2_m3x3f64 m);
 
 // =============================================================================
-// Matrix 3x3 Function Declarations
+// Matrix 3x3 Function Declarations - f32
 // =============================================================================
 
-_LM2_DECLARE_M3X3_BASIC(lm2_m3x3f64, double)
-_LM2_DECLARE_M3X3_BASIC(lm2_m3x3f32, float)
+// Basic constructors
+LM2_API lm2_m3x3f32 lm2_m3x3f32_identity(void);
+LM2_API lm2_m3x3f32 lm2_m3x3f32_zero(void);
+LM2_API lm2_m3x3f32 lm2_m3x3f32_make(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22);
 
-_LM2_DECLARE_M3X3_TRANSFORM(lm2_m3x3f64, double, lm2_v2f64)
-_LM2_DECLARE_M3X3_TRANSFORM(lm2_m3x3f32, float, lm2_v2f32)
+// Transformations
+LM2_API lm2_m3x3f32 lm2_m3x3f32_scale(lm2_v2f32 scale);
+LM2_API lm2_m3x3f32 lm2_m3x3f32_scale_uniform(float scale);
+LM2_API lm2_m3x3f32 lm2_m3x3f32_translate(lm2_v2f32 translation);
+LM2_API lm2_m3x3f32 lm2_m3x3f32_rotate(float angle);
+LM2_API lm2_m3x3f32 lm2_m3x3f32_rotate_around_pivot(float angle, lm2_v2f32 pivot);
+LM2_API lm2_m3x3f32 lm2_m3x3f32_scale_translate(lm2_v2f32 scale, lm2_v2f32 translation);
 
-_LM2_DECLARE_M3X3_OPS(lm2_m3x3f64, double, lm2_v2f64, lm2_v3f64)
-_LM2_DECLARE_M3X3_OPS(lm2_m3x3f32, float, lm2_v2f32, lm2_v3f32)
+// Operations
+LM2_API lm2_m3x3f32 lm2_m3x3f32_multiply(lm2_m3x3f32 a, lm2_m3x3f32 b);
+LM2_API lm2_m3x3f32 lm2_m3x3f32_transpose(lm2_m3x3f32 m);
+LM2_API lm2_m3x3f32 lm2_m3x3f32_inverse(lm2_m3x3f32 m);
+LM2_API float lm2_m3x3f32_determinant(lm2_m3x3f32 m);
+LM2_API float lm2_m3x3f32_trace(lm2_m3x3f32 m);
+LM2_API lm2_v2f32 lm2_m3x3f32_transform_point(lm2_m3x3f32 m, lm2_v2f32 v);
+LM2_API lm2_v2f32 lm2_m3x3f32_transform_vector(lm2_m3x3f32 m, lm2_v2f32 v);
+LM2_API lm2_v3f32 lm2_m3x3f32_transform(lm2_m3x3f32 m, lm2_v3f32 v);
+LM2_API void lm2_m3x3f32_transform_points(lm2_m3x3f32 m, lm2_v2f32* points, uint32_t count);
+LM2_API void lm2_m3x3f32_transform_points_src_dst(lm2_m3x3f32 m, const lm2_v2f32* src, lm2_v2f32* dst, uint32_t count);
 
-_LM2_DECLARE_M3X3_GETTERS(lm2_m3x3f64, double, lm2_v2f64)
-_LM2_DECLARE_M3X3_GETTERS(lm2_m3x3f32, float, lm2_v2f32)
+// Getters
+LM2_API float lm2_m3x3f32_get_rotation(lm2_m3x3f32 m);
+LM2_API lm2_v2f32 lm2_m3x3f32_get_scale(lm2_m3x3f32 m);
+LM2_API lm2_v2f32 lm2_m3x3f32_get_translation(lm2_m3x3f32 m);
 
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
 
 // C++ operator overloads (must be outside extern "C")
-#ifndef LM2_NO_CPP_OPERATORS
+#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
 #  include "lm2_matrix_operators.h"
 _LM2_DEFINE_M3X3_OPERATORS(lm2_m3x3f64, lm2_v2f64, lm2_v3f64)
 _LM2_DEFINE_M3X3_OPERATORS(lm2_m3x3f32, lm2_v2f32, lm2_v3f32)

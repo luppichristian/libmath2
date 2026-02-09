@@ -23,371 +23,414 @@ SOFTWARE.
 */
 
 #include <lm2/matrices/lm2_matrix3x3.h>
+#include <lm2/lm2_constants.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/scalar/lm2_trigonometry.h>
 
 // =============================================================================
-// Implementation Macros
+// Matrix 3x3 Functions - f64
 // =============================================================================
 
-#define _LM2_IMPL_M3X3_BASIC(mat_type, scalar_type, scalar_suffix)                                                                                                                            \
-  LM2_API mat_type mat_type##_identity(void) {                                                                                                                                                \
-    mat_type result;                                                                                                                                                                          \
-    result.m00 = (scalar_type)1;                                                                                                                                                              \
-    result.m01 = (scalar_type)0;                                                                                                                                                              \
-    result.m02 = (scalar_type)0;                                                                                                                                                              \
-    result.m10 = (scalar_type)0;                                                                                                                                                              \
-    result.m11 = (scalar_type)1;                                                                                                                                                              \
-    result.m12 = (scalar_type)0;                                                                                                                                                              \
-    result.m20 = (scalar_type)0;                                                                                                                                                              \
-    result.m21 = (scalar_type)0;                                                                                                                                                              \
-    result.m22 = (scalar_type)1;                                                                                                                                                              \
-    return result;                                                                                                                                                                            \
-  }                                                                                                                                                                                           \
-  LM2_API mat_type mat_type##_zero(void) {                                                                                                                                                    \
-    mat_type result;                                                                                                                                                                          \
-    result.m00 = (scalar_type)0;                                                                                                                                                              \
-    result.m01 = (scalar_type)0;                                                                                                                                                              \
-    result.m02 = (scalar_type)0;                                                                                                                                                              \
-    result.m10 = (scalar_type)0;                                                                                                                                                              \
-    result.m11 = (scalar_type)0;                                                                                                                                                              \
-    result.m12 = (scalar_type)0;                                                                                                                                                              \
-    result.m20 = (scalar_type)0;                                                                                                                                                              \
-    result.m21 = (scalar_type)0;                                                                                                                                                              \
-    result.m22 = (scalar_type)0;                                                                                                                                                              \
-    return result;                                                                                                                                                                            \
-  }                                                                                                                                                                                           \
-  LM2_API mat_type mat_type##_make(scalar_type m00, scalar_type m01, scalar_type m02, scalar_type m10, scalar_type m11, scalar_type m12, scalar_type m20, scalar_type m21, scalar_type m22) { \
-    mat_type result;                                                                                                                                                                          \
-    result.m00 = m00;                                                                                                                                                                         \
-    result.m01 = m01;                                                                                                                                                                         \
-    result.m02 = m02;                                                                                                                                                                         \
-    result.m10 = m10;                                                                                                                                                                         \
-    result.m11 = m11;                                                                                                                                                                         \
-    result.m12 = m12;                                                                                                                                                                         \
-    result.m20 = m20;                                                                                                                                                                         \
-    result.m21 = m21;                                                                                                                                                                         \
-    result.m22 = m22;                                                                                                                                                                         \
-    return result;                                                                                                                                                                            \
+// Basic constructors
+LM2_API lm2_m3x3f64 lm2_m3x3f64_identity(void) {
+  lm2_m3x3f64 m = {
+      1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
+  return m;
+}
+
+LM2_API lm2_m3x3f64 lm2_m3x3f64_zero(void) {
+  lm2_m3x3f64 m = {
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+  return m;
+}
+
+LM2_API lm2_m3x3f64 lm2_m3x3f64_make(double m00, double m01, double m02, double m10, double m11, double m12, double m20, double m21, double m22) {
+  lm2_m3x3f64 m = {
+      m00, m01, m02, m10, m11, m12, m20, m21, m22};
+  return m;
+}
+
+// Transformations
+LM2_API lm2_m3x3f64 lm2_m3x3f64_scale(lm2_v2f64 scale) {
+  lm2_m3x3f64 m = {
+      scale.x, 0.0, 0.0, 0.0, scale.y, 0.0, 0.0, 0.0, 1.0};
+  return m;
+}
+
+LM2_API lm2_m3x3f64 lm2_m3x3f64_scale_uniform(double scale) {
+  lm2_m3x3f64 m = {
+      scale, 0.0, 0.0, 0.0, scale, 0.0, 0.0, 0.0, 1.0};
+  return m;
+}
+
+LM2_API lm2_m3x3f64 lm2_m3x3f64_translate(lm2_v2f64 translation) {
+  lm2_m3x3f64 m = {
+      1.0, 0.0, translation.x, 0.0, 1.0, translation.y, 0.0, 0.0, 1.0};
+  return m;
+}
+
+LM2_API lm2_m3x3f64 lm2_m3x3f64_rotate(double angle) {
+  double c = lm2_cos_f64(angle);
+  double s = lm2_sin_f64(angle);
+
+  lm2_m3x3f64 m = {
+      c, lm2_sub_f64(0.0, s), 0.0, s, c, 0.0, 0.0, 0.0, 1.0};
+  return m;
+}
+
+LM2_API lm2_m3x3f64 lm2_m3x3f64_rotate_around_pivot(double angle, lm2_v2f64 pivot) {
+  // T(pivot) * R(angle) * T(-pivot)
+  lm2_m3x3f64 translate_to_origin = lm2_m3x3f64_translate((lm2_v2f64) {lm2_sub_f64(0.0, pivot.x), lm2_sub_f64(0.0, pivot.y)});
+  lm2_m3x3f64 rotate = lm2_m3x3f64_rotate(angle);
+  lm2_m3x3f64 translate_back = lm2_m3x3f64_translate(pivot);
+
+  lm2_m3x3f64 temp = lm2_m3x3f64_multiply(rotate, translate_to_origin);
+  return lm2_m3x3f64_multiply(translate_back, temp);
+}
+
+LM2_API lm2_m3x3f64 lm2_m3x3f64_scale_translate(lm2_v2f64 scale, lm2_v2f64 translation) {
+  lm2_m3x3f64 m = {
+      scale.x, 0.0, translation.x, 0.0, scale.y, translation.y, 0.0, 0.0, 1.0};
+  return m;
+}
+
+// Operations
+LM2_API lm2_m3x3f64 lm2_m3x3f64_multiply(lm2_m3x3f64 a, lm2_m3x3f64 b) {
+  lm2_m3x3f64 result;
+
+  // Row 0
+  result.m00 = lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.m00, b.m00), lm2_mul_f64(a.m01, b.m10)), lm2_mul_f64(a.m02, b.m20));
+  result.m01 = lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.m00, b.m01), lm2_mul_f64(a.m01, b.m11)), lm2_mul_f64(a.m02, b.m21));
+  result.m02 = lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.m00, b.m02), lm2_mul_f64(a.m01, b.m12)), lm2_mul_f64(a.m02, b.m22));
+
+  // Row 1
+  result.m10 = lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.m10, b.m00), lm2_mul_f64(a.m11, b.m10)), lm2_mul_f64(a.m12, b.m20));
+  result.m11 = lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.m10, b.m01), lm2_mul_f64(a.m11, b.m11)), lm2_mul_f64(a.m12, b.m21));
+  result.m12 = lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.m10, b.m02), lm2_mul_f64(a.m11, b.m12)), lm2_mul_f64(a.m12, b.m22));
+
+  // Row 2
+  result.m20 = lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.m20, b.m00), lm2_mul_f64(a.m21, b.m10)), lm2_mul_f64(a.m22, b.m20));
+  result.m21 = lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.m20, b.m01), lm2_mul_f64(a.m21, b.m11)), lm2_mul_f64(a.m22, b.m21));
+  result.m22 = lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.m20, b.m02), lm2_mul_f64(a.m21, b.m12)), lm2_mul_f64(a.m22, b.m22));
+
+  return result;
+}
+
+LM2_API lm2_m3x3f64 lm2_m3x3f64_transpose(lm2_m3x3f64 m) {
+  lm2_m3x3f64 result = {
+      m.m00, m.m10, m.m20, m.m01, m.m11, m.m21, m.m02, m.m12, m.m22};
+  return result;
+}
+
+LM2_API double lm2_m3x3f64_determinant(lm2_m3x3f64 m) {
+  // det = m00(m11*m22 - m12*m21) - m01(m10*m22 - m12*m20) + m02(m10*m21 - m11*m20)
+  double term1 = lm2_mul_f64(m.m00, lm2_sub_f64(lm2_mul_f64(m.m11, m.m22), lm2_mul_f64(m.m12, m.m21)));
+  double term2 = lm2_mul_f64(m.m01, lm2_sub_f64(lm2_mul_f64(m.m10, m.m22), lm2_mul_f64(m.m12, m.m20)));
+  double term3 = lm2_mul_f64(m.m02, lm2_sub_f64(lm2_mul_f64(m.m10, m.m21), lm2_mul_f64(m.m11, m.m20)));
+
+  return lm2_add_f64(lm2_sub_f64(term1, term2), term3);
+}
+
+LM2_API lm2_m3x3f64 lm2_m3x3f64_inverse(lm2_m3x3f64 m) {
+  double det = lm2_m3x3f64_determinant(m);
+  LM2_ASSERT_UNSAFE(lm2_abs_f64(det) > 1e-10);
+
+  double inv_det = lm2_div_f64(1.0, det);
+
+  lm2_m3x3f64 result;
+
+  // Calculate cofactor matrix and transpose (adjugate)
+  result.m00 = lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(m.m11, m.m22), lm2_mul_f64(m.m12, m.m21)), inv_det);
+  result.m01 = lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(m.m02, m.m21), lm2_mul_f64(m.m01, m.m22)), inv_det);
+  result.m02 = lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(m.m01, m.m12), lm2_mul_f64(m.m02, m.m11)), inv_det);
+
+  result.m10 = lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(m.m12, m.m20), lm2_mul_f64(m.m10, m.m22)), inv_det);
+  result.m11 = lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(m.m00, m.m22), lm2_mul_f64(m.m02, m.m20)), inv_det);
+  result.m12 = lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(m.m02, m.m10), lm2_mul_f64(m.m00, m.m12)), inv_det);
+
+  result.m20 = lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(m.m10, m.m21), lm2_mul_f64(m.m11, m.m20)), inv_det);
+  result.m21 = lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(m.m01, m.m20), lm2_mul_f64(m.m00, m.m21)), inv_det);
+  result.m22 = lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(m.m00, m.m11), lm2_mul_f64(m.m01, m.m10)), inv_det);
+
+  return result;
+}
+
+LM2_API double lm2_m3x3f64_trace(lm2_m3x3f64 m) {
+  return lm2_add_f64(lm2_add_f64(m.m00, m.m11), m.m22);
+}
+
+LM2_API lm2_v2f64 lm2_m3x3f64_transform_point(lm2_m3x3f64 m, lm2_v2f64 v) {
+  // Transform as homogeneous point (x, y, 1)
+  double x = lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m00, v.x), lm2_mul_f64(m.m01, v.y)), m.m02);
+  double y = lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m10, v.x), lm2_mul_f64(m.m11, v.y)), m.m12);
+  double w = lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m20, v.x), lm2_mul_f64(m.m21, v.y)), m.m22);
+
+  // Perspective divide if needed
+  if (lm2_abs_f64(lm2_sub_f64(w, 1.0)) > 1e-10) {
+    LM2_ASSERT_UNSAFE(lm2_abs_f64(w) > 1e-10);
+    x = lm2_div_f64(x, w);
+    y = lm2_div_f64(y, w);
   }
 
-#define _LM2_IMPL_M3X3_TRANSFORM(mat_type, scalar_type, scalar_suffix, vec2_type)       \
-  LM2_API mat_type mat_type##_scale(vec2_type scale) {                                  \
-    mat_type result;                                                                    \
-    result.m00 = scale.x;                                                               \
-    result.m01 = (scalar_type)0;                                                        \
-    result.m02 = (scalar_type)0;                                                        \
-    result.m10 = (scalar_type)0;                                                        \
-    result.m11 = scale.y;                                                               \
-    result.m12 = (scalar_type)0;                                                        \
-    result.m20 = (scalar_type)0;                                                        \
-    result.m21 = (scalar_type)0;                                                        \
-    result.m22 = (scalar_type)1;                                                        \
-    return result;                                                                      \
-  }                                                                                     \
-  LM2_API mat_type mat_type##_scale_uniform(scalar_type scale) {                        \
-    mat_type result;                                                                    \
-    result.m00 = scale;                                                                 \
-    result.m01 = (scalar_type)0;                                                        \
-    result.m02 = (scalar_type)0;                                                        \
-    result.m10 = (scalar_type)0;                                                        \
-    result.m11 = scale;                                                                 \
-    result.m12 = (scalar_type)0;                                                        \
-    result.m20 = (scalar_type)0;                                                        \
-    result.m21 = (scalar_type)0;                                                        \
-    result.m22 = (scalar_type)1;                                                        \
-    return result;                                                                      \
-  }                                                                                     \
-  LM2_API mat_type mat_type##_translate(vec2_type translation) {                        \
-    mat_type result;                                                                    \
-    result.m00 = (scalar_type)1;                                                        \
-    result.m01 = (scalar_type)0;                                                        \
-    result.m02 = translation.x;                                                         \
-    result.m10 = (scalar_type)0;                                                        \
-    result.m11 = (scalar_type)1;                                                        \
-    result.m12 = translation.y;                                                         \
-    result.m20 = (scalar_type)0;                                                        \
-    result.m21 = (scalar_type)0;                                                        \
-    result.m22 = (scalar_type)1;                                                        \
-    return result;                                                                      \
-  }                                                                                     \
-  LM2_API mat_type mat_type##_rotate(scalar_type angle) {                               \
-    scalar_type c = lm2_cos_##scalar_suffix(angle);                                     \
-    scalar_type s = lm2_sin_##scalar_suffix(angle);                                     \
-    mat_type result;                                                                    \
-    result.m00 = c;                                                                     \
-    result.m01 = lm2_neg_##scalar_suffix(s);                                            \
-    result.m02 = (scalar_type)0;                                                        \
-    result.m10 = s;                                                                     \
-    result.m11 = c;                                                                     \
-    result.m12 = (scalar_type)0;                                                        \
-    result.m20 = (scalar_type)0;                                                        \
-    result.m21 = (scalar_type)0;                                                        \
-    result.m22 = (scalar_type)1;                                                        \
-    return result;                                                                      \
-  }                                                                                     \
-  LM2_API mat_type mat_type##_rotate_around_pivot(scalar_type angle, vec2_type pivot) { \
-    scalar_type c = lm2_cos_##scalar_suffix(angle);                                     \
-    scalar_type s = lm2_sin_##scalar_suffix(angle);                                     \
-    scalar_type one_minus_c = lm2_sub_##scalar_suffix((scalar_type)1, c);               \
-    mat_type result;                                                                    \
-    result.m00 = c;                                                                     \
-    result.m01 = lm2_neg_##scalar_suffix(s);                                            \
-    result.m02 = lm2_add_##scalar_suffix(                                               \
-        lm2_mul_##scalar_suffix(pivot.x, one_minus_c),                                  \
-        lm2_mul_##scalar_suffix(pivot.y, s));                                           \
-    result.m10 = s;                                                                     \
-    result.m11 = c;                                                                     \
-    result.m12 = lm2_add_##scalar_suffix(                                               \
-        lm2_mul_##scalar_suffix(pivot.y, one_minus_c),                                  \
-        lm2_mul_##scalar_suffix(lm2_neg_##scalar_suffix(pivot.x), s));                  \
-    result.m20 = (scalar_type)0;                                                        \
-    result.m21 = (scalar_type)0;                                                        \
-    result.m22 = (scalar_type)1;                                                        \
-    return result;                                                                      \
-  }                                                                                     \
-  LM2_API mat_type mat_type##_scale_translate(vec2_type scale, vec2_type translation) { \
-    mat_type result;                                                                    \
-    result.m00 = scale.x;                                                               \
-    result.m01 = (scalar_type)0;                                                        \
-    result.m02 = translation.x;                                                         \
-    result.m10 = (scalar_type)0;                                                        \
-    result.m11 = scale.y;                                                               \
-    result.m12 = translation.y;                                                         \
-    result.m20 = (scalar_type)0;                                                        \
-    result.m21 = (scalar_type)0;                                                        \
-    result.m22 = (scalar_type)1;                                                        \
-    return result;                                                                      \
-  }
+  lm2_v2f64 result = {x, y};
+  return result;
+}
 
-#define _LM2_IMPL_M3X3_OPS(mat_type, scalar_type, scalar_suffix, vec2_type, vec3_type)                                 \
-  LM2_API mat_type mat_type##_multiply(mat_type a, mat_type b) {                                                       \
-    mat_type result;                                                                                                   \
-    result.m00 = lm2_add_##scalar_suffix(                                                                              \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(a.m00, b.m00),                                                                     \
-            lm2_mul_##scalar_suffix(a.m01, b.m10)),                                                                    \
-        lm2_mul_##scalar_suffix(a.m02, b.m20));                                                                        \
-    result.m01 = lm2_add_##scalar_suffix(                                                                              \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(a.m00, b.m01),                                                                     \
-            lm2_mul_##scalar_suffix(a.m01, b.m11)),                                                                    \
-        lm2_mul_##scalar_suffix(a.m02, b.m21));                                                                        \
-    result.m02 = lm2_add_##scalar_suffix(                                                                              \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(a.m00, b.m02),                                                                     \
-            lm2_mul_##scalar_suffix(a.m01, b.m12)),                                                                    \
-        lm2_mul_##scalar_suffix(a.m02, b.m22));                                                                        \
-    result.m10 = lm2_add_##scalar_suffix(                                                                              \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(a.m10, b.m00),                                                                     \
-            lm2_mul_##scalar_suffix(a.m11, b.m10)),                                                                    \
-        lm2_mul_##scalar_suffix(a.m12, b.m20));                                                                        \
-    result.m11 = lm2_add_##scalar_suffix(                                                                              \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(a.m10, b.m01),                                                                     \
-            lm2_mul_##scalar_suffix(a.m11, b.m11)),                                                                    \
-        lm2_mul_##scalar_suffix(a.m12, b.m21));                                                                        \
-    result.m12 = lm2_add_##scalar_suffix(                                                                              \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(a.m10, b.m02),                                                                     \
-            lm2_mul_##scalar_suffix(a.m11, b.m12)),                                                                    \
-        lm2_mul_##scalar_suffix(a.m12, b.m22));                                                                        \
-    result.m20 = lm2_add_##scalar_suffix(                                                                              \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(a.m20, b.m00),                                                                     \
-            lm2_mul_##scalar_suffix(a.m21, b.m10)),                                                                    \
-        lm2_mul_##scalar_suffix(a.m22, b.m20));                                                                        \
-    result.m21 = lm2_add_##scalar_suffix(                                                                              \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(a.m20, b.m01),                                                                     \
-            lm2_mul_##scalar_suffix(a.m21, b.m11)),                                                                    \
-        lm2_mul_##scalar_suffix(a.m22, b.m21));                                                                        \
-    result.m22 = lm2_add_##scalar_suffix(                                                                              \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(a.m20, b.m02),                                                                     \
-            lm2_mul_##scalar_suffix(a.m21, b.m12)),                                                                    \
-        lm2_mul_##scalar_suffix(a.m22, b.m22));                                                                        \
-    return result;                                                                                                     \
-  }                                                                                                                    \
-  LM2_API mat_type mat_type##_transpose(mat_type m) {                                                                  \
-    mat_type result;                                                                                                   \
-    result.m00 = m.m00;                                                                                                \
-    result.m01 = m.m10;                                                                                                \
-    result.m02 = m.m20;                                                                                                \
-    result.m10 = m.m01;                                                                                                \
-    result.m11 = m.m11;                                                                                                \
-    result.m12 = m.m21;                                                                                                \
-    result.m20 = m.m02;                                                                                                \
-    result.m21 = m.m12;                                                                                                \
-    result.m22 = m.m22;                                                                                                \
-    return result;                                                                                                     \
-  }                                                                                                                    \
-  LM2_API scalar_type mat_type##_determinant(mat_type m) {                                                             \
-    scalar_type term1 = lm2_mul_##scalar_suffix(m.m00,                                                                 \
-                                                lm2_sub_##scalar_suffix(                                               \
-                                                    lm2_mul_##scalar_suffix(m.m11, m.m22),                             \
-                                                    lm2_mul_##scalar_suffix(m.m12, m.m21)));                           \
-    scalar_type term2 = lm2_mul_##scalar_suffix(m.m01,                                                                 \
-                                                lm2_sub_##scalar_suffix(                                               \
-                                                    lm2_mul_##scalar_suffix(m.m10, m.m22),                             \
-                                                    lm2_mul_##scalar_suffix(m.m12, m.m20)));                           \
-    scalar_type term3 = lm2_mul_##scalar_suffix(m.m02,                                                                 \
-                                                lm2_sub_##scalar_suffix(                                               \
-                                                    lm2_mul_##scalar_suffix(m.m10, m.m21),                             \
-                                                    lm2_mul_##scalar_suffix(m.m11, m.m20)));                           \
-    return lm2_sub_##scalar_suffix(lm2_add_##scalar_suffix(term1, term3), term2);                                      \
-  }                                                                                                                    \
-  LM2_API scalar_type mat_type##_trace(mat_type m) {                                                                   \
-    return lm2_add_##scalar_suffix(                                                                                    \
-        lm2_add_##scalar_suffix(m.m00, m.m11),                                                                         \
-        m.m22);                                                                                                        \
-  }                                                                                                                    \
-  LM2_API mat_type mat_type##_inverse(mat_type m) {                                                                    \
-    scalar_type det = mat_type##_determinant(m);                                                                       \
-    LM2_ASSERT_UNSAFE(lm2_abs_##scalar_suffix(det) > (scalar_type)0.000001);                                           \
-    scalar_type inv_det = lm2_div_##scalar_suffix((scalar_type)1, det);                                                \
-    mat_type result;                                                                                                   \
-    result.m00 = lm2_mul_##scalar_suffix(inv_det,                                                                      \
-                                         lm2_sub_##scalar_suffix(                                                      \
-                                             lm2_mul_##scalar_suffix(m.m11, m.m22),                                    \
-                                             lm2_mul_##scalar_suffix(m.m12, m.m21)));                                  \
-    result.m01 = lm2_mul_##scalar_suffix(inv_det,                                                                      \
-                                         lm2_sub_##scalar_suffix(                                                      \
-                                             lm2_mul_##scalar_suffix(m.m02, m.m21),                                    \
-                                             lm2_mul_##scalar_suffix(m.m01, m.m22)));                                  \
-    result.m02 = lm2_mul_##scalar_suffix(inv_det,                                                                      \
-                                         lm2_sub_##scalar_suffix(                                                      \
-                                             lm2_mul_##scalar_suffix(m.m01, m.m12),                                    \
-                                             lm2_mul_##scalar_suffix(m.m02, m.m11)));                                  \
-    result.m10 = lm2_mul_##scalar_suffix(inv_det,                                                                      \
-                                         lm2_sub_##scalar_suffix(                                                      \
-                                             lm2_mul_##scalar_suffix(m.m12, m.m20),                                    \
-                                             lm2_mul_##scalar_suffix(m.m10, m.m22)));                                  \
-    result.m11 = lm2_mul_##scalar_suffix(inv_det,                                                                      \
-                                         lm2_sub_##scalar_suffix(                                                      \
-                                             lm2_mul_##scalar_suffix(m.m00, m.m22),                                    \
-                                             lm2_mul_##scalar_suffix(m.m02, m.m20)));                                  \
-    result.m12 = lm2_mul_##scalar_suffix(inv_det,                                                                      \
-                                         lm2_sub_##scalar_suffix(                                                      \
-                                             lm2_mul_##scalar_suffix(m.m02, m.m10),                                    \
-                                             lm2_mul_##scalar_suffix(m.m00, m.m12)));                                  \
-    result.m20 = lm2_mul_##scalar_suffix(inv_det,                                                                      \
-                                         lm2_sub_##scalar_suffix(                                                      \
-                                             lm2_mul_##scalar_suffix(m.m10, m.m21),                                    \
-                                             lm2_mul_##scalar_suffix(m.m11, m.m20)));                                  \
-    result.m21 = lm2_mul_##scalar_suffix(inv_det,                                                                      \
-                                         lm2_sub_##scalar_suffix(                                                      \
-                                             lm2_mul_##scalar_suffix(m.m01, m.m20),                                    \
-                                             lm2_mul_##scalar_suffix(m.m00, m.m21)));                                  \
-    result.m22 = lm2_mul_##scalar_suffix(inv_det,                                                                      \
-                                         lm2_sub_##scalar_suffix(                                                      \
-                                             lm2_mul_##scalar_suffix(m.m00, m.m11),                                    \
-                                             lm2_mul_##scalar_suffix(m.m01, m.m10)));                                  \
-    return result;                                                                                                     \
-  }                                                                                                                    \
-  LM2_API vec2_type mat_type##_transform_point(mat_type m, vec2_type v) {                                              \
-    scalar_type w = lm2_add_##scalar_suffix(                                                                           \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(m.m20, v.x),                                                                       \
-            lm2_mul_##scalar_suffix(m.m21, v.y)),                                                                      \
-        m.m22);                                                                                                        \
-    LM2_ASSERT_UNSAFE(lm2_abs_##scalar_suffix(w) > (scalar_type)0.000001);                                             \
-    scalar_type inv_w = lm2_div_##scalar_suffix((scalar_type)1, w);                                                    \
-    vec2_type result;                                                                                                  \
-    result.x = lm2_mul_##scalar_suffix(inv_w,                                                                          \
-                                       lm2_add_##scalar_suffix(                                                        \
-                                           lm2_add_##scalar_suffix(                                                    \
-                                               lm2_mul_##scalar_suffix(m.m00, v.x),                                    \
-                                               lm2_mul_##scalar_suffix(m.m01, v.y)),                                   \
-                                           m.m02));                                                                    \
-    result.y = lm2_mul_##scalar_suffix(inv_w,                                                                          \
-                                       lm2_add_##scalar_suffix(                                                        \
-                                           lm2_add_##scalar_suffix(                                                    \
-                                               lm2_mul_##scalar_suffix(m.m10, v.x),                                    \
-                                               lm2_mul_##scalar_suffix(m.m11, v.y)),                                   \
-                                           m.m12));                                                                    \
-    return result;                                                                                                     \
-  }                                                                                                                    \
-  LM2_API vec2_type mat_type##_transform_vector(mat_type m, vec2_type v) {                                             \
-    vec2_type result;                                                                                                  \
-    result.x = lm2_add_##scalar_suffix(                                                                                \
-        lm2_mul_##scalar_suffix(m.m00, v.x),                                                                           \
-        lm2_mul_##scalar_suffix(m.m01, v.y));                                                                          \
-    result.y = lm2_add_##scalar_suffix(                                                                                \
-        lm2_mul_##scalar_suffix(m.m10, v.x),                                                                           \
-        lm2_mul_##scalar_suffix(m.m11, v.y));                                                                          \
-    return result;                                                                                                     \
-  }                                                                                                                    \
-  LM2_API vec3_type mat_type##_transform(mat_type m, vec3_type v) {                                                    \
-    vec3_type result;                                                                                                  \
-    result.x = lm2_add_##scalar_suffix(                                                                                \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(m.m00, v.x),                                                                       \
-            lm2_mul_##scalar_suffix(m.m01, v.y)),                                                                      \
-        lm2_mul_##scalar_suffix(m.m02, v.z));                                                                          \
-    result.y = lm2_add_##scalar_suffix(                                                                                \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(m.m10, v.x),                                                                       \
-            lm2_mul_##scalar_suffix(m.m11, v.y)),                                                                      \
-        lm2_mul_##scalar_suffix(m.m12, v.z));                                                                          \
-    result.z = lm2_add_##scalar_suffix(                                                                                \
-        lm2_add_##scalar_suffix(                                                                                       \
-            lm2_mul_##scalar_suffix(m.m20, v.x),                                                                       \
-            lm2_mul_##scalar_suffix(m.m21, v.y)),                                                                      \
-        lm2_mul_##scalar_suffix(m.m22, v.z));                                                                          \
-    return result;                                                                                                     \
-  }                                                                                                                    \
-  LM2_API void mat_type##_transform_points(mat_type m, vec2_type* points, uint32_t count) {                            \
-    LM2_ASSERT(points != NULL);                                                                                        \
-    for (uint32_t i = 0; i < count; i = lm2_add_u32(i, 1)) {                                                           \
-      points[i] = mat_type##_transform_point(m, points[i]);                                                            \
-    }                                                                                                                  \
-  }                                                                                                                    \
-  LM2_API void mat_type##_transform_points_src_dst(mat_type m, const vec2_type* src, vec2_type* dst, uint32_t count) { \
-    LM2_ASSERT(src != NULL);                                                                                           \
-    LM2_ASSERT(dst != NULL);                                                                                           \
-    for (uint32_t i = 0; i < count; i = lm2_add_u32(i, 1)) {                                                           \
-      dst[i] = mat_type##_transform_point(m, src[i]);                                                                  \
-    }                                                                                                                  \
-  }
+LM2_API lm2_v2f64 lm2_m3x3f64_transform_vector(lm2_m3x3f64 m, lm2_v2f64 v) {
+  // Transform as vector (x, y, 0) - no translation
+  double x = lm2_add_f64(lm2_mul_f64(m.m00, v.x), lm2_mul_f64(m.m01, v.y));
+  double y = lm2_add_f64(lm2_mul_f64(m.m10, v.x), lm2_mul_f64(m.m11, v.y));
 
-#define _LM2_IMPL_M3X3_GETTERS(mat_type, scalar_type, scalar_suffix, vec2_type) \
-  LM2_API scalar_type mat_type##_get_rotation(mat_type m) {                     \
-    return lm2_atan2_##scalar_suffix(m.m10, m.m00);                             \
-  }                                                                             \
-  LM2_API vec2_type mat_type##_get_scale(mat_type m) {                          \
-    vec2_type result;                                                           \
-    result.x = lm2_sqrt_##scalar_suffix(                                        \
-        lm2_add_##scalar_suffix(                                                \
-            lm2_mul_##scalar_suffix(m.m00, m.m00),                              \
-            lm2_mul_##scalar_suffix(m.m10, m.m10)));                            \
-    result.y = lm2_sqrt_##scalar_suffix(                                        \
-        lm2_add_##scalar_suffix(                                                \
-            lm2_mul_##scalar_suffix(m.m01, m.m01),                              \
-            lm2_mul_##scalar_suffix(m.m11, m.m11)));                            \
-    return result;                                                              \
-  }                                                                             \
-  LM2_API vec2_type mat_type##_get_translation(mat_type m) {                    \
-    vec2_type result;                                                           \
-    result.x = m.m02;                                                           \
-    result.y = m.m12;                                                           \
-    return result;                                                              \
-  }
+  lm2_v2f64 result = {x, y};
+  return result;
+}
 
+LM2_API lm2_v3f64 lm2_m3x3f64_transform(lm2_m3x3f64 m, lm2_v3f64 v) {
+  // Transform full 3D vector
+  double x = lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m00, v.x), lm2_mul_f64(m.m01, v.y)), lm2_mul_f64(m.m02, v.z));
+  double y = lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m10, v.x), lm2_mul_f64(m.m11, v.y)), lm2_mul_f64(m.m12, v.z));
+  double z = lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m20, v.x), lm2_mul_f64(m.m21, v.y)), lm2_mul_f64(m.m22, v.z));
+
+  lm2_v3f64 result = {x, y, z};
+  return result;
+}
+
+LM2_API void lm2_m3x3f64_transform_points(lm2_m3x3f64 m, lm2_v2f64* points, uint32_t count) {
+  LM2_ASSERT(points != NULL);
+
+  for (uint32_t i = 0; i < count; i++) {
+    points[i] = lm2_m3x3f64_transform_point(m, points[i]);
+  }
+}
+
+LM2_API void lm2_m3x3f64_transform_points_src_dst(lm2_m3x3f64 m, const lm2_v2f64* src, lm2_v2f64* dst, uint32_t count) {
+  LM2_ASSERT(src != NULL && dst != NULL);
+
+  for (uint32_t i = 0; i < count; i++) {
+    dst[i] = lm2_m3x3f64_transform_point(m, src[i]);
+  }
+}
+
+// Getters
+LM2_API double lm2_m3x3f64_get_rotation(lm2_m3x3f64 m) {
+  // Extract rotation angle from the rotation part
+  return lm2_atan2_f64(m.m10, m.m00);
+}
+
+LM2_API lm2_v2f64 lm2_m3x3f64_get_scale(lm2_m3x3f64 m) {
+  // Extract scale from matrix
+  double sx = lm2_sqrt_f64(lm2_add_f64(lm2_mul_f64(m.m00, m.m00), lm2_mul_f64(m.m10, m.m10)));
+  double sy = lm2_sqrt_f64(lm2_add_f64(lm2_mul_f64(m.m01, m.m01), lm2_mul_f64(m.m11, m.m11)));
+
+  lm2_v2f64 result = {sx, sy};
+  return result;
+}
+
+LM2_API lm2_v2f64 lm2_m3x3f64_get_translation(lm2_m3x3f64 m) {
+  lm2_v2f64 result = {m.m02, m.m12};
+  return result;
+}
 // =============================================================================
-// Matrix 3x3 Implementations
+// Matrix 3x3 Functions - f32
 // =============================================================================
 
-_LM2_IMPL_M3X3_BASIC(lm2_m3x3f64, double, f64)
-_LM2_IMPL_M3X3_BASIC(lm2_m3x3f32, float, f32)
+// Basic constructors
+LM2_API lm2_m3x3f32 lm2_m3x3f32_identity(void) {
+  lm2_m3x3f32 m = {
+      1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f};
+  return m;
+}
 
-_LM2_IMPL_M3X3_TRANSFORM(lm2_m3x3f64, double, f64, lm2_v2f64)
-_LM2_IMPL_M3X3_TRANSFORM(lm2_m3x3f32, float, f32, lm2_v2f32)
+LM2_API lm2_m3x3f32 lm2_m3x3f32_zero(void) {
+  lm2_m3x3f32 m = {
+      0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+  return m;
+}
 
-_LM2_IMPL_M3X3_OPS(lm2_m3x3f64, double, f64, lm2_v2f64, lm2_v3f64)
-_LM2_IMPL_M3X3_OPS(lm2_m3x3f32, float, f32, lm2_v2f32, lm2_v3f32)
+LM2_API lm2_m3x3f32 lm2_m3x3f32_make(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22) {
+  lm2_m3x3f32 m = {
+      m00, m01, m02, m10, m11, m12, m20, m21, m22};
+  return m;
+}
 
-_LM2_IMPL_M3X3_GETTERS(lm2_m3x3f64, double, f64, lm2_v2f64)
-_LM2_IMPL_M3X3_GETTERS(lm2_m3x3f32, float, f32, lm2_v2f32)
+// Transformations
+LM2_API lm2_m3x3f32 lm2_m3x3f32_scale(lm2_v2f32 scale) {
+  lm2_m3x3f32 m = {
+      scale.x, 0.0f, 0.0f, 0.0f, scale.y, 0.0f, 0.0f, 0.0f, 1.0f};
+  return m;
+}
+
+LM2_API lm2_m3x3f32 lm2_m3x3f32_scale_uniform(float scale) {
+  lm2_m3x3f32 m = {
+      scale, 0.0f, 0.0f, 0.0f, scale, 0.0f, 0.0f, 0.0f, 1.0f};
+  return m;
+}
+
+LM2_API lm2_m3x3f32 lm2_m3x3f32_translate(lm2_v2f32 translation) {
+  lm2_m3x3f32 m = {
+      1.0f, 0.0f, translation.x, 0.0f, 1.0f, translation.y, 0.0f, 0.0f, 1.0f};
+  return m;
+}
+
+LM2_API lm2_m3x3f32 lm2_m3x3f32_rotate(float angle) {
+  float c = lm2_cos_f32(angle);
+  float s = lm2_sin_f32(angle);
+
+  lm2_m3x3f32 m = {
+      c, lm2_sub_f32(0.0f, s), 0.0f, s, c, 0.0f, 0.0f, 0.0f, 1.0f};
+  return m;
+}
+
+LM2_API lm2_m3x3f32 lm2_m3x3f32_rotate_around_pivot(float angle, lm2_v2f32 pivot) {
+  // T(pivot) * R(angle) * T(-pivot)
+  lm2_m3x3f32 translate_to_origin = lm2_m3x3f32_translate((lm2_v2f32) {lm2_sub_f32(0.0f, pivot.x), lm2_sub_f32(0.0f, pivot.y)});
+  lm2_m3x3f32 rotate = lm2_m3x3f32_rotate(angle);
+  lm2_m3x3f32 translate_back = lm2_m3x3f32_translate(pivot);
+
+  lm2_m3x3f32 temp = lm2_m3x3f32_multiply(rotate, translate_to_origin);
+  return lm2_m3x3f32_multiply(translate_back, temp);
+}
+
+LM2_API lm2_m3x3f32 lm2_m3x3f32_scale_translate(lm2_v2f32 scale, lm2_v2f32 translation) {
+  lm2_m3x3f32 m = {
+      scale.x, 0.0f, translation.x, 0.0f, scale.y, translation.y, 0.0f, 0.0f, 1.0f};
+  return m;
+}
+
+// Operations
+LM2_API lm2_m3x3f32 lm2_m3x3f32_multiply(lm2_m3x3f32 a, lm2_m3x3f32 b) {
+  lm2_m3x3f32 result;
+
+  // Row 0
+  result.m00 = lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.m00, b.m00), lm2_mul_f32(a.m01, b.m10)), lm2_mul_f32(a.m02, b.m20));
+  result.m01 = lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.m00, b.m01), lm2_mul_f32(a.m01, b.m11)), lm2_mul_f32(a.m02, b.m21));
+  result.m02 = lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.m00, b.m02), lm2_mul_f32(a.m01, b.m12)), lm2_mul_f32(a.m02, b.m22));
+
+  // Row 1
+  result.m10 = lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.m10, b.m00), lm2_mul_f32(a.m11, b.m10)), lm2_mul_f32(a.m12, b.m20));
+  result.m11 = lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.m10, b.m01), lm2_mul_f32(a.m11, b.m11)), lm2_mul_f32(a.m12, b.m21));
+  result.m12 = lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.m10, b.m02), lm2_mul_f32(a.m11, b.m12)), lm2_mul_f32(a.m12, b.m22));
+
+  // Row 2
+  result.m20 = lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.m20, b.m00), lm2_mul_f32(a.m21, b.m10)), lm2_mul_f32(a.m22, b.m20));
+  result.m21 = lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.m20, b.m01), lm2_mul_f32(a.m21, b.m11)), lm2_mul_f32(a.m22, b.m21));
+  result.m22 = lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.m20, b.m02), lm2_mul_f32(a.m21, b.m12)), lm2_mul_f32(a.m22, b.m22));
+
+  return result;
+}
+
+LM2_API lm2_m3x3f32 lm2_m3x3f32_transpose(lm2_m3x3f32 m) {
+  lm2_m3x3f32 result = {
+      m.m00, m.m10, m.m20, m.m01, m.m11, m.m21, m.m02, m.m12, m.m22};
+  return result;
+}
+
+LM2_API float lm2_m3x3f32_determinant(lm2_m3x3f32 m) {
+  // det = m00(m11*m22 - m12*m21) - m01(m10*m22 - m12*m20) + m02(m10*m21 - m11*m20)
+  float term1 = lm2_mul_f32(m.m00, lm2_sub_f32(lm2_mul_f32(m.m11, m.m22), lm2_mul_f32(m.m12, m.m21)));
+  float term2 = lm2_mul_f32(m.m01, lm2_sub_f32(lm2_mul_f32(m.m10, m.m22), lm2_mul_f32(m.m12, m.m20)));
+  float term3 = lm2_mul_f32(m.m02, lm2_sub_f32(lm2_mul_f32(m.m10, m.m21), lm2_mul_f32(m.m11, m.m20)));
+
+  return lm2_add_f32(lm2_sub_f32(term1, term2), term3);
+}
+
+LM2_API lm2_m3x3f32 lm2_m3x3f32_inverse(lm2_m3x3f32 m) {
+  float det = lm2_m3x3f32_determinant(m);
+  LM2_ASSERT_UNSAFE(lm2_abs_f32(det) > 1e-6f);
+
+  float inv_det = lm2_div_f32(1.0f, det);
+
+  lm2_m3x3f32 result;
+
+  // Calculate cofactor matrix and transpose (adjugate)
+  result.m00 = lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(m.m11, m.m22), lm2_mul_f32(m.m12, m.m21)), inv_det);
+  result.m01 = lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(m.m02, m.m21), lm2_mul_f32(m.m01, m.m22)), inv_det);
+  result.m02 = lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(m.m01, m.m12), lm2_mul_f32(m.m02, m.m11)), inv_det);
+
+  result.m10 = lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(m.m12, m.m20), lm2_mul_f32(m.m10, m.m22)), inv_det);
+  result.m11 = lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(m.m00, m.m22), lm2_mul_f32(m.m02, m.m20)), inv_det);
+  result.m12 = lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(m.m02, m.m10), lm2_mul_f32(m.m00, m.m12)), inv_det);
+
+  result.m20 = lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(m.m10, m.m21), lm2_mul_f32(m.m11, m.m20)), inv_det);
+  result.m21 = lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(m.m01, m.m20), lm2_mul_f32(m.m00, m.m21)), inv_det);
+  result.m22 = lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(m.m00, m.m11), lm2_mul_f32(m.m01, m.m10)), inv_det);
+
+  return result;
+}
+
+LM2_API float lm2_m3x3f32_trace(lm2_m3x3f32 m) {
+  return lm2_add_f32(lm2_add_f32(m.m00, m.m11), m.m22);
+}
+
+LM2_API lm2_v2f32 lm2_m3x3f32_transform_point(lm2_m3x3f32 m, lm2_v2f32 v) {
+  // Transform as homogeneous point (x, y, 1)
+  float x = lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m00, v.x), lm2_mul_f32(m.m01, v.y)), m.m02);
+  float y = lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m10, v.x), lm2_mul_f32(m.m11, v.y)), m.m12);
+  float w = lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m20, v.x), lm2_mul_f32(m.m21, v.y)), m.m22);
+
+  // Perspective divide if needed
+  if (lm2_abs_f32(lm2_sub_f32(w, 1.0f)) > 1e-6f) {
+    LM2_ASSERT_UNSAFE(lm2_abs_f32(w) > 1e-6f);
+    x = lm2_div_f32(x, w);
+    y = lm2_div_f32(y, w);
+  }
+
+  lm2_v2f32 result = {x, y};
+  return result;
+}
+
+LM2_API lm2_v2f32 lm2_m3x3f32_transform_vector(lm2_m3x3f32 m, lm2_v2f32 v) {
+  // Transform as vector (x, y, 0) - no translation
+  float x = lm2_add_f32(lm2_mul_f32(m.m00, v.x), lm2_mul_f32(m.m01, v.y));
+  float y = lm2_add_f32(lm2_mul_f32(m.m10, v.x), lm2_mul_f32(m.m11, v.y));
+
+  lm2_v2f32 result = {x, y};
+  return result;
+}
+
+LM2_API lm2_v3f32 lm2_m3x3f32_transform(lm2_m3x3f32 m, lm2_v3f32 v) {
+  // Transform full 3D vector
+  float x = lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m00, v.x), lm2_mul_f32(m.m01, v.y)), lm2_mul_f32(m.m02, v.z));
+  float y = lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m10, v.x), lm2_mul_f32(m.m11, v.y)), lm2_mul_f32(m.m12, v.z));
+  float z = lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m20, v.x), lm2_mul_f32(m.m21, v.y)), lm2_mul_f32(m.m22, v.z));
+
+  lm2_v3f32 result = {x, y, z};
+  return result;
+}
+
+LM2_API void lm2_m3x3f32_transform_points(lm2_m3x3f32 m, lm2_v2f32* points, uint32_t count) {
+  LM2_ASSERT(points != NULL);
+
+  for (uint32_t i = 0; i < count; i++) {
+    points[i] = lm2_m3x3f32_transform_point(m, points[i]);
+  }
+}
+
+LM2_API void lm2_m3x3f32_transform_points_src_dst(lm2_m3x3f32 m, const lm2_v2f32* src, lm2_v2f32* dst, uint32_t count) {
+  LM2_ASSERT(src != NULL && dst != NULL);
+
+  for (uint32_t i = 0; i < count; i++) {
+    dst[i] = lm2_m3x3f32_transform_point(m, src[i]);
+  }
+}
+
+// Getters
+LM2_API float lm2_m3x3f32_get_rotation(lm2_m3x3f32 m) {
+  // Extract rotation angle from the rotation part
+  return lm2_atan2_f32(m.m10, m.m00);
+}
+
+LM2_API lm2_v2f32 lm2_m3x3f32_get_scale(lm2_m3x3f32 m) {
+  // Extract scale from matrix
+  float sx = lm2_sqrt_f32(lm2_add_f32(lm2_mul_f32(m.m00, m.m00), lm2_mul_f32(m.m10, m.m10)));
+  float sy = lm2_sqrt_f32(lm2_add_f32(lm2_mul_f32(m.m01, m.m01), lm2_mul_f32(m.m11, m.m11)));
+
+  lm2_v2f32 result = {sx, sy};
+  return result;
+}
+
+LM2_API lm2_v2f32 lm2_m3x3f32_get_translation(lm2_m3x3f32 m) {
+  lm2_v2f32 result = {m.m02, m.m12};
+  return result;
+}

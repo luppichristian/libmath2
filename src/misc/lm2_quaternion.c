@@ -23,229 +23,600 @@ SOFTWARE.
 */
 
 #include <lm2/misc/lm2_quaternion.h>
+#include <lm2/lm2_constants.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/scalar/lm2_trigonometry.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
 
 // =============================================================================
-// Implementation Macros
+// Quaternion Functions - f64
 // =============================================================================
 
-#define _LM2_IMPL_QUAT_BASIC(quat_type, scalar_type, scalar_suffix)                                \
-  LM2_API quat_type quat_type##_identity(void) {                                                   \
-    quat_type result;                                                                              \
-    result.x = (scalar_type)0;                                                                     \
-    result.y = (scalar_type)0;                                                                     \
-    result.z = (scalar_type)0;                                                                     \
-    result.w = (scalar_type)1;                                                                     \
-    return result;                                                                                 \
-  }                                                                                                \
-  LM2_API quat_type quat_type##_zero(void) {                                                       \
-    quat_type result;                                                                              \
-    result.x = (scalar_type)0;                                                                     \
-    result.y = (scalar_type)0;                                                                     \
-    result.z = (scalar_type)0;                                                                     \
-    result.w = (scalar_type)0;                                                                     \
-    return result;                                                                                 \
-  }                                                                                                \
-  LM2_API quat_type quat_type##_make(scalar_type x, scalar_type y, scalar_type z, scalar_type w) { \
-    quat_type result;                                                                              \
-    result.x = x;                                                                                  \
-    result.y = y;                                                                                  \
-    result.z = z;                                                                                  \
-    result.w = w;                                                                                  \
-    return result;                                                                                 \
+// Basic constructors
+LM2_API lm2_quatf64 lm2_quatf64_identity(void) {
+  lm2_quatf64 q = {0.0, 0.0, 0.0, 1.0};
+  return q;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_zero(void) {
+  lm2_quatf64 q = {0.0, 0.0, 0.0, 0.0};
+  return q;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_make(double x, double y, double z, double w) {
+  lm2_quatf64 q = {x, y, z, w};
+  return q;
+}
+
+// Conversions from other representations
+LM2_API lm2_quatf64 lm2_quatf64_from_axis_angle(lm2_v3f64 axis, double angle) {
+  // Normalize the axis
+  double len_sq = lm2_add_f64(lm2_add_f64(lm2_mul_f64(axis.x, axis.x), lm2_mul_f64(axis.y, axis.y)), lm2_mul_f64(axis.z, axis.z));
+  double len = lm2_sqrt_f64(len_sq);
+  LM2_ASSERT_UNSAFE(len > 0.0);
+
+  double inv_len = lm2_div_f64(1.0, len);
+  double nx = lm2_mul_f64(axis.x, inv_len);
+  double ny = lm2_mul_f64(axis.y, inv_len);
+  double nz = lm2_mul_f64(axis.z, inv_len);
+
+  double half_angle = lm2_mul_f64(angle, 0.5);
+  double s = lm2_sin_f64(half_angle);
+  double c = lm2_cos_f64(half_angle);
+
+  lm2_quatf64 q;
+  q.x = lm2_mul_f64(nx, s);
+  q.y = lm2_mul_f64(ny, s);
+  q.z = lm2_mul_f64(nz, s);
+  q.w = c;
+  return q;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_from_euler(double pitch, double yaw, double roll) {
+  // Convert Euler angles (pitch, yaw, roll) to quaternion
+  // Rotation order: YXZ (yaw, pitch, roll)
+  double half_pitch = lm2_mul_f64(pitch, 0.5);
+  double half_yaw = lm2_mul_f64(yaw, 0.5);
+  double half_roll = lm2_mul_f64(roll, 0.5);
+
+  double cp = lm2_cos_f64(half_pitch);
+  double sp = lm2_sin_f64(half_pitch);
+  double cy = lm2_cos_f64(half_yaw);
+  double sy = lm2_sin_f64(half_yaw);
+  double cr = lm2_cos_f64(half_roll);
+  double sr = lm2_sin_f64(half_roll);
+
+  lm2_quatf64 q;
+  q.w = lm2_sub_f64(lm2_add_f64(lm2_mul_f64(cr, lm2_mul_f64(cp, cy)), lm2_mul_f64(sr, lm2_mul_f64(sp, sy))), 0.0);
+  q.x = lm2_sub_f64(lm2_mul_f64(sr, lm2_mul_f64(cp, cy)), lm2_mul_f64(cr, lm2_mul_f64(sp, sy)));
+  q.y = lm2_add_f64(lm2_mul_f64(cr, lm2_mul_f64(sp, cy)), lm2_mul_f64(sr, lm2_mul_f64(cp, sy)));
+  q.z = lm2_sub_f64(lm2_mul_f64(cr, lm2_mul_f64(cp, sy)), lm2_mul_f64(sr, lm2_mul_f64(sp, cy)));
+  return q;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_from_euler_vec(lm2_v3f64 euler) {
+  return lm2_quatf64_from_euler(euler.x, euler.y, euler.z);
+}
+
+// Conversions to other representations
+LM2_API void lm2_quatf64_to_axis_angle(lm2_quatf64 q, lm2_v3f64* axis, double* angle) {
+  LM2_ASSERT(axis != NULL && angle != NULL);
+
+  double len_sq = lm2_add_f64(lm2_add_f64(lm2_mul_f64(q.x, q.x), lm2_mul_f64(q.y, q.y)), lm2_mul_f64(q.z, q.z));
+
+  if (len_sq < 1e-10) {
+    // No rotation
+    axis->x = 1.0;
+    axis->y = 0.0;
+    axis->z = 0.0;
+    *angle = 0.0;
+    return;
   }
 
-#define _LM2_IMPL_QUAT_FROM(quat_type, scalar_type, scalar_suffix, vec3_type)                                                                                       \
-  LM2_API quat_type quat_type##_from_axis_angle(vec3_type axis, scalar_type angle) {                                                                                \
-    vec3_type normalized = lm2_normalize_##vec3_type(axis);                                                                                                         \
-    scalar_type half_angle = lm2_mul_##scalar_suffix(angle, (scalar_type)0.5);                                                                                      \
-    scalar_type s = lm2_sin_##scalar_suffix(half_angle);                                                                                                            \
-    scalar_type c = lm2_cos_##scalar_suffix(half_angle);                                                                                                            \
-    quat_type result;                                                                                                                                               \
-    result.x = lm2_mul_##scalar_suffix(normalized.x, s);                                                                                                            \
-    result.y = lm2_mul_##scalar_suffix(normalized.y, s);                                                                                                            \
-    result.z = lm2_mul_##scalar_suffix(normalized.z, s);                                                                                                            \
-    result.w = c;                                                                                                                                                   \
-    return result;                                                                                                                                                  \
-  }                                                                                                                                                                 \
-  LM2_API quat_type quat_type##_from_euler(scalar_type pitch, scalar_type yaw, scalar_type roll) {                                                                  \
-    scalar_type half_pitch = lm2_mul_##scalar_suffix(pitch, (scalar_type)0.5);                                                                                      \
-    scalar_type half_yaw = lm2_mul_##scalar_suffix(yaw, (scalar_type)0.5);                                                                                          \
-    scalar_type half_roll = lm2_mul_##scalar_suffix(roll, (scalar_type)0.5);                                                                                        \
-    scalar_type cp = lm2_cos_##scalar_suffix(half_pitch);                                                                                                           \
-    scalar_type sp = lm2_sin_##scalar_suffix(half_pitch);                                                                                                           \
-    scalar_type cy = lm2_cos_##scalar_suffix(half_yaw);                                                                                                             \
-    scalar_type sy = lm2_sin_##scalar_suffix(half_yaw);                                                                                                             \
-    scalar_type cr = lm2_cos_##scalar_suffix(half_roll);                                                                                                            \
-    scalar_type sr = lm2_sin_##scalar_suffix(half_roll);                                                                                                            \
-    quat_type result;                                                                                                                                               \
-    result.w = lm2_sub_##scalar_suffix(lm2_mul_##scalar_suffix(lm2_mul_##scalar_suffix(cr, cp), cy), lm2_mul_##scalar_suffix(lm2_mul_##scalar_suffix(sr, sp), sy)); \
-    result.x = lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(lm2_mul_##scalar_suffix(sr, cp), cy), lm2_mul_##scalar_suffix(lm2_mul_##scalar_suffix(cr, sp), sy)); \
-    result.y = lm2_sub_##scalar_suffix(lm2_mul_##scalar_suffix(lm2_mul_##scalar_suffix(cr, sp), cy), lm2_mul_##scalar_suffix(lm2_mul_##scalar_suffix(sr, cp), sy)); \
-    result.z = lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(lm2_mul_##scalar_suffix(cr, cp), sy), lm2_mul_##scalar_suffix(lm2_mul_##scalar_suffix(sr, sp), cy)); \
-    return result;                                                                                                                                                  \
-  }                                                                                                                                                                 \
-  LM2_API quat_type quat_type##_from_euler_vec(vec3_type euler) {                                                                                                   \
-    return quat_type##_from_euler(euler.x, euler.y, euler.z);                                                                                                       \
+  double len = lm2_sqrt_f64(len_sq);
+  double inv_len = lm2_div_f64(1.0, len);
+
+  axis->x = lm2_mul_f64(q.x, inv_len);
+  axis->y = lm2_mul_f64(q.y, inv_len);
+  axis->z = lm2_mul_f64(q.z, inv_len);
+  *angle = lm2_mul_f64(2.0, lm2_atan2_f64(len, q.w));
+}
+
+LM2_API lm2_v3f64 lm2_quatf64_to_euler(lm2_quatf64 q) {
+  lm2_v3f64 euler;
+
+  // Roll (x-axis rotation)
+  double sinr_cosp = lm2_mul_f64(2.0, lm2_add_f64(lm2_mul_f64(q.w, q.x), lm2_mul_f64(q.y, q.z)));
+  double cosr_cosp = lm2_sub_f64(1.0, lm2_mul_f64(2.0, lm2_add_f64(lm2_mul_f64(q.x, q.x), lm2_mul_f64(q.y, q.y))));
+  euler.z = lm2_atan2_f64(sinr_cosp, cosr_cosp);
+
+  // Pitch (y-axis rotation)
+  double sinp = lm2_mul_f64(2.0, lm2_sub_f64(lm2_mul_f64(q.w, q.y), lm2_mul_f64(q.z, q.x)));
+  if (lm2_abs_f64(sinp) >= 1.0) {
+    euler.x = lm2_mul_f64(lm2_sign_f64(sinp), LM2_HPI_F64);  // Use 90 degrees if out of range
+  } else {
+    euler.x = lm2_asin_f64(sinp);
   }
 
-#define _LM2_IMPL_QUAT_TO(quat_type, scalar_type, scalar_suffix, vec3_type)                                                                                                                                  \
-  LM2_API void quat_type##_to_axis_angle(quat_type q, vec3_type* axis, scalar_type* angle) {                                                                                                                 \
-    LM2_ASSERT(axis != NULL);                                                                                                                                                                                \
-    LM2_ASSERT(angle != NULL);                                                                                                                                                                               \
-    scalar_type s = lm2_sqrt_##scalar_suffix(lm2_sub_##scalar_suffix((scalar_type)1, lm2_mul_##scalar_suffix(q.w, q.w)));                                                                                    \
-    if (s < (scalar_type)0.001) {                                                                                                                                                                            \
-      axis->x = q.x;                                                                                                                                                                                         \
-      axis->y = q.y;                                                                                                                                                                                         \
-      axis->z = q.z;                                                                                                                                                                                         \
-    } else {                                                                                                                                                                                                 \
-      scalar_type inv_s = lm2_div_##scalar_suffix((scalar_type)1, s);                                                                                                                                        \
-      axis->x = lm2_mul_##scalar_suffix(q.x, inv_s);                                                                                                                                                         \
-      axis->y = lm2_mul_##scalar_suffix(q.y, inv_s);                                                                                                                                                         \
-      axis->z = lm2_mul_##scalar_suffix(q.z, inv_s);                                                                                                                                                         \
-    }                                                                                                                                                                                                        \
-    *angle = lm2_mul_##scalar_suffix(lm2_acos_##scalar_suffix(q.w), (scalar_type)2);                                                                                                                         \
-  }                                                                                                                                                                                                          \
-  LM2_API vec3_type quat_type##_to_euler(quat_type q) {                                                                                                                                                      \
-    vec3_type result;                                                                                                                                                                                        \
-    scalar_type sinr_cosp = lm2_mul_##scalar_suffix((scalar_type)2, lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(q.w, q.x), lm2_mul_##scalar_suffix(q.y, q.z)));                                          \
-    scalar_type cosr_cosp = lm2_sub_##scalar_suffix((scalar_type)1, lm2_mul_##scalar_suffix((scalar_type)2, lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(q.x, q.x), lm2_mul_##scalar_suffix(q.y, q.y)))); \
-    result.x = lm2_atan2_##scalar_suffix(sinr_cosp, cosr_cosp);                                                                                                                                              \
-    scalar_type sinp = lm2_mul_##scalar_suffix((scalar_type)2, lm2_sub_##scalar_suffix(lm2_mul_##scalar_suffix(q.w, q.y), lm2_mul_##scalar_suffix(q.z, q.x)));                                               \
-    if (lm2_abs_##scalar_suffix(sinp) >= (scalar_type)1) {                                                                                                                                                   \
-      if (sinp >= (scalar_type)0) {                                                                                                                                                                          \
-        result.y = (scalar_type)1.57079632679489661923;                                                                                                                                                      \
-      } else {                                                                                                                                                                                               \
-        result.y = (scalar_type) - 1.57079632679489661923;                                                                                                                                                   \
-      }                                                                                                                                                                                                      \
-    } else {                                                                                                                                                                                                 \
-      result.y = lm2_asin_##scalar_suffix(sinp);                                                                                                                                                             \
-    }                                                                                                                                                                                                        \
-    scalar_type siny_cosp = lm2_mul_##scalar_suffix((scalar_type)2, lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(q.w, q.z), lm2_mul_##scalar_suffix(q.x, q.y)));                                          \
-    scalar_type cosy_cosp = lm2_sub_##scalar_suffix((scalar_type)1, lm2_mul_##scalar_suffix((scalar_type)2, lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(q.y, q.y), lm2_mul_##scalar_suffix(q.z, q.z)))); \
-    result.z = lm2_atan2_##scalar_suffix(siny_cosp, cosy_cosp);                                                                                                                                              \
-    return result;                                                                                                                                                                                           \
+  // Yaw (z-axis rotation)
+  double siny_cosp = lm2_mul_f64(2.0, lm2_add_f64(lm2_mul_f64(q.w, q.z), lm2_mul_f64(q.x, q.y)));
+  double cosy_cosp = lm2_sub_f64(1.0, lm2_mul_f64(2.0, lm2_add_f64(lm2_mul_f64(q.y, q.y), lm2_mul_f64(q.z, q.z))));
+  euler.y = lm2_atan2_f64(siny_cosp, cosy_cosp);
+
+  return euler;
+}
+
+// Operations
+LM2_API lm2_quatf64 lm2_quatf64_conjugate(lm2_quatf64 q) {
+  lm2_quatf64 result;
+  result.x = lm2_sub_f64(0.0, q.x);
+  result.y = lm2_sub_f64(0.0, q.y);
+  result.z = lm2_sub_f64(0.0, q.z);
+  result.w = q.w;
+  return result;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_inverse(lm2_quatf64 q) {
+  double len_sq = lm2_add_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(q.x, q.x), lm2_mul_f64(q.y, q.y)), lm2_mul_f64(q.z, q.z)), lm2_mul_f64(q.w, q.w));
+  LM2_ASSERT_UNSAFE(len_sq > 0.0);
+
+  double inv_len_sq = lm2_div_f64(1.0, len_sq);
+
+  lm2_quatf64 result;
+  result.x = lm2_mul_f64(lm2_sub_f64(0.0, q.x), inv_len_sq);
+  result.y = lm2_mul_f64(lm2_sub_f64(0.0, q.y), inv_len_sq);
+  result.z = lm2_mul_f64(lm2_sub_f64(0.0, q.z), inv_len_sq);
+  result.w = lm2_mul_f64(q.w, inv_len_sq);
+  return result;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_normalize(lm2_quatf64 q) {
+  double len_sq = lm2_add_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(q.x, q.x), lm2_mul_f64(q.y, q.y)), lm2_mul_f64(q.z, q.z)), lm2_mul_f64(q.w, q.w));
+  LM2_ASSERT_UNSAFE(len_sq > 0.0);
+
+  double inv_len = lm2_div_f64(1.0, lm2_sqrt_f64(len_sq));
+
+  lm2_quatf64 result;
+  result.x = lm2_mul_f64(q.x, inv_len);
+  result.y = lm2_mul_f64(q.y, inv_len);
+  result.z = lm2_mul_f64(q.z, inv_len);
+  result.w = lm2_mul_f64(q.w, inv_len);
+  return result;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_multiply(lm2_quatf64 a, lm2_quatf64 b) {
+  lm2_quatf64 result;
+  result.w = lm2_sub_f64(lm2_sub_f64(lm2_mul_f64(a.w, b.w), lm2_mul_f64(a.x, b.x)), lm2_add_f64(lm2_mul_f64(a.y, b.y), lm2_mul_f64(a.z, b.z)));
+  result.x = lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.w, b.x), lm2_mul_f64(a.x, b.w)), lm2_sub_f64(lm2_mul_f64(a.y, b.z), lm2_mul_f64(a.z, b.y)));
+  result.y = lm2_add_f64(lm2_sub_f64(lm2_mul_f64(a.w, b.y), lm2_mul_f64(a.x, b.z)), lm2_add_f64(lm2_mul_f64(a.y, b.w), lm2_mul_f64(a.z, b.x)));
+  result.z = lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.w, b.z), lm2_mul_f64(a.x, b.y)), lm2_sub_f64(lm2_mul_f64(a.z, b.w), lm2_mul_f64(a.y, b.x)));
+  return result;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_add(lm2_quatf64 a, lm2_quatf64 b) {
+  lm2_quatf64 result;
+  result.x = lm2_add_f64(a.x, b.x);
+  result.y = lm2_add_f64(a.y, b.y);
+  result.z = lm2_add_f64(a.z, b.z);
+  result.w = lm2_add_f64(a.w, b.w);
+  return result;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_sub(lm2_quatf64 a, lm2_quatf64 b) {
+  lm2_quatf64 result;
+  result.x = lm2_sub_f64(a.x, b.x);
+  result.y = lm2_sub_f64(a.y, b.y);
+  result.z = lm2_sub_f64(a.z, b.z);
+  result.w = lm2_sub_f64(a.w, b.w);
+  return result;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_scale(lm2_quatf64 q, double s) {
+  lm2_quatf64 result;
+  result.x = lm2_mul_f64(q.x, s);
+  result.y = lm2_mul_f64(q.y, s);
+  result.z = lm2_mul_f64(q.z, s);
+  result.w = lm2_mul_f64(q.w, s);
+  return result;
+}
+
+LM2_API double lm2_quatf64_dot(lm2_quatf64 a, lm2_quatf64 b) {
+  return lm2_add_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.x, b.x), lm2_mul_f64(a.y, b.y)), lm2_mul_f64(a.z, b.z)), lm2_mul_f64(a.w, b.w));
+}
+
+LM2_API double lm2_quatf64_length_squared(lm2_quatf64 q) {
+  return lm2_add_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(q.x, q.x), lm2_mul_f64(q.y, q.y)), lm2_mul_f64(q.z, q.z)), lm2_mul_f64(q.w, q.w));
+}
+
+LM2_API double lm2_quatf64_length(lm2_quatf64 q) {
+  return lm2_sqrt_f64(lm2_quatf64_length_squared(q));
+}
+
+LM2_API lm2_v3f64 lm2_quatf64_rotate_vector(lm2_quatf64 q, lm2_v3f64 v) {
+  // Use the formula: v' = q * v * q^-1
+  // Optimized version: v' = v + 2 * cross(q.xyz, cross(q.xyz, v) + q.w * v)
+  lm2_v3f64 qv = {q.x, q.y, q.z};
+
+  // cross(q.xyz, v)
+  lm2_v3f64 cross1 = lm2_cross_v3f64(qv, v);
+
+  // q.w * v
+  lm2_v3f64 wv = {lm2_mul_f64(q.w, v.x), lm2_mul_f64(q.w, v.y), lm2_mul_f64(q.w, v.z)};
+
+  // cross(q.xyz, v) + q.w * v
+  lm2_v3f64 sum = {lm2_add_f64(cross1.x, wv.x), lm2_add_f64(cross1.y, wv.y), lm2_add_f64(cross1.z, wv.z)};
+
+  // cross(q.xyz, sum)
+  lm2_v3f64 cross2 = lm2_cross_v3f64(qv, sum);
+
+  // 2 * cross2
+  lm2_v3f64 scaled = {lm2_mul_f64(2.0, cross2.x), lm2_mul_f64(2.0, cross2.y), lm2_mul_f64(2.0, cross2.z)};
+
+  // v + scaled
+  lm2_v3f64 result = {lm2_add_f64(v.x, scaled.x), lm2_add_f64(v.y, scaled.y), lm2_add_f64(v.z, scaled.z)};
+  return result;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_slerp(lm2_quatf64 a, lm2_quatf64 b, double t) {
+  // Spherical linear interpolation
+  double dot = lm2_quatf64_dot(a, b);
+
+  // If the dot product is negative, negate one quaternion to take the shorter path
+  if (dot < 0.0) {
+    b.x = lm2_sub_f64(0.0, b.x);
+    b.y = lm2_sub_f64(0.0, b.y);
+    b.z = lm2_sub_f64(0.0, b.z);
+    b.w = lm2_sub_f64(0.0, b.w);
+    dot = lm2_sub_f64(0.0, dot);
   }
 
-#define _LM2_IMPL_QUAT_OPS(quat_type, scalar_type, scalar_suffix, vec3_type)                                                                                                                                                          \
-  LM2_API quat_type quat_type##_conjugate(quat_type q) {                                                                                                                                                                              \
-    quat_type result;                                                                                                                                                                                                                 \
-    result.x = lm2_neg_##scalar_suffix(q.x);                                                                                                                                                                                          \
-    result.y = lm2_neg_##scalar_suffix(q.y);                                                                                                                                                                                          \
-    result.z = lm2_neg_##scalar_suffix(q.z);                                                                                                                                                                                          \
-    result.w = q.w;                                                                                                                                                                                                                   \
-    return result;                                                                                                                                                                                                                    \
-  }                                                                                                                                                                                                                                   \
-  LM2_API quat_type quat_type##_inverse(quat_type q) {                                                                                                                                                                                \
-    scalar_type len_sq = quat_type##_length_squared(q);                                                                                                                                                                               \
-    LM2_ASSERT_UNSAFE(len_sq > (scalar_type)0);                                                                                                                                                                                       \
-    scalar_type inv_len_sq = lm2_div_##scalar_suffix((scalar_type)1, len_sq);                                                                                                                                                         \
-    quat_type conj = quat_type##_conjugate(q);                                                                                                                                                                                        \
-    return quat_type##_scale(conj, inv_len_sq);                                                                                                                                                                                       \
-  }                                                                                                                                                                                                                                   \
-  LM2_API quat_type quat_type##_normalize(quat_type q) {                                                                                                                                                                              \
-    scalar_type len = quat_type##_length(q);                                                                                                                                                                                          \
-    LM2_ASSERT_UNSAFE(len > (scalar_type)0);                                                                                                                                                                                          \
-    scalar_type inv_len = lm2_div_##scalar_suffix((scalar_type)1, len);                                                                                                                                                               \
-    return quat_type##_scale(q, inv_len);                                                                                                                                                                                             \
-  }                                                                                                                                                                                                                                   \
-  LM2_API quat_type quat_type##_multiply(quat_type a, quat_type b) {                                                                                                                                                                  \
-    quat_type result;                                                                                                                                                                                                                 \
-    result.w = lm2_sub_##scalar_suffix(lm2_sub_##scalar_suffix(lm2_mul_##scalar_suffix(a.w, b.w), lm2_mul_##scalar_suffix(a.x, b.x)), lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(a.y, b.y), lm2_mul_##scalar_suffix(a.z, b.z))); \
-    result.x = lm2_add_##scalar_suffix(lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(a.w, b.x), lm2_mul_##scalar_suffix(a.x, b.w)), lm2_sub_##scalar_suffix(lm2_mul_##scalar_suffix(a.y, b.z), lm2_mul_##scalar_suffix(a.z, b.y))); \
-    result.y = lm2_add_##scalar_suffix(lm2_sub_##scalar_suffix(lm2_mul_##scalar_suffix(a.w, b.y), lm2_mul_##scalar_suffix(a.x, b.z)), lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(a.y, b.w), lm2_mul_##scalar_suffix(a.z, b.x))); \
-    result.z = lm2_add_##scalar_suffix(lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(a.w, b.z), lm2_mul_##scalar_suffix(a.x, b.y)), lm2_sub_##scalar_suffix(lm2_mul_##scalar_suffix(a.z, b.w), lm2_mul_##scalar_suffix(a.y, b.x))); \
-    return result;                                                                                                                                                                                                                    \
-  }                                                                                                                                                                                                                                   \
-  LM2_API quat_type quat_type##_add(quat_type a, quat_type b) {                                                                                                                                                                       \
-    quat_type result;                                                                                                                                                                                                                 \
-    result.x = lm2_add_##scalar_suffix(a.x, b.x);                                                                                                                                                                                     \
-    result.y = lm2_add_##scalar_suffix(a.y, b.y);                                                                                                                                                                                     \
-    result.z = lm2_add_##scalar_suffix(a.z, b.z);                                                                                                                                                                                     \
-    result.w = lm2_add_##scalar_suffix(a.w, b.w);                                                                                                                                                                                     \
-    return result;                                                                                                                                                                                                                    \
-  }                                                                                                                                                                                                                                   \
-  LM2_API quat_type quat_type##_sub(quat_type a, quat_type b) {                                                                                                                                                                       \
-    quat_type result;                                                                                                                                                                                                                 \
-    result.x = lm2_sub_##scalar_suffix(a.x, b.x);                                                                                                                                                                                     \
-    result.y = lm2_sub_##scalar_suffix(a.y, b.y);                                                                                                                                                                                     \
-    result.z = lm2_sub_##scalar_suffix(a.z, b.z);                                                                                                                                                                                     \
-    result.w = lm2_sub_##scalar_suffix(a.w, b.w);                                                                                                                                                                                     \
-    return result;                                                                                                                                                                                                                    \
-  }                                                                                                                                                                                                                                   \
-  LM2_API quat_type quat_type##_scale(quat_type q, scalar_type s) {                                                                                                                                                                   \
-    quat_type result;                                                                                                                                                                                                                 \
-    result.x = lm2_mul_##scalar_suffix(q.x, s);                                                                                                                                                                                       \
-    result.y = lm2_mul_##scalar_suffix(q.y, s);                                                                                                                                                                                       \
-    result.z = lm2_mul_##scalar_suffix(q.z, s);                                                                                                                                                                                       \
-    result.w = lm2_mul_##scalar_suffix(q.w, s);                                                                                                                                                                                       \
-    return result;                                                                                                                                                                                                                    \
-  }                                                                                                                                                                                                                                   \
-  LM2_API scalar_type quat_type##_dot(quat_type a, quat_type b) {                                                                                                                                                                     \
-    return lm2_add_##scalar_suffix(lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(a.x, b.x), lm2_mul_##scalar_suffix(a.y, b.y)), lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(a.z, b.z), lm2_mul_##scalar_suffix(a.w, b.w)));     \
-  }                                                                                                                                                                                                                                   \
-  LM2_API scalar_type quat_type##_length_squared(quat_type q) {                                                                                                                                                                       \
-    return lm2_add_##scalar_suffix(lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(q.x, q.x), lm2_mul_##scalar_suffix(q.y, q.y)), lm2_add_##scalar_suffix(lm2_mul_##scalar_suffix(q.z, q.z), lm2_mul_##scalar_suffix(q.w, q.w)));     \
-  }                                                                                                                                                                                                                                   \
-  LM2_API scalar_type quat_type##_length(quat_type q) {                                                                                                                                                                               \
-    return lm2_sqrt_##scalar_suffix(quat_type##_length_squared(q));                                                                                                                                                                   \
-  }                                                                                                                                                                                                                                   \
-  LM2_API vec3_type quat_type##_rotate_vector(quat_type q, vec3_type v) {                                                                                                                                                             \
-    vec3_type qvec = {q.x, q.y, q.z};                                                                                                                                                                                                 \
-    vec3_type cross1 = lm2_cross_##vec3_type(qvec, v);                                                                                                                                                                                \
-    vec3_type cross2 = lm2_cross_##vec3_type(qvec, cross1);                                                                                                                                                                           \
-    cross1 = lm2_mul_##vec3_type##_##scalar_suffix(cross1, lm2_mul_##scalar_suffix(q.w, (scalar_type)2));                                                                                                                             \
-    cross2 = lm2_mul_##vec3_type##_##scalar_suffix(cross2, (scalar_type)2);                                                                                                                                                           \
-    return lm2_add_##vec3_type(lm2_add_##vec3_type(v, cross1), cross2);                                                                                                                                                               \
-  }                                                                                                                                                                                                                                   \
-  LM2_API quat_type quat_type##_slerp(quat_type a, quat_type b, scalar_type t) {                                                                                                                                                      \
-    scalar_type dot = quat_type##_dot(a, b);                                                                                                                                                                                          \
-    if (dot < (scalar_type)0) {                                                                                                                                                                                                       \
-      b = quat_type##_scale(b, (scalar_type) - 1);                                                                                                                                                                                    \
-      dot = lm2_neg_##scalar_suffix(dot);                                                                                                                                                                                             \
-    }                                                                                                                                                                                                                                 \
-    if (dot > (scalar_type)0.9995) {                                                                                                                                                                                                  \
-      return quat_type##_nlerp(a, b, t);                                                                                                                                                                                              \
-    }                                                                                                                                                                                                                                 \
-    scalar_type theta = lm2_acos_##scalar_suffix(dot);                                                                                                                                                                                \
-    scalar_type theta_t = lm2_mul_##scalar_suffix(theta, t);                                                                                                                                                                          \
-    scalar_type sin_theta = lm2_sin_##scalar_suffix(theta);                                                                                                                                                                           \
-    scalar_type sin_theta_t = lm2_sin_##scalar_suffix(theta_t);                                                                                                                                                                       \
-    scalar_type s0 = lm2_div_##scalar_suffix(lm2_cos_##scalar_suffix(theta_t), sin_theta);                                                                                                                                            \
-    s0 = lm2_sub_##scalar_suffix(s0, lm2_div_##scalar_suffix(lm2_mul_##scalar_suffix(dot, sin_theta_t), sin_theta));                                                                                                                  \
-    scalar_type s1 = lm2_div_##scalar_suffix(sin_theta_t, sin_theta);                                                                                                                                                                 \
-    quat_type q0 = quat_type##_scale(a, s0);                                                                                                                                                                                          \
-    quat_type q1 = quat_type##_scale(b, s1);                                                                                                                                                                                          \
-    return quat_type##_add(q0, q1);                                                                                                                                                                                                   \
-  }                                                                                                                                                                                                                                   \
-  LM2_API quat_type quat_type##_nlerp(quat_type a, quat_type b, scalar_type t) {                                                                                                                                                      \
-    scalar_type one_minus_t = lm2_sub_##scalar_suffix((scalar_type)1, t);                                                                                                                                                             \
-    quat_type result = quat_type##_add(quat_type##_scale(a, one_minus_t), quat_type##_scale(b, t));                                                                                                                                   \
-    return quat_type##_normalize(result);                                                                                                                                                                                             \
-  }                                                                                                                                                                                                                                   \
-  LM2_API bool quat_type##_equals(quat_type a, quat_type b, scalar_type epsilon) {                                                                                                                                                    \
-    scalar_type dx = lm2_abs_##scalar_suffix(lm2_sub_##scalar_suffix(a.x, b.x));                                                                                                                                                      \
-    scalar_type dy = lm2_abs_##scalar_suffix(lm2_sub_##scalar_suffix(a.y, b.y));                                                                                                                                                      \
-    scalar_type dz = lm2_abs_##scalar_suffix(lm2_sub_##scalar_suffix(a.z, b.z));                                                                                                                                                      \
-    scalar_type dw = lm2_abs_##scalar_suffix(lm2_sub_##scalar_suffix(a.w, b.w));                                                                                                                                                      \
-    return (dx <= epsilon) && (dy <= epsilon) && (dz <= epsilon) && (dw <= epsilon);                                                                                                                                                  \
+  // If quaternions are very close, use linear interpolation to avoid division by zero
+  if (dot > 0.9995) {
+    return lm2_quatf64_nlerp(a, b, t);
   }
+
+  // Clamp dot to avoid numerical errors with acos
+  dot = lm2_clamp_f64(0.0, dot, 1.0);
+
+  double theta = lm2_acos_f64(dot);
+  double sin_theta = lm2_sin_f64(theta);
+  double inv_sin_theta = lm2_div_f64(1.0, sin_theta);
+
+  double w1 = lm2_mul_f64(lm2_sin_f64(lm2_mul_f64(lm2_sub_f64(1.0, t), theta)), inv_sin_theta);
+  double w2 = lm2_mul_f64(lm2_sin_f64(lm2_mul_f64(t, theta)), inv_sin_theta);
+
+  lm2_quatf64 result;
+  result.x = lm2_add_f64(lm2_mul_f64(a.x, w1), lm2_mul_f64(b.x, w2));
+  result.y = lm2_add_f64(lm2_mul_f64(a.y, w1), lm2_mul_f64(b.y, w2));
+  result.z = lm2_add_f64(lm2_mul_f64(a.z, w1), lm2_mul_f64(b.z, w2));
+  result.w = lm2_add_f64(lm2_mul_f64(a.w, w1), lm2_mul_f64(b.w, w2));
+  return result;
+}
+
+LM2_API lm2_quatf64 lm2_quatf64_nlerp(lm2_quatf64 a, lm2_quatf64 b, double t) {
+  // Normalized linear interpolation
+  double dot = lm2_quatf64_dot(a, b);
+
+  // If the dot product is negative, negate one quaternion to take the shorter path
+  if (dot < 0.0) {
+    b.x = lm2_sub_f64(0.0, b.x);
+    b.y = lm2_sub_f64(0.0, b.y);
+    b.z = lm2_sub_f64(0.0, b.z);
+    b.w = lm2_sub_f64(0.0, b.w);
+  }
+
+  double one_minus_t = lm2_sub_f64(1.0, t);
+
+  lm2_quatf64 result;
+  result.x = lm2_add_f64(lm2_mul_f64(a.x, one_minus_t), lm2_mul_f64(b.x, t));
+  result.y = lm2_add_f64(lm2_mul_f64(a.y, one_minus_t), lm2_mul_f64(b.y, t));
+  result.z = lm2_add_f64(lm2_mul_f64(a.z, one_minus_t), lm2_mul_f64(b.z, t));
+  result.w = lm2_add_f64(lm2_mul_f64(a.w, one_minus_t), lm2_mul_f64(b.w, t));
+
+  return lm2_quatf64_normalize(result);
+}
+
+LM2_API bool lm2_quatf64_equals(lm2_quatf64 a, lm2_quatf64 b, double epsilon) {
+  double dx = lm2_abs_f64(lm2_sub_f64(a.x, b.x));
+  double dy = lm2_abs_f64(lm2_sub_f64(a.y, b.y));
+  double dz = lm2_abs_f64(lm2_sub_f64(a.z, b.z));
+  double dw = lm2_abs_f64(lm2_sub_f64(a.w, b.w));
+  return (dx <= epsilon) && (dy <= epsilon) && (dz <= epsilon) && (dw <= epsilon);
+}
 
 // =============================================================================
-// Quaternion Implementations
+// Quaternion Functions - f32
 // =============================================================================
 
-_LM2_IMPL_QUAT_BASIC(lm2_quatf64, double, f64)
-_LM2_IMPL_QUAT_BASIC(lm2_quatf32, float, f32)
+// Basic constructors
+LM2_API lm2_quatf32 lm2_quatf32_identity(void) {
+  lm2_quatf32 q = {0.0f, 0.0f, 0.0f, 1.0f};
+  return q;
+}
 
-_LM2_IMPL_QUAT_FROM(lm2_quatf64, double, f64, lm2_v3f64)
-_LM2_IMPL_QUAT_FROM(lm2_quatf32, float, f32, lm2_v3f32)
+LM2_API lm2_quatf32 lm2_quatf32_zero(void) {
+  lm2_quatf32 q = {0.0f, 0.0f, 0.0f, 0.0f};
+  return q;
+}
 
-_LM2_IMPL_QUAT_TO(lm2_quatf64, double, f64, lm2_v3f64)
-_LM2_IMPL_QUAT_TO(lm2_quatf32, float, f32, lm2_v3f32)
+LM2_API lm2_quatf32 lm2_quatf32_make(float x, float y, float z, float w) {
+  lm2_quatf32 q = {x, y, z, w};
+  return q;
+}
 
-_LM2_IMPL_QUAT_OPS(lm2_quatf64, double, f64, lm2_v3f64)
-_LM2_IMPL_QUAT_OPS(lm2_quatf32, float, f32, lm2_v3f32)
+// Conversions from other representations
+LM2_API lm2_quatf32 lm2_quatf32_from_axis_angle(lm2_v3f32 axis, float angle) {
+  // Normalize the axis
+  float len_sq = lm2_add_f32(lm2_add_f32(lm2_mul_f32(axis.x, axis.x), lm2_mul_f32(axis.y, axis.y)), lm2_mul_f32(axis.z, axis.z));
+  float len = lm2_sqrt_f32(len_sq);
+  LM2_ASSERT_UNSAFE(len > 0.0f);
+
+  float inv_len = lm2_div_f32(1.0f, len);
+  float nx = lm2_mul_f32(axis.x, inv_len);
+  float ny = lm2_mul_f32(axis.y, inv_len);
+  float nz = lm2_mul_f32(axis.z, inv_len);
+
+  float half_angle = lm2_mul_f32(angle, 0.5f);
+  float s = lm2_sin_f32(half_angle);
+  float c = lm2_cos_f32(half_angle);
+
+  lm2_quatf32 q;
+  q.x = lm2_mul_f32(nx, s);
+  q.y = lm2_mul_f32(ny, s);
+  q.z = lm2_mul_f32(nz, s);
+  q.w = c;
+  return q;
+}
+
+LM2_API lm2_quatf32 lm2_quatf32_from_euler(float pitch, float yaw, float roll) {
+  // Convert Euler angles (pitch, yaw, roll) to quaternion
+  // Rotation order: YXZ (yaw, pitch, roll)
+  float half_pitch = lm2_mul_f32(pitch, 0.5f);
+  float half_yaw = lm2_mul_f32(yaw, 0.5f);
+  float half_roll = lm2_mul_f32(roll, 0.5f);
+
+  float cp = lm2_cos_f32(half_pitch);
+  float sp = lm2_sin_f32(half_pitch);
+  float cy = lm2_cos_f32(half_yaw);
+  float sy = lm2_sin_f32(half_yaw);
+  float cr = lm2_cos_f32(half_roll);
+  float sr = lm2_sin_f32(half_roll);
+
+  lm2_quatf32 q;
+  q.w = lm2_sub_f32(lm2_add_f32(lm2_mul_f32(cr, lm2_mul_f32(cp, cy)), lm2_mul_f32(sr, lm2_mul_f32(sp, sy))), 0.0f);
+  q.x = lm2_sub_f32(lm2_mul_f32(sr, lm2_mul_f32(cp, cy)), lm2_mul_f32(cr, lm2_mul_f32(sp, sy)));
+  q.y = lm2_add_f32(lm2_mul_f32(cr, lm2_mul_f32(sp, cy)), lm2_mul_f32(sr, lm2_mul_f32(cp, sy)));
+  q.z = lm2_sub_f32(lm2_mul_f32(cr, lm2_mul_f32(cp, sy)), lm2_mul_f32(sr, lm2_mul_f32(sp, cy)));
+  return q;
+}
+
+LM2_API lm2_quatf32 lm2_quatf32_from_euler_vec(lm2_v3f32 euler) {
+  return lm2_quatf32_from_euler(euler.x, euler.y, euler.z);
+}
+
+// Conversions to other representations
+LM2_API void lm2_quatf32_to_axis_angle(lm2_quatf32 q, lm2_v3f32* axis, float* angle) {
+  LM2_ASSERT(axis != NULL && angle != NULL);
+
+  float len_sq = lm2_add_f32(lm2_add_f32(lm2_mul_f32(q.x, q.x), lm2_mul_f32(q.y, q.y)), lm2_mul_f32(q.z, q.z));
+
+  if (len_sq < 1e-10f) {
+    // No rotation
+    axis->x = 1.0f;
+    axis->y = 0.0f;
+    axis->z = 0.0f;
+    *angle = 0.0f;
+    return;
+  }
+
+  float len = lm2_sqrt_f32(len_sq);
+  float inv_len = lm2_div_f32(1.0f, len);
+
+  axis->x = lm2_mul_f32(q.x, inv_len);
+  axis->y = lm2_mul_f32(q.y, inv_len);
+  axis->z = lm2_mul_f32(q.z, inv_len);
+  *angle = lm2_mul_f32(2.0f, lm2_atan2_f32(len, q.w));
+}
+
+LM2_API lm2_v3f32 lm2_quatf32_to_euler(lm2_quatf32 q) {
+  lm2_v3f32 euler;
+
+  // Roll (x-axis rotation)
+  float sinr_cosp = lm2_mul_f32(2.0f, lm2_add_f32(lm2_mul_f32(q.w, q.x), lm2_mul_f32(q.y, q.z)));
+  float cosr_cosp = lm2_sub_f32(1.0f, lm2_mul_f32(2.0f, lm2_add_f32(lm2_mul_f32(q.x, q.x), lm2_mul_f32(q.y, q.y))));
+  euler.z = lm2_atan2_f32(sinr_cosp, cosr_cosp);
+
+  // Pitch (y-axis rotation)
+  float sinp = lm2_mul_f32(2.0f, lm2_sub_f32(lm2_mul_f32(q.w, q.y), lm2_mul_f32(q.z, q.x)));
+  if (lm2_abs_f32(sinp) >= 1.0f) {
+    euler.x = lm2_mul_f32(lm2_sign_f32(sinp), LM2_HPI_F32);  // Use 90 degrees if out of range
+  } else {
+    euler.x = lm2_asin_f32(sinp);
+  }
+
+  // Yaw (z-axis rotation)
+  float siny_cosp = lm2_mul_f32(2.0f, lm2_add_f32(lm2_mul_f32(q.w, q.z), lm2_mul_f32(q.x, q.y)));
+  float cosy_cosp = lm2_sub_f32(1.0f, lm2_mul_f32(2.0f, lm2_add_f32(lm2_mul_f32(q.y, q.y), lm2_mul_f32(q.z, q.z))));
+  euler.y = lm2_atan2_f32(siny_cosp, cosy_cosp);
+
+  return euler;
+}
+
+// Operations
+LM2_API lm2_quatf32 lm2_quatf32_conjugate(lm2_quatf32 q) {
+  lm2_quatf32 result;
+  result.x = lm2_sub_f32(0.0f, q.x);
+  result.y = lm2_sub_f32(0.0f, q.y);
+  result.z = lm2_sub_f32(0.0f, q.z);
+  result.w = q.w;
+  return result;
+}
+
+LM2_API lm2_quatf32 lm2_quatf32_inverse(lm2_quatf32 q) {
+  float len_sq = lm2_add_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(q.x, q.x), lm2_mul_f32(q.y, q.y)), lm2_mul_f32(q.z, q.z)), lm2_mul_f32(q.w, q.w));
+  LM2_ASSERT_UNSAFE(len_sq > 0.0f);
+
+  float inv_len_sq = lm2_div_f32(1.0f, len_sq);
+
+  lm2_quatf32 result;
+  result.x = lm2_mul_f32(lm2_sub_f32(0.0f, q.x), inv_len_sq);
+  result.y = lm2_mul_f32(lm2_sub_f32(0.0f, q.y), inv_len_sq);
+  result.z = lm2_mul_f32(lm2_sub_f32(0.0f, q.z), inv_len_sq);
+  result.w = lm2_mul_f32(q.w, inv_len_sq);
+  return result;
+}
+
+LM2_API lm2_quatf32 lm2_quatf32_normalize(lm2_quatf32 q) {
+  float len_sq = lm2_add_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(q.x, q.x), lm2_mul_f32(q.y, q.y)), lm2_mul_f32(q.z, q.z)), lm2_mul_f32(q.w, q.w));
+  LM2_ASSERT_UNSAFE(len_sq > 0.0f);
+
+  float inv_len = lm2_div_f32(1.0f, lm2_sqrt_f32(len_sq));
+
+  lm2_quatf32 result;
+  result.x = lm2_mul_f32(q.x, inv_len);
+  result.y = lm2_mul_f32(q.y, inv_len);
+  result.z = lm2_mul_f32(q.z, inv_len);
+  result.w = lm2_mul_f32(q.w, inv_len);
+  return result;
+}
+
+LM2_API lm2_quatf32 lm2_quatf32_multiply(lm2_quatf32 a, lm2_quatf32 b) {
+  lm2_quatf32 result;
+  result.w = lm2_sub_f32(lm2_sub_f32(lm2_mul_f32(a.w, b.w), lm2_mul_f32(a.x, b.x)), lm2_add_f32(lm2_mul_f32(a.y, b.y), lm2_mul_f32(a.z, b.z)));
+  result.x = lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.w, b.x), lm2_mul_f32(a.x, b.w)), lm2_sub_f32(lm2_mul_f32(a.y, b.z), lm2_mul_f32(a.z, b.y)));
+  result.y = lm2_add_f32(lm2_sub_f32(lm2_mul_f32(a.w, b.y), lm2_mul_f32(a.x, b.z)), lm2_add_f32(lm2_mul_f32(a.y, b.w), lm2_mul_f32(a.z, b.x)));
+  result.z = lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.w, b.z), lm2_mul_f32(a.x, b.y)), lm2_sub_f32(lm2_mul_f32(a.z, b.w), lm2_mul_f32(a.y, b.x)));
+  return result;
+}
+
+LM2_API lm2_quatf32 lm2_quatf32_add(lm2_quatf32 a, lm2_quatf32 b) {
+  lm2_quatf32 result;
+  result.x = lm2_add_f32(a.x, b.x);
+  result.y = lm2_add_f32(a.y, b.y);
+  result.z = lm2_add_f32(a.z, b.z);
+  result.w = lm2_add_f32(a.w, b.w);
+  return result;
+}
+
+LM2_API lm2_quatf32 lm2_quatf32_sub(lm2_quatf32 a, lm2_quatf32 b) {
+  lm2_quatf32 result;
+  result.x = lm2_sub_f32(a.x, b.x);
+  result.y = lm2_sub_f32(a.y, b.y);
+  result.z = lm2_sub_f32(a.z, b.z);
+  result.w = lm2_sub_f32(a.w, b.w);
+  return result;
+}
+
+LM2_API lm2_quatf32 lm2_quatf32_scale(lm2_quatf32 q, float s) {
+  lm2_quatf32 result;
+  result.x = lm2_mul_f32(q.x, s);
+  result.y = lm2_mul_f32(q.y, s);
+  result.z = lm2_mul_f32(q.z, s);
+  result.w = lm2_mul_f32(q.w, s);
+  return result;
+}
+
+LM2_API float lm2_quatf32_dot(lm2_quatf32 a, lm2_quatf32 b) {
+  return lm2_add_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.x, b.x), lm2_mul_f32(a.y, b.y)), lm2_mul_f32(a.z, b.z)), lm2_mul_f32(a.w, b.w));
+}
+
+LM2_API float lm2_quatf32_length_squared(lm2_quatf32 q) {
+  return lm2_add_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(q.x, q.x), lm2_mul_f32(q.y, q.y)), lm2_mul_f32(q.z, q.z)), lm2_mul_f32(q.w, q.w));
+}
+
+LM2_API float lm2_quatf32_length(lm2_quatf32 q) {
+  return lm2_sqrt_f32(lm2_quatf32_length_squared(q));
+}
+
+LM2_API lm2_v3f32 lm2_quatf32_rotate_vector(lm2_quatf32 q, lm2_v3f32 v) {
+  // Use the formula: v' = q * v * q^-1
+  // Optimized version: v' = v + 2 * cross(q.xyz, cross(q.xyz, v) + q.w * v)
+  lm2_v3f32 qv = {q.x, q.y, q.z};
+
+  // cross(q.xyz, v)
+  lm2_v3f32 cross1 = lm2_cross_v3f32(qv, v);
+
+  // q.w * v
+  lm2_v3f32 wv = {lm2_mul_f32(q.w, v.x), lm2_mul_f32(q.w, v.y), lm2_mul_f32(q.w, v.z)};
+
+  // cross(q.xyz, v) + q.w * v
+  lm2_v3f32 sum = {lm2_add_f32(cross1.x, wv.x), lm2_add_f32(cross1.y, wv.y), lm2_add_f32(cross1.z, wv.z)};
+
+  // cross(q.xyz, sum)
+  lm2_v3f32 cross2 = lm2_cross_v3f32(qv, sum);
+
+  // 2 * cross2
+  lm2_v3f32 scaled = {lm2_mul_f32(2.0f, cross2.x), lm2_mul_f32(2.0f, cross2.y), lm2_mul_f32(2.0f, cross2.z)};
+
+  // v + scaled
+  lm2_v3f32 result = {lm2_add_f32(v.x, scaled.x), lm2_add_f32(v.y, scaled.y), lm2_add_f32(v.z, scaled.z)};
+  return result;
+}
+
+LM2_API lm2_quatf32 lm2_quatf32_slerp(lm2_quatf32 a, lm2_quatf32 b, float t) {
+  // Spherical linear interpolation
+  float dot = lm2_quatf32_dot(a, b);
+
+  // If the dot product is negative, negate one quaternion to take the shorter path
+  if (dot < 0.0f) {
+    b.x = lm2_sub_f32(0.0f, b.x);
+    b.y = lm2_sub_f32(0.0f, b.y);
+    b.z = lm2_sub_f32(0.0f, b.z);
+    b.w = lm2_sub_f32(0.0f, b.w);
+    dot = lm2_sub_f32(0.0f, dot);
+  }
+
+  // If quaternions are very close, use linear interpolation to avoid division by zero
+  if (dot > 0.9995f) {
+    return lm2_quatf32_nlerp(a, b, t);
+  }
+
+  // Clamp dot to avoid numerical errors with acos
+  dot = lm2_clamp_f32(0.0f, dot, 1.0f);
+
+  float theta = lm2_acos_f32(dot);
+  float sin_theta = lm2_sin_f32(theta);
+  float inv_sin_theta = lm2_div_f32(1.0f, sin_theta);
+
+  float w1 = lm2_mul_f32(lm2_sin_f32(lm2_mul_f32(lm2_sub_f32(1.0f, t), theta)), inv_sin_theta);
+  float w2 = lm2_mul_f32(lm2_sin_f32(lm2_mul_f32(t, theta)), inv_sin_theta);
+
+  lm2_quatf32 result;
+  result.x = lm2_add_f32(lm2_mul_f32(a.x, w1), lm2_mul_f32(b.x, w2));
+  result.y = lm2_add_f32(lm2_mul_f32(a.y, w1), lm2_mul_f32(b.y, w2));
+  result.z = lm2_add_f32(lm2_mul_f32(a.z, w1), lm2_mul_f32(b.z, w2));
+  result.w = lm2_add_f32(lm2_mul_f32(a.w, w1), lm2_mul_f32(b.w, w2));
+  return result;
+}
+
+LM2_API lm2_quatf32 lm2_quatf32_nlerp(lm2_quatf32 a, lm2_quatf32 b, float t) {
+  // Normalized linear interpolation
+  float dot = lm2_quatf32_dot(a, b);
+
+  // If the dot product is negative, negate one quaternion to take the shorter path
+  if (dot < 0.0f) {
+    b.x = lm2_sub_f32(0.0f, b.x);
+    b.y = lm2_sub_f32(0.0f, b.y);
+    b.z = lm2_sub_f32(0.0f, b.z);
+    b.w = lm2_sub_f32(0.0f, b.w);
+  }
+
+  float one_minus_t = lm2_sub_f32(1.0f, t);
+
+  lm2_quatf32 result;
+  result.x = lm2_add_f32(lm2_mul_f32(a.x, one_minus_t), lm2_mul_f32(b.x, t));
+  result.y = lm2_add_f32(lm2_mul_f32(a.y, one_minus_t), lm2_mul_f32(b.y, t));
+  result.z = lm2_add_f32(lm2_mul_f32(a.z, one_minus_t), lm2_mul_f32(b.z, t));
+  result.w = lm2_add_f32(lm2_mul_f32(a.w, one_minus_t), lm2_mul_f32(b.w, t));
+
+  return lm2_quatf32_normalize(result);
+}
+
+LM2_API bool lm2_quatf32_equals(lm2_quatf32 a, lm2_quatf32 b, float epsilon) {
+  float dx = lm2_abs_f32(lm2_sub_f32(a.x, b.x));
+  float dy = lm2_abs_f32(lm2_sub_f32(a.y, b.y));
+  float dz = lm2_abs_f32(lm2_sub_f32(a.z, b.z));
+  float dw = lm2_abs_f32(lm2_sub_f32(a.w, b.w));
+  return (dx <= epsilon) && (dy <= epsilon) && (dz <= epsilon) && (dw <= epsilon);
+}
