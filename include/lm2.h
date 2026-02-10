@@ -26,6 +26,8 @@ SOFTWARE.
 
 // Configurable defines:
 // - LM2_UNSAFE: Disable safe checks in safe ops (for performance)
+// - LM2_NO_CPP_OPERATORS: Disable C++ operators for all types (for C compatibility)
+// - LM2_NO_GENERICS: Disable C11 or C++ generics
 
 #include "lm2/geometry2d/lm2_aabb2.h"
 #include "lm2/geometry2d/lm2_capsule2.h"
@@ -69,3 +71,14 @@ SOFTWARE.
 #include "lm2/vectors/lm2_vector4.h"
 #include "lm2/vectors/lm2_vector_conversions.h"
 #include "lm2/vectors/lm2_vector_specifics.h"
+
+#ifndef LM2_NO_GENERICS
+#  ifdef __cplusplus
+#    include "lm2/extensions/lm2_cpp_generics.h"
+#  elif __STDC_VERSION__ >= 201112L
+#    include "lm2/extensions/lm2_c11_generics.h"
+#  endif
+#endif
+#ifndef LM2_NO_CPP_OPERATORS
+#  include "lm2/extensions/lm2_cpp_operators.h"
+#endif
