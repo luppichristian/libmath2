@@ -28,13 +28,13 @@ SOFTWARE.
 #include "lm2/vectors/lm2_vector3.h"
 #include "lm2/vectors/lm2_vector4.h"
 
-// Forward declare quaternion types
-typedef union lm2_quat_f64 lm2_quat_f64;
-typedef union lm2_quat_f32 lm2_quat_f32;
-
 // #############################################################################
 LM2_HEADER_BEGIN;
 // #############################################################################
+
+// Forward declare quaternion types
+typedef union lm2_quat_f64 lm2_quat_f64;
+typedef union lm2_quat_f32 lm2_quat_f32;
 
 // =============================================================================
 // Matrix 4x4 - 3D Transformation Matrix
