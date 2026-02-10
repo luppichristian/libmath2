@@ -563,18 +563,3 @@ typedef lm2_v2_f32 lm2_v2;
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// C++ operator overloads (must be outside extern "C")
-#ifndef LM2_NO_CPP_OPERATORS
-#  include "lm2_vector_operators.h"
-_LM2_DEFINE_V2_OPERATORS(lm2_v2_f64, double, f64)
-_LM2_DEFINE_V2_OPERATORS(lm2_v2_f32, float, f32)
-_LM2_DEFINE_V2_OPERATORS(lm2_v2_i64, int64_t, i64)
-_LM2_DEFINE_V2_OPERATORS(lm2_v2_i32, int32_t, i32)
-_LM2_DEFINE_V2_OPERATORS(lm2_v2_i16, int16_t, i16)
-_LM2_DEFINE_V2_OPERATORS(lm2_v2_i8, int8_t, i8)
-_LM2_DEFINE_V2_OPERATORS(lm2_v2_u64, uint64_t, u64)
-_LM2_DEFINE_V2_OPERATORS(lm2_v2_u32, uint32_t, u32)
-_LM2_DEFINE_V2_OPERATORS(lm2_v2_u16, uint16_t, u16)
-_LM2_DEFINE_V2_OPERATORS(lm2_v2_u8, uint8_t, u8)
-#endif

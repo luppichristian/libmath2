@@ -137,10 +137,3 @@ LM2_API lm2_v2_f32 lm2_m3x3_get_translation_f32(lm2_matrix3x3_f32 m);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// C++ operator overloads (must be outside extern "C")
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-#  include "lm2_matrix_operators.h"
-_LM2_DEFINE_MATRIX3X3_OPERATORS_SUFFIX(lm2_matrix3x3_f64, lm2_v2_f64, lm2_v3_f64, f64)
-_LM2_DEFINE_MATRIX3X3_OPERATORS_SUFFIX(lm2_matrix3x3_f32, lm2_v2_f32, lm2_v3_f32, f32)
-#endif

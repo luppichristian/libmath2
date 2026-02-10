@@ -120,10 +120,3 @@ LM2_API float lm2_edge3_to_edge3_distance_sq_f32(lm2_edge3_f32 e1, lm2_edge3_f32
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// C++ operator overloads (must be outside extern "C")
-#ifndef LM2_NO_CPP_OPERATORS
-#  include "lm2_geometry_operators.h"
-_LM2_DEFINE_EDGE3_OPERATORS(lm2_edge3_f64, f64, lm2_v3, double)
-_LM2_DEFINE_EDGE3_OPERATORS(lm2_edge3_f32, f32, lm2_v3, float)
-#endif

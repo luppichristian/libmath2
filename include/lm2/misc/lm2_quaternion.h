@@ -50,10 +50,8 @@ typedef union lm2_quat_f64 {
   struct {
     double x, y, z, w;  // w is scalar, xyz is vector part
   };
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-  inline double& operator[](int i) { return e[i]; }
-  inline const double& operator[](int i) const { return e[i]; }
-#endif
+
+  _LM2_SUBSCRIPT_OP(double, 4)
 } lm2_quat_f64;
 
 typedef union lm2_quat_f32 {
@@ -61,10 +59,8 @@ typedef union lm2_quat_f32 {
   struct {
     float x, y, z, w;  // w is scalar, xyz is vector part
   };
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-  inline float& operator[](int i) { return e[i]; }
-  inline const float& operator[](int i) const { return e[i]; }
-#endif
+
+  _LM2_SUBSCRIPT_OP(float, 4)
 } lm2_quat_f32;
 
 // Default type alias

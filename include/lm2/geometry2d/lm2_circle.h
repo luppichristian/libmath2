@@ -112,10 +112,3 @@ LM2_API lm2_circle_f32 lm2_circle_scale_f32(lm2_circle_f32 circle, float scale);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// C++ operator overloads (must be outside extern "C")
-#ifndef LM2_NO_CPP_OPERATORS
-#  include "lm2_geometry_operators.h"
-_LM2_DEFINE_CIRCLE_OPERATORS(lm2_circle_f64, f64, lm2_v2, double)
-_LM2_DEFINE_CIRCLE_OPERATORS(lm2_circle_f32, f32, lm2_v2, float)
-#endif

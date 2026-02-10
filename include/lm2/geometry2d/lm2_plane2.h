@@ -126,10 +126,3 @@ LM2_API lm2_plane2_f32 lm2_plane2_rotate_f32(lm2_plane2_f32 plane, float angle);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// C++ operator overloads (must be outside extern "C")
-#ifndef LM2_NO_CPP_OPERATORS
-#  include "lm2_geometry_operators.h"
-_LM2_DEFINE_PLANE2_OPERATORS(lm2_plane2_f64, f64, lm2_v2, double)
-_LM2_DEFINE_PLANE2_OPERATORS(lm2_plane2_f32, f32, lm2_v2, float)
-#endif

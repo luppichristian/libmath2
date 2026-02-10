@@ -200,10 +200,3 @@ LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// C++ operator overloads (must be outside extern "C")
-#ifndef LM2_NO_CPP_OPERATORS
-#  include "lm2_geometry_operators.h"
-_LM2_DEFINE_POLYGON_OPERATORS(lm2_polygon_f64, f64, lm2_v2, double)
-_LM2_DEFINE_POLYGON_OPERATORS(lm2_polygon_f32, f32, lm2_v2, float)
-#endif

@@ -724,18 +724,3 @@ typedef lm2_r4_f32 lm2_r4;
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// C++ operator overloads and constructors (must be outside extern "C")
-#ifndef LM2_NO_CPP_OPERATORS
-#  include "lm2_range_operators.h"
-_LM2_DEFINE_RANGE4_OPERATORS(lm2_r4_f64, f64, lm2_v4_f64)
-_LM2_DEFINE_RANGE4_OPERATORS(lm2_r4_f32, f32, lm2_v4_f32)
-_LM2_DEFINE_RANGE4_OPERATORS(lm2_r4_i64, i64, lm2_v4_i64)
-_LM2_DEFINE_RANGE4_OPERATORS(lm2_r4_i32, i32, lm2_v4_i32)
-_LM2_DEFINE_RANGE4_OPERATORS(lm2_r4_i16, i16, lm2_v4_i16)
-_LM2_DEFINE_RANGE4_OPERATORS(lm2_r4_i8, i8, lm2_v4_i8)
-_LM2_DEFINE_RANGE4_OPERATORS(lm2_r4_u64, u64, lm2_v4_u64)
-_LM2_DEFINE_RANGE4_OPERATORS(lm2_r4_u32, u32, lm2_v4_u32)
-_LM2_DEFINE_RANGE4_OPERATORS(lm2_r4_u16, u16, lm2_v4_u16)
-_LM2_DEFINE_RANGE4_OPERATORS(lm2_r4_u8, u8, lm2_v4_u8)
-#endif

@@ -116,10 +116,3 @@ LM2_API lm2_capsule3_f32 lm2_capsule3_scale_radius_f32(lm2_capsule3_f32 capsule,
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// C++ operator overloads (must be outside extern "C")
-#ifndef LM2_NO_CPP_OPERATORS
-#  include "lm2_geometry_operators.h"
-_LM2_DEFINE_CAPSULE3_OPERATORS(lm2_capsule3_f64, f64, lm2_v3, double)
-_LM2_DEFINE_CAPSULE3_OPERATORS(lm2_capsule3_f32, f32, lm2_v3, float)
-#endif

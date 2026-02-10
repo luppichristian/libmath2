@@ -144,10 +144,3 @@ LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_ortho(float left, float right, float
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// C++ operator overloads (must be outside extern "C")
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-#  include "lm2_matrix_operators.h"
-_LM2_DEFINE_MATRIX3X2_OPERATORS(lm2_matrix3x2_f64, lm2_v2_f64)
-_LM2_DEFINE_MATRIX3X2_OPERATORS(lm2_matrix3x2_f32, lm2_v2_f32)
-#endif

@@ -139,10 +139,3 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-// C++ operator overloads (must be outside extern "C")
-#ifndef LM2_NO_CPP_OPERATORS
-#  include "lm2_geometry_operators.h"
-_LM2_DEFINE_RAY3_OPERATORS(lm2_ray3_f64, f64, lm2_v3, double)
-_LM2_DEFINE_RAY3_OPERATORS(lm2_ray3_f32, f32, lm2_v3, float)
-#endif
