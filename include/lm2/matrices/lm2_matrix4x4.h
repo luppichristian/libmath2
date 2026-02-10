@@ -166,9 +166,9 @@ LM2_HEADER_END;
 // so they cannot use C linkage in C++ mode.
 
 // Quaternion conversions - f64
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_from_quaternion_f64(lm2_quat_f64 q);
-LM2_API lm2_quat_f64 lm2_m4x4_to_quaternion_f64(lm2_matrix4x4_f64 m);
+LM2_API lm2_matrix4x4_f64 lm2_m4x4_from_quat_f64(lm2_quat_f64 q);
+LM2_API lm2_quat_f64 lm2_m4x4_to_quat_f64(lm2_matrix4x4_f64 m);
 
 // Quaternion conversions - f32
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_from_quaternion_f32(lm2_quat_f32 q);
-LM2_API lm2_quat_f32 lm2_m4x4_to_quaternion_f32(lm2_matrix4x4_f32 m);
+LM2_API lm2_matrix4x4_f32 lm2_m4x4_from_quat_f32(lm2_quat_f32 q);
+LM2_API lm2_quat_f32 lm2_m4x4_to_quat_f32(lm2_matrix4x4_f32 m);

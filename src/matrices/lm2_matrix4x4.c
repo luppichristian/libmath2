@@ -431,7 +431,7 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_look_at_f64(lm2_v3_f64 eye, lm2_v3_f64 target
 }
 
 // Quaternion conversions - f64
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_from_quaternion_f64(lm2_quat_f64 q) {
+LM2_API lm2_matrix4x4_f64 lm2_m4x4_from_quat_f64(lm2_quat_f64 q) {
   // Normalize quaternion
   q = lm2_quat_normalize_f64(q);
 
@@ -469,7 +469,7 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_from_quaternion_f64(lm2_quat_f64 q) {
   return m;
 }
 
-LM2_API lm2_quat_f64 lm2_m4x4_to_quaternion_f64(lm2_matrix4x4_f64 m) {
+LM2_API lm2_quat_f64 lm2_m4x4_to_quat_f64(lm2_matrix4x4_f64 m) {
   lm2_quat_f64 q;
 
   double trace = lm2_add_f64(lm2_add_f64(m.m00, m.m11), m.m22);
@@ -906,7 +906,7 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_look_at_f32(lm2_v3_f32 eye, lm2_v3_f32 target
 }
 
 // Quaternion conversions - f32
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_from_quaternion_f32(lm2_quat_f32 q) {
+LM2_API lm2_matrix4x4_f32 lm2_m4x4_from_quat_f32(lm2_quat_f32 q) {
   // Normalize quaternion
   q = lm2_quat_normalize_f32(q);
 
@@ -944,7 +944,7 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_from_quaternion_f32(lm2_quat_f32 q) {
   return m;
 }
 
-LM2_API lm2_quat_f32 lm2_m4x4_to_quaternion_f32(lm2_matrix4x4_f32 m) {
+LM2_API lm2_quat_f32 lm2_m4x4_to_quat_f32(lm2_matrix4x4_f32 m) {
   lm2_quat_f32 q;
 
   float trace = lm2_add_f32(lm2_add_f32(m.m00, m.m11), m.m22);
