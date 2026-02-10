@@ -37,11 +37,11 @@ LM2_HEADER_BEGIN;
 
 // Edge structure to represent a 2D line segment
 typedef struct lm2_edge2_f64 {
-  lm2_v2f64 start, end;
+  lm2_v2_f64 start, end;
 } lm2_edge2_f64;
 
 typedef struct lm2_edge2_f32 {
-  lm2_v2f32 start, end;
+  lm2_v2_f32 start, end;
 } lm2_edge2_f32;
 
 // Default edge type
@@ -65,8 +65,8 @@ typedef lm2_edge2_result_f32 lm2_edge2_result;
 // =============================================================================
 
 // Create an edge from two points
-LM2_API lm2_edge2_f64 lm2_edge2_make_f64(lm2_v2f64 start, lm2_v2f64 end);
-LM2_API lm2_edge2_f32 lm2_edge2_make_f32(lm2_v2f32 start, lm2_v2f32 end);
+LM2_API lm2_edge2_f64 lm2_edge2_make_f64(lm2_v2_f64 start, lm2_v2_f64 end);
+LM2_API lm2_edge2_f32 lm2_edge2_make_f32(lm2_v2_f32 start, lm2_v2_f32 end);
 
 // Create an edge from coordinates
 LM2_API lm2_edge2_f64 lm2_edge2_make_coords_f64(double x1, double y1, double x2, double y2);
@@ -89,8 +89,8 @@ LM2_API float lm2_edge2_length_sq_f32(lm2_edge2_f32 edge);
 // =============================================================================
 
 // Check if two points are equal within epsilon
-LM2_API bool lm2_points2_equal_f64(lm2_v2f64 a, lm2_v2f64 b, double epsilon);
-LM2_API bool lm2_points2_equal_f32(lm2_v2f32 a, lm2_v2f32 b, float epsilon);
+LM2_API bool lm2_points2_equal_f64(lm2_v2_f64 a, lm2_v2_f64 b, double epsilon);
+LM2_API bool lm2_points2_equal_f32(lm2_v2_f32 a, lm2_v2_f32 b, float epsilon);
 
 // Check if two edges are the same (regardless of direction)
 LM2_API bool lm2_edges2_equal_f64(lm2_edge2_f64 e1, lm2_edge2_f64 e2, double epsilon);
@@ -103,8 +103,8 @@ LM2_API bool lm2_edges2_equal_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2, float epsi
 // Compute 2D cross product of vectors (p1->p2) and (p1->p3)
 // Returns the z-component of the 3D cross product (scalar in 2D)
 // Positive if p3 is to the left of vector p1->p2, negative if right, zero if collinear
-LM2_API double lm2_cross_product_2d_f64(lm2_v2f64 p1, lm2_v2f64 p2, lm2_v2f64 p3);
-LM2_API float lm2_cross_product_2d_f32(lm2_v2f32 p1, lm2_v2f32 p2, lm2_v2f32 p3);
+LM2_API double lm2_cross_product_2d_f64(lm2_v2_f64 p1, lm2_v2_f64 p2, lm2_v2_f64 p3);
+LM2_API float lm2_cross_product_2d_f32(lm2_v2_f32 p1, lm2_v2_f32 p2, lm2_v2_f32 p3);
 
 // =============================================================================
 // Edge Intersection
@@ -119,8 +119,8 @@ LM2_API bool lm2_edges2_intersect_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2);
 // =============================================================================
 
 // Compute squared distance from point to edge (line segment)
-LM2_API double lm2_point_to_edge2_distance_sq_f64(lm2_v2f64 point, lm2_edge2_f64 edge);
-LM2_API float lm2_point_to_edge2_distance_sq_f32(lm2_v2f32 point, lm2_edge2_f32 edge);
+LM2_API double lm2_point_to_edge2_distance_sq_f64(lm2_v2_f64 point, lm2_edge2_f64 edge);
+LM2_API float lm2_point_to_edge2_distance_sq_f32(lm2_v2_f32 point, lm2_edge2_f32 edge);
 
 // Compute squared distance between two edges (line segments)
 LM2_API double lm2_edge2_to_edge2_distance_sq_f64(lm2_edge2_f64 e1, lm2_edge2_f64 e2);
@@ -133,6 +133,6 @@ LM2_HEADER_END;
 // C++ operator overloads (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_geometry_operators.h"
-_LM2_DEFINE_EDGE_OPERATORS(lm2_edge2_f64, lm2_v2f64, double)
-_LM2_DEFINE_EDGE_OPERATORS(lm2_edge2_f32, lm2_v2f32, float)
+_LM2_DEFINE_EDGE_OPERATORS(lm2_edge2_f64, f64, lm2_v2, double)
+_LM2_DEFINE_EDGE_OPERATORS(lm2_edge2_f32, f32, lm2_v2, float)
 #endif

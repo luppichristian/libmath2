@@ -37,12 +37,12 @@ LM2_HEADER_BEGIN;
 
 // Capsule structure to represent a 2D capsule (line segment with radius)
 typedef struct lm2_capsule2_f64 {
-  lm2_v2f64 start, end;
+  lm2_v2_f64 start, end;
   double radius;
 } lm2_capsule2_f64;
 
 typedef struct lm2_capsule2_f32 {
-  lm2_v2f32 start, end;
+  lm2_v2_f32 start, end;
   float radius;
 } lm2_capsule2_f32;
 
@@ -54,16 +54,16 @@ typedef lm2_capsule2_f32 lm2_capsule2;
 // =============================================================================
 
 // Create a capsule from two points and radius
-LM2_API lm2_capsule2_f64 lm2_capsule2_make_f64(lm2_v2f64 start, lm2_v2f64 end, double radius);
-LM2_API lm2_capsule2_f32 lm2_capsule2_make_f32(lm2_v2f32 start, lm2_v2f32 end, float radius);
+LM2_API lm2_capsule2_f64 lm2_capsule2_make_f64(lm2_v2_f64 start, lm2_v2_f64 end, double radius);
+LM2_API lm2_capsule2_f32 lm2_capsule2_make_f32(lm2_v2_f32 start, lm2_v2_f32 end, float radius);
 
 // Create a capsule from coordinates and radius
 LM2_API lm2_capsule2_f64 lm2_capsule2_make_coords_f64(double x1, double y1, double x2, double y2, double radius);
 LM2_API lm2_capsule2_f32 lm2_capsule2_make_coords_f32(float x1, float y1, float x2, float y2, float radius);
 
 // Create a capsule from center, direction, half-length, and radius
-LM2_API lm2_capsule2_f64 lm2_capsule2_from_center_f64(lm2_v2f64 center, lm2_v2f64 direction, double half_length, double radius);
-LM2_API lm2_capsule2_f32 lm2_capsule2_from_center_f32(lm2_v2f32 center, lm2_v2f32 direction, float half_length, float radius);
+LM2_API lm2_capsule2_f64 lm2_capsule2_from_center_f64(lm2_v2_f64 center, lm2_v2_f64 direction, double half_length, double radius);
+LM2_API lm2_capsule2_f32 lm2_capsule2_from_center_f32(lm2_v2_f32 center, lm2_v2_f32 direction, float half_length, float radius);
 
 // =============================================================================
 // Capsule Properties
@@ -86,16 +86,16 @@ LM2_API double lm2_capsule2_perimeter_f64(lm2_capsule2_f64 capsule);
 LM2_API float lm2_capsule2_perimeter_f32(lm2_capsule2_f32 capsule);
 
 // Get the center point of the capsule
-LM2_API lm2_v2f64 lm2_capsule2_center_f64(lm2_capsule2_f64 capsule);
-LM2_API lm2_v2f32 lm2_capsule2_center_f32(lm2_capsule2_f32 capsule);
+LM2_API lm2_v2_f64 lm2_capsule2_center_f64(lm2_capsule2_f64 capsule);
+LM2_API lm2_v2_f32 lm2_capsule2_center_f32(lm2_capsule2_f32 capsule);
 
 // =============================================================================
 // Capsule Tests
 // =============================================================================
 
 // Check if a point is inside a capsule
-LM2_API bool lm2_capsule2_contains_point_f64(lm2_capsule2_f64 capsule, lm2_v2f64 point);
-LM2_API bool lm2_capsule2_contains_point_f32(lm2_capsule2_f32 capsule, lm2_v2f32 point);
+LM2_API bool lm2_capsule2_contains_point_f64(lm2_capsule2_f64 capsule, lm2_v2_f64 point);
+LM2_API bool lm2_capsule2_contains_point_f32(lm2_capsule2_f32 capsule, lm2_v2_f32 point);
 
 // Check if two capsules overlap
 LM2_API bool lm2_capsule2s_overlap_f64(lm2_capsule2_f64 a, lm2_capsule2_f64 b);
@@ -106,8 +106,8 @@ LM2_API bool lm2_capsule2s_overlap_f32(lm2_capsule2_f32 a, lm2_capsule2_f32 b);
 // =============================================================================
 
 // Translate a capsule by an offset
-LM2_API lm2_capsule2_f64 lm2_capsule2_translate_f64(lm2_capsule2_f64 capsule, lm2_v2f64 offset);
-LM2_API lm2_capsule2_f32 lm2_capsule2_translate_f32(lm2_capsule2_f32 capsule, lm2_v2f32 offset);
+LM2_API lm2_capsule2_f64 lm2_capsule2_translate_f64(lm2_capsule2_f64 capsule, lm2_v2_f64 offset);
+LM2_API lm2_capsule2_f32 lm2_capsule2_translate_f32(lm2_capsule2_f32 capsule, lm2_v2_f32 offset);
 
 // Scale a capsule's radius
 LM2_API lm2_capsule2_f64 lm2_capsule2_scale_radius_f64(lm2_capsule2_f64 capsule, double scale);
@@ -120,7 +120,6 @@ LM2_HEADER_END;
 // C++ operator overloads (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_geometry_operators.h"
-_LM2_DEFINE_CAPSULE_OPERATORS(lm2_capsule2_f64, f64, lm2_v2f64, double)
-_LM2_DEFINE_CAPSULE_OPERATORS(lm2_capsule2_f32, f32, lm2_v2f32, float)
+_LM2_DEFINE_CAPSULE_OPERATORS(lm2_capsule2_f64, f64, lm2_v2, double)
+_LM2_DEFINE_CAPSULE_OPERATORS(lm2_capsule2_f32, f32, lm2_v2, float)
 #endif
-

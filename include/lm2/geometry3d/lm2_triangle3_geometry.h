@@ -50,13 +50,13 @@ LM2_API size_t lm2_triangle3_list_to_vertex_array_size_f32(size_t triangle_count
 LM2_API void lm2_triangle3_list_to_vertex_array_f64(
     const lm2_triangle3_f64* triangles,
     size_t triangle_count,
-    lm2_v3f64* vertices,
+    lm2_v3_f64* vertices,
     size_t vertex_buffer_size);
 
 LM2_API void lm2_triangle3_list_to_vertex_array_f32(
     const lm2_triangle3_f32* triangles,
     size_t triangle_count,
-    lm2_v3f32* vertices,
+    lm2_v3_f32* vertices,
     size_t vertex_buffer_size);
 
 // =============================================================================
@@ -75,13 +75,13 @@ LM2_API size_t lm2_vertex_array_to_triangle3_list_size_f32(size_t vertex_count);
 // triangles: output buffer for triangles (must be at least vertex_count / 3)
 // triangle_buffer_size: size of the triangles buffer in number of triangles
 LM2_API void lm2_vertex_array_to_triangle3_list_f64(
-    const lm2_v3f64* vertices,
+    const lm2_v3_f64* vertices,
     size_t vertex_count,
     lm2_triangle3_f64* triangles,
     size_t triangle_buffer_size);
 
 LM2_API void lm2_vertex_array_to_triangle3_list_f32(
-    const lm2_v3f32* vertices,
+    const lm2_v3_f32* vertices,
     size_t vertex_count,
     lm2_triangle3_f32* triangles,
     size_t triangle_buffer_size);
@@ -129,7 +129,7 @@ LM2_API void lm2_triangle3_list_to_indexed_mesh_f64(
     const lm2_triangle3_f64* triangles,
     size_t triangle_count,
     double epsilon,
-    lm2_v3f64* vertices,
+    lm2_v3_f64* vertices,
     size_t vertex_buffer_size,
     uint32_t* indices,
     size_t index_buffer_size);
@@ -138,7 +138,7 @@ LM2_API void lm2_triangle3_list_to_indexed_mesh_f32(
     const lm2_triangle3_f32* triangles,
     size_t triangle_count,
     float epsilon,
-    lm2_v3f32* vertices,
+    lm2_v3_f32* vertices,
     size_t vertex_buffer_size,
     uint32_t* indices,
     size_t index_buffer_size);
@@ -161,7 +161,7 @@ LM2_API size_t lm2_indexed_mesh_to_triangle3_list_size_f32(size_t index_count);
 // triangles: output buffer for triangles (must be at least index_count / 3)
 // triangle_buffer_size: size of triangles buffer in number of triangles
 LM2_API void lm2_indexed_mesh_to_triangle3_list_f64(
-    const lm2_v3f64* vertices,
+    const lm2_v3_f64* vertices,
     size_t vertex_count,
     const uint32_t* indices,
     size_t index_count,
@@ -169,7 +169,7 @@ LM2_API void lm2_indexed_mesh_to_triangle3_list_f64(
     size_t triangle_buffer_size);
 
 LM2_API void lm2_indexed_mesh_to_triangle3_list_f32(
-    const lm2_v3f32* vertices,
+    const lm2_v3_f32* vertices,
     size_t vertex_count,
     const uint32_t* indices,
     size_t index_count,

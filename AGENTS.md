@@ -279,7 +279,7 @@ LM2_API float lm2_min_f32(float a, float b) { return (a < b) ? a : b; }
 
 **For vectors, use macro-based implementation:**
 ```c
-_LM2_IMPL_V2_ALL_OPS(lm2_v2f64, double, f64)  // Generates all vector ops
+_LM2_IMPL_V2_ALL_OPS(lm22_f64, double, f64)  // Generates all vector ops
 ```
 
 ---

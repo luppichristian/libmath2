@@ -32,7 +32,7 @@ SOFTWARE.
 // Construction Helpers
 // =============================================================================
 
-LM2_API lm2_sphere_f64 lm2_sphere_make_f64(lm2_v3f64 center, double radius) {
+LM2_API lm2_sphere_f64 lm2_sphere_make_f64(lm2_v3_f64 center, double radius) {
   LM2_ASSERT(radius >= 0.0);
   lm2_sphere_f64 sphere;
   sphere.center = center;
@@ -40,7 +40,7 @@ LM2_API lm2_sphere_f64 lm2_sphere_make_f64(lm2_v3f64 center, double radius) {
   return sphere;
 }
 
-LM2_API lm2_sphere_f32 lm2_sphere_make_f32(lm2_v3f32 center, float radius) {
+LM2_API lm2_sphere_f32 lm2_sphere_make_f32(lm2_v3_f32 center, float radius) {
   LM2_ASSERT(radius >= 0.0f);
   lm2_sphere_f32 sphere;
   sphere.center = center;
@@ -128,40 +128,40 @@ LM2_API float lm2_sphere_diameter_f32(lm2_sphere_f32 sphere) {
 // Sphere Tests
 // =============================================================================
 
-LM2_API bool lm2_sphere_contains_point_f64(lm2_sphere_f64 sphere, lm2_v3f64 point) {
-  double dist_sq = lm2_distance_squared_v3f64(sphere.center, point);
+LM2_API bool lm2_sphere_contains_point_f64(lm2_sphere_f64 sphere, lm2_v3_f64 point) {
+  double dist_sq = lm2_distance_squared3_f64(sphere.center, point);
   double radius_sq = lm2_mul_f64(sphere.radius, sphere.radius);
   return dist_sq <= radius_sq;
 }
 
-LM2_API bool lm2_sphere_contains_point_f32(lm2_sphere_f32 sphere, lm2_v3f32 point) {
-  float dist_sq = lm2_distance_squared_v3f32(sphere.center, point);
+LM2_API bool lm2_sphere_contains_point_f32(lm2_sphere_f32 sphere, lm2_v3_f32 point) {
+  float dist_sq = lm2_distance_squared3_f32(sphere.center, point);
   float radius_sq = lm2_mul_f32(sphere.radius, sphere.radius);
   return dist_sq <= radius_sq;
 }
 
 LM2_API bool lm2_spheres_overlap_f64(lm2_sphere_f64 a, lm2_sphere_f64 b) {
-  double dist_sq = lm2_distance_squared_v3f64(a.center, b.center);
+  double dist_sq = lm2_distance_squared3_f64(a.center, b.center);
   double radius_sum = lm2_add_f64(a.radius, b.radius);
   double radius_sum_sq = lm2_mul_f64(radius_sum, radius_sum);
   return dist_sq <= radius_sum_sq;
 }
 
 LM2_API bool lm2_spheres_overlap_f32(lm2_sphere_f32 a, lm2_sphere_f32 b) {
-  float dist_sq = lm2_distance_squared_v3f32(a.center, b.center);
+  float dist_sq = lm2_distance_squared3_f32(a.center, b.center);
   float radius_sum = lm2_add_f32(a.radius, b.radius);
   float radius_sum_sq = lm2_mul_f32(radius_sum, radius_sum);
   return dist_sq <= radius_sum_sq;
 }
 
 LM2_API bool lm2_sphere_contains_sphere_f64(lm2_sphere_f64 a, lm2_sphere_f64 b) {
-  double dist = lm2_distance_v3f64(a.center, b.center);
+  double dist = lm2_v3_distance_f64(a.center, b.center);
   double radius_diff = lm2_sub_f64(a.radius, b.radius);
   return dist <= radius_diff && radius_diff >= 0.0;
 }
 
 LM2_API bool lm2_sphere_contains_sphere_f32(lm2_sphere_f32 a, lm2_sphere_f32 b) {
-  float dist = lm2_distance_v3f32(a.center, b.center);
+  float dist = lm2_v3_distance_f32(a.center, b.center);
   float radius_diff = lm2_sub_f32(a.radius, b.radius);
   return dist <= radius_diff && radius_diff >= 0.0f;
 }
@@ -170,16 +170,16 @@ LM2_API bool lm2_sphere_contains_sphere_f32(lm2_sphere_f32 a, lm2_sphere_f32 b) 
 // Sphere Transformations
 // =============================================================================
 
-LM2_API lm2_sphere_f64 lm2_sphere_translate_f64(lm2_sphere_f64 sphere, lm2_v3f64 offset) {
+LM2_API lm2_sphere_f64 lm2_sphere_translate_f64(lm2_sphere_f64 sphere, lm2_v3_f64 offset) {
   lm2_sphere_f64 result;
-  result.center = lm2_add_lm2_v3f64(sphere.center, offset);
+  result.center = lm2_v3_add_f64(sphere.center, offset);
   result.radius = sphere.radius;
   return result;
 }
 
-LM2_API lm2_sphere_f32 lm2_sphere_translate_f32(lm2_sphere_f32 sphere, lm2_v3f32 offset) {
+LM2_API lm2_sphere_f32 lm2_sphere_translate_f32(lm2_sphere_f32 sphere, lm2_v3_f32 offset) {
   lm2_sphere_f32 result;
-  result.center = lm2_add_lm2_v3f32(sphere.center, offset);
+  result.center = lm2_v3_add_f32(sphere.center, offset);
   result.radius = sphere.radius;
   return result;
 }

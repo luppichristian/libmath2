@@ -100,16 +100,16 @@ SOFTWARE.
 // Vector3 Implementations
 // =============================================================================
 
-_LM2_IMPL_V3_ALL_OPS(lm2_v3f64, double, f64)
-_LM2_IMPL_V3_ALL_OPS(lm2_v3f32, float, f32)
-_LM2_IMPL_V3_ALL_OPS(lm2_v3i64, int64_t, i64)
-_LM2_IMPL_V3_ALL_OPS(lm2_v3i32, int32_t, i32)
-_LM2_IMPL_V3_ALL_OPS(lm2_v3i16, int16_t, i16)
-_LM2_IMPL_V3_ALL_OPS(lm2_v3i8, int8_t, i8)
-_LM2_IMPL_V3_ALL_OPS(lm2_v3u64, uint64_t, u64)
-_LM2_IMPL_V3_ALL_OPS(lm2_v3u32, uint32_t, u32)
-_LM2_IMPL_V3_ALL_OPS(lm2_v3u16, uint16_t, u16)
-_LM2_IMPL_V3_ALL_OPS(lm2_v3u8, uint8_t, u8)
+_LM2_IMPL_V3_ALL_OPS(lm2_v3_f64, double, f64)
+_LM2_IMPL_V3_ALL_OPS(lm2_v3_f32, float, f32)
+_LM2_IMPL_V3_ALL_OPS(lm2_v3_i64, int64_t, i64)
+_LM2_IMPL_V3_ALL_OPS(lm2_v3_i32, int32_t, i32)
+_LM2_IMPL_V3_ALL_OPS(lm2_v3_i16, int16_t, i16)
+_LM2_IMPL_V3_ALL_OPS(lm2_v3_i8, int8_t, i8)
+_LM2_IMPL_V3_ALL_OPS(lm2_v3_u64, uint64_t, u64)
+_LM2_IMPL_V3_ALL_OPS(lm2_v3_u32, uint32_t, u32)
+_LM2_IMPL_V3_ALL_OPS(lm2_v3_u16, uint16_t, u16)
+_LM2_IMPL_V3_ALL_OPS(lm2_v3_u8, uint8_t, u8)
 
 // =============================================================================
 // Macro to generate all scalar function implementations for a vector type
@@ -146,16 +146,16 @@ _LM2_IMPL_V3_ALL_OPS(lm2_v3u8, uint8_t, u8)
 // Scalar Function Implementations
 // =============================================================================
 
-_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3f64, f64)
-_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3f32, f32)
-_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3i64, i64)
-_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3i32, i32)
-_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3i16, i16)
-_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3i8, i8)
-_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3u64, u64)
-_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3u32, u32)
-_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3u16, u16)
-_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3u8, u8)
+_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3_f64, f64)
+_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3_f32, f32)
+_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3_i64, i64)
+_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3_i32, i32)
+_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3_i16, i16)
+_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3_i8, i8)
+_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3_u64, u64)
+_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3_u32, u32)
+_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3_u16, u16)
+_LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3_u8, u8)
 
 // =============================================================================
 // V3 Constructor Implementations
@@ -190,13 +190,13 @@ _LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3u8, u8)
   _LM2_IMPL_V3_SPLAT(type_name, scalar_type)                  \
   _LM2_IMPL_V3_ZERO(type_name, scalar_type)
 
-_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3f64, double)
-_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3f32, float)
-_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3i64, int64_t)
-_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3i32, int32_t)
-_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3i16, int16_t)
-_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3i8, int8_t)
-_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3u64, uint64_t)
-_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3u32, uint32_t)
-_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3u16, uint16_t)
-_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3u8, uint8_t)
+_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3_f64, double)
+_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3_f32, float)
+_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3_i64, int64_t)
+_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3_i32, int32_t)
+_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3_i16, int16_t)
+_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3_i8, int8_t)
+_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3_u64, uint64_t)
+_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3_u32, uint32_t)
+_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3_u16, uint16_t)
+_LM2_IMPL_V3_ALL_CONSTRUCTORS(lm2_v3_u8, uint8_t)

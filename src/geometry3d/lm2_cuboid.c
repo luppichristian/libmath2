@@ -57,36 +57,36 @@ LM2_API lm2_cuboid_f32 lm2_cuboid_unit_f32(void) {
 // Construction Wrappers
 // =============================================================================
 
-LM2_API lm2_cuboid_f64 lm2_cuboid_from_min_max_f64(lm2_v3f64 min, lm2_v3f64 max) {
-  return lm2_r3f64_from_min_max(min, max);
+LM2_API lm2_cuboid_f64 lm2_cuboid_from_min_max_f64(lm2_v3_f64 min, lm2_v3_f64 max) {
+  return lm2_r3_from_min_max_f64(min, max);
 }
 
-LM2_API lm2_cuboid_f32 lm2_cuboid_from_min_max_f32(lm2_v3f32 min, lm2_v3f32 max) {
-  return lm2_r3f32_from_min_max(min, max);
+LM2_API lm2_cuboid_f32 lm2_cuboid_from_min_max_f32(lm2_v3_f32 min, lm2_v3_f32 max) {
+  return lm2_r3_from_min_max_f32(min, max);
 }
 
-LM2_API lm2_cuboid_f64 lm2_cuboid_from_center_size_f64(lm2_v3f64 center, lm2_v3f64 size) {
-  return lm2_r3f64_from_center_size(center, size);
+LM2_API lm2_cuboid_f64 lm2_cuboid_from_center_size_f64(lm2_v3_f64 center, lm2_v3_f64 size) {
+  return lm2_r3_from_center_size_f64(center, size);
 }
 
-LM2_API lm2_cuboid_f32 lm2_cuboid_from_center_size_f32(lm2_v3f32 center, lm2_v3f32 size) {
-  return lm2_r3f32_from_center_size(center, size);
+LM2_API lm2_cuboid_f32 lm2_cuboid_from_center_size_f32(lm2_v3_f32 center, lm2_v3_f32 size) {
+  return lm2_r3_from_center_size_f32(center, size);
 }
 
-LM2_API lm2_cuboid_f64 lm2_cuboid_from_center_extents_f64(lm2_v3f64 center, lm2_v3f64 extents) {
-  return lm2_r3f64_from_center_extents(center, extents);
+LM2_API lm2_cuboid_f64 lm2_cuboid_from_center_extents_f64(lm2_v3_f64 center, lm2_v3_f64 extents) {
+  return lm2_r3_from_center_extents_f64(center, extents);
 }
 
-LM2_API lm2_cuboid_f32 lm2_cuboid_from_center_extents_f32(lm2_v3f32 center, lm2_v3f32 extents) {
-  return lm2_r3f32_from_center_extents(center, extents);
+LM2_API lm2_cuboid_f32 lm2_cuboid_from_center_extents_f32(lm2_v3_f32 center, lm2_v3_f32 extents) {
+  return lm2_r3_from_center_extents_f32(center, extents);
 }
 
-LM2_API lm2_cuboid_f64 lm2_cuboid_from_position_size_f64(lm2_v3f64 pos, lm2_v3f64 size) {
-  return lm2_r3f64_from_position_size(pos, size);
+LM2_API lm2_cuboid_f64 lm2_cuboid_from_position_size_f64(lm2_v3_f64 pos, lm2_v3_f64 size) {
+  return lm2_r3_from_position_size_f64(pos, size);
 }
 
-LM2_API lm2_cuboid_f32 lm2_cuboid_from_position_size_f32(lm2_v3f32 pos, lm2_v3f32 size) {
-  return lm2_r3f32_from_position_size(pos, size);
+LM2_API lm2_cuboid_f32 lm2_cuboid_from_position_size_f32(lm2_v3_f32 pos, lm2_v3_f32 size) {
+  return lm2_r3_from_position_size_f32(pos, size);
 }
 
 // =============================================================================
@@ -123,14 +123,14 @@ LM2_API float lm2_cuboid_surface_area_f32(lm2_cuboid_f32 cuboid) {
 
 LM2_API double lm2_cuboid_diagonal_f64(lm2_cuboid_f64 cuboid) {
   // Diagonal = sqrt((max.x - min.x)² + (max.y - min.y)² + (max.z - min.z)²)
-  lm2_v3f64 size = lm2_sub_lm2_v3f64(cuboid.max, cuboid.min);
-  return lm2_length_v3f64(size);
+  lm2_v3_f64 size = lm2_v3_sub_f64(cuboid.max, cuboid.min);
+  return lm2_v3_length_f64(size);
 }
 
 LM2_API float lm2_cuboid_diagonal_f32(lm2_cuboid_f32 cuboid) {
   // Diagonal = sqrt((max.x - min.x)² + (max.y - min.y)² + (max.z - min.z)²)
-  lm2_v3f32 size = lm2_sub_lm2_v3f32(cuboid.max, cuboid.min);
-  return lm2_length_v3f32(size);
+  lm2_v3_f32 size = lm2_v3_sub_f32(cuboid.max, cuboid.min);
+  return lm2_v3_length_f32(size);
 }
 
 LM2_API double lm2_cuboid_width_f64(lm2_cuboid_f64 cuboid) {
@@ -161,8 +161,8 @@ LM2_API float lm2_cuboid_depth_f32(lm2_cuboid_f32 cuboid) {
 // Cuboid Corner Operations
 // =============================================================================
 
-LM2_API lm2_v3f64 lm2_cuboid_get_corner_f64(lm2_cuboid_f64 cuboid, lm2_corner3 corner) {
-  lm2_v3f64 result;
+LM2_API lm2_v3_f64 lm2_cuboid_get_corner_f64(lm2_cuboid_f64 cuboid, lm2_corner3 corner) {
+  lm2_v3_f64 result;
 
   switch (corner) {
     case LM2_CORNER3_MIN_MIN_MIN:
@@ -216,8 +216,8 @@ LM2_API lm2_v3f64 lm2_cuboid_get_corner_f64(lm2_cuboid_f64 cuboid, lm2_corner3 c
   return result;
 }
 
-LM2_API lm2_v3f32 lm2_cuboid_get_corner_f32(lm2_cuboid_f32 cuboid, lm2_corner3 corner) {
-  lm2_v3f32 result;
+LM2_API lm2_v3_f32 lm2_cuboid_get_corner_f32(lm2_cuboid_f32 cuboid, lm2_corner3 corner) {
+  lm2_v3_f32 result;
 
   switch (corner) {
     case LM2_CORNER3_MIN_MIN_MIN:
@@ -271,7 +271,7 @@ LM2_API lm2_v3f32 lm2_cuboid_get_corner_f32(lm2_cuboid_f32 cuboid, lm2_corner3 c
   return result;
 }
 
-LM2_API void lm2_cuboid_get_corners_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 corners[8]) {
+LM2_API void lm2_cuboid_get_corners_f64(lm2_cuboid_f64 cuboid, lm2_v3_f64 corners[8]) {
   LM2_ASSERT(corners != NULL);
 
   for (int i = 0; i < 8; i++) {
@@ -279,7 +279,7 @@ LM2_API void lm2_cuboid_get_corners_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 corners
   }
 }
 
-LM2_API void lm2_cuboid_get_corners_f32(lm2_cuboid_f32 cuboid, lm2_v3f32 corners[8]) {
+LM2_API void lm2_cuboid_get_corners_f32(lm2_cuboid_f32 cuboid, lm2_v3_f32 corners[8]) {
   LM2_ASSERT(corners != NULL);
 
   for (int i = 0; i < 8; i++) {
@@ -291,9 +291,9 @@ LM2_API void lm2_cuboid_get_corners_f32(lm2_cuboid_f32 cuboid, lm2_v3f32 corners
 // Cuboid Face Operations
 // =============================================================================
 
-LM2_API lm2_v3f64 lm2_cuboid_face_center_f64(lm2_cuboid_f64 cuboid, lm2_cuboid_face face) {
-  lm2_v3f64 result;
-  lm2_v3f64 center = lm2_r3f64_center(cuboid);
+LM2_API lm2_v3_f64 lm2_cuboid_face_center_f64(lm2_cuboid_f64 cuboid, lm2_cuboid_face face) {
+  lm2_v3_f64 result;
+  lm2_v3_f64 center = lm2_r3_center_f64(cuboid);
 
   switch (face) {
     case LM2_CUBOID_FACE_FRONT:  // +Z
@@ -335,9 +335,9 @@ LM2_API lm2_v3f64 lm2_cuboid_face_center_f64(lm2_cuboid_f64 cuboid, lm2_cuboid_f
   return result;
 }
 
-LM2_API lm2_v3f32 lm2_cuboid_face_center_f32(lm2_cuboid_f32 cuboid, lm2_cuboid_face face) {
-  lm2_v3f32 result;
-  lm2_v3f32 center = lm2_r3f32_center(cuboid);
+LM2_API lm2_v3_f32 lm2_cuboid_face_center_f32(lm2_cuboid_f32 cuboid, lm2_cuboid_face face) {
+  lm2_v3_f32 result;
+  lm2_v3_f32 center = lm2_r3_center_f32(cuboid);
 
   switch (face) {
     case LM2_CUBOID_FACE_FRONT:  // +Z
@@ -379,8 +379,8 @@ LM2_API lm2_v3f32 lm2_cuboid_face_center_f32(lm2_cuboid_f32 cuboid, lm2_cuboid_f
   return result;
 }
 
-LM2_API lm2_v3f64 lm2_cuboid_face_normal_f64(lm2_cuboid_face face) {
-  lm2_v3f64 normal;
+LM2_API lm2_v3_f64 lm2_cuboid_face_normal_f64(lm2_cuboid_face face) {
+  lm2_v3_f64 normal;
 
   switch (face) {
     case LM2_CUBOID_FACE_FRONT:  // +Z
@@ -424,8 +424,8 @@ LM2_API lm2_v3f64 lm2_cuboid_face_normal_f64(lm2_cuboid_face face) {
   return normal;
 }
 
-LM2_API lm2_v3f32 lm2_cuboid_face_normal_f32(lm2_cuboid_face face) {
-  lm2_v3f32 normal;
+LM2_API lm2_v3_f32 lm2_cuboid_face_normal_f32(lm2_cuboid_face face) {
+  lm2_v3_f32 normal;
 
   switch (face) {
     case LM2_CUBOID_FACE_FRONT:  // +Z
@@ -473,37 +473,37 @@ LM2_API lm2_v3f32 lm2_cuboid_face_normal_f32(lm2_cuboid_face face) {
 // Cuboid Tests
 // =============================================================================
 
-LM2_API int lm2_cuboid_contains_point_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 point) {
-  return lm2_r3f64_contains_point(cuboid, point);
+LM2_API int lm2_cuboid_contains_point_f64(lm2_cuboid_f64 cuboid, lm2_v3_f64 point) {
+  return lm2_r3_contains_point_f64(cuboid, point);
 }
 
-LM2_API int lm2_cuboid_contains_point_f32(lm2_cuboid_f32 cuboid, lm2_v3f32 point) {
-  return lm2_r3f32_contains_point(cuboid, point);
+LM2_API int lm2_cuboid_contains_point_f32(lm2_cuboid_f32 cuboid, lm2_v3_f32 point) {
+  return lm2_r3_contains_point_f32(cuboid, point);
 }
 
 LM2_API int lm2_cuboid_overlaps_f64(lm2_cuboid_f64 a, lm2_cuboid_f64 b) {
-  return lm2_r3f64_overlaps(a, b);
+  return lm2_r3_overlaps_f64(a, b);
 }
 
 LM2_API int lm2_cuboid_overlaps_f32(lm2_cuboid_f32 a, lm2_cuboid_f32 b) {
-  return lm2_r3f32_overlaps(a, b);
+  return lm2_r3_overlaps_f32(a, b);
 }
 
 // =============================================================================
 // Cuboid Transformations
 // =============================================================================
 
-LM2_API lm2_cuboid_f64 lm2_cuboid_translate_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 offset) {
-  return lm2_r3f64_translate(cuboid, offset);
+LM2_API lm2_cuboid_f64 lm2_cuboid_translate_f64(lm2_cuboid_f64 cuboid, lm2_v3_f64 offset) {
+  return lm2_r3_translate_f64(cuboid, offset);
 }
 
-LM2_API lm2_cuboid_f32 lm2_cuboid_translate_f32(lm2_cuboid_f32 cuboid, lm2_v3f32 offset) {
-  return lm2_r3f32_translate(cuboid, offset);
+LM2_API lm2_cuboid_f32 lm2_cuboid_translate_f32(lm2_cuboid_f32 cuboid, lm2_v3_f32 offset) {
+  return lm2_r3_translate_f32(cuboid, offset);
 }
 
-LM2_API lm2_cuboid_f64 lm2_cuboid_scale_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 scale) {
-  lm2_v3f64 center = lm2_r3f64_center(cuboid);
-  lm2_v3f64 extents = lm2_r3f64_extents(cuboid);
+LM2_API lm2_cuboid_f64 lm2_cuboid_scale_f64(lm2_cuboid_f64 cuboid, lm2_v3_f64 scale) {
+  lm2_v3_f64 center = lm2_r3_center_f64(cuboid);
+  lm2_v3_f64 extents = lm2_r3_extents_f64(cuboid);
   lm2_cuboid_f64 result;
   double new_ext_x = lm2_mul_f64(extents.x, scale.x);
   double new_ext_y = lm2_mul_f64(extents.y, scale.y);
@@ -517,9 +517,9 @@ LM2_API lm2_cuboid_f64 lm2_cuboid_scale_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 sca
   return result;
 }
 
-LM2_API lm2_cuboid_f32 lm2_cuboid_scale_f32(lm2_cuboid_f32 cuboid, lm2_v3f32 scale) {
-  lm2_v3f32 center = lm2_r3f32_center(cuboid);
-  lm2_v3f32 extents = lm2_r3f32_extents(cuboid);
+LM2_API lm2_cuboid_f32 lm2_cuboid_scale_f32(lm2_cuboid_f32 cuboid, lm2_v3_f32 scale) {
+  lm2_v3_f32 center = lm2_r3_center_f32(cuboid);
+  lm2_v3_f32 extents = lm2_r3_extents_f32(cuboid);
   lm2_cuboid_f32 result;
   float new_ext_x = lm2_mul_f32(extents.x, scale.x);
   float new_ext_y = lm2_mul_f32(extents.y, scale.y);
@@ -533,7 +533,7 @@ LM2_API lm2_cuboid_f32 lm2_cuboid_scale_f32(lm2_cuboid_f32 cuboid, lm2_v3f32 sca
   return result;
 }
 
-LM2_API lm2_cuboid_f64 lm2_cuboid_expand_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 amount) {
+LM2_API lm2_cuboid_f64 lm2_cuboid_expand_f64(lm2_cuboid_f64 cuboid, lm2_v3_f64 amount) {
   lm2_cuboid_f64 result;
   result.min.x = lm2_sub_f64(cuboid.min.x, amount.x);
   result.min.y = lm2_sub_f64(cuboid.min.y, amount.y);
@@ -544,7 +544,7 @@ LM2_API lm2_cuboid_f64 lm2_cuboid_expand_f64(lm2_cuboid_f64 cuboid, lm2_v3f64 am
   return result;
 }
 
-LM2_API lm2_cuboid_f32 lm2_cuboid_expand_f32(lm2_cuboid_f32 cuboid, lm2_v3f32 amount) {
+LM2_API lm2_cuboid_f32 lm2_cuboid_expand_f32(lm2_cuboid_f32 cuboid, lm2_v3_f32 amount) {
   lm2_cuboid_f32 result;
   result.min.x = lm2_sub_f32(cuboid.min.x, amount.x);
   result.min.y = lm2_sub_f32(cuboid.min.y, amount.y);

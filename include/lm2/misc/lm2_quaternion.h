@@ -45,7 +45,7 @@ LM2_HEADER_BEGIN;
 // - Efficient concatenation
 // - Compact representation (4 values vs 9 for rotation matrix)
 
-typedef union lm2_quatf64 {
+typedef union lm2_quat_f64 {
   double e[4];  // [x, y, z, w]
   struct {
     double x, y, z, w;  // w is scalar, xyz is vector part
@@ -54,9 +54,9 @@ typedef union lm2_quatf64 {
   inline double& operator[](int i) { return e[i]; }
   inline const double& operator[](int i) const { return e[i]; }
 #endif
-} lm2_quatf64;
+} lm2_quat_f64;
 
-typedef union lm2_quatf32 {
+typedef union lm2_quat_f32 {
   float e[4];  // [x, y, z, w]
   struct {
     float x, y, z, w;  // w is scalar, xyz is vector part
@@ -65,78 +65,78 @@ typedef union lm2_quatf32 {
   inline float& operator[](int i) { return e[i]; }
   inline const float& operator[](int i) const { return e[i]; }
 #endif
-} lm2_quatf32;
+} lm2_quat_f32;
 
 // Default type alias
-typedef lm2_quatf32 lm2_quat;
+typedef lm2_quat_f32 lm2_quat;
 
 // =============================================================================
 // Quaternion Function Declarations - f64
 // =============================================================================
 
 // Basic constructors
-LM2_API lm2_quatf64 lm2_quatf64_identity(void);
-LM2_API lm2_quatf64 lm2_quatf64_zero(void);
-LM2_API lm2_quatf64 lm2_quatf64_make(double x, double y, double z, double w);
+LM2_API lm2_quat_f64 lm2_quat_identity_f64(void);
+LM2_API lm2_quat_f64 lm2_quat_zero_f64(void);
+LM2_API lm2_quat_f64 lm2_quat_make_f64(double x, double y, double z, double w);
 
 // Conversions from other representations
-LM2_API lm2_quatf64 lm2_quatf64_from_axis_angle(lm2_v3f64 axis, double angle);
-LM2_API lm2_quatf64 lm2_quatf64_from_euler(double pitch, double yaw, double roll);
-LM2_API lm2_quatf64 lm2_quatf64_from_euler_vec(lm2_v3f64 euler);
+LM2_API lm2_quat_f64 lm2_quat_from_axis_angle_f64(lm2_v3_f64 axis, double angle);
+LM2_API lm2_quat_f64 lm2_quat_from_euler_f64(double pitch, double yaw, double roll);
+LM2_API lm2_quat_f64 lm2_quat_from_euler_vec_f64(lm2_v3_f64 euler);
 
 // Conversions to other representations
-LM2_API void lm2_quatf64_to_axis_angle(lm2_quatf64 q, lm2_v3f64* axis, double* angle);
-LM2_API lm2_v3f64 lm2_quatf64_to_euler(lm2_quatf64 q);
+LM2_API void lm2_quat_to_axis_angle_f64(lm2_quat_f64 q, lm2_v3_f64* axis, double* angle);
+LM2_API lm2_v3_f64 lm2_quat_to_euler_f64(lm2_quat_f64 q);
 
 // Operations
-LM2_API lm2_quatf64 lm2_quatf64_conjugate(lm2_quatf64 q);
-LM2_API lm2_quatf64 lm2_quatf64_inverse(lm2_quatf64 q);
-LM2_API lm2_quatf64 lm2_quatf64_normalize(lm2_quatf64 q);
-LM2_API lm2_quatf64 lm2_quatf64_multiply(lm2_quatf64 a, lm2_quatf64 b);
-LM2_API lm2_quatf64 lm2_quatf64_add(lm2_quatf64 a, lm2_quatf64 b);
-LM2_API lm2_quatf64 lm2_quatf64_sub(lm2_quatf64 a, lm2_quatf64 b);
-LM2_API lm2_quatf64 lm2_quatf64_scale(lm2_quatf64 q, double s);
-LM2_API double lm2_quatf64_dot(lm2_quatf64 a, lm2_quatf64 b);
-LM2_API double lm2_quatf64_length_squared(lm2_quatf64 q);
-LM2_API double lm2_quatf64_length(lm2_quatf64 q);
-LM2_API lm2_v3f64 lm2_quatf64_rotate_vector(lm2_quatf64 q, lm2_v3f64 v);
-LM2_API lm2_quatf64 lm2_quatf64_slerp(lm2_quatf64 a, lm2_quatf64 b, double t);
-LM2_API lm2_quatf64 lm2_quatf64_nlerp(lm2_quatf64 a, lm2_quatf64 b, double t);
-LM2_API bool lm2_quatf64_equals(lm2_quatf64 a, lm2_quatf64 b, double epsilon);
+LM2_API lm2_quat_f64 lm2_quat_conjugate_f64(lm2_quat_f64 q);
+LM2_API lm2_quat_f64 lm2_quat_inverse_f64(lm2_quat_f64 q);
+LM2_API lm2_quat_f64 lm2_quat_normalize_f64(lm2_quat_f64 q);
+LM2_API lm2_quat_f64 lm2_quat_multiply_f64(lm2_quat_f64 a, lm2_quat_f64 b);
+LM2_API lm2_quat_f64 lm2_quat_add_f64(lm2_quat_f64 a, lm2_quat_f64 b);
+LM2_API lm2_quat_f64 lm2_quat_sub_f64(lm2_quat_f64 a, lm2_quat_f64 b);
+LM2_API lm2_quat_f64 lm2_quat_scale_f64(lm2_quat_f64 q, double s);
+LM2_API double lm2_quat_dot_f64(lm2_quat_f64 a, lm2_quat_f64 b);
+LM2_API double lm2_quat_length_squared_f64(lm2_quat_f64 q);
+LM2_API double lm2_quat_length_f64(lm2_quat_f64 q);
+LM2_API lm2_v3_f64 lm2_quat_rotate_vector_f64(lm2_quat_f64 q, lm2_v3_f64 v);
+LM2_API lm2_quat_f64 lm2_quat_slerp_f64(lm2_quat_f64 a, lm2_quat_f64 b, double t);
+LM2_API lm2_quat_f64 lm2_quat_nlerp_f64(lm2_quat_f64 a, lm2_quat_f64 b, double t);
+LM2_API bool lm2_quat_equals_f64(lm2_quat_f64 a, lm2_quat_f64 b, double epsilon);
 
 // =============================================================================
 // Quaternion Function Declarations - f32
 // =============================================================================
 
 // Basic constructors
-LM2_API lm2_quatf32 lm2_quatf32_identity(void);
-LM2_API lm2_quatf32 lm2_quatf32_zero(void);
-LM2_API lm2_quatf32 lm2_quatf32_make(float x, float y, float z, float w);
+LM2_API lm2_quat_f32 lm2_quat_identity_f32(void);
+LM2_API lm2_quat_f32 lm2_quat_zero_f32(void);
+LM2_API lm2_quat_f32 lm2_quat_make_f32(float x, float y, float z, float w);
 
 // Conversions from other representations
-LM2_API lm2_quatf32 lm2_quatf32_from_axis_angle(lm2_v3f32 axis, float angle);
-LM2_API lm2_quatf32 lm2_quatf32_from_euler(float pitch, float yaw, float roll);
-LM2_API lm2_quatf32 lm2_quatf32_from_euler_vec(lm2_v3f32 euler);
+LM2_API lm2_quat_f32 lm2_quat_from_axis_angle_f32(lm2_v3_f32 axis, float angle);
+LM2_API lm2_quat_f32 lm2_quat_from_euler_f32(float pitch, float yaw, float roll);
+LM2_API lm2_quat_f32 lm2_quat_from_euler_vec_f32(lm2_v3_f32 euler);
 
 // Conversions to other representations
-LM2_API void lm2_quatf32_to_axis_angle(lm2_quatf32 q, lm2_v3f32* axis, float* angle);
-LM2_API lm2_v3f32 lm2_quatf32_to_euler(lm2_quatf32 q);
+LM2_API void lm2_quat_to_axis_angle_f32(lm2_quat_f32 q, lm2_v3_f32* axis, float* angle);
+LM2_API lm2_v3_f32 lm2_quat_to_euler_f32(lm2_quat_f32 q);
 
 // Operations
-LM2_API lm2_quatf32 lm2_quatf32_conjugate(lm2_quatf32 q);
-LM2_API lm2_quatf32 lm2_quatf32_inverse(lm2_quatf32 q);
-LM2_API lm2_quatf32 lm2_quatf32_normalize(lm2_quatf32 q);
-LM2_API lm2_quatf32 lm2_quatf32_multiply(lm2_quatf32 a, lm2_quatf32 b);
-LM2_API lm2_quatf32 lm2_quatf32_add(lm2_quatf32 a, lm2_quatf32 b);
-LM2_API lm2_quatf32 lm2_quatf32_sub(lm2_quatf32 a, lm2_quatf32 b);
-LM2_API lm2_quatf32 lm2_quatf32_scale(lm2_quatf32 q, float s);
-LM2_API float lm2_quatf32_dot(lm2_quatf32 a, lm2_quatf32 b);
-LM2_API float lm2_quatf32_length_squared(lm2_quatf32 q);
-LM2_API float lm2_quatf32_length(lm2_quatf32 q);
-LM2_API lm2_v3f32 lm2_quatf32_rotate_vector(lm2_quatf32 q, lm2_v3f32 v);
-LM2_API lm2_quatf32 lm2_quatf32_slerp(lm2_quatf32 a, lm2_quatf32 b, float t);
-LM2_API lm2_quatf32 lm2_quatf32_nlerp(lm2_quatf32 a, lm2_quatf32 b, float t);
-LM2_API bool lm2_quatf32_equals(lm2_quatf32 a, lm2_quatf32 b, float epsilon);
+LM2_API lm2_quat_f32 lm2_quat_conjugate_f32(lm2_quat_f32 q);
+LM2_API lm2_quat_f32 lm2_quat_inverse_f32(lm2_quat_f32 q);
+LM2_API lm2_quat_f32 lm2_quat_normalize_f32(lm2_quat_f32 q);
+LM2_API lm2_quat_f32 lm2_quat_multiply_f32(lm2_quat_f32 a, lm2_quat_f32 b);
+LM2_API lm2_quat_f32 lm2_quat_add_f32(lm2_quat_f32 a, lm2_quat_f32 b);
+LM2_API lm2_quat_f32 lm2_quat_sub_f32(lm2_quat_f32 a, lm2_quat_f32 b);
+LM2_API lm2_quat_f32 lm2_quat_scale_f32(lm2_quat_f32 q, float s);
+LM2_API float lm2_quat_dot_f32(lm2_quat_f32 a, lm2_quat_f32 b);
+LM2_API float lm2_quat_length_squared_f32(lm2_quat_f32 q);
+LM2_API float lm2_quat_length_f32(lm2_quat_f32 q);
+LM2_API lm2_v3_f32 lm2_quat_rotate_vector_f32(lm2_quat_f32 q, lm2_v3_f32 v);
+LM2_API lm2_quat_f32 lm2_quat_slerp_f32(lm2_quat_f32 a, lm2_quat_f32 b, float t);
+LM2_API lm2_quat_f32 lm2_quat_nlerp_f32(lm2_quat_f32 a, lm2_quat_f32 b, float t);
+LM2_API bool lm2_quat_equals_f32(lm2_quat_f32 a, lm2_quat_f32 b, float epsilon);
 
 // #############################################################################
 LM2_HEADER_END;

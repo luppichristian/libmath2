@@ -38,7 +38,7 @@ SOFTWARE.
 // Construction Helpers
 // =============================================================================
 
-LM2_API lm2_polygon_f64 lm2_polygon_make_f64(lm2_v2f64* vertices, size_t vertex_count) {
+LM2_API lm2_polygon_f64 lm2_polygon_make_f64(lm2_v2_f64* vertices, size_t vertex_count) {
   LM2_ASSERT(vertices != NULL);
   LM2_ASSERT(vertex_count >= 3);
   lm2_polygon_f64 polygon;
@@ -47,7 +47,7 @@ LM2_API lm2_polygon_f64 lm2_polygon_make_f64(lm2_v2f64* vertices, size_t vertex_
   return polygon;
 }
 
-LM2_API lm2_polygon_f32 lm2_polygon_make_f32(lm2_v2f32* vertices, size_t vertex_count) {
+LM2_API lm2_polygon_f32 lm2_polygon_make_f32(lm2_v2_f32* vertices, size_t vertex_count) {
   LM2_ASSERT(vertices != NULL);
   LM2_ASSERT(vertex_count >= 3);
   lm2_polygon_f32 polygon;
@@ -56,7 +56,7 @@ LM2_API lm2_polygon_f32 lm2_polygon_make_f32(lm2_v2f32* vertices, size_t vertex_
   return polygon;
 }
 
-LM2_API void lm2_polygon_make_regular_f64(lm2_v2f64* out_vertices, size_t num_sides, lm2_v2f64 center, double radius) {
+LM2_API void lm2_polygon_make_regular_f64(lm2_v2_f64* out_vertices, size_t num_sides, lm2_v2_f64 center, double radius) {
   LM2_ASSERT(out_vertices != NULL);
   LM2_ASSERT(num_sides >= 3);
   LM2_ASSERT(radius >= 0.0);
@@ -70,7 +70,7 @@ LM2_API void lm2_polygon_make_regular_f64(lm2_v2f64* out_vertices, size_t num_si
   }
 }
 
-LM2_API void lm2_polygon_make_regular_f32(lm2_v2f32* out_vertices, size_t num_sides, lm2_v2f32 center, float radius) {
+LM2_API void lm2_polygon_make_regular_f32(lm2_v2_f32* out_vertices, size_t num_sides, lm2_v2_f32 center, float radius) {
   LM2_ASSERT(out_vertices != NULL);
   LM2_ASSERT(num_sides >= 3);
   LM2_ASSERT(radius >= 0.0f);
@@ -84,7 +84,7 @@ LM2_API void lm2_polygon_make_regular_f32(lm2_v2f32* out_vertices, size_t num_si
   }
 }
 
-LM2_API void lm2_polygon_make_rect_f64(lm2_v2f64* out_vertices, lm2_v2f64 min, lm2_v2f64 max) {
+LM2_API void lm2_polygon_make_rect_f64(lm2_v2_f64* out_vertices, lm2_v2_f64 min, lm2_v2_f64 max) {
   LM2_ASSERT(out_vertices != NULL);
   out_vertices[0].x = min.x;
   out_vertices[0].y = min.y;
@@ -96,7 +96,7 @@ LM2_API void lm2_polygon_make_rect_f64(lm2_v2f64* out_vertices, lm2_v2f64 min, l
   out_vertices[3].y = max.y;
 }
 
-LM2_API void lm2_polygon_make_rect_f32(lm2_v2f32* out_vertices, lm2_v2f32 min, lm2_v2f32 max) {
+LM2_API void lm2_polygon_make_rect_f32(lm2_v2_f32* out_vertices, lm2_v2_f32 min, lm2_v2_f32 max) {
   LM2_ASSERT(out_vertices != NULL);
   out_vertices[0].x = min.x;
   out_vertices[0].y = min.y;
@@ -108,64 +108,64 @@ LM2_API void lm2_polygon_make_rect_f32(lm2_v2f32* out_vertices, lm2_v2f32 min, l
   out_vertices[3].y = max.y;
 }
 
-LM2_API void lm2_polygon_make_triangle_f64(lm2_v2f64* out_vertices, lm2_v2f64 position, lm2_v2f64 tip, double base_width) {
+LM2_API void lm2_polygon_make_triangle_f64(lm2_v2_f64* out_vertices, lm2_v2_f64 position, lm2_v2_f64 tip, double base_width) {
   LM2_ASSERT(out_vertices != NULL);
   LM2_ASSERT(base_width >= 0.0);
 
   // Calculate direction vector from position to tip
-  lm2_v2f64 dir = lm2_sub_lm2_v2f64(tip, position);
-  double len = lm2_length_v2f64(dir);
+  lm2_v2_f64 dir = lm2_v2_sub_f64(tip, position);
+  double len = lm2_v2_length_f64(dir);
 
   if (len > 0.0) {
-    dir = lm2_mul_lm2_v2f64_double(dir, lm2_div_f64(1.0, len));
+    dir = lm2_v2_mul_s_f64(dir, lm2_div_f64(1.0, len));
   } else {
     dir.x = 0.0;
     dir.y = 1.0;
   }
 
   // Perpendicular vector for base
-  lm2_v2f64 perp = {lm2_mul_f64(dir.y, -1.0), dir.x};
+  lm2_v2_f64 perp = {lm2_mul_f64(dir.y, -1.0), dir.x};
   double half_width = lm2_mul_f64(base_width, 0.5);
 
   // Calculate base vertices
   out_vertices[0] = tip;
-  out_vertices[1] = lm2_add_lm2_v2f64(position, lm2_mul_lm2_v2f64_double(perp, half_width));
-  out_vertices[2] = lm2_sub_lm2_v2f64(position, lm2_mul_lm2_v2f64_double(perp, half_width));
+  out_vertices[1] = lm2_v2_add_f64(position, lm2_v2_mul_s_f64(perp, half_width));
+  out_vertices[2] = lm2_v2_sub_f64(position, lm2_v2_mul_s_f64(perp, half_width));
 }
 
-LM2_API void lm2_polygon_make_triangle_f32(lm2_v2f32* out_vertices, lm2_v2f32 position, lm2_v2f32 tip, float base_width) {
+LM2_API void lm2_polygon_make_triangle_f32(lm2_v2_f32* out_vertices, lm2_v2_f32 position, lm2_v2_f32 tip, float base_width) {
   LM2_ASSERT(out_vertices != NULL);
   LM2_ASSERT(base_width >= 0.0f);
 
   // Calculate direction vector from position to tip
-  lm2_v2f32 dir = lm2_sub_lm2_v2f32(tip, position);
-  float len = lm2_length_v2f32(dir);
+  lm2_v2_f32 dir = lm2_v2_sub_f32(tip, position);
+  float len = lm2_v2_length_f32(dir);
 
   if (len > 0.0f) {
-    dir = lm2_mul_lm2_v2f32_float(dir, lm2_div_f32(1.0f, len));
+    dir = lm2_v2_mul_s_f32(dir, lm2_div_f32(1.0f, len));
   } else {
     dir.x = 0.0f;
     dir.y = 1.0f;
   }
 
   // Perpendicular vector for base
-  lm2_v2f32 perp = {lm2_mul_f32(dir.y, -1.0f), dir.x};
+  lm2_v2_f32 perp = {lm2_mul_f32(dir.y, -1.0f), dir.x};
   float half_width = lm2_mul_f32(base_width, 0.5f);
 
   // Calculate base vertices
   out_vertices[0] = tip;
-  out_vertices[1] = lm2_add_lm2_v2f32(position, lm2_mul_lm2_v2f32_float(perp, half_width));
-  out_vertices[2] = lm2_sub_lm2_v2f32(position, lm2_mul_lm2_v2f32_float(perp, half_width));
+  out_vertices[1] = lm2_v2_add_f32(position, lm2_v2_mul_s_f32(perp, half_width));
+  out_vertices[2] = lm2_v2_sub_f32(position, lm2_v2_mul_s_f32(perp, half_width));
 }
 
-LM2_API void lm2_polygon_from_triangle_f64(lm2_v2f64* out_vertices, const lm2_triangle2_f64 triangle) {
+LM2_API void lm2_polygon_from_triangle_f64(lm2_v2_f64* out_vertices, const lm2_triangle2_f64 triangle) {
   LM2_ASSERT(out_vertices != NULL);
   out_vertices[0] = triangle[0];
   out_vertices[1] = triangle[1];
   out_vertices[2] = triangle[2];
 }
 
-LM2_API void lm2_polygon_from_triangle_f32(lm2_v2f32* out_vertices, const lm2_triangle2_f32 triangle) {
+LM2_API void lm2_polygon_from_triangle_f32(lm2_v2_f32* out_vertices, const lm2_triangle2_f32 triangle) {
   LM2_ASSERT(out_vertices != NULL);
   out_vertices[0] = triangle[0];
   out_vertices[1] = triangle[1];
@@ -251,7 +251,7 @@ LM2_API double lm2_polygon_perimeter_f64(lm2_polygon_f64 polygon) {
   double perimeter = 0.0;
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
-    double dist = lm2_distance_v2f64(polygon.vertices[i], polygon.vertices[j]);
+    double dist = lm2_v2_distance_f64(polygon.vertices[i], polygon.vertices[j]);
     perimeter = lm2_add_f64(perimeter, dist);
   }
   return perimeter;
@@ -264,17 +264,17 @@ LM2_API float lm2_polygon_perimeter_f32(lm2_polygon_f32 polygon) {
   float perimeter = 0.0f;
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
-    float dist = lm2_distance_v2f32(polygon.vertices[i], polygon.vertices[j]);
+    float dist = lm2_v2_distance_f32(polygon.vertices[i], polygon.vertices[j]);
     perimeter = lm2_add_f32(perimeter, dist);
   }
   return perimeter;
 }
 
-LM2_API lm2_v2f64 lm2_polygon_centroid_f64(lm2_polygon_f64 polygon) {
+LM2_API lm2_v2_f64 lm2_polygon_centroid_f64(lm2_polygon_f64 polygon) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
-  lm2_v2f64 centroid = {0.0, 0.0};
+  lm2_v2_f64 centroid = {0.0, 0.0};
   double signed_area = 0.0;
 
   for (size_t i = 0; i < polygon.vertex_count; i++) {
@@ -295,11 +295,11 @@ LM2_API lm2_v2f64 lm2_polygon_centroid_f64(lm2_polygon_f64 polygon) {
   return centroid;
 }
 
-LM2_API lm2_v2f32 lm2_polygon_centroid_f32(lm2_polygon_f32 polygon) {
+LM2_API lm2_v2_f32 lm2_polygon_centroid_f32(lm2_polygon_f32 polygon) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
-  lm2_v2f32 centroid = {0.0f, 0.0f};
+  lm2_v2_f32 centroid = {0.0f, 0.0f};
   float signed_area = 0.0f;
 
   for (size_t i = 0; i < polygon.vertex_count; i++) {
@@ -330,19 +330,19 @@ LM2_API bool lm2_polygon_is_ccw_f32(lm2_polygon_f32 polygon) {
   return area > 0.0f;
 }
 
-LM2_API lm2_v2f64 lm2_polygon_center_f64(lm2_polygon_f64 polygon) {
+LM2_API lm2_v2_f64 lm2_polygon_center_f64(lm2_polygon_f64 polygon) {
   return lm2_polygon_centroid_f64(polygon);
 }
 
-LM2_API lm2_v2f32 lm2_polygon_center_f32(lm2_polygon_f32 polygon) {
+LM2_API lm2_v2_f32 lm2_polygon_center_f32(lm2_polygon_f32 polygon) {
   return lm2_polygon_centroid_f32(polygon);
 }
 
-LM2_API lm2_r2f64 lm2_polygon_bounds_f64(lm2_polygon_f64 polygon) {
+LM2_API lm2_r2_f64 lm2_polygon_bounds_f64(lm2_polygon_f64 polygon) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
-  lm2_r2f64 bounds;
+  lm2_r2_f64 bounds;
   bounds.min = polygon.vertices[0];
   bounds.max = polygon.vertices[0];
 
@@ -356,11 +356,11 @@ LM2_API lm2_r2f64 lm2_polygon_bounds_f64(lm2_polygon_f64 polygon) {
   return bounds;
 }
 
-LM2_API lm2_r2f32 lm2_polygon_bounds_f32(lm2_polygon_f32 polygon) {
+LM2_API lm2_r2_f32 lm2_polygon_bounds_f32(lm2_polygon_f32 polygon) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
-  lm2_r2f32 bounds;
+  lm2_r2_f32 bounds;
   bounds.min = polygon.vertices[0];
   bounds.max = polygon.vertices[0];
 
@@ -378,15 +378,15 @@ LM2_API lm2_r2f32 lm2_polygon_bounds_f32(lm2_polygon_f32 polygon) {
 // Polygon Tests
 // =============================================================================
 
-LM2_API bool lm2_polygon_contains_point_f64(lm2_polygon_f64 polygon, lm2_v2f64 point) {
+LM2_API bool lm2_polygon_contains_point_f64(lm2_polygon_f64 polygon, lm2_v2_f64 point) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
   // Ray casting algorithm
   bool inside = false;
   for (size_t i = 0, j = polygon.vertex_count - 1; i < polygon.vertex_count; j = i++) {
-    lm2_v2f64 vi = polygon.vertices[i];
-    lm2_v2f64 vj = polygon.vertices[j];
+    lm2_v2_f64 vi = polygon.vertices[i];
+    lm2_v2_f64 vj = polygon.vertices[j];
 
     if (((vi.y > point.y) != (vj.y > point.y)) &&
         (point.x < lm2_add_f64(lm2_mul_f64(lm2_div_f64(lm2_sub_f64(vj.x, vi.x), lm2_sub_f64(vj.y, vi.y)),
@@ -398,15 +398,15 @@ LM2_API bool lm2_polygon_contains_point_f64(lm2_polygon_f64 polygon, lm2_v2f64 p
   return inside;
 }
 
-LM2_API bool lm2_polygon_contains_point_f32(lm2_polygon_f32 polygon, lm2_v2f32 point) {
+LM2_API bool lm2_polygon_contains_point_f32(lm2_polygon_f32 polygon, lm2_v2_f32 point) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
   // Ray casting algorithm
   bool inside = false;
   for (size_t i = 0, j = polygon.vertex_count - 1; i < polygon.vertex_count; j = i++) {
-    lm2_v2f32 vi = polygon.vertices[i];
-    lm2_v2f32 vj = polygon.vertices[j];
+    lm2_v2_f32 vi = polygon.vertices[i];
+    lm2_v2_f32 vj = polygon.vertices[j];
 
     if (((vi.y > point.y) != (vj.y > point.y)) &&
         (point.x < lm2_add_f32(lm2_mul_f32(lm2_div_f32(lm2_sub_f32(vj.x, vi.x), lm2_sub_f32(vj.y, vi.y)),
@@ -419,7 +419,7 @@ LM2_API bool lm2_polygon_contains_point_f32(lm2_polygon_f32 polygon, lm2_v2f32 p
 }
 
 // Helper function to compute cross product of vectors (p1->p2) and (p1->p3)
-static double cross_product_f64(lm2_v2f64 p1, lm2_v2f64 p2, lm2_v2f64 p3) {
+static double cross_product_f64(lm2_v2_f64 p1, lm2_v2_f64 p2, lm2_v2_f64 p3) {
   double dx1 = lm2_sub_f64(p2.x, p1.x);
   double dy1 = lm2_sub_f64(p2.y, p1.y);
   double dx2 = lm2_sub_f64(p3.x, p1.x);
@@ -427,7 +427,7 @@ static double cross_product_f64(lm2_v2f64 p1, lm2_v2f64 p2, lm2_v2f64 p3) {
   return lm2_sub_f64(lm2_mul_f64(dx1, dy2), lm2_mul_f64(dy1, dx2));
 }
 
-static float cross_product_f32(lm2_v2f32 p1, lm2_v2f32 p2, lm2_v2f32 p3) {
+static float cross_product_f32(lm2_v2_f32 p1, lm2_v2_f32 p2, lm2_v2_f32 p3) {
   float dx1 = lm2_sub_f32(p2.x, p1.x);
   float dy1 = lm2_sub_f32(p2.y, p1.y);
   float dx2 = lm2_sub_f32(p3.x, p1.x);
@@ -482,7 +482,7 @@ LM2_API bool lm2_polygon_is_convex_f32(lm2_polygon_f32 polygon) {
 }
 
 // Helper function to check if two line segments intersect
-static bool segments_intersect_f64(lm2_v2f64 a1, lm2_v2f64 a2, lm2_v2f64 b1, lm2_v2f64 b2) {
+static bool segments_intersect_f64(lm2_v2_f64 a1, lm2_v2_f64 a2, lm2_v2_f64 b1, lm2_v2_f64 b2) {
   double d1 = cross_product_f64(b1, b2, a1);
   double d2 = cross_product_f64(b1, b2, a2);
   double d3 = cross_product_f64(a1, a2, b1);
@@ -496,7 +496,7 @@ static bool segments_intersect_f64(lm2_v2f64 a1, lm2_v2f64 a2, lm2_v2f64 b1, lm2
   return false;
 }
 
-static bool segments_intersect_f32(lm2_v2f32 a1, lm2_v2f32 a2, lm2_v2f32 b1, lm2_v2f32 b2) {
+static bool segments_intersect_f32(lm2_v2_f32 a1, lm2_v2_f32 a2, lm2_v2_f32 b1, lm2_v2_f32 b2) {
   float d1 = lm2_cross_product_2d_f32(b1, b2, a1);
   float d2 = lm2_cross_product_2d_f32(b1, b2, a2);
   float d3 = lm2_cross_product_2d_f32(a1, a2, b1);
@@ -517,16 +517,16 @@ LM2_API bool lm2_polygon_is_simple_f64(lm2_polygon_f64 polygon) {
   // Check if any non-adjacent edges intersect
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
-    lm2_v2f64 a1 = polygon.vertices[i];
-    lm2_v2f64 a2 = polygon.vertices[j];
+    lm2_v2_f64 a1 = polygon.vertices[i];
+    lm2_v2_f64 a2 = polygon.vertices[j];
 
     for (size_t k = i + 2; k < polygon.vertex_count; k++) {
       // Skip adjacent edges
       if (k == j || (i == 0 && k == polygon.vertex_count - 1)) continue;
 
       size_t l = (k + 1) % polygon.vertex_count;
-      lm2_v2f64 b1 = polygon.vertices[k];
-      lm2_v2f64 b2 = polygon.vertices[l];
+      lm2_v2_f64 b1 = polygon.vertices[k];
+      lm2_v2_f64 b2 = polygon.vertices[l];
 
       if (segments_intersect_f64(a1, a2, b1, b2)) {
         return false;
@@ -544,16 +544,16 @@ LM2_API bool lm2_polygon_is_simple_f32(lm2_polygon_f32 polygon) {
   // Check if any non-adjacent edges intersect
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
-    lm2_v2f32 a1 = polygon.vertices[i];
-    lm2_v2f32 a2 = polygon.vertices[j];
+    lm2_v2_f32 a1 = polygon.vertices[i];
+    lm2_v2_f32 a2 = polygon.vertices[j];
 
     for (size_t k = i + 2; k < polygon.vertex_count; k++) {
       // Skip adjacent edges
       if (k == j || (i == 0 && k == polygon.vertex_count - 1)) continue;
 
       size_t l = (k + 1) % polygon.vertex_count;
-      lm2_v2f32 b1 = polygon.vertices[k];
-      lm2_v2f32 b2 = polygon.vertices[l];
+      lm2_v2_f32 b1 = polygon.vertices[k];
+      lm2_v2_f32 b2 = polygon.vertices[l];
 
       if (segments_intersect_f32(a1, a2, b1, b2)) {
         return false;
@@ -584,47 +584,47 @@ LM2_API bool lm2_polygon_is_quad_f32(lm2_polygon_f32 polygon) {
 // Polygon Transformations
 // =============================================================================
 
-LM2_API void lm2_polygon_translate_f64(lm2_polygon_f64 polygon, lm2_v2f64 offset) {
+LM2_API void lm2_polygon_translate_f64(lm2_polygon_f64 polygon, lm2_v2_f64 offset) {
   LM2_ASSERT(polygon.vertices != NULL);
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    polygon.vertices[i] = lm2_add_lm2_v2f64(polygon.vertices[i], offset);
+    polygon.vertices[i] = lm2_v2_add_f64(polygon.vertices[i], offset);
   }
 }
 
-LM2_API void lm2_polygon_translate_f32(lm2_polygon_f32 polygon, lm2_v2f32 offset) {
+LM2_API void lm2_polygon_translate_f32(lm2_polygon_f32 polygon, lm2_v2_f32 offset) {
   LM2_ASSERT(polygon.vertices != NULL);
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    polygon.vertices[i] = lm2_add_lm2_v2f32(polygon.vertices[i], offset);
+    polygon.vertices[i] = lm2_v2_add_f32(polygon.vertices[i], offset);
   }
 }
 
-LM2_API void lm2_polygon_scale_f64(lm2_polygon_f64 polygon, lm2_v2f64 center, double scale) {
+LM2_API void lm2_polygon_scale_f64(lm2_polygon_f64 polygon, lm2_v2_f64 center, double scale) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(scale >= 0.0);
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    lm2_v2f64 offset = lm2_sub_lm2_v2f64(polygon.vertices[i], center);
-    offset = lm2_mul_lm2_v2f64_double(offset, scale);
-    polygon.vertices[i] = lm2_add_lm2_v2f64(center, offset);
+    lm2_v2_f64 offset = lm2_v2_sub_f64(polygon.vertices[i], center);
+    offset = lm2_v2_mul_s_f64(offset, scale);
+    polygon.vertices[i] = lm2_v2_add_f64(center, offset);
   }
 }
 
-LM2_API void lm2_polygon_scale_f32(lm2_polygon_f32 polygon, lm2_v2f32 center, float scale) {
+LM2_API void lm2_polygon_scale_f32(lm2_polygon_f32 polygon, lm2_v2_f32 center, float scale) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(scale >= 0.0f);
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    lm2_v2f32 offset = lm2_sub_lm2_v2f32(polygon.vertices[i], center);
-    offset = lm2_mul_lm2_v2f32_float(offset, scale);
-    polygon.vertices[i] = lm2_add_lm2_v2f32(center, offset);
+    lm2_v2_f32 offset = lm2_v2_sub_f32(polygon.vertices[i], center);
+    offset = lm2_v2_mul_s_f32(offset, scale);
+    polygon.vertices[i] = lm2_v2_add_f32(center, offset);
   }
 }
 
-LM2_API void lm2_polygon_rotate_f64(lm2_polygon_f64 polygon, lm2_v2f64 center, double angle_radians) {
+LM2_API void lm2_polygon_rotate_f64(lm2_polygon_f64 polygon, lm2_v2_f64 center, double angle_radians) {
   LM2_ASSERT(polygon.vertices != NULL);
   double cos_a = lm2_cos_f64(angle_radians);
   double sin_a = lm2_sin_f64(angle_radians);
 
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    lm2_v2f64 offset = lm2_sub_lm2_v2f64(polygon.vertices[i], center);
+    lm2_v2_f64 offset = lm2_v2_sub_f64(polygon.vertices[i], center);
     double new_x = lm2_sub_f64(lm2_mul_f64(offset.x, cos_a), lm2_mul_f64(offset.y, sin_a));
     double new_y = lm2_add_f64(lm2_mul_f64(offset.x, sin_a), lm2_mul_f64(offset.y, cos_a));
     polygon.vertices[i].x = lm2_add_f64(center.x, new_x);
@@ -632,13 +632,13 @@ LM2_API void lm2_polygon_rotate_f64(lm2_polygon_f64 polygon, lm2_v2f64 center, d
   }
 }
 
-LM2_API void lm2_polygon_rotate_f32(lm2_polygon_f32 polygon, lm2_v2f32 center, float angle_radians) {
+LM2_API void lm2_polygon_rotate_f32(lm2_polygon_f32 polygon, lm2_v2_f32 center, float angle_radians) {
   LM2_ASSERT(polygon.vertices != NULL);
   float cos_a = lm2_cos_f32(angle_radians);
   float sin_a = lm2_sin_f32(angle_radians);
 
   for (size_t i = 0; i < polygon.vertex_count; i++) {
-    lm2_v2f32 offset = lm2_sub_lm2_v2f32(polygon.vertices[i], center);
+    lm2_v2_f32 offset = lm2_v2_sub_f32(polygon.vertices[i], center);
     float new_x = lm2_sub_f32(lm2_mul_f32(offset.x, cos_a), lm2_mul_f32(offset.y, sin_a));
     float new_y = lm2_add_f32(lm2_mul_f32(offset.x, sin_a), lm2_mul_f32(offset.y, cos_a));
     polygon.vertices[i].x = lm2_add_f32(center.x, new_x);
@@ -653,7 +653,7 @@ LM2_API void lm2_polygon_reverse_winding_f64(lm2_polygon_f64 polygon) {
 
   while (left < right) {
     // Swap vertices
-    lm2_v2f64 temp = polygon.vertices[left];
+    lm2_v2_f64 temp = polygon.vertices[left];
     polygon.vertices[left] = polygon.vertices[right];
     polygon.vertices[right] = temp;
     left++;
@@ -668,7 +668,7 @@ LM2_API void lm2_polygon_reverse_winding_f32(lm2_polygon_f32 polygon) {
 
   while (left < right) {
     // Swap vertices
-    lm2_v2f32 temp = polygon.vertices[left];
+    lm2_v2_f32 temp = polygon.vertices[left];
     polygon.vertices[left] = polygon.vertices[right];
     polygon.vertices[right] = temp;
     left++;
@@ -676,7 +676,7 @@ LM2_API void lm2_polygon_reverse_winding_f32(lm2_polygon_f32 polygon) {
   }
 }
 
-LM2_API void lm2_polygon_insert_vertex_f64(lm2_v2f64* vertices, size_t* vertex_count, size_t index, lm2_v2f64 vertex) {
+LM2_API void lm2_polygon_insert_vertex_f64(lm2_v2_f64* vertices, size_t* vertex_count, size_t index, lm2_v2_f64 vertex) {
   LM2_ASSERT(vertices != NULL);
   LM2_ASSERT(vertex_count != NULL);
   LM2_ASSERT(*vertex_count >= 3);
@@ -691,7 +691,7 @@ LM2_API void lm2_polygon_insert_vertex_f64(lm2_v2f64* vertices, size_t* vertex_c
   (*vertex_count)++;
 }
 
-LM2_API void lm2_polygon_insert_vertex_f32(lm2_v2f32* vertices, size_t* vertex_count, size_t index, lm2_v2f32 vertex) {
+LM2_API void lm2_polygon_insert_vertex_f32(lm2_v2_f32* vertices, size_t* vertex_count, size_t index, lm2_v2_f32 vertex) {
   LM2_ASSERT(vertices != NULL);
   LM2_ASSERT(vertex_count != NULL);
   LM2_ASSERT(*vertex_count >= 3);
@@ -706,7 +706,7 @@ LM2_API void lm2_polygon_insert_vertex_f32(lm2_v2f32* vertices, size_t* vertex_c
   (*vertex_count)++;
 }
 
-LM2_API void lm2_polygon_remove_vertex_f64(lm2_v2f64* vertices, size_t* vertex_count, size_t index) {
+LM2_API void lm2_polygon_remove_vertex_f64(lm2_v2_f64* vertices, size_t* vertex_count, size_t index) {
   LM2_ASSERT(vertices != NULL);
   LM2_ASSERT(vertex_count != NULL);
   LM2_ASSERT(*vertex_count > 3);  // Must have at least 3 vertices after removal
@@ -720,7 +720,7 @@ LM2_API void lm2_polygon_remove_vertex_f64(lm2_v2f64* vertices, size_t* vertex_c
   (*vertex_count)--;
 }
 
-LM2_API void lm2_polygon_remove_vertex_f32(lm2_v2f32* vertices, size_t* vertex_count, size_t index) {
+LM2_API void lm2_polygon_remove_vertex_f32(lm2_v2_f32* vertices, size_t* vertex_count, size_t index) {
   LM2_ASSERT(vertices != NULL);
   LM2_ASSERT(vertex_count != NULL);
   LM2_ASSERT(*vertex_count > 3);  // Must have at least 3 vertices after removal
@@ -734,21 +734,21 @@ LM2_API void lm2_polygon_remove_vertex_f32(lm2_v2f32* vertices, size_t* vertex_c
   (*vertex_count)--;
 }
 
-LM2_API void lm2_polygon_place_at_center_f64(lm2_polygon_f64 polygon, lm2_v2f64 position) {
+LM2_API void lm2_polygon_place_at_center_f64(lm2_polygon_f64 polygon, lm2_v2_f64 position) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
-  lm2_v2f64 current_center = lm2_polygon_centroid_f64(polygon);
-  lm2_v2f64 offset = lm2_sub_lm2_v2f64(position, current_center);
+  lm2_v2_f64 current_center = lm2_polygon_centroid_f64(polygon);
+  lm2_v2_f64 offset = lm2_v2_sub_f64(position, current_center);
   lm2_polygon_translate_f64(polygon, offset);
 }
 
-LM2_API void lm2_polygon_place_at_center_f32(lm2_polygon_f32 polygon, lm2_v2f32 position) {
+LM2_API void lm2_polygon_place_at_center_f32(lm2_polygon_f32 polygon, lm2_v2_f32 position) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
-  lm2_v2f32 current_center = lm2_polygon_centroid_f32(polygon);
-  lm2_v2f32 offset = lm2_sub_lm2_v2f32(position, current_center);
+  lm2_v2_f32 current_center = lm2_polygon_centroid_f32(polygon);
+  lm2_v2_f32 offset = lm2_v2_sub_f32(position, current_center);
   lm2_polygon_translate_f32(polygon, offset);
 }
 
@@ -762,10 +762,10 @@ LM2_API size_t lm2_polygon_max_triangle_count(size_t vertex_count) {
 }
 
 // Helper function to check if a triangle at indices (i, j, k) is an ear
-static bool is_ear_f64(const lm2_v2f64* vertices, const size_t* indices, size_t n, size_t i, size_t j, size_t k) {
-  lm2_v2f64 a = vertices[indices[i]];
-  lm2_v2f64 b = vertices[indices[j]];
-  lm2_v2f64 c = vertices[indices[k]];
+static bool is_ear_f64(const lm2_v2_f64* vertices, const size_t* indices, size_t n, size_t i, size_t j, size_t k) {
+  lm2_v2_f64 a = vertices[indices[i]];
+  lm2_v2_f64 b = vertices[indices[j]];
+  lm2_v2_f64 c = vertices[indices[k]];
   lm2_triangle2_f64 tri = {a, b, c};
 
   // Check if triangle is convex
@@ -784,10 +784,10 @@ static bool is_ear_f64(const lm2_v2f64* vertices, const size_t* indices, size_t 
   return true;
 }
 
-static bool is_ear_f32(const lm2_v2f32* vertices, const size_t* indices, size_t n, size_t i, size_t j, size_t k) {
-  lm2_v2f32 a = vertices[indices[i]];
-  lm2_v2f32 b = vertices[indices[j]];
-  lm2_v2f32 c = vertices[indices[k]];
+static bool is_ear_f32(const lm2_v2_f32* vertices, const size_t* indices, size_t n, size_t i, size_t j, size_t k) {
+  lm2_v2_f32 a = vertices[indices[i]];
+  lm2_v2_f32 b = vertices[indices[j]];
+  lm2_v2_f32 c = vertices[indices[k]];
   lm2_triangle2_f32 tri = {a, b, c};
 
   // Check if triangle is convex
@@ -913,7 +913,7 @@ LM2_API size_t lm2_polygon_triangulate_ear_clipping_f32(lm2_polygon_f32 polygon,
 // Polygon Splitting
 // =============================================================================
 
-LM2_API size_t lm2_polygon_split_by_max_vertices_f64(lm2_polygon_f64 polygon, lm2_polygon_f64* out_polygons, lm2_v2f64* out_vertices_buffer, size_t max_vertices) {
+LM2_API size_t lm2_polygon_split_by_max_vertices_f64(lm2_polygon_f64 polygon, lm2_polygon_f64* out_polygons, lm2_v2_f64* out_vertices_buffer, size_t max_vertices) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
   LM2_ASSERT(out_polygons != NULL);
@@ -967,7 +967,7 @@ LM2_API size_t lm2_polygon_split_by_max_vertices_f64(lm2_polygon_f64 polygon, lm
   return num_splits;
 }
 
-LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm2_polygon_f32* out_polygons, lm2_v2f32* out_vertices_buffer, size_t max_vertices) {
+LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm2_polygon_f32* out_polygons, lm2_v2_f32* out_vertices_buffer, size_t max_vertices) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
   LM2_ASSERT(out_polygons != NULL);

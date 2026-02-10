@@ -40,13 +40,13 @@ LM2_HEADER_BEGIN;
 
 // Polygon structure - caller manages the vertices array memory
 typedef struct lm2_polygon_f64 {
-  lm2_v2f64* vertices;  // Pointer to array of vertices (caller-managed)
-  size_t vertex_count;  // Number of vertices
+  lm2_v2_f64* vertices;  // Pointer to array of vertices (caller-managed)
+  size_t vertex_count;   // Number of vertices
 } lm2_polygon_f64;
 
 typedef struct lm2_polygon_f32 {
-  lm2_v2f32* vertices;  // Pointer to array of vertices (caller-managed)
-  size_t vertex_count;  // Number of vertices
+  lm2_v2_f32* vertices;  // Pointer to array of vertices (caller-managed)
+  size_t vertex_count;   // Number of vertices
 } lm2_polygon_f32;
 
 // Default polygon type
@@ -57,24 +57,24 @@ typedef lm2_polygon_f32 lm2_polygon;
 // =============================================================================
 
 // Create a polygon from an array of vertices (caller manages memory)
-LM2_API lm2_polygon_f64 lm2_polygon_make_f64(lm2_v2f64* vertices, size_t vertex_count);
-LM2_API lm2_polygon_f32 lm2_polygon_make_f32(lm2_v2f32* vertices, size_t vertex_count);
+LM2_API lm2_polygon_f64 lm2_polygon_make_f64(lm2_v2_f64* vertices, size_t vertex_count);
+LM2_API lm2_polygon_f32 lm2_polygon_make_f32(lm2_v2_f32* vertices, size_t vertex_count);
 
 // Create a regular polygon (caller provides output array with required size)
-LM2_API void lm2_polygon_make_regular_f64(lm2_v2f64* out_vertices, size_t num_sides, lm2_v2f64 center, double radius);
-LM2_API void lm2_polygon_make_regular_f32(lm2_v2f32* out_vertices, size_t num_sides, lm2_v2f32 center, float radius);
+LM2_API void lm2_polygon_make_regular_f64(lm2_v2_f64* out_vertices, size_t num_sides, lm2_v2_f64 center, double radius);
+LM2_API void lm2_polygon_make_regular_f32(lm2_v2_f32* out_vertices, size_t num_sides, lm2_v2_f32 center, float radius);
 
 // Create a rectangle polygon (caller provides output array of size 4)
-LM2_API void lm2_polygon_make_rect_f64(lm2_v2f64* out_vertices, lm2_v2f64 min, lm2_v2f64 max);
-LM2_API void lm2_polygon_make_rect_f32(lm2_v2f32* out_vertices, lm2_v2f32 min, lm2_v2f32 max);
+LM2_API void lm2_polygon_make_rect_f64(lm2_v2_f64* out_vertices, lm2_v2_f64 min, lm2_v2_f64 max);
+LM2_API void lm2_polygon_make_rect_f32(lm2_v2_f32* out_vertices, lm2_v2_f32 min, lm2_v2_f32 max);
 
 // Create a triangle polygon (caller provides output array of size 3)
-LM2_API void lm2_polygon_make_triangle_f64(lm2_v2f64* out_vertices, lm2_v2f64 position, lm2_v2f64 tip, double base_width);
-LM2_API void lm2_polygon_make_triangle_f32(lm2_v2f32* out_vertices, lm2_v2f32 position, lm2_v2f32 tip, float base_width);
+LM2_API void lm2_polygon_make_triangle_f64(lm2_v2_f64* out_vertices, lm2_v2_f64 position, lm2_v2_f64 tip, double base_width);
+LM2_API void lm2_polygon_make_triangle_f32(lm2_v2_f32* out_vertices, lm2_v2_f32 position, lm2_v2_f32 tip, float base_width);
 
 // Create a polygon from a triangle (caller provides output array of size 3)
-LM2_API void lm2_polygon_from_triangle_f64(lm2_v2f64* out_vertices, const lm2_triangle2_f64 triangle);
-LM2_API void lm2_polygon_from_triangle_f32(lm2_v2f32* out_vertices, const lm2_triangle2_f32 triangle);
+LM2_API void lm2_polygon_from_triangle_f64(lm2_v2_f64* out_vertices, const lm2_triangle2_f64 triangle);
+LM2_API void lm2_polygon_from_triangle_f32(lm2_v2_f32* out_vertices, const lm2_triangle2_f32 triangle);
 
 // =============================================================================
 // Polygon Properties
@@ -101,28 +101,28 @@ LM2_API double lm2_polygon_perimeter_f64(lm2_polygon_f64 polygon);
 LM2_API float lm2_polygon_perimeter_f32(lm2_polygon_f32 polygon);
 
 // Calculate the centroid (geometric center) of a polygon
-LM2_API lm2_v2f64 lm2_polygon_centroid_f64(lm2_polygon_f64 polygon);
-LM2_API lm2_v2f32 lm2_polygon_centroid_f32(lm2_polygon_f32 polygon);
+LM2_API lm2_v2_f64 lm2_polygon_centroid_f64(lm2_polygon_f64 polygon);
+LM2_API lm2_v2_f32 lm2_polygon_centroid_f32(lm2_polygon_f32 polygon);
 
 // Check if polygon vertices are ordered counter-clockwise
 LM2_API bool lm2_polygon_is_ccw_f64(lm2_polygon_f64 polygon);
 LM2_API bool lm2_polygon_is_ccw_f32(lm2_polygon_f32 polygon);
 
 // Calculate the geometric center (alias for centroid)
-LM2_API lm2_v2f64 lm2_polygon_center_f64(lm2_polygon_f64 polygon);
-LM2_API lm2_v2f32 lm2_polygon_center_f32(lm2_polygon_f32 polygon);
+LM2_API lm2_v2_f64 lm2_polygon_center_f64(lm2_polygon_f64 polygon);
+LM2_API lm2_v2_f32 lm2_polygon_center_f32(lm2_polygon_f32 polygon);
 
 // Calculate the axis-aligned bounding box of a polygon
-LM2_API lm2_r2f64 lm2_polygon_bounds_f64(lm2_polygon_f64 polygon);
-LM2_API lm2_r2f32 lm2_polygon_bounds_f32(lm2_polygon_f32 polygon);
+LM2_API lm2_r2_f64 lm2_polygon_bounds_f64(lm2_polygon_f64 polygon);
+LM2_API lm2_r2_f32 lm2_polygon_bounds_f32(lm2_polygon_f32 polygon);
 
 // =============================================================================
 // Polygon Tests
 // =============================================================================
 
 // Check if a point is inside a polygon (using ray casting algorithm)
-LM2_API bool lm2_polygon_contains_point_f64(lm2_polygon_f64 polygon, lm2_v2f64 point);
-LM2_API bool lm2_polygon_contains_point_f32(lm2_polygon_f32 polygon, lm2_v2f32 point);
+LM2_API bool lm2_polygon_contains_point_f64(lm2_polygon_f64 polygon, lm2_v2_f64 point);
+LM2_API bool lm2_polygon_contains_point_f32(lm2_polygon_f32 polygon, lm2_v2_f32 point);
 
 // Check if a polygon is convex
 LM2_API bool lm2_polygon_is_convex_f64(lm2_polygon_f64 polygon);
@@ -145,32 +145,32 @@ LM2_API bool lm2_polygon_is_quad_f32(lm2_polygon_f32 polygon);
 // =============================================================================
 
 // Translate a polygon by an offset (modifies vertices in-place)
-LM2_API void lm2_polygon_translate_f64(lm2_polygon_f64 polygon, lm2_v2f64 offset);
-LM2_API void lm2_polygon_translate_f32(lm2_polygon_f32 polygon, lm2_v2f32 offset);
+LM2_API void lm2_polygon_translate_f64(lm2_polygon_f64 polygon, lm2_v2_f64 offset);
+LM2_API void lm2_polygon_translate_f32(lm2_polygon_f32 polygon, lm2_v2_f32 offset);
 
 // Scale a polygon around a center point (modifies vertices in-place)
-LM2_API void lm2_polygon_scale_f64(lm2_polygon_f64 polygon, lm2_v2f64 center, double scale);
-LM2_API void lm2_polygon_scale_f32(lm2_polygon_f32 polygon, lm2_v2f32 center, float scale);
+LM2_API void lm2_polygon_scale_f64(lm2_polygon_f64 polygon, lm2_v2_f64 center, double scale);
+LM2_API void lm2_polygon_scale_f32(lm2_polygon_f32 polygon, lm2_v2_f32 center, float scale);
 
 // Rotate a polygon around a center point (modifies vertices in-place)
-LM2_API void lm2_polygon_rotate_f64(lm2_polygon_f64 polygon, lm2_v2f64 center, double angle_radians);
-LM2_API void lm2_polygon_rotate_f32(lm2_polygon_f32 polygon, lm2_v2f32 center, float angle_radians);
+LM2_API void lm2_polygon_rotate_f64(lm2_polygon_f64 polygon, lm2_v2_f64 center, double angle_radians);
+LM2_API void lm2_polygon_rotate_f32(lm2_polygon_f32 polygon, lm2_v2_f32 center, float angle_radians);
 
 // Reverse the winding order of a polygon (modifies vertices in-place)
 LM2_API void lm2_polygon_reverse_winding_f64(lm2_polygon_f64 polygon);
 LM2_API void lm2_polygon_reverse_winding_f32(lm2_polygon_f32 polygon);
 
 // Insert a vertex at a specific index (caller manages vertex array, must have space)
-LM2_API void lm2_polygon_insert_vertex_f64(lm2_v2f64* vertices, size_t* vertex_count, size_t index, lm2_v2f64 vertex);
-LM2_API void lm2_polygon_insert_vertex_f32(lm2_v2f32* vertices, size_t* vertex_count, size_t index, lm2_v2f32 vertex);
+LM2_API void lm2_polygon_insert_vertex_f64(lm2_v2_f64* vertices, size_t* vertex_count, size_t index, lm2_v2_f64 vertex);
+LM2_API void lm2_polygon_insert_vertex_f32(lm2_v2_f32* vertices, size_t* vertex_count, size_t index, lm2_v2_f32 vertex);
 
 // Remove a vertex at a specific index (shifts remaining vertices)
-LM2_API void lm2_polygon_remove_vertex_f64(lm2_v2f64* vertices, size_t* vertex_count, size_t index);
-LM2_API void lm2_polygon_remove_vertex_f32(lm2_v2f32* vertices, size_t* vertex_count, size_t index);
+LM2_API void lm2_polygon_remove_vertex_f64(lm2_v2_f64* vertices, size_t* vertex_count, size_t index);
+LM2_API void lm2_polygon_remove_vertex_f32(lm2_v2_f32* vertices, size_t* vertex_count, size_t index);
 
 // Move polygon so its centroid is at the specified position
-LM2_API void lm2_polygon_place_at_center_f64(lm2_polygon_f64 polygon, lm2_v2f64 position);
-LM2_API void lm2_polygon_place_at_center_f32(lm2_polygon_f32 polygon, lm2_v2f32 position);
+LM2_API void lm2_polygon_place_at_center_f64(lm2_polygon_f64 polygon, lm2_v2_f64 position);
+LM2_API void lm2_polygon_place_at_center_f32(lm2_polygon_f32 polygon, lm2_v2_f32 position);
 
 // =============================================================================
 // Polygon Triangulation
@@ -194,8 +194,8 @@ LM2_API size_t lm2_polygon_triangulate_ear_clipping_f32(lm2_polygon_f32 polygon,
 // out_vertices_buffer: caller-provided vertex buffer for all subpolygons
 // max_vertices: maximum vertices per subpolygon
 // Returns: actual number of subpolygons generated
-LM2_API size_t lm2_polygon_split_by_max_vertices_f64(lm2_polygon_f64 polygon, lm2_polygon_f64* out_polygons, lm2_v2f64* out_vertices_buffer, size_t max_vertices);
-LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm2_polygon_f32* out_polygons, lm2_v2f32* out_vertices_buffer, size_t max_vertices);
+LM2_API size_t lm2_polygon_split_by_max_vertices_f64(lm2_polygon_f64 polygon, lm2_polygon_f64* out_polygons, lm2_v2_f64* out_vertices_buffer, size_t max_vertices);
+LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm2_polygon_f32* out_polygons, lm2_v2_f32* out_vertices_buffer, size_t max_vertices);
 
 // #############################################################################
 LM2_HEADER_END;
@@ -204,6 +204,6 @@ LM2_HEADER_END;
 // C++ operator overloads (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_geometry_operators.h"
-_LM2_DEFINE_POLYGON_OPERATORS(lm2_polygon_f64, lm2_v2f64, double)
-_LM2_DEFINE_POLYGON_OPERATORS(lm2_polygon_f32, lm2_v2f32, float)
+_LM2_DEFINE_POLYGON_OPERATORS(lm2_polygon_f64, f64, lm2_v2, double)
+_LM2_DEFINE_POLYGON_OPERATORS(lm2_polygon_f32, f32, lm2_v2, float)
 #endif

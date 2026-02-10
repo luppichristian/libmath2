@@ -29,29 +29,29 @@ SOFTWARE.
 // Vector Conversions
 // =============================================================================
 
-c2v lm2_v2f32_to_c2v(lm2_v2f32 v) {
+c2v lm22_f32_to_c2v(lm2_v2_f32 v) {
   c2v result;
   result.x = v.x;
   result.y = v.y;
   return result;
 }
 
-c2v lm2_v2f64_to_c2v(lm2_v2f64 v) {
+c2v lm22_f64_to_c2v(lm2_v2_f64 v) {
   c2v result;
   result.x = (float)v.x;
   result.y = (float)v.y;
   return result;
 }
 
-lm2_v2f32 c2v_to_lm2_v2f32(c2v v) {
-  lm2_v2f32 result;
+lm2_v2_f32 c2v_to_lm22_f32(c2v v) {
+  lm2_v2_f32 result;
   result.x = v.x;
   result.y = v.y;
   return result;
 }
 
-lm2_v2f64 c2v_to_lm2_v2f64(c2v v) {
-  lm2_v2f64 result;
+lm2_v2_f64 c2v_to_lm22_f64(c2v v) {
+  lm2_v2_f64 result;
   result.x = (double)v.x;
   result.y = (double)v.y;
   return result;
@@ -63,60 +63,60 @@ lm2_v2f64 c2v_to_lm2_v2f64(c2v v) {
 
 c2Ray lm2_ray2_f32_to_c2(lm2_ray2_f32 ray) {
   c2Ray result;
-  result.p = lm2_v2f32_to_c2v(ray.origin);
-  result.d = lm2_v2f32_to_c2v(ray.direction);
+  result.p = lm22_f32_to_c2v(ray.origin);
+  result.d = lm22_f32_to_c2v(ray.direction);
   result.t = ray.t_max;
   return result;
 }
 
 c2Ray lm2_ray2_f64_to_c2(lm2_ray2_f64 ray) {
   c2Ray result;
-  result.p = lm2_v2f64_to_c2v(ray.origin);
-  result.d = lm2_v2f64_to_c2v(ray.direction);
+  result.p = lm22_f64_to_c2v(ray.origin);
+  result.d = lm22_f64_to_c2v(ray.direction);
   result.t = (float)ray.t_max;
   return result;
 }
 
 c2Circle lm2_circle_f32_to_c2(lm2_circle_f32 circle) {
   c2Circle result;
-  result.p = lm2_v2f32_to_c2v(circle.center);
+  result.p = lm22_f32_to_c2v(circle.center);
   result.r = circle.radius;
   return result;
 }
 
 c2Circle lm2_circle_f64_to_c2(lm2_circle_f64 circle) {
   c2Circle result;
-  result.p = lm2_v2f64_to_c2v(circle.center);
+  result.p = lm22_f64_to_c2v(circle.center);
   result.r = (float)circle.radius;
   return result;
 }
 
-c2AABB lm2_r2f32_to_c2(lm2_r2f32 aabb) {
+c2AABB lm2_r2_f32_to_c2(lm2_r2_f32 aabb) {
   c2AABB result;
-  result.min = lm2_v2f32_to_c2v(aabb.min);
-  result.max = lm2_v2f32_to_c2v(aabb.max);
+  result.min = lm22_f32_to_c2v(aabb.min);
+  result.max = lm22_f32_to_c2v(aabb.max);
   return result;
 }
 
-c2AABB lm2_r2f64_to_c2(lm2_r2f64 aabb) {
+c2AABB lm2_r2_f64_to_c2(lm2_r2_f64 aabb) {
   c2AABB result;
-  result.min = lm2_v2f64_to_c2v(aabb.min);
-  result.max = lm2_v2f64_to_c2v(aabb.max);
+  result.min = lm22_f64_to_c2v(aabb.min);
+  result.max = lm22_f64_to_c2v(aabb.max);
   return result;
 }
 
 c2Capsule lm2_capsule2_f32_to_c2(lm2_capsule2_f32 capsule) {
   c2Capsule result;
-  result.a = lm2_v2f32_to_c2v(capsule.start);
-  result.b = lm2_v2f32_to_c2v(capsule.end);
+  result.a = lm22_f32_to_c2v(capsule.start);
+  result.b = lm22_f32_to_c2v(capsule.end);
   result.r = capsule.radius;
   return result;
 }
 
 c2Capsule lm2_capsule2_f64_to_c2(lm2_capsule2_f64 capsule) {
   c2Capsule result;
-  result.a = lm2_v2f64_to_c2v(capsule.start);
-  result.b = lm2_v2f64_to_c2v(capsule.end);
+  result.a = lm22_f64_to_c2v(capsule.start);
+  result.b = lm22_f64_to_c2v(capsule.end);
   result.r = (float)capsule.radius;
   return result;
 }
@@ -128,7 +128,7 @@ c2Poly lm2_polygon_f32_to_c2(lm2_polygon_f32 polygon) {
 
   result.count = (int)polygon.vertex_count;
   for (size_t i = 0; i < polygon.vertex_count && i < C2_MAX_POLYGON_VERTS; ++i) {
-    result.verts[i] = lm2_v2f32_to_c2v(polygon.vertices[i]);
+    result.verts[i] = lm22_f32_to_c2v(polygon.vertices[i]);
   }
 
   // Compute normals
@@ -144,7 +144,7 @@ c2Poly lm2_polygon_f64_to_c2(lm2_polygon_f64 polygon) {
 
   result.count = (int)polygon.vertex_count;
   for (size_t i = 0; i < polygon.vertex_count && i < C2_MAX_POLYGON_VERTS; ++i) {
-    result.verts[i] = lm2_v2f64_to_c2v(polygon.vertices[i]);
+    result.verts[i] = lm22_f64_to_c2v(polygon.vertices[i]);
   }
 
   // Compute normals
@@ -156,9 +156,9 @@ c2Poly lm2_polygon_f64_to_c2(lm2_polygon_f64 polygon) {
 c2Poly lm2_triangle2_f32_to_c2(const lm2_triangle2_f32 tri) {
   c2Poly result;
   result.count = 3;
-  result.verts[0] = lm2_v2f32_to_c2v(tri[0]);
-  result.verts[1] = lm2_v2f32_to_c2v(tri[1]);
-  result.verts[2] = lm2_v2f32_to_c2v(tri[2]);
+  result.verts[0] = lm22_f32_to_c2v(tri[0]);
+  result.verts[1] = lm22_f32_to_c2v(tri[1]);
+  result.verts[2] = lm22_f32_to_c2v(tri[2]);
   c2Norms(result.verts, result.norms, result.count);
   return result;
 }
@@ -166,9 +166,9 @@ c2Poly lm2_triangle2_f32_to_c2(const lm2_triangle2_f32 tri) {
 c2Poly lm2_triangle2_f64_to_c2(const lm2_triangle2_f64 tri) {
   c2Poly result;
   result.count = 3;
-  result.verts[0] = lm2_v2f64_to_c2v(tri[0]);
-  result.verts[1] = lm2_v2f64_to_c2v(tri[1]);
-  result.verts[2] = lm2_v2f64_to_c2v(tri[2]);
+  result.verts[0] = lm22_f64_to_c2v(tri[0]);
+  result.verts[1] = lm22_f64_to_c2v(tri[1]);
+  result.verts[2] = lm22_f64_to_c2v(tri[2]);
   c2Norms(result.verts, result.norms, result.count);
   return result;
 }
@@ -181,11 +181,11 @@ void c2_manifold_to_lm2_f32(c2Manifold m, lm2_manifold_f32* out) {
   LM2_ASSERT(out != NULL);
 
   out->count = m.count;
-  out->normal = c2v_to_lm2_v2f32(m.n);
+  out->normal = c2v_to_lm22_f32(m.n);
 
   for (int i = 0; i < m.count; ++i) {
     out->depths[i] = m.depths[i];
-    out->contact_points[i] = c2v_to_lm2_v2f32(m.contact_points[i]);
+    out->contact_points[i] = c2v_to_lm22_f32(m.contact_points[i]);
   }
 }
 
@@ -193,10 +193,10 @@ void c2_manifold_to_lm2_f64(c2Manifold m, lm2_manifold_f64* out) {
   LM2_ASSERT(out != NULL);
 
   out->count = m.count;
-  out->normal = c2v_to_lm2_v2f64(m.n);
+  out->normal = c2v_to_lm22_f64(m.n);
 
   for (int i = 0; i < m.count; ++i) {
     out->depths[i] = (double)m.depths[i];
-    out->contact_points[i] = c2v_to_lm2_v2f64(m.contact_points[i]);
+    out->contact_points[i] = c2v_to_lm22_f64(m.contact_points[i]);
   }
 }

@@ -37,8 +37,8 @@ LM2_HEADER_BEGIN;
 // =============================================================================
 
 // 3D Triangle defined as an array of 3 vertices
-typedef lm2_v3f64 lm2_triangle3_f64[3];
-typedef lm2_v3f32 lm2_triangle3_f32[3];
+typedef lm2_v3_f64 lm2_triangle3_f64[3];
+typedef lm2_v3_f32 lm2_triangle3_f32[3];
 
 // Default triangle type
 typedef lm2_triangle3_f32 lm2_triangle3;
@@ -60,8 +60,8 @@ typedef enum lm2_triangle3_type {
 // =============================================================================
 
 // Create a triangle from three 3D points
-LM2_API void lm2_triangle3_make_f64(lm2_triangle3_f64 tri, lm2_v3f64 a, lm2_v3f64 b, lm2_v3f64 c);
-LM2_API void lm2_triangle3_make_f32(lm2_triangle3_f32 tri, lm2_v3f32 a, lm2_v3f32 b, lm2_v3f32 c);
+LM2_API void lm2_triangle3_make_f64(lm2_triangle3_f64 tri, lm2_v3_f64 a, lm2_v3_f64 b, lm2_v3_f64 c);
+LM2_API void lm2_triangle3_make_f32(lm2_triangle3_f32 tri, lm2_v3_f32 a, lm2_v3_f32 b, lm2_v3_f32 c);
 
 // Create a triangle from coordinate values
 LM2_API void lm2_triangle3_make_coords_f64(lm2_triangle3_f64 tri, double ax, double ay, double az, double bx, double by, double bz, double cx, double cy, double cz);
@@ -80,12 +80,12 @@ LM2_API double lm2_triangle3_perimeter_f64(const lm2_triangle3_f64 tri);
 LM2_API float lm2_triangle3_perimeter_f32(const lm2_triangle3_f32 tri);
 
 // Get the normal vector of the triangle (normalized)
-LM2_API lm2_v3f64 lm2_triangle3_normal_f64(const lm2_triangle3_f64 tri);
-LM2_API lm2_v3f32 lm2_triangle3_normal_f32(const lm2_triangle3_f32 tri);
+LM2_API lm2_v3_f64 lm2_triangle3_normal_f64(const lm2_triangle3_f64 tri);
+LM2_API lm2_v3_f32 lm2_triangle3_normal_f32(const lm2_triangle3_f32 tri);
 
 // Get the center (centroid) of the triangle
-LM2_API lm2_v3f64 lm2_triangle3_centroid_f64(const lm2_triangle3_f64 tri);
-LM2_API lm2_v3f32 lm2_triangle3_centroid_f32(const lm2_triangle3_f32 tri);
+LM2_API lm2_v3_f64 lm2_triangle3_centroid_f64(const lm2_triangle3_f64 tri);
+LM2_API lm2_v3_f32 lm2_triangle3_centroid_f32(const lm2_triangle3_f32 tri);
 
 // =============================================================================
 // Triangle Classification
@@ -120,8 +120,8 @@ LM2_API lm2_triangle3_type lm2_triangle3_classify_f32(const lm2_triangle3_f32 tr
 // =============================================================================
 
 // Check if a point is inside a triangle (point must be coplanar with triangle)
-LM2_API bool lm2_triangle3_contains_point_f64(const lm2_triangle3_f64 tri, lm2_v3f64 point, double epsilon);
-LM2_API bool lm2_triangle3_contains_point_f32(const lm2_triangle3_f32 tri, lm2_v3f32 point, float epsilon);
+LM2_API bool lm2_triangle3_contains_point_f64(const lm2_triangle3_f64 tri, lm2_v3_f64 point, double epsilon);
+LM2_API bool lm2_triangle3_contains_point_f32(const lm2_triangle3_f32 tri, lm2_v3_f32 point, float epsilon);
 
 // =============================================================================
 // Triangle-Triangle Intersection
@@ -146,6 +146,6 @@ LM2_HEADER_END;
 // C++ operator overloads (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_geometry_operators.h"
-_LM2_DEFINE_TRIANGLE3_OPERATORS(lm2_triangle3_f64, lm2_v3f64, double)
-_LM2_DEFINE_TRIANGLE3_OPERATORS(lm2_triangle3_f32, lm2_v3f32, float)
+_LM2_DEFINE_TRIANGLE3_OPERATORS(lm2_triangle3_f64, f64, lm2_v3, double)
+_LM2_DEFINE_TRIANGLE3_OPERATORS(lm2_triangle3_f32, f32, lm2_v3, float)
 #endif

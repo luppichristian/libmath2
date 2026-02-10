@@ -44,7 +44,7 @@ LM2_API lm2_shape2_f64 lm2_shape2_from_capsule_f64(lm2_capsule2_f64* capsule) {
   return shape;
 }
 
-LM2_API lm2_shape2_f64 lm2_shape2_from_rectangle_f64(lm2_rect2f64* rectangle) {
+LM2_API lm2_shape2_f64 lm2_shape2_from_rectangle_f64(lm2_rectangle2_f64* rectangle) {
   LM2_ASSERT(rectangle != NULL);
   lm2_shape2_f64 shape;
   shape.type = LM2_SHAPE2_RECTANGLE;
@@ -104,7 +104,7 @@ LM2_API lm2_shape2_f32 lm2_shape2_from_capsule_f32(lm2_capsule2_f32* capsule) {
   return shape;
 }
 
-LM2_API lm2_shape2_f32 lm2_shape2_from_rectangle_f32(lm2_rect2f32* rectangle) {
+LM2_API lm2_shape2_f32 lm2_shape2_from_rectangle_f32(lm2_rectangle2_f32* rectangle) {
   LM2_ASSERT(rectangle != NULL);
   lm2_shape2_f32 shape;
   shape.type = LM2_SHAPE2_RECTANGLE;
@@ -164,12 +164,12 @@ LM2_API lm2_capsule2_f64* lm2_shape2_as_capsule_f64(lm2_shape2_f64* shape) {
   return (lm2_capsule2_f64*)shape->data;
 }
 
-LM2_API lm2_rect2f64* lm2_shape2_as_rectangle_f64(lm2_shape2_f64* shape) {
+LM2_API lm2_rectangle2_f64* lm2_shape2_as_rectangle_f64(lm2_shape2_f64* shape) {
   LM2_ASSERT(shape != NULL);
   if (shape->type != LM2_SHAPE2_RECTANGLE) {
     return NULL;
   }
-  return (lm2_rect2f64*)shape->data;
+  return (lm2_rectangle2_f64*)shape->data;
 }
 
 LM2_API lm2_triangle2_f64* lm2_shape2_as_triangle_f64(lm2_shape2_f64* shape) {
@@ -224,12 +224,12 @@ LM2_API lm2_capsule2_f32* lm2_shape2_as_capsule_f32(lm2_shape2_f32* shape) {
   return (lm2_capsule2_f32*)shape->data;
 }
 
-LM2_API lm2_rect2f32* lm2_shape2_as_rectangle_f32(lm2_shape2_f32* shape) {
+LM2_API lm2_rectangle2_f32* lm2_shape2_as_rectangle_f32(lm2_shape2_f32* shape) {
   LM2_ASSERT(shape != NULL);
   if (shape->type != LM2_SHAPE2_RECTANGLE) {
     return NULL;
   }
-  return (lm2_rect2f32*)shape->data;
+  return (lm2_rectangle2_f32*)shape->data;
 }
 
 LM2_API lm2_triangle2_f32* lm2_shape2_as_triangle_f32(lm2_shape2_f32* shape) {

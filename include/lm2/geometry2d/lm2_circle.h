@@ -37,12 +37,12 @@ LM2_HEADER_BEGIN;
 
 // Circle structure to represent a 2D circle
 typedef struct lm2_circle_f64 {
-  lm2_v2f64 center;
+  lm2_v2_f64 center;
   double radius;
 } lm2_circle_f64;
 
 typedef struct lm2_circle_f32 {
-  lm2_v2f32 center;
+  lm2_v2_f32 center;
   float radius;
 } lm2_circle_f32;
 
@@ -54,8 +54,8 @@ typedef lm2_circle_f32 lm2_circle;
 // =============================================================================
 
 // Create a circle from center point and radius
-LM2_API lm2_circle_f64 lm2_circle_make_f64(lm2_v2f64 center, double radius);
-LM2_API lm2_circle_f32 lm2_circle_make_f32(lm2_v2f32 center, float radius);
+LM2_API lm2_circle_f64 lm2_circle_make_f64(lm2_v2_f64 center, double radius);
+LM2_API lm2_circle_f32 lm2_circle_make_f32(lm2_v2_f32 center, float radius);
 
 // Create a circle from coordinates and radius
 LM2_API lm2_circle_f64 lm2_circle_make_coords_f64(double x, double y, double radius);
@@ -86,8 +86,8 @@ LM2_API float lm2_circle_diameter_f32(lm2_circle_f32 circle);
 // =============================================================================
 
 // Check if a point is inside a circle
-LM2_API bool lm2_circle_contains_point_f64(lm2_circle_f64 circle, lm2_v2f64 point);
-LM2_API bool lm2_circle_contains_point_f32(lm2_circle_f32 circle, lm2_v2f32 point);
+LM2_API bool lm2_circle_contains_point_f64(lm2_circle_f64 circle, lm2_v2_f64 point);
+LM2_API bool lm2_circle_contains_point_f32(lm2_circle_f32 circle, lm2_v2_f32 point);
 
 // Check if two circles overlap
 LM2_API bool lm2_circles_overlap_f64(lm2_circle_f64 a, lm2_circle_f64 b);
@@ -102,8 +102,8 @@ LM2_API bool lm2_circle_contains_circle_f32(lm2_circle_f32 a, lm2_circle_f32 b);
 // =============================================================================
 
 // Translate a circle by an offset
-LM2_API lm2_circle_f64 lm2_circle_translate_f64(lm2_circle_f64 circle, lm2_v2f64 offset);
-LM2_API lm2_circle_f32 lm2_circle_translate_f32(lm2_circle_f32 circle, lm2_v2f32 offset);
+LM2_API lm2_circle_f64 lm2_circle_translate_f64(lm2_circle_f64 circle, lm2_v2_f64 offset);
+LM2_API lm2_circle_f32 lm2_circle_translate_f32(lm2_circle_f32 circle, lm2_v2_f32 offset);
 
 // Scale a circle's radius
 LM2_API lm2_circle_f64 lm2_circle_scale_f64(lm2_circle_f64 circle, double scale);
@@ -116,6 +116,6 @@ LM2_HEADER_END;
 // C++ operator overloads (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_geometry_operators.h"
-_LM2_DEFINE_CIRCLE_OPERATORS(lm2_circle_f64, f64, lm2_v2f64, double)
-_LM2_DEFINE_CIRCLE_OPERATORS(lm2_circle_f32, f32, lm2_v2f32, float)
+_LM2_DEFINE_CIRCLE_OPERATORS(lm2_circle_f64, f64, lm2_v2, double)
+_LM2_DEFINE_CIRCLE_OPERATORS(lm2_circle_f32, f32, lm2_v2, float)
 #endif

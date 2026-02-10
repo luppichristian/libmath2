@@ -30,84 +30,92 @@ SOFTWARE.
 // C++ Operator Overloads for Matrix Types
 // =============================================================================
 // These operators provide natural syntax for matrix operations in C++:
-//   lm2_m3x2f32 a = lm2_m3x2f32_identity();
-//   lm2_m3x2f32 b = lm2_m3x2f32_scale({2.0f, 2.0f});
-//   lm2_m3x2f32 c = a * b;            // matrix * matrix
-//   lm2_v2f32 v = {1.0f, 2.0f};
-//   lm2_v2f32 u = v * a;              // vector * matrix
+//   lm2_matrix3x2_f32 a = lm2_matrix3x2_f32_identity();
+//   lm2_matrix3x2_f32 b = lm2_matrix3x2_f32_scale({2.0f, 2.0f});
+//   lm2_matrix3x2_f32 c = a * b;            // matrix * matrix
+//   lm2_v2_f32 v = {1.0f, 2.0f};
+//   lm2_v2_f32 u = v * a;              // vector * matrix
 
 // =============================================================================
 // Matrix 3x2 Operators
 // =============================================================================
 
-#  define _LM2_DEFINE_M3X2_OPERATORS(mat_type, vec_type)   \
-    inline mat_type operator*(mat_type a, mat_type b) {    \
-      return mat_type##_multiply(a, b);                    \
-    }                                                      \
-    inline mat_type& operator*=(mat_type& a, mat_type b) { \
-      a = mat_type##_multiply(a, b);                       \
-      return a;                                            \
-    }                                                      \
-    inline vec_type operator*(vec_type v, mat_type m) {    \
-      return mat_type##_transform_point(m, v);             \
-    }                                                      \
-    inline vec_type& operator*=(vec_type& v, mat_type m) { \
-      v = mat_type##_transform_point(m, v);                \
-      return v;                                            \
+#  define _LM2_DEFINE_MATRIX3X2_OPERATORS(mat_type, vec_type) \
+    inline mat_type operator*(mat_type a, mat_type b) {       \
+      return mat_type##_multiply(a, b);                       \
+    }                                                         \
+    inline mat_type& operator*=(mat_type& a, mat_type b) {    \
+      a = mat_type##_multiply(a, b);                          \
+      return a;                                               \
+    }                                                         \
+    inline vec_type operator*(vec_type v, mat_type m) {       \
+      return mat_type##_transform_point(m, v);                \
+    }                                                         \
+    inline vec_type& operator*=(vec_type& v, mat_type m) {    \
+      v = mat_type##_transform_point(m, v);                   \
+      return v;                                               \
     }
 
 // =============================================================================
 // Matrix 3x3 Operators
 // =============================================================================
 
-#  define _LM2_DEFINE_M3X3_OPERATORS(mat_type, vec2_type, vec3_type) \
-    inline mat_type operator*(mat_type a, mat_type b) {              \
-      return mat_type##_multiply(a, b);                              \
-    }                                                                \
-    inline mat_type& operator*=(mat_type& a, mat_type b) {           \
-      a = mat_type##_multiply(a, b);                                 \
-      return a;                                                      \
-    }                                                                \
-    inline vec2_type operator*(vec2_type v, mat_type m) {            \
-      return mat_type##_transform_point(m, v);                       \
-    }                                                                \
-    inline vec2_type& operator*=(vec2_type& v, mat_type m) {         \
-      v = mat_type##_transform_point(m, v);                          \
-      return v;                                                      \
-    }                                                                \
-    inline vec3_type operator*(vec3_type v, mat_type m) {            \
-      return mat_type##_transform(m, v);                             \
-    }                                                                \
-    inline vec3_type& operator*=(vec3_type& v, mat_type m) {         \
-      v = mat_type##_transform(m, v);                                \
-      return v;                                                      \
+#  define _LM2_DEFINE_MATRIX3X3_OPERATORS_SUFFIX(mat_type, vec2_type, vec3_type, suffix) \
+    inline mat_type operator*(mat_type a, mat_type b) {                                  \
+      return lm2_m3x3_multiply_##suffix(a, b);                                           \
+    }                                                                                    \
+    inline mat_type& operator*=(mat_type& a, mat_type b) {                               \
+      a = lm2_m3x3_multiply_##suffix(a, b);                                              \
+      return a;                                                                          \
+    }                                                                                    \
+    inline vec2_type operator*(vec2_type v, mat_type m) {                                \
+      return lm2_m3x3_transform_point_##suffix(m, v);                                    \
+    }                                                                                    \
+    inline vec2_type& operator*=(vec2_type& v, mat_type m) {                             \
+      v = lm2_m3x3_transform_point_##suffix(m, v);                                       \
+      return v;                                                                          \
+    }                                                                                    \
+    inline vec3_type operator*(vec3_type v, mat_type m) {                                \
+      return lm2_m3x3_transform_##suffix(m, v);                                          \
+    }                                                                                    \
+    inline vec3_type& operator*=(vec3_type& v, mat_type m) {                             \
+      v = lm2_m3x3_transform_##suffix(m, v);                                             \
+      return v;                                                                          \
     }
+
+// Legacy 3-parameter version for backward compatibility
+#  define _LM2_DEFINE_MATRIX3X3_OPERATORS(mat_type, vec2_type, vec3_type) \
+    _LM2_DEFINE_MATRIX3X3_OPERATORS_SUFFIX(mat_type, vec2_type, vec3_type, f64)
 
 // =============================================================================
 // Matrix 4x4 Operators
 // =============================================================================
 
-#  define _LM2_DEFINE_M4X4_OPERATORS(mat_type, vec3_type, vec4_type) \
-    inline mat_type operator*(mat_type a, mat_type b) {              \
-      return mat_type##_multiply(a, b);                              \
-    }                                                                \
-    inline mat_type& operator*=(mat_type& a, mat_type b) {           \
-      a = mat_type##_multiply(a, b);                                 \
-      return a;                                                      \
-    }                                                                \
-    inline vec3_type operator*(vec3_type v, mat_type m) {            \
-      return mat_type##_transform_point(m, v);                       \
-    }                                                                \
-    inline vec3_type& operator*=(vec3_type& v, mat_type m) {         \
-      v = mat_type##_transform_point(m, v);                          \
-      return v;                                                      \
-    }                                                                \
-    inline vec4_type operator*(vec4_type v, mat_type m) {            \
-      return mat_type##_transform(m, v);                             \
-    }                                                                \
-    inline vec4_type& operator*=(vec4_type& v, mat_type m) {         \
-      v = mat_type##_transform(m, v);                                \
-      return v;                                                      \
+#  define _LM2_DEFINE_MATRIX4X4_OPERATORS_SUFFIX(mat_type, vec3_type, vec4_type, suffix) \
+    inline mat_type operator*(mat_type a, mat_type b) {                                  \
+      return lm2_m4x4_multiply_##suffix(a, b);                                           \
+    }                                                                                    \
+    inline mat_type& operator*=(mat_type& a, mat_type b) {                               \
+      a = lm2_m4x4_multiply_##suffix(a, b);                                              \
+      return a;                                                                          \
+    }                                                                                    \
+    inline vec3_type operator*(vec3_type v, mat_type m) {                                \
+      return lm2_m4x4_transform_point_##suffix(m, v);                                    \
+    }                                                                                    \
+    inline vec3_type& operator*=(vec3_type& v, mat_type m) {                             \
+      v = lm2_m4x4_transform_point_##suffix(m, v);                                       \
+      return v;                                                                          \
+    }                                                                                    \
+    inline vec4_type operator*(vec4_type v, mat_type m) {                                \
+      return lm2_m4x4_transform_##suffix(m, v);                                          \
+    }                                                                                    \
+    inline vec4_type& operator*=(vec4_type& v, mat_type m) {                             \
+      v = lm2_m4x4_transform_##suffix(m, v);                                             \
+      return v;                                                                          \
     }
+
+// Legacy 3-parameter version for backward compatibility
+#  define _LM2_DEFINE_MATRIX4X4_OPERATORS(mat_type, vec3_type, vec4_type) \
+    _LM2_DEFINE_MATRIX4X4_OPERATORS_SUFFIX(mat_type, vec3_type, vec4_type, f64)
 
 #endif  // __cplusplus && !LM2_NO_CPP_OPERATORS

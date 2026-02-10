@@ -633,7 +633,7 @@ static float _lm2_hash_to_f32(uint32_t h) {
 // Perlin Noise 2D
 // =============================================================================
 
-LM2_API double lm2_perlin_2d_f64(double x, double y) {
+LM2_API double lm2_perlin2_f64(double x, double y) {
   double xf_d = lm2_floor_f64(x);
   double yf_d = lm2_floor_f64(y);
   int xi = (int)xf_d & 255;
@@ -660,7 +660,7 @@ LM2_API double lm2_perlin_2d_f64(double x, double y) {
   return lm2_lerp_f64(x0, v, x1);
 }
 
-LM2_API float lm2_perlin_2d_f32(float x, float y) {
+LM2_API float lm2_perlin2_f32(float x, float y) {
   float xf_d = lm2_floor_f32(x);
   float yf_d = lm2_floor_f32(y);
   int xi = (int)xf_d & 255;
@@ -691,7 +691,7 @@ LM2_API float lm2_perlin_2d_f32(float x, float y) {
 // Perlin Noise 3D
 // =============================================================================
 
-LM2_API double lm2_perlin_3d_f64(double x, double y, double z) {
+LM2_API double lm2_perlin3_f64(double x, double y, double z) {
   double xf_d = lm2_floor_f64(x);
   double yf_d = lm2_floor_f64(y);
   double zf_d = lm2_floor_f64(z);
@@ -738,7 +738,7 @@ LM2_API double lm2_perlin_3d_f64(double x, double y, double z) {
   return lm2_lerp_f64(ly0, w, ly1);
 }
 
-LM2_API float lm2_perlin_3d_f32(float x, float y, float z) {
+LM2_API float lm2_perlin3_f32(float x, float y, float z) {
   float xf_d = lm2_floor_f32(x);
   float yf_d = lm2_floor_f32(y);
   float zf_d = lm2_floor_f32(z);
@@ -789,7 +789,7 @@ LM2_API float lm2_perlin_3d_f32(float x, float y, float z) {
 // Voronoi Noise 2D
 // =============================================================================
 
-LM2_API double lm2_voronoi_2d_f64(double x, double y) {
+LM2_API double lm2_voronoi2_f64(double x, double y) {
   double xf_d = lm2_floor_f64(x);
   double yf_d = lm2_floor_f64(y);
   int xi = (int)xf_d;
@@ -818,7 +818,7 @@ LM2_API double lm2_voronoi_2d_f64(double x, double y) {
   return min_dist;
 }
 
-LM2_API float lm2_voronoi_2d_f32(float x, float y) {
+LM2_API float lm2_voronoi2_f32(float x, float y) {
   float xf_d = lm2_floor_f32(x);
   float yf_d = lm2_floor_f32(y);
   int xi = (int)xf_d;
@@ -851,7 +851,7 @@ LM2_API float lm2_voronoi_2d_f32(float x, float y) {
 // Voronoi Noise 3D
 // =============================================================================
 
-LM2_API double lm2_voronoi_3d_f64(double x, double y, double z) {
+LM2_API double lm2_voronoi3_f64(double x, double y, double z) {
   double xf_d = lm2_floor_f64(x);
   double yf_d = lm2_floor_f64(y);
   double zf_d = lm2_floor_f64(z);
@@ -887,7 +887,7 @@ LM2_API double lm2_voronoi_3d_f64(double x, double y, double z) {
   return min_dist;
 }
 
-LM2_API float lm2_voronoi_3d_f32(float x, float y, float z) {
+LM2_API float lm2_voronoi3_f32(float x, float y, float z) {
   float xf_d = lm2_floor_f32(x);
   float yf_d = lm2_floor_f32(y);
   float zf_d = lm2_floor_f32(z);

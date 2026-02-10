@@ -38,50 +38,50 @@ LM2_HEADER_BEGIN;
 // =============================================================================
 
 // 2D dot product
-LM2_API double lm2_dot_v2f64(lm2_v2f64 a, lm2_v2f64 b);
-LM2_API float lm2_dot_v2f32(lm2_v2f32 a, lm2_v2f32 b);
-LM2_API int64_t lm2_dot_v2i64(lm2_v2i64 a, lm2_v2i64 b);
-LM2_API int32_t lm2_dot_v2i32(lm2_v2i32 a, lm2_v2i32 b);
-LM2_API int16_t lm2_dot_v2i16(lm2_v2i16 a, lm2_v2i16 b);
-LM2_API int8_t lm2_dot_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API double lm2_v2_dot_f64(lm2_v2_f64 a, lm2_v2_f64 b);
+LM2_API float lm2_v2_dot_f32(lm2_v2_f32 a, lm2_v2_f32 b);
+LM2_API int64_t lm2_v2_dot_i64(lm2_v2_i64 a, lm2_v2_i64 b);
+LM2_API int32_t lm2_v2_dot_i32(lm2_v2_i32 a, lm2_v2_i32 b);
+LM2_API int16_t lm2_v2_dot_i16(lm2_v2_i16 a, lm2_v2_i16 b);
+LM2_API int8_t lm2_v2_dot_i8(lm2_v2_i8 a, lm2_v2_i8 b);
 
 // 3D dot product
-LM2_API double lm2_dot_v3f64(lm2_v3f64 a, lm2_v3f64 b);
-LM2_API float lm2_dot_v3f32(lm2_v3f32 a, lm2_v3f32 b);
-LM2_API int64_t lm2_dot_v3i64(lm2_v3i64 a, lm2_v3i64 b);
-LM2_API int32_t lm2_dot_v3i32(lm2_v3i32 a, lm2_v3i32 b);
-LM2_API int16_t lm2_dot_v3i16(lm2_v3i16 a, lm2_v3i16 b);
-LM2_API int8_t lm2_dot_v3i8(lm2_v3i8 a, lm2_v3i8 b);
+LM2_API double lm2_v3_dot_f64(lm2_v3_f64 a, lm2_v3_f64 b);
+LM2_API float lm2_v3_dot_f32(lm2_v3_f32 a, lm2_v3_f32 b);
+LM2_API int64_t lm2_v3_dot_i64(lm2_v3_i64 a, lm2_v3_i64 b);
+LM2_API int32_t lm2_v3_dot_i32(lm2_v3_i32 a, lm2_v3_i32 b);
+LM2_API int16_t lm2_v3_dot_i16(lm2_v3_i16 a, lm2_v3_i16 b);
+LM2_API int8_t lm2_v3_dot_i8(lm2_v3_i8 a, lm2_v3_i8 b);
 
 // 4D dot product
-LM2_API double lm2_dot_v4f64(lm2_v4f64 a, lm2_v4f64 b);
-LM2_API float lm2_dot_v4f32(lm2_v4f32 a, lm2_v4f32 b);
-LM2_API int64_t lm2_dot_v4i64(lm2_v4i64 a, lm2_v4i64 b);
-LM2_API int32_t lm2_dot_v4i32(lm2_v4i32 a, lm2_v4i32 b);
-LM2_API int16_t lm2_dot_v4i16(lm2_v4i16 a, lm2_v4i16 b);
-LM2_API int8_t lm2_dot_v4i8(lm2_v4i8 a, lm2_v4i8 b);
+LM2_API double lm2_v4_dot_f64(lm2_v4_f64 a, lm2_v4_f64 b);
+LM2_API float lm2_v4_dot_f32(lm2_v4_f32 a, lm2_v4_f32 b);
+LM2_API int64_t lm2_v4_dot_i64(lm2_v4_i64 a, lm2_v4_i64 b);
+LM2_API int32_t lm2_v4_dot_i32(lm2_v4_i32 a, lm2_v4_i32 b);
+LM2_API int16_t lm2_v4_dot_i16(lm2_v4_i16 a, lm2_v4_i16 b);
+LM2_API int8_t lm2_v4_dot_i8(lm2_v4_i8 a, lm2_v4_i8 b);
 
 // =============================================================================
 // Cross Product (3D only)
 // =============================================================================
 
-LM2_API lm2_v3f64 lm2_cross_v3f64(lm2_v3f64 a, lm2_v3f64 b);
-LM2_API lm2_v3f32 lm2_cross_v3f32(lm2_v3f32 a, lm2_v3f32 b);
-LM2_API lm2_v3i64 lm2_cross_v3i64(lm2_v3i64 a, lm2_v3i64 b);
-LM2_API lm2_v3i32 lm2_cross_v3i32(lm2_v3i32 a, lm2_v3i32 b);
-LM2_API lm2_v3i16 lm2_cross_v3i16(lm2_v3i16 a, lm2_v3i16 b);
-LM2_API lm2_v3i8 lm2_cross_v3i8(lm2_v3i8 a, lm2_v3i8 b);
+LM2_API lm2_v3_f64 lm2_v3_cross_f64(lm2_v3_f64 a, lm2_v3_f64 b);
+LM2_API lm2_v3_f32 lm2_v3_cross_f32(lm2_v3_f32 a, lm2_v3_f32 b);
+LM2_API lm2_v3_i64 lm2_v3_cross_i64(lm2_v3_i64 a, lm2_v3_i64 b);
+LM2_API lm2_v3_i32 lm2_v3_cross_i32(lm2_v3_i32 a, lm2_v3_i32 b);
+LM2_API lm2_v3_i16 lm2_v3_cross_i16(lm2_v3_i16 a, lm2_v3_i16 b);
+LM2_API lm2_v3_i8 lm2_v3_cross_i8(lm2_v3_i8 a, lm2_v3_i8 b);
 
 // =============================================================================
 // 2D Cross Product (returns scalar: a.x * b.y - a.y * b.x)
 // =============================================================================
 
-LM2_API double lm2_cross_v2f64(lm2_v2f64 a, lm2_v2f64 b);
-LM2_API float lm2_cross_v2f32(lm2_v2f32 a, lm2_v2f32 b);
-LM2_API int64_t lm2_cross_v2i64(lm2_v2i64 a, lm2_v2i64 b);
-LM2_API int32_t lm2_cross_v2i32(lm2_v2i32 a, lm2_v2i32 b);
-LM2_API int16_t lm2_cross_v2i16(lm2_v2i16 a, lm2_v2i16 b);
-LM2_API int8_t lm2_cross_v2i8(lm2_v2i8 a, lm2_v2i8 b);
+LM2_API double lm2_v2_cross_f64(lm2_v2_f64 a, lm2_v2_f64 b);
+LM2_API float lm2_v2_cross_f32(lm2_v2_f32 a, lm2_v2_f32 b);
+LM2_API int64_t lm2_v2_cross_i64(lm2_v2_i64 a, lm2_v2_i64 b);
+LM2_API int32_t lm2_v2_cross_i32(lm2_v2_i32 a, lm2_v2_i32 b);
+LM2_API int16_t lm2_v2_cross_i16(lm2_v2_i16 a, lm2_v2_i16 b);
+LM2_API int8_t lm2_v2_cross_i8(lm2_v2_i8 a, lm2_v2_i8 b);
 
 // =============================================================================
 // 2D Cross Product for Turn Detection (3-point version)
@@ -91,156 +91,156 @@ LM2_API int8_t lm2_cross_v2i8(lm2_v2i8 a, lm2_v2i8 b);
 // = 0: Collinear (points on same line)
 // =============================================================================
 
-LM2_API double lm2_cross3_v2f64(lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c);
-LM2_API float lm2_cross3_v2f32(lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c);
-LM2_API int64_t lm2_cross3_v2i64(lm2_v2i64 a, lm2_v2i64 b, lm2_v2i64 c);
-LM2_API int32_t lm2_cross3_v2i32(lm2_v2i32 a, lm2_v2i32 b, lm2_v2i32 c);
-LM2_API int16_t lm2_cross3_v2i16(lm2_v2i16 a, lm2_v2i16 b, lm2_v2i16 c);
-LM2_API int8_t lm2_cross3_v2i8(lm2_v2i8 a, lm2_v2i8 b, lm2_v2i8 c);
+LM2_API double lm2_v2_cross3_f64(lm2_v2_f64 a, lm2_v2_f64 b, lm2_v2_f64 c);
+LM2_API float lm2_v2_cross3_f32(lm2_v2_f32 a, lm2_v2_f32 b, lm2_v2_f32 c);
+LM2_API int64_t lm2_v2_cross3_i64(lm2_v2_i64 a, lm2_v2_i64 b, lm2_v2_i64 c);
+LM2_API int32_t lm2_v2_cross3_i32(lm2_v2_i32 a, lm2_v2_i32 b, lm2_v2_i32 c);
+LM2_API int16_t lm2_v2_cross3_i16(lm2_v2_i16 a, lm2_v2_i16 b, lm2_v2_i16 c);
+LM2_API int8_t lm2_v2_cross3_i8(lm2_v2_i8 a, lm2_v2_i8 b, lm2_v2_i8 c);
 
 // =============================================================================
 // Length / Magnitude
 // =============================================================================
 
 // 2D length
-LM2_API double lm2_length_v2f64(lm2_v2f64 v);
-LM2_API float lm2_length_v2f32(lm2_v2f32 v);
+LM2_API double lm2_v2_length_f64(lm2_v2_f64 v);
+LM2_API float lm2_v2_length_f32(lm2_v2_f32 v);
 
 // 3D length
-LM2_API double lm2_length_v3f64(lm2_v3f64 v);
-LM2_API float lm2_length_v3f32(lm2_v3f32 v);
+LM2_API double lm2_v3_length_f64(lm2_v3_f64 v);
+LM2_API float lm2_v3_length_f32(lm2_v3_f32 v);
 
 // 4D length
-LM2_API double lm2_length_v4f64(lm2_v4f64 v);
-LM2_API float lm2_length_v4f32(lm2_v4f32 v);
+LM2_API double lm2_v4_length_f64(lm2_v4_f64 v);
+LM2_API float lm2_v4_length_f32(lm2_v4_f32 v);
 
 // =============================================================================
 // Length Squared (faster than length, no sqrt)
 // =============================================================================
 
 // 2D length squared
-LM2_API double lm2_length_sq_v2f64(lm2_v2f64 v);
-LM2_API float lm2_length_sq_v2f32(lm2_v2f32 v);
+LM2_API double lm2_v2_length_sq_f64(lm2_v2_f64 v);
+LM2_API float lm2_v2_length_sq_f32(lm2_v2_f32 v);
 
 // 3D length squared
-LM2_API double lm2_length_sq_v3f64(lm2_v3f64 v);
-LM2_API float lm2_length_sq_v3f32(lm2_v3f32 v);
+LM2_API double lm2_v3_length_sq_f64(lm2_v3_f64 v);
+LM2_API float lm2_v3_length_sq_f32(lm2_v3_f32 v);
 
 // 4D length squared
-LM2_API double lm2_length_sq_v4f64(lm2_v4f64 v);
-LM2_API float lm2_length_sq_v4f32(lm2_v4f32 v);
+LM2_API double lm2_v4_length_sq_f64(lm2_v4_f64 v);
+LM2_API float lm2_v4_length_sq_f32(lm2_v4_f32 v);
 
 // =============================================================================
 // Distance
 // =============================================================================
 
 // 2D distance
-LM2_API double lm2_distance_v2f64(lm2_v2f64 a, lm2_v2f64 b);
-LM2_API float lm2_distance_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API double lm2_v2_distance_f64(lm2_v2_f64 a, lm2_v2_f64 b);
+LM2_API float lm2_v2_distance_f32(lm2_v2_f32 a, lm2_v2_f32 b);
 
 // 3D distance
-LM2_API double lm2_distance_v3f64(lm2_v3f64 a, lm2_v3f64 b);
-LM2_API float lm2_distance_v3f32(lm2_v3f32 a, lm2_v3f32 b);
+LM2_API double lm2_v3_distance_f64(lm2_v3_f64 a, lm2_v3_f64 b);
+LM2_API float lm2_v3_distance_f32(lm2_v3_f32 a, lm2_v3_f32 b);
 
 // 4D distance
-LM2_API double lm2_distance_v4f64(lm2_v4f64 a, lm2_v4f64 b);
-LM2_API float lm2_distance_v4f32(lm2_v4f32 a, lm2_v4f32 b);
+LM2_API double lm2_v4_distance_f64(lm2_v4_f64 a, lm2_v4_f64 b);
+LM2_API float lm2_v4_distance_f32(lm2_v4_f32 a, lm2_v4_f32 b);
 
 // =============================================================================
 // Distance Squared (faster than distance, no sqrt)
 // =============================================================================
 
 // 2D distance squared
-LM2_API double lm2_distance_sq_v2f64(lm2_v2f64 a, lm2_v2f64 b);
-LM2_API float lm2_distance_sq_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API double lm2_v2_distance_sq_f64(lm2_v2_f64 a, lm2_v2_f64 b);
+LM2_API float lm2_v2_distance_sq_f32(lm2_v2_f32 a, lm2_v2_f32 b);
 
 // 3D distance squared
-LM2_API double lm2_distance_sq_v3f64(lm2_v3f64 a, lm2_v3f64 b);
-LM2_API float lm2_distance_sq_v3f32(lm2_v3f32 a, lm2_v3f32 b);
+LM2_API double lm2_v3_distance_sq_f64(lm2_v3_f64 a, lm2_v3_f64 b);
+LM2_API float lm2_v3_distance_sq_f32(lm2_v3_f32 a, lm2_v3_f32 b);
 
 // 4D distance squared
-LM2_API double lm2_distance_sq_v4f64(lm2_v4f64 a, lm2_v4f64 b);
-LM2_API float lm2_distance_sq_v4f32(lm2_v4f32 a, lm2_v4f32 b);
+LM2_API double lm2_v4_distance_sq_f64(lm2_v4_f64 a, lm2_v4_f64 b);
+LM2_API float lm2_v4_distance_sq_f32(lm2_v4_f32 a, lm2_v4_f32 b);
 
 // =============================================================================
 // Normalize (returns unit vector in same direction)
 // =============================================================================
 
 // 2D normalize
-LM2_API lm2_v2f64 lm2_normalize_v2f64(lm2_v2f64 v);
-LM2_API lm2_v2f32 lm2_normalize_v2f32(lm2_v2f32 v);
+LM2_API lm2_v2_f64 lm2_v2_normalize_f64(lm2_v2_f64 v);
+LM2_API lm2_v2_f32 lm2_v2_normalize_f32(lm2_v2_f32 v);
 
 // 3D normalize
-LM2_API lm2_v3f64 lm2_normalize_v3f64(lm2_v3f64 v);
-LM2_API lm2_v3f32 lm2_normalize_v3f32(lm2_v3f32 v);
+LM2_API lm2_v3_f64 lm2_v3_normalize_f64(lm2_v3_f64 v);
+LM2_API lm2_v3_f32 lm2_v3_normalize_f32(lm2_v3_f32 v);
 
 // 4D normalize
-LM2_API lm2_v4f64 lm2_normalize_v4f64(lm2_v4f64 v);
-LM2_API lm2_v4f32 lm2_normalize_v4f32(lm2_v4f32 v);
+LM2_API lm2_v4_f64 lm2_v4_normalize_f64(lm2_v4_f64 v);
+LM2_API lm2_v4_f32 lm2_v4_normalize_f32(lm2_v4_f32 v);
 
 // =============================================================================
 // Angle Between Vectors (in radians)
 // =============================================================================
 
 // 2D angle
-LM2_API double lm2_angle_v2f64(lm2_v2f64 a, lm2_v2f64 b);
-LM2_API float lm2_angle_v2f32(lm2_v2f32 a, lm2_v2f32 b);
+LM2_API double lm2_v2_angle_f64(lm2_v2_f64 a, lm2_v2_f64 b);
+LM2_API float lm2_v2_angle_f32(lm2_v2_f32 a, lm2_v2_f32 b);
 
 // 3D angle
-LM2_API double lm2_angle_v3f64(lm2_v3f64 a, lm2_v3f64 b);
-LM2_API float lm2_angle_v3f32(lm2_v3f32 a, lm2_v3f32 b);
+LM2_API double lm2_v3_angle_f64(lm2_v3_f64 a, lm2_v3_f64 b);
+LM2_API float lm2_v3_angle_f32(lm2_v3_f32 a, lm2_v3_f32 b);
 
 // =============================================================================
 // 2D Rotation
 // =============================================================================
 
 // Rotate 2D vector by angle (in radians)
-LM2_API lm2_v2f64 lm2_rotate_v2f64(lm2_v2f64 v, double angle);
-LM2_API lm2_v2f32 lm2_rotate_v2f32(lm2_v2f32 v, float angle);
+LM2_API lm2_v2_f64 lm2_v2_rotate_f64(lm2_v2_f64 v, double angle);
+LM2_API lm2_v2_f32 lm2_v2_rotate_f32(lm2_v2_f32 v, float angle);
 
 // Rotate 2D vector around a point by angle (in radians)
-LM2_API lm2_v2f64 lm2_rotate_around_v2f64(lm2_v2f64 v, lm2_v2f64 point, double angle);
-LM2_API lm2_v2f32 lm2_rotate_around_v2f32(lm2_v2f32 v, lm2_v2f32 point, float angle);
+LM2_API lm2_v2_f64 lm2_v2_rotate_around_f64(lm2_v2_f64 v, lm2_v2_f64 point, double angle);
+LM2_API lm2_v2_f32 lm2_v2_rotate_around_f32(lm2_v2_f32 v, lm2_v2_f32 point, float angle);
 
 // =============================================================================
 // 2D Perpendicular Vectors
 // =============================================================================
 
 // Perpendicular vector (90 degrees counter-clockwise)
-LM2_API lm2_v2f64 lm2_perp_ccw_v2f64(lm2_v2f64 v);
-LM2_API lm2_v2f32 lm2_perp_ccw_v2f32(lm2_v2f32 v);
-LM2_API lm2_v2i64 lm2_perp_ccw_v2i64(lm2_v2i64 v);
-LM2_API lm2_v2i32 lm2_perp_ccw_v2i32(lm2_v2i32 v);
-LM2_API lm2_v2i16 lm2_perp_ccw_v2i16(lm2_v2i16 v);
-LM2_API lm2_v2i8 lm2_perp_ccw_v2i8(lm2_v2i8 v);
+LM2_API lm2_v2_f64 lm2_v2_perp_ccw_f64(lm2_v2_f64 v);
+LM2_API lm2_v2_f32 lm2_v2_perp_ccw_f32(lm2_v2_f32 v);
+LM2_API lm2_v2_i64 lm2_v2_perp_ccw_i64(lm2_v2_i64 v);
+LM2_API lm2_v2_i32 lm2_v2_perp_ccw_i32(lm2_v2_i32 v);
+LM2_API lm2_v2_i16 lm2_v2_perp_ccw_i16(lm2_v2_i16 v);
+LM2_API lm2_v2_i8 lm2_v2_perp_ccw_i8(lm2_v2_i8 v);
 
 // Perpendicular vector (90 degrees clockwise)
-LM2_API lm2_v2f64 lm2_perp_cw_v2f64(lm2_v2f64 v);
-LM2_API lm2_v2f32 lm2_perp_cw_v2f32(lm2_v2f32 v);
-LM2_API lm2_v2i64 lm2_perp_cw_v2i64(lm2_v2i64 v);
-LM2_API lm2_v2i32 lm2_perp_cw_v2i32(lm2_v2i32 v);
-LM2_API lm2_v2i16 lm2_perp_cw_v2i16(lm2_v2i16 v);
-LM2_API lm2_v2i8 lm2_perp_cw_v2i8(lm2_v2i8 v);
+LM2_API lm2_v2_f64 lm2_v2_perp_cw_f64(lm2_v2_f64 v);
+LM2_API lm2_v2_f32 lm2_v2_perp_cw_f32(lm2_v2_f32 v);
+LM2_API lm2_v2_i64 lm2_v2_perp_cw_i64(lm2_v2_i64 v);
+LM2_API lm2_v2_i32 lm2_v2_perp_cw_i32(lm2_v2_i32 v);
+LM2_API lm2_v2_i16 lm2_v2_perp_cw_i16(lm2_v2_i16 v);
+LM2_API lm2_v2_i8 lm2_v2_perp_cw_i8(lm2_v2_i8 v);
 
 // =============================================================================
 // Reflection
 // =============================================================================
 
 // Reflect vector across a normal
-LM2_API lm2_v2f64 lm2_reflect_v2f64(lm2_v2f64 v, lm2_v2f64 normal);
-LM2_API lm2_v2f32 lm2_reflect_v2f32(lm2_v2f32 v, lm2_v2f32 normal);
-LM2_API lm2_v3f64 lm2_reflect_v3f64(lm2_v3f64 v, lm2_v3f64 normal);
-LM2_API lm2_v3f32 lm2_reflect_v3f32(lm2_v3f32 v, lm2_v3f32 normal);
+LM2_API lm2_v2_f64 lm2_v2_reflect_f64(lm2_v2_f64 v, lm2_v2_f64 normal);
+LM2_API lm2_v2_f32 lm2_v2_reflect_f32(lm2_v2_f32 v, lm2_v2_f32 normal);
+LM2_API lm2_v3_f64 lm2_v3_reflect_f64(lm2_v3_f64 v, lm2_v3_f64 normal);
+LM2_API lm2_v3_f32 lm2_v3_reflect_f32(lm2_v3_f32 v, lm2_v3_f32 normal);
 
 // =============================================================================
 // Projection
 // =============================================================================
 
 // Project vector a onto vector b
-LM2_API lm2_v2f64 lm2_project_v2f64(lm2_v2f64 a, lm2_v2f64 b);
-LM2_API lm2_v2f32 lm2_project_v2f32(lm2_v2f32 a, lm2_v2f32 b);
-LM2_API lm2_v3f64 lm2_project_v3f64(lm2_v3f64 a, lm2_v3f64 b);
-LM2_API lm2_v3f32 lm2_project_v3f32(lm2_v3f32 a, lm2_v3f32 b);
+LM2_API lm2_v2_f64 lm2_v2_project_f64(lm2_v2_f64 a, lm2_v2_f64 b);
+LM2_API lm2_v2_f32 lm2_v2_project_f32(lm2_v2_f32 a, lm2_v2_f32 b);
+LM2_API lm2_v3_f64 lm2_v3_project_f64(lm2_v3_f64 a, lm2_v3_f64 b);
+LM2_API lm2_v3_f32 lm2_v3_project_f32(lm2_v3_f32 a, lm2_v3_f32 b);
 
 // #############################################################################
 LM2_HEADER_END;

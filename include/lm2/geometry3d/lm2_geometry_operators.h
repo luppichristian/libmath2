@@ -31,7 +31,7 @@ SOFTWARE.
 // =============================================================================
 // These operators provide natural syntax for geometry operations in C++:
 //   lm2_sphere_f32 s = {{5, 5, 5}, 10};
-//   lm2_v3f32 offset = {2, 3, 1};
+//   lm2_v3_f32 offset = {2, 3, 1};
 //   lm2_sphere_f32 moved = s + offset;     // translate sphere
 //   lm2_sphere_f32 scaled = s * 2.0f;      // scale radius
 
@@ -39,46 +39,46 @@ SOFTWARE.
 // Capsule Operators
 // =============================================================================
 
-#  define _LM2_DEFINE_CAPSULE3_OPERATORS(type_name, suffix, vec_type, scalar_type)  \
-    extern "C++" inline type_name operator+(type_name capsule, vec_type offset) {   \
-      return lm2_capsule3_translate_##suffix(capsule, offset);                      \
-    }                                                                               \
-    extern "C++" inline type_name operator-(type_name capsule, vec_type offset) {   \
-      return lm2_capsule3_translate_##suffix(capsule, lm2_neg_##vec_type(offset));  \
-    }                                                                               \
-    extern "C++" inline type_name operator*(type_name capsule, scalar_type scale) { \
-      return lm2_capsule3_scale_radius_##suffix(capsule, scale);                    \
+#  define _LM2_DEFINE_CAPSULE3_OPERATORS(type_name, suffix, vec_base, scalar_type)           \
+    extern "C++" inline type_name operator+(type_name capsule, vec_base##_##suffix offset) { \
+      return lm2_capsule3_translate_##suffix(capsule, offset);                               \
+    }                                                                                        \
+    extern "C++" inline type_name operator-(type_name capsule, vec_base##_##suffix offset) { \
+      return lm2_capsule3_translate_##suffix(capsule, vec_base##_neg_##suffix(offset));      \
+    }                                                                                        \
+    extern "C++" inline type_name operator*(type_name capsule, scalar_type scale) {          \
+      return lm2_capsule3_scale_radius_##suffix(capsule, scale);                             \
     }
 
 // =============================================================================
 // Sphere Operators
 // =============================================================================
 
-#  define _LM2_DEFINE_SPHERE_OPERATORS(type_name, suffix, vec_type, scalar_type)   \
-    extern "C++" inline type_name operator+(type_name sphere, vec_type offset) {   \
-      return lm2_sphere_translate_##suffix(sphere, offset);                        \
-    }                                                                              \
-    extern "C++" inline type_name operator-(type_name sphere, vec_type offset) {   \
-      return lm2_sphere_translate_##suffix(sphere, lm2_neg_##vec_type(offset));    \
-    }                                                                              \
-    extern "C++" inline type_name operator*(type_name sphere, scalar_type scale) { \
-      return lm2_sphere_scale_##suffix(sphere, scale);                             \
+#  define _LM2_DEFINE_SPHERE_OPERATORS(type_name, suffix, vec_base, scalar_type)            \
+    extern "C++" inline type_name operator+(type_name sphere, vec_base##_##suffix offset) { \
+      return lm2_sphere_translate_##suffix(sphere, offset);                                 \
+    }                                                                                       \
+    extern "C++" inline type_name operator-(type_name sphere, vec_base##_##suffix offset) { \
+      return lm2_sphere_translate_##suffix(sphere, vec_base##_neg_##suffix(offset));        \
+    }                                                                                       \
+    extern "C++" inline type_name operator*(type_name sphere, scalar_type scale) {          \
+      return lm2_sphere_scale_##suffix(sphere, scale);                                      \
     }
 
 // =============================================================================
 // Edge Operators
 // =============================================================================
 
-#  define _LM2_DEFINE_EDGE3_OPERATORS(type_name, vec_type, scalar_type)        \
-    extern "C++" inline type_name operator+(type_name edge, vec_type offset) { \
-      return type_name {                                                       \
-          lm2_add_##vec_type(edge.start, offset),                              \
-          lm2_add_##vec_type(edge.end, offset)};                               \
-    }                                                                          \
-    extern "C++" inline type_name operator-(type_name edge, vec_type offset) { \
-      return type_name {                                                       \
-          lm2_sub_##vec_type(edge.start, offset),                              \
-          lm2_sub_##vec_type(edge.end, offset)};                               \
+#  define _LM2_DEFINE_EDGE3_OPERATORS(type_name, suffix, vec_base, scalar_type)           \
+    extern "C++" inline type_name operator+(type_name edge, vec_base##_##suffix offset) { \
+      return type_name {                                                                  \
+          vec_base##_add_##suffix(edge.start, offset),                                    \
+          vec_base##_add_##suffix(edge.end, offset)};                                     \
+    }                                                                                     \
+    extern "C++" inline type_name operator-(type_name edge, vec_base##_##suffix offset) { \
+      return type_name {                                                                  \
+          vec_base##_sub_##suffix(edge.start, offset),                                    \
+          vec_base##_sub_##suffix(edge.end, offset)};                                     \
     }
 
 // =============================================================================
@@ -87,48 +87,48 @@ SOFTWARE.
 // Note: Triangles are defined as arrays, so we provide helper functions
 // wrapped as operators for consistency
 
-#  define _LM2_DEFINE_TRIANGLE3_OPERATORS(triangle_type, vec_type, scalar_type)               \
-    inline void lm2_triangle3_translate_##triangle_type(triangle_type tri, vec_type offset) { \
-      tri[0] = lm2_add_##vec_type(tri[0], offset);                                            \
-      tri[1] = lm2_add_##vec_type(tri[1], offset);                                            \
-      tri[2] = lm2_add_##vec_type(tri[2], offset);                                            \
+#  define _LM2_DEFINE_TRIANGLE3_OPERATORS(triangle_type, suffix, vec_base, scalar_type)                  \
+    inline void lm2_triangle3_translate_##triangle_type(triangle_type tri, vec_base##_##suffix offset) { \
+      tri[0] = vec_base##_add_##suffix(tri[0], offset);                                                  \
+      tri[1] = vec_base##_add_##suffix(tri[1], offset);                                                  \
+      tri[2] = vec_base##_add_##suffix(tri[2], offset);                                                  \
     }
 
 // =============================================================================
 // Plane Operators
 // =============================================================================
 
-#  define _LM2_DEFINE_PLANE3_OPERATORS(type_name, suffix, vec_type, scalar_type) \
-    extern "C++" inline type_name operator+(type_name plane, vec_type offset) {  \
-      return lm2_plane3_translate_##suffix(plane, offset);                       \
-    }                                                                            \
-    extern "C++" inline type_name operator-(type_name plane, vec_type offset) {  \
-      return lm2_plane3_translate_##suffix(plane, lm2_neg_##vec_type(offset));   \
+#  define _LM2_DEFINE_PLANE3_OPERATORS(type_name, suffix, vec_base, scalar_type)           \
+    extern "C++" inline type_name operator+(type_name plane, vec_base##_##suffix offset) { \
+      return lm2_plane3_translate_##suffix(plane, offset);                                 \
+    }                                                                                      \
+    extern "C++" inline type_name operator-(type_name plane, vec_base##_##suffix offset) { \
+      return lm2_plane3_translate_##suffix(plane, vec_base##_neg_##suffix(offset));        \
     }
 
 // =============================================================================
 // Ray Operators
 // =============================================================================
 
-#  define _LM2_DEFINE_RAY3_OPERATORS(type_name, vec_type, scalar_type)        \
-    extern "C++" inline type_name operator+(type_name ray, vec_type offset) { \
-      return type_name {lm2_add_##vec_type(ray.origin, offset),               \
-                        ray.direction,                                        \
-                        ray.t_max};                                           \
-    }                                                                         \
-    extern "C++" inline type_name operator-(type_name ray, vec_type offset) { \
-      return type_name {lm2_sub_##vec_type(ray.origin, offset),               \
-                        ray.direction,                                        \
-                        ray.t_max};                                           \
+#  define _LM2_DEFINE_RAY3_OPERATORS(type_name, suffix, vec_base, scalar_type)           \
+    extern "C++" inline type_name operator+(type_name ray, vec_base##_##suffix offset) { \
+      return type_name {vec_base##_add_##suffix(ray.origin, offset),                     \
+                        ray.direction,                                                   \
+                        ray.t_max};                                                      \
+    }                                                                                    \
+    extern "C++" inline type_name operator-(type_name ray, vec_base##_##suffix offset) { \
+      return type_name {vec_base##_sub_##suffix(ray.origin, offset),                     \
+                        ray.direction,                                                   \
+                        ray.t_max};                                                      \
     }
 
 #else
 
-#  define _LM2_DEFINE_CAPSULE3_OPERATORS(type_name, suffix, vec_type, scalar_type)
-#  define _LM2_DEFINE_SPHERE_OPERATORS(type_name, suffix, vec_type, scalar_type)
-#  define _LM2_DEFINE_EDGE3_OPERATORS(type_name, vec_type, scalar_type)
-#  define _LM2_DEFINE_TRIANGLE3_OPERATORS(triangle_type, vec_type, scalar_type)
-#  define _LM2_DEFINE_PLANE3_OPERATORS(type_name, suffix, vec_type, scalar_type)
-#  define _LM2_DEFINE_RAY3_OPERATORS(type_name, vec_type, scalar_type)
+#  define _LM2_DEFINE_CAPSULE3_OPERATORS(type_name, suffix, vec_base, scalar_type)
+#  define _LM2_DEFINE_SPHERE_OPERATORS(type_name, suffix, vec_base, scalar_type)
+#  define _LM2_DEFINE_EDGE3_OPERATORS(type_name, suffix, vec_base, scalar_type)
+#  define _LM2_DEFINE_TRIANGLE3_OPERATORS(triangle_type, suffix, vec_base, scalar_type)
+#  define _LM2_DEFINE_PLANE3_OPERATORS(type_name, suffix, vec_base, scalar_type)
+#  define _LM2_DEFINE_RAY3_OPERATORS(type_name, suffix, vec_base, scalar_type)
 
 #endif

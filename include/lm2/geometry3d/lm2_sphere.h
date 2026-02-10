@@ -37,12 +37,12 @@ LM2_HEADER_BEGIN;
 
 // Sphere structure to represent a 3D sphere
 typedef struct lm2_sphere_f64 {
-  lm2_v3f64 center;
+  lm2_v3_f64 center;
   double radius;
 } lm2_sphere_f64;
 
 typedef struct lm2_sphere_f32 {
-  lm2_v3f32 center;
+  lm2_v3_f32 center;
   float radius;
 } lm2_sphere_f32;
 
@@ -54,8 +54,8 @@ typedef lm2_sphere_f32 lm2_sphere;
 // =============================================================================
 
 // Create a sphere from center point and radius
-LM2_API lm2_sphere_f64 lm2_sphere_make_f64(lm2_v3f64 center, double radius);
-LM2_API lm2_sphere_f32 lm2_sphere_make_f32(lm2_v3f32 center, float radius);
+LM2_API lm2_sphere_f64 lm2_sphere_make_f64(lm2_v3_f64 center, double radius);
+LM2_API lm2_sphere_f32 lm2_sphere_make_f32(lm2_v3_f32 center, float radius);
 
 // Create a sphere from coordinates and radius
 LM2_API lm2_sphere_f64 lm2_sphere_make_coords_f64(double x, double y, double z, double radius);
@@ -86,8 +86,8 @@ LM2_API float lm2_sphere_diameter_f32(lm2_sphere_f32 sphere);
 // =============================================================================
 
 // Check if a point is inside a sphere
-LM2_API bool lm2_sphere_contains_point_f64(lm2_sphere_f64 sphere, lm2_v3f64 point);
-LM2_API bool lm2_sphere_contains_point_f32(lm2_sphere_f32 sphere, lm2_v3f32 point);
+LM2_API bool lm2_sphere_contains_point_f64(lm2_sphere_f64 sphere, lm2_v3_f64 point);
+LM2_API bool lm2_sphere_contains_point_f32(lm2_sphere_f32 sphere, lm2_v3_f32 point);
 
 // Check if two spheres overlap
 LM2_API bool lm2_spheres_overlap_f64(lm2_sphere_f64 a, lm2_sphere_f64 b);
@@ -102,8 +102,8 @@ LM2_API bool lm2_sphere_contains_sphere_f32(lm2_sphere_f32 a, lm2_sphere_f32 b);
 // =============================================================================
 
 // Translate a sphere by an offset
-LM2_API lm2_sphere_f64 lm2_sphere_translate_f64(lm2_sphere_f64 sphere, lm2_v3f64 offset);
-LM2_API lm2_sphere_f32 lm2_sphere_translate_f32(lm2_sphere_f32 sphere, lm2_v3f32 offset);
+LM2_API lm2_sphere_f64 lm2_sphere_translate_f64(lm2_sphere_f64 sphere, lm2_v3_f64 offset);
+LM2_API lm2_sphere_f32 lm2_sphere_translate_f32(lm2_sphere_f32 sphere, lm2_v3_f32 offset);
 
 // Scale a sphere's radius
 LM2_API lm2_sphere_f64 lm2_sphere_scale_f64(lm2_sphere_f64 sphere, double scale);
@@ -116,6 +116,6 @@ LM2_HEADER_END;
 // C++ operator overloads (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_geometry_operators.h"
-_LM2_DEFINE_SPHERE_OPERATORS(lm2_sphere_f64, f64, lm2_v3f64, double)
-_LM2_DEFINE_SPHERE_OPERATORS(lm2_sphere_f32, f32, lm2_v3f32, float)
+_LM2_DEFINE_SPHERE_OPERATORS(lm2_sphere_f64, f64, lm2_v3, double)
+_LM2_DEFINE_SPHERE_OPERATORS(lm2_sphere_f32, f32, lm2_v3, float)
 #endif

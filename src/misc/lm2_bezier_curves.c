@@ -31,175 +31,175 @@ SOFTWARE.
 // Linear Bezier - 2D (f64)
 // =============================================================================
 
-LM2_API lm2_v2f64 lm2_bezier_linear_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, double t) {
+LM2_API lm2_v2_f64 lm2_bezier_linear2_f64(lm2_v2_f64 p0, lm2_v2_f64 p1, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
-  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(p0, one_minus_t);
-  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(p1, t);
-  return lm2_add_lm2_v2f64(term0, term1);
+  lm2_v2_f64 term0 = lm2_v2_mul_s_f64(p0, one_minus_t);
+  lm2_v2_f64 term1 = lm2_v2_mul_s_f64(p1, t);
+  return lm2_v2_add_f64(term0, term1);
 }
 
 // =============================================================================
 // Linear Bezier - 2D (f32)
 // =============================================================================
 
-LM2_API lm2_v2f32 lm2_bezier_linear_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, float t) {
+LM2_API lm2_v2_f32 lm2_bezier_linear2_f32(lm2_v2_f32 p0, lm2_v2_f32 p1, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
-  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(p0, one_minus_t);
-  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(p1, t);
-  return lm2_add_lm2_v2f32(term0, term1);
+  lm2_v2_f32 term0 = lm2_v2_mul_s_f32(p0, one_minus_t);
+  lm2_v2_f32 term1 = lm2_v2_mul_s_f32(p1, t);
+  return lm2_v2_add_f32(term0, term1);
 }
 
 // =============================================================================
 // Linear Bezier - 3D (f64)
 // =============================================================================
 
-LM2_API lm2_v3f64 lm2_bezier_linear_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, double t) {
+LM2_API lm2_v3_f64 lm2_bezier_linear3_f64(lm2_v3_f64 p0, lm2_v3_f64 p1, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
-  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(p0, one_minus_t);
-  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(p1, t);
-  return lm2_add_lm2_v3f64(term0, term1);
+  lm2_v3_f64 term0 = lm2_v3_mul_s_f64(p0, one_minus_t);
+  lm2_v3_f64 term1 = lm2_v3_mul_s_f64(p1, t);
+  return lm2_v3_add_f64(term0, term1);
 }
 
 // =============================================================================
 // Linear Bezier - 3D (f32)
 // =============================================================================
 
-LM2_API lm2_v3f32 lm2_bezier_linear_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, float t) {
+LM2_API lm2_v3_f32 lm2_bezier_linear3_f32(lm2_v3_f32 p0, lm2_v3_f32 p1, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
-  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(p0, one_minus_t);
-  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(p1, t);
-  return lm2_add_lm2_v3f32(term0, term1);
+  lm2_v3_f32 term0 = lm2_v3_mul_s_f32(p0, one_minus_t);
+  lm2_v3_f32 term1 = lm2_v3_mul_s_f32(p1, t);
+  return lm2_v3_add_f32(term0, term1);
 }
 
 // =============================================================================
 // Linear Bezier - 4D (f64)
 // =============================================================================
 
-LM2_API lm2_v4f64 lm2_bezier_linear_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, double t) {
+LM2_API lm2_v4_f64 lm2_bezier_linear4_f64(lm2_v4_f64 p0, lm2_v4_f64 p1, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
-  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(p0, one_minus_t);
-  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(p1, t);
-  return lm2_add_lm2_v4f64(term0, term1);
+  lm2_v4_f64 term0 = lm2_v4_mul_s_f64(p0, one_minus_t);
+  lm2_v4_f64 term1 = lm2_v4_mul_s_f64(p1, t);
+  return lm2_v4_add_f64(term0, term1);
 }
 
 // =============================================================================
 // Linear Bezier - 4D (f32)
 // =============================================================================
 
-LM2_API lm2_v4f32 lm2_bezier_linear_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, float t) {
+LM2_API lm2_v4_f32 lm2_bezier_linear4_f32(lm2_v4_f32 p0, lm2_v4_f32 p1, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
-  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(p0, one_minus_t);
-  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(p1, t);
-  return lm2_add_lm2_v4f32(term0, term1);
+  lm2_v4_f32 term0 = lm2_v4_mul_s_f32(p0, one_minus_t);
+  lm2_v4_f32 term1 = lm2_v4_mul_s_f32(p1, t);
+  return lm2_v4_add_f32(term0, term1);
 }
 
 // =============================================================================
 // Quadratic Bezier - 2D (f64)
 // =============================================================================
 
-LM2_API lm2_v2f64 lm2_bezier_quadratic_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, lm2_v2f64 p2, double t) {
+LM2_API lm2_v2_f64 lm2_bezier_quadratic2_f64(lm2_v2_f64 p0, lm2_v2_f64 p1, lm2_v2_f64 p2, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double one_minus_t_sq = lm2_mul_f64(one_minus_t, one_minus_t);
   double t_sq = lm2_mul_f64(t, t);
   double two_one_minus_t_t = lm2_mul_f64(2.0, lm2_mul_f64(one_minus_t, t));
 
-  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(p0, one_minus_t_sq);
-  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(p1, two_one_minus_t_t);
-  lm2_v2f64 term2 = lm2_mul_lm2_v2f64_double(p2, t_sq);
+  lm2_v2_f64 term0 = lm2_v2_mul_s_f64(p0, one_minus_t_sq);
+  lm2_v2_f64 term1 = lm2_v2_mul_s_f64(p1, two_one_minus_t_t);
+  lm2_v2_f64 term2 = lm2_v2_mul_s_f64(p2, t_sq);
 
-  return lm2_add_lm2_v2f64(lm2_add_lm2_v2f64(term0, term1), term2);
+  return lm2_v2_add_f64(lm2_v2_add_f64(term0, term1), term2);
 }
 
 // =============================================================================
 // Quadratic Bezier - 2D (f32)
 // =============================================================================
 
-LM2_API lm2_v2f32 lm2_bezier_quadratic_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, lm2_v2f32 p2, float t) {
+LM2_API lm2_v2_f32 lm2_bezier_quadratic2_f32(lm2_v2_f32 p0, lm2_v2_f32 p1, lm2_v2_f32 p2, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float one_minus_t_sq = lm2_mul_f32(one_minus_t, one_minus_t);
   float t_sq = lm2_mul_f32(t, t);
   float two_one_minus_t_t = lm2_mul_f32(2.0f, lm2_mul_f32(one_minus_t, t));
 
-  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(p0, one_minus_t_sq);
-  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(p1, two_one_minus_t_t);
-  lm2_v2f32 term2 = lm2_mul_lm2_v2f32_float(p2, t_sq);
+  lm2_v2_f32 term0 = lm2_v2_mul_s_f32(p0, one_minus_t_sq);
+  lm2_v2_f32 term1 = lm2_v2_mul_s_f32(p1, two_one_minus_t_t);
+  lm2_v2_f32 term2 = lm2_v2_mul_s_f32(p2, t_sq);
 
-  return lm2_add_lm2_v2f32(lm2_add_lm2_v2f32(term0, term1), term2);
+  return lm2_v2_add_f32(lm2_v2_add_f32(term0, term1), term2);
 }
 
 // =============================================================================
 // Quadratic Bezier - 3D (f64)
 // =============================================================================
 
-LM2_API lm2_v3f64 lm2_bezier_quadratic_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, lm2_v3f64 p2, double t) {
+LM2_API lm2_v3_f64 lm2_bezier_quadratic3_f64(lm2_v3_f64 p0, lm2_v3_f64 p1, lm2_v3_f64 p2, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double one_minus_t_sq = lm2_mul_f64(one_minus_t, one_minus_t);
   double t_sq = lm2_mul_f64(t, t);
   double two_one_minus_t_t = lm2_mul_f64(2.0, lm2_mul_f64(one_minus_t, t));
 
-  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(p0, one_minus_t_sq);
-  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(p1, two_one_minus_t_t);
-  lm2_v3f64 term2 = lm2_mul_lm2_v3f64_double(p2, t_sq);
+  lm2_v3_f64 term0 = lm2_v3_mul_s_f64(p0, one_minus_t_sq);
+  lm2_v3_f64 term1 = lm2_v3_mul_s_f64(p1, two_one_minus_t_t);
+  lm2_v3_f64 term2 = lm2_v3_mul_s_f64(p2, t_sq);
 
-  return lm2_add_lm2_v3f64(lm2_add_lm2_v3f64(term0, term1), term2);
+  return lm2_v3_add_f64(lm2_v3_add_f64(term0, term1), term2);
 }
 
 // =============================================================================
 // Quadratic Bezier - 3D (f32)
 // =============================================================================
 
-LM2_API lm2_v3f32 lm2_bezier_quadratic_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, lm2_v3f32 p2, float t) {
+LM2_API lm2_v3_f32 lm2_bezier_quadratic3_f32(lm2_v3_f32 p0, lm2_v3_f32 p1, lm2_v3_f32 p2, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float one_minus_t_sq = lm2_mul_f32(one_minus_t, one_minus_t);
   float t_sq = lm2_mul_f32(t, t);
   float two_one_minus_t_t = lm2_mul_f32(2.0f, lm2_mul_f32(one_minus_t, t));
 
-  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(p0, one_minus_t_sq);
-  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(p1, two_one_minus_t_t);
-  lm2_v3f32 term2 = lm2_mul_lm2_v3f32_float(p2, t_sq);
+  lm2_v3_f32 term0 = lm2_v3_mul_s_f32(p0, one_minus_t_sq);
+  lm2_v3_f32 term1 = lm2_v3_mul_s_f32(p1, two_one_minus_t_t);
+  lm2_v3_f32 term2 = lm2_v3_mul_s_f32(p2, t_sq);
 
-  return lm2_add_lm2_v3f32(lm2_add_lm2_v3f32(term0, term1), term2);
+  return lm2_v3_add_f32(lm2_v3_add_f32(term0, term1), term2);
 }
 
 // =============================================================================
 // Quadratic Bezier - 4D (f64)
 // =============================================================================
 
-LM2_API lm2_v4f64 lm2_bezier_quadratic_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, lm2_v4f64 p2, double t) {
+LM2_API lm2_v4_f64 lm2_bezier_quadratic4_f64(lm2_v4_f64 p0, lm2_v4_f64 p1, lm2_v4_f64 p2, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double one_minus_t_sq = lm2_mul_f64(one_minus_t, one_minus_t);
   double t_sq = lm2_mul_f64(t, t);
   double two_one_minus_t_t = lm2_mul_f64(2.0, lm2_mul_f64(one_minus_t, t));
 
-  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(p0, one_minus_t_sq);
-  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(p1, two_one_minus_t_t);
-  lm2_v4f64 term2 = lm2_mul_lm2_v4f64_double(p2, t_sq);
+  lm2_v4_f64 term0 = lm2_v4_mul_s_f64(p0, one_minus_t_sq);
+  lm2_v4_f64 term1 = lm2_v4_mul_s_f64(p1, two_one_minus_t_t);
+  lm2_v4_f64 term2 = lm2_v4_mul_s_f64(p2, t_sq);
 
-  return lm2_add_lm2_v4f64(lm2_add_lm2_v4f64(term0, term1), term2);
+  return lm2_v4_add_f64(lm2_v4_add_f64(term0, term1), term2);
 }
 
 // =============================================================================
 // Quadratic Bezier - 4D (f32)
 // =============================================================================
 
-LM2_API lm2_v4f32 lm2_bezier_quadratic_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, lm2_v4f32 p2, float t) {
+LM2_API lm2_v4_f32 lm2_bezier_quadratic4_f32(lm2_v4_f32 p0, lm2_v4_f32 p1, lm2_v4_f32 p2, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float one_minus_t_sq = lm2_mul_f32(one_minus_t, one_minus_t);
   float t_sq = lm2_mul_f32(t, t);
   float two_one_minus_t_t = lm2_mul_f32(2.0f, lm2_mul_f32(one_minus_t, t));
 
-  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(p0, one_minus_t_sq);
-  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(p1, two_one_minus_t_t);
-  lm2_v4f32 term2 = lm2_mul_lm2_v4f32_float(p2, t_sq);
+  lm2_v4_f32 term0 = lm2_v4_mul_s_f32(p0, one_minus_t_sq);
+  lm2_v4_f32 term1 = lm2_v4_mul_s_f32(p1, two_one_minus_t_t);
+  lm2_v4_f32 term2 = lm2_v4_mul_s_f32(p2, t_sq);
 
-  return lm2_add_lm2_v4f32(lm2_add_lm2_v4f32(term0, term1), term2);
+  return lm2_v4_add_f32(lm2_v4_add_f32(term0, term1), term2);
 }
 
 // =============================================================================
 // Cubic Bezier - 2D (f64)
 // =============================================================================
 
-LM2_API lm2_v2f64 lm2_bezier_cubic_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, lm2_v2f64 p2, lm2_v2f64 p3, double t) {
+LM2_API lm2_v2_f64 lm2_bezier_cubic2_f64(lm2_v2_f64 p0, lm2_v2_f64 p1, lm2_v2_f64 p2, lm2_v2_f64 p3, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double one_minus_t_sq = lm2_mul_f64(one_minus_t, one_minus_t);
   double one_minus_t_cu = lm2_mul_f64(one_minus_t_sq, one_minus_t);
@@ -211,19 +211,19 @@ LM2_API lm2_v2f64 lm2_bezier_cubic_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, lm2_v2f64 p
   double coef2 = lm2_mul_f64(3.0, lm2_mul_f64(one_minus_t, t_sq));
   double coef3 = t_cu;
 
-  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(p0, coef0);
-  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(p1, coef1);
-  lm2_v2f64 term2 = lm2_mul_lm2_v2f64_double(p2, coef2);
-  lm2_v2f64 term3 = lm2_mul_lm2_v2f64_double(p3, coef3);
+  lm2_v2_f64 term0 = lm2_v2_mul_s_f64(p0, coef0);
+  lm2_v2_f64 term1 = lm2_v2_mul_s_f64(p1, coef1);
+  lm2_v2_f64 term2 = lm2_v2_mul_s_f64(p2, coef2);
+  lm2_v2_f64 term3 = lm2_v2_mul_s_f64(p3, coef3);
 
-  return lm2_add_lm2_v2f64(lm2_add_lm2_v2f64(term0, term1), lm2_add_lm2_v2f64(term2, term3));
+  return lm2_v2_add_f64(lm2_v2_add_f64(term0, term1), lm2_v2_add_f64(term2, term3));
 }
 
 // =============================================================================
 // Cubic Bezier - 2D (f32)
 // =============================================================================
 
-LM2_API lm2_v2f32 lm2_bezier_cubic_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, lm2_v2f32 p2, lm2_v2f32 p3, float t) {
+LM2_API lm2_v2_f32 lm2_bezier_cubic2_f32(lm2_v2_f32 p0, lm2_v2_f32 p1, lm2_v2_f32 p2, lm2_v2_f32 p3, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float one_minus_t_sq = lm2_mul_f32(one_minus_t, one_minus_t);
   float one_minus_t_cu = lm2_mul_f32(one_minus_t_sq, one_minus_t);
@@ -235,19 +235,19 @@ LM2_API lm2_v2f32 lm2_bezier_cubic_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, lm2_v2f32 p
   float coef2 = lm2_mul_f32(3.0f, lm2_mul_f32(one_minus_t, t_sq));
   float coef3 = t_cu;
 
-  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(p0, coef0);
-  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(p1, coef1);
-  lm2_v2f32 term2 = lm2_mul_lm2_v2f32_float(p2, coef2);
-  lm2_v2f32 term3 = lm2_mul_lm2_v2f32_float(p3, coef3);
+  lm2_v2_f32 term0 = lm2_v2_mul_s_f32(p0, coef0);
+  lm2_v2_f32 term1 = lm2_v2_mul_s_f32(p1, coef1);
+  lm2_v2_f32 term2 = lm2_v2_mul_s_f32(p2, coef2);
+  lm2_v2_f32 term3 = lm2_v2_mul_s_f32(p3, coef3);
 
-  return lm2_add_lm2_v2f32(lm2_add_lm2_v2f32(term0, term1), lm2_add_lm2_v2f32(term2, term3));
+  return lm2_v2_add_f32(lm2_v2_add_f32(term0, term1), lm2_v2_add_f32(term2, term3));
 }
 
 // =============================================================================
 // Cubic Bezier - 3D (f64)
 // =============================================================================
 
-LM2_API lm2_v3f64 lm2_bezier_cubic_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, lm2_v3f64 p2, lm2_v3f64 p3, double t) {
+LM2_API lm2_v3_f64 lm2_bezier_cubic3_f64(lm2_v3_f64 p0, lm2_v3_f64 p1, lm2_v3_f64 p2, lm2_v3_f64 p3, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double one_minus_t_sq = lm2_mul_f64(one_minus_t, one_minus_t);
   double one_minus_t_cu = lm2_mul_f64(one_minus_t_sq, one_minus_t);
@@ -259,19 +259,19 @@ LM2_API lm2_v3f64 lm2_bezier_cubic_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, lm2_v3f64 p
   double coef2 = lm2_mul_f64(3.0, lm2_mul_f64(one_minus_t, t_sq));
   double coef3 = t_cu;
 
-  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(p0, coef0);
-  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(p1, coef1);
-  lm2_v3f64 term2 = lm2_mul_lm2_v3f64_double(p2, coef2);
-  lm2_v3f64 term3 = lm2_mul_lm2_v3f64_double(p3, coef3);
+  lm2_v3_f64 term0 = lm2_v3_mul_s_f64(p0, coef0);
+  lm2_v3_f64 term1 = lm2_v3_mul_s_f64(p1, coef1);
+  lm2_v3_f64 term2 = lm2_v3_mul_s_f64(p2, coef2);
+  lm2_v3_f64 term3 = lm2_v3_mul_s_f64(p3, coef3);
 
-  return lm2_add_lm2_v3f64(lm2_add_lm2_v3f64(term0, term1), lm2_add_lm2_v3f64(term2, term3));
+  return lm2_v3_add_f64(lm2_v3_add_f64(term0, term1), lm2_v3_add_f64(term2, term3));
 }
 
 // =============================================================================
 // Cubic Bezier - 3D (f32)
 // =============================================================================
 
-LM2_API lm2_v3f32 lm2_bezier_cubic_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, lm2_v3f32 p2, lm2_v3f32 p3, float t) {
+LM2_API lm2_v3_f32 lm2_bezier_cubic3_f32(lm2_v3_f32 p0, lm2_v3_f32 p1, lm2_v3_f32 p2, lm2_v3_f32 p3, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float one_minus_t_sq = lm2_mul_f32(one_minus_t, one_minus_t);
   float one_minus_t_cu = lm2_mul_f32(one_minus_t_sq, one_minus_t);
@@ -283,19 +283,19 @@ LM2_API lm2_v3f32 lm2_bezier_cubic_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, lm2_v3f32 p
   float coef2 = lm2_mul_f32(3.0f, lm2_mul_f32(one_minus_t, t_sq));
   float coef3 = t_cu;
 
-  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(p0, coef0);
-  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(p1, coef1);
-  lm2_v3f32 term2 = lm2_mul_lm2_v3f32_float(p2, coef2);
-  lm2_v3f32 term3 = lm2_mul_lm2_v3f32_float(p3, coef3);
+  lm2_v3_f32 term0 = lm2_v3_mul_s_f32(p0, coef0);
+  lm2_v3_f32 term1 = lm2_v3_mul_s_f32(p1, coef1);
+  lm2_v3_f32 term2 = lm2_v3_mul_s_f32(p2, coef2);
+  lm2_v3_f32 term3 = lm2_v3_mul_s_f32(p3, coef3);
 
-  return lm2_add_lm2_v3f32(lm2_add_lm2_v3f32(term0, term1), lm2_add_lm2_v3f32(term2, term3));
+  return lm2_v3_add_f32(lm2_v3_add_f32(term0, term1), lm2_v3_add_f32(term2, term3));
 }
 
 // =============================================================================
 // Cubic Bezier - 4D (f64)
 // =============================================================================
 
-LM2_API lm2_v4f64 lm2_bezier_cubic_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, lm2_v4f64 p2, lm2_v4f64 p3, double t) {
+LM2_API lm2_v4_f64 lm2_bezier_cubic4_f64(lm2_v4_f64 p0, lm2_v4_f64 p1, lm2_v4_f64 p2, lm2_v4_f64 p3, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double one_minus_t_sq = lm2_mul_f64(one_minus_t, one_minus_t);
   double one_minus_t_cu = lm2_mul_f64(one_minus_t_sq, one_minus_t);
@@ -307,19 +307,19 @@ LM2_API lm2_v4f64 lm2_bezier_cubic_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, lm2_v4f64 p
   double coef2 = lm2_mul_f64(3.0, lm2_mul_f64(one_minus_t, t_sq));
   double coef3 = t_cu;
 
-  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(p0, coef0);
-  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(p1, coef1);
-  lm2_v4f64 term2 = lm2_mul_lm2_v4f64_double(p2, coef2);
-  lm2_v4f64 term3 = lm2_mul_lm2_v4f64_double(p3, coef3);
+  lm2_v4_f64 term0 = lm2_v4_mul_s_f64(p0, coef0);
+  lm2_v4_f64 term1 = lm2_v4_mul_s_f64(p1, coef1);
+  lm2_v4_f64 term2 = lm2_v4_mul_s_f64(p2, coef2);
+  lm2_v4_f64 term3 = lm2_v4_mul_s_f64(p3, coef3);
 
-  return lm2_add_lm2_v4f64(lm2_add_lm2_v4f64(term0, term1), lm2_add_lm2_v4f64(term2, term3));
+  return lm2_v4_add_f64(lm2_v4_add_f64(term0, term1), lm2_v4_add_f64(term2, term3));
 }
 
 // =============================================================================
 // Cubic Bezier - 4D (f32)
 // =============================================================================
 
-LM2_API lm2_v4f32 lm2_bezier_cubic_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, lm2_v4f32 p2, lm2_v4f32 p3, float t) {
+LM2_API lm2_v4_f32 lm2_bezier_cubic4_f32(lm2_v4_f32 p0, lm2_v4_f32 p1, lm2_v4_f32 p2, lm2_v4_f32 p3, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float one_minus_t_sq = lm2_mul_f32(one_minus_t, one_minus_t);
   float one_minus_t_cu = lm2_mul_f32(one_minus_t_sq, one_minus_t);
@@ -331,127 +331,127 @@ LM2_API lm2_v4f32 lm2_bezier_cubic_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, lm2_v4f32 p
   float coef2 = lm2_mul_f32(3.0f, lm2_mul_f32(one_minus_t, t_sq));
   float coef3 = t_cu;
 
-  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(p0, coef0);
-  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(p1, coef1);
-  lm2_v4f32 term2 = lm2_mul_lm2_v4f32_float(p2, coef2);
-  lm2_v4f32 term3 = lm2_mul_lm2_v4f32_float(p3, coef3);
+  lm2_v4_f32 term0 = lm2_v4_mul_s_f32(p0, coef0);
+  lm2_v4_f32 term1 = lm2_v4_mul_s_f32(p1, coef1);
+  lm2_v4_f32 term2 = lm2_v4_mul_s_f32(p2, coef2);
+  lm2_v4_f32 term3 = lm2_v4_mul_s_f32(p3, coef3);
 
-  return lm2_add_lm2_v4f32(lm2_add_lm2_v4f32(term0, term1), lm2_add_lm2_v4f32(term2, term3));
+  return lm2_v4_add_f32(lm2_v4_add_f32(term0, term1), lm2_v4_add_f32(term2, term3));
 }
 
 // =============================================================================
 // Quadratic Bezier Derivative - 2D (f64)
 // =============================================================================
 
-LM2_API lm2_v2f64 lm2_bezier_quadratic_derivative_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, lm2_v2f64 p2, double t) {
+LM2_API lm2_v2_f64 lm2_bezier_quadratic_derivative2_f64(lm2_v2_f64 p0, lm2_v2_f64 p1, lm2_v2_f64 p2, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double two_one_minus_t = lm2_mul_f64(2.0, one_minus_t);
   double two_t = lm2_mul_f64(2.0, t);
 
-  lm2_v2f64 diff01 = lm2_sub_lm2_v2f64(p1, p0);
-  lm2_v2f64 diff12 = lm2_sub_lm2_v2f64(p2, p1);
+  lm2_v2_f64 diff01 = lm2_v2_sub_f64(p1, p0);
+  lm2_v2_f64 diff12 = lm2_v2_sub_f64(p2, p1);
 
-  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(diff01, two_one_minus_t);
-  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(diff12, two_t);
+  lm2_v2_f64 term0 = lm2_v2_mul_s_f64(diff01, two_one_minus_t);
+  lm2_v2_f64 term1 = lm2_v2_mul_s_f64(diff12, two_t);
 
-  return lm2_add_lm2_v2f64(term0, term1);
+  return lm2_v2_add_f64(term0, term1);
 }
 
 // =============================================================================
 // Quadratic Bezier Derivative - 2D (f32)
 // =============================================================================
 
-LM2_API lm2_v2f32 lm2_bezier_quadratic_derivative_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, lm2_v2f32 p2, float t) {
+LM2_API lm2_v2_f32 lm2_bezier_quadratic_derivative2_f32(lm2_v2_f32 p0, lm2_v2_f32 p1, lm2_v2_f32 p2, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float two_one_minus_t = lm2_mul_f32(2.0f, one_minus_t);
   float two_t = lm2_mul_f32(2.0f, t);
 
-  lm2_v2f32 diff01 = lm2_sub_lm2_v2f32(p1, p0);
-  lm2_v2f32 diff12 = lm2_sub_lm2_v2f32(p2, p1);
+  lm2_v2_f32 diff01 = lm2_v2_sub_f32(p1, p0);
+  lm2_v2_f32 diff12 = lm2_v2_sub_f32(p2, p1);
 
-  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(diff01, two_one_minus_t);
-  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(diff12, two_t);
+  lm2_v2_f32 term0 = lm2_v2_mul_s_f32(diff01, two_one_minus_t);
+  lm2_v2_f32 term1 = lm2_v2_mul_s_f32(diff12, two_t);
 
-  return lm2_add_lm2_v2f32(term0, term1);
+  return lm2_v2_add_f32(term0, term1);
 }
 
 // =============================================================================
 // Quadratic Bezier Derivative - 3D (f64)
 // =============================================================================
 
-LM2_API lm2_v3f64 lm2_bezier_quadratic_derivative_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, lm2_v3f64 p2, double t) {
+LM2_API lm2_v3_f64 lm2_bezier_quadratic_derivative3_f64(lm2_v3_f64 p0, lm2_v3_f64 p1, lm2_v3_f64 p2, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double two_one_minus_t = lm2_mul_f64(2.0, one_minus_t);
   double two_t = lm2_mul_f64(2.0, t);
 
-  lm2_v3f64 diff01 = lm2_sub_lm2_v3f64(p1, p0);
-  lm2_v3f64 diff12 = lm2_sub_lm2_v3f64(p2, p1);
+  lm2_v3_f64 diff01 = lm2_v3_sub_f64(p1, p0);
+  lm2_v3_f64 diff12 = lm2_v3_sub_f64(p2, p1);
 
-  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(diff01, two_one_minus_t);
-  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(diff12, two_t);
+  lm2_v3_f64 term0 = lm2_v3_mul_s_f64(diff01, two_one_minus_t);
+  lm2_v3_f64 term1 = lm2_v3_mul_s_f64(diff12, two_t);
 
-  return lm2_add_lm2_v3f64(term0, term1);
+  return lm2_v3_add_f64(term0, term1);
 }
 
 // =============================================================================
 // Quadratic Bezier Derivative - 3D (f32)
 // =============================================================================
 
-LM2_API lm2_v3f32 lm2_bezier_quadratic_derivative_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, lm2_v3f32 p2, float t) {
+LM2_API lm2_v3_f32 lm2_bezier_quadratic_derivative3_f32(lm2_v3_f32 p0, lm2_v3_f32 p1, lm2_v3_f32 p2, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float two_one_minus_t = lm2_mul_f32(2.0f, one_minus_t);
   float two_t = lm2_mul_f32(2.0f, t);
 
-  lm2_v3f32 diff01 = lm2_sub_lm2_v3f32(p1, p0);
-  lm2_v3f32 diff12 = lm2_sub_lm2_v3f32(p2, p1);
+  lm2_v3_f32 diff01 = lm2_v3_sub_f32(p1, p0);
+  lm2_v3_f32 diff12 = lm2_v3_sub_f32(p2, p1);
 
-  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(diff01, two_one_minus_t);
-  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(diff12, two_t);
+  lm2_v3_f32 term0 = lm2_v3_mul_s_f32(diff01, two_one_minus_t);
+  lm2_v3_f32 term1 = lm2_v3_mul_s_f32(diff12, two_t);
 
-  return lm2_add_lm2_v3f32(term0, term1);
+  return lm2_v3_add_f32(term0, term1);
 }
 
 // =============================================================================
 // Quadratic Bezier Derivative - 4D (f64)
 // =============================================================================
 
-LM2_API lm2_v4f64 lm2_bezier_quadratic_derivative_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, lm2_v4f64 p2, double t) {
+LM2_API lm2_v4_f64 lm2_bezier_quadratic_derivative4_f64(lm2_v4_f64 p0, lm2_v4_f64 p1, lm2_v4_f64 p2, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double two_one_minus_t = lm2_mul_f64(2.0, one_minus_t);
   double two_t = lm2_mul_f64(2.0, t);
 
-  lm2_v4f64 diff01 = lm2_sub_lm2_v4f64(p1, p0);
-  lm2_v4f64 diff12 = lm2_sub_lm2_v4f64(p2, p1);
+  lm2_v4_f64 diff01 = lm2_v4_sub_f64(p1, p0);
+  lm2_v4_f64 diff12 = lm2_v4_sub_f64(p2, p1);
 
-  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(diff01, two_one_minus_t);
-  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(diff12, two_t);
+  lm2_v4_f64 term0 = lm2_v4_mul_s_f64(diff01, two_one_minus_t);
+  lm2_v4_f64 term1 = lm2_v4_mul_s_f64(diff12, two_t);
 
-  return lm2_add_lm2_v4f64(term0, term1);
+  return lm2_v4_add_f64(term0, term1);
 }
 
 // =============================================================================
 // Quadratic Bezier Derivative - 4D (f32)
 // =============================================================================
 
-LM2_API lm2_v4f32 lm2_bezier_quadratic_derivative_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, lm2_v4f32 p2, float t) {
+LM2_API lm2_v4_f32 lm2_bezier_quadratic_derivative4_f32(lm2_v4_f32 p0, lm2_v4_f32 p1, lm2_v4_f32 p2, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float two_one_minus_t = lm2_mul_f32(2.0f, one_minus_t);
   float two_t = lm2_mul_f32(2.0f, t);
 
-  lm2_v4f32 diff01 = lm2_sub_lm2_v4f32(p1, p0);
-  lm2_v4f32 diff12 = lm2_sub_lm2_v4f32(p2, p1);
+  lm2_v4_f32 diff01 = lm2_v4_sub_f32(p1, p0);
+  lm2_v4_f32 diff12 = lm2_v4_sub_f32(p2, p1);
 
-  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(diff01, two_one_minus_t);
-  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(diff12, two_t);
+  lm2_v4_f32 term0 = lm2_v4_mul_s_f32(diff01, two_one_minus_t);
+  lm2_v4_f32 term1 = lm2_v4_mul_s_f32(diff12, two_t);
 
-  return lm2_add_lm2_v4f32(term0, term1);
+  return lm2_v4_add_f32(term0, term1);
 }
 
 // =============================================================================
 // Cubic Bezier Derivative - 2D (f64)
 // =============================================================================
 
-LM2_API lm2_v2f64 lm2_bezier_cubic_derivative_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, lm2_v2f64 p2, lm2_v2f64 p3, double t) {
+LM2_API lm2_v2_f64 lm2_bezier_cubic_derivative2_f64(lm2_v2_f64 p0, lm2_v2_f64 p1, lm2_v2_f64 p2, lm2_v2_f64 p3, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double one_minus_t_sq = lm2_mul_f64(one_minus_t, one_minus_t);
   double t_sq = lm2_mul_f64(t, t);
@@ -460,22 +460,22 @@ LM2_API lm2_v2f64 lm2_bezier_cubic_derivative_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, 
   double coef1 = lm2_mul_f64(6.0, lm2_mul_f64(one_minus_t, t));
   double coef2 = lm2_mul_f64(3.0, t_sq);
 
-  lm2_v2f64 diff01 = lm2_sub_lm2_v2f64(p1, p0);
-  lm2_v2f64 diff12 = lm2_sub_lm2_v2f64(p2, p1);
-  lm2_v2f64 diff23 = lm2_sub_lm2_v2f64(p3, p2);
+  lm2_v2_f64 diff01 = lm2_v2_sub_f64(p1, p0);
+  lm2_v2_f64 diff12 = lm2_v2_sub_f64(p2, p1);
+  lm2_v2_f64 diff23 = lm2_v2_sub_f64(p3, p2);
 
-  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(diff01, coef0);
-  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(diff12, coef1);
-  lm2_v2f64 term2 = lm2_mul_lm2_v2f64_double(diff23, coef2);
+  lm2_v2_f64 term0 = lm2_v2_mul_s_f64(diff01, coef0);
+  lm2_v2_f64 term1 = lm2_v2_mul_s_f64(diff12, coef1);
+  lm2_v2_f64 term2 = lm2_v2_mul_s_f64(diff23, coef2);
 
-  return lm2_add_lm2_v2f64(lm2_add_lm2_v2f64(term0, term1), term2);
+  return lm2_v2_add_f64(lm2_v2_add_f64(term0, term1), term2);
 }
 
 // =============================================================================
 // Cubic Bezier Derivative - 2D (f32)
 // =============================================================================
 
-LM2_API lm2_v2f32 lm2_bezier_cubic_derivative_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, lm2_v2f32 p2, lm2_v2f32 p3, float t) {
+LM2_API lm2_v2_f32 lm2_bezier_cubic_derivative2_f32(lm2_v2_f32 p0, lm2_v2_f32 p1, lm2_v2_f32 p2, lm2_v2_f32 p3, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float one_minus_t_sq = lm2_mul_f32(one_minus_t, one_minus_t);
   float t_sq = lm2_mul_f32(t, t);
@@ -484,22 +484,22 @@ LM2_API lm2_v2f32 lm2_bezier_cubic_derivative_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, 
   float coef1 = lm2_mul_f32(6.0f, lm2_mul_f32(one_minus_t, t));
   float coef2 = lm2_mul_f32(3.0f, t_sq);
 
-  lm2_v2f32 diff01 = lm2_sub_lm2_v2f32(p1, p0);
-  lm2_v2f32 diff12 = lm2_sub_lm2_v2f32(p2, p1);
-  lm2_v2f32 diff23 = lm2_sub_lm2_v2f32(p3, p2);
+  lm2_v2_f32 diff01 = lm2_v2_sub_f32(p1, p0);
+  lm2_v2_f32 diff12 = lm2_v2_sub_f32(p2, p1);
+  lm2_v2_f32 diff23 = lm2_v2_sub_f32(p3, p2);
 
-  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(diff01, coef0);
-  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(diff12, coef1);
-  lm2_v2f32 term2 = lm2_mul_lm2_v2f32_float(diff23, coef2);
+  lm2_v2_f32 term0 = lm2_v2_mul_s_f32(diff01, coef0);
+  lm2_v2_f32 term1 = lm2_v2_mul_s_f32(diff12, coef1);
+  lm2_v2_f32 term2 = lm2_v2_mul_s_f32(diff23, coef2);
 
-  return lm2_add_lm2_v2f32(lm2_add_lm2_v2f32(term0, term1), term2);
+  return lm2_v2_add_f32(lm2_v2_add_f32(term0, term1), term2);
 }
 
 // =============================================================================
 // Cubic Bezier Derivative - 3D (f64)
 // =============================================================================
 
-LM2_API lm2_v3f64 lm2_bezier_cubic_derivative_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, lm2_v3f64 p2, lm2_v3f64 p3, double t) {
+LM2_API lm2_v3_f64 lm2_bezier_cubic_derivative3_f64(lm2_v3_f64 p0, lm2_v3_f64 p1, lm2_v3_f64 p2, lm2_v3_f64 p3, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double one_minus_t_sq = lm2_mul_f64(one_minus_t, one_minus_t);
   double t_sq = lm2_mul_f64(t, t);
@@ -508,22 +508,22 @@ LM2_API lm2_v3f64 lm2_bezier_cubic_derivative_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, 
   double coef1 = lm2_mul_f64(6.0, lm2_mul_f64(one_minus_t, t));
   double coef2 = lm2_mul_f64(3.0, t_sq);
 
-  lm2_v3f64 diff01 = lm2_sub_lm2_v3f64(p1, p0);
-  lm2_v3f64 diff12 = lm2_sub_lm2_v3f64(p2, p1);
-  lm2_v3f64 diff23 = lm2_sub_lm2_v3f64(p3, p2);
+  lm2_v3_f64 diff01 = lm2_v3_sub_f64(p1, p0);
+  lm2_v3_f64 diff12 = lm2_v3_sub_f64(p2, p1);
+  lm2_v3_f64 diff23 = lm2_v3_sub_f64(p3, p2);
 
-  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(diff01, coef0);
-  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(diff12, coef1);
-  lm2_v3f64 term2 = lm2_mul_lm2_v3f64_double(diff23, coef2);
+  lm2_v3_f64 term0 = lm2_v3_mul_s_f64(diff01, coef0);
+  lm2_v3_f64 term1 = lm2_v3_mul_s_f64(diff12, coef1);
+  lm2_v3_f64 term2 = lm2_v3_mul_s_f64(diff23, coef2);
 
-  return lm2_add_lm2_v3f64(lm2_add_lm2_v3f64(term0, term1), term2);
+  return lm2_v3_add_f64(lm2_v3_add_f64(term0, term1), term2);
 }
 
 // =============================================================================
 // Cubic Bezier Derivative - 3D (f32)
 // =============================================================================
 
-LM2_API lm2_v3f32 lm2_bezier_cubic_derivative_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, lm2_v3f32 p2, lm2_v3f32 p3, float t) {
+LM2_API lm2_v3_f32 lm2_bezier_cubic_derivative3_f32(lm2_v3_f32 p0, lm2_v3_f32 p1, lm2_v3_f32 p2, lm2_v3_f32 p3, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float one_minus_t_sq = lm2_mul_f32(one_minus_t, one_minus_t);
   float t_sq = lm2_mul_f32(t, t);
@@ -532,22 +532,22 @@ LM2_API lm2_v3f32 lm2_bezier_cubic_derivative_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, 
   float coef1 = lm2_mul_f32(6.0f, lm2_mul_f32(one_minus_t, t));
   float coef2 = lm2_mul_f32(3.0f, t_sq);
 
-  lm2_v3f32 diff01 = lm2_sub_lm2_v3f32(p1, p0);
-  lm2_v3f32 diff12 = lm2_sub_lm2_v3f32(p2, p1);
-  lm2_v3f32 diff23 = lm2_sub_lm2_v3f32(p3, p2);
+  lm2_v3_f32 diff01 = lm2_v3_sub_f32(p1, p0);
+  lm2_v3_f32 diff12 = lm2_v3_sub_f32(p2, p1);
+  lm2_v3_f32 diff23 = lm2_v3_sub_f32(p3, p2);
 
-  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(diff01, coef0);
-  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(diff12, coef1);
-  lm2_v3f32 term2 = lm2_mul_lm2_v3f32_float(diff23, coef2);
+  lm2_v3_f32 term0 = lm2_v3_mul_s_f32(diff01, coef0);
+  lm2_v3_f32 term1 = lm2_v3_mul_s_f32(diff12, coef1);
+  lm2_v3_f32 term2 = lm2_v3_mul_s_f32(diff23, coef2);
 
-  return lm2_add_lm2_v3f32(lm2_add_lm2_v3f32(term0, term1), term2);
+  return lm2_v3_add_f32(lm2_v3_add_f32(term0, term1), term2);
 }
 
 // =============================================================================
 // Cubic Bezier Derivative - 4D (f64)
 // =============================================================================
 
-LM2_API lm2_v4f64 lm2_bezier_cubic_derivative_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, lm2_v4f64 p2, lm2_v4f64 p3, double t) {
+LM2_API lm2_v4_f64 lm2_bezier_cubic_derivative4_f64(lm2_v4_f64 p0, lm2_v4_f64 p1, lm2_v4_f64 p2, lm2_v4_f64 p3, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double one_minus_t_sq = lm2_mul_f64(one_minus_t, one_minus_t);
   double t_sq = lm2_mul_f64(t, t);
@@ -556,22 +556,22 @@ LM2_API lm2_v4f64 lm2_bezier_cubic_derivative_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, 
   double coef1 = lm2_mul_f64(6.0, lm2_mul_f64(one_minus_t, t));
   double coef2 = lm2_mul_f64(3.0, t_sq);
 
-  lm2_v4f64 diff01 = lm2_sub_lm2_v4f64(p1, p0);
-  lm2_v4f64 diff12 = lm2_sub_lm2_v4f64(p2, p1);
-  lm2_v4f64 diff23 = lm2_sub_lm2_v4f64(p3, p2);
+  lm2_v4_f64 diff01 = lm2_v4_sub_f64(p1, p0);
+  lm2_v4_f64 diff12 = lm2_v4_sub_f64(p2, p1);
+  lm2_v4_f64 diff23 = lm2_v4_sub_f64(p3, p2);
 
-  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(diff01, coef0);
-  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(diff12, coef1);
-  lm2_v4f64 term2 = lm2_mul_lm2_v4f64_double(diff23, coef2);
+  lm2_v4_f64 term0 = lm2_v4_mul_s_f64(diff01, coef0);
+  lm2_v4_f64 term1 = lm2_v4_mul_s_f64(diff12, coef1);
+  lm2_v4_f64 term2 = lm2_v4_mul_s_f64(diff23, coef2);
 
-  return lm2_add_lm2_v4f64(lm2_add_lm2_v4f64(term0, term1), term2);
+  return lm2_v4_add_f64(lm2_v4_add_f64(term0, term1), term2);
 }
 
 // =============================================================================
 // Cubic Bezier Derivative - 4D (f32)
 // =============================================================================
 
-LM2_API lm2_v4f32 lm2_bezier_cubic_derivative_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, lm2_v4f32 p2, lm2_v4f32 p3, float t) {
+LM2_API lm2_v4_f32 lm2_bezier_cubic_derivative4_f32(lm2_v4_f32 p0, lm2_v4_f32 p1, lm2_v4_f32 p2, lm2_v4_f32 p3, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float one_minus_t_sq = lm2_mul_f32(one_minus_t, one_minus_t);
   float t_sq = lm2_mul_f32(t, t);
@@ -580,153 +580,153 @@ LM2_API lm2_v4f32 lm2_bezier_cubic_derivative_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, 
   float coef1 = lm2_mul_f32(6.0f, lm2_mul_f32(one_minus_t, t));
   float coef2 = lm2_mul_f32(3.0f, t_sq);
 
-  lm2_v4f32 diff01 = lm2_sub_lm2_v4f32(p1, p0);
-  lm2_v4f32 diff12 = lm2_sub_lm2_v4f32(p2, p1);
-  lm2_v4f32 diff23 = lm2_sub_lm2_v4f32(p3, p2);
+  lm2_v4_f32 diff01 = lm2_v4_sub_f32(p1, p0);
+  lm2_v4_f32 diff12 = lm2_v4_sub_f32(p2, p1);
+  lm2_v4_f32 diff23 = lm2_v4_sub_f32(p3, p2);
 
-  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(diff01, coef0);
-  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(diff12, coef1);
-  lm2_v4f32 term2 = lm2_mul_lm2_v4f32_float(diff23, coef2);
+  lm2_v4_f32 term0 = lm2_v4_mul_s_f32(diff01, coef0);
+  lm2_v4_f32 term1 = lm2_v4_mul_s_f32(diff12, coef1);
+  lm2_v4_f32 term2 = lm2_v4_mul_s_f32(diff23, coef2);
 
-  return lm2_add_lm2_v4f32(lm2_add_lm2_v4f32(term0, term1), term2);
+  return lm2_v4_add_f32(lm2_v4_add_f32(term0, term1), term2);
 }
 
 // =============================================================================
 // Cubic Bezier Second Derivative - 2D (f64)
 // =============================================================================
 
-LM2_API lm2_v2f64 lm2_bezier_cubic_second_derivative_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, lm2_v2f64 p2, lm2_v2f64 p3, double t) {
+LM2_API lm2_v2_f64 lm2_bezier_cubic_second_derivative2_f64(lm2_v2_f64 p0, lm2_v2_f64 p1, lm2_v2_f64 p2, lm2_v2_f64 p3, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double six_one_minus_t = lm2_mul_f64(6.0, one_minus_t);
   double six_t = lm2_mul_f64(6.0, t);
 
   // P2 - 2*P1 + P0
-  lm2_v2f64 two_p1 = lm2_mul_lm2_v2f64_double(p1, 2.0);
-  lm2_v2f64 diff0 = lm2_sub_lm2_v2f64(lm2_add_lm2_v2f64(p2, p0), two_p1);
+  lm2_v2_f64 two_p1 = lm2_v2_mul_s_f64(p1, 2.0);
+  lm2_v2_f64 diff0 = lm2_v2_sub_f64(lm2_v2_add_f64(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v2f64 two_p2 = lm2_mul_lm2_v2f64_double(p2, 2.0);
-  lm2_v2f64 diff1 = lm2_sub_lm2_v2f64(lm2_add_lm2_v2f64(p3, p1), two_p2);
+  lm2_v2_f64 two_p2 = lm2_v2_mul_s_f64(p2, 2.0);
+  lm2_v2_f64 diff1 = lm2_v2_sub_f64(lm2_v2_add_f64(p3, p1), two_p2);
 
-  lm2_v2f64 term0 = lm2_mul_lm2_v2f64_double(diff0, six_one_minus_t);
-  lm2_v2f64 term1 = lm2_mul_lm2_v2f64_double(diff1, six_t);
+  lm2_v2_f64 term0 = lm2_v2_mul_s_f64(diff0, six_one_minus_t);
+  lm2_v2_f64 term1 = lm2_v2_mul_s_f64(diff1, six_t);
 
-  return lm2_add_lm2_v2f64(term0, term1);
+  return lm2_v2_add_f64(term0, term1);
 }
 
 // =============================================================================
 // Cubic Bezier Second Derivative - 2D (f32)
 // =============================================================================
 
-LM2_API lm2_v2f32 lm2_bezier_cubic_second_derivative_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, lm2_v2f32 p2, lm2_v2f32 p3, float t) {
+LM2_API lm2_v2_f32 lm2_bezier_cubic_second_derivative2_f32(lm2_v2_f32 p0, lm2_v2_f32 p1, lm2_v2_f32 p2, lm2_v2_f32 p3, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float six_one_minus_t = lm2_mul_f32(6.0f, one_minus_t);
   float six_t = lm2_mul_f32(6.0f, t);
 
   // P2 - 2*P1 + P0
-  lm2_v2f32 two_p1 = lm2_mul_lm2_v2f32_float(p1, 2.0f);
-  lm2_v2f32 diff0 = lm2_sub_lm2_v2f32(lm2_add_lm2_v2f32(p2, p0), two_p1);
+  lm2_v2_f32 two_p1 = lm2_v2_mul_s_f32(p1, 2.0f);
+  lm2_v2_f32 diff0 = lm2_v2_sub_f32(lm2_v2_add_f32(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v2f32 two_p2 = lm2_mul_lm2_v2f32_float(p2, 2.0f);
-  lm2_v2f32 diff1 = lm2_sub_lm2_v2f32(lm2_add_lm2_v2f32(p3, p1), two_p2);
+  lm2_v2_f32 two_p2 = lm2_v2_mul_s_f32(p2, 2.0f);
+  lm2_v2_f32 diff1 = lm2_v2_sub_f32(lm2_v2_add_f32(p3, p1), two_p2);
 
-  lm2_v2f32 term0 = lm2_mul_lm2_v2f32_float(diff0, six_one_minus_t);
-  lm2_v2f32 term1 = lm2_mul_lm2_v2f32_float(diff1, six_t);
+  lm2_v2_f32 term0 = lm2_v2_mul_s_f32(diff0, six_one_minus_t);
+  lm2_v2_f32 term1 = lm2_v2_mul_s_f32(diff1, six_t);
 
-  return lm2_add_lm2_v2f32(term0, term1);
+  return lm2_v2_add_f32(term0, term1);
 }
 
 // =============================================================================
 // Cubic Bezier Second Derivative - 3D (f64)
 // =============================================================================
 
-LM2_API lm2_v3f64 lm2_bezier_cubic_second_derivative_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, lm2_v3f64 p2, lm2_v3f64 p3, double t) {
+LM2_API lm2_v3_f64 lm2_bezier_cubic_second_derivative3_f64(lm2_v3_f64 p0, lm2_v3_f64 p1, lm2_v3_f64 p2, lm2_v3_f64 p3, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double six_one_minus_t = lm2_mul_f64(6.0, one_minus_t);
   double six_t = lm2_mul_f64(6.0, t);
 
   // P2 - 2*P1 + P0
-  lm2_v3f64 two_p1 = lm2_mul_lm2_v3f64_double(p1, 2.0);
-  lm2_v3f64 diff0 = lm2_sub_lm2_v3f64(lm2_add_lm2_v3f64(p2, p0), two_p1);
+  lm2_v3_f64 two_p1 = lm2_v3_mul_s_f64(p1, 2.0);
+  lm2_v3_f64 diff0 = lm2_v3_sub_f64(lm2_v3_add_f64(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v3f64 two_p2 = lm2_mul_lm2_v3f64_double(p2, 2.0);
-  lm2_v3f64 diff1 = lm2_sub_lm2_v3f64(lm2_add_lm2_v3f64(p3, p1), two_p2);
+  lm2_v3_f64 two_p2 = lm2_v3_mul_s_f64(p2, 2.0);
+  lm2_v3_f64 diff1 = lm2_v3_sub_f64(lm2_v3_add_f64(p3, p1), two_p2);
 
-  lm2_v3f64 term0 = lm2_mul_lm2_v3f64_double(diff0, six_one_minus_t);
-  lm2_v3f64 term1 = lm2_mul_lm2_v3f64_double(diff1, six_t);
+  lm2_v3_f64 term0 = lm2_v3_mul_s_f64(diff0, six_one_minus_t);
+  lm2_v3_f64 term1 = lm2_v3_mul_s_f64(diff1, six_t);
 
-  return lm2_add_lm2_v3f64(term0, term1);
+  return lm2_v3_add_f64(term0, term1);
 }
 
 // =============================================================================
 // Cubic Bezier Second Derivative - 3D (f32)
 // =============================================================================
 
-LM2_API lm2_v3f32 lm2_bezier_cubic_second_derivative_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, lm2_v3f32 p2, lm2_v3f32 p3, float t) {
+LM2_API lm2_v3_f32 lm2_bezier_cubic_second_derivative3_f32(lm2_v3_f32 p0, lm2_v3_f32 p1, lm2_v3_f32 p2, lm2_v3_f32 p3, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float six_one_minus_t = lm2_mul_f32(6.0f, one_minus_t);
   float six_t = lm2_mul_f32(6.0f, t);
 
   // P2 - 2*P1 + P0
-  lm2_v3f32 two_p1 = lm2_mul_lm2_v3f32_float(p1, 2.0f);
-  lm2_v3f32 diff0 = lm2_sub_lm2_v3f32(lm2_add_lm2_v3f32(p2, p0), two_p1);
+  lm2_v3_f32 two_p1 = lm2_v3_mul_s_f32(p1, 2.0f);
+  lm2_v3_f32 diff0 = lm2_v3_sub_f32(lm2_v3_add_f32(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v3f32 two_p2 = lm2_mul_lm2_v3f32_float(p2, 2.0f);
-  lm2_v3f32 diff1 = lm2_sub_lm2_v3f32(lm2_add_lm2_v3f32(p3, p1), two_p2);
+  lm2_v3_f32 two_p2 = lm2_v3_mul_s_f32(p2, 2.0f);
+  lm2_v3_f32 diff1 = lm2_v3_sub_f32(lm2_v3_add_f32(p3, p1), two_p2);
 
-  lm2_v3f32 term0 = lm2_mul_lm2_v3f32_float(diff0, six_one_minus_t);
-  lm2_v3f32 term1 = lm2_mul_lm2_v3f32_float(diff1, six_t);
+  lm2_v3_f32 term0 = lm2_v3_mul_s_f32(diff0, six_one_minus_t);
+  lm2_v3_f32 term1 = lm2_v3_mul_s_f32(diff1, six_t);
 
-  return lm2_add_lm2_v3f32(term0, term1);
+  return lm2_v3_add_f32(term0, term1);
 }
 
 // =============================================================================
 // Cubic Bezier Second Derivative - 4D (f64)
 // =============================================================================
 
-LM2_API lm2_v4f64 lm2_bezier_cubic_second_derivative_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, lm2_v4f64 p2, lm2_v4f64 p3, double t) {
+LM2_API lm2_v4_f64 lm2_bezier_cubic_second_derivative4_f64(lm2_v4_f64 p0, lm2_v4_f64 p1, lm2_v4_f64 p2, lm2_v4_f64 p3, double t) {
   double one_minus_t = lm2_sub_f64(1.0, t);
   double six_one_minus_t = lm2_mul_f64(6.0, one_minus_t);
   double six_t = lm2_mul_f64(6.0, t);
 
   // P2 - 2*P1 + P0
-  lm2_v4f64 two_p1 = lm2_mul_lm2_v4f64_double(p1, 2.0);
-  lm2_v4f64 diff0 = lm2_sub_lm2_v4f64(lm2_add_lm2_v4f64(p2, p0), two_p1);
+  lm2_v4_f64 two_p1 = lm2_v4_mul_s_f64(p1, 2.0);
+  lm2_v4_f64 diff0 = lm2_v4_sub_f64(lm2_v4_add_f64(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v4f64 two_p2 = lm2_mul_lm2_v4f64_double(p2, 2.0);
-  lm2_v4f64 diff1 = lm2_sub_lm2_v4f64(lm2_add_lm2_v4f64(p3, p1), two_p2);
+  lm2_v4_f64 two_p2 = lm2_v4_mul_s_f64(p2, 2.0);
+  lm2_v4_f64 diff1 = lm2_v4_sub_f64(lm2_v4_add_f64(p3, p1), two_p2);
 
-  lm2_v4f64 term0 = lm2_mul_lm2_v4f64_double(diff0, six_one_minus_t);
-  lm2_v4f64 term1 = lm2_mul_lm2_v4f64_double(diff1, six_t);
+  lm2_v4_f64 term0 = lm2_v4_mul_s_f64(diff0, six_one_minus_t);
+  lm2_v4_f64 term1 = lm2_v4_mul_s_f64(diff1, six_t);
 
-  return lm2_add_lm2_v4f64(term0, term1);
+  return lm2_v4_add_f64(term0, term1);
 }
 
 // =============================================================================
 // Cubic Bezier Second Derivative - 4D (f32)
 // =============================================================================
 
-LM2_API lm2_v4f32 lm2_bezier_cubic_second_derivative_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, lm2_v4f32 p2, lm2_v4f32 p3, float t) {
+LM2_API lm2_v4_f32 lm2_bezier_cubic_second_derivative4_f32(lm2_v4_f32 p0, lm2_v4_f32 p1, lm2_v4_f32 p2, lm2_v4_f32 p3, float t) {
   float one_minus_t = lm2_sub_f32(1.0f, t);
   float six_one_minus_t = lm2_mul_f32(6.0f, one_minus_t);
   float six_t = lm2_mul_f32(6.0f, t);
 
   // P2 - 2*P1 + P0
-  lm2_v4f32 two_p1 = lm2_mul_lm2_v4f32_float(p1, 2.0f);
-  lm2_v4f32 diff0 = lm2_sub_lm2_v4f32(lm2_add_lm2_v4f32(p2, p0), two_p1);
+  lm2_v4_f32 two_p1 = lm2_v4_mul_s_f32(p1, 2.0f);
+  lm2_v4_f32 diff0 = lm2_v4_sub_f32(lm2_v4_add_f32(p2, p0), two_p1);
 
   // P3 - 2*P2 + P1
-  lm2_v4f32 two_p2 = lm2_mul_lm2_v4f32_float(p2, 2.0f);
-  lm2_v4f32 diff1 = lm2_sub_lm2_v4f32(lm2_add_lm2_v4f32(p3, p1), two_p2);
+  lm2_v4_f32 two_p2 = lm2_v4_mul_s_f32(p2, 2.0f);
+  lm2_v4_f32 diff1 = lm2_v4_sub_f32(lm2_v4_add_f32(p3, p1), two_p2);
 
-  lm2_v4f32 term0 = lm2_mul_lm2_v4f32_float(diff0, six_one_minus_t);
-  lm2_v4f32 term1 = lm2_mul_lm2_v4f32_float(diff1, six_t);
+  lm2_v4_f32 term0 = lm2_v4_mul_s_f32(diff0, six_one_minus_t);
+  lm2_v4_f32 term1 = lm2_v4_mul_s_f32(diff1, six_t);
 
-  return lm2_add_lm2_v4f32(term0, term1);
+  return lm2_v4_add_f32(term0, term1);
 }
 
 // =============================================================================
@@ -734,31 +734,31 @@ LM2_API lm2_v4f32 lm2_bezier_cubic_second_derivative_v4f32(lm2_v4f32 p0, lm2_v4f
 // Uses De Casteljau's algorithm
 // =============================================================================
 
-LM2_API void lm2_bezier_cubic_split_v2f64(
-    lm2_v2f64 p0,
-    lm2_v2f64 p1,
-    lm2_v2f64 p2,
-    lm2_v2f64 p3,
+LM2_API void lm2_bezier_cubic_split2_f64(
+    lm2_v2_f64 p0,
+    lm2_v2_f64 p1,
+    lm2_v2_f64 p2,
+    lm2_v2_f64 p3,
     double t,
-    lm2_v2f64* left_p0,
-    lm2_v2f64* left_p1,
-    lm2_v2f64* left_p2,
-    lm2_v2f64* left_p3,
-    lm2_v2f64* right_p0,
-    lm2_v2f64* right_p1,
-    lm2_v2f64* right_p2,
-    lm2_v2f64* right_p3) {
+    lm2_v2_f64* left_p0,
+    lm2_v2_f64* left_p1,
+    lm2_v2_f64* left_p2,
+    lm2_v2_f64* left_p3,
+    lm2_v2_f64* right_p0,
+    lm2_v2_f64* right_p1,
+    lm2_v2_f64* right_p2,
+    lm2_v2_f64* right_p3) {
   // First level
-  lm2_v2f64 p01 = lm2_bezier_linear_v2f64(p0, p1, t);
-  lm2_v2f64 p12 = lm2_bezier_linear_v2f64(p1, p2, t);
-  lm2_v2f64 p23 = lm2_bezier_linear_v2f64(p2, p3, t);
+  lm2_v2_f64 p01 = lm2_bezier_linear2_f64(p0, p1, t);
+  lm2_v2_f64 p12 = lm2_bezier_linear2_f64(p1, p2, t);
+  lm2_v2_f64 p23 = lm2_bezier_linear2_f64(p2, p3, t);
 
   // Second level
-  lm2_v2f64 p012 = lm2_bezier_linear_v2f64(p01, p12, t);
-  lm2_v2f64 p123 = lm2_bezier_linear_v2f64(p12, p23, t);
+  lm2_v2_f64 p012 = lm2_bezier_linear2_f64(p01, p12, t);
+  lm2_v2_f64 p123 = lm2_bezier_linear2_f64(p12, p23, t);
 
   // Third level (point on curve)
-  lm2_v2f64 p0123 = lm2_bezier_linear_v2f64(p012, p123, t);
+  lm2_v2_f64 p0123 = lm2_bezier_linear2_f64(p012, p123, t);
 
   // Left curve
   *left_p0 = p0;
@@ -777,31 +777,31 @@ LM2_API void lm2_bezier_cubic_split_v2f64(
 // Cubic Bezier Split - 2D (f32)
 // =============================================================================
 
-LM2_API void lm2_bezier_cubic_split_v2f32(
-    lm2_v2f32 p0,
-    lm2_v2f32 p1,
-    lm2_v2f32 p2,
-    lm2_v2f32 p3,
+LM2_API void lm2_bezier_cubic_split2_f32(
+    lm2_v2_f32 p0,
+    lm2_v2_f32 p1,
+    lm2_v2_f32 p2,
+    lm2_v2_f32 p3,
     float t,
-    lm2_v2f32* left_p0,
-    lm2_v2f32* left_p1,
-    lm2_v2f32* left_p2,
-    lm2_v2f32* left_p3,
-    lm2_v2f32* right_p0,
-    lm2_v2f32* right_p1,
-    lm2_v2f32* right_p2,
-    lm2_v2f32* right_p3) {
+    lm2_v2_f32* left_p0,
+    lm2_v2_f32* left_p1,
+    lm2_v2_f32* left_p2,
+    lm2_v2_f32* left_p3,
+    lm2_v2_f32* right_p0,
+    lm2_v2_f32* right_p1,
+    lm2_v2_f32* right_p2,
+    lm2_v2_f32* right_p3) {
   // First level
-  lm2_v2f32 p01 = lm2_bezier_linear_v2f32(p0, p1, t);
-  lm2_v2f32 p12 = lm2_bezier_linear_v2f32(p1, p2, t);
-  lm2_v2f32 p23 = lm2_bezier_linear_v2f32(p2, p3, t);
+  lm2_v2_f32 p01 = lm2_bezier_linear2_f32(p0, p1, t);
+  lm2_v2_f32 p12 = lm2_bezier_linear2_f32(p1, p2, t);
+  lm2_v2_f32 p23 = lm2_bezier_linear2_f32(p2, p3, t);
 
   // Second level
-  lm2_v2f32 p012 = lm2_bezier_linear_v2f32(p01, p12, t);
-  lm2_v2f32 p123 = lm2_bezier_linear_v2f32(p12, p23, t);
+  lm2_v2_f32 p012 = lm2_bezier_linear2_f32(p01, p12, t);
+  lm2_v2_f32 p123 = lm2_bezier_linear2_f32(p12, p23, t);
 
   // Third level (point on curve)
-  lm2_v2f32 p0123 = lm2_bezier_linear_v2f32(p012, p123, t);
+  lm2_v2_f32 p0123 = lm2_bezier_linear2_f32(p012, p123, t);
 
   // Left curve
   *left_p0 = p0;
@@ -820,31 +820,31 @@ LM2_API void lm2_bezier_cubic_split_v2f32(
 // Cubic Bezier Split - 3D (f64)
 // =============================================================================
 
-LM2_API void lm2_bezier_cubic_split_v3f64(
-    lm2_v3f64 p0,
-    lm2_v3f64 p1,
-    lm2_v3f64 p2,
-    lm2_v3f64 p3,
+LM2_API void lm2_bezier_cubic_split3_f64(
+    lm2_v3_f64 p0,
+    lm2_v3_f64 p1,
+    lm2_v3_f64 p2,
+    lm2_v3_f64 p3,
     double t,
-    lm2_v3f64* left_p0,
-    lm2_v3f64* left_p1,
-    lm2_v3f64* left_p2,
-    lm2_v3f64* left_p3,
-    lm2_v3f64* right_p0,
-    lm2_v3f64* right_p1,
-    lm2_v3f64* right_p2,
-    lm2_v3f64* right_p3) {
+    lm2_v3_f64* left_p0,
+    lm2_v3_f64* left_p1,
+    lm2_v3_f64* left_p2,
+    lm2_v3_f64* left_p3,
+    lm2_v3_f64* right_p0,
+    lm2_v3_f64* right_p1,
+    lm2_v3_f64* right_p2,
+    lm2_v3_f64* right_p3) {
   // First level
-  lm2_v3f64 p01 = lm2_bezier_linear_v3f64(p0, p1, t);
-  lm2_v3f64 p12 = lm2_bezier_linear_v3f64(p1, p2, t);
-  lm2_v3f64 p23 = lm2_bezier_linear_v3f64(p2, p3, t);
+  lm2_v3_f64 p01 = lm2_bezier_linear3_f64(p0, p1, t);
+  lm2_v3_f64 p12 = lm2_bezier_linear3_f64(p1, p2, t);
+  lm2_v3_f64 p23 = lm2_bezier_linear3_f64(p2, p3, t);
 
   // Second level
-  lm2_v3f64 p012 = lm2_bezier_linear_v3f64(p01, p12, t);
-  lm2_v3f64 p123 = lm2_bezier_linear_v3f64(p12, p23, t);
+  lm2_v3_f64 p012 = lm2_bezier_linear3_f64(p01, p12, t);
+  lm2_v3_f64 p123 = lm2_bezier_linear3_f64(p12, p23, t);
 
   // Third level (point on curve)
-  lm2_v3f64 p0123 = lm2_bezier_linear_v3f64(p012, p123, t);
+  lm2_v3_f64 p0123 = lm2_bezier_linear3_f64(p012, p123, t);
 
   // Left curve
   *left_p0 = p0;
@@ -863,31 +863,31 @@ LM2_API void lm2_bezier_cubic_split_v3f64(
 // Cubic Bezier Split - 3D (f32)
 // =============================================================================
 
-LM2_API void lm2_bezier_cubic_split_v3f32(
-    lm2_v3f32 p0,
-    lm2_v3f32 p1,
-    lm2_v3f32 p2,
-    lm2_v3f32 p3,
+LM2_API void lm2_bezier_cubic_split3_f32(
+    lm2_v3_f32 p0,
+    lm2_v3_f32 p1,
+    lm2_v3_f32 p2,
+    lm2_v3_f32 p3,
     float t,
-    lm2_v3f32* left_p0,
-    lm2_v3f32* left_p1,
-    lm2_v3f32* left_p2,
-    lm2_v3f32* left_p3,
-    lm2_v3f32* right_p0,
-    lm2_v3f32* right_p1,
-    lm2_v3f32* right_p2,
-    lm2_v3f32* right_p3) {
+    lm2_v3_f32* left_p0,
+    lm2_v3_f32* left_p1,
+    lm2_v3_f32* left_p2,
+    lm2_v3_f32* left_p3,
+    lm2_v3_f32* right_p0,
+    lm2_v3_f32* right_p1,
+    lm2_v3_f32* right_p2,
+    lm2_v3_f32* right_p3) {
   // First level
-  lm2_v3f32 p01 = lm2_bezier_linear_v3f32(p0, p1, t);
-  lm2_v3f32 p12 = lm2_bezier_linear_v3f32(p1, p2, t);
-  lm2_v3f32 p23 = lm2_bezier_linear_v3f32(p2, p3, t);
+  lm2_v3_f32 p01 = lm2_bezier_linear3_f32(p0, p1, t);
+  lm2_v3_f32 p12 = lm2_bezier_linear3_f32(p1, p2, t);
+  lm2_v3_f32 p23 = lm2_bezier_linear3_f32(p2, p3, t);
 
   // Second level
-  lm2_v3f32 p012 = lm2_bezier_linear_v3f32(p01, p12, t);
-  lm2_v3f32 p123 = lm2_bezier_linear_v3f32(p12, p23, t);
+  lm2_v3_f32 p012 = lm2_bezier_linear3_f32(p01, p12, t);
+  lm2_v3_f32 p123 = lm2_bezier_linear3_f32(p12, p23, t);
 
   // Third level (point on curve)
-  lm2_v3f32 p0123 = lm2_bezier_linear_v3f32(p012, p123, t);
+  lm2_v3_f32 p0123 = lm2_bezier_linear3_f32(p012, p123, t);
 
   // Left curve
   *left_p0 = p0;
@@ -906,31 +906,31 @@ LM2_API void lm2_bezier_cubic_split_v3f32(
 // Cubic Bezier Split - 4D (f64)
 // =============================================================================
 
-LM2_API void lm2_bezier_cubic_split_v4f64(
-    lm2_v4f64 p0,
-    lm2_v4f64 p1,
-    lm2_v4f64 p2,
-    lm2_v4f64 p3,
+LM2_API void lm2_bezier_cubic_split4_f64(
+    lm2_v4_f64 p0,
+    lm2_v4_f64 p1,
+    lm2_v4_f64 p2,
+    lm2_v4_f64 p3,
     double t,
-    lm2_v4f64* left_p0,
-    lm2_v4f64* left_p1,
-    lm2_v4f64* left_p2,
-    lm2_v4f64* left_p3,
-    lm2_v4f64* right_p0,
-    lm2_v4f64* right_p1,
-    lm2_v4f64* right_p2,
-    lm2_v4f64* right_p3) {
+    lm2_v4_f64* left_p0,
+    lm2_v4_f64* left_p1,
+    lm2_v4_f64* left_p2,
+    lm2_v4_f64* left_p3,
+    lm2_v4_f64* right_p0,
+    lm2_v4_f64* right_p1,
+    lm2_v4_f64* right_p2,
+    lm2_v4_f64* right_p3) {
   // First level
-  lm2_v4f64 p01 = lm2_bezier_linear_v4f64(p0, p1, t);
-  lm2_v4f64 p12 = lm2_bezier_linear_v4f64(p1, p2, t);
-  lm2_v4f64 p23 = lm2_bezier_linear_v4f64(p2, p3, t);
+  lm2_v4_f64 p01 = lm2_bezier_linear4_f64(p0, p1, t);
+  lm2_v4_f64 p12 = lm2_bezier_linear4_f64(p1, p2, t);
+  lm2_v4_f64 p23 = lm2_bezier_linear4_f64(p2, p3, t);
 
   // Second level
-  lm2_v4f64 p012 = lm2_bezier_linear_v4f64(p01, p12, t);
-  lm2_v4f64 p123 = lm2_bezier_linear_v4f64(p12, p23, t);
+  lm2_v4_f64 p012 = lm2_bezier_linear4_f64(p01, p12, t);
+  lm2_v4_f64 p123 = lm2_bezier_linear4_f64(p12, p23, t);
 
   // Third level (point on curve)
-  lm2_v4f64 p0123 = lm2_bezier_linear_v4f64(p012, p123, t);
+  lm2_v4_f64 p0123 = lm2_bezier_linear4_f64(p012, p123, t);
 
   // Left curve
   *left_p0 = p0;
@@ -949,31 +949,31 @@ LM2_API void lm2_bezier_cubic_split_v4f64(
 // Cubic Bezier Split - 4D (f32)
 // =============================================================================
 
-LM2_API void lm2_bezier_cubic_split_v4f32(
-    lm2_v4f32 p0,
-    lm2_v4f32 p1,
-    lm2_v4f32 p2,
-    lm2_v4f32 p3,
+LM2_API void lm2_bezier_cubic_split4_f32(
+    lm2_v4_f32 p0,
+    lm2_v4_f32 p1,
+    lm2_v4_f32 p2,
+    lm2_v4_f32 p3,
     float t,
-    lm2_v4f32* left_p0,
-    lm2_v4f32* left_p1,
-    lm2_v4f32* left_p2,
-    lm2_v4f32* left_p3,
-    lm2_v4f32* right_p0,
-    lm2_v4f32* right_p1,
-    lm2_v4f32* right_p2,
-    lm2_v4f32* right_p3) {
+    lm2_v4_f32* left_p0,
+    lm2_v4_f32* left_p1,
+    lm2_v4_f32* left_p2,
+    lm2_v4_f32* left_p3,
+    lm2_v4_f32* right_p0,
+    lm2_v4_f32* right_p1,
+    lm2_v4_f32* right_p2,
+    lm2_v4_f32* right_p3) {
   // First level
-  lm2_v4f32 p01 = lm2_bezier_linear_v4f32(p0, p1, t);
-  lm2_v4f32 p12 = lm2_bezier_linear_v4f32(p1, p2, t);
-  lm2_v4f32 p23 = lm2_bezier_linear_v4f32(p2, p3, t);
+  lm2_v4_f32 p01 = lm2_bezier_linear4_f32(p0, p1, t);
+  lm2_v4_f32 p12 = lm2_bezier_linear4_f32(p1, p2, t);
+  lm2_v4_f32 p23 = lm2_bezier_linear4_f32(p2, p3, t);
 
   // Second level
-  lm2_v4f32 p012 = lm2_bezier_linear_v4f32(p01, p12, t);
-  lm2_v4f32 p123 = lm2_bezier_linear_v4f32(p12, p23, t);
+  lm2_v4_f32 p012 = lm2_bezier_linear4_f32(p01, p12, t);
+  lm2_v4_f32 p123 = lm2_bezier_linear4_f32(p12, p23, t);
 
   // Third level (point on curve)
-  lm2_v4f32 p0123 = lm2_bezier_linear_v4f32(p012, p123, t);
+  lm2_v4_f32 p0123 = lm2_bezier_linear4_f32(p012, p123, t);
 
   // Left curve
   *left_p0 = p0;
@@ -992,14 +992,14 @@ LM2_API void lm2_bezier_cubic_split_v4f32(
 // Cubic Bezier Arc Length - 2D (f64)
 // =============================================================================
 
-LM2_API double lm2_bezier_cubic_length_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, lm2_v2f64 p2, lm2_v2f64 p3, int segments) {
+LM2_API double lm2_bezier_cubic_length2_f64(lm2_v2_f64 p0, lm2_v2_f64 p1, lm2_v2_f64 p2, lm2_v2_f64 p3, int segments) {
   double length = 0.0;
-  lm2_v2f64 prev_point = p0;
+  lm2_v2_f64 prev_point = p0;
 
   for (int i = 1; i <= segments; i++) {
     double t = lm2_div_f64((double)i, (double)segments);
-    lm2_v2f64 point = lm2_bezier_cubic_v2f64(p0, p1, p2, p3, t);
-    length = lm2_add_f64(length, lm2_distance_v2f64(prev_point, point));
+    lm2_v2_f64 point = lm2_bezier_cubic2_f64(p0, p1, p2, p3, t);
+    length = lm2_add_f64(length, lm2_v2_distance_f64(prev_point, point));
     prev_point = point;
   }
 
@@ -1010,14 +1010,14 @@ LM2_API double lm2_bezier_cubic_length_v2f64(lm2_v2f64 p0, lm2_v2f64 p1, lm2_v2f
 // Cubic Bezier Arc Length - 2D (f32)
 // =============================================================================
 
-LM2_API float lm2_bezier_cubic_length_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, lm2_v2f32 p2, lm2_v2f32 p3, int segments) {
+LM2_API float lm2_bezier_cubic_length2_f32(lm2_v2_f32 p0, lm2_v2_f32 p1, lm2_v2_f32 p2, lm2_v2_f32 p3, int segments) {
   float length = 0.0f;
-  lm2_v2f32 prev_point = p0;
+  lm2_v2_f32 prev_point = p0;
 
   for (int i = 1; i <= segments; i++) {
     float t = lm2_div_f32((float)i, (float)segments);
-    lm2_v2f32 point = lm2_bezier_cubic_v2f32(p0, p1, p2, p3, t);
-    length = lm2_add_f32(length, lm2_distance_v2f32(prev_point, point));
+    lm2_v2_f32 point = lm2_bezier_cubic2_f32(p0, p1, p2, p3, t);
+    length = lm2_add_f32(length, lm2_v2_distance_f32(prev_point, point));
     prev_point = point;
   }
 
@@ -1028,14 +1028,14 @@ LM2_API float lm2_bezier_cubic_length_v2f32(lm2_v2f32 p0, lm2_v2f32 p1, lm2_v2f3
 // Cubic Bezier Arc Length - 3D (f64)
 // =============================================================================
 
-LM2_API double lm2_bezier_cubic_length_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, lm2_v3f64 p2, lm2_v3f64 p3, int segments) {
+LM2_API double lm2_bezier_cubic_length3_f64(lm2_v3_f64 p0, lm2_v3_f64 p1, lm2_v3_f64 p2, lm2_v3_f64 p3, int segments) {
   double length = 0.0;
-  lm2_v3f64 prev_point = p0;
+  lm2_v3_f64 prev_point = p0;
 
   for (int i = 1; i <= segments; i++) {
     double t = lm2_div_f64((double)i, (double)segments);
-    lm2_v3f64 point = lm2_bezier_cubic_v3f64(p0, p1, p2, p3, t);
-    length = lm2_add_f64(length, lm2_distance_v3f64(prev_point, point));
+    lm2_v3_f64 point = lm2_bezier_cubic3_f64(p0, p1, p2, p3, t);
+    length = lm2_add_f64(length, lm2_v3_distance_f64(prev_point, point));
     prev_point = point;
   }
 
@@ -1046,14 +1046,14 @@ LM2_API double lm2_bezier_cubic_length_v3f64(lm2_v3f64 p0, lm2_v3f64 p1, lm2_v3f
 // Cubic Bezier Arc Length - 3D (f32)
 // =============================================================================
 
-LM2_API float lm2_bezier_cubic_length_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, lm2_v3f32 p2, lm2_v3f32 p3, int segments) {
+LM2_API float lm2_bezier_cubic_length3_f32(lm2_v3_f32 p0, lm2_v3_f32 p1, lm2_v3_f32 p2, lm2_v3_f32 p3, int segments) {
   float length = 0.0f;
-  lm2_v3f32 prev_point = p0;
+  lm2_v3_f32 prev_point = p0;
 
   for (int i = 1; i <= segments; i++) {
     float t = lm2_div_f32((float)i, (float)segments);
-    lm2_v3f32 point = lm2_bezier_cubic_v3f32(p0, p1, p2, p3, t);
-    length = lm2_add_f32(length, lm2_distance_v3f32(prev_point, point));
+    lm2_v3_f32 point = lm2_bezier_cubic3_f32(p0, p1, p2, p3, t);
+    length = lm2_add_f32(length, lm2_v3_distance_f32(prev_point, point));
     prev_point = point;
   }
 
@@ -1064,14 +1064,14 @@ LM2_API float lm2_bezier_cubic_length_v3f32(lm2_v3f32 p0, lm2_v3f32 p1, lm2_v3f3
 // Cubic Bezier Arc Length - 4D (f64)
 // =============================================================================
 
-LM2_API double lm2_bezier_cubic_length_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, lm2_v4f64 p2, lm2_v4f64 p3, int segments) {
+LM2_API double lm2_bezier_cubic_length4_f64(lm2_v4_f64 p0, lm2_v4_f64 p1, lm2_v4_f64 p2, lm2_v4_f64 p3, int segments) {
   double length = 0.0;
-  lm2_v4f64 prev_point = p0;
+  lm2_v4_f64 prev_point = p0;
 
   for (int i = 1; i <= segments; i++) {
     double t = lm2_div_f64((double)i, (double)segments);
-    lm2_v4f64 point = lm2_bezier_cubic_v4f64(p0, p1, p2, p3, t);
-    length = lm2_add_f64(length, lm2_distance_v4f64(prev_point, point));
+    lm2_v4_f64 point = lm2_bezier_cubic4_f64(p0, p1, p2, p3, t);
+    length = lm2_add_f64(length, lm2_v4_distance_f64(prev_point, point));
     prev_point = point;
   }
 
@@ -1082,14 +1082,14 @@ LM2_API double lm2_bezier_cubic_length_v4f64(lm2_v4f64 p0, lm2_v4f64 p1, lm2_v4f
 // Cubic Bezier Arc Length - 4D (f32)
 // =============================================================================
 
-LM2_API float lm2_bezier_cubic_length_v4f32(lm2_v4f32 p0, lm2_v4f32 p1, lm2_v4f32 p2, lm2_v4f32 p3, int segments) {
+LM2_API float lm2_bezier_cubic_length4_f32(lm2_v4_f32 p0, lm2_v4_f32 p1, lm2_v4_f32 p2, lm2_v4_f32 p3, int segments) {
   float length = 0.0f;
-  lm2_v4f32 prev_point = p0;
+  lm2_v4_f32 prev_point = p0;
 
   for (int i = 1; i <= segments; i++) {
     float t = lm2_div_f32((float)i, (float)segments);
-    lm2_v4f32 point = lm2_bezier_cubic_v4f32(p0, p1, p2, p3, t);
-    length = lm2_add_f32(length, lm2_distance_v4f32(prev_point, point));
+    lm2_v4_f32 point = lm2_bezier_cubic4_f32(p0, p1, p2, p3, t);
+    length = lm2_add_f32(length, lm2_v4_distance_f32(prev_point, point));
     prev_point = point;
   }
 

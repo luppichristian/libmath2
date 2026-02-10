@@ -29,10 +29,10 @@ SOFTWARE.
 
 #include "lm2/geometry2d/lm2_capsule2.h"
 #include "lm2/geometry2d/lm2_circle.h"
+#include "lm2/geometry2d/lm2_manifold2.h"
 #include "lm2/geometry2d/lm2_polygon.h"
 #include "lm2/geometry2d/lm2_raycast2.h"
 #include "lm2/geometry2d/lm2_triangle2.h"
-#include "lm2/geometry2d/lm2_manifold2.h"
 #include "lm2/lm2_base.h"
 #include "lm2/ranges/lm2_range2.h"
 #include "lm2/vectors/lm2_vector2.h"
@@ -43,10 +43,10 @@ SOFTWARE.
 // Vector Conversions
 // =============================================================================
 
-c2v lm2_v2f32_to_c2v(lm2_v2f32 v);
-c2v lm2_v2f64_to_c2v(lm2_v2f64 v);
-lm2_v2f32 c2v_to_lm2_v2f32(c2v v);
-lm2_v2f64 c2v_to_lm2_v2f64(c2v v);
+c2v lm22_f32_to_c2v(lm2_v2_f32 v);
+c2v lm22_f64_to_c2v(lm2_v2_f64 v);
+lm2_v2_f32 c2v_to_lm22_f32(c2v v);
+lm2_v2_f64 c2v_to_lm22_f64(c2v v);
 
 // =============================================================================
 // Shape Conversions
@@ -58,8 +58,8 @@ c2Ray lm2_ray2_f64_to_c2(lm2_ray2_f64 ray);
 c2Circle lm2_circle_f32_to_c2(lm2_circle_f32 circle);
 c2Circle lm2_circle_f64_to_c2(lm2_circle_f64 circle);
 
-c2AABB lm2_r2f32_to_c2(lm2_r2f32 aabb);
-c2AABB lm2_r2f64_to_c2(lm2_r2f64 aabb);
+c2AABB lm2_r2_f32_to_c2(lm2_r2_f32 aabb);
+c2AABB lm2_r2_f64_to_c2(lm2_r2_f64 aabb);
 
 c2Capsule lm2_capsule2_f32_to_c2(lm2_capsule2_f32 capsule);
 c2Capsule lm2_capsule2_f64_to_c2(lm2_capsule2_f64 capsule);

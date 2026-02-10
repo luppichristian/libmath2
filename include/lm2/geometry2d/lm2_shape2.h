@@ -81,8 +81,8 @@ LM2_API lm2_shape2_f64 lm2_shape2_from_capsule_f64(lm2_capsule2_f64* capsule);
 LM2_API lm2_shape2_f32 lm2_shape2_from_capsule_f32(lm2_capsule2_f32* capsule);
 
 // Create shape from rectangle
-LM2_API lm2_shape2_f64 lm2_shape2_from_rectangle_f64(lm2_rect2f64* rectangle);
-LM2_API lm2_shape2_f32 lm2_shape2_from_rectangle_f32(lm2_rect2f32* rectangle);
+LM2_API lm2_shape2_f64 lm2_shape2_from_rectangle_f64(lm2_rectangle2_f64* rectangle);
+LM2_API lm2_shape2_f32 lm2_shape2_from_rectangle_f32(lm2_rectangle2_f32* rectangle);
 
 // Create shape from triangle
 LM2_API lm2_shape2_f64 lm2_shape2_from_triangle_f64(lm2_triangle2_f64* triangle);
@@ -113,8 +113,8 @@ LM2_API lm2_capsule2_f64* lm2_shape2_as_capsule_f64(lm2_shape2_f64* shape);
 LM2_API lm2_capsule2_f32* lm2_shape2_as_capsule_f32(lm2_shape2_f32* shape);
 
 // Extract rectangle from shape (returns NULL if not a rectangle)
-LM2_API lm2_rect2f64* lm2_shape2_as_rectangle_f64(lm2_shape2_f64* shape);
-LM2_API lm2_rect2f32* lm2_shape2_as_rectangle_f32(lm2_shape2_f32* shape);
+LM2_API lm2_rectangle2_f64* lm2_shape2_as_rectangle_f64(lm2_shape2_f64* shape);
+LM2_API lm2_rectangle2_f32* lm2_shape2_as_rectangle_f32(lm2_shape2_f32* shape);
 
 // Extract triangle from shape (returns NULL if not a triangle)
 LM2_API lm2_triangle2_f64* lm2_shape2_as_triangle_f64(lm2_shape2_f64* shape);

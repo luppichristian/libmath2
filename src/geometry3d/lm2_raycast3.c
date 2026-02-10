@@ -38,7 +38,7 @@ SOFTWARE.
 // 3D Ray Construction - f64
 // =============================================================================
 
-LM2_API lm2_ray3_f64 lm2_ray3_make_f64(lm2_v3f64 origin, lm2_v3f64 direction, double t_max) {
+LM2_API lm2_ray3_f64 lm2_ray3_make_f64(lm2_v3_f64 origin, lm2_v3_f64 direction, double t_max) {
   lm2_ray3_f64 result;
   result.origin = origin;
   result.direction = direction;
@@ -46,26 +46,26 @@ LM2_API lm2_ray3_f64 lm2_ray3_make_f64(lm2_v3f64 origin, lm2_v3f64 direction, do
   return result;
 }
 
-LM2_API lm2_ray3_f64 lm2_ray3_from_points_f64(lm2_v3f64 start, lm2_v3f64 end) {
+LM2_API lm2_ray3_f64 lm2_ray3_from_points_f64(lm2_v3_f64 start, lm2_v3_f64 end) {
   lm2_ray3_f64 result;
   result.origin = start;
-  lm2_v3f64 diff = lm2_sub_lm2_v3f64(end, start);
-  double length = lm2_length_v3f64(diff);
-  result.direction = lm2_normalize_v3f64(diff);
+  lm2_v3_f64 diff = lm2_v3_sub_f64(end, start);
+  double length = lm2_v3_length_f64(diff);
+  result.direction = lm2_v3_normalize_f64(diff);
   result.t_max = length;
   return result;
 }
 
-LM2_API lm2_v3f64 lm2_ray3_point_at_f64(lm2_ray3_f64 ray, double t) {
-  lm2_v3f64 scaled_dir = lm2_mul_lm2_v3f64_double(ray.direction, t);
-  return lm2_add_lm2_v3f64(ray.origin, scaled_dir);
+LM2_API lm2_v3_f64 lm2_ray3_point_at_f64(lm2_ray3_f64 ray, double t) {
+  lm2_v3_f64 scaled_dir = lm2_v3_mul_s_f64(ray.direction, t);
+  return lm2_v3_add_f64(ray.origin, scaled_dir);
 }
 
 // =============================================================================
 // 3D Ray Construction - f32
 // =============================================================================
 
-LM2_API lm2_ray3_f32 lm2_ray3_make_f32(lm2_v3f32 origin, lm2_v3f32 direction, float t_max) {
+LM2_API lm2_ray3_f32 lm2_ray3_make_f32(lm2_v3_f32 origin, lm2_v3_f32 direction, float t_max) {
   lm2_ray3_f32 result;
   result.origin = origin;
   result.direction = direction;
@@ -73,40 +73,40 @@ LM2_API lm2_ray3_f32 lm2_ray3_make_f32(lm2_v3f32 origin, lm2_v3f32 direction, fl
   return result;
 }
 
-LM2_API lm2_ray3_f32 lm2_ray3_from_points_f32(lm2_v3f32 start, lm2_v3f32 end) {
+LM2_API lm2_ray3_f32 lm2_ray3_from_points_f32(lm2_v3_f32 start, lm2_v3_f32 end) {
   lm2_ray3_f32 result;
   result.origin = start;
-  lm2_v3f32 diff = lm2_sub_lm2_v3f32(end, start);
-  float length = lm2_length_v3f32(diff);
-  result.direction = lm2_normalize_v3f32(diff);
+  lm2_v3_f32 diff = lm2_v3_sub_f32(end, start);
+  float length = lm2_v3_length_f32(diff);
+  result.direction = lm2_v3_normalize_f32(diff);
   result.t_max = length;
   return result;
 }
 
-LM2_API lm2_v3f32 lm2_ray3_point_at_f32(lm2_ray3_f32 ray, float t) {
-  lm2_v3f32 scaled_dir = lm2_mul_lm2_v3f32_float(ray.direction, t);
-  return lm2_add_lm2_v3f32(ray.origin, scaled_dir);
+LM2_API lm2_v3_f32 lm2_ray3_point_at_f32(lm2_ray3_f32 ray, float t) {
+  lm2_v3_f32 scaled_dir = lm2_v3_mul_s_f32(ray.direction, t);
+  return lm2_v3_add_f32(ray.origin, scaled_dir);
 }
 
 // =============================================================================
 // 3D Ray vs Primitive Tests - f64
 // =============================================================================
 
-LM2_API lm2_rayhit3_f64 lm2_raycast_sphere_f64(lm2_ray3_f64 ray, lm2_v3f64 center, double radius) {
+LM2_API lm2_rayhit3_f64 lm2_raycast_sphere_f64(lm2_ray3_f64 ray, lm2_v3_f64 center, double radius) {
   lm2_rayhit3_f64 result;
 
   // Ray-sphere intersection using quadratic formula
-  lm2_v3f64 oc = lm2_sub_lm2_v3f64(ray.origin, center);
-  double a = lm2_dot_v3f64(ray.direction, ray.direction);
-  double b = lm2_mul_f64(2.0, lm2_dot_v3f64(oc, ray.direction));
-  double c = lm2_sub_f64(lm2_dot_v3f64(oc, oc), lm2_mul_f64(radius, radius));
+  lm2_v3_f64 oc = lm2_v3_sub_f64(ray.origin, center);
+  double a = lm2_v3_dot_f64(ray.direction, ray.direction);
+  double b = lm2_mul_f64(2.0, lm2_v3_dot_f64(oc, ray.direction));
+  double c = lm2_sub_f64(lm2_v3_dot_f64(oc, oc), lm2_mul_f64(radius, radius));
   double discriminant = lm2_sub_f64(lm2_mul_f64(b, b), lm2_mul_f64(lm2_mul_f64(4.0, a), c));
 
   if (discriminant < 0.0) {
     result.hit = false;
     result.t = 0.0;
-    result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
-    result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
+    result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
   } else {
     double sqrt_disc = lm2_sqrt_f64(discriminant);
     double t = lm2_div_f64(lm2_sub_f64(lm2_mul_f64(-1.0, b), sqrt_disc), lm2_mul_f64(2.0, a));
@@ -114,20 +114,20 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_sphere_f64(lm2_ray3_f64 ray, lm2_v3f64 cente
     if (t < 0.0 || t > ray.t_max) {
       result.hit = false;
       result.t = 0.0;
-      result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
-      result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
+      result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+      result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
     } else {
       result.hit = true;
       result.t = t;
       result.point = lm2_ray3_point_at_f64(ray, t);
-      result.normal = lm2_normalize_v3f64(lm2_sub_lm2_v3f64(result.point, center));
+      result.normal = lm2_v3_normalize_f64(lm2_v3_sub_f64(result.point, center));
     }
   }
 
   return result;
 }
 
-LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3f64 aabb) {
+LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3_f64 aabb) {
   lm2_rayhit3_f64 result;
 
   // Ray-AABB intersection using slab method
@@ -151,8 +151,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3f64 aabb) 
     if (t_max <= t_min) {
       result.hit = false;
       result.t = 0.0;
-      result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
-      result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
+      result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+      result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
       return result;
     }
   }
@@ -162,90 +162,90 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3f64 aabb) 
   result.point = lm2_ray3_point_at_f64(ray, t_min);
 
   // Compute normal
-  lm2_v3f64 center = lm2_mul_lm2_v3f64_double(lm2_add_lm2_v3f64(aabb.min, aabb.max), 0.5);
-  lm2_v3f64 local = lm2_sub_lm2_v3f64(result.point, center);
-  lm2_v3f64 abs_local = lm2_abs_lm2_v3f64(local);
+  lm2_v3_f64 center = lm2_v3_mul_s_f64(lm2_v3_add_f64(aabb.min, aabb.max), 0.5);
+  lm2_v3_f64 local = lm2_v3_sub_f64(result.point, center);
+  lm2_v3_f64 abs_local = lm2_v3_abs_f64(local);
 
   if (abs_local.x > abs_local.y && abs_local.x > abs_local.z) {
-    result.normal = (lm2_v3f64) {local.x > 0.0 ? 1.0 : -1.0, 0.0, 0.0};
+    result.normal = (lm2_v3_f64) {local.x > 0.0 ? 1.0 : -1.0, 0.0, 0.0};
   } else if (abs_local.y > abs_local.z) {
-    result.normal = (lm2_v3f64) {0.0, local.y > 0.0 ? 1.0 : -1.0, 0.0};
+    result.normal = (lm2_v3_f64) {0.0, local.y > 0.0 ? 1.0 : -1.0, 0.0};
   } else {
-    result.normal = (lm2_v3f64) {0.0, 0.0, local.z > 0.0 ? 1.0 : -1.0};
+    result.normal = (lm2_v3_f64) {0.0, 0.0, local.z > 0.0 ? 1.0 : -1.0};
   }
 
   return result;
 }
 
-LM2_API lm2_rayhit3_f64 lm2_raycast_triangle_f64(lm2_ray3_f64 ray, lm2_v3f64 v0, lm2_v3f64 v1, lm2_v3f64 v2) {
+LM2_API lm2_rayhit3_f64 lm2_raycast_triangle_f64(lm2_ray3_f64 ray, lm2_v3_f64 v0, lm2_v3_f64 v1, lm2_v3_f64 v2) {
   lm2_rayhit3_f64 result;
 
   // Möller-Trumbore intersection algorithm
   const double epsilon = LM2_RAYCAST3_EPSILON_F64;
 
-  lm2_v3f64 edge1 = lm2_sub_lm2_v3f64(v1, v0);
-  lm2_v3f64 edge2 = lm2_sub_lm2_v3f64(v2, v0);
-  lm2_v3f64 h = lm2_cross_v3f64(ray.direction, edge2);
-  double a = lm2_dot_v3f64(edge1, h);
+  lm2_v3_f64 edge1 = lm2_v3_sub_f64(v1, v0);
+  lm2_v3_f64 edge2 = lm2_v3_sub_f64(v2, v0);
+  lm2_v3_f64 h = lm2_v3_cross_f64(ray.direction, edge2);
+  double a = lm2_v3_dot_f64(edge1, h);
 
   if (lm2_abs_f64(a) < epsilon) {
     result.hit = false;
     result.t = 0.0;
-    result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
-    result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
+    result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
     return result;
   }
 
   double f = lm2_div_f64(1.0, a);
-  lm2_v3f64 s = lm2_sub_lm2_v3f64(ray.origin, v0);
-  double u = lm2_mul_f64(f, lm2_dot_v3f64(s, h));
+  lm2_v3_f64 s = lm2_v3_sub_f64(ray.origin, v0);
+  double u = lm2_mul_f64(f, lm2_v3_dot_f64(s, h));
 
   if (u < 0.0 || u > 1.0) {
     result.hit = false;
     result.t = 0.0;
-    result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
-    result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
+    result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
     return result;
   }
 
-  lm2_v3f64 q = lm2_cross_v3f64(s, edge1);
-  double v = lm2_mul_f64(f, lm2_dot_v3f64(ray.direction, q));
+  lm2_v3_f64 q = lm2_v3_cross_f64(s, edge1);
+  double v = lm2_mul_f64(f, lm2_v3_dot_f64(ray.direction, q));
 
   if (v < 0.0 || lm2_add_f64(u, v) > 1.0) {
     result.hit = false;
     result.t = 0.0;
-    result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
-    result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
+    result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
     return result;
   }
 
-  double t = lm2_mul_f64(f, lm2_dot_v3f64(edge2, q));
+  double t = lm2_mul_f64(f, lm2_v3_dot_f64(edge2, q));
 
   if (t > epsilon && t <= ray.t_max) {
     result.hit = true;
     result.t = t;
     result.point = lm2_ray3_point_at_f64(ray, t);
-    result.normal = lm2_normalize_v3f64(lm2_cross_v3f64(edge1, edge2));
+    result.normal = lm2_v3_normalize_f64(lm2_v3_cross_f64(edge1, edge2));
   } else {
     result.hit = false;
     result.t = 0.0;
-    result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
-    result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
+    result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
   }
 
   return result;
 }
 
-LM2_API lm2_rayhit3_f64 lm2_raycast_plane_f64(lm2_ray3_f64 ray, lm2_v3f64 plane_point, lm2_v3f64 plane_normal) {
+LM2_API lm2_rayhit3_f64 lm2_raycast_plane_f64(lm2_ray3_f64 ray, lm2_v3_f64 plane_point, lm2_v3_f64 plane_normal) {
   lm2_rayhit3_f64 result;
 
   const double epsilon = LM2_RAYCAST3_EPSILON_F64;
 
-  double denom = lm2_dot_v3f64(plane_normal, ray.direction);
+  double denom = lm2_v3_dot_f64(plane_normal, ray.direction);
 
   if (lm2_abs_f64(denom) > epsilon) {
-    lm2_v3f64 p0l0 = lm2_sub_lm2_v3f64(plane_point, ray.origin);
-    double t = lm2_div_f64(lm2_dot_v3f64(p0l0, plane_normal), denom);
+    lm2_v3_f64 p0l0 = lm2_v3_sub_f64(plane_point, ray.origin);
+    double t = lm2_div_f64(lm2_v3_dot_f64(p0l0, plane_normal), denom);
 
     if (t >= 0.0 && t <= ray.t_max) {
       result.hit = true;
@@ -258,8 +258,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_plane_f64(lm2_ray3_f64 ray, lm2_v3f64 plane_
 
   result.hit = false;
   result.t = 0.0;
-  result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
-  result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
+  result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+  result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
   return result;
 }
 
@@ -267,21 +267,21 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_plane_f64(lm2_ray3_f64 ray, lm2_v3f64 plane_
 // 3D Ray vs Primitive Tests - f32
 // =============================================================================
 
-LM2_API lm2_rayhit3_f32 lm2_raycast_sphere_f32(lm2_ray3_f32 ray, lm2_v3f32 center, float radius) {
+LM2_API lm2_rayhit3_f32 lm2_raycast_sphere_f32(lm2_ray3_f32 ray, lm2_v3_f32 center, float radius) {
   lm2_rayhit3_f32 result;
 
   // Ray-sphere intersection using quadratic formula
-  lm2_v3f32 oc = lm2_sub_lm2_v3f32(ray.origin, center);
-  float a = lm2_dot_v3f32(ray.direction, ray.direction);
-  float b = lm2_mul_f32(2.0f, lm2_dot_v3f32(oc, ray.direction));
-  float c = lm2_sub_f32(lm2_dot_v3f32(oc, oc), lm2_mul_f32(radius, radius));
+  lm2_v3_f32 oc = lm2_v3_sub_f32(ray.origin, center);
+  float a = lm2_v3_dot_f32(ray.direction, ray.direction);
+  float b = lm2_mul_f32(2.0f, lm2_v3_dot_f32(oc, ray.direction));
+  float c = lm2_sub_f32(lm2_v3_dot_f32(oc, oc), lm2_mul_f32(radius, radius));
   float discriminant = lm2_sub_f32(lm2_mul_f32(b, b), lm2_mul_f32(lm2_mul_f32(4.0f, a), c));
 
   if (discriminant < 0.0f) {
     result.hit = false;
     result.t = 0.0f;
-    result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
-    result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+    result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
   } else {
     float sqrt_disc = lm2_sqrt_f32(discriminant);
     float t = lm2_div_f32(lm2_sub_f32(lm2_mul_f32(-1.0f, b), sqrt_disc), lm2_mul_f32(2.0f, a));
@@ -289,20 +289,20 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_sphere_f32(lm2_ray3_f32 ray, lm2_v3f32 cente
     if (t < 0.0f || t > ray.t_max) {
       result.hit = false;
       result.t = 0.0f;
-      result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
-      result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+      result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+      result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
     } else {
       result.hit = true;
       result.t = t;
       result.point = lm2_ray3_point_at_f32(ray, t);
-      result.normal = lm2_normalize_v3f32(lm2_sub_lm2_v3f32(result.point, center));
+      result.normal = lm2_v3_normalize_f32(lm2_v3_sub_f32(result.point, center));
     }
   }
 
   return result;
 }
 
-LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3f32 aabb) {
+LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3_f32 aabb) {
   lm2_rayhit3_f32 result;
 
   // Ray-AABB intersection using slab method
@@ -326,8 +326,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3f32 aabb) 
     if (t_max <= t_min) {
       result.hit = false;
       result.t = 0.0f;
-      result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
-      result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+      result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+      result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
       return result;
     }
   }
@@ -337,90 +337,90 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3f32 aabb) 
   result.point = lm2_ray3_point_at_f32(ray, t_min);
 
   // Compute normal
-  lm2_v3f32 center = lm2_mul_lm2_v3f32_float(lm2_add_lm2_v3f32(aabb.min, aabb.max), 0.5f);
-  lm2_v3f32 local = lm2_sub_lm2_v3f32(result.point, center);
-  lm2_v3f32 abs_local = lm2_abs_lm2_v3f32(local);
+  lm2_v3_f32 center = lm2_v3_mul_s_f32(lm2_v3_add_f32(aabb.min, aabb.max), 0.5f);
+  lm2_v3_f32 local = lm2_v3_sub_f32(result.point, center);
+  lm2_v3_f32 abs_local = lm2_v3_abs_f32(local);
 
   if (abs_local.x > abs_local.y && abs_local.x > abs_local.z) {
-    result.normal = (lm2_v3f32) {local.x > 0.0f ? 1.0f : -1.0f, 0.0f, 0.0f};
+    result.normal = (lm2_v3_f32) {local.x > 0.0f ? 1.0f : -1.0f, 0.0f, 0.0f};
   } else if (abs_local.y > abs_local.z) {
-    result.normal = (lm2_v3f32) {0.0f, local.y > 0.0f ? 1.0f : -1.0f, 0.0f};
+    result.normal = (lm2_v3_f32) {0.0f, local.y > 0.0f ? 1.0f : -1.0f, 0.0f};
   } else {
-    result.normal = (lm2_v3f32) {0.0f, 0.0f, local.z > 0.0f ? 1.0f : -1.0f};
+    result.normal = (lm2_v3_f32) {0.0f, 0.0f, local.z > 0.0f ? 1.0f : -1.0f};
   }
 
   return result;
 }
 
-LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3f32 v0, lm2_v3f32 v1, lm2_v3f32 v2) {
+LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3_f32 v0, lm2_v3_f32 v1, lm2_v3_f32 v2) {
   lm2_rayhit3_f32 result;
 
   // Möller-Trumbore intersection algorithm
   const float epsilon = LM2_RAYCAST3_EPSILON_F32;
 
-  lm2_v3f32 edge1 = lm2_sub_lm2_v3f32(v1, v0);
-  lm2_v3f32 edge2 = lm2_sub_lm2_v3f32(v2, v0);
-  lm2_v3f32 h = lm2_cross_v3f32(ray.direction, edge2);
-  float a = lm2_dot_v3f32(edge1, h);
+  lm2_v3_f32 edge1 = lm2_v3_sub_f32(v1, v0);
+  lm2_v3_f32 edge2 = lm2_v3_sub_f32(v2, v0);
+  lm2_v3_f32 h = lm2_v3_cross_f32(ray.direction, edge2);
+  float a = lm2_v3_dot_f32(edge1, h);
 
   if (lm2_abs_f32(a) < epsilon) {
     result.hit = false;
     result.t = 0.0f;
-    result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
-    result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+    result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
     return result;
   }
 
   float f = lm2_div_f32(1.0f, a);
-  lm2_v3f32 s = lm2_sub_lm2_v3f32(ray.origin, v0);
-  float u = lm2_mul_f32(f, lm2_dot_v3f32(s, h));
+  lm2_v3_f32 s = lm2_v3_sub_f32(ray.origin, v0);
+  float u = lm2_mul_f32(f, lm2_v3_dot_f32(s, h));
 
   if (u < 0.0f || u > 1.0f) {
     result.hit = false;
     result.t = 0.0f;
-    result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
-    result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+    result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
     return result;
   }
 
-  lm2_v3f32 q = lm2_cross_v3f32(s, edge1);
-  float v = lm2_mul_f32(f, lm2_dot_v3f32(ray.direction, q));
+  lm2_v3_f32 q = lm2_v3_cross_f32(s, edge1);
+  float v = lm2_mul_f32(f, lm2_v3_dot_f32(ray.direction, q));
 
   if (v < 0.0f || lm2_add_f32(u, v) > 1.0f) {
     result.hit = false;
     result.t = 0.0f;
-    result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
-    result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+    result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
     return result;
   }
 
-  float t = lm2_mul_f32(f, lm2_dot_v3f32(edge2, q));
+  float t = lm2_mul_f32(f, lm2_v3_dot_f32(edge2, q));
 
   if (t > epsilon && t <= ray.t_max) {
     result.hit = true;
     result.t = t;
     result.point = lm2_ray3_point_at_f32(ray, t);
-    result.normal = lm2_normalize_v3f32(lm2_cross_v3f32(edge1, edge2));
+    result.normal = lm2_v3_normalize_f32(lm2_v3_cross_f32(edge1, edge2));
   } else {
     result.hit = false;
     result.t = 0.0f;
-    result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
-    result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+    result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
   }
 
   return result;
 }
 
-LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3f32 plane_point, lm2_v3f32 plane_normal) {
+LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3_f32 plane_point, lm2_v3_f32 plane_normal) {
   lm2_rayhit3_f32 result;
 
   const float epsilon = LM2_RAYCAST3_EPSILON_F32;
 
-  float denom = lm2_dot_v3f32(plane_normal, ray.direction);
+  float denom = lm2_v3_dot_f32(plane_normal, ray.direction);
 
   if (lm2_abs_f32(denom) > epsilon) {
-    lm2_v3f32 p0l0 = lm2_sub_lm2_v3f32(plane_point, ray.origin);
-    float t = lm2_div_f32(lm2_dot_v3f32(p0l0, plane_normal), denom);
+    lm2_v3_f32 p0l0 = lm2_v3_sub_f32(plane_point, ray.origin);
+    float t = lm2_div_f32(lm2_v3_dot_f32(p0l0, plane_normal), denom);
 
     if (t >= 0.0f && t <= ray.t_max) {
       result.hit = true;
@@ -433,8 +433,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3f32 plane_
 
   result.hit = false;
   result.t = 0.0f;
-  result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
-  result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+  result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+  result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
   return result;
 }
 
@@ -442,21 +442,21 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3f32 plane_
 // Ray vs Capsule Tests
 // =============================================================================
 
-LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3f64 start, lm2_v3f64 end, double radius) {
+LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3_f64 start, lm2_v3_f64 end, double radius) {
   lm2_rayhit3_f64 result;
 
   // Ray-capsule intersection:
   // 1. Find closest point on capsule line segment to ray
   // 2. Treat that as a moving sphere and find intersection
 
-  lm2_v3f64 seg_dir = lm2_sub_lm2_v3f64(end, start);
-  lm2_v3f64 ray_to_start = lm2_sub_lm2_v3f64(start, ray.origin);
+  lm2_v3_f64 seg_dir = lm2_v3_sub_f64(end, start);
+  lm2_v3_f64 ray_to_start = lm2_v3_sub_f64(start, ray.origin);
 
-  double seg_len_sq = lm2_dot_v3f64(seg_dir, seg_dir);
-  double ray_dot_seg = lm2_dot_v3f64(ray.direction, seg_dir);
-  double ray_to_start_dot_seg = lm2_dot_v3f64(ray_to_start, seg_dir);
-  double ray_dot_ray = lm2_dot_v3f64(ray.direction, ray.direction);
-  double ray_to_start_dot_ray = lm2_dot_v3f64(ray_to_start, ray.direction);
+  double seg_len_sq = lm2_v3_dot_f64(seg_dir, seg_dir);
+  double ray_dot_seg = lm2_v3_dot_f64(ray.direction, seg_dir);
+  double ray_to_start_dot_seg = lm2_v3_dot_f64(ray_to_start, seg_dir);
+  double ray_dot_ray = lm2_v3_dot_f64(ray.direction, ray.direction);
+  double ray_to_start_dot_ray = lm2_v3_dot_f64(ray_to_start, ray.direction);
 
   // Parameters for closest points on infinite lines
   double denom = lm2_sub_f64(lm2_mul_f64(seg_len_sq, ray_dot_ray), lm2_mul_f64(ray_dot_seg, ray_dot_seg));
@@ -465,7 +465,7 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3f64 star
 
   double best_t = ray.t_max;
   bool found_hit = false;
-  lm2_v3f64 best_point, best_normal;
+  lm2_v3_f64 best_point, best_normal;
 
   // Check if ray and segment are parallel
   if (lm2_abs_f64(denom) < epsilon) {
@@ -518,16 +518,16 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3f64 star
     // Minimize: ||ray_origin + t*ray_dir - (start + s*seg_dir)||^2 where 0 <= s <= 1
 
     // For cylinder, solve quadratic for when distance = radius
-    lm2_v3f64 m = lm2_sub_lm2_v3f64(ray.origin, start);
-    lm2_v3f64 n = ray.direction;
-    lm2_v3f64 d = seg_dir;
+    lm2_v3_f64 m = lm2_v3_sub_f64(ray.origin, start);
+    lm2_v3_f64 n = ray.direction;
+    lm2_v3_f64 d = seg_dir;
 
-    double md = lm2_dot_v3f64(m, d);
-    double nd = lm2_dot_v3f64(n, d);
-    double dd = lm2_dot_v3f64(d, d);
-    double nn = lm2_dot_v3f64(n, n);
-    double mn = lm2_dot_v3f64(m, n);
-    double mm = lm2_dot_v3f64(m, m);
+    double md = lm2_v3_dot_f64(m, d);
+    double nd = lm2_v3_dot_f64(n, d);
+    double dd = lm2_v3_dot_f64(d, d);
+    double nn = lm2_v3_dot_f64(n, n);
+    double mn = lm2_v3_dot_f64(m, n);
+    double mm = lm2_v3_dot_f64(m, m);
 
     // Only check if segment has length
     if (dd > epsilon) {
@@ -557,9 +557,9 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3f64 star
 
             if (s >= 0.0 && s <= 1.0) {
               // Valid hit on cylinder portion
-              lm2_v3f64 point = lm2_ray3_point_at_f64(ray, t);
-              lm2_v3f64 seg_point = lm2_add_lm2_v3f64(start, lm2_mul_lm2_v3f64_double(seg_dir, s));
-              lm2_v3f64 normal = lm2_normalize_v3f64(lm2_sub_lm2_v3f64(point, seg_point));
+              lm2_v3_f64 point = lm2_ray3_point_at_f64(ray, t);
+              lm2_v3_f64 seg_point = lm2_v3_add_f64(start, lm2_v3_mul_s_f64(seg_dir, s));
+              lm2_v3_f64 normal = lm2_v3_normalize_f64(lm2_v3_sub_f64(point, seg_point));
 
               best_t = t;
               best_point = point;
@@ -580,24 +580,24 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3f64 star
   } else {
     result.hit = false;
     result.t = 0.0;
-    result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
-    result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
+    result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
   }
 
   return result;
 }
 
-LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3f32 start, lm2_v3f32 end, float radius) {
+LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3_f32 start, lm2_v3_f32 end, float radius) {
   lm2_rayhit3_f32 result;
 
-  lm2_v3f32 seg_dir = lm2_sub_lm2_v3f32(end, start);
-  lm2_v3f32 ray_to_start = lm2_sub_lm2_v3f32(start, ray.origin);
+  lm2_v3_f32 seg_dir = lm2_v3_sub_f32(end, start);
+  lm2_v3_f32 ray_to_start = lm2_v3_sub_f32(start, ray.origin);
 
-  float seg_len_sq = lm2_dot_v3f32(seg_dir, seg_dir);
-  float ray_dot_seg = lm2_dot_v3f32(ray.direction, seg_dir);
-  float ray_to_start_dot_seg = lm2_dot_v3f32(ray_to_start, seg_dir);
-  float ray_dot_ray = lm2_dot_v3f32(ray.direction, ray.direction);
-  float ray_to_start_dot_ray = lm2_dot_v3f32(ray_to_start, ray.direction);
+  float seg_len_sq = lm2_v3_dot_f32(seg_dir, seg_dir);
+  float ray_dot_seg = lm2_v3_dot_f32(ray.direction, seg_dir);
+  float ray_to_start_dot_seg = lm2_v3_dot_f32(ray_to_start, seg_dir);
+  float ray_dot_ray = lm2_v3_dot_f32(ray.direction, ray.direction);
+  float ray_to_start_dot_ray = lm2_v3_dot_f32(ray_to_start, ray.direction);
 
   float denom = lm2_sub_f32(lm2_mul_f32(seg_len_sq, ray_dot_ray), lm2_mul_f32(ray_dot_seg, ray_dot_seg));
 
@@ -605,7 +605,7 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3f32 star
 
   float best_t = ray.t_max;
   bool found_hit = false;
-  lm2_v3f32 best_point, best_normal;
+  lm2_v3_f32 best_point, best_normal;
 
   if (lm2_abs_f32(denom) < epsilon) {
     lm2_rayhit3_f32 start_hit = lm2_raycast_sphere_f32(ray, start, radius);
@@ -640,16 +640,16 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3f32 star
       found_hit = true;
     }
 
-    lm2_v3f32 m = lm2_sub_lm2_v3f32(ray.origin, start);
-    lm2_v3f32 n = ray.direction;
-    lm2_v3f32 d = seg_dir;
+    lm2_v3_f32 m = lm2_v3_sub_f32(ray.origin, start);
+    lm2_v3_f32 n = ray.direction;
+    lm2_v3_f32 d = seg_dir;
 
-    float md = lm2_dot_v3f32(m, d);
-    float nd = lm2_dot_v3f32(n, d);
-    float dd = lm2_dot_v3f32(d, d);
-    float nn = lm2_dot_v3f32(n, n);
-    float mn = lm2_dot_v3f32(m, n);
-    float mm = lm2_dot_v3f32(m, m);
+    float md = lm2_v3_dot_f32(m, d);
+    float nd = lm2_v3_dot_f32(n, d);
+    float dd = lm2_v3_dot_f32(d, d);
+    float nn = lm2_v3_dot_f32(n, n);
+    float mn = lm2_v3_dot_f32(m, n);
+    float mm = lm2_v3_dot_f32(m, m);
 
     if (dd > epsilon) {
       float inv_dd = lm2_div_f32(1.0f, dd);
@@ -673,9 +673,9 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3f32 star
             float s = lm2_mul_f32(lm2_add_f32(md, lm2_mul_f32(nd, t)), inv_dd);
 
             if (s >= 0.0f && s <= 1.0f) {
-              lm2_v3f32 point = lm2_ray3_point_at_f32(ray, t);
-              lm2_v3f32 seg_point = lm2_add_lm2_v3f32(start, lm2_mul_lm2_v3f32_float(seg_dir, s));
-              lm2_v3f32 normal = lm2_normalize_v3f32(lm2_sub_lm2_v3f32(point, seg_point));
+              lm2_v3_f32 point = lm2_ray3_point_at_f32(ray, t);
+              lm2_v3_f32 seg_point = lm2_v3_add_f32(start, lm2_v3_mul_s_f32(seg_dir, s));
+              lm2_v3_f32 normal = lm2_v3_normalize_f32(lm2_v3_sub_f32(point, seg_point));
 
               best_t = t;
               best_point = point;
@@ -696,8 +696,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3f32 star
   } else {
     result.hit = false;
     result.t = 0.0f;
-    result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
-    result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+    result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
   }
 
   return result;
@@ -707,21 +707,21 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3f32 star
 // Ray vs Edge/Line Segment Tests
 // =============================================================================
 
-LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3f64 edge_start, lm2_v3f64 edge_end, double tolerance) {
+LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3_f64 edge_start, lm2_v3_f64 edge_end, double tolerance) {
   lm2_rayhit3_f64 result;
 
   // Ray-edge closest approach
   // Find closest points between ray and line segment
   // If distance is within tolerance, report hit
 
-  lm2_v3f64 edge_dir = lm2_sub_lm2_v3f64(edge_end, edge_start);
-  lm2_v3f64 w0 = lm2_sub_lm2_v3f64(ray.origin, edge_start);
+  lm2_v3_f64 edge_dir = lm2_v3_sub_f64(edge_end, edge_start);
+  lm2_v3_f64 w0 = lm2_v3_sub_f64(ray.origin, edge_start);
 
-  double a = lm2_dot_v3f64(ray.direction, ray.direction);  // always >= 0
-  double b = lm2_dot_v3f64(ray.direction, edge_dir);
-  double c = lm2_dot_v3f64(edge_dir, edge_dir);  // always >= 0
-  double d = lm2_dot_v3f64(ray.direction, w0);
-  double e = lm2_dot_v3f64(edge_dir, w0);
+  double a = lm2_v3_dot_f64(ray.direction, ray.direction);  // always >= 0
+  double b = lm2_v3_dot_f64(ray.direction, edge_dir);
+  double c = lm2_v3_dot_f64(edge_dir, edge_dir);  // always >= 0
+  double d = lm2_v3_dot_f64(ray.direction, w0);
+  double e = lm2_v3_dot_f64(edge_dir, w0);
 
   double denom = lm2_sub_f64(lm2_mul_f64(a, c), lm2_mul_f64(b, b));
   const double epsilon = LM2_RAYCAST3_EPSILON_F64;
@@ -750,18 +750,18 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3f64 edge_st
     if (t_edge < 0.0) {
       t_edge = 0.0;
       // Recompute t_ray for clamped edge
-      lm2_v3f64 edge_point = edge_start;
-      lm2_v3f64 diff = lm2_sub_lm2_v3f64(edge_point, ray.origin);
-      t_ray = lm2_dot_v3f64(diff, ray.direction);
+      lm2_v3_f64 edge_point = edge_start;
+      lm2_v3_f64 diff = lm2_v3_sub_f64(edge_point, ray.origin);
+      t_ray = lm2_v3_dot_f64(diff, ray.direction);
       if (t_ray < 0.0) t_ray = 0.0;
       else if (t_ray > ray.t_max)
         t_ray = ray.t_max;
     } else if (t_edge > 1.0) {
       t_edge = 1.0;
       // Recompute t_ray for clamped edge
-      lm2_v3f64 edge_point = edge_end;
-      lm2_v3f64 diff = lm2_sub_lm2_v3f64(edge_point, ray.origin);
-      t_ray = lm2_dot_v3f64(diff, ray.direction);
+      lm2_v3_f64 edge_point = edge_end;
+      lm2_v3_f64 diff = lm2_v3_sub_f64(edge_point, ray.origin);
+      t_ray = lm2_v3_dot_f64(diff, ray.direction);
       if (t_ray < 0.0) t_ray = 0.0;
       else if (t_ray > ray.t_max)
         t_ray = ray.t_max;
@@ -769,11 +769,11 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3f64 edge_st
   }
 
   // Compute closest points
-  lm2_v3f64 ray_point = lm2_ray3_point_at_f64(ray, t_ray);
-  lm2_v3f64 edge_point = lm2_add_lm2_v3f64(edge_start, lm2_mul_lm2_v3f64_double(edge_dir, t_edge));
+  lm2_v3_f64 ray_point = lm2_ray3_point_at_f64(ray, t_ray);
+  lm2_v3_f64 edge_point = lm2_v3_add_f64(edge_start, lm2_v3_mul_s_f64(edge_dir, t_edge));
 
   // Check distance
-  double dist = lm2_distance_v3f64(ray_point, edge_point);
+  double dist = lm2_v3_distance_f64(ray_point, edge_point);
 
   if (dist <= tolerance) {
     result.hit = true;
@@ -781,39 +781,39 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3f64 edge_st
     result.point = ray_point;
     // Normal points from edge to ray
     if (dist > epsilon) {
-      result.normal = lm2_normalize_v3f64(lm2_sub_lm2_v3f64(ray_point, edge_point));
+      result.normal = lm2_v3_normalize_f64(lm2_v3_sub_f64(ray_point, edge_point));
     } else {
       // Ray intersects edge, use perpendicular to both
-      lm2_v3f64 cross = lm2_cross_v3f64(ray.direction, edge_dir);
-      double cross_len = lm2_length_v3f64(cross);
+      lm2_v3_f64 cross = lm2_v3_cross_f64(ray.direction, edge_dir);
+      double cross_len = lm2_v3_length_f64(cross);
       if (cross_len > epsilon) {
-        result.normal = lm2_normalize_v3f64(cross);
+        result.normal = lm2_v3_normalize_f64(cross);
       } else {
         // Parallel, use any perpendicular
-        result.normal = (lm2_v3f64) {1.0, 0.0, 0.0};
+        result.normal = (lm2_v3_f64) {1.0, 0.0, 0.0};
       }
     }
   } else {
     result.hit = false;
     result.t = 0.0;
-    result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
-    result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
+    result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
   }
 
   return result;
 }
 
-LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3f32 edge_start, lm2_v3f32 edge_end, float tolerance) {
+LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3_f32 edge_start, lm2_v3_f32 edge_end, float tolerance) {
   lm2_rayhit3_f32 result;
 
-  lm2_v3f32 edge_dir = lm2_sub_lm2_v3f32(edge_end, edge_start);
-  lm2_v3f32 w0 = lm2_sub_lm2_v3f32(ray.origin, edge_start);
+  lm2_v3_f32 edge_dir = lm2_v3_sub_f32(edge_end, edge_start);
+  lm2_v3_f32 w0 = lm2_v3_sub_f32(ray.origin, edge_start);
 
-  float a = lm2_dot_v3f32(ray.direction, ray.direction);
-  float b = lm2_dot_v3f32(ray.direction, edge_dir);
-  float c = lm2_dot_v3f32(edge_dir, edge_dir);
-  float d = lm2_dot_v3f32(ray.direction, w0);
-  float e = lm2_dot_v3f32(edge_dir, w0);
+  float a = lm2_v3_dot_f32(ray.direction, ray.direction);
+  float b = lm2_v3_dot_f32(ray.direction, edge_dir);
+  float c = lm2_v3_dot_f32(edge_dir, edge_dir);
+  float d = lm2_v3_dot_f32(ray.direction, w0);
+  float e = lm2_v3_dot_f32(edge_dir, w0);
 
   float denom = lm2_sub_f32(lm2_mul_f32(a, c), lm2_mul_f32(b, b));
   const float epsilon = LM2_RAYCAST3_EPSILON_F32;
@@ -836,48 +836,48 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3f32 edge_st
 
     if (t_edge < 0.0f) {
       t_edge = 0.0f;
-      lm2_v3f32 edge_point = edge_start;
-      lm2_v3f32 diff = lm2_sub_lm2_v3f32(edge_point, ray.origin);
-      t_ray = lm2_dot_v3f32(diff, ray.direction);
+      lm2_v3_f32 edge_point = edge_start;
+      lm2_v3_f32 diff = lm2_v3_sub_f32(edge_point, ray.origin);
+      t_ray = lm2_v3_dot_f32(diff, ray.direction);
       if (t_ray < 0.0f) t_ray = 0.0f;
       else if (t_ray > ray.t_max)
         t_ray = ray.t_max;
     } else if (t_edge > 1.0f) {
       t_edge = 1.0f;
-      lm2_v3f32 edge_point = edge_end;
-      lm2_v3f32 diff = lm2_sub_lm2_v3f32(edge_point, ray.origin);
-      t_ray = lm2_dot_v3f32(diff, ray.direction);
+      lm2_v3_f32 edge_point = edge_end;
+      lm2_v3_f32 diff = lm2_v3_sub_f32(edge_point, ray.origin);
+      t_ray = lm2_v3_dot_f32(diff, ray.direction);
       if (t_ray < 0.0f) t_ray = 0.0f;
       else if (t_ray > ray.t_max)
         t_ray = ray.t_max;
     }
   }
 
-  lm2_v3f32 ray_point = lm2_ray3_point_at_f32(ray, t_ray);
-  lm2_v3f32 edge_point = lm2_add_lm2_v3f32(edge_start, lm2_mul_lm2_v3f32_float(edge_dir, t_edge));
+  lm2_v3_f32 ray_point = lm2_ray3_point_at_f32(ray, t_ray);
+  lm2_v3_f32 edge_point = lm2_v3_add_f32(edge_start, lm2_v3_mul_s_f32(edge_dir, t_edge));
 
-  float dist = lm2_distance_v3f32(ray_point, edge_point);
+  float dist = lm2_v3_distance_f32(ray_point, edge_point);
 
   if (dist <= tolerance) {
     result.hit = true;
     result.t = t_ray;
     result.point = ray_point;
     if (dist > epsilon) {
-      result.normal = lm2_normalize_v3f32(lm2_sub_lm2_v3f32(ray_point, edge_point));
+      result.normal = lm2_v3_normalize_f32(lm2_v3_sub_f32(ray_point, edge_point));
     } else {
-      lm2_v3f32 cross = lm2_cross_v3f32(ray.direction, edge_dir);
-      float cross_len = lm2_length_v3f32(cross);
+      lm2_v3_f32 cross = lm2_v3_cross_f32(ray.direction, edge_dir);
+      float cross_len = lm2_v3_length_f32(cross);
       if (cross_len > epsilon) {
-        result.normal = lm2_normalize_v3f32(cross);
+        result.normal = lm2_v3_normalize_f32(cross);
       } else {
-        result.normal = (lm2_v3f32) {1.0f, 0.0f, 0.0f};
+        result.normal = (lm2_v3_f32) {1.0f, 0.0f, 0.0f};
       }
     }
   } else {
     result.hit = false;
     result.t = 0.0f;
-    result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
-    result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+    result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
   }
 
   return result;
@@ -893,8 +893,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_shape3_f64(lm2_ray3_f64 ray, lm2_shape3_f64 
   lm2_rayhit3_f64 result;
   result.hit = false;
   result.t = 0.0;
-  result.point = (lm2_v3f64) {0.0, 0.0, 0.0};
-  result.normal = (lm2_v3f64) {0.0, 0.0, 0.0};
+  result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
+  result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
 
   switch (shape.type) {
     case LM2_SHAPE3_SPHERE: {
@@ -930,7 +930,7 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_shape3_f64(lm2_ray3_f64 ray, lm2_shape3_f64 
     case LM2_SHAPE3_PLANE: {
       lm2_plane3_f64* plane = (lm2_plane3_f64*)shape.data;
       // Calculate a point on the plane from normal and distance
-      lm2_v3f64 plane_point = lm2_mul_lm2_v3f64_double(plane->normal, plane->distance);
+      lm2_v3_f64 plane_point = lm2_v3_mul_s_f64(plane->normal, plane->distance);
       result = lm2_raycast_plane_f64(ray, plane_point, plane->normal);
       break;
     }
@@ -952,8 +952,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 
   lm2_rayhit3_f32 result;
   result.hit = false;
   result.t = 0.0f;
-  result.point = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
-  result.normal = (lm2_v3f32) {0.0f, 0.0f, 0.0f};
+  result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+  result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
 
   switch (shape.type) {
     case LM2_SHAPE3_SPHERE: {
@@ -988,7 +988,7 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 
 
     case LM2_SHAPE3_PLANE: {
       lm2_plane3_f32* plane = (lm2_plane3_f32*)shape.data;
-      lm2_v3f32 plane_point = lm2_mul_lm2_v3f32_float(plane->normal, plane->distance);
+      lm2_v3_f32 plane_point = lm2_v3_mul_s_f32(plane->normal, plane->distance);
       result = lm2_raycast_plane_f32(ray, plane_point, plane->normal);
       break;
     }

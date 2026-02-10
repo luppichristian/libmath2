@@ -38,15 +38,15 @@ LM2_HEADER_BEGIN;
 
 // 3D Ray structure
 typedef struct lm2_ray3_f64 {
-  lm2_v3f64 origin;     // Ray origin position
-  lm2_v3f64 direction;  // Ray direction (should be normalized)
-  double t_max;         // Maximum distance along ray
+  lm2_v3_f64 origin;     // Ray origin position
+  lm2_v3_f64 direction;  // Ray direction (should be normalized)
+  double t_max;          // Maximum distance along ray
 } lm2_ray3_f64;
 
 typedef struct lm2_ray3_f32 {
-  lm2_v3f32 origin;     // Ray origin position
-  lm2_v3f32 direction;  // Ray direction (should be normalized)
-  float t_max;          // Maximum distance along ray
+  lm2_v3_f32 origin;     // Ray origin position
+  lm2_v3_f32 direction;  // Ray direction (should be normalized)
+  float t_max;           // Maximum distance along ray
 } lm2_ray3_f32;
 
 // Default 3D ray type
@@ -58,17 +58,17 @@ typedef lm2_ray3_f32 lm2_ray3;
 
 // 3D Ray hit result
 typedef struct lm2_rayhit3_f64 {
-  bool hit;          // Whether the ray hit something
-  double t;          // Distance along ray where hit occurred
-  lm2_v3f64 point;   // Hit point in world space
-  lm2_v3f64 normal;  // Surface normal at hit point (unit length)
+  bool hit;           // Whether the ray hit something
+  double t;           // Distance along ray where hit occurred
+  lm2_v3_f64 point;   // Hit point in world space
+  lm2_v3_f64 normal;  // Surface normal at hit point (unit length)
 } lm2_rayhit3_f64;
 
 typedef struct lm2_rayhit3_f32 {
-  bool hit;          // Whether the ray hit something
-  float t;           // Distance along ray where hit occurred
-  lm2_v3f32 point;   // Hit point in world space
-  lm2_v3f32 normal;  // Surface normal at hit point (unit length)
+  bool hit;           // Whether the ray hit something
+  float t;            // Distance along ray where hit occurred
+  lm2_v3_f32 point;   // Hit point in world space
+  lm2_v3_f32 normal;  // Surface normal at hit point (unit length)
 } lm2_rayhit3_f32;
 
 // Default 3D ray hit type
@@ -79,44 +79,44 @@ typedef lm2_rayhit3_f32 lm2_rayhit3;
 // =============================================================================
 
 // Create a 3D ray from origin, direction, and max distance
-LM2_API lm2_ray3_f64 lm2_ray3_make_f64(lm2_v3f64 origin, lm2_v3f64 direction, double t_max);
-LM2_API lm2_ray3_f32 lm2_ray3_make_f32(lm2_v3f32 origin, lm2_v3f32 direction, float t_max);
+LM2_API lm2_ray3_f64 lm2_ray3_make_f64(lm2_v3_f64 origin, lm2_v3_f64 direction, double t_max);
+LM2_API lm2_ray3_f32 lm2_ray3_make_f32(lm2_v3_f32 origin, lm2_v3_f32 direction, float t_max);
 
 // Create a 3D ray from two points
-LM2_API lm2_ray3_f64 lm2_ray3_from_points_f64(lm2_v3f64 start, lm2_v3f64 end);
-LM2_API lm2_ray3_f32 lm2_ray3_from_points_f32(lm2_v3f32 start, lm2_v3f32 end);
+LM2_API lm2_ray3_f64 lm2_ray3_from_points_f64(lm2_v3_f64 start, lm2_v3_f64 end);
+LM2_API lm2_ray3_f32 lm2_ray3_from_points_f32(lm2_v3_f32 start, lm2_v3_f32 end);
 
 // Get point along ray at distance t
-LM2_API lm2_v3f64 lm2_ray3_point_at_f64(lm2_ray3_f64 ray, double t);
-LM2_API lm2_v3f32 lm2_ray3_point_at_f32(lm2_ray3_f32 ray, float t);
+LM2_API lm2_v3_f64 lm2_ray3_point_at_f64(lm2_ray3_f64 ray, double t);
+LM2_API lm2_v3_f32 lm2_ray3_point_at_f32(lm2_ray3_f32 ray, float t);
 
 // =============================================================================
 // 3D Ray vs Primitive Tests
 // =============================================================================
 
 // Ray vs Sphere (3D circle)
-LM2_API lm2_rayhit3_f64 lm2_raycast_sphere_f64(lm2_ray3_f64 ray, lm2_v3f64 center, double radius);
-LM2_API lm2_rayhit3_f32 lm2_raycast_sphere_f32(lm2_ray3_f32 ray, lm2_v3f32 center, float radius);
+LM2_API lm2_rayhit3_f64 lm2_raycast_sphere_f64(lm2_ray3_f64 ray, lm2_v3_f64 center, double radius);
+LM2_API lm2_rayhit3_f32 lm2_raycast_sphere_f32(lm2_ray3_f32 ray, lm2_v3_f32 center, float radius);
 
 // Ray vs AABB (range3)
-LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3f64 aabb);
-LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3f32 aabb);
+LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3_f64 aabb);
+LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3_f32 aabb);
 
 // Ray vs Triangle (3D)
-LM2_API lm2_rayhit3_f64 lm2_raycast_triangle_f64(lm2_ray3_f64 ray, lm2_v3f64 v0, lm2_v3f64 v1, lm2_v3f64 v2);
-LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3f32 v0, lm2_v3f32 v1, lm2_v3f32 v2);
+LM2_API lm2_rayhit3_f64 lm2_raycast_triangle_f64(lm2_ray3_f64 ray, lm2_v3_f64 v0, lm2_v3_f64 v1, lm2_v3_f64 v2);
+LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3_f32 v0, lm2_v3_f32 v1, lm2_v3_f32 v2);
 
 // Ray vs Plane (3D)
-LM2_API lm2_rayhit3_f64 lm2_raycast_plane_f64(lm2_ray3_f64 ray, lm2_v3f64 plane_point, lm2_v3f64 plane_normal);
-LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3f32 plane_point, lm2_v3f32 plane_normal);
+LM2_API lm2_rayhit3_f64 lm2_raycast_plane_f64(lm2_ray3_f64 ray, lm2_v3_f64 plane_point, lm2_v3_f64 plane_normal);
+LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3_f32 plane_point, lm2_v3_f32 plane_normal);
 
 // Ray vs Capsule (3D)
-LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3f64 start, lm2_v3f64 end, double radius);
-LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3f32 start, lm2_v3f32 end, float radius);
+LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3_f64 start, lm2_v3_f64 end, double radius);
+LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3_f32 start, lm2_v3_f32 end, float radius);
 
 // Ray vs Edge/Line Segment (3D) - returns closest approach
-LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3f64 edge_start, lm2_v3f64 edge_end, double tolerance);
-LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3f32 edge_start, lm2_v3f32 edge_end, float tolerance);
+LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3_f64 edge_start, lm2_v3_f64 edge_end, double tolerance);
+LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3_f32 edge_start, lm2_v3_f32 edge_end, float tolerance);
 
 // =============================================================================
 // Generic Shape Raycasting
@@ -143,6 +143,6 @@ LM2_HEADER_END;
 // C++ operator overloads (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_geometry_operators.h"
-_LM2_DEFINE_RAY3_OPERATORS(lm2_ray3_f64, lm2_v3f64, double)
-_LM2_DEFINE_RAY3_OPERATORS(lm2_ray3_f32, lm2_v3f32, float)
+_LM2_DEFINE_RAY3_OPERATORS(lm2_ray3_f64, f64, lm2_v3, double)
+_LM2_DEFINE_RAY3_OPERATORS(lm2_ray3_f32, f32, lm2_v3, float)
 #endif

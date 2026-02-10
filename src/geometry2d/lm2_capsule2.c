@@ -34,7 +34,7 @@ SOFTWARE.
 // Construction Helpers
 // =============================================================================
 
-LM2_API lm2_capsule2_f64 lm2_capsule2_make_f64(lm2_v2f64 start, lm2_v2f64 end, double radius) {
+LM2_API lm2_capsule2_f64 lm2_capsule2_make_f64(lm2_v2_f64 start, lm2_v2_f64 end, double radius) {
   LM2_ASSERT(radius >= 0.0);
   lm2_capsule2_f64 capsule;
   capsule.start = start;
@@ -43,7 +43,7 @@ LM2_API lm2_capsule2_f64 lm2_capsule2_make_f64(lm2_v2f64 start, lm2_v2f64 end, d
   return capsule;
 }
 
-LM2_API lm2_capsule2_f32 lm2_capsule2_make_f32(lm2_v2f32 start, lm2_v2f32 end, float radius) {
+LM2_API lm2_capsule2_f32 lm2_capsule2_make_f32(lm2_v2_f32 start, lm2_v2_f32 end, float radius) {
   LM2_ASSERT(radius >= 0.0f);
   lm2_capsule2_f32 capsule;
   capsule.start = start;
@@ -74,26 +74,26 @@ LM2_API lm2_capsule2_f32 lm2_capsule2_make_coords_f32(float x1, float y1, float 
   return capsule;
 }
 
-LM2_API lm2_capsule2_f64 lm2_capsule2_from_center_f64(lm2_v2f64 center, lm2_v2f64 direction, double half_length, double radius) {
+LM2_API lm2_capsule2_f64 lm2_capsule2_from_center_f64(lm2_v2_f64 center, lm2_v2_f64 direction, double half_length, double radius) {
   LM2_ASSERT(radius >= 0.0);
   LM2_ASSERT(half_length >= 0.0);
-  lm2_v2f64 normalized = lm2_normalize_v2f64(direction);
-  lm2_v2f64 offset = lm2_mul_lm2_v2f64_double(normalized, half_length);
+  lm2_v2_f64 normalized = lm2_v2_normalize_f64(direction);
+  lm2_v2_f64 offset = lm2_v2_mul_s_f64(normalized, half_length);
   lm2_capsule2_f64 capsule;
-  capsule.start = lm2_sub_lm2_v2f64(center, offset);
-  capsule.end = lm2_add_lm2_v2f64(center, offset);
+  capsule.start = lm2_v2_sub_f64(center, offset);
+  capsule.end = lm2_v2_add_f64(center, offset);
   capsule.radius = radius;
   return capsule;
 }
 
-LM2_API lm2_capsule2_f32 lm2_capsule2_from_center_f32(lm2_v2f32 center, lm2_v2f32 direction, float half_length, float radius) {
+LM2_API lm2_capsule2_f32 lm2_capsule2_from_center_f32(lm2_v2_f32 center, lm2_v2_f32 direction, float half_length, float radius) {
   LM2_ASSERT(radius >= 0.0f);
   LM2_ASSERT(half_length >= 0.0f);
-  lm2_v2f32 normalized = lm2_normalize_v2f32(direction);
-  lm2_v2f32 offset = lm2_mul_lm2_v2f32_float(normalized, half_length);
+  lm2_v2_f32 normalized = lm2_v2_normalize_f32(direction);
+  lm2_v2_f32 offset = lm2_v2_mul_s_f32(normalized, half_length);
   lm2_capsule2_f32 capsule;
-  capsule.start = lm2_sub_lm2_v2f32(center, offset);
-  capsule.end = lm2_add_lm2_v2f32(center, offset);
+  capsule.start = lm2_v2_sub_f32(center, offset);
+  capsule.end = lm2_v2_add_f32(center, offset);
   capsule.radius = radius;
   return capsule;
 }
@@ -103,28 +103,28 @@ LM2_API lm2_capsule2_f32 lm2_capsule2_from_center_f32(lm2_v2f32 center, lm2_v2f3
 // =============================================================================
 
 LM2_API double lm2_capsule2_length_f64(lm2_capsule2_f64 capsule) {
-  return lm2_distance_v2f64(capsule.start, capsule.end);
+  return lm2_v2_distance_f64(capsule.start, capsule.end);
 }
 
 LM2_API float lm2_capsule2_length_f32(lm2_capsule2_f32 capsule) {
-  return lm2_distance_v2f32(capsule.start, capsule.end);
+  return lm2_v2_distance_f32(capsule.start, capsule.end);
 }
 
 LM2_API double lm2_capsule2_total_length_f64(lm2_capsule2_f64 capsule) {
-  double seg_length = lm2_distance_v2f64(capsule.start, capsule.end);
+  double seg_length = lm2_v2_distance_f64(capsule.start, capsule.end);
   double diameter = lm2_mul_f64(2.0, capsule.radius);
   return lm2_add_f64(seg_length, diameter);
 }
 
 LM2_API float lm2_capsule2_total_length_f32(lm2_capsule2_f32 capsule) {
-  float seg_length = lm2_distance_v2f32(capsule.start, capsule.end);
+  float seg_length = lm2_v2_distance_f32(capsule.start, capsule.end);
   float diameter = lm2_mul_f32(2.0f, capsule.radius);
   return lm2_add_f32(seg_length, diameter);
 }
 
 LM2_API double lm2_capsule2_area_f64(lm2_capsule2_f64 capsule) {
   // Area = π * r² + 2 * r * length (circle + rectangle)
-  double seg_length = lm2_distance_v2f64(capsule.start, capsule.end);
+  double seg_length = lm2_v2_distance_f64(capsule.start, capsule.end);
   double r_squared = lm2_mul_f64(capsule.radius, capsule.radius);
   double circle_area = lm2_mul_f64(LM2_PI_F64, r_squared);
   double rect_area = lm2_mul_f64(lm2_mul_f64(2.0, capsule.radius), seg_length);
@@ -133,7 +133,7 @@ LM2_API double lm2_capsule2_area_f64(lm2_capsule2_f64 capsule) {
 
 LM2_API float lm2_capsule2_area_f32(lm2_capsule2_f32 capsule) {
   // Area = π * r² + 2 * r * length (circle + rectangle)
-  float seg_length = lm2_distance_v2f32(capsule.start, capsule.end);
+  float seg_length = lm2_v2_distance_f32(capsule.start, capsule.end);
   float r_squared = lm2_mul_f32(capsule.radius, capsule.radius);
   float circle_area = lm2_mul_f32(LM2_PI_F32, r_squared);
   float rect_area = lm2_mul_f32(lm2_mul_f32(2.0f, capsule.radius), seg_length);
@@ -142,7 +142,7 @@ LM2_API float lm2_capsule2_area_f32(lm2_capsule2_f32 capsule) {
 
 LM2_API double lm2_capsule2_perimeter_f64(lm2_capsule2_f64 capsule) {
   // Perimeter = 2 * π * r + 2 * length
-  double seg_length = lm2_distance_v2f64(capsule.start, capsule.end);
+  double seg_length = lm2_v2_distance_f64(capsule.start, capsule.end);
   double circle_perim = lm2_mul_f64(lm2_mul_f64(2.0, LM2_PI_F64), capsule.radius);
   double line_perim = lm2_mul_f64(2.0, seg_length);
   return lm2_add_f64(circle_perim, line_perim);
@@ -150,34 +150,34 @@ LM2_API double lm2_capsule2_perimeter_f64(lm2_capsule2_f64 capsule) {
 
 LM2_API float lm2_capsule2_perimeter_f32(lm2_capsule2_f32 capsule) {
   // Perimeter = 2 * π * r + 2 * length
-  float seg_length = lm2_distance_v2f32(capsule.start, capsule.end);
+  float seg_length = lm2_v2_distance_f32(capsule.start, capsule.end);
   float circle_perim = lm2_mul_f32(lm2_mul_f32(2.0f, LM2_PI_F32), capsule.radius);
   float line_perim = lm2_mul_f32(2.0f, seg_length);
   return lm2_add_f32(circle_perim, line_perim);
 }
 
-LM2_API lm2_v2f64 lm2_capsule2_center_f64(lm2_capsule2_f64 capsule) {
-  lm2_v2f64 sum = lm2_add_lm2_v2f64(capsule.start, capsule.end);
-  return lm2_mul_lm2_v2f64_double(sum, 0.5);
+LM2_API lm2_v2_f64 lm2_capsule2_center_f64(lm2_capsule2_f64 capsule) {
+  lm2_v2_f64 sum = lm2_v2_add_f64(capsule.start, capsule.end);
+  return lm2_v2_mul_s_f64(sum, 0.5);
 }
 
-LM2_API lm2_v2f32 lm2_capsule2_center_f32(lm2_capsule2_f32 capsule) {
-  lm2_v2f32 sum = lm2_add_lm2_v2f32(capsule.start, capsule.end);
-  return lm2_mul_lm2_v2f32_float(sum, 0.5f);
+LM2_API lm2_v2_f32 lm2_capsule2_center_f32(lm2_capsule2_f32 capsule) {
+  lm2_v2_f32 sum = lm2_v2_add_f32(capsule.start, capsule.end);
+  return lm2_v2_mul_s_f32(sum, 0.5f);
 }
 
 // =============================================================================
 // Capsule-Point Collision
 // =============================================================================
 
-LM2_API bool lm2_capsule2_contains_point_f64(lm2_capsule2_f64 capsule, lm2_v2f64 point) {
+LM2_API bool lm2_capsule2_contains_point_f64(lm2_capsule2_f64 capsule, lm2_v2_f64 point) {
   lm2_edge2_f64 edge = {capsule.start, capsule.end};
   double dist_sq = lm2_point_to_edge2_distance_sq_f64(point, edge);
   double radius_sq = lm2_mul_f64(capsule.radius, capsule.radius);
   return dist_sq <= radius_sq;
 }
 
-LM2_API bool lm2_capsule2_contains_point_f32(lm2_capsule2_f32 capsule, lm2_v2f32 point) {
+LM2_API bool lm2_capsule2_contains_point_f32(lm2_capsule2_f32 capsule, lm2_v2_f32 point) {
   lm2_edge2_f32 edge = {capsule.start, capsule.end};
   float dist_sq = lm2_point_to_edge2_distance_sq_f32(point, edge);
   float radius_sq = lm2_mul_f32(capsule.radius, capsule.radius);
@@ -210,18 +210,18 @@ LM2_API bool lm2_capsule2s_overlap_f32(lm2_capsule2_f32 a, lm2_capsule2_f32 b) {
 // Capsule Transformations
 // =============================================================================
 
-LM2_API lm2_capsule2_f64 lm2_capsule2_translate_f64(lm2_capsule2_f64 capsule, lm2_v2f64 offset) {
+LM2_API lm2_capsule2_f64 lm2_capsule2_translate_f64(lm2_capsule2_f64 capsule, lm2_v2_f64 offset) {
   lm2_capsule2_f64 result;
-  result.start = lm2_add_lm2_v2f64(capsule.start, offset);
-  result.end = lm2_add_lm2_v2f64(capsule.end, offset);
+  result.start = lm2_v2_add_f64(capsule.start, offset);
+  result.end = lm2_v2_add_f64(capsule.end, offset);
   result.radius = capsule.radius;
   return result;
 }
 
-LM2_API lm2_capsule2_f32 lm2_capsule2_translate_f32(lm2_capsule2_f32 capsule, lm2_v2f32 offset) {
+LM2_API lm2_capsule2_f32 lm2_capsule2_translate_f32(lm2_capsule2_f32 capsule, lm2_v2_f32 offset) {
   lm2_capsule2_f32 result;
-  result.start = lm2_add_lm2_v2f32(capsule.start, offset);
-  result.end = lm2_add_lm2_v2f32(capsule.end, offset);
+  result.start = lm2_v2_add_f32(capsule.start, offset);
+  result.end = lm2_v2_add_f32(capsule.end, offset);
   result.radius = capsule.radius;
   return result;
 }

@@ -32,7 +32,7 @@ SOFTWARE.
 // Construction Helpers
 // =============================================================================
 
-LM2_API lm2_circle_f64 lm2_circle_make_f64(lm2_v2f64 center, double radius) {
+LM2_API lm2_circle_f64 lm2_circle_make_f64(lm2_v2_f64 center, double radius) {
   LM2_ASSERT(radius >= 0.0);
   lm2_circle_f64 circle;
   circle.center = center;
@@ -40,7 +40,7 @@ LM2_API lm2_circle_f64 lm2_circle_make_f64(lm2_v2f64 center, double radius) {
   return circle;
 }
 
-LM2_API lm2_circle_f32 lm2_circle_make_f32(lm2_v2f32 center, float radius) {
+LM2_API lm2_circle_f32 lm2_circle_make_f32(lm2_v2_f32 center, float radius) {
   LM2_ASSERT(radius >= 0.0f);
   lm2_circle_f32 circle;
   circle.center = center;
@@ -124,13 +124,13 @@ LM2_API float lm2_circle_diameter_f32(lm2_circle_f32 circle) {
 // Circle Tests
 // =============================================================================
 
-LM2_API bool lm2_circle_contains_point_f64(lm2_circle_f64 circle, lm2_v2f64 point) {
+LM2_API bool lm2_circle_contains_point_f64(lm2_circle_f64 circle, lm2_v2_f64 point) {
   double dist_sq = lm2_v2_distance_sq_f64(circle.center, point);
   double radius_sq = lm2_mul_f64(circle.radius, circle.radius);
   return dist_sq <= radius_sq;
 }
 
-LM2_API bool lm2_circle_contains_point_f32(lm2_circle_f32 circle, lm2_v2f32 point) {
+LM2_API bool lm2_circle_contains_point_f32(lm2_circle_f32 circle, lm2_v2_f32 point) {
   float dist_sq = lm2_v2_distance_sq_f32(circle.center, point);
   float radius_sq = lm2_mul_f32(circle.radius, circle.radius);
   return dist_sq <= radius_sq;
@@ -168,16 +168,16 @@ LM2_API bool lm2_circle_contains_circle_f32(lm2_circle_f32 a, lm2_circle_f32 b) 
 // Circle Transformations
 // =============================================================================
 
-LM2_API lm2_circle_f64 lm2_circle_translate_f64(lm2_circle_f64 circle, lm2_v2f64 offset) {
+LM2_API lm2_circle_f64 lm2_circle_translate_f64(lm2_circle_f64 circle, lm2_v2_f64 offset) {
   lm2_circle_f64 result;
-  result.center = lm2_add_lm2_v2f64(circle.center, offset);
+  result.center = lm2_v2_add_f64(circle.center, offset);
   result.radius = circle.radius;
   return result;
 }
 
-LM2_API lm2_circle_f32 lm2_circle_translate_f32(lm2_circle_f32 circle, lm2_v2f32 offset) {
+LM2_API lm2_circle_f32 lm2_circle_translate_f32(lm2_circle_f32 circle, lm2_v2_f32 offset) {
   lm2_circle_f32 result;
-  result.center = lm2_add_lm2_v2f32(circle.center, offset);
+  result.center = lm2_v2_add_f32(circle.center, offset);
   result.radius = circle.radius;
   return result;
 }

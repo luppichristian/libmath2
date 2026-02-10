@@ -33,13 +33,13 @@ SOFTWARE.
 // Construction Helpers
 // =============================================================================
 
-LM2_API void lm2_triangle3_make_f64(lm2_triangle3_f64 tri, lm2_v3f64 a, lm2_v3f64 b, lm2_v3f64 c) {
+LM2_API void lm2_triangle3_make_f64(lm2_triangle3_f64 tri, lm2_v3_f64 a, lm2_v3_f64 b, lm2_v3_f64 c) {
   tri[0] = a;
   tri[1] = b;
   tri[2] = c;
 }
 
-LM2_API void lm2_triangle3_make_f32(lm2_triangle3_f32 tri, lm2_v3f32 a, lm2_v3f32 b, lm2_v3f32 c) {
+LM2_API void lm2_triangle3_make_f32(lm2_triangle3_f32 tri, lm2_v3_f32 a, lm2_v3_f32 b, lm2_v3_f32 c) {
   tri[0] = a;
   tri[1] = b;
   tri[2] = c;
@@ -75,57 +75,57 @@ LM2_API void lm2_triangle3_make_coords_f32(lm2_triangle3_f32 tri, float ax, floa
 
 LM2_API double lm2_triangle3_area_f64(const lm2_triangle3_f64 tri) {
   // Area = 0.5 * |cross(AB, AC)|
-  lm2_v3f64 ab = lm2_sub_lm2_v3f64(tri[1], tri[0]);
-  lm2_v3f64 ac = lm2_sub_lm2_v3f64(tri[2], tri[0]);
-  lm2_v3f64 cross = lm2_cross_v3f64(ab, ac);
-  double length = lm2_length_v3f64(cross);
+  lm2_v3_f64 ab = lm2_v3_sub_f64(tri[1], tri[0]);
+  lm2_v3_f64 ac = lm2_v3_sub_f64(tri[2], tri[0]);
+  lm2_v3_f64 cross = lm2_v3_cross_f64(ab, ac);
+  double length = lm2_v3_length_f64(cross);
   return lm2_mul_f64(0.5, length);
 }
 
 LM2_API float lm2_triangle3_area_f32(const lm2_triangle3_f32 tri) {
-  lm2_v3f32 ab = lm2_sub_lm2_v3f32(tri[1], tri[0]);
-  lm2_v3f32 ac = lm2_sub_lm2_v3f32(tri[2], tri[0]);
-  lm2_v3f32 cross = lm2_cross_v3f32(ab, ac);
-  float length = lm2_length_v3f32(cross);
+  lm2_v3_f32 ab = lm2_v3_sub_f32(tri[1], tri[0]);
+  lm2_v3_f32 ac = lm2_v3_sub_f32(tri[2], tri[0]);
+  lm2_v3_f32 cross = lm2_v3_cross_f32(ab, ac);
+  float length = lm2_v3_length_f32(cross);
   return lm2_mul_f32(0.5f, length);
 }
 
 LM2_API double lm2_triangle3_perimeter_f64(const lm2_triangle3_f64 tri) {
-  double ab = lm2_distance_v3f64(tri[0], tri[1]);
-  double bc = lm2_distance_v3f64(tri[1], tri[2]);
-  double ca = lm2_distance_v3f64(tri[2], tri[0]);
+  double ab = lm2_v3_distance_f64(tri[0], tri[1]);
+  double bc = lm2_v3_distance_f64(tri[1], tri[2]);
+  double ca = lm2_v3_distance_f64(tri[2], tri[0]);
   return lm2_add_f64(lm2_add_f64(ab, bc), ca);
 }
 
 LM2_API float lm2_triangle3_perimeter_f32(const lm2_triangle3_f32 tri) {
-  float ab = lm2_distance_v3f32(tri[0], tri[1]);
-  float bc = lm2_distance_v3f32(tri[1], tri[2]);
-  float ca = lm2_distance_v3f32(tri[2], tri[0]);
+  float ab = lm2_v3_distance_f32(tri[0], tri[1]);
+  float bc = lm2_v3_distance_f32(tri[1], tri[2]);
+  float ca = lm2_v3_distance_f32(tri[2], tri[0]);
   return lm2_add_f32(lm2_add_f32(ab, bc), ca);
 }
 
-LM2_API lm2_v3f64 lm2_triangle3_normal_f64(const lm2_triangle3_f64 tri) {
-  lm2_v3f64 ab = lm2_sub_lm2_v3f64(tri[1], tri[0]);
-  lm2_v3f64 ac = lm2_sub_lm2_v3f64(tri[2], tri[0]);
-  lm2_v3f64 cross = lm2_cross_v3f64(ab, ac);
-  return lm2_normalize_v3f64(cross);
+LM2_API lm2_v3_f64 lm2_triangle3_normal_f64(const lm2_triangle3_f64 tri) {
+  lm2_v3_f64 ab = lm2_v3_sub_f64(tri[1], tri[0]);
+  lm2_v3_f64 ac = lm2_v3_sub_f64(tri[2], tri[0]);
+  lm2_v3_f64 cross = lm2_v3_cross_f64(ab, ac);
+  return lm2_v3_normalize_f64(cross);
 }
 
-LM2_API lm2_v3f32 lm2_triangle3_normal_f32(const lm2_triangle3_f32 tri) {
-  lm2_v3f32 ab = lm2_sub_lm2_v3f32(tri[1], tri[0]);
-  lm2_v3f32 ac = lm2_sub_lm2_v3f32(tri[2], tri[0]);
-  lm2_v3f32 cross = lm2_cross_v3f32(ab, ac);
-  return lm2_normalize_v3f32(cross);
+LM2_API lm2_v3_f32 lm2_triangle3_normal_f32(const lm2_triangle3_f32 tri) {
+  lm2_v3_f32 ab = lm2_v3_sub_f32(tri[1], tri[0]);
+  lm2_v3_f32 ac = lm2_v3_sub_f32(tri[2], tri[0]);
+  lm2_v3_f32 cross = lm2_v3_cross_f32(ab, ac);
+  return lm2_v3_normalize_f32(cross);
 }
 
-LM2_API lm2_v3f64 lm2_triangle3_centroid_f64(const lm2_triangle3_f64 tri) {
-  lm2_v3f64 sum = lm2_add_lm2_v3f64(lm2_add_lm2_v3f64(tri[0], tri[1]), tri[2]);
-  return lm2_mul_lm2_v3f64_double(sum, lm2_div_f64(1.0, 3.0));
+LM2_API lm2_v3_f64 lm2_triangle3_centroid_f64(const lm2_triangle3_f64 tri) {
+  lm2_v3_f64 sum = lm2_v3_add_f64(lm2_v3_add_f64(tri[0], tri[1]), tri[2]);
+  return lm2_v3_mul_s_f64(sum, lm2_div_f64(1.0, 3.0));
 }
 
-LM2_API lm2_v3f32 lm2_triangle3_centroid_f32(const lm2_triangle3_f32 tri) {
-  lm2_v3f32 sum = lm2_add_lm2_v3f32(lm2_add_lm2_v3f32(tri[0], tri[1]), tri[2]);
-  return lm2_mul_lm2_v3f32_float(sum, lm2_div_f32(1.0f, 3.0f));
+LM2_API lm2_v3_f32 lm2_triangle3_centroid_f32(const lm2_triangle3_f32 tri) {
+  lm2_v3_f32 sum = lm2_v3_add_f32(lm2_v3_add_f32(tri[0], tri[1]), tri[2]);
+  return lm2_v3_mul_s_f32(sum, lm2_div_f32(1.0f, 3.0f));
 }
 
 // =============================================================================
@@ -144,14 +144,14 @@ LM2_API bool lm2_triangle3_is_degenerate_f32(const lm2_triangle3_f32 tri, float 
 
 LM2_API bool lm2_triangle3_is_right_f64(const lm2_triangle3_f64 tri, double epsilon) {
   // Calculate squared side lengths
-  lm2_v3f64 ab = lm2_sub_lm2_v3f64(tri[1], tri[0]);
-  double ab_sq = lm2_dot_v3f64(ab, ab);
+  lm2_v3_f64 ab = lm2_v3_sub_f64(tri[1], tri[0]);
+  double ab_sq = lm2_v3_dot_f64(ab, ab);
 
-  lm2_v3f64 bc = lm2_sub_lm2_v3f64(tri[2], tri[1]);
-  double bc_sq = lm2_dot_v3f64(bc, bc);
+  lm2_v3_f64 bc = lm2_v3_sub_f64(tri[2], tri[1]);
+  double bc_sq = lm2_v3_dot_f64(bc, bc);
 
-  lm2_v3f64 ca = lm2_sub_lm2_v3f64(tri[0], tri[2]);
-  double ca_sq = lm2_dot_v3f64(ca, ca);
+  lm2_v3_f64 ca = lm2_v3_sub_f64(tri[0], tri[2]);
+  double ca_sq = lm2_v3_dot_f64(ca, ca);
 
   // Check if any combination satisfies Pythagorean theorem: a² + b² = c²
   double sum1 = lm2_add_f64(ab_sq, bc_sq);
@@ -164,14 +164,14 @@ LM2_API bool lm2_triangle3_is_right_f64(const lm2_triangle3_f64 tri, double epsi
 }
 
 LM2_API bool lm2_triangle3_is_right_f32(const lm2_triangle3_f32 tri, float epsilon) {
-  lm2_v3f32 ab = lm2_sub_lm2_v3f32(tri[1], tri[0]);
-  float ab_sq = lm2_dot_v3f32(ab, ab);
+  lm2_v3_f32 ab = lm2_v3_sub_f32(tri[1], tri[0]);
+  float ab_sq = lm2_v3_dot_f32(ab, ab);
 
-  lm2_v3f32 bc = lm2_sub_lm2_v3f32(tri[2], tri[1]);
-  float bc_sq = lm2_dot_v3f32(bc, bc);
+  lm2_v3_f32 bc = lm2_v3_sub_f32(tri[2], tri[1]);
+  float bc_sq = lm2_v3_dot_f32(bc, bc);
 
-  lm2_v3f32 ca = lm2_sub_lm2_v3f32(tri[0], tri[2]);
-  float ca_sq = lm2_dot_v3f32(ca, ca);
+  lm2_v3_f32 ca = lm2_v3_sub_f32(tri[0], tri[2]);
+  float ca_sq = lm2_v3_dot_f32(ca, ca);
 
   float sum1 = lm2_add_f32(ab_sq, bc_sq);
   float sum2 = lm2_add_f32(bc_sq, ca_sq);
@@ -183,9 +183,9 @@ LM2_API bool lm2_triangle3_is_right_f32(const lm2_triangle3_f32 tri, float epsil
 }
 
 LM2_API bool lm2_triangle3_is_isosceles_f64(const lm2_triangle3_f64 tri, double epsilon) {
-  double ab = lm2_distance_v3f64(tri[0], tri[1]);
-  double bc = lm2_distance_v3f64(tri[1], tri[2]);
-  double ca = lm2_distance_v3f64(tri[2], tri[0]);
+  double ab = lm2_v3_distance_f64(tri[0], tri[1]);
+  double bc = lm2_v3_distance_f64(tri[1], tri[2]);
+  double ca = lm2_v3_distance_f64(tri[2], tri[0]);
 
   bool ab_eq_bc = lm2_abs_f64(lm2_sub_f64(ab, bc)) < epsilon;
   bool bc_eq_ca = lm2_abs_f64(lm2_sub_f64(bc, ca)) < epsilon;
@@ -195,9 +195,9 @@ LM2_API bool lm2_triangle3_is_isosceles_f64(const lm2_triangle3_f64 tri, double 
 }
 
 LM2_API bool lm2_triangle3_is_isosceles_f32(const lm2_triangle3_f32 tri, float epsilon) {
-  float ab = lm2_distance_v3f32(tri[0], tri[1]);
-  float bc = lm2_distance_v3f32(tri[1], tri[2]);
-  float ca = lm2_distance_v3f32(tri[2], tri[0]);
+  float ab = lm2_v3_distance_f32(tri[0], tri[1]);
+  float bc = lm2_v3_distance_f32(tri[1], tri[2]);
+  float ca = lm2_v3_distance_f32(tri[2], tri[0]);
 
   bool ab_eq_bc = lm2_abs_f32(lm2_sub_f32(ab, bc)) < epsilon;
   bool bc_eq_ca = lm2_abs_f32(lm2_sub_f32(bc, ca)) < epsilon;
@@ -207,9 +207,9 @@ LM2_API bool lm2_triangle3_is_isosceles_f32(const lm2_triangle3_f32 tri, float e
 }
 
 LM2_API bool lm2_triangle3_is_equilateral_f64(const lm2_triangle3_f64 tri, double epsilon) {
-  double ab = lm2_distance_v3f64(tri[0], tri[1]);
-  double bc = lm2_distance_v3f64(tri[1], tri[2]);
-  double ca = lm2_distance_v3f64(tri[2], tri[0]);
+  double ab = lm2_v3_distance_f64(tri[0], tri[1]);
+  double bc = lm2_v3_distance_f64(tri[1], tri[2]);
+  double ca = lm2_v3_distance_f64(tri[2], tri[0]);
 
   bool ab_eq_bc = lm2_abs_f64(lm2_sub_f64(ab, bc)) < epsilon;
   bool bc_eq_ca = lm2_abs_f64(lm2_sub_f64(bc, ca)) < epsilon;
@@ -218,9 +218,9 @@ LM2_API bool lm2_triangle3_is_equilateral_f64(const lm2_triangle3_f64 tri, doubl
 }
 
 LM2_API bool lm2_triangle3_is_equilateral_f32(const lm2_triangle3_f32 tri, float epsilon) {
-  float ab = lm2_distance_v3f32(tri[0], tri[1]);
-  float bc = lm2_distance_v3f32(tri[1], tri[2]);
-  float ca = lm2_distance_v3f32(tri[2], tri[0]);
+  float ab = lm2_v3_distance_f32(tri[0], tri[1]);
+  float bc = lm2_v3_distance_f32(tri[1], tri[2]);
+  float ca = lm2_v3_distance_f32(tri[2], tri[0]);
 
   bool ab_eq_bc = lm2_abs_f32(lm2_sub_f32(ab, bc)) < epsilon;
   bool bc_eq_ca = lm2_abs_f32(lm2_sub_f32(bc, ca)) < epsilon;
@@ -229,9 +229,9 @@ LM2_API bool lm2_triangle3_is_equilateral_f32(const lm2_triangle3_f32 tri, float
 }
 
 LM2_API bool lm2_triangle3_is_scalene_f64(const lm2_triangle3_f64 tri, double epsilon) {
-  double ab = lm2_distance_v3f64(tri[0], tri[1]);
-  double bc = lm2_distance_v3f64(tri[1], tri[2]);
-  double ca = lm2_distance_v3f64(tri[2], tri[0]);
+  double ab = lm2_v3_distance_f64(tri[0], tri[1]);
+  double bc = lm2_v3_distance_f64(tri[1], tri[2]);
+  double ca = lm2_v3_distance_f64(tri[2], tri[0]);
 
   bool ab_ne_bc = lm2_abs_f64(lm2_sub_f64(ab, bc)) >= epsilon;
   bool bc_ne_ca = lm2_abs_f64(lm2_sub_f64(bc, ca)) >= epsilon;
@@ -241,9 +241,9 @@ LM2_API bool lm2_triangle3_is_scalene_f64(const lm2_triangle3_f64 tri, double ep
 }
 
 LM2_API bool lm2_triangle3_is_scalene_f32(const lm2_triangle3_f32 tri, float epsilon) {
-  float ab = lm2_distance_v3f32(tri[0], tri[1]);
-  float bc = lm2_distance_v3f32(tri[1], tri[2]);
-  float ca = lm2_distance_v3f32(tri[2], tri[0]);
+  float ab = lm2_v3_distance_f32(tri[0], tri[1]);
+  float bc = lm2_v3_distance_f32(tri[1], tri[2]);
+  float ca = lm2_v3_distance_f32(tri[2], tri[0]);
 
   bool ab_ne_bc = lm2_abs_f32(lm2_sub_f32(ab, bc)) >= epsilon;
   bool bc_ne_ca = lm2_abs_f32(lm2_sub_f32(bc, ca)) >= epsilon;
@@ -301,26 +301,26 @@ LM2_API lm2_triangle3_type lm2_triangle3_classify_f32(const lm2_triangle3_f32 tr
 // Triangle-Point Intersection
 // =============================================================================
 
-LM2_API bool lm2_triangle3_contains_point_f64(const lm2_triangle3_f64 tri, lm2_v3f64 point, double epsilon) {
+LM2_API bool lm2_triangle3_contains_point_f64(const lm2_triangle3_f64 tri, lm2_v3_f64 point, double epsilon) {
   // First check if point is coplanar with the triangle
-  lm2_v3f64 normal = lm2_triangle3_normal_f64(tri);
-  lm2_v3f64 to_point = lm2_sub_lm2_v3f64(point, tri[0]);
-  double distance_to_plane = lm2_abs_f64(lm2_dot_v3f64(normal, to_point));
+  lm2_v3_f64 normal = lm2_triangle3_normal_f64(tri);
+  lm2_v3_f64 to_point = lm2_v3_sub_f64(point, tri[0]);
+  double distance_to_plane = lm2_abs_f64(lm2_v3_dot_f64(normal, to_point));
 
   if (distance_to_plane > epsilon) {
     return false;  // Point is not on the triangle's plane
   }
 
   // Use barycentric coordinates
-  lm2_v3f64 v0 = lm2_sub_lm2_v3f64(tri[1], tri[0]);
-  lm2_v3f64 v1 = lm2_sub_lm2_v3f64(tri[2], tri[0]);
-  lm2_v3f64 v2 = lm2_sub_lm2_v3f64(point, tri[0]);
+  lm2_v3_f64 v0 = lm2_v3_sub_f64(tri[1], tri[0]);
+  lm2_v3_f64 v1 = lm2_v3_sub_f64(tri[2], tri[0]);
+  lm2_v3_f64 v2 = lm2_v3_sub_f64(point, tri[0]);
 
-  double dot00 = lm2_dot_v3f64(v0, v0);
-  double dot01 = lm2_dot_v3f64(v0, v1);
-  double dot02 = lm2_dot_v3f64(v0, v2);
-  double dot11 = lm2_dot_v3f64(v1, v1);
-  double dot12 = lm2_dot_v3f64(v1, v2);
+  double dot00 = lm2_v3_dot_f64(v0, v0);
+  double dot01 = lm2_v3_dot_f64(v0, v1);
+  double dot02 = lm2_v3_dot_f64(v0, v2);
+  double dot11 = lm2_v3_dot_f64(v1, v1);
+  double dot12 = lm2_v3_dot_f64(v1, v2);
 
   double inv_denom = lm2_div_f64(1.0, lm2_sub_f64(lm2_mul_f64(dot00, dot11), lm2_mul_f64(dot01, dot01)));
   double u = lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(dot11, dot02), lm2_mul_f64(dot01, dot12)), inv_denom);
@@ -329,24 +329,24 @@ LM2_API bool lm2_triangle3_contains_point_f64(const lm2_triangle3_f64 tri, lm2_v
   return (u >= 0.0) && (v >= 0.0) && (lm2_add_f64(u, v) <= 1.0);
 }
 
-LM2_API bool lm2_triangle3_contains_point_f32(const lm2_triangle3_f32 tri, lm2_v3f32 point, float epsilon) {
-  lm2_v3f32 normal = lm2_triangle3_normal_f32(tri);
-  lm2_v3f32 to_point = lm2_sub_lm2_v3f32(point, tri[0]);
-  float distance_to_plane = lm2_abs_f32(lm2_dot_v3f32(normal, to_point));
+LM2_API bool lm2_triangle3_contains_point_f32(const lm2_triangle3_f32 tri, lm2_v3_f32 point, float epsilon) {
+  lm2_v3_f32 normal = lm2_triangle3_normal_f32(tri);
+  lm2_v3_f32 to_point = lm2_v3_sub_f32(point, tri[0]);
+  float distance_to_plane = lm2_abs_f32(lm2_v3_dot_f32(normal, to_point));
 
   if (distance_to_plane > epsilon) {
     return false;
   }
 
-  lm2_v3f32 v0 = lm2_sub_lm2_v3f32(tri[1], tri[0]);
-  lm2_v3f32 v1 = lm2_sub_lm2_v3f32(tri[2], tri[0]);
-  lm2_v3f32 v2 = lm2_sub_lm2_v3f32(point, tri[0]);
+  lm2_v3_f32 v0 = lm2_v3_sub_f32(tri[1], tri[0]);
+  lm2_v3_f32 v1 = lm2_v3_sub_f32(tri[2], tri[0]);
+  lm2_v3_f32 v2 = lm2_v3_sub_f32(point, tri[0]);
 
-  float dot00 = lm2_dot_v3f32(v0, v0);
-  float dot01 = lm2_dot_v3f32(v0, v1);
-  float dot02 = lm2_dot_v3f32(v0, v2);
-  float dot11 = lm2_dot_v3f32(v1, v1);
-  float dot12 = lm2_dot_v3f32(v1, v2);
+  float dot00 = lm2_v3_dot_f32(v0, v0);
+  float dot01 = lm2_v3_dot_f32(v0, v1);
+  float dot02 = lm2_v3_dot_f32(v0, v2);
+  float dot11 = lm2_v3_dot_f32(v1, v1);
+  float dot12 = lm2_v3_dot_f32(v1, v2);
 
   float inv_denom = lm2_div_f32(1.0f, lm2_sub_f32(lm2_mul_f32(dot00, dot11), lm2_mul_f32(dot01, dot01)));
   float u = lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(dot11, dot02), lm2_mul_f32(dot01, dot12)), inv_denom);

@@ -37,8 +37,8 @@ LM2_HEADER_BEGIN;
 // =============================================================================
 
 // 2D Triangle defined as an array of 3 vertices
-typedef lm2_v2f64 lm2_triangle2_f64[3];
-typedef lm2_v2f32 lm2_triangle2_f32[3];
+typedef lm2_v2_f64 lm2_triangle2_f64[3];
+typedef lm2_v2_f32 lm2_triangle2_f32[3];
 
 // Default triangle type
 typedef lm2_triangle2_f32 lm2_triangle2;
@@ -66,8 +66,8 @@ typedef enum lm2_winding_order {
 // =============================================================================
 
 // Create a triangle from three 2D points
-LM2_API void lm2_triangle2_make_f64(lm2_triangle2_f64 tri, lm2_v2f64 a, lm2_v2f64 b, lm2_v2f64 c);
-LM2_API void lm2_triangle2_make_f32(lm2_triangle2_f32 tri, lm2_v2f32 a, lm2_v2f32 b, lm2_v2f32 c);
+LM2_API void lm2_triangle2_make_f64(lm2_triangle2_f64 tri, lm2_v2_f64 a, lm2_v2_f64 b, lm2_v2_f64 c);
+LM2_API void lm2_triangle2_make_f32(lm2_triangle2_f32 tri, lm2_v2_f32 a, lm2_v2_f32 b, lm2_v2_f32 c);
 
 // Create a triangle from coordinate values
 LM2_API void lm2_triangle2_make_coords_f64(lm2_triangle2_f64 tri, double ax, double ay, double bx, double by, double cx, double cy);
@@ -126,8 +126,8 @@ LM2_API lm2_triangle2_type lm2_triangle2_classify_f32(const lm2_triangle2_f32 tr
 // =============================================================================
 
 // Check if a point is inside a triangle
-LM2_API bool lm2_triangle2_contains_point_f64(const lm2_triangle2_f64 tri, lm2_v2f64 point);
-LM2_API bool lm2_triangle2_contains_point_f32(const lm2_triangle2_f32 tri, lm2_v2f32 point);
+LM2_API bool lm2_triangle2_contains_point_f64(const lm2_triangle2_f64 tri, lm2_v2_f64 point);
+LM2_API bool lm2_triangle2_contains_point_f32(const lm2_triangle2_f32 tri, lm2_v2_f32 point);
 
 // =============================================================================
 // Triangle-Triangle Intersection
@@ -152,6 +152,6 @@ LM2_HEADER_END;
 // C++ operator overloads (must be outside extern "C")
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2_geometry_operators.h"
-_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle2_f64, lm2_v2f64, double)
-_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle2_f32, lm2_v2f32, float)
+_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle2_f64, f64, lm2_v2, double)
+_LM2_DEFINE_TRIANGLE_OPERATORS(lm2_triangle2_f32, f32, lm2_v2, float)
 #endif

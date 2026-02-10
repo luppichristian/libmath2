@@ -31,20 +31,20 @@ LM2_HEADER_BEGIN;
 // #############################################################################
 
 // Perlin Noise 2D (returns value in [-1, 1])
-LM2_API double lm2_perlin_2d_f64(double x, double y);
-LM2_API float lm2_perlin_2d_f32(float x, float y);
+LM2_API double lm2_perlin2_f64(double x, double y);
+LM2_API float lm2_perlin2_f32(float x, float y);
 
 // Perlin Noise 3D (returns value in [-1, 1])
-LM2_API double lm2_perlin_3d_f64(double x, double y, double z);
-LM2_API float lm2_perlin_3d_f32(float x, float y, float z);
+LM2_API double lm2_perlin3_f64(double x, double y, double z);
+LM2_API float lm2_perlin3_f32(float x, float y, float z);
 
 // Voronoi Noise 2D (returns Euclidean distance to nearest feature point)
-LM2_API double lm2_voronoi_2d_f64(double x, double y);
-LM2_API float lm2_voronoi_2d_f32(float x, float y);
+LM2_API double lm2_voronoi2_f64(double x, double y);
+LM2_API float lm2_voronoi2_f32(float x, float y);
 
 // Voronoi Noise 3D (returns Euclidean distance to nearest feature point)
-LM2_API double lm2_voronoi_3d_f64(double x, double y, double z);
-LM2_API float lm2_voronoi_3d_f32(float x, float y, float z);
+LM2_API double lm2_voronoi3_f64(double x, double y, double z);
+LM2_API float lm2_voronoi3_f32(float x, float y, float z);
 
 // #############################################################################
 LM2_HEADER_END;
