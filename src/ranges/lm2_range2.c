@@ -145,8 +145,8 @@ SOFTWARE.
 #define _LM2_IMPL_R2_SCALAR_FUNC_3(type_name, scalar_suffix, func_name)                           \
   LM2_API type_name lm2_r2_##func_name##_##scalar_suffix(type_name a, type_name b, type_name c) { \
     type_name result;                                                                             \
-    result.min = lm2_v2_##func_name##_##scalar_suffix(a.min, b.min, c.min);                       \
-    result.max = lm2_v2_##func_name##_##scalar_suffix(a.max, b.max, c.max);                       \
+    result.min = lm2_v2_##func_name##_##scalar_suffix(a.min, c.min, b.min);                       \
+    result.max = lm2_v2_##func_name##_##scalar_suffix(a.max, c.max, b.max);                       \
     return result;                                                                                \
   }
 
