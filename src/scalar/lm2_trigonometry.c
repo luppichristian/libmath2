@@ -33,10 +33,12 @@ SOFTWARE.
 // =============================================================================
 
 LM2_API double lm2_cos_f64(double angle_rad) {
+  LM2_ASSERT(isfinite(angle_rad));
   return cos(angle_rad);
 }
 
 LM2_API float lm2_cos_f32(float angle_rad) {
+  LM2_ASSERT(isfinite(angle_rad));
   return cosf(angle_rad);
 }
 
@@ -45,10 +47,12 @@ LM2_API float lm2_cos_f32(float angle_rad) {
 // =============================================================================
 
 LM2_API double lm2_sin_f64(double angle_rad) {
+  LM2_ASSERT(isfinite(angle_rad));
   return sin(angle_rad);
 }
 
 LM2_API float lm2_sin_f32(float angle_rad) {
+  LM2_ASSERT(isfinite(angle_rad));
   return sinf(angle_rad);
 }
 
@@ -57,10 +61,12 @@ LM2_API float lm2_sin_f32(float angle_rad) {
 // =============================================================================
 
 LM2_API double lm2_tan_f64(double angle_rad) {
+  LM2_ASSERT(isfinite(angle_rad));
   return tan(angle_rad);
 }
 
 LM2_API float lm2_tan_f32(float angle_rad) {
+  LM2_ASSERT(isfinite(angle_rad));
   return tanf(angle_rad);
 }
 
@@ -69,10 +75,12 @@ LM2_API float lm2_tan_f32(float angle_rad) {
 // =============================================================================
 
 LM2_API double lm2_acos_f64(double value) {
+  LM2_ASSERT(isfinite(value) && value >= -1.0 && value <= 1.0);
   return acos(value);
 }
 
 LM2_API float lm2_acos_f32(float value) {
+  LM2_ASSERT(isfinite(value) && value >= -1.0f && value <= 1.0f);
   return acosf(value);
 }
 
@@ -81,10 +89,12 @@ LM2_API float lm2_acos_f32(float value) {
 // =============================================================================
 
 LM2_API double lm2_asin_f64(double value) {
+  LM2_ASSERT(isfinite(value) && value >= -1.0 && value <= 1.0);
   return asin(value);
 }
 
 LM2_API float lm2_asin_f32(float value) {
+  LM2_ASSERT(isfinite(value) && value >= -1.0f && value <= 1.0f);
   return asinf(value);
 }
 
@@ -93,10 +103,12 @@ LM2_API float lm2_asin_f32(float value) {
 // =============================================================================
 
 LM2_API double lm2_atan_f64(double value) {
+  LM2_ASSERT(isfinite(value));
   return atan(value);
 }
 
 LM2_API float lm2_atan_f32(float value) {
+  LM2_ASSERT(isfinite(value));
   return atanf(value);
 }
 
@@ -105,10 +117,14 @@ LM2_API float lm2_atan_f32(float value) {
 // =============================================================================
 
 LM2_API double lm2_atan2_f64(double y, double x) {
+  LM2_ASSERT(isfinite(y));
+  LM2_ASSERT(isfinite(x));
   return atan2(y, x);
 }
 
 LM2_API float lm2_atan2_f32(float y, float x) {
+  LM2_ASSERT(isfinite(y));
+  LM2_ASSERT(isfinite(x));
   return atan2f(y, x);
 }
 
@@ -117,10 +133,12 @@ LM2_API float lm2_atan2_f32(float y, float x) {
 // =============================================================================
 
 LM2_API double lm2_deg_to_rad_f64(double degrees) {
+  LM2_ASSERT(isfinite(degrees));
   return lm2_mul_f64(degrees, LM2_DEG_TO_RAD_F64);
 }
 
 LM2_API float lm2_deg_to_rad_f32(float degrees) {
+  LM2_ASSERT(isfinite(degrees));
   return lm2_mul_f32(degrees, LM2_DEG_TO_RAD_F32);
 }
 
@@ -129,10 +147,12 @@ LM2_API float lm2_deg_to_rad_f32(float degrees) {
 // =============================================================================
 
 LM2_API double lm2_rad_to_deg_f64(double radians) {
+  LM2_ASSERT(isfinite(radians));
   return lm2_mul_f64(radians, LM2_RAD_TO_DEG_F64);
 }
 
 LM2_API float lm2_rad_to_deg_f32(float radians) {
+  LM2_ASSERT(isfinite(radians));
   return lm2_mul_f32(radians, LM2_RAD_TO_DEG_F32);
 }
 
@@ -141,6 +161,7 @@ LM2_API float lm2_rad_to_deg_f32(float radians) {
 // =============================================================================
 
 LM2_API double lm2_wrap_rad_f64(double angle_rad) {
+  LM2_ASSERT(isfinite(angle_rad));
   double wrapped = lm2_mod_f64(lm2_add_f64(angle_rad, LM2_PI_F64), LM2_2PI_F64);
   if (wrapped < 0.0) {
     wrapped = lm2_add_f64(wrapped, LM2_2PI_F64);
@@ -149,6 +170,7 @@ LM2_API double lm2_wrap_rad_f64(double angle_rad) {
 }
 
 LM2_API float lm2_wrap_rad_f32(float angle_rad) {
+  LM2_ASSERT(isfinite(angle_rad));
   float wrapped = lm2_mod_f32(lm2_add_f32(angle_rad, LM2_PI_F32), LM2_2PI_F32);
   if (wrapped < 0.0f) {
     wrapped = lm2_add_f32(wrapped, LM2_2PI_F32);
@@ -161,11 +183,15 @@ LM2_API float lm2_wrap_rad_f32(float angle_rad) {
 // =============================================================================
 
 LM2_API double lm2_shortest_rad_f64(double from_angle_rad, double to_angle_rad) {
+  LM2_ASSERT(isfinite(from_angle_rad));
+  LM2_ASSERT(isfinite(to_angle_rad));
   double diff = lm2_sub_f64(to_angle_rad, from_angle_rad);
   return lm2_wrap_rad_f64(diff);
 }
 
 LM2_API float lm2_shortest_rad_f32(float from_angle_rad, float to_angle_rad) {
+  LM2_ASSERT(isfinite(from_angle_rad));
+  LM2_ASSERT(isfinite(to_angle_rad));
   float diff = lm2_sub_f32(to_angle_rad, from_angle_rad);
   return lm2_wrap_rad_f32(diff);
 }
@@ -175,11 +201,17 @@ LM2_API float lm2_shortest_rad_f32(float from_angle_rad, float to_angle_rad) {
 // =============================================================================
 
 LM2_API double lm2_lerp_rad_f64(double a_rad, double t, double b_rad) {
+  LM2_ASSERT(isfinite(a_rad));
+  LM2_ASSERT(isfinite(t));
+  LM2_ASSERT(isfinite(b_rad));
   double shortest = lm2_shortest_rad_f64(a_rad, b_rad);
   return lm2_add_f64(a_rad, lm2_mul_f64(t, shortest));
 }
 
 LM2_API float lm2_lerp_rad_f32(float a_rad, float t, float b_rad) {
+  LM2_ASSERT(isfinite(a_rad));
+  LM2_ASSERT(isfinite(t));
+  LM2_ASSERT(isfinite(b_rad));
   float shortest = lm2_shortest_rad_f32(a_rad, b_rad);
   return lm2_add_f32(a_rad, lm2_mul_f32(t, shortest));
 }
@@ -189,6 +221,7 @@ LM2_API float lm2_lerp_rad_f32(float a_rad, float t, float b_rad) {
 // =============================================================================
 
 LM2_API double lm2_wrap_deg_f64(double angle_deg) {
+  LM2_ASSERT(isfinite(angle_deg));
   double wrapped = lm2_mod_f64(lm2_add_f64(angle_deg, 180.0), 360.0);
   if (wrapped < 0.0) {
     wrapped = lm2_add_f64(wrapped, 360.0);
@@ -197,6 +230,7 @@ LM2_API double lm2_wrap_deg_f64(double angle_deg) {
 }
 
 LM2_API float lm2_wrap_deg_f32(float angle_deg) {
+  LM2_ASSERT(isfinite(angle_deg));
   float wrapped = lm2_mod_f32(lm2_add_f32(angle_deg, 180.0f), 360.0f);
   if (wrapped < 0.0f) {
     wrapped = lm2_add_f32(wrapped, 360.0f);
@@ -209,11 +243,15 @@ LM2_API float lm2_wrap_deg_f32(float angle_deg) {
 // =============================================================================
 
 LM2_API double lm2_shortest_deg_f64(double from_angle_deg, double to_angle_deg) {
+  LM2_ASSERT(isfinite(from_angle_deg));
+  LM2_ASSERT(isfinite(to_angle_deg));
   double diff = lm2_sub_f64(to_angle_deg, from_angle_deg);
   return lm2_wrap_deg_f64(diff);
 }
 
 LM2_API float lm2_shortest_deg_f32(float from_angle_deg, float to_angle_deg) {
+  LM2_ASSERT(isfinite(from_angle_deg));
+  LM2_ASSERT(isfinite(to_angle_deg));
   float diff = lm2_sub_f32(to_angle_deg, from_angle_deg);
   return lm2_wrap_deg_f32(diff);
 }
@@ -223,11 +261,17 @@ LM2_API float lm2_shortest_deg_f32(float from_angle_deg, float to_angle_deg) {
 // =============================================================================
 
 LM2_API double lm2_lerp_deg_f64(double a_deg, double t, double b_deg) {
+  LM2_ASSERT(isfinite(a_deg));
+  LM2_ASSERT(isfinite(t));
+  LM2_ASSERT(isfinite(b_deg));
   double shortest = lm2_shortest_deg_f64(a_deg, b_deg);
   return lm2_add_f64(a_deg, lm2_mul_f64(t, shortest));
 }
 
 LM2_API float lm2_lerp_deg_f32(float a_deg, float t, float b_deg) {
+  LM2_ASSERT(isfinite(a_deg));
+  LM2_ASSERT(isfinite(t));
+  LM2_ASSERT(isfinite(b_deg));
   float shortest = lm2_shortest_deg_f32(a_deg, b_deg);
   return lm2_add_f32(a_deg, lm2_mul_f32(t, shortest));
 }

@@ -65,18 +65,24 @@ LM2_API double lm2_rad_to_deg_f64(double radians);
 LM2_API float lm2_rad_to_deg_f32(float radians);
 
 // Angles (in radians)
+// Wrap angles to the range [-π, π]
 LM2_API double lm2_wrap_rad_f64(double angle_rad);
 LM2_API float lm2_wrap_rad_f32(float angle_rad);
+// Returns the shortest angular distance from from_angle to to_angle in range [-π, π]
 LM2_API double lm2_shortest_rad_f64(double from_angle_rad, double to_angle_rad);
 LM2_API float lm2_shortest_rad_f32(float from_angle_rad, float to_angle_rad);
+// Interpolates between angles using the shortest path
 LM2_API double lm2_lerp_rad_f64(double a_rad, double t, double b_rad);
 LM2_API float lm2_lerp_rad_f32(float a_rad, float t, float b_rad);
 
 // Angles (in degrees)
+// Wrap angles to the range [-180, 180]
 LM2_API double lm2_wrap_deg_f64(double angle_deg);
 LM2_API float lm2_wrap_deg_f32(float angle_deg);
+// Returns the shortest angular distance from from_angle to to_angle in range [-180, 180]
 LM2_API double lm2_shortest_deg_f64(double from_angle_deg, double to_angle_deg);
 LM2_API float lm2_shortest_deg_f32(float from_angle_deg, float to_angle_deg);
+// Interpolates between angles using the shortest path
 LM2_API double lm2_lerp_deg_f64(double a_deg, double t, double b_deg);
 LM2_API float lm2_lerp_deg_f32(float a_deg, float t, float b_deg);
 
