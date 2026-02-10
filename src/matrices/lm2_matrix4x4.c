@@ -35,71 +35,71 @@ SOFTWARE.
 // =============================================================================
 
 // Basic constructors
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_identity_f64(void) {
-  lm2_matrix4x4_f64 m = {
+LM2_API lm2_m4x4_f64 lm2_m4x4_identity_f64(void) {
+  lm2_m4x4_f64 m = {
       1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_zero_f64(void) {
-  lm2_matrix4x4_f64 m = {
+LM2_API lm2_m4x4_f64 lm2_m4x4_zero_f64(void) {
+  lm2_m4x4_f64 m = {
       0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_make_f64(double m00, double m01, double m02, double m03, double m10, double m11, double m12, double m13, double m20, double m21, double m22, double m23, double m30, double m31, double m32, double m33) {
-  lm2_matrix4x4_f64 m = {
+LM2_API lm2_m4x4_f64 lm2_m4x4_make_f64(double m00, double m01, double m02, double m03, double m10, double m11, double m12, double m13, double m20, double m21, double m22, double m23, double m30, double m31, double m32, double m33) {
+  lm2_m4x4_f64 m = {
       m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33};
   return m;
 }
 
 // Transformations
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_scale_f64(lm2_v3_f64 scale) {
-  lm2_matrix4x4_f64 m = {
+LM2_API lm2_m4x4_f64 lm2_m4x4_scale_f64(lm2_v3_f64 scale) {
+  lm2_m4x4_f64 m = {
       scale.x, 0.0, 0.0, 0.0, 0.0, scale.y, 0.0, 0.0, 0.0, 0.0, scale.z, 0.0, 0.0, 0.0, 0.0, 1.0};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_scale_uniform_f64(double scale) {
-  lm2_matrix4x4_f64 m = {
+LM2_API lm2_m4x4_f64 lm2_m4x4_scale_uniform_f64(double scale) {
+  lm2_m4x4_f64 m = {
       scale, 0.0, 0.0, 0.0, 0.0, scale, 0.0, 0.0, 0.0, 0.0, scale, 0.0, 0.0, 0.0, 0.0, 1.0};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_translate_f64(lm2_v3_f64 translation) {
-  lm2_matrix4x4_f64 m = {
+LM2_API lm2_m4x4_f64 lm2_m4x4_translate_f64(lm2_v3_f64 translation) {
+  lm2_m4x4_f64 m = {
       1.0, 0.0, 0.0, translation.x, 0.0, 1.0, 0.0, translation.y, 0.0, 0.0, 1.0, translation.z, 0.0, 0.0, 0.0, 1.0};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_rotate_x_f64(double angle) {
+LM2_API lm2_m4x4_f64 lm2_m4x4_rotate_x_f64(double angle) {
   double c = lm2_cos_f64(angle);
   double s = lm2_sin_f64(angle);
 
-  lm2_matrix4x4_f64 m = {
+  lm2_m4x4_f64 m = {
       1.0, 0.0, 0.0, 0.0, 0.0, c, lm2_sub_f64(0.0, s), 0.0, 0.0, s, c, 0.0, 0.0, 0.0, 0.0, 1.0};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_rotate_y_f64(double angle) {
+LM2_API lm2_m4x4_f64 lm2_m4x4_rotate_y_f64(double angle) {
   double c = lm2_cos_f64(angle);
   double s = lm2_sin_f64(angle);
 
-  lm2_matrix4x4_f64 m = {
+  lm2_m4x4_f64 m = {
       c, 0.0, s, 0.0, 0.0, 1.0, 0.0, 0.0, lm2_sub_f64(0.0, s), 0.0, c, 0.0, 0.0, 0.0, 0.0, 1.0};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_rotate_z_f64(double angle) {
+LM2_API lm2_m4x4_f64 lm2_m4x4_rotate_z_f64(double angle) {
   double c = lm2_cos_f64(angle);
   double s = lm2_sin_f64(angle);
 
-  lm2_matrix4x4_f64 m = {
+  lm2_m4x4_f64 m = {
       c, lm2_sub_f64(0.0, s), 0.0, 0.0, s, c, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_rotate_axis_f64(lm2_v3_f64 axis, double angle) {
+LM2_API lm2_m4x4_f64 lm2_m4x4_rotate_axis_f64(lm2_v3_f64 axis, double angle) {
   // Normalize axis
   double len_sq = lm2_add_f64(lm2_add_f64(lm2_mul_f64(axis.x, axis.x), lm2_mul_f64(axis.y, axis.y)), lm2_mul_f64(axis.z, axis.z));
   double len = lm2_sqrt_f64(len_sq);
@@ -114,7 +114,7 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_rotate_axis_f64(lm2_v3_f64 axis, double angle
   double s = lm2_sin_f64(angle);
   double t = lm2_sub_f64(1.0, c);
 
-  lm2_matrix4x4_f64 m;
+  lm2_m4x4_f64 m;
   m.m00 = lm2_add_f64(lm2_mul_f64(t, lm2_mul_f64(x, x)), c);
   m.m01 = lm2_sub_f64(lm2_mul_f64(t, lm2_mul_f64(x, y)), lm2_mul_f64(z, s));
   m.m02 = lm2_add_f64(lm2_mul_f64(t, lm2_mul_f64(x, z)), lm2_mul_f64(y, s));
@@ -138,29 +138,29 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_rotate_axis_f64(lm2_v3_f64 axis, double angle
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_scale_translate_f64(lm2_v3_f64 scale, lm2_v3_f64 translation) {
-  lm2_matrix4x4_f64 m = {
+LM2_API lm2_m4x4_f64 lm2_m4x4_scale_translate_f64(lm2_v3_f64 scale, lm2_v3_f64 translation) {
+  lm2_m4x4_f64 m = {
       scale.x, 0.0, 0.0, translation.x, 0.0, scale.y, 0.0, translation.y, 0.0, 0.0, scale.z, translation.z, 0.0, 0.0, 0.0, 1.0};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_world_transform_f64(lm2_v3_f64 translation, lm2_v3_f64 scale, lm2_v3_f64 rotation_euler) {
+LM2_API lm2_m4x4_f64 lm2_m4x4_world_transform_f64(lm2_v3_f64 translation, lm2_v3_f64 scale, lm2_v3_f64 rotation_euler) {
   // T * R * S
-  lm2_matrix4x4_f64 s = lm2_m4x4_scale_f64(scale);
-  lm2_matrix4x4_f64 rx = lm2_m4x4_rotate_x_f64(rotation_euler.x);
-  lm2_matrix4x4_f64 ry = lm2_m4x4_rotate_y_f64(rotation_euler.y);
-  lm2_matrix4x4_f64 rz = lm2_m4x4_rotate_z_f64(rotation_euler.z);
-  lm2_matrix4x4_f64 t = lm2_m4x4_translate_f64(translation);
+  lm2_m4x4_f64 s = lm2_m4x4_scale_f64(scale);
+  lm2_m4x4_f64 rx = lm2_m4x4_rotate_x_f64(rotation_euler.x);
+  lm2_m4x4_f64 ry = lm2_m4x4_rotate_y_f64(rotation_euler.y);
+  lm2_m4x4_f64 rz = lm2_m4x4_rotate_z_f64(rotation_euler.z);
+  lm2_m4x4_f64 t = lm2_m4x4_translate_f64(translation);
 
-  lm2_matrix4x4_f64 temp1 = lm2_m4x4_multiply_f64(rz, s);
-  lm2_matrix4x4_f64 temp2 = lm2_m4x4_multiply_f64(ry, temp1);
-  lm2_matrix4x4_f64 temp3 = lm2_m4x4_multiply_f64(rx, temp2);
+  lm2_m4x4_f64 temp1 = lm2_m4x4_multiply_f64(rz, s);
+  lm2_m4x4_f64 temp2 = lm2_m4x4_multiply_f64(ry, temp1);
+  lm2_m4x4_f64 temp3 = lm2_m4x4_multiply_f64(rx, temp2);
   return lm2_m4x4_multiply_f64(t, temp3);
 }
 
 // Operations
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_multiply_f64(lm2_matrix4x4_f64 a, lm2_matrix4x4_f64 b) {
-  lm2_matrix4x4_f64 result;
+LM2_API lm2_m4x4_f64 lm2_m4x4_multiply_f64(lm2_m4x4_f64 a, lm2_m4x4_f64 b) {
+  lm2_m4x4_f64 result;
 
   // Row 0
   result.m00 = lm2_add_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(a.m00, b.m00), lm2_mul_f64(a.m01, b.m10)), lm2_mul_f64(a.m02, b.m20)), lm2_mul_f64(a.m03, b.m30));
@@ -189,13 +189,13 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_multiply_f64(lm2_matrix4x4_f64 a, lm2_matrix4
   return result;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_transpose_f64(lm2_matrix4x4_f64 m) {
-  lm2_matrix4x4_f64 result = {
+LM2_API lm2_m4x4_f64 lm2_m4x4_transpose_f64(lm2_m4x4_f64 m) {
+  lm2_m4x4_f64 result = {
       m.m00, m.m10, m.m20, m.m30, m.m01, m.m11, m.m21, m.m31, m.m02, m.m12, m.m22, m.m32, m.m03, m.m13, m.m23, m.m33};
   return result;
 }
 
-LM2_API double lm2_m4x4_determinant_f64(lm2_matrix4x4_f64 m) {
+LM2_API double lm2_m4x4_determinant_f64(lm2_m4x4_f64 m) {
   // Calculate determinant using cofactor expansion along first row
   double a00_det = lm2_sub_f64(lm2_sub_f64(lm2_mul_f64(m.m11, lm2_sub_f64(lm2_mul_f64(m.m22, m.m33), lm2_mul_f64(m.m23, m.m32))), lm2_mul_f64(m.m12, lm2_sub_f64(lm2_mul_f64(m.m21, m.m33), lm2_mul_f64(m.m23, m.m31)))), lm2_mul_f64(m.m13, lm2_sub_f64(lm2_mul_f64(m.m21, m.m32), lm2_mul_f64(m.m22, m.m31))));
 
@@ -208,13 +208,13 @@ LM2_API double lm2_m4x4_determinant_f64(lm2_matrix4x4_f64 m) {
   return lm2_sub_f64(lm2_add_f64(lm2_mul_f64(m.m00, a00_det), lm2_mul_f64(m.m02, a02_det)), lm2_add_f64(lm2_mul_f64(m.m01, a01_det), lm2_mul_f64(m.m03, a03_det)));
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_inverse_f64(lm2_matrix4x4_f64 m) {
+LM2_API lm2_m4x4_f64 lm2_m4x4_inverse_f64(lm2_m4x4_f64 m) {
   double det = lm2_m4x4_determinant_f64(m);
   LM2_ASSERT_UNSAFE(lm2_abs_f64(det) > 1e-10);
 
   double inv_det = lm2_div_f64(1.0, det);
 
-  lm2_matrix4x4_f64 result;
+  lm2_m4x4_f64 result;
 
   // Calculate adjugate matrix (cofactor matrix transposed) and multiply by inv_det
   result.m00 = lm2_mul_f64(lm2_add_f64(lm2_sub_f64(lm2_mul_f64(m.m11, lm2_sub_f64(lm2_mul_f64(m.m22, m.m33), lm2_mul_f64(m.m23, m.m32))), lm2_mul_f64(m.m12, lm2_sub_f64(lm2_mul_f64(m.m21, m.m33), lm2_mul_f64(m.m23, m.m31)))), lm2_mul_f64(m.m13, lm2_sub_f64(lm2_mul_f64(m.m21, m.m32), lm2_mul_f64(m.m22, m.m31)))), inv_det);
@@ -240,11 +240,11 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_inverse_f64(lm2_matrix4x4_f64 m) {
   return result;
 }
 
-LM2_API double lm2_m4x4_trace_f64(lm2_matrix4x4_f64 m) {
+LM2_API double lm2_m4x4_trace_f64(lm2_m4x4_f64 m) {
   return lm2_add_f64(lm2_add_f64(lm2_add_f64(m.m00, m.m11), m.m22), m.m33);
 }
 
-LM2_API lm2_v3_f64 lm2_m4x4_transform_point_f64(lm2_matrix4x4_f64 m, lm2_v3_f64 v) {
+LM2_API lm2_v3_f64 lm2_m4x4_transform_point_f64(lm2_m4x4_f64 m, lm2_v3_f64 v) {
   // Transform as homogeneous point (x, y, z, 1)
   double x = lm2_add_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m00, v.x), lm2_mul_f64(m.m01, v.y)), lm2_mul_f64(m.m02, v.z)), m.m03);
   double y = lm2_add_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m10, v.x), lm2_mul_f64(m.m11, v.y)), lm2_mul_f64(m.m12, v.z)), m.m13);
@@ -263,7 +263,7 @@ LM2_API lm2_v3_f64 lm2_m4x4_transform_point_f64(lm2_matrix4x4_f64 m, lm2_v3_f64 
   return result;
 }
 
-LM2_API lm2_v3_f64 lm2_m4x4_transform_vector_f64(lm2_matrix4x4_f64 m, lm2_v3_f64 v) {
+LM2_API lm2_v3_f64 lm2_m4x4_transform_vector_f64(lm2_m4x4_f64 m, lm2_v3_f64 v) {
   // Transform as vector (x, y, z, 0) - no translation
   double x = lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m00, v.x), lm2_mul_f64(m.m01, v.y)), lm2_mul_f64(m.m02, v.z));
   double y = lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m10, v.x), lm2_mul_f64(m.m11, v.y)), lm2_mul_f64(m.m12, v.z));
@@ -273,7 +273,7 @@ LM2_API lm2_v3_f64 lm2_m4x4_transform_vector_f64(lm2_matrix4x4_f64 m, lm2_v3_f64
   return result;
 }
 
-LM2_API lm2_v4_f64 lm2_m4x4_transform_f64(lm2_matrix4x4_f64 m, lm2_v4_f64 v) {
+LM2_API lm2_v4_f64 lm2_m4x4_transform_f64(lm2_m4x4_f64 m, lm2_v4_f64 v) {
   // Transform full 4D vector
   double x = lm2_add_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m00, v.x), lm2_mul_f64(m.m01, v.y)), lm2_mul_f64(m.m02, v.z)), lm2_mul_f64(m.m03, v.w));
   double y = lm2_add_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m10, v.x), lm2_mul_f64(m.m11, v.y)), lm2_mul_f64(m.m12, v.z)), lm2_mul_f64(m.m13, v.w));
@@ -284,7 +284,7 @@ LM2_API lm2_v4_f64 lm2_m4x4_transform_f64(lm2_matrix4x4_f64 m, lm2_v4_f64 v) {
   return result;
 }
 
-LM2_API void lm2_m4x4_transform_points_f64(lm2_matrix4x4_f64 m, lm2_v3_f64* points, uint32_t count) {
+LM2_API void lm2_m4x4_transform_points_f64(lm2_m4x4_f64 m, lm2_v3_f64* points, uint32_t count) {
   LM2_ASSERT(points != NULL);
 
   for (uint32_t i = 0; i < count; i++) {
@@ -292,7 +292,7 @@ LM2_API void lm2_m4x4_transform_points_f64(lm2_matrix4x4_f64 m, lm2_v3_f64* poin
   }
 }
 
-LM2_API void lm2_m4x4_transform_points_src_dst_f64(lm2_matrix4x4_f64 m, const lm2_v3_f64* src, lm2_v3_f64* dst, uint32_t count) {
+LM2_API void lm2_m4x4_transform_points_src_dst_f64(lm2_m4x4_f64 m, const lm2_v3_f64* src, lm2_v3_f64* dst, uint32_t count) {
   LM2_ASSERT(src != NULL && dst != NULL);
 
   for (uint32_t i = 0; i < count; i++) {
@@ -301,7 +301,7 @@ LM2_API void lm2_m4x4_transform_points_src_dst_f64(lm2_matrix4x4_f64 m, const lm
 }
 
 // Getters
-LM2_API lm2_v3_f64 lm2_m4x4_get_scale_f64(lm2_matrix4x4_f64 m) {
+LM2_API lm2_v3_f64 lm2_m4x4_get_scale_f64(lm2_m4x4_f64 m) {
   // Extract scale from matrix
   double sx = lm2_sqrt_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m00, m.m00), lm2_mul_f64(m.m10, m.m10)), lm2_mul_f64(m.m20, m.m20)));
   double sy = lm2_sqrt_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(m.m01, m.m01), lm2_mul_f64(m.m11, m.m11)), lm2_mul_f64(m.m21, m.m21)));
@@ -311,13 +311,13 @@ LM2_API lm2_v3_f64 lm2_m4x4_get_scale_f64(lm2_matrix4x4_f64 m) {
   return result;
 }
 
-LM2_API lm2_v3_f64 lm2_m4x4_get_translation_f64(lm2_matrix4x4_f64 m) {
+LM2_API lm2_v3_f64 lm2_m4x4_get_translation_f64(lm2_m4x4_f64 m) {
   lm2_v3_f64 result = {m.m03, m.m13, m.m23};
   return result;
 }
 
 // Projection
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_ortho_f64(double left, double right, double bottom, double top, double near_plane, double far_plane) {
+LM2_API lm2_m4x4_f64 lm2_m4x4_ortho_f64(double left, double right, double bottom, double top, double near_plane, double far_plane) {
   double rl = lm2_sub_f64(right, left);
   double tb = lm2_sub_f64(top, bottom);
   double fn = lm2_sub_f64(far_plane, near_plane);
@@ -326,7 +326,7 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_ortho_f64(double left, double right, double b
   LM2_ASSERT_UNSAFE(lm2_abs_f64(tb) > 1e-10);
   LM2_ASSERT_UNSAFE(lm2_abs_f64(fn) > 1e-10);
 
-  lm2_matrix4x4_f64 m;
+  lm2_m4x4_f64 m;
   m.m00 = lm2_div_f64(2.0, rl);
   m.m01 = 0.0;
   m.m02 = 0.0;
@@ -350,7 +350,7 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_ortho_f64(double left, double right, double b
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_perspective_f64(double fov_y, double aspect, double near_plane, double far_plane) {
+LM2_API lm2_m4x4_f64 lm2_m4x4_perspective_f64(double fov_y, double aspect, double near_plane, double far_plane) {
   double tan_half_fov = lm2_tan_f64(lm2_mul_f64(fov_y, 0.5));
   double fn = lm2_sub_f64(far_plane, near_plane);
 
@@ -358,7 +358,7 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_perspective_f64(double fov_y, double aspect, 
   LM2_ASSERT_UNSAFE(lm2_abs_f64(tan_half_fov) > 1e-10);
   LM2_ASSERT_UNSAFE(lm2_abs_f64(fn) > 1e-10);
 
-  lm2_matrix4x4_f64 m;
+  lm2_m4x4_f64 m;
   m.m00 = lm2_div_f64(1.0, lm2_mul_f64(aspect, tan_half_fov));
   m.m01 = 0.0;
   m.m02 = 0.0;
@@ -382,7 +382,7 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_perspective_f64(double fov_y, double aspect, 
   return m;
 }
 
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_look_at_f64(lm2_v3_f64 eye, lm2_v3_f64 target, lm2_v3_f64 up) {
+LM2_API lm2_m4x4_f64 lm2_m4x4_look_at_f64(lm2_v3_f64 eye, lm2_v3_f64 target, lm2_v3_f64 up) {
   // Calculate forward (z) axis
   lm2_v3_f64 f = {lm2_sub_f64(target.x, eye.x), lm2_sub_f64(target.y, eye.y), lm2_sub_f64(target.z, eye.z)};
   double f_len_sq = lm2_v3_dot_f64(f, f);
@@ -406,7 +406,7 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_look_at_f64(lm2_v3_f64 eye, lm2_v3_f64 target
   // Calculate up (y) axis
   lm2_v3_f64 u = lm2_v3_cross_f64(s, f);
 
-  lm2_matrix4x4_f64 m;
+  lm2_m4x4_f64 m;
   m.m00 = s.x;
   m.m01 = s.y;
   m.m02 = s.z;
@@ -431,7 +431,7 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_look_at_f64(lm2_v3_f64 eye, lm2_v3_f64 target
 }
 
 // Quaternion conversions - f64
-LM2_API lm2_matrix4x4_f64 lm2_m4x4_from_quat_f64(lm2_quat_f64 q) {
+LM2_API lm2_m4x4_f64 lm2_m4x4_from_quat_f64(lm2_quat_f64 q) {
   // Normalize quaternion
   q = lm2_quat_normalize_f64(q);
 
@@ -445,7 +445,7 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_from_quat_f64(lm2_quat_f64 q) {
   double wy = lm2_mul_f64(q.w, q.y);
   double wz = lm2_mul_f64(q.w, q.z);
 
-  lm2_matrix4x4_f64 m;
+  lm2_m4x4_f64 m;
   m.m00 = lm2_sub_f64(1.0, lm2_mul_f64(2.0, lm2_add_f64(yy, zz)));
   m.m01 = lm2_mul_f64(2.0, lm2_sub_f64(xy, wz));
   m.m02 = lm2_mul_f64(2.0, lm2_add_f64(xz, wy));
@@ -469,7 +469,7 @@ LM2_API lm2_matrix4x4_f64 lm2_m4x4_from_quat_f64(lm2_quat_f64 q) {
   return m;
 }
 
-LM2_API lm2_quat_f64 lm2_m4x4_to_quat_f64(lm2_matrix4x4_f64 m) {
+LM2_API lm2_quat_f64 lm2_m4x4_to_quat_f64(lm2_m4x4_f64 m) {
   lm2_quat_f64 q;
 
   double trace = lm2_add_f64(lm2_add_f64(m.m00, m.m11), m.m22);
@@ -510,71 +510,71 @@ LM2_API lm2_quat_f64 lm2_m4x4_to_quat_f64(lm2_matrix4x4_f64 m) {
 // =============================================================================
 
 // Basic constructors
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_identity_f32(void) {
-  lm2_matrix4x4_f32 m = {
+LM2_API lm2_m4x4_f32 lm2_m4x4_identity_f32(void) {
+  lm2_m4x4_f32 m = {
       1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_zero_f32(void) {
-  lm2_matrix4x4_f32 m = {
+LM2_API lm2_m4x4_f32 lm2_m4x4_zero_f32(void) {
+  lm2_m4x4_f32 m = {
       0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_make_f32(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33) {
-  lm2_matrix4x4_f32 m = {
+LM2_API lm2_m4x4_f32 lm2_m4x4_make_f32(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33) {
+  lm2_m4x4_f32 m = {
       m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33};
   return m;
 }
 
 // Transformations
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_scale_f32(lm2_v3_f32 scale) {
-  lm2_matrix4x4_f32 m = {
+LM2_API lm2_m4x4_f32 lm2_m4x4_scale_f32(lm2_v3_f32 scale) {
+  lm2_m4x4_f32 m = {
       scale.x, 0.0f, 0.0f, 0.0f, 0.0f, scale.y, 0.0f, 0.0f, 0.0f, 0.0f, scale.z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_scale_uniform_f32(float scale) {
-  lm2_matrix4x4_f32 m = {
+LM2_API lm2_m4x4_f32 lm2_m4x4_scale_uniform_f32(float scale) {
+  lm2_m4x4_f32 m = {
       scale, 0.0f, 0.0f, 0.0f, 0.0f, scale, 0.0f, 0.0f, 0.0f, 0.0f, scale, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_translate_f32(lm2_v3_f32 translation) {
-  lm2_matrix4x4_f32 m = {
+LM2_API lm2_m4x4_f32 lm2_m4x4_translate_f32(lm2_v3_f32 translation) {
+  lm2_m4x4_f32 m = {
       1.0f, 0.0f, 0.0f, translation.x, 0.0f, 1.0f, 0.0f, translation.y, 0.0f, 0.0f, 1.0f, translation.z, 0.0f, 0.0f, 0.0f, 1.0f};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_rotate_x_f32(float angle) {
+LM2_API lm2_m4x4_f32 lm2_m4x4_rotate_x_f32(float angle) {
   float c = lm2_cos_f32(angle);
   float s = lm2_sin_f32(angle);
 
-  lm2_matrix4x4_f32 m = {
+  lm2_m4x4_f32 m = {
       1.0f, 0.0f, 0.0f, 0.0f, 0.0f, c, lm2_sub_f32(0.0f, s), 0.0f, 0.0f, s, c, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_rotate_y_f32(float angle) {
+LM2_API lm2_m4x4_f32 lm2_m4x4_rotate_y_f32(float angle) {
   float c = lm2_cos_f32(angle);
   float s = lm2_sin_f32(angle);
 
-  lm2_matrix4x4_f32 m = {
+  lm2_m4x4_f32 m = {
       c, 0.0f, s, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, lm2_sub_f32(0.0f, s), 0.0f, c, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_rotate_z_f32(float angle) {
+LM2_API lm2_m4x4_f32 lm2_m4x4_rotate_z_f32(float angle) {
   float c = lm2_cos_f32(angle);
   float s = lm2_sin_f32(angle);
 
-  lm2_matrix4x4_f32 m = {
+  lm2_m4x4_f32 m = {
       c, lm2_sub_f32(0.0f, s), 0.0f, 0.0f, s, c, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_rotate_axis_f32(lm2_v3_f32 axis, float angle) {
+LM2_API lm2_m4x4_f32 lm2_m4x4_rotate_axis_f32(lm2_v3_f32 axis, float angle) {
   // Normalize axis
   float len_sq = lm2_add_f32(lm2_add_f32(lm2_mul_f32(axis.x, axis.x), lm2_mul_f32(axis.y, axis.y)), lm2_mul_f32(axis.z, axis.z));
   float len = lm2_sqrt_f32(len_sq);
@@ -589,7 +589,7 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_rotate_axis_f32(lm2_v3_f32 axis, float angle)
   float s = lm2_sin_f32(angle);
   float t = lm2_sub_f32(1.0f, c);
 
-  lm2_matrix4x4_f32 m;
+  lm2_m4x4_f32 m;
   m.m00 = lm2_add_f32(lm2_mul_f32(t, lm2_mul_f32(x, x)), c);
   m.m01 = lm2_sub_f32(lm2_mul_f32(t, lm2_mul_f32(x, y)), lm2_mul_f32(z, s));
   m.m02 = lm2_add_f32(lm2_mul_f32(t, lm2_mul_f32(x, z)), lm2_mul_f32(y, s));
@@ -613,29 +613,29 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_rotate_axis_f32(lm2_v3_f32 axis, float angle)
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_scale_translate_f32(lm2_v3_f32 scale, lm2_v3_f32 translation) {
-  lm2_matrix4x4_f32 m = {
+LM2_API lm2_m4x4_f32 lm2_m4x4_scale_translate_f32(lm2_v3_f32 scale, lm2_v3_f32 translation) {
+  lm2_m4x4_f32 m = {
       scale.x, 0.0f, 0.0f, translation.x, 0.0f, scale.y, 0.0f, translation.y, 0.0f, 0.0f, scale.z, translation.z, 0.0f, 0.0f, 0.0f, 1.0f};
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_world_transform_f32(lm2_v3_f32 translation, lm2_v3_f32 scale, lm2_v3_f32 rotation_euler) {
+LM2_API lm2_m4x4_f32 lm2_m4x4_world_transform_f32(lm2_v3_f32 translation, lm2_v3_f32 scale, lm2_v3_f32 rotation_euler) {
   // T * R * S
-  lm2_matrix4x4_f32 s = lm2_m4x4_scale_f32(scale);
-  lm2_matrix4x4_f32 rx = lm2_m4x4_rotate_x_f32(rotation_euler.x);
-  lm2_matrix4x4_f32 ry = lm2_m4x4_rotate_y_f32(rotation_euler.y);
-  lm2_matrix4x4_f32 rz = lm2_m4x4_rotate_z_f32(rotation_euler.z);
-  lm2_matrix4x4_f32 t = lm2_m4x4_translate_f32(translation);
+  lm2_m4x4_f32 s = lm2_m4x4_scale_f32(scale);
+  lm2_m4x4_f32 rx = lm2_m4x4_rotate_x_f32(rotation_euler.x);
+  lm2_m4x4_f32 ry = lm2_m4x4_rotate_y_f32(rotation_euler.y);
+  lm2_m4x4_f32 rz = lm2_m4x4_rotate_z_f32(rotation_euler.z);
+  lm2_m4x4_f32 t = lm2_m4x4_translate_f32(translation);
 
-  lm2_matrix4x4_f32 temp1 = lm2_m4x4_multiply_f32(rz, s);
-  lm2_matrix4x4_f32 temp2 = lm2_m4x4_multiply_f32(ry, temp1);
-  lm2_matrix4x4_f32 temp3 = lm2_m4x4_multiply_f32(rx, temp2);
+  lm2_m4x4_f32 temp1 = lm2_m4x4_multiply_f32(rz, s);
+  lm2_m4x4_f32 temp2 = lm2_m4x4_multiply_f32(ry, temp1);
+  lm2_m4x4_f32 temp3 = lm2_m4x4_multiply_f32(rx, temp2);
   return lm2_m4x4_multiply_f32(t, temp3);
 }
 
 // Operations
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_multiply_f32(lm2_matrix4x4_f32 a, lm2_matrix4x4_f32 b) {
-  lm2_matrix4x4_f32 result;
+LM2_API lm2_m4x4_f32 lm2_m4x4_multiply_f32(lm2_m4x4_f32 a, lm2_m4x4_f32 b) {
+  lm2_m4x4_f32 result;
 
   // Row 0
   result.m00 = lm2_add_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(a.m00, b.m00), lm2_mul_f32(a.m01, b.m10)), lm2_mul_f32(a.m02, b.m20)), lm2_mul_f32(a.m03, b.m30));
@@ -664,13 +664,13 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_multiply_f32(lm2_matrix4x4_f32 a, lm2_matrix4
   return result;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_transpose_f32(lm2_matrix4x4_f32 m) {
-  lm2_matrix4x4_f32 result = {
+LM2_API lm2_m4x4_f32 lm2_m4x4_transpose_f32(lm2_m4x4_f32 m) {
+  lm2_m4x4_f32 result = {
       m.m00, m.m10, m.m20, m.m30, m.m01, m.m11, m.m21, m.m31, m.m02, m.m12, m.m22, m.m32, m.m03, m.m13, m.m23, m.m33};
   return result;
 }
 
-LM2_API float lm2_m4x4_determinant_f32(lm2_matrix4x4_f32 m) {
+LM2_API float lm2_m4x4_determinant_f32(lm2_m4x4_f32 m) {
   // Calculate determinant using cofactor expansion along first row
   float a00_det = lm2_sub_f32(lm2_sub_f32(lm2_mul_f32(m.m11, lm2_sub_f32(lm2_mul_f32(m.m22, m.m33), lm2_mul_f32(m.m23, m.m32))), lm2_mul_f32(m.m12, lm2_sub_f32(lm2_mul_f32(m.m21, m.m33), lm2_mul_f32(m.m23, m.m31)))), lm2_mul_f32(m.m13, lm2_sub_f32(lm2_mul_f32(m.m21, m.m32), lm2_mul_f32(m.m22, m.m31))));
 
@@ -683,13 +683,13 @@ LM2_API float lm2_m4x4_determinant_f32(lm2_matrix4x4_f32 m) {
   return lm2_sub_f32(lm2_add_f32(lm2_mul_f32(m.m00, a00_det), lm2_mul_f32(m.m02, a02_det)), lm2_add_f32(lm2_mul_f32(m.m01, a01_det), lm2_mul_f32(m.m03, a03_det)));
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_inverse_f32(lm2_matrix4x4_f32 m) {
+LM2_API lm2_m4x4_f32 lm2_m4x4_inverse_f32(lm2_m4x4_f32 m) {
   float det = lm2_m4x4_determinant_f32(m);
   LM2_ASSERT_UNSAFE(lm2_abs_f32(det) > 1e-6f);
 
   float inv_det = lm2_div_f32(1.0f, det);
 
-  lm2_matrix4x4_f32 result;
+  lm2_m4x4_f32 result;
 
   // Calculate adjugate matrix (cofactor matrix transposed) and multiply by inv_det
   result.m00 = lm2_mul_f32(lm2_add_f32(lm2_sub_f32(lm2_mul_f32(m.m11, lm2_sub_f32(lm2_mul_f32(m.m22, m.m33), lm2_mul_f32(m.m23, m.m32))), lm2_mul_f32(m.m12, lm2_sub_f32(lm2_mul_f32(m.m21, m.m33), lm2_mul_f32(m.m23, m.m31)))), lm2_mul_f32(m.m13, lm2_sub_f32(lm2_mul_f32(m.m21, m.m32), lm2_mul_f32(m.m22, m.m31)))), inv_det);
@@ -715,11 +715,11 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_inverse_f32(lm2_matrix4x4_f32 m) {
   return result;
 }
 
-LM2_API float lm2_m4x4_trace_f32(lm2_matrix4x4_f32 m) {
+LM2_API float lm2_m4x4_trace_f32(lm2_m4x4_f32 m) {
   return lm2_add_f32(lm2_add_f32(lm2_add_f32(m.m00, m.m11), m.m22), m.m33);
 }
 
-LM2_API lm2_v3_f32 lm2_m4x4_transform_point_f32(lm2_matrix4x4_f32 m, lm2_v3_f32 v) {
+LM2_API lm2_v3_f32 lm2_m4x4_transform_point_f32(lm2_m4x4_f32 m, lm2_v3_f32 v) {
   // Transform as homogeneous point (x, y, z, 1)
   float x = lm2_add_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m00, v.x), lm2_mul_f32(m.m01, v.y)), lm2_mul_f32(m.m02, v.z)), m.m03);
   float y = lm2_add_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m10, v.x), lm2_mul_f32(m.m11, v.y)), lm2_mul_f32(m.m12, v.z)), m.m13);
@@ -738,7 +738,7 @@ LM2_API lm2_v3_f32 lm2_m4x4_transform_point_f32(lm2_matrix4x4_f32 m, lm2_v3_f32 
   return result;
 }
 
-LM2_API lm2_v3_f32 lm2_m4x4_transform_vector_f32(lm2_matrix4x4_f32 m, lm2_v3_f32 v) {
+LM2_API lm2_v3_f32 lm2_m4x4_transform_vector_f32(lm2_m4x4_f32 m, lm2_v3_f32 v) {
   // Transform as vector (x, y, z, 0) - no translation
   float x = lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m00, v.x), lm2_mul_f32(m.m01, v.y)), lm2_mul_f32(m.m02, v.z));
   float y = lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m10, v.x), lm2_mul_f32(m.m11, v.y)), lm2_mul_f32(m.m12, v.z));
@@ -748,7 +748,7 @@ LM2_API lm2_v3_f32 lm2_m4x4_transform_vector_f32(lm2_matrix4x4_f32 m, lm2_v3_f32
   return result;
 }
 
-LM2_API lm2_v4_f32 lm2_m4x4_transform_f32(lm2_matrix4x4_f32 m, lm2_v4_f32 v) {
+LM2_API lm2_v4_f32 lm2_m4x4_transform_f32(lm2_m4x4_f32 m, lm2_v4_f32 v) {
   // Transform full 4D vector
   float x = lm2_add_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m00, v.x), lm2_mul_f32(m.m01, v.y)), lm2_mul_f32(m.m02, v.z)), lm2_mul_f32(m.m03, v.w));
   float y = lm2_add_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m10, v.x), lm2_mul_f32(m.m11, v.y)), lm2_mul_f32(m.m12, v.z)), lm2_mul_f32(m.m13, v.w));
@@ -759,7 +759,7 @@ LM2_API lm2_v4_f32 lm2_m4x4_transform_f32(lm2_matrix4x4_f32 m, lm2_v4_f32 v) {
   return result;
 }
 
-LM2_API void lm2_m4x4_transform_points_f32(lm2_matrix4x4_f32 m, lm2_v3_f32* points, uint32_t count) {
+LM2_API void lm2_m4x4_transform_points_f32(lm2_m4x4_f32 m, lm2_v3_f32* points, uint32_t count) {
   LM2_ASSERT(points != NULL);
 
   for (uint32_t i = 0; i < count; i++) {
@@ -767,7 +767,7 @@ LM2_API void lm2_m4x4_transform_points_f32(lm2_matrix4x4_f32 m, lm2_v3_f32* poin
   }
 }
 
-LM2_API void lm2_m4x4_transform_points_src_dst_f32(lm2_matrix4x4_f32 m, const lm2_v3_f32* src, lm2_v3_f32* dst, uint32_t count) {
+LM2_API void lm2_m4x4_transform_points_src_dst_f32(lm2_m4x4_f32 m, const lm2_v3_f32* src, lm2_v3_f32* dst, uint32_t count) {
   LM2_ASSERT(src != NULL && dst != NULL);
 
   for (uint32_t i = 0; i < count; i++) {
@@ -776,7 +776,7 @@ LM2_API void lm2_m4x4_transform_points_src_dst_f32(lm2_matrix4x4_f32 m, const lm
 }
 
 // Getters
-LM2_API lm2_v3_f32 lm2_m4x4_get_scale_f32(lm2_matrix4x4_f32 m) {
+LM2_API lm2_v3_f32 lm2_m4x4_get_scale_f32(lm2_m4x4_f32 m) {
   // Extract scale from matrix
   float sx = lm2_sqrt_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m00, m.m00), lm2_mul_f32(m.m10, m.m10)), lm2_mul_f32(m.m20, m.m20)));
   float sy = lm2_sqrt_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(m.m01, m.m01), lm2_mul_f32(m.m11, m.m11)), lm2_mul_f32(m.m21, m.m21)));
@@ -786,13 +786,13 @@ LM2_API lm2_v3_f32 lm2_m4x4_get_scale_f32(lm2_matrix4x4_f32 m) {
   return result;
 }
 
-LM2_API lm2_v3_f32 lm2_m4x4_get_translation_f32(lm2_matrix4x4_f32 m) {
+LM2_API lm2_v3_f32 lm2_m4x4_get_translation_f32(lm2_m4x4_f32 m) {
   lm2_v3_f32 result = {m.m03, m.m13, m.m23};
   return result;
 }
 
 // Projection
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_ortho_f32(float left, float right, float bottom, float top, float near_plane, float far_plane) {
+LM2_API lm2_m4x4_f32 lm2_m4x4_ortho_f32(float left, float right, float bottom, float top, float near_plane, float far_plane) {
   float rl = lm2_sub_f32(right, left);
   float tb = lm2_sub_f32(top, bottom);
   float fn = lm2_sub_f32(far_plane, near_plane);
@@ -801,7 +801,7 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_ortho_f32(float left, float right, float bott
   LM2_ASSERT_UNSAFE(lm2_abs_f32(tb) > 1e-6f);
   LM2_ASSERT_UNSAFE(lm2_abs_f32(fn) > 1e-6f);
 
-  lm2_matrix4x4_f32 m;
+  lm2_m4x4_f32 m;
   m.m00 = lm2_div_f32(2.0f, rl);
   m.m01 = 0.0f;
   m.m02 = 0.0f;
@@ -825,7 +825,7 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_ortho_f32(float left, float right, float bott
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_perspective_f32(float fov_y, float aspect, float near_plane, float far_plane) {
+LM2_API lm2_m4x4_f32 lm2_m4x4_perspective_f32(float fov_y, float aspect, float near_plane, float far_plane) {
   float tan_half_fov = lm2_tan_f32(lm2_mul_f32(fov_y, 0.5f));
   float fn = lm2_sub_f32(far_plane, near_plane);
 
@@ -833,7 +833,7 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_perspective_f32(float fov_y, float aspect, fl
   LM2_ASSERT_UNSAFE(lm2_abs_f32(tan_half_fov) > 1e-6f);
   LM2_ASSERT_UNSAFE(lm2_abs_f32(fn) > 1e-6f);
 
-  lm2_matrix4x4_f32 m;
+  lm2_m4x4_f32 m;
   m.m00 = lm2_div_f32(1.0f, lm2_mul_f32(aspect, tan_half_fov));
   m.m01 = 0.0f;
   m.m02 = 0.0f;
@@ -857,7 +857,7 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_perspective_f32(float fov_y, float aspect, fl
   return m;
 }
 
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_look_at_f32(lm2_v3_f32 eye, lm2_v3_f32 target, lm2_v3_f32 up) {
+LM2_API lm2_m4x4_f32 lm2_m4x4_look_at_f32(lm2_v3_f32 eye, lm2_v3_f32 target, lm2_v3_f32 up) {
   // Calculate forward (z) axis
   lm2_v3_f32 f = {lm2_sub_f32(target.x, eye.x), lm2_sub_f32(target.y, eye.y), lm2_sub_f32(target.z, eye.z)};
   float f_len_sq = lm2_v3_dot_f32(f, f);
@@ -881,7 +881,7 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_look_at_f32(lm2_v3_f32 eye, lm2_v3_f32 target
   // Calculate up (y) axis
   lm2_v3_f32 u = lm2_v3_cross_f32(s, f);
 
-  lm2_matrix4x4_f32 m;
+  lm2_m4x4_f32 m;
   m.m00 = s.x;
   m.m01 = s.y;
   m.m02 = s.z;
@@ -906,7 +906,7 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_look_at_f32(lm2_v3_f32 eye, lm2_v3_f32 target
 }
 
 // Quaternion conversions - f32
-LM2_API lm2_matrix4x4_f32 lm2_m4x4_from_quat_f32(lm2_quat_f32 q) {
+LM2_API lm2_m4x4_f32 lm2_m4x4_from_quat_f32(lm2_quat_f32 q) {
   // Normalize quaternion
   q = lm2_quat_normalize_f32(q);
 
@@ -920,7 +920,7 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_from_quat_f32(lm2_quat_f32 q) {
   float wy = lm2_mul_f32(q.w, q.y);
   float wz = lm2_mul_f32(q.w, q.z);
 
-  lm2_matrix4x4_f32 m;
+  lm2_m4x4_f32 m;
   m.m00 = lm2_sub_f32(1.0f, lm2_mul_f32(2.0f, lm2_add_f32(yy, zz)));
   m.m01 = lm2_mul_f32(2.0f, lm2_sub_f32(xy, wz));
   m.m02 = lm2_mul_f32(2.0f, lm2_add_f32(xz, wy));
@@ -944,7 +944,7 @@ LM2_API lm2_matrix4x4_f32 lm2_m4x4_from_quat_f32(lm2_quat_f32 q) {
   return m;
 }
 
-LM2_API lm2_quat_f32 lm2_m4x4_to_quat_f32(lm2_matrix4x4_f32 m) {
+LM2_API lm2_quat_f32 lm2_m4x4_to_quat_f32(lm2_m4x4_f32 m) {
   lm2_quat_f32 q;
 
   float trace = lm2_add_f32(lm2_add_f32(m.m00, m.m11), m.m22);

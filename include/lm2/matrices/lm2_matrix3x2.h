@@ -42,7 +42,11 @@ LM2_HEADER_BEGIN;
 // Can represent: translation, rotation, scaling, shearing, and combinations.
 // Efficient for 2D transformations (only stores 6 values vs 9 for full 3x3).
 
-typedef union lm2_matrix3x2_f64 {
+// =============================================================================
+// Matrix 3x2 Function Declarations - f64
+// =============================================================================
+
+typedef union lm2_m3x2_f64 {
   double e[6];  // [m00, m01, m02, m10, m11, m12]
   struct {
     double m00, m01, m02;  // First row: [a, c, tx]
@@ -53,9 +57,35 @@ typedef union lm2_matrix3x2_f64 {
     double b, d, ty;
   };
   _LM2_SUBSCRIPT_OP(double, 6)
-} lm2_matrix3x2_f64;
+} lm2_m3x2_f64;
 
-typedef union lm2_matrix3x2_f32 {
+LM2_API lm2_m3x2_f64 lm2_m3x2_identity_f64(void);
+LM2_API lm2_m3x2_f64 lm2_m3x2_zero_f64(void);
+LM2_API lm2_m3x2_f64 lm2_m3x2_make_f64(double m00, double m01, double m02, double m10, double m11, double m12);
+LM2_API lm2_m3x2_f64 lm2_m3x2_scale_f64(lm2_v2_f64 scale);
+LM2_API lm2_m3x2_f64 lm2_m3x2_scale_uniform_f64(double scale);
+LM2_API lm2_m3x2_f64 lm2_m3x2_translate_f64(lm2_v2_f64 translation);
+LM2_API lm2_m3x2_f64 lm2_m3x2_rotate_f64(double angle);
+LM2_API lm2_m3x2_f64 lm2_m3x2_rotate_around_pivot_f64(double angle, lm2_v2_f64 pivot);
+LM2_API lm2_m3x2_f64 lm2_m3x2_scale_translate_f64(lm2_v2_f64 scale, lm2_v2_f64 translation);
+LM2_API lm2_m3x2_f64 lm2_m3x2_world_transform_f64(lm2_v2_f64 translation, lm2_v2_f64 scale, double rotation);
+LM2_API lm2_m3x2_f64 lm2_m3x2_multiply_f64(lm2_m3x2_f64 a, lm2_m3x2_f64 b);
+LM2_API lm2_m3x2_f64 lm2_m3x2_inverse_f64(lm2_m3x2_f64 m);
+LM2_API double lm2_m3x2_determinant_f64(lm2_m3x2_f64 m);
+LM2_API lm2_v2_f64 lm2_m3x2_transform_point_f64(lm2_m3x2_f64 m, lm2_v2_f64 v);
+LM2_API lm2_v2_f64 lm2_m3x2_transform_vector_f64(lm2_m3x2_f64 m, lm2_v2_f64 v);
+LM2_API void lm2_m3x2_transform_points_f64(lm2_m3x2_f64 m, lm2_v2_f64* points, uint32_t count);
+LM2_API void lm2_m3x2_transform_points_src_dst_f64(lm2_m3x2_f64 m, const lm2_v2_f64* src, lm2_v2_f64* dst, uint32_t count);
+LM2_API double lm2_m3x2_get_rotation_f64(lm2_m3x2_f64 m);
+LM2_API lm2_v2_f64 lm2_m3x2_get_scale_f64(lm2_m3x2_f64 m);
+LM2_API lm2_v2_f64 lm2_m3x2_get_translation_f64(lm2_m3x2_f64 m);
+LM2_API lm2_m3x2_f64 lm2_m3x2_ortho_f64(double left, double right, double bottom, double top);
+
+// =============================================================================
+// Matrix 3x2 Function Declarations - f32
+// =============================================================================
+
+typedef union lm2_m3x2_f32 {
   float e[6];  // [m00, m01, m02, m10, m11, m12]
   struct {
     float m00, m01, m02;  // First row: [a, c, tx]
@@ -66,80 +96,32 @@ typedef union lm2_matrix3x2_f32 {
     float b, d, ty;
   };
   _LM2_SUBSCRIPT_OP(float, 6)
-} lm2_matrix3x2_f32;
+} lm2_m3x2_f32;
+
+LM2_API lm2_m3x2_f32 lm2_m3x2_identity_f32(void);
+LM2_API lm2_m3x2_f32 lm2_m3x2_zero_f32(void);
+LM2_API lm2_m3x2_f32 lm2_m3x2_make_f32(float m00, float m01, float m02, float m10, float m11, float m12);
+LM2_API lm2_m3x2_f32 lm2_m3x2_scale_f32(lm2_v2_f32 scale);
+LM2_API lm2_m3x2_f32 lm2_m3x2_scale_uniform_f32(float scale);
+LM2_API lm2_m3x2_f32 lm2_m3x2_translate_f32(lm2_v2_f32 translation);
+LM2_API lm2_m3x2_f32 lm2_m3x2_rotate_f32(float angle);
+LM2_API lm2_m3x2_f32 lm2_m3x2_rotate_around_pivot_f32(float angle, lm2_v2_f32 pivot);
+LM2_API lm2_m3x2_f32 lm2_m3x2_scale_translate_f32(lm2_v2_f32 scale, lm2_v2_f32 translation);
+LM2_API lm2_m3x2_f32 lm2_m3x2_world_transform_f32(lm2_v2_f32 translation, lm2_v2_f32 scale, float rotation);
+LM2_API lm2_m3x2_f32 lm2_m3x2_multiply_f32(lm2_m3x2_f32 a, lm2_m3x2_f32 b);
+LM2_API lm2_m3x2_f32 lm2_m3x2_inverse_f32(lm2_m3x2_f32 m);
+LM2_API float lm2_m3x2_determinant_f32(lm2_m3x2_f32 m);
+LM2_API lm2_v2_f32 lm2_m3x2_transform_point_f32(lm2_m3x2_f32 m, lm2_v2_f32 v);
+LM2_API lm2_v2_f32 lm2_m3x2_transform_vector_f32(lm2_m3x2_f32 m, lm2_v2_f32 v);
+LM2_API void lm2_m3x2_transform_points_f32(lm2_m3x2_f32 m, lm2_v2_f32* points, uint32_t count);
+LM2_API void lm2_m3x2_transform_points_src_dst_f32(lm2_m3x2_f32 m, const lm2_v2_f32* src, lm2_v2_f32* dst, uint32_t count);
+LM2_API float lm2_m3x2_get_rotation_f32(lm2_m3x2_f32 m);
+LM2_API lm2_v2_f32 lm2_m3x2_get_scale_f32(lm2_m3x2_f32 m);
+LM2_API lm2_v2_f32 lm2_m3x2_get_translation_f32(lm2_m3x2_f32 m);
+LM2_API lm2_m3x2_f32 lm2_m3x2_ortho_f32(float left, float right, float bottom, float top);
 
 // Default type alias
-typedef lm2_matrix3x2_f32 lm2_matrix3x2;
-
-// =============================================================================
-// Matrix 3x2 Function Declarations - f64
-// =============================================================================
-
-// Basic constructors
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_identity(void);
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_zero(void);
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_make(double m00, double m01, double m02, double m10, double m11, double m12);
-
-// Transformations
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_scale(lm2_v2_f64 scale);
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_scale_uniform(double scale);
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_translate(lm2_v2_f64 translation);
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_rotate(double angle);
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_rotate_around_pivot(double angle, lm2_v2_f64 pivot);
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_scale_translate(lm2_v2_f64 scale, lm2_v2_f64 translation);
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_world_transform(lm2_v2_f64 translation, lm2_v2_f64 scale, double rotation);
-
-// Operations
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_multiply(lm2_matrix3x2_f64 a, lm2_matrix3x2_f64 b);
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_inverse(lm2_matrix3x2_f64 m);
-LM2_API double lm2_matrix3x2_f64_determinant(lm2_matrix3x2_f64 m);
-LM2_API lm2_v2_f64 lm2_matrix3x2_f64_transform_point(lm2_matrix3x2_f64 m, lm2_v2_f64 v);
-LM2_API lm2_v2_f64 lm2_matrix3x2_f64_transform_vector(lm2_matrix3x2_f64 m, lm2_v2_f64 v);
-LM2_API void lm2_matrix3x2_f64_transform_points(lm2_matrix3x2_f64 m, lm2_v2_f64* points, uint32_t count);
-LM2_API void lm2_matrix3x2_f64_transform_points_src_dst(lm2_matrix3x2_f64 m, const lm2_v2_f64* src, lm2_v2_f64* dst, uint32_t count);
-
-// Getters
-LM2_API double lm2_matrix3x2_f64_get_rotation(lm2_matrix3x2_f64 m);
-LM2_API lm2_v2_f64 lm2_matrix3x2_f64_get_scale(lm2_matrix3x2_f64 m);
-LM2_API lm2_v2_f64 lm2_matrix3x2_f64_get_translation(lm2_matrix3x2_f64 m);
-
-// Projection
-LM2_API lm2_matrix3x2_f64 lm2_matrix3x2_f64_ortho(double left, double right, double bottom, double top);
-
-// =============================================================================
-// Matrix 3x2 Function Declarations - f32
-// =============================================================================
-
-// Basic constructors
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_identity(void);
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_zero(void);
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_make(float m00, float m01, float m02, float m10, float m11, float m12);
-
-// Transformations
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_scale(lm2_v2_f32 scale);
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_scale_uniform(float scale);
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_translate(lm2_v2_f32 translation);
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_rotate(float angle);
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_rotate_around_pivot(float angle, lm2_v2_f32 pivot);
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_scale_translate(lm2_v2_f32 scale, lm2_v2_f32 translation);
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_world_transform(lm2_v2_f32 translation, lm2_v2_f32 scale, float rotation);
-
-// Operations
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_multiply(lm2_matrix3x2_f32 a, lm2_matrix3x2_f32 b);
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_inverse(lm2_matrix3x2_f32 m);
-LM2_API float lm2_matrix3x2_f32_determinant(lm2_matrix3x2_f32 m);
-LM2_API lm2_v2_f32 lm2_matrix3x2_f32_transform_point(lm2_matrix3x2_f32 m, lm2_v2_f32 v);
-LM2_API lm2_v2_f32 lm2_matrix3x2_f32_transform_vector(lm2_matrix3x2_f32 m, lm2_v2_f32 v);
-LM2_API void lm2_matrix3x2_f32_transform_points(lm2_matrix3x2_f32 m, lm2_v2_f32* points, uint32_t count);
-LM2_API void lm2_matrix3x2_f32_transform_points_src_dst(lm2_matrix3x2_f32 m, const lm2_v2_f32* src, lm2_v2_f32* dst, uint32_t count);
-
-// Getters
-LM2_API float lm2_matrix3x2_f32_get_rotation(lm2_matrix3x2_f32 m);
-LM2_API lm2_v2_f32 lm2_matrix3x2_f32_get_scale(lm2_matrix3x2_f32 m);
-LM2_API lm2_v2_f32 lm2_matrix3x2_f32_get_translation(lm2_matrix3x2_f32 m);
-
-// Projection
-LM2_API lm2_matrix3x2_f32 lm2_matrix3x2_f32_ortho(float left, float right, float bottom, float top);
+typedef lm2_m3x2_f32 lm2_m3x2;
 
 // #############################################################################
 LM2_HEADER_END;
