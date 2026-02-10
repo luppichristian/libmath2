@@ -66,4 +66,5 @@ SOFTWARE.
 #include "lm2/vectors/lm2_vector2.h"
 #include "lm2/vectors/lm2_vector3.h"
 #include "lm2/vectors/lm2_vector4.h"
+#include "lm2/vectors/lm2_vector_conversions.h"
 #include "lm2/vectors/lm2_vector_specifics.h"
