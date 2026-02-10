@@ -60,6 +60,7 @@ SOFTWARE.
 #include "lm2/ranges/lm2_range2.h"
 #include "lm2/ranges/lm2_range3.h"
 #include "lm2/ranges/lm2_range4.h"
+#include "lm2/ranges/lm2_range_conversions.h"
 #include "lm2/scalar/lm2_safe_ops.h"
 #include "lm2/scalar/lm2_scalar.h"
 #include "lm2/scalar/lm2_trigonometry.h"
