@@ -230,7 +230,7 @@ LM2_API double lm2_quat_length_squared_f64(lm2_quat_f64 q) {
 }
 
 LM2_API double lm2_quat_length_f64(lm2_quat_f64 q) {
-  return lm2_sqrt_f64(lm2_quat_length_squared(q));
+  return lm2_sqrt_f64(lm2_quat_length_squared_f64(q));
 }
 
 LM2_API lm2_v3_f64 lm2_quat_rotate_vector_f64(lm2_quat_f64 q, lm2_v3_f64 v) {
@@ -260,7 +260,7 @@ LM2_API lm2_v3_f64 lm2_quat_rotate_vector_f64(lm2_quat_f64 q, lm2_v3_f64 v) {
 
 LM2_API lm2_quat_f64 lm2_quat_slerp_f64(lm2_quat_f64 a, lm2_quat_f64 b, double t) {
   // Spherical linear interpolation
-  double dot = lm2_quat_dot(a, b);
+  double dot = lm2_quat_dot_f64(a, b);
 
   // If the dot product is negative, negate one quaternion to take the shorter path
   if (dot < 0.0) {
@@ -296,7 +296,7 @@ LM2_API lm2_quat_f64 lm2_quat_slerp_f64(lm2_quat_f64 a, lm2_quat_f64 b, double t
 
 LM2_API lm2_quat_f64 lm2_quat_nlerp_f64(lm2_quat_f64 a, lm2_quat_f64 b, double t) {
   // Normalized linear interpolation
-  double dot = lm2_quat_dot(a, b);
+  double dot = lm2_quat_dot_f64(a, b);
 
   // If the dot product is negative, negate one quaternion to take the shorter path
   if (dot < 0.0) {
@@ -526,7 +526,7 @@ LM2_API float lm2_quat_length_squared_f32(lm2_quat_f32 q) {
 }
 
 LM2_API float lm2_quat_length_f32(lm2_quat_f32 q) {
-  return lm2_sqrt_f32(lm2_quat_length_squared(q));
+  return lm2_sqrt_f32(lm2_quat_length_squared_f32(q));
 }
 
 LM2_API lm2_v3_f32 lm2_quat_rotate_vector_f32(lm2_quat_f32 q, lm2_v3_f32 v) {
@@ -556,7 +556,7 @@ LM2_API lm2_v3_f32 lm2_quat_rotate_vector_f32(lm2_quat_f32 q, lm2_v3_f32 v) {
 
 LM2_API lm2_quat_f32 lm2_quat_slerp_f32(lm2_quat_f32 a, lm2_quat_f32 b, float t) {
   // Spherical linear interpolation
-  float dot = lm2_quat_dot(a, b);
+  float dot = lm2_quat_dot_f32(a, b);
 
   // If the dot product is negative, negate one quaternion to take the shorter path
   if (dot < 0.0f) {
@@ -592,7 +592,7 @@ LM2_API lm2_quat_f32 lm2_quat_slerp_f32(lm2_quat_f32 a, lm2_quat_f32 b, float t)
 
 LM2_API lm2_quat_f32 lm2_quat_nlerp_f32(lm2_quat_f32 a, lm2_quat_f32 b, float t) {
   // Normalized linear interpolation
-  float dot = lm2_quat_dot(a, b);
+  float dot = lm2_quat_dot_f32(a, b);
 
   // If the dot product is negative, negate one quaternion to take the shorter path
   if (dot < 0.0f) {

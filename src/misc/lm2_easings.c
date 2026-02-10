@@ -423,39 +423,39 @@ LM2_API float ease_bounce_in_out_f32(float t) {
 
 LM2_API const char* lm2_easing_to_string(easing easing) {
   switch (easing) {
-    case EASING_LINEAR:         return "linear";
-    case EASING_SIN_IN:         return "sin_in";
-    case EASING_SIN_OUT:        return "sin_out";
-    case EASING_SIN_IN_OUT:     return "sin_in_out";
-    case EASING_CUB_IN:         return "cubic_in";
-    case EASING_CUB_OUT:        return "cubic_out";
-    case EASING_CUB_IN_OUT:     return "cubic_in_out";
-    case EASING_QUINT_IN:       return "quint_in";
-    case EASING_QUINT_OUT:      return "quint_out";
-    case EASING_QUINT_IN_OUT:   return "quint_in_out";
-    case EASING_CIRC_IN:        return "circ_in";
-    case EASING_CIRC_OUT:       return "circ_out";
-    case EASING_CIRC_IN_OUT:    return "circ_in_out";
-    case EASING_ELASTIC_IN:     return "elastic_in";
-    case EASING_ELASTIC_OUT:    return "elastic_out";
-    case EASING_ELASTIC_IN_OUT: return "elastic_in_out";
-    case EASING_QUAD_IN:        return "quad_in";
-    case EASING_QUAD_OUT:       return "quad_out";
-    case EASING_QUAD_IN_OUT:    return "quad_in_out";
-    case EASING_QUART_IN:       return "quart_in";
-    case EASING_QUART_OUT:      return "quart_out";
-    case EASING_QUART_IN_OUT:   return "quart_in_out";
-    case EASING_EXP_IN:         return "exp_in";
-    case EASING_EXP_OUT:        return "exp_out";
-    case EASING_EXP_IN_OUT:     return "exp_in_out";
-    case EASING_BACK_IN:        return "back_in";
-    case EASING_BACK_OUT:       return "back_out";
-    case EASING_BACK_IN_OUT:    return "back_in_out";
-    case EASING_BOUNCE_IN:      return "bounce_in";
-    case EASING_BOUNCE_OUT:     return "bounce_out";
-    case EASING_BOUNCE_IN_OUT:  return "bounce_in_out";
-    case EASING_MAX:            return "unknown";
-    default:                    return "unknown";
+    case EASING_LINEAR:         return "EASING_LINEAR";
+    case EASING_SIN_IN:         return "EASING_SIN_IN";
+    case EASING_SIN_OUT:        return "EASING_SIN_OUT";
+    case EASING_SIN_IN_OUT:     return "EASING_SIN_IN_OUT";
+    case EASING_CUB_IN:         return "EASING_CUB_IN";
+    case EASING_CUB_OUT:        return "EASING_CUB_OUT";
+    case EASING_CUB_IN_OUT:     return "EASING_CUB_IN_OUT";
+    case EASING_QUINT_IN:       return "EASING_QUINT_IN";
+    case EASING_QUINT_OUT:      return "EASING_QUINT_OUT";
+    case EASING_QUINT_IN_OUT:   return "EASING_QUINT_IN_OUT";
+    case EASING_CIRC_IN:        return "EASING_CIRC_IN";
+    case EASING_CIRC_OUT:       return "EASING_CIRC_OUT";
+    case EASING_CIRC_IN_OUT:    return "EASING_CIRC_IN_OUT";
+    case EASING_ELASTIC_IN:     return "EASING_ELASTIC_IN";
+    case EASING_ELASTIC_OUT:    return "EASING_ELASTIC_OUT";
+    case EASING_ELASTIC_IN_OUT: return "EASING_ELASTIC_IN_OUT";
+    case EASING_QUAD_IN:        return "EASING_QUAD_IN";
+    case EASING_QUAD_OUT:       return "EASING_QUAD_OUT";
+    case EASING_QUAD_IN_OUT:    return "EASING_QUAD_IN_OUT";
+    case EASING_QUART_IN:       return "EASING_QUART_IN";
+    case EASING_QUART_OUT:      return "EASING_QUART_OUT";
+    case EASING_QUART_IN_OUT:   return "EASING_QUART_IN_OUT";
+    case EASING_EXP_IN:         return "EASING_EXP_IN";
+    case EASING_EXP_OUT:        return "EASING_EXP_OUT";
+    case EASING_EXP_IN_OUT:     return "EASING_EXP_IN_OUT";
+    case EASING_BACK_IN:        return "EASING_BACK_IN";
+    case EASING_BACK_OUT:       return "EASING_BACK_OUT";
+    case EASING_BACK_IN_OUT:    return "EASING_BACK_IN_OUT";
+    case EASING_BOUNCE_IN:      return "EASING_BOUNCE_IN";
+    case EASING_BOUNCE_OUT:     return "EASING_BOUNCE_OUT";
+    case EASING_BOUNCE_IN_OUT:  return "EASING_BOUNCE_IN_OUT";
+    case EASING_MAX:            return "EASING_MAX";
+    default:                    return "EASING_UNKNOWN";
   }
 }
 

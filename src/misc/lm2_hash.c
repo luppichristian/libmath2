@@ -37,6 +37,8 @@ SOFTWARE.
 // =============================================================================
 
 LM2_API uint64_t lm2_hash_mix_u64(uint64_t x) {
+  // Handle zero input to ensure non-zero output
+  if (x == 0) x = 0x0123456789abcdefull;
   x ^= x >> 33;
   x *= 0xff51afd7ed558ccdull;
   x ^= x >> 33;
@@ -46,6 +48,8 @@ LM2_API uint64_t lm2_hash_mix_u64(uint64_t x) {
 }
 
 LM2_API uint32_t lm2_hash_mix_u32(uint32_t x) {
+  // Handle zero input to ensure non-zero output
+  if (x == 0) x = 0x01234567u;
   x ^= x >> 16;
   x *= 0x85ebca6bu;
   x ^= x >> 13;
