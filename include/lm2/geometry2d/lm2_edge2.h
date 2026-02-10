@@ -97,16 +97,6 @@ LM2_API bool lm2_edges2_equal_f64(lm2_edge2_f64 e1, lm2_edge2_f64 e2, double eps
 LM2_API bool lm2_edges2_equal_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2, float epsilon);
 
 // =============================================================================
-// 2D Cross Product (Geometric Utilities)
-// =============================================================================
-
-// Compute 2D cross product of vectors (p1->p2) and (p1->p3)
-// Returns the z-component of the 3D cross product (scalar in 2D)
-// Positive if p3 is to the left of vector p1->p2, negative if right, zero if collinear
-LM2_API double lm2_cross_product_2d_f64(lm2_v2_f64 p1, lm2_v2_f64 p2, lm2_v2_f64 p3);
-LM2_API float lm2_cross_product_2d_f32(lm2_v2_f32 p1, lm2_v2_f32 p2, lm2_v2_f32 p3);
-
-// =============================================================================
 // Edge Intersection
 // =============================================================================
 

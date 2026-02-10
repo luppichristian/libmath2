@@ -114,26 +114,6 @@ LM2_API bool lm2_edges2_equal_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2, float epsi
 }
 
 // =============================================================================
-// 2D Cross Product (Geometric Utilities)
-// =============================================================================
-
-LM2_API double lm2_cross_product_2d_f64(lm2_v2_f64 p1, lm2_v2_f64 p2, lm2_v2_f64 p3) {
-  double dx1 = lm2_sub_f64(p2.x, p1.x);
-  double dy1 = lm2_sub_f64(p2.y, p1.y);
-  double dx2 = lm2_sub_f64(p3.x, p1.x);
-  double dy2 = lm2_sub_f64(p3.y, p1.y);
-  return lm2_sub_f64(lm2_mul_f64(dx1, dy2), lm2_mul_f64(dy1, dx2));
-}
-
-LM2_API float lm2_cross_product_2d_f32(lm2_v2_f32 p1, lm2_v2_f32 p2, lm2_v2_f32 p3) {
-  float dx1 = lm2_sub_f32(p2.x, p1.x);
-  float dy1 = lm2_sub_f32(p2.y, p1.y);
-  float dx2 = lm2_sub_f32(p3.x, p1.x);
-  float dy2 = lm2_sub_f32(p3.y, p1.y);
-  return lm2_sub_f32(lm2_mul_f32(dx1, dy2), lm2_mul_f32(dy1, dx2));
-}
-
-// =============================================================================
 // Edge Intersection
 // =============================================================================
 

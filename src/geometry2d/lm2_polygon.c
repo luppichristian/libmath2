@@ -497,10 +497,10 @@ static bool segments_intersect_f64(lm2_v2_f64 a1, lm2_v2_f64 a2, lm2_v2_f64 b1, 
 }
 
 static bool segments_intersect_f32(lm2_v2_f32 a1, lm2_v2_f32 a2, lm2_v2_f32 b1, lm2_v2_f32 b2) {
-  float d1 = lm2_cross_product_2d_f32(b1, b2, a1);
-  float d2 = lm2_cross_product_2d_f32(b1, b2, a2);
-  float d3 = lm2_cross_product_2d_f32(a1, a2, b1);
-  float d4 = lm2_cross_product_2d_f32(a1, a2, b2);
+  float d1 = lm2_v2_cross3_f32(b1, b2, a1);
+  float d2 = lm2_v2_cross3_f32(b1, b2, a2);
+  float d3 = lm2_v2_cross3_f32(a1, a2, b1);
+  float d4 = lm2_v2_cross3_f32(a1, a2, b2);
 
   if (((d1 > 0.0f && d2 < 0.0f) || (d1 < 0.0f && d2 > 0.0f)) &&
       ((d3 > 0.0f && d4 < 0.0f) || (d3 < 0.0f && d4 > 0.0f))) {
@@ -769,7 +769,7 @@ static bool is_ear_f64(const lm2_v2_f64* vertices, const size_t* indices, size_t
   lm2_triangle2_f64 tri = {a, b, c};
 
   // Check if triangle is convex
-  if (lm2_cross_product_2d_f64(a, b, c) < 0.0) {
+  if (lm2_v2_cross3_f64(a, b, c) < 0.0) {
     return false;
   }
 
@@ -791,7 +791,7 @@ static bool is_ear_f32(const lm2_v2_f32* vertices, const size_t* indices, size_t
   lm2_triangle2_f32 tri = {a, b, c};
 
   // Check if triangle is convex
-  if (lm2_cross_product_2d_f32(a, b, c) < 0.0f) {
+  if (lm2_v2_cross3_f32(a, b, c) < 0.0f) {
     return false;
   }
 
