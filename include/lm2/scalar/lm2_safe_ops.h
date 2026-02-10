@@ -98,6 +98,32 @@ LM2_API uint32_t lm2_div_u32(uint32_t a, uint32_t b);
 LM2_API uint16_t lm2_div_u16(uint16_t a, uint16_t b);
 LM2_API uint8_t lm2_div_u8(uint8_t a, uint8_t b);
 
+// =============================================================================
+// Safe Modulo for Integer Types
+// =============================================================================
+
+LM2_API double lm2_mod_f64(double a, double b);
+LM2_API float lm2_mod_f32(float a, float b);
+LM2_API int64_t lm2_mod_i64(int64_t a, int64_t b);
+LM2_API int32_t lm2_mod_i32(int32_t a, int32_t b);
+LM2_API int16_t lm2_mod_i16(int16_t a, int16_t b);
+LM2_API int8_t lm2_mod_i8(int8_t a, int8_t b);
+LM2_API uint64_t lm2_mod_u64(uint64_t a, uint64_t b);
+LM2_API uint32_t lm2_mod_u32(uint32_t a, uint32_t b);
+LM2_API uint16_t lm2_mod_u16(uint16_t a, uint16_t b);
+LM2_API uint8_t lm2_mod_u8(uint8_t a, uint8_t b);
+
+// =============================================================================
+// Safe Negation for Numeric Types
+// =============================================================================
+
+LM2_API double lm2_neg_f64(double a);
+LM2_API float lm2_neg_f32(float a);
+LM2_API int64_t lm2_neg_i64(int64_t a);
+LM2_API int32_t lm2_neg_i32(int32_t a);
+LM2_API int16_t lm2_neg_i16(int16_t a);
+LM2_API int8_t lm2_neg_i8(int8_t a);
+
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

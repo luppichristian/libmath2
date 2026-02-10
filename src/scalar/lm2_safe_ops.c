@@ -326,3 +326,104 @@ LM2_API uint8_t lm2_div_u8(uint8_t a, uint8_t b) {
   LM2_ASSERT_UNSAFE(b != 0);
   return a / b;
 }
+
+// =============================================================================
+// Modulo operations
+// =============================================================================
+
+LM2_API double lm2_mod_f64(double a, double b) {
+  LM2_ASSERT(isfinite(a));
+  LM2_ASSERT(isfinite(b) && b != 0.0);
+  return fmod(a, b);
+}
+
+LM2_API float lm2_mod_f32(float a, float b) {
+  LM2_ASSERT(isfinite(a));
+  LM2_ASSERT(isfinite(b) && b != 0.0f);
+  return fmodf(a, b);
+}
+
+LM2_API int64_t lm2_mod_i64(int64_t a, int64_t b) {
+  // Assert no division by zero
+  LM2_ASSERT_UNSAFE(b != 0);
+  // Assert no overflow (INT64_MIN % -1 may cause issues on some platforms)
+  LM2_ASSERT_UNSAFE(!(a == INT64_MIN && b == -1));
+  return a % b;
+}
+
+LM2_API int32_t lm2_mod_i32(int32_t a, int32_t b) {
+  LM2_ASSERT_UNSAFE(b != 0);
+  LM2_ASSERT_UNSAFE(!(a == INT32_MIN && b == -1));
+  return a % b;
+}
+
+LM2_API int16_t lm2_mod_i16(int16_t a, int16_t b) {
+  LM2_ASSERT_UNSAFE(b != 0);
+  LM2_ASSERT_UNSAFE(!(a == INT16_MIN && b == -1));
+  return a % b;
+}
+
+LM2_API int8_t lm2_mod_i8(int8_t a, int8_t b) {
+  LM2_ASSERT_UNSAFE(b != 0);
+  LM2_ASSERT_UNSAFE(!(a == INT8_MIN && b == -1));
+  return a % b;
+}
+
+LM2_API uint64_t lm2_mod_u64(uint64_t a, uint64_t b) {
+  LM2_ASSERT_UNSAFE(b != 0);
+  return a % b;
+}
+
+LM2_API uint32_t lm2_mod_u32(uint32_t a, uint32_t b) {
+  LM2_ASSERT_UNSAFE(b != 0);
+  return a % b;
+}
+
+LM2_API uint16_t lm2_mod_u16(uint16_t a, uint16_t b) {
+  LM2_ASSERT_UNSAFE(b != 0);
+  return a % b;
+}
+
+LM2_API uint8_t lm2_mod_u8(uint8_t a, uint8_t b) {
+  LM2_ASSERT_UNSAFE(b != 0);
+  return a % b;
+}
+
+// =============================================================================
+// Negation operations
+// =============================================================================
+
+LM2_API double lm2_neg_f64(double a) {
+  LM2_ASSERT_UNSAFE(isfinite(a));
+  double result = -a;
+  LM2_ASSERT_UNSAFE(isfinite(result));
+  return result;
+}
+
+LM2_API float lm2_neg_f32(float a) {
+  LM2_ASSERT_UNSAFE(isfinite(a));
+  float result = -a;
+  LM2_ASSERT_UNSAFE(isfinite(result));
+  return result;
+}
+
+LM2_API int64_t lm2_neg_i64(int64_t a) {
+  // Assert no overflow (negating INT64_MIN overflows)
+  LM2_ASSERT_UNSAFE(a != INT64_MIN);
+  return -a;
+}
+
+LM2_API int32_t lm2_neg_i32(int32_t a) {
+  LM2_ASSERT_UNSAFE(a != INT32_MIN);
+  return -a;
+}
+
+LM2_API int16_t lm2_neg_i16(int16_t a) {
+  LM2_ASSERT_UNSAFE(a != INT16_MIN);
+  return -a;
+}
+
+LM2_API int8_t lm2_neg_i8(int8_t a) {
+  LM2_ASSERT_UNSAFE(a != INT8_MIN);
+  return -a;
+}

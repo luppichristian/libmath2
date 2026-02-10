@@ -417,3 +417,166 @@ TEST_F(SafeOpsTest, CombinedOperations_F64) {
   double result2 = lm2_div_f64(lm2_sub_f64(a, b), c);
   EXPECT_NEAR(result2, 1.666666666666667, EPSILON_F64);
 }
+
+// =============================================================================
+// Safe Modulo Tests - Signed Integers
+// =============================================================================
+
+TEST_F(SafeOpsTest, Mod_I64) {
+  EXPECT_EQ(lm2_mod_i64(10, 3), 1);
+  EXPECT_EQ(lm2_mod_i64(15, 4), 3);
+  EXPECT_EQ(lm2_mod_i64(-10, 3), -1);
+  EXPECT_EQ(lm2_mod_i64(10, -3), 1);
+  EXPECT_EQ(lm2_mod_i64(-10, -3), -1);
+  EXPECT_EQ(lm2_mod_i64(7, 7), 0);
+}
+
+TEST_F(SafeOpsTest, Mod_I32) {
+  EXPECT_EQ(lm2_mod_i32(10, 3), 1);
+  EXPECT_EQ(lm2_mod_i32(15, 4), 3);
+  EXPECT_EQ(lm2_mod_i32(-10, 3), -1);
+  EXPECT_EQ(lm2_mod_i32(10, -3), 1);
+  EXPECT_EQ(lm2_mod_i32(-10, -3), -1);
+  EXPECT_EQ(lm2_mod_i32(7, 7), 0);
+}
+
+TEST_F(SafeOpsTest, Mod_I16) {
+  EXPECT_EQ(lm2_mod_i16(10, 3), 1);
+  EXPECT_EQ(lm2_mod_i16(15, 4), 3);
+  EXPECT_EQ(lm2_mod_i16(-10, 3), -1);
+  EXPECT_EQ(lm2_mod_i16(7, 7), 0);
+}
+
+TEST_F(SafeOpsTest, Mod_I8) {
+  EXPECT_EQ(lm2_mod_i8(10, 3), 1);
+  EXPECT_EQ(lm2_mod_i8(15, 4), 3);
+  EXPECT_EQ(lm2_mod_i8(-10, 3), -1);
+  EXPECT_EQ(lm2_mod_i8(7, 7), 0);
+}
+
+// =============================================================================
+// Safe Modulo Tests - Unsigned Integers
+// =============================================================================
+
+TEST_F(SafeOpsTest, Mod_U64) {
+  EXPECT_EQ(lm2_mod_u64(10, 3), 1);
+  EXPECT_EQ(lm2_mod_u64(15, 4), 3);
+  EXPECT_EQ(lm2_mod_u64(7, 7), 0);
+  EXPECT_EQ(lm2_mod_u64(100, 17), 15);
+}
+
+TEST_F(SafeOpsTest, Mod_U32) {
+  EXPECT_EQ(lm2_mod_u32(10, 3), 1);
+  EXPECT_EQ(lm2_mod_u32(15, 4), 3);
+  EXPECT_EQ(lm2_mod_u32(7, 7), 0);
+  EXPECT_EQ(lm2_mod_u32(100, 17), 15);
+}
+
+TEST_F(SafeOpsTest, Mod_U16) {
+  EXPECT_EQ(lm2_mod_u16(10, 3), 1);
+  EXPECT_EQ(lm2_mod_u16(15, 4), 3);
+  EXPECT_EQ(lm2_mod_u16(7, 7), 0);
+}
+
+TEST_F(SafeOpsTest, Mod_U8) {
+  EXPECT_EQ(lm2_mod_u8(10, 3), 1);
+  EXPECT_EQ(lm2_mod_u8(15, 4), 3);
+  EXPECT_EQ(lm2_mod_u8(7, 7), 0);
+}
+
+// =============================================================================
+// Safe Negation Tests - Floating Point
+// =============================================================================
+
+TEST_F(SafeOpsTest, Neg_F64) {
+  EXPECT_DOUBLE_EQ(lm2_neg_f64(5.0), -5.0);
+  EXPECT_DOUBLE_EQ(lm2_neg_f64(-5.0), 5.0);
+  EXPECT_DOUBLE_EQ(lm2_neg_f64(0.0), -0.0);
+  EXPECT_DOUBLE_EQ(lm2_neg_f64(3.14159), -3.14159);
+  EXPECT_DOUBLE_EQ(lm2_neg_f64(-2.71828), 2.71828);
+}
+
+TEST_F(SafeOpsTest, Neg_F32) {
+  EXPECT_FLOAT_EQ(lm2_neg_f32(5.0f), -5.0f);
+  EXPECT_FLOAT_EQ(lm2_neg_f32(-5.0f), 5.0f);
+  EXPECT_FLOAT_EQ(lm2_neg_f32(0.0f), -0.0f);
+  EXPECT_FLOAT_EQ(lm2_neg_f32(3.14159f), -3.14159f);
+  EXPECT_FLOAT_EQ(lm2_neg_f32(-2.71828f), 2.71828f);
+}
+
+// =============================================================================
+// Safe Negation Tests - Signed Integers
+// =============================================================================
+
+TEST_F(SafeOpsTest, Neg_I64) {
+  EXPECT_EQ(lm2_neg_i64(5), -5);
+  EXPECT_EQ(lm2_neg_i64(-5), 5);
+  EXPECT_EQ(lm2_neg_i64(0), 0);
+  EXPECT_EQ(lm2_neg_i64(std::numeric_limits<int64_t>::max()),
+            -std::numeric_limits<int64_t>::max());
+}
+
+TEST_F(SafeOpsTest, Neg_I32) {
+  EXPECT_EQ(lm2_neg_i32(5), -5);
+  EXPECT_EQ(lm2_neg_i32(-5), 5);
+  EXPECT_EQ(lm2_neg_i32(0), 0);
+  EXPECT_EQ(lm2_neg_i32(std::numeric_limits<int32_t>::max()),
+            -std::numeric_limits<int32_t>::max());
+}
+
+TEST_F(SafeOpsTest, Neg_I16) {
+  EXPECT_EQ(lm2_neg_i16(5), -5);
+  EXPECT_EQ(lm2_neg_i16(-5), 5);
+  EXPECT_EQ(lm2_neg_i16(0), 0);
+  EXPECT_EQ(lm2_neg_i16(std::numeric_limits<int16_t>::max()),
+            -std::numeric_limits<int16_t>::max());
+}
+
+TEST_F(SafeOpsTest, Neg_I8) {
+  EXPECT_EQ(lm2_neg_i8(5), -5);
+  EXPECT_EQ(lm2_neg_i8(-5), 5);
+  EXPECT_EQ(lm2_neg_i8(0), 0);
+  EXPECT_EQ(lm2_neg_i8(std::numeric_limits<int8_t>::max()),
+            -std::numeric_limits<int8_t>::max());
+}
+
+// =============================================================================
+// Modulo Edge Case Tests
+// =============================================================================
+
+TEST_F(SafeOpsTest, Mod_EdgeCases_I32) {
+  // Modulo by 1 should always give 0
+  EXPECT_EQ(lm2_mod_i32(100, 1), 0);
+  EXPECT_EQ(lm2_mod_i32(-100, 1), 0);
+
+  // Modulo where a < b
+  EXPECT_EQ(lm2_mod_i32(5, 10), 5);
+  EXPECT_EQ(lm2_mod_i32(-5, 10), -5);
+}
+
+TEST_F(SafeOpsTest, Mod_EdgeCases_U32) {
+  // Modulo by 1 should always give 0
+  EXPECT_EQ(lm2_mod_u32(100, 1), 0);
+
+  // Modulo where a < b
+  EXPECT_EQ(lm2_mod_u32(5, 10), 5);
+
+  // Large values
+  EXPECT_EQ(lm2_mod_u32(std::numeric_limits<uint32_t>::max(), 2), 1);
+}
+
+// =============================================================================
+// Negation Edge Case Tests
+// =============================================================================
+
+TEST_F(SafeOpsTest, Neg_LargeValues_F64) {
+  double large = 1e100;
+  EXPECT_DOUBLE_EQ(lm2_neg_f64(large), -large);
+  EXPECT_DOUBLE_EQ(lm2_neg_f64(-large), large);
+}
+
+TEST_F(SafeOpsTest, Neg_SmallValues_F64) {
+  double small = 1e-100;
+  EXPECT_DOUBLE_EQ(lm2_neg_f64(small), -small);
+  EXPECT_DOUBLE_EQ(lm2_neg_f64(-small), small);
+}
