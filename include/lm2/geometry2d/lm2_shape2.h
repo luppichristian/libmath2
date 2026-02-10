@@ -28,7 +28,7 @@ SOFTWARE.
 #include "lm2/geometry2d/lm2_circle.h"
 #include "lm2/geometry2d/lm2_edge2.h"
 #include "lm2/geometry2d/lm2_polygon.h"
-#include "lm2/geometry2d/lm2_rectangle.h"
+#include "lm2/geometry2d/lm2_aabb2.h"
 #include "lm2/geometry2d/lm2_triangle2.h"
 #include "lm2/lm2_base.h"
 
@@ -43,7 +43,7 @@ LM2_HEADER_BEGIN;
 typedef enum lm2_shape2_type {
   LM2_SHAPE2_CIRCLE,
   LM2_SHAPE2_CAPSULE,
-  LM2_SHAPE2_RECTANGLE,
+  LM2_SHAPE2_AABB2,
   LM2_SHAPE2_TRIANGLE,
   LM2_SHAPE2_POLYGON,
   LM2_SHAPE2_EDGE,
@@ -78,9 +78,9 @@ LM2_API lm2_shape2_f32 lm2_shape2_from_circle_f32(lm2_circle_f32* circle);
 LM2_API lm2_shape2_f64 lm2_shape2_from_capsule_f64(lm2_capsule2_f64* capsule);
 LM2_API lm2_shape2_f32 lm2_shape2_from_capsule_f32(lm2_capsule2_f32* capsule);
 
-// Create shape from rectangle
-LM2_API lm2_shape2_f64 lm2_shape2_from_rectangle_f64(lm2_rectangle2_f64* rectangle);
-LM2_API lm2_shape2_f32 lm2_shape2_from_rectangle_f32(lm2_rectangle2_f32* rectangle);
+// Create shape from aabb2
+LM2_API lm2_shape2_f64 lm2_shape2_from_aabb2_f64(lm2_aabb2_f64* aabb2);
+LM2_API lm2_shape2_f32 lm2_shape2_from_aabb2_f32(lm2_aabb2_f32* aabb2);
 
 // Create shape from triangle
 LM2_API lm2_shape2_f64 lm2_shape2_from_triangle_f64(lm2_triangle2_f64* triangle);
@@ -106,9 +106,9 @@ LM2_API lm2_circle_f32* lm2_shape2_as_circle_f32(lm2_shape2_f32* shape);
 LM2_API lm2_capsule2_f64* lm2_shape2_as_capsule_f64(lm2_shape2_f64* shape);
 LM2_API lm2_capsule2_f32* lm2_shape2_as_capsule_f32(lm2_shape2_f32* shape);
 
-// Extract rectangle from shape (returns NULL if not a rectangle)
-LM2_API lm2_rectangle2_f64* lm2_shape2_as_rectangle_f64(lm2_shape2_f64* shape);
-LM2_API lm2_rectangle2_f32* lm2_shape2_as_rectangle_f32(lm2_shape2_f32* shape);
+// Extract aabb2 from shape (returns NULL if not an aabb2)
+LM2_API lm2_aabb2_f64* lm2_shape2_as_aabb2_f64(lm2_shape2_f64* shape);
+LM2_API lm2_aabb2_f32* lm2_shape2_as_aabb2_f32(lm2_shape2_f32* shape);
 
 // Extract triangle from shape (returns NULL if not a triangle)
 LM2_API lm2_triangle2_f64* lm2_shape2_as_triangle_f64(lm2_shape2_f64* shape);

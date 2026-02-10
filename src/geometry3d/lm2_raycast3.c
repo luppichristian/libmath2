@@ -28,7 +28,7 @@ SOFTWARE.
 #include "lm2/geometry3d/lm2_plane3.h"
 #include "lm2/geometry3d/lm2_sphere.h"
 #include "lm2/geometry3d/lm2_capsule3.h"
-#include "lm2/geometry3d/lm2_cuboid.h"
+#include "lm2/geometry3d/lm2_aabb3.h"
 #include "lm2/geometry3d/lm2_triangle3.h"
 #include "lm2/scalar/lm2_safe_ops.h"
 #include "lm2/scalar/lm2_scalar.h"
@@ -909,8 +909,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_shape3_f64(lm2_ray3_f64 ray, lm2_shape3_f64 
       break;
     }
 
-    case LM2_SHAPE3_CUBOID: {
-      lm2_cuboid_f64* cuboid = (lm2_cuboid_f64*)shape.data;
+    case LM2_SHAPE3_AABB3: {
+      lm2_aabb3_f64* cuboid = (lm2_aabb3_f64*)shape.data;
       result = lm2_raycast_aabb3_f64(ray, *cuboid);
       break;
     }
@@ -960,8 +960,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 
       break;
     }
 
-    case LM2_SHAPE3_CUBOID: {
-      lm2_cuboid_f32* cuboid = (lm2_cuboid_f32*)shape.data;
+    case LM2_SHAPE3_AABB3: {
+      lm2_aabb3_f32* cuboid = (lm2_aabb3_f32*)shape.data;
       result = lm2_raycast_aabb3_f32(ray, *cuboid);
       break;
     }

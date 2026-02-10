@@ -33,7 +33,7 @@ LM2_HEADER_BEGIN;
 // #############################################################################
 
 // =============================================================================
-// Rectangle Corner Enumerations
+// AABB2 Corner Enumerations
 // =============================================================================
 
 typedef enum lm2_corner2 {
@@ -57,7 +57,7 @@ typedef enum lm2_align {
 } lm2_align;
 
 // =============================================================================
-// Rectangle Operations for f64
+// AABB2 Operations for f64
 // =============================================================================
 
 // Corner operations
@@ -96,7 +96,7 @@ LM2_API lm2_r2_f64 lm2_r2_cut_top_f64(lm2_r2_f64* rect, double amount);
 LM2_API lm2_r2_f64 lm2_r2_align_subrect_f64(lm2_r2_f64 rect, lm2_r2_f64 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Operations for f32
+// AABB2 Operations for f32
 // =============================================================================
 
 // Corner operations
@@ -135,7 +135,7 @@ LM2_API lm2_r2_f32 lm2_r2_cut_top_f32(lm2_r2_f32* rect, float amount);
 LM2_API lm2_r2_f32 lm2_r2_align_subrect_f32(lm2_r2_f32 rect, lm2_r2_f32 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Operations for i64
+// AABB2 Operations for f64
 // =============================================================================
 
 // Corner operations
@@ -174,7 +174,7 @@ LM2_API lm2_r2_i64 lm2_r2_cut_top_i64(lm2_r2_i64* rect, int64_t amount);
 LM2_API lm2_r2_i64 lm2_r2_align_subrect_i64(lm2_r2_i64 rect, lm2_r2_i64 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Operations for i32
+// AABB2 Operations for f32
 // =============================================================================
 
 // Corner operations
@@ -213,7 +213,7 @@ LM2_API lm2_r2_i32 lm2_r2_cut_top_i32(lm2_r2_i32* rect, int32_t amount);
 LM2_API lm2_r2_i32 lm2_r2_align_subrect_i32(lm2_r2_i32 rect, lm2_r2_i32 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Operations for i16
+// AABB2 Operations for i16
 // =============================================================================
 
 // Corner operations
@@ -252,7 +252,7 @@ LM2_API lm2_r2_i16 lm2_r2_cut_top_i16(lm2_r2_i16* rect, int16_t amount);
 LM2_API lm2_r2_i16 lm2_r2_align_subrect_i16(lm2_r2_i16 rect, lm2_r2_i16 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Operations for i8
+// AABB2 Operations for i8
 // =============================================================================
 
 // Corner operations
@@ -291,7 +291,7 @@ LM2_API lm2_r2_i8 lm2_r2_cut_top_i8(lm2_r2_i8* rect, int8_t amount);
 LM2_API lm2_r2_i8 lm2_r2_align_subrect_i8(lm2_r2_i8 rect, lm2_r2_i8 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Operations for u64
+// AABB2 Operations for i64
 // =============================================================================
 
 // Corner operations
@@ -330,7 +330,7 @@ LM2_API lm2_r2_u64 lm2_r2_cut_top_u64(lm2_r2_u64* rect, uint64_t amount);
 LM2_API lm2_r2_u64 lm2_r2_align_subrect_u64(lm2_r2_u64 rect, lm2_r2_u64 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Operations for u32
+// AABB2 Operations for i32
 // =============================================================================
 
 // Corner operations
@@ -369,7 +369,7 @@ LM2_API lm2_r2_u32 lm2_r2_cut_top_u32(lm2_r2_u32* rect, uint32_t amount);
 LM2_API lm2_r2_u32 lm2_r2_align_subrect_u32(lm2_r2_u32 rect, lm2_r2_u32 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Operations for u16
+// AABB2rations for u32
 // =============================================================================
 
 // Corner operations
@@ -408,7 +408,7 @@ LM2_API lm2_r2_u16 lm2_r2_cut_top_u16(lm2_r2_u16* rect, uint16_t amount);
 LM2_API lm2_r2_u16 lm2_r2_align_subrect_u16(lm2_r2_u16 rect, lm2_r2_u16 subrect, lm2_align align_x, lm2_align align_y);
 
 // =============================================================================
-// Rectangle Operations for u8
+// AABB2 Operations for u8
 // =============================================================================
 
 // Corner operations
@@ -465,20 +465,20 @@ LM2_API int lm2_segments_intersect_u8(lm2_v2_u8 a0, lm2_v2_u8 a1, lm2_v2_u8 b0, 
 // Convenience typedefs
 // =============================================================================
 
-// The range2 types are the rectangle types (rectangles are AABBs)
-typedef lm2_r2_f64 lm2_rectangle2_f64;
-typedef lm2_r2_f32 lm2_rectangle2_f32;
-typedef lm2_r2_i64 lm2_rectangle2_i64;
-typedef lm2_r2_i32 lm2_rectangle2_i32;
-typedef lm2_r2_i16 lm2_rectangle2_i16;
-typedef lm2_r2_i8 lm2_rectangle2_i8;
-typedef lm2_r2_u64 lm2_rectangle2_u64;
-typedef lm2_r2_u32 lm2_rectangle2_u32;
-typedef lm2_r2_u16 lm2_rectangle2_u16;
-typedef lm2_r2_u8 lm2_rectangle2_u8;
+// The range2 types are the AABB2 types (axis-aligned bounding boxes)
+typedef lm2_r2_f64 lm2_aabb2_f64;
+typedef lm2_r2_f32 lm2_aabb2_f32;
+typedef lm2_r2_i64 lm2_aabb2_i64;
+typedef lm2_r2_i32 lm2_aabb2_i32;
+typedef lm2_r2_i16 lm2_aabb2_i16;
+typedef lm2_r2_i8 lm2_aabb2_i8;
+typedef lm2_r2_u64 lm2_aabb2_u64;
+typedef lm2_r2_u32 lm2_aabb2_u32;
+typedef lm2_r2_u16 lm2_aabb2_u16;
+typedef lm2_r2_u8 lm2_aabb2_u8;
 
-// Default rectangle type (float-based)
-typedef lm2_r2_f32 lm2_rectangle2;
+// Default AABB2 type (float-based)
+typedef lm2_r2_f32 lm2_aabb2;
 
 // #############################################################################
 LM2_HEADER_END;

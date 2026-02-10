@@ -27,6 +27,7 @@ SOFTWARE.
 // Configurable defines:
 // - LM2_UNSAFE: Disable safe checks in safe ops (for performance)
 
+#include "lm2/geometry2d/lm2_aabb2.h"
 #include "lm2/geometry2d/lm2_capsule2.h"
 #include "lm2/geometry2d/lm2_circle.h"
 #include "lm2/geometry2d/lm2_edge2.h"
@@ -34,12 +35,11 @@ SOFTWARE.
 #include "lm2/geometry2d/lm2_plane2.h"
 #include "lm2/geometry2d/lm2_polygon.h"
 #include "lm2/geometry2d/lm2_raycast2.h"
-#include "lm2/geometry2d/lm2_rectangle.h"
 #include "lm2/geometry2d/lm2_shape2.h"
 #include "lm2/geometry2d/lm2_triangle2.h"
 #include "lm2/geometry2d/lm2_triangle2_geometry.h"
+#include "lm2/geometry3d/lm2_aabb3.h"
 #include "lm2/geometry3d/lm2_capsule3.h"
-#include "lm2/geometry3d/lm2_cuboid.h"
 #include "lm2/geometry3d/lm2_edge3.h"
 #include "lm2/geometry3d/lm2_plane3.h"
 #include "lm2/geometry3d/lm2_raycast3.h"

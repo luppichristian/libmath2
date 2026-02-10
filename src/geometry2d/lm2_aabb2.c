@@ -22,13 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <lm2/geometry2d/lm2_rectangle.h>
+#include <lm2/geometry2d/lm2_aabb2.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
 
 // =============================================================================
-// Rectangle Corner Implementation Macros
+// AABB2 Corner Implementation Macros
 // =============================================================================
 
 #define _LM2_IMPL_RECT2_GET_CORNER(type_name, vec_type, scalar_type, suffix)        \
@@ -79,7 +79,7 @@ SOFTWARE.
   }
 
 // =============================================================================
-// Rectangle Transform Implementation Macros
+// AABB2 Transform Implementation Macros
 // =============================================================================
 
 #define _LM2_IMPL_RECT2_SCALE_FROM_CENTER(type_name, vec_type, scalar_type, suffix)     \
@@ -154,7 +154,7 @@ SOFTWARE.
   }
 
 // =============================================================================
-// Rectangle Query Implementation Macros
+// AABB2 Query Implementation Macros
 // =============================================================================
 
 #define _LM2_IMPL_RECT2_GET_DIM(type_name, vec_type, scalar_type, suffix) \
@@ -234,7 +234,7 @@ SOFTWARE.
   }
 
 // =============================================================================
-// Rectangle Cut Implementation Macros
+// AABB2 Cut Implementation Macros
 // =============================================================================
 
 #define _LM2_IMPL_RECT2_CUT(type_name, vec_type, scalar_type, suffix)                                 \
@@ -297,7 +297,7 @@ SOFTWARE.
   }
 
 // =============================================================================
-// Rectangle Alignment Implementation Macros
+// AABB2 Alignment Implementation Macros
 // =============================================================================
 
 #define _LM2_IMPL_RECT2_ALIGN_SUBRECT(type_name, vec_type, scalar_type, suffix)                                              \
@@ -342,7 +342,7 @@ SOFTWARE.
   }
 
 // =============================================================================
-// Complete Rectangle Implementation for One Type
+// Complete AABB2 Implementation for One Type
 // =============================================================================
 
 #define _LM2_IMPL_RECT2_ALL(type_name, vec_type, scalar_type, suffix)                   \
@@ -373,7 +373,7 @@ SOFTWARE.
   _LM2_IMPL_RECT2_ALIGN_SUBRECT(type_name, vec_type, scalar_type, suffix)
 
 // =============================================================================
-// Rectangle Implementations for All 10 Types
+// AABB2 Implementations for All 10 Types
 // =============================================================================
 
 _LM2_IMPL_RECT2_ALL(lm2_r2_f64, lm2_v2_f64, double, f64)

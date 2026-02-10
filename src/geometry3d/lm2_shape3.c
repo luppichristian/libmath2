@@ -44,11 +44,11 @@ LM2_API lm2_shape3_f64 lm2_shape3_from_capsule_f64(lm2_capsule3_f64* capsule) {
   return shape;
 }
 
-LM2_API lm2_shape3_f64 lm2_shape3_from_cuboid_f64(lm2_cuboid_f64* cuboid) {
-  LM2_ASSERT(cuboid != NULL);
+LM2_API lm2_shape3_f64 lm2_shape3_from_aabb3_f64(lm2_aabb3_f64* aabb3) {
+  LM2_ASSERT(aabb3 != NULL);
   lm2_shape3_f64 shape;
-  shape.type = LM2_SHAPE3_CUBOID;
-  shape.data = cuboid;
+  shape.type = LM2_SHAPE3_AABB3;
+  shape.data = aabb3;
   return shape;
 }
 
@@ -88,11 +88,11 @@ LM2_API lm2_shape3_f32 lm2_shape3_from_capsule_f32(lm2_capsule3_f32* capsule) {
   return shape;
 }
 
-LM2_API lm2_shape3_f32 lm2_shape3_from_cuboid_f32(lm2_cuboid_f32* cuboid) {
-  LM2_ASSERT(cuboid != NULL);
+LM2_API lm2_shape3_f32 lm2_shape3_from_aabb3_f32(lm2_aabb3_f32* aabb3) {
+  LM2_ASSERT(aabb3 != NULL);
   lm2_shape3_f32 shape;
-  shape.type = LM2_SHAPE3_CUBOID;
-  shape.data = cuboid;
+  shape.type = LM2_SHAPE3_AABB3;
+  shape.data = aabb3;
   return shape;
 }
 
@@ -132,12 +132,12 @@ LM2_API lm2_capsule3_f64* lm2_shape3_as_capsule_f64(lm2_shape3_f64* shape) {
   return (lm2_capsule3_f64*)shape->data;
 }
 
-LM2_API lm2_cuboid_f64* lm2_shape3_as_cuboid_f64(lm2_shape3_f64* shape) {
+LM2_API lm2_aabb3_f64* lm2_shape3_as_aabb3_f64(lm2_shape3_f64* shape) {
   LM2_ASSERT(shape != NULL);
-  if (shape->type != LM2_SHAPE3_CUBOID) {
+  if (shape->type != LM2_SHAPE3_AABB3) {
     return NULL;
   }
-  return (lm2_cuboid_f64*)shape->data;
+  return (lm2_aabb3_f64*)shape->data;
 }
 
 LM2_API lm2_triangle3_f64* lm2_shape3_as_triangle_f64(lm2_shape3_f64* shape) {
@@ -176,12 +176,12 @@ LM2_API lm2_capsule3_f32* lm2_shape3_as_capsule_f32(lm2_shape3_f32* shape) {
   return (lm2_capsule3_f32*)shape->data;
 }
 
-LM2_API lm2_cuboid_f32* lm2_shape3_as_cuboid_f32(lm2_shape3_f32* shape) {
+LM2_API lm2_aabb3_f32* lm2_shape3_as_aabb3_f32(lm2_shape3_f32* shape) {
   LM2_ASSERT(shape != NULL);
-  if (shape->type != LM2_SHAPE3_CUBOID) {
+  if (shape->type != LM2_SHAPE3_AABB3) {
     return NULL;
   }
-  return (lm2_cuboid_f32*)shape->data;
+  return (lm2_aabb3_f32*)shape->data;
 }
 
 LM2_API lm2_triangle3_f32* lm2_shape3_as_triangle_f32(lm2_shape3_f32* shape) {

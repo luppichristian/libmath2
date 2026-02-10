@@ -25,7 +25,7 @@ SOFTWARE.
 #pragma once
 
 #include "lm2/geometry3d/lm2_capsule3.h"
-#include "lm2/geometry3d/lm2_cuboid.h"
+#include "lm2/geometry3d/lm2_aabb3.h"
 #include "lm2/geometry3d/lm2_edge3.h"
 #include "lm2/geometry3d/lm2_sphere.h"
 #include "lm2/geometry3d/lm2_triangle3.h"
@@ -42,7 +42,7 @@ LM2_HEADER_BEGIN;
 typedef enum lm2_shape3_type {
   LM2_SHAPE3_SPHERE,
   LM2_SHAPE3_CAPSULE,
-  LM2_SHAPE3_CUBOID,
+  LM2_SHAPE3_AABB3,
   LM2_SHAPE3_TRIANGLE,
   LM2_SHAPE3_EDGE,
 } lm2_shape3_type;
@@ -76,9 +76,9 @@ LM2_API lm2_shape3_f32 lm2_shape3_from_sphere_f32(lm2_sphere_f32* sphere);
 LM2_API lm2_shape3_f64 lm2_shape3_from_capsule_f64(lm2_capsule3_f64* capsule);
 LM2_API lm2_shape3_f32 lm2_shape3_from_capsule_f32(lm2_capsule3_f32* capsule);
 
-// Create shape from cuboid
-LM2_API lm2_shape3_f64 lm2_shape3_from_cuboid_f64(lm2_cuboid_f64* cuboid);
-LM2_API lm2_shape3_f32 lm2_shape3_from_cuboid_f32(lm2_cuboid_f32* cuboid);
+// Create shape from aabb3
+LM2_API lm2_shape3_f64 lm2_shape3_from_aabb3_f64(lm2_aabb3_f64* aabb3);
+LM2_API lm2_shape3_f32 lm2_shape3_from_aabb3_f32(lm2_aabb3_f32* aabb3);
 
 // Create shape from triangle
 LM2_API lm2_shape3_f64 lm2_shape3_from_triangle_f64(lm2_triangle3_f64* triangle);
@@ -100,9 +100,9 @@ LM2_API lm2_sphere_f32* lm2_shape3_as_sphere_f32(lm2_shape3_f32* shape);
 LM2_API lm2_capsule3_f64* lm2_shape3_as_capsule_f64(lm2_shape3_f64* shape);
 LM2_API lm2_capsule3_f32* lm2_shape3_as_capsule_f32(lm2_shape3_f32* shape);
 
-// Extract cuboid from shape (returns NULL if not a cuboid)
-LM2_API lm2_cuboid_f64* lm2_shape3_as_cuboid_f64(lm2_shape3_f64* shape);
-LM2_API lm2_cuboid_f32* lm2_shape3_as_cuboid_f32(lm2_shape3_f32* shape);
+// Extract aabb3 from shape (returns NULL if not an aabb3)
+LM2_API lm2_aabb3_f64* lm2_shape3_as_aabb3_f64(lm2_shape3_f64* shape);
+LM2_API lm2_aabb3_f32* lm2_shape3_as_aabb3_f32(lm2_shape3_f32* shape);
 
 // Extract triangle from shape (returns NULL if not a triangle)
 LM2_API lm2_triangle3_f64* lm2_shape3_as_triangle_f64(lm2_shape3_f64* shape);

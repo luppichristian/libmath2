@@ -890,8 +890,8 @@ LM2_API void lm2_manifold_shape_to_shape_f64(lm2_shape2_f64 shape_a, lm2_shape2_
         case LM2_SHAPE2_CAPSULE:
           lm2_manifold_circle_to_capsule_f64(*circle, *(lm2_capsule2_f64*)shape_b.data, out_manifold);
           break;
-        case LM2_SHAPE2_RECTANGLE: {
-          lm2_rectangle2_f64* rect = (lm2_rectangle2_f64*)shape_b.data;
+        case LM2_SHAPE2_AABB2: {
+          lm2_aabb2_f64* rect = (lm2_aabb2_f64*)shape_b.data;
           lm2_manifold_circle_to_aabb_f64(*circle, *rect, out_manifold);
           break;
         }
@@ -919,8 +919,8 @@ LM2_API void lm2_manifold_shape_to_shape_f64(lm2_shape2_f64 shape_a, lm2_shape2_
         case LM2_SHAPE2_CAPSULE:
           lm2_manifold_capsule_to_capsule_f64(*capsule, *(lm2_capsule2_f64*)shape_b.data, out_manifold);
           break;
-        case LM2_SHAPE2_RECTANGLE: {
-          lm2_rectangle2_f64* rect = (lm2_rectangle2_f64*)shape_b.data;
+        case LM2_SHAPE2_AABB2: {
+          lm2_aabb2_f64* rect = (lm2_aabb2_f64*)shape_b.data;
           lm2_manifold_aabb_to_capsule_f64(*rect, *capsule, out_manifold);
           out_manifold->normal = lm2_v2_mul_s_f64(out_manifold->normal, -1.0);
           break;
@@ -938,8 +938,8 @@ LM2_API void lm2_manifold_shape_to_shape_f64(lm2_shape2_f64 shape_a, lm2_shape2_
       break;
     }
 
-    case LM2_SHAPE2_RECTANGLE: {
-      lm2_rectangle2_f64* rect = (lm2_rectangle2_f64*)shape_a.data;
+    case LM2_SHAPE2_AABB2: {
+      lm2_aabb2_f64* rect = (lm2_aabb2_f64*)shape_a.data;
       switch (shape_b.type) {
         case LM2_SHAPE2_CIRCLE:
           lm2_manifold_circle_to_aabb_f64(*(lm2_circle_f64*)shape_b.data, *rect, out_manifold);
@@ -948,8 +948,8 @@ LM2_API void lm2_manifold_shape_to_shape_f64(lm2_shape2_f64 shape_a, lm2_shape2_
         case LM2_SHAPE2_CAPSULE:
           lm2_manifold_aabb_to_capsule_f64(*rect, *(lm2_capsule2_f64*)shape_b.data, out_manifold);
           break;
-        case LM2_SHAPE2_RECTANGLE: {
-          lm2_rectangle2_f64* rect_b = (lm2_rectangle2_f64*)shape_b.data;
+        case LM2_SHAPE2_AABB2: {
+          lm2_aabb2_f64* rect_b = (lm2_aabb2_f64*)shape_b.data;
           lm2_manifold_aabb_to_aabb_f64(*rect, *rect_b, out_manifold);
           break;
         }
@@ -975,8 +975,8 @@ LM2_API void lm2_manifold_shape_to_shape_f64(lm2_shape2_f64 shape_a, lm2_shape2_
         case LM2_SHAPE2_CAPSULE:
           lm2_manifold_triangle_to_capsule_f64(*tri, *(lm2_capsule2_f64*)shape_b.data, out_manifold);
           break;
-        case LM2_SHAPE2_RECTANGLE: {
-          lm2_rectangle2_f64* rect = (lm2_rectangle2_f64*)shape_b.data;
+        case LM2_SHAPE2_AABB2: {
+          lm2_aabb2_f64* rect = (lm2_aabb2_f64*)shape_b.data;
           lm2_manifold_triangle_to_aabb_f64(*tri, *rect, out_manifold);
           break;
         }
@@ -1003,8 +1003,8 @@ LM2_API void lm2_manifold_shape_to_shape_f64(lm2_shape2_f64 shape_a, lm2_shape2_
           lm2_manifold_capsule_to_polygon_f64(*(lm2_capsule2_f64*)shape_b.data, *poly, out_manifold);
           out_manifold->normal = lm2_v2_mul_s_f64(out_manifold->normal, -1.0);
           break;
-        case LM2_SHAPE2_RECTANGLE: {
-          lm2_rectangle2_f64* rect = (lm2_rectangle2_f64*)shape_b.data;
+        case LM2_SHAPE2_AABB2: {
+          lm2_aabb2_f64* rect = (lm2_aabb2_f64*)shape_b.data;
           lm2_manifold_aabb_to_polygon_f64(*rect, *poly, out_manifold);
           out_manifold->normal = lm2_v2_mul_s_f64(out_manifold->normal, -1.0);
           break;
@@ -1048,8 +1048,8 @@ LM2_API void lm2_manifold_shape_to_shape_f32(lm2_shape2_f32 shape_a, lm2_shape2_
         case LM2_SHAPE2_CAPSULE:
           lm2_manifold_circle_to_capsule_f32(*circle, *(lm2_capsule2_f32*)shape_b.data, out_manifold);
           break;
-        case LM2_SHAPE2_RECTANGLE: {
-          lm2_rectangle2_f32* rect = (lm2_rectangle2_f32*)shape_b.data;
+        case LM2_SHAPE2_AABB2: {
+          lm2_aabb2_f32* rect = (lm2_aabb2_f32*)shape_b.data;
           lm2_manifold_circle_to_aabb_f32(*circle, *rect, out_manifold);
           break;
         }
@@ -1076,8 +1076,8 @@ LM2_API void lm2_manifold_shape_to_shape_f32(lm2_shape2_f32 shape_a, lm2_shape2_
         case LM2_SHAPE2_CAPSULE:
           lm2_manifold_capsule_to_capsule_f32(*capsule, *(lm2_capsule2_f32*)shape_b.data, out_manifold);
           break;
-        case LM2_SHAPE2_RECTANGLE: {
-          lm2_rectangle2_f32* rect = (lm2_rectangle2_f32*)shape_b.data;
+        case LM2_SHAPE2_AABB2: {
+          lm2_aabb2_f32* rect = (lm2_aabb2_f32*)shape_b.data;
           lm2_manifold_aabb_to_capsule_f32(*rect, *capsule, out_manifold);
           out_manifold->normal = lm2_v2_mul_s_f32(out_manifold->normal, -1.0f);
           break;
@@ -1095,8 +1095,8 @@ LM2_API void lm2_manifold_shape_to_shape_f32(lm2_shape2_f32 shape_a, lm2_shape2_
       break;
     }
 
-    case LM2_SHAPE2_RECTANGLE: {
-      lm2_rectangle2_f32* rect = (lm2_rectangle2_f32*)shape_a.data;
+    case LM2_SHAPE2_AABB2: {
+      lm2_aabb2_f32* rect = (lm2_aabb2_f32*)shape_a.data;
       switch (shape_b.type) {
         case LM2_SHAPE2_CIRCLE:
           lm2_manifold_circle_to_aabb_f32(*(lm2_circle_f32*)shape_b.data, *rect, out_manifold);
@@ -1105,8 +1105,8 @@ LM2_API void lm2_manifold_shape_to_shape_f32(lm2_shape2_f32 shape_a, lm2_shape2_
         case LM2_SHAPE2_CAPSULE:
           lm2_manifold_aabb_to_capsule_f32(*rect, *(lm2_capsule2_f32*)shape_b.data, out_manifold);
           break;
-        case LM2_SHAPE2_RECTANGLE: {
-          lm2_rectangle2_f32* rect_b = (lm2_rectangle2_f32*)shape_b.data;
+        case LM2_SHAPE2_AABB2: {
+          lm2_aabb2_f32* rect_b = (lm2_aabb2_f32*)shape_b.data;
           lm2_manifold_aabb_to_aabb_f32(*rect, *rect_b, out_manifold);
           break;
         }
@@ -1132,8 +1132,8 @@ LM2_API void lm2_manifold_shape_to_shape_f32(lm2_shape2_f32 shape_a, lm2_shape2_
         case LM2_SHAPE2_CAPSULE:
           lm2_manifold_triangle_to_capsule_f32(*tri, *(lm2_capsule2_f32*)shape_b.data, out_manifold);
           break;
-        case LM2_SHAPE2_RECTANGLE: {
-          lm2_rectangle2_f32* rect = (lm2_rectangle2_f32*)shape_b.data;
+        case LM2_SHAPE2_AABB2: {
+          lm2_aabb2_f32* rect = (lm2_aabb2_f32*)shape_b.data;
           lm2_manifold_triangle_to_aabb_f32(*tri, *rect, out_manifold);
           break;
         }
@@ -1160,8 +1160,8 @@ LM2_API void lm2_manifold_shape_to_shape_f32(lm2_shape2_f32 shape_a, lm2_shape2_
           lm2_manifold_capsule_to_polygon_f32(*(lm2_capsule2_f32*)shape_b.data, *poly, out_manifold);
           out_manifold->normal = lm2_v2_mul_s_f32(out_manifold->normal, -1.0f);
           break;
-        case LM2_SHAPE2_RECTANGLE: {
-          lm2_rectangle2_f32* rect = (lm2_rectangle2_f32*)shape_b.data;
+        case LM2_SHAPE2_AABB2: {
+          lm2_aabb2_f32* rect = (lm2_aabb2_f32*)shape_b.data;
           lm2_manifold_aabb_to_polygon_f32(*rect, *poly, out_manifold);
           out_manifold->normal = lm2_v2_mul_s_f32(out_manifold->normal, -1.0f);
           break;
