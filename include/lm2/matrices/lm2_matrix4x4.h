@@ -49,31 +49,25 @@ LM2_HEADER_BEGIN;
 // Standard format for 3D graphics transformations.
 
 typedef union lm2_matrix4x4_f64 {
-  double m[16];  // Row-major: [m00, m01, m02, m03, m10, ...]
+  double e[16];  // Row-major: [m00, m01, m02, m03, m10, ...]
   struct {
     double m00, m01, m02, m03;  // First row
     double m10, m11, m12, m13;  // Second row
     double m20, m21, m22, m23;  // Third row
     double m30, m31, m32, m33;  // Fourth row
   };
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-  inline double& operator[](int i) { return m[i]; }
-  inline const double& operator[](int i) const { return m[i]; }
-#endif
+  _LM2_SUBSCRIPT_OP(double, 16)
 } lm2_matrix4x4_f64;
 
 typedef union lm2_matrix4x4_f32 {
-  float m[16];  // Row-major: [m00, m01, m02, m03, m10, ...]
+  float e[16];  // Row-major: [m00, m01, m02, m03, m10, ...]
   struct {
     float m00, m01, m02, m03;  // First row
     float m10, m11, m12, m13;  // Second row
     float m20, m21, m22, m23;  // Third row
     float m30, m31, m32, m33;  // Fourth row
   };
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-  inline float& operator[](int i) { return m[i]; }
-  inline const float& operator[](int i) const { return m[i]; }
-#endif
+  _LM2_SUBSCRIPT_OP(float, 16)
 } lm2_matrix4x4_f32;
 
 // Default type alias

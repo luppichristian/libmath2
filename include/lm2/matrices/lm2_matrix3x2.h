@@ -43,7 +43,7 @@ LM2_HEADER_BEGIN;
 // Efficient for 2D transformations (only stores 6 values vs 9 for full 3x3).
 
 typedef union lm2_matrix3x2_f64 {
-  double m[6];  // [m00, m01, m02, m10, m11, m12]
+  double e[6];  // [m00, m01, m02, m10, m11, m12]
   struct {
     double m00, m01, m02;  // First row: [a, c, tx]
     double m10, m11, m12;  // Second row: [b, d, ty]
@@ -52,14 +52,11 @@ typedef union lm2_matrix3x2_f64 {
     double a, c, tx;  // Alternative names
     double b, d, ty;
   };
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-  inline double& operator[](int i) { return m[i]; }
-  inline const double& operator[](int i) const { return m[i]; }
-#endif
+  _LM2_SUBSCRIPT_OP(double, 6)
 } lm2_matrix3x2_f64;
 
 typedef union lm2_matrix3x2_f32 {
-  float m[6];  // [m00, m01, m02, m10, m11, m12]
+  float e[6];  // [m00, m01, m02, m10, m11, m12]
   struct {
     float m00, m01, m02;  // First row: [a, c, tx]
     float m10, m11, m12;  // Second row: [b, d, ty]
@@ -68,10 +65,7 @@ typedef union lm2_matrix3x2_f32 {
     float a, c, tx;  // Alternative names
     float b, d, ty;
   };
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-  inline float& operator[](int i) { return m[i]; }
-  inline const float& operator[](int i) const { return m[i]; }
-#endif
+  _LM2_SUBSCRIPT_OP(float, 6)
 } lm2_matrix3x2_f32;
 
 // Default type alias

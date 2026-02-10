@@ -43,7 +43,7 @@ typedef union lm2_v3_f64 {
   struct {
     double s, t, r;
   };
-  _LM2_VECTOR_SUBSCRIPT_OP(double, 3)
+  _LM2_SUBSCRIPT_OP(double, 3)
 } lm2_v3_f64;
 
 // lm2_v3_f32 - 32-bit floating-point 3D vector
@@ -55,7 +55,7 @@ typedef union lm2_v3_f32 {
   struct {
     float s, t, r;
   };
-  _LM2_VECTOR_SUBSCRIPT_OP(float, 3)
+  _LM2_SUBSCRIPT_OP(float, 3)
 } lm2_v3_f32;
 
 // lm2_v3_i64 - 64-bit signed integer 3D vector
@@ -67,7 +67,7 @@ typedef union lm2_v3_i64 {
   struct {
     int64_t s, t, r;
   };
-  _LM2_VECTOR_SUBSCRIPT_OP(int64_t, 3)
+  _LM2_SUBSCRIPT_OP(int64_t, 3)
 } lm2_v3_i64;
 
 // lm2_v3_i32 - 32-bit signed integer 3D vector
@@ -79,7 +79,7 @@ typedef union lm2_v3_i32 {
   struct {
     int32_t s, t, r;
   };
-  _LM2_VECTOR_SUBSCRIPT_OP(int32_t, 3)
+  _LM2_SUBSCRIPT_OP(int32_t, 3)
 } lm2_v3_i32;
 
 // lm2_v3_i16 - 16-bit signed integer 3D vector
@@ -91,7 +91,7 @@ typedef union lm2_v3_i16 {
   struct {
     int16_t s, t, r;
   };
-  _LM2_VECTOR_SUBSCRIPT_OP(int16_t, 3)
+  _LM2_SUBSCRIPT_OP(int16_t, 3)
 } lm2_v3_i16;
 
 // lm2_v3_i8 - 8-bit signed integer 3D vector
@@ -103,7 +103,7 @@ typedef union lm2_v3_i8 {
   struct {
     int8_t s, t, r;
   };
-  _LM2_VECTOR_SUBSCRIPT_OP(int8_t, 3)
+  _LM2_SUBSCRIPT_OP(int8_t, 3)
 } lm2_v3_i8;
 
 // lm2_v3_u64 - 64-bit unsigned integer 3D vector
@@ -115,7 +115,7 @@ typedef union lm2_v3_u64 {
   struct {
     uint64_t s, t, r;
   };
-  _LM2_VECTOR_SUBSCRIPT_OP(uint64_t, 3)
+  _LM2_SUBSCRIPT_OP(uint64_t, 3)
 } lm2_v3_u64;
 
 // lm2_v3_u32 - 32-bit unsigned integer 3D vector
@@ -127,7 +127,7 @@ typedef union lm2_v3_u32 {
   struct {
     uint32_t s, t, r;
   };
-  _LM2_VECTOR_SUBSCRIPT_OP(uint32_t, 3)
+  _LM2_SUBSCRIPT_OP(uint32_t, 3)
 } lm2_v3_u32;
 
 // lm2_v3_u16 - 16-bit unsigned integer 3D vector
@@ -139,7 +139,7 @@ typedef union lm2_v3_u16 {
   struct {
     uint16_t s, t, r;
   };
-  _LM2_VECTOR_SUBSCRIPT_OP(uint16_t, 3)
+  _LM2_SUBSCRIPT_OP(uint16_t, 3)
 } lm2_v3_u16;
 
 // lm2_v3_u8 - 8-bit unsigned integer 3D vector
@@ -151,7 +151,7 @@ typedef union lm2_v3_u8 {
   struct {
     uint8_t s, t, r;
   };
-  _LM2_VECTOR_SUBSCRIPT_OP(uint8_t, 3)
+  _LM2_SUBSCRIPT_OP(uint8_t, 3)
 } lm2_v3_u8;
 
 // =============================================================================

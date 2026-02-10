@@ -44,29 +44,23 @@ LM2_HEADER_BEGIN;
 // 3D rotations (around axes), and general 3x3 linear transformations.
 
 typedef union lm2_matrix3x3_f64 {
-  double m[9];  // [m00, m01, m02, m10, m11, m12, m20, m21, m22]
+  double e[9];  // [m00, m01, m02, m10, m11, m12, m20, m21, m22]
   struct {
     double m00, m01, m02;  // First row
     double m10, m11, m12;  // Second row
     double m20, m21, m22;  // Third row
   };
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-  inline double& operator[](int i) { return m[i]; }
-  inline const double& operator[](int i) const { return m[i]; }
-#endif
+  _LM2_SUBSCRIPT_OP(double, 9)
 } lm2_matrix3x3_f64;
 
 typedef union lm2_matrix3x3_f32 {
-  float m[9];  // [m00, m01, m02, m10, m11, m12, m20, m21, m22]
+  float e[9];  // [m00, m01, m02, m10, m11, m12, m20, m21, m22]
   struct {
     float m00, m01, m02;  // First row
     float m10, m11, m12;  // Second row
     float m20, m21, m22;  // Third row
   };
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-  inline float& operator[](int i) { return m[i]; }
-  inline const float& operator[](int i) const { return m[i]; }
-#endif
+  _LM2_SUBSCRIPT_OP(float, 9)
 } lm2_matrix3x3_f32;
 
 // Default type alias

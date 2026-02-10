@@ -97,19 +97,6 @@ LM2_HEADER_BEGIN;
 #define _LM2_DECLARE_SCALAR_FUNC_3(type_name, func_name) \
   LM2_API type_name func_name(type_name a, type_name b, type_name c);
 
-// C++ operator[] for vector unions
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-#  define _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, size)   \
-    inline scalar_type& operator[](int i) {             \
-      return e[i];                                      \
-    }                                                   \
-    inline const scalar_type& operator[](int i) const { \
-      return e[i];                                      \
-    }
-#else
-#  define _LM2_VECTOR_SUBSCRIPT_OP(scalar_type, size)
-#endif
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

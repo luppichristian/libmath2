@@ -95,5 +95,23 @@ _Static_assert(sizeof(double) == 8, "Expected double to be 8 bytes");
 #endif
 
 // #############################################################################
+// C++ operator[] for vector unions
+// #############################################################################
+
+#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
+#  define _LM2_SUBSCRIPT_OP(type, size)          \
+    inline type& operator[](int i) {             \
+      LM2_ASSERT(i >= 0 && i < size);            \
+      return e[i];                               \
+    }                                            \
+    inline const type& operator[](int i) const { \
+      LM2_ASSERT(i >= 0 && i < size);            \
+      return e[i];                               \
+    }
+#else
+#  define _LM2_SUBSCRIPT_OP(type, size)
+#endif
+
+// #############################################################################
 LM2_HEADER_END;
 // #############################################################################

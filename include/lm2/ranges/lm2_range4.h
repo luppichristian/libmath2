@@ -43,11 +43,12 @@ LM2_HEADER_BEGIN;
 // ---------------------------------------------------------------------------
 typedef union lm2_r4_f64 {
   lm2_v4_f64 e[2];
+  double e2[8];
   struct {
     lm2_v4_f64 min;
     lm2_v4_f64 max;
   };
-  _LM2_RANGE_SUBSCRIPT_OP(lm2_v4_f64)
+  _LM2_SUBSCRIPT_OP(lm2_v4_f64, 2)
 } lm2_r4_f64;
 
 // Constructors
@@ -110,11 +111,12 @@ LM2_API double lm2_r4_hypervolume_f64(lm2_r4_f64 r);
 // ---------------------------------------------------------------------------
 typedef union lm2_r4_f32 {
   lm2_v4_f32 e[2];
+  float e2[8];
   struct {
     lm2_v4_f32 min;
     lm2_v4_f32 max;
   };
-  _LM2_RANGE_SUBSCRIPT_OP(lm2_v4_f32)
+  _LM2_SUBSCRIPT_OP(lm2_v4_f32, 2)
 } lm2_r4_f32;
 
 // Constructors
@@ -177,11 +179,12 @@ LM2_API float lm2_r4_hypervolume_f32(lm2_r4_f32 r);
 // ---------------------------------------------------------------------------
 typedef union lm2_r4_i64 {
   lm2_v4_i64 e[2];
+  int64_t e2[8];
   struct {
     lm2_v4_i64 min;
     lm2_v4_i64 max;
   };
-  _LM2_RANGE_SUBSCRIPT_OP(lm2_v4_i64)
+  _LM2_SUBSCRIPT_OP(lm2_v4_i64, 2)
 } lm2_r4_i64;
 
 // Constructors
@@ -244,11 +247,12 @@ LM2_API int64_t lm2_r4_hypervolume_i64(lm2_r4_i64 r);
 // ---------------------------------------------------------------------------
 typedef union lm2_r4_i32 {
   lm2_v4_i32 e[2];
+  int32_t e2[8];
   struct {
     lm2_v4_i32 min;
     lm2_v4_i32 max;
   };
-  _LM2_RANGE_SUBSCRIPT_OP(lm2_v4_i32)
+  _LM2_SUBSCRIPT_OP(lm2_v4_i32, 2)
 } lm2_r4_i32;
 
 // Constructors
@@ -311,11 +315,12 @@ LM2_API int32_t lm2_r4_hypervolume_i32(lm2_r4_i32 r);
 // ---------------------------------------------------------------------------
 typedef union lm2_r4_i16 {
   lm2_v4_i16 e[2];
+  int16_t e2[8];
   struct {
     lm2_v4_i16 min;
     lm2_v4_i16 max;
   };
-  _LM2_RANGE_SUBSCRIPT_OP(lm2_v4_i16)
+  _LM2_SUBSCRIPT_OP(lm2_v4_i16, 2)
 } lm2_r4_i16;
 
 // Constructors
@@ -378,11 +383,12 @@ LM2_API int16_t lm2_r4_hypervolume_i16(lm2_r4_i16 r);
 // ---------------------------------------------------------------------------
 typedef union lm2_r4_i8 {
   lm2_v4_i8 e[2];
+  int8_t e2[8];
   struct {
     lm2_v4_i8 min;
     lm2_v4_i8 max;
   };
-  _LM2_RANGE_SUBSCRIPT_OP(lm2_v4_i8)
+  _LM2_SUBSCRIPT_OP(lm2_v4_i8, 2)
 } lm2_r4_i8;
 
 // Constructors
@@ -445,11 +451,12 @@ LM2_API int8_t lm2_r4_hypervolume_i8(lm2_r4_i8 r);
 // ---------------------------------------------------------------------------
 typedef union lm2_r4_u64 {
   lm2_v4_u64 e[2];
+  uint64_t e2[8];
   struct {
     lm2_v4_u64 min;
     lm2_v4_u64 max;
   };
-  _LM2_RANGE_SUBSCRIPT_OP(lm2_v4_u64)
+  _LM2_SUBSCRIPT_OP(lm2_v4_u64, 2)
 } lm2_r4_u64;
 
 // Constructors
@@ -512,11 +519,12 @@ LM2_API uint64_t lm2_r4_hypervolume_u64(lm2_r4_u64 r);
 // ---------------------------------------------------------------------------
 typedef union lm2_r4_u32 {
   lm2_v4_u32 e[2];
+  uint32_t e2[8];
   struct {
     lm2_v4_u32 min;
     lm2_v4_u32 max;
   };
-  _LM2_RANGE_SUBSCRIPT_OP(lm2_v4_u32)
+  _LM2_SUBSCRIPT_OP(lm2_v4_u32, 2)
 } lm2_r4_u32;
 
 // Constructors
@@ -579,11 +587,12 @@ LM2_API uint32_t lm2_r4_hypervolume_u32(lm2_r4_u32 r);
 // ---------------------------------------------------------------------------
 typedef union lm2_r4_u16 {
   lm2_v4_u16 e[2];
+  uint16_t e2[8];
   struct {
     lm2_v4_u16 min;
     lm2_v4_u16 max;
   };
-  _LM2_RANGE_SUBSCRIPT_OP(lm2_v4_u16)
+  _LM2_SUBSCRIPT_OP(lm2_v4_u16, 2)
 } lm2_r4_u16;
 
 // Constructors
@@ -646,11 +655,12 @@ LM2_API uint16_t lm2_r4_hypervolume_u16(lm2_r4_u16 r);
 // ---------------------------------------------------------------------------
 typedef union lm2_r4_u8 {
   lm2_v4_u8 e[2];
+  uint8_t e2[8];
   struct {
     lm2_v4_u8 min;
     lm2_v4_u8 max;
   };
-  _LM2_RANGE_SUBSCRIPT_OP(lm2_v4_u8)
+  _LM2_SUBSCRIPT_OP(lm2_v4_u8, 2)
 } lm2_r4_u8;
 
 // Constructors

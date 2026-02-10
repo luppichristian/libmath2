@@ -26,23 +26,6 @@ SOFTWARE.
 
 #include "lm2/lm2_base.h"
 
-// =============================================================================
-// C++ Array Subscript Operator for Range Unions
-// =============================================================================
-
-// C++ array subscript operator for range unions
-#if defined(__cplusplus) && !defined(LM2_NO_CPP_OPERATORS)
-#  define _LM2_RANGE_SUBSCRIPT_OP(vec_type)          \
-    inline vec_type& operator[](int i) {             \
-      return e[i];                                   \
-    }                                                \
-    inline const vec_type& operator[](int i) const { \
-      return e[i];                                   \
-    }
-#else
-#  define _LM2_RANGE_SUBSCRIPT_OP(vec_type)
-#endif
-
 // #############################################################################
 LM2_HEADER_BEGIN;
 // #############################################################################
