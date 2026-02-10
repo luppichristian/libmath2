@@ -194,6 +194,7 @@ _LM2_IMPL_V3_ALL_SCALAR_FUNCS(lm2_v3_f32, f32)
 #define _LM2_IMPL_V3_UNSIGNED_INT_FUNCS(type_name, scalar_suffix) \
   _LM2_IMPL_V3_SCALAR_FUNC_2(type_name, scalar_suffix, min)       \
   _LM2_IMPL_V3_SCALAR_FUNC_2(type_name, scalar_suffix, max)       \
+  _LM2_IMPL_V3_SCALAR_FUNC_2(type_name, scalar_suffix, mod)       \
   _LM2_IMPL_V3_CLAMP(type_name, scalar_suffix)
 
 _LM2_IMPL_V3_SIGNED_INT_FUNCS(lm2_v3_i64, i64)

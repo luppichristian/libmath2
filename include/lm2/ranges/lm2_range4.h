@@ -26,7 +26,6 @@ SOFTWARE.
 
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector4.h"
-#include "lm2_range_defines.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -87,14 +86,24 @@ LM2_API lm2_r4_f64 lm2_r4_ceil_f64(lm2_r4_f64 a);
 LM2_API lm2_r4_f64 lm2_r4_round_f64(lm2_r4_f64 a);
 LM2_API lm2_r4_f64 lm2_r4_trunc_f64(lm2_r4_f64 a);
 LM2_API lm2_r4_f64 lm2_r4_abs_f64(lm2_r4_f64 a);
+LM2_API lm2_r4_f64 lm2_r4_sign_f64(lm2_r4_f64 a);
+LM2_API lm2_r4_f64 lm2_r4_sign0_f64(lm2_r4_f64 a);
 LM2_API lm2_r4_f64 lm2_r4_floor_multiple_f64(lm2_r4_f64 a, lm2_r4_f64 b);
 LM2_API lm2_r4_f64 lm2_r4_ceil_multiple_f64(lm2_r4_f64 a, lm2_r4_f64 b);
 LM2_API lm2_r4_f64 lm2_r4_round_multiple_f64(lm2_r4_f64 a, lm2_r4_f64 b);
 LM2_API lm2_r4_f64 lm2_r4_trunc_multiple_f64(lm2_r4_f64 a, lm2_r4_f64 b);
 LM2_API lm2_r4_f64 lm2_r4_min_f64(lm2_r4_f64 a, lm2_r4_f64 b);
+LM2_API lm2_r4_f64 lm2_r4_min_abs_f64(lm2_r4_f64 a, lm2_r4_f64 b);
 LM2_API lm2_r4_f64 lm2_r4_max_f64(lm2_r4_f64 a, lm2_r4_f64 b);
+LM2_API lm2_r4_f64 lm2_r4_max_abs_f64(lm2_r4_f64 a, lm2_r4_f64 b);
 LM2_API lm2_r4_f64 lm2_r4_clamp_f64(lm2_r4_f64 a, lm2_r4_f64 b, lm2_r4_f64 c);
+LM2_API lm2_r4_f64 lm2_r4_saturate_f64(lm2_r4_f64 value);
 LM2_API lm2_r4_f64 lm2_r4_lerp_f64(lm2_r4_f64 a, lm2_r4_f64 b, lm2_r4_f64 c);
+LM2_API lm2_r4_f64 lm2_r4_smoothstep_f64(lm2_r4_f64 edge0, lm2_r4_f64 x, lm2_r4_f64 edge1);
+LM2_API lm2_r4_f64 lm2_r4_alpha_f64(lm2_r4_f64 a, lm2_r4_f64 value, lm2_r4_f64 b);
+LM2_API lm2_r4_f64 lm2_r4_fract_f64(lm2_r4_f64 a);
+LM2_API lm2_r4_f64 lm2_r4_pow_f64(lm2_r4_f64 base, lm2_r4_f64 exponent);
+LM2_API lm2_r4_f64 lm2_r4_sqrt_f64(lm2_r4_f64 a);
 
 // Queries
 LM2_API lm2_r4_f64 lm2_r4_union_f64(lm2_r4_f64 a, lm2_r4_f64 b);
@@ -155,14 +164,24 @@ LM2_API lm2_r4_f32 lm2_r4_ceil_f32(lm2_r4_f32 a);
 LM2_API lm2_r4_f32 lm2_r4_round_f32(lm2_r4_f32 a);
 LM2_API lm2_r4_f32 lm2_r4_trunc_f32(lm2_r4_f32 a);
 LM2_API lm2_r4_f32 lm2_r4_abs_f32(lm2_r4_f32 a);
+LM2_API lm2_r4_f32 lm2_r4_sign_f32(lm2_r4_f32 a);
+LM2_API lm2_r4_f32 lm2_r4_sign0_f32(lm2_r4_f32 a);
 LM2_API lm2_r4_f32 lm2_r4_floor_multiple_f32(lm2_r4_f32 a, lm2_r4_f32 b);
 LM2_API lm2_r4_f32 lm2_r4_ceil_multiple_f32(lm2_r4_f32 a, lm2_r4_f32 b);
 LM2_API lm2_r4_f32 lm2_r4_round_multiple_f32(lm2_r4_f32 a, lm2_r4_f32 b);
 LM2_API lm2_r4_f32 lm2_r4_trunc_multiple_f32(lm2_r4_f32 a, lm2_r4_f32 b);
 LM2_API lm2_r4_f32 lm2_r4_min_f32(lm2_r4_f32 a, lm2_r4_f32 b);
+LM2_API lm2_r4_f32 lm2_r4_min_abs_f32(lm2_r4_f32 a, lm2_r4_f32 b);
 LM2_API lm2_r4_f32 lm2_r4_max_f32(lm2_r4_f32 a, lm2_r4_f32 b);
+LM2_API lm2_r4_f32 lm2_r4_max_abs_f32(lm2_r4_f32 a, lm2_r4_f32 b);
 LM2_API lm2_r4_f32 lm2_r4_clamp_f32(lm2_r4_f32 a, lm2_r4_f32 b, lm2_r4_f32 c);
+LM2_API lm2_r4_f32 lm2_r4_saturate_f32(lm2_r4_f32 value);
 LM2_API lm2_r4_f32 lm2_r4_lerp_f32(lm2_r4_f32 a, lm2_r4_f32 b, lm2_r4_f32 c);
+LM2_API lm2_r4_f32 lm2_r4_smoothstep_f32(lm2_r4_f32 edge0, lm2_r4_f32 x, lm2_r4_f32 edge1);
+LM2_API lm2_r4_f32 lm2_r4_alpha_f32(lm2_r4_f32 a, lm2_r4_f32 value, lm2_r4_f32 b);
+LM2_API lm2_r4_f32 lm2_r4_fract_f32(lm2_r4_f32 a);
+LM2_API lm2_r4_f32 lm2_r4_pow_f32(lm2_r4_f32 base, lm2_r4_f32 exponent);
+LM2_API lm2_r4_f32 lm2_r4_sqrt_f32(lm2_r4_f32 a);
 
 // Queries
 LM2_API lm2_r4_f32 lm2_r4_union_f32(lm2_r4_f32 a, lm2_r4_f32 b);
@@ -223,12 +242,16 @@ LM2_API lm2_r4_i64 lm2_r4_ceil_i64(lm2_r4_i64 a);
 LM2_API lm2_r4_i64 lm2_r4_round_i64(lm2_r4_i64 a);
 LM2_API lm2_r4_i64 lm2_r4_trunc_i64(lm2_r4_i64 a);
 LM2_API lm2_r4_i64 lm2_r4_abs_i64(lm2_r4_i64 a);
+LM2_API lm2_r4_i64 lm2_r4_sign_i64(lm2_r4_i64 a);
+LM2_API lm2_r4_i64 lm2_r4_sign0_i64(lm2_r4_i64 a);
 LM2_API lm2_r4_i64 lm2_r4_floor_multiple_i64(lm2_r4_i64 a, lm2_r4_i64 b);
 LM2_API lm2_r4_i64 lm2_r4_ceil_multiple_i64(lm2_r4_i64 a, lm2_r4_i64 b);
 LM2_API lm2_r4_i64 lm2_r4_round_multiple_i64(lm2_r4_i64 a, lm2_r4_i64 b);
 LM2_API lm2_r4_i64 lm2_r4_trunc_multiple_i64(lm2_r4_i64 a, lm2_r4_i64 b);
 LM2_API lm2_r4_i64 lm2_r4_min_i64(lm2_r4_i64 a, lm2_r4_i64 b);
+LM2_API lm2_r4_i64 lm2_r4_min_abs_i64(lm2_r4_i64 a, lm2_r4_i64 b);
 LM2_API lm2_r4_i64 lm2_r4_max_i64(lm2_r4_i64 a, lm2_r4_i64 b);
+LM2_API lm2_r4_i64 lm2_r4_max_abs_i64(lm2_r4_i64 a, lm2_r4_i64 b);
 LM2_API lm2_r4_i64 lm2_r4_clamp_i64(lm2_r4_i64 a, lm2_r4_i64 b, lm2_r4_i64 c);
 LM2_API lm2_r4_i64 lm2_r4_lerp_i64(lm2_r4_i64 a, lm2_r4_i64 b, lm2_r4_i64 c);
 
@@ -291,12 +314,16 @@ LM2_API lm2_r4_i32 lm2_r4_ceil_i32(lm2_r4_i32 a);
 LM2_API lm2_r4_i32 lm2_r4_round_i32(lm2_r4_i32 a);
 LM2_API lm2_r4_i32 lm2_r4_trunc_i32(lm2_r4_i32 a);
 LM2_API lm2_r4_i32 lm2_r4_abs_i32(lm2_r4_i32 a);
+LM2_API lm2_r4_i32 lm2_r4_sign_i32(lm2_r4_i32 a);
+LM2_API lm2_r4_i32 lm2_r4_sign0_i32(lm2_r4_i32 a);
 LM2_API lm2_r4_i32 lm2_r4_floor_multiple_i32(lm2_r4_i32 a, lm2_r4_i32 b);
 LM2_API lm2_r4_i32 lm2_r4_ceil_multiple_i32(lm2_r4_i32 a, lm2_r4_i32 b);
 LM2_API lm2_r4_i32 lm2_r4_round_multiple_i32(lm2_r4_i32 a, lm2_r4_i32 b);
 LM2_API lm2_r4_i32 lm2_r4_trunc_multiple_i32(lm2_r4_i32 a, lm2_r4_i32 b);
 LM2_API lm2_r4_i32 lm2_r4_min_i32(lm2_r4_i32 a, lm2_r4_i32 b);
+LM2_API lm2_r4_i32 lm2_r4_min_abs_i32(lm2_r4_i32 a, lm2_r4_i32 b);
 LM2_API lm2_r4_i32 lm2_r4_max_i32(lm2_r4_i32 a, lm2_r4_i32 b);
+LM2_API lm2_r4_i32 lm2_r4_max_abs_i32(lm2_r4_i32 a, lm2_r4_i32 b);
 LM2_API lm2_r4_i32 lm2_r4_clamp_i32(lm2_r4_i32 a, lm2_r4_i32 b, lm2_r4_i32 c);
 LM2_API lm2_r4_i32 lm2_r4_lerp_i32(lm2_r4_i32 a, lm2_r4_i32 b, lm2_r4_i32 c);
 
@@ -359,12 +386,16 @@ LM2_API lm2_r4_i16 lm2_r4_ceil_i16(lm2_r4_i16 a);
 LM2_API lm2_r4_i16 lm2_r4_round_i16(lm2_r4_i16 a);
 LM2_API lm2_r4_i16 lm2_r4_trunc_i16(lm2_r4_i16 a);
 LM2_API lm2_r4_i16 lm2_r4_abs_i16(lm2_r4_i16 a);
+LM2_API lm2_r4_i16 lm2_r4_sign_i16(lm2_r4_i16 a);
+LM2_API lm2_r4_i16 lm2_r4_sign0_i16(lm2_r4_i16 a);
 LM2_API lm2_r4_i16 lm2_r4_floor_multiple_i16(lm2_r4_i16 a, lm2_r4_i16 b);
 LM2_API lm2_r4_i16 lm2_r4_ceil_multiple_i16(lm2_r4_i16 a, lm2_r4_i16 b);
 LM2_API lm2_r4_i16 lm2_r4_round_multiple_i16(lm2_r4_i16 a, lm2_r4_i16 b);
 LM2_API lm2_r4_i16 lm2_r4_trunc_multiple_i16(lm2_r4_i16 a, lm2_r4_i16 b);
 LM2_API lm2_r4_i16 lm2_r4_min_i16(lm2_r4_i16 a, lm2_r4_i16 b);
+LM2_API lm2_r4_i16 lm2_r4_min_abs_i16(lm2_r4_i16 a, lm2_r4_i16 b);
 LM2_API lm2_r4_i16 lm2_r4_max_i16(lm2_r4_i16 a, lm2_r4_i16 b);
+LM2_API lm2_r4_i16 lm2_r4_max_abs_i16(lm2_r4_i16 a, lm2_r4_i16 b);
 LM2_API lm2_r4_i16 lm2_r4_clamp_i16(lm2_r4_i16 a, lm2_r4_i16 b, lm2_r4_i16 c);
 LM2_API lm2_r4_i16 lm2_r4_lerp_i16(lm2_r4_i16 a, lm2_r4_i16 b, lm2_r4_i16 c);
 
@@ -427,12 +458,16 @@ LM2_API lm2_r4_i8 lm2_r4_ceil_i8(lm2_r4_i8 a);
 LM2_API lm2_r4_i8 lm2_r4_round_i8(lm2_r4_i8 a);
 LM2_API lm2_r4_i8 lm2_r4_trunc_i8(lm2_r4_i8 a);
 LM2_API lm2_r4_i8 lm2_r4_abs_i8(lm2_r4_i8 a);
+LM2_API lm2_r4_i8 lm2_r4_sign_i8(lm2_r4_i8 a);
+LM2_API lm2_r4_i8 lm2_r4_sign0_i8(lm2_r4_i8 a);
 LM2_API lm2_r4_i8 lm2_r4_floor_multiple_i8(lm2_r4_i8 a, lm2_r4_i8 b);
 LM2_API lm2_r4_i8 lm2_r4_ceil_multiple_i8(lm2_r4_i8 a, lm2_r4_i8 b);
 LM2_API lm2_r4_i8 lm2_r4_round_multiple_i8(lm2_r4_i8 a, lm2_r4_i8 b);
 LM2_API lm2_r4_i8 lm2_r4_trunc_multiple_i8(lm2_r4_i8 a, lm2_r4_i8 b);
 LM2_API lm2_r4_i8 lm2_r4_min_i8(lm2_r4_i8 a, lm2_r4_i8 b);
+LM2_API lm2_r4_i8 lm2_r4_min_abs_i8(lm2_r4_i8 a, lm2_r4_i8 b);
 LM2_API lm2_r4_i8 lm2_r4_max_i8(lm2_r4_i8 a, lm2_r4_i8 b);
+LM2_API lm2_r4_i8 lm2_r4_max_abs_i8(lm2_r4_i8 a, lm2_r4_i8 b);
 LM2_API lm2_r4_i8 lm2_r4_clamp_i8(lm2_r4_i8 a, lm2_r4_i8 b, lm2_r4_i8 c);
 LM2_API lm2_r4_i8 lm2_r4_lerp_i8(lm2_r4_i8 a, lm2_r4_i8 b, lm2_r4_i8 c);
 

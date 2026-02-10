@@ -24,7 +24,7 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2/vectors/lm2_vector_defines.h"
+#include "lm2/lm2_base.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -312,6 +312,7 @@ LM2_API lm2_v4_u64 lm2_v4_add_s_u64(lm2_v4_u64 a, uint64_t b);
 LM2_API lm2_v4_u64 lm2_v4_sub_s_u64(lm2_v4_u64 a, uint64_t b);
 LM2_API lm2_v4_u64 lm2_v4_mul_s_u64(lm2_v4_u64 a, uint64_t b);
 LM2_API lm2_v4_u64 lm2_v4_div_s_u64(lm2_v4_u64 a, uint64_t b);
+LM2_API lm2_v4_u64 lm2_v4_mod_u64(lm2_v4_u64 a, lm2_v4_u64 b);
 LM2_API lm2_v4_u64 lm2_v4_min_u64(lm2_v4_u64 a, lm2_v4_u64 b);
 LM2_API lm2_v4_u64 lm2_v4_max_u64(lm2_v4_u64 a, lm2_v4_u64 b);
 LM2_API lm2_v4_u64 lm2_v4_clamp_u64(lm2_v4_u64 a, lm2_v4_u64 b, lm2_v4_u64 c);
@@ -343,6 +344,7 @@ LM2_API lm2_v4_u32 lm2_v4_sub_s_u32(lm2_v4_u32 a, uint32_t b);
 LM2_API lm2_v4_u32 lm2_v4_mul_s_u32(lm2_v4_u32 a, uint32_t b);
 LM2_API lm2_v4_u32 lm2_v4_div_s_u32(lm2_v4_u32 a, uint32_t b);
 LM2_API lm2_v4_u32 lm2_v4_neg_u32(lm2_v4_u32 a);
+LM2_API lm2_v4_u32 lm2_v4_mod_u32(lm2_v4_u32 a, lm2_v4_u32 b);
 LM2_API lm2_v4_u32 lm2_v4_min_u32(lm2_v4_u32 a, lm2_v4_u32 b);
 LM2_API lm2_v4_u32 lm2_v4_max_u32(lm2_v4_u32 a, lm2_v4_u32 b);
 LM2_API lm2_v4_u32 lm2_v4_clamp_u32(lm2_v4_u32 a, lm2_v4_u32 b, lm2_v4_u32 c);
@@ -374,6 +376,7 @@ LM2_API lm2_v4_u16 lm2_v4_add_s_u16(lm2_v4_u16 a, uint16_t b);
 LM2_API lm2_v4_u16 lm2_v4_sub_s_u16(lm2_v4_u16 a, uint16_t b);
 LM2_API lm2_v4_u16 lm2_v4_mul_s_u16(lm2_v4_u16 a, uint16_t b);
 LM2_API lm2_v4_u16 lm2_v4_div_s_u16(lm2_v4_u16 a, uint16_t b);
+LM2_API lm2_v4_u16 lm2_v4_mod_u16(lm2_v4_u16 a, lm2_v4_u16 b);
 LM2_API lm2_v4_u16 lm2_v4_min_u16(lm2_v4_u16 a, lm2_v4_u16 b);
 LM2_API lm2_v4_u16 lm2_v4_max_u16(lm2_v4_u16 a, lm2_v4_u16 b);
 LM2_API lm2_v4_u16 lm2_v4_clamp_u16(lm2_v4_u16 a, lm2_v4_u16 b, lm2_v4_u16 c);
@@ -406,6 +409,7 @@ LM2_API lm2_v4_u8 lm2_v4_sub_s_u8(lm2_v4_u8 a, uint8_t b);
 LM2_API lm2_v4_u8 lm2_v4_mul_s_u8(lm2_v4_u8 a, uint8_t b);
 LM2_API lm2_v4_u8 lm2_v4_div_s_u8(lm2_v4_u8 a, uint8_t b);
 LM2_API lm2_v4_u8 lm2_v4_neg_u8(lm2_v4_u8 a);
+LM2_API lm2_v4_u8 lm2_v4_mod_u8(lm2_v4_u8 a, lm2_v4_u8 b);
 LM2_API lm2_v4_u8 lm2_v4_min_u8(lm2_v4_u8 a, lm2_v4_u8 b);
 LM2_API lm2_v4_u8 lm2_v4_max_u8(lm2_v4_u8 a, lm2_v4_u8 b);
 LM2_API lm2_v4_u8 lm2_v4_clamp_u8(lm2_v4_u8 a, lm2_v4_u8 b, lm2_v4_u8 c);
