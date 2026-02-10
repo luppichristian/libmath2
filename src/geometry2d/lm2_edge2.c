@@ -23,6 +23,8 @@ SOFTWARE.
 */
 
 #include <lm2/geometry2d/lm2_edge2.h>
+#include <lm2/geometry2d/lm2_raycast2.h>
+#include <lm2/geometry2d/lm2_plane2.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
@@ -60,6 +62,64 @@ LM2_API lm2_edge2_f32 lm2_edge2_make_coords_f32(float x1, float y1, float x2, fl
   edge.start.y = y1;
   edge.end.x = x2;
   edge.end.y = y2;
+  return edge;
+}
+
+// =============================================================================
+// Conversion from Other Geometry Types
+// =============================================================================
+
+LM2_API lm2_edge2_f64 lm2_edge2_from_ray_f64(lm2_ray2_f64 ray) {
+  lm2_edge2_f64 edge;
+  edge.start = ray.origin;
+  edge.end.x = lm2_add_f64(ray.origin.x, lm2_mul_f64(ray.direction.x, ray.t_max));
+  edge.end.y = lm2_add_f64(ray.origin.y, lm2_mul_f64(ray.direction.y, ray.t_max));
+  return edge;
+}
+
+LM2_API lm2_edge2_f32 lm2_edge2_from_ray_f32(lm2_ray2_f32 ray) {
+  lm2_edge2_f32 edge;
+  edge.start = ray.origin;
+  edge.end.x = lm2_add_f32(ray.origin.x, lm2_mul_f32(ray.direction.x, ray.t_max));
+  edge.end.y = lm2_add_f32(ray.origin.y, lm2_mul_f32(ray.direction.y, ray.t_max));
+  return edge;
+}
+
+LM2_API lm2_edge2_f64 lm2_edge2_from_plane_f64(lm2_plane2_f64 plane, lm2_v2_f64 center, double length) {
+  // Get a direction perpendicular to the plane's normal (rotate 90 degrees)
+  lm2_v2_f64 dir;
+  dir.x = lm2_neg_f64(plane.normal.y);
+  dir.y = plane.normal.x;
+
+  // Calculate half length
+  double half_length = lm2_mul_f64(length, 0.5);
+
+  // Create edge centered at the given point
+  lm2_edge2_f64 edge;
+  edge.start.x = lm2_sub_f64(center.x, lm2_mul_f64(dir.x, half_length));
+  edge.start.y = lm2_sub_f64(center.y, lm2_mul_f64(dir.y, half_length));
+  edge.end.x = lm2_add_f64(center.x, lm2_mul_f64(dir.x, half_length));
+  edge.end.y = lm2_add_f64(center.y, lm2_mul_f64(dir.y, half_length));
+
+  return edge;
+}
+
+LM2_API lm2_edge2_f32 lm2_edge2_from_plane_f32(lm2_plane2_f32 plane, lm2_v2_f32 center, float length) {
+  // Get a direction perpendicular to the plane's normal (rotate 90 degrees)
+  lm2_v2_f32 dir;
+  dir.x = lm2_neg_f32(plane.normal.y);
+  dir.y = plane.normal.x;
+
+  // Calculate half length
+  float half_length = lm2_mul_f32(length, 0.5f);
+
+  // Create edge centered at the given point
+  lm2_edge2_f32 edge;
+  edge.start.x = lm2_sub_f32(center.x, lm2_mul_f32(dir.x, half_length));
+  edge.start.y = lm2_sub_f32(center.y, lm2_mul_f32(dir.y, half_length));
+  edge.end.x = lm2_add_f32(center.x, lm2_mul_f32(dir.x, half_length));
+  edge.end.y = lm2_add_f32(center.y, lm2_mul_f32(dir.y, half_length));
+
   return edge;
 }
 

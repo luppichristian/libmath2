@@ -27,6 +27,12 @@ SOFTWARE.
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector2.h"
 
+// Forward declarations
+typedef struct lm2_ray2_f64 lm2_ray2_f64;
+typedef struct lm2_ray2_f32 lm2_ray2_f32;
+typedef struct lm2_plane2_f64 lm2_plane2_f64;
+typedef struct lm2_plane2_f32 lm2_plane2_f32;
+
 // #############################################################################
 LM2_HEADER_BEGIN;
 // #############################################################################
@@ -71,6 +77,19 @@ LM2_API lm2_edge2_f32 lm2_edge2_make_f32(lm2_v2_f32 start, lm2_v2_f32 end);
 // Create an edge from coordinates
 LM2_API lm2_edge2_f64 lm2_edge2_make_coords_f64(double x1, double y1, double x2, double y2);
 LM2_API lm2_edge2_f32 lm2_edge2_make_coords_f32(float x1, float y1, float x2, float y2);
+
+// =============================================================================
+// Conversion from Other Geometry Types
+// =============================================================================
+
+// Convert a ray to an edge (from ray origin to ray.origin + ray.direction * ray.t_max)
+LM2_API lm2_edge2_f64 lm2_edge2_from_ray_f64(lm2_ray2_f64 ray);
+LM2_API lm2_edge2_f32 lm2_edge2_from_ray_f32(lm2_ray2_f32 ray);
+
+// Create an edge on a plane with given center point and length
+// The edge will be perpendicular to the plane's normal
+LM2_API lm2_edge2_f64 lm2_edge2_from_plane_f64(lm2_plane2_f64 plane, lm2_v2_f64 center, double length);
+LM2_API lm2_edge2_f32 lm2_edge2_from_plane_f32(lm2_plane2_f32 plane, lm2_v2_f32 center, float length);
 
 // =============================================================================
 // Edge Properties

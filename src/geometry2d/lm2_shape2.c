@@ -76,14 +76,6 @@ LM2_API lm2_shape2_f64 lm2_shape2_from_edge_f64(lm2_edge2_f64* edge) {
   return shape;
 }
 
-LM2_API lm2_shape2_f64 lm2_shape2_from_plane_f64(lm2_plane2_f64* plane) {
-  LM2_ASSERT(plane != NULL);
-  lm2_shape2_f64 shape;
-  shape.type = LM2_SHAPE2_PLANE;
-  shape.data = plane;
-  return shape;
-}
-
 // =============================================================================
 // Construction Helpers - f32
 // =============================================================================
@@ -133,14 +125,6 @@ LM2_API lm2_shape2_f32 lm2_shape2_from_edge_f32(lm2_edge2_f32* edge) {
   lm2_shape2_f32 shape;
   shape.type = LM2_SHAPE2_EDGE;
   shape.data = edge;
-  return shape;
-}
-
-LM2_API lm2_shape2_f32 lm2_shape2_from_plane_f32(lm2_plane2_f32* plane) {
-  LM2_ASSERT(plane != NULL);
-  lm2_shape2_f32 shape;
-  shape.type = LM2_SHAPE2_PLANE;
-  shape.data = plane;
   return shape;
 }
 
@@ -196,14 +180,6 @@ LM2_API lm2_edge2_f64* lm2_shape2_as_edge_f64(lm2_shape2_f64* shape) {
   return (lm2_edge2_f64*)shape->data;
 }
 
-LM2_API lm2_plane2_f64* lm2_shape2_as_plane_f64(lm2_shape2_f64* shape) {
-  LM2_ASSERT(shape != NULL);
-  if (shape->type != LM2_SHAPE2_PLANE) {
-    return NULL;
-  }
-  return (lm2_plane2_f64*)shape->data;
-}
-
 // =============================================================================
 // Extraction Helpers - f32
 // =============================================================================
@@ -254,14 +230,6 @@ LM2_API lm2_edge2_f32* lm2_shape2_as_edge_f32(lm2_shape2_f32* shape) {
     return NULL;
   }
   return (lm2_edge2_f32*)shape->data;
-}
-
-LM2_API lm2_plane2_f32* lm2_shape2_as_plane_f32(lm2_shape2_f32* shape) {
-  LM2_ASSERT(shape != NULL);
-  if (shape->type != LM2_SHAPE2_PLANE) {
-    return NULL;
-  }
-  return (lm2_plane2_f32*)shape->data;
 }
 
 // =============================================================================

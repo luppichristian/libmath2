@@ -27,7 +27,6 @@ SOFTWARE.
 #include "lm2/geometry2d/lm2_capsule2.h"
 #include "lm2/geometry2d/lm2_circle.h"
 #include "lm2/geometry2d/lm2_edge2.h"
-#include "lm2/geometry2d/lm2_plane2.h"
 #include "lm2/geometry2d/lm2_polygon.h"
 #include "lm2/geometry2d/lm2_rectangle.h"
 #include "lm2/geometry2d/lm2_triangle2.h"
@@ -48,7 +47,6 @@ typedef enum lm2_shape2_type {
   LM2_SHAPE2_TRIANGLE,
   LM2_SHAPE2_POLYGON,
   LM2_SHAPE2_EDGE,
-  LM2_SHAPE2_PLANE,
 } lm2_shape2_type;
 
 // =============================================================================
@@ -96,10 +94,6 @@ LM2_API lm2_shape2_f32 lm2_shape2_from_polygon_f32(lm2_polygon_f32* polygon);
 LM2_API lm2_shape2_f64 lm2_shape2_from_edge_f64(lm2_edge2_f64* edge);
 LM2_API lm2_shape2_f32 lm2_shape2_from_edge_f32(lm2_edge2_f32* edge);
 
-// Create shape from plane
-LM2_API lm2_shape2_f64 lm2_shape2_from_plane_f64(lm2_plane2_f64* plane);
-LM2_API lm2_shape2_f32 lm2_shape2_from_plane_f32(lm2_plane2_f32* plane);
-
 // =============================================================================
 // Extraction Helpers
 // =============================================================================
@@ -127,10 +121,6 @@ LM2_API lm2_polygon_f32* lm2_shape2_as_polygon_f32(lm2_shape2_f32* shape);
 // Extract edge from shape (returns NULL if not an edge)
 LM2_API lm2_edge2_f64* lm2_shape2_as_edge_f64(lm2_shape2_f64* shape);
 LM2_API lm2_edge2_f32* lm2_shape2_as_edge_f32(lm2_shape2_f32* shape);
-
-// Extract plane from shape (returns NULL if not a plane)
-LM2_API lm2_plane2_f64* lm2_shape2_as_plane_f64(lm2_shape2_f64* shape);
-LM2_API lm2_plane2_f32* lm2_shape2_as_plane_f32(lm2_shape2_f32* shape);
 
 // =============================================================================
 // Type Query Helpers

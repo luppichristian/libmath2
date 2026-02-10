@@ -486,12 +486,6 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_shape2_f64(lm2_ray2_f64 ray, lm2_shape2_f64 
       break;
     }
 
-    case LM2_SHAPE2_PLANE: {
-      lm2_plane2_f64* plane = (lm2_plane2_f64*)shape.data;
-      result = lm2_raycast_plane2_f64(ray, *plane);
-      break;
-    }
-
     default:
       break;
   }
@@ -546,12 +540,6 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_shape2_f32(lm2_ray2_f32 ray, lm2_shape2_f32 
     case LM2_SHAPE2_EDGE: {
       lm2_edge2_f32* edge = (lm2_edge2_f32*)shape.data;
       result = lm2_raycast_segment_f32(ray, edge->start, edge->end);
-      break;
-    }
-
-    case LM2_SHAPE2_PLANE: {
-      lm2_plane2_f32* plane = (lm2_plane2_f32*)shape.data;
-      result = lm2_raycast_plane2_f32(ray, *plane);
       break;
     }
 

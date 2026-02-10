@@ -927,14 +927,6 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_shape3_f64(lm2_ray3_f64 ray, lm2_shape3_f64 
       break;
     }
 
-    case LM2_SHAPE3_PLANE: {
-      lm2_plane3_f64* plane = (lm2_plane3_f64*)shape.data;
-      // Calculate a point on the plane from normal and distance
-      lm2_v3_f64 plane_point = lm2_v3_mul_s_f64(plane->normal, plane->distance);
-      result = lm2_raycast_plane_f64(ray, plane_point, plane->normal);
-      break;
-    }
-
     default:
       break;
   }
@@ -983,13 +975,6 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 
     case LM2_SHAPE3_EDGE: {
       lm2_edge3_f32* edge = (lm2_edge3_f32*)shape.data;
       result = lm2_raycast_edge_f32(ray, edge->start, edge->end, LM2_RAYCAST3_EPSILON_F32);
-      break;
-    }
-
-    case LM2_SHAPE3_PLANE: {
-      lm2_plane3_f32* plane = (lm2_plane3_f32*)shape.data;
-      lm2_v3_f32 plane_point = lm2_v3_mul_s_f32(plane->normal, plane->distance);
-      result = lm2_raycast_plane_f32(ray, plane_point, plane->normal);
       break;
     }
 

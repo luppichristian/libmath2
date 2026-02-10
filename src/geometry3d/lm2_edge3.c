@@ -23,6 +23,8 @@ SOFTWARE.
 */
 
 #include <lm2/geometry3d/lm2_edge3.h>
+#include <lm2/geometry3d/lm2_raycast3.h>
+#include <lm2/geometry3d/lm2_plane3.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
@@ -64,6 +66,80 @@ LM2_API lm2_edge3_f32 lm2_edge3_make_coords_f32(float x1, float y1, float z1, fl
   edge.end.x = x2;
   edge.end.y = y2;
   edge.end.z = z2;
+  return edge;
+}
+
+// =============================================================================
+// Conversion from Other Geometry Types
+// =============================================================================
+
+LM2_API lm2_edge3_f64 lm2_edge3_from_ray_f64(lm2_ray3_f64 ray) {
+  lm2_edge3_f64 edge;
+  edge.start = ray.origin;
+  edge.end.x = lm2_add_f64(ray.origin.x, lm2_mul_f64(ray.direction.x, ray.t_max));
+  edge.end.y = lm2_add_f64(ray.origin.y, lm2_mul_f64(ray.direction.y, ray.t_max));
+  edge.end.z = lm2_add_f64(ray.origin.z, lm2_mul_f64(ray.direction.z, ray.t_max));
+  return edge;
+}
+
+LM2_API lm2_edge3_f32 lm2_edge3_from_ray_f32(lm2_ray3_f32 ray) {
+  lm2_edge3_f32 edge;
+  edge.start = ray.origin;
+  edge.end.x = lm2_add_f32(ray.origin.x, lm2_mul_f32(ray.direction.x, ray.t_max));
+  edge.end.y = lm2_add_f32(ray.origin.y, lm2_mul_f32(ray.direction.y, ray.t_max));
+  edge.end.z = lm2_add_f32(ray.origin.z, lm2_mul_f32(ray.direction.z, ray.t_max));
+  return edge;
+}
+
+LM2_API lm2_edge3_f64 lm2_edge3_from_plane_f64(lm2_plane3_f64 plane, lm2_v3_f64 center, lm2_v3_f64 direction, double length) {
+  // Project the direction onto the plane (remove component along normal)
+  double dot = lm2_v3_dot_f64(direction, plane.normal);
+  lm2_v3_f64 projected_dir;
+  projected_dir.x = lm2_sub_f64(direction.x, lm2_mul_f64(plane.normal.x, dot));
+  projected_dir.y = lm2_sub_f64(direction.y, lm2_mul_f64(plane.normal.y, dot));
+  projected_dir.z = lm2_sub_f64(direction.z, lm2_mul_f64(plane.normal.z, dot));
+
+  // Normalize the projected direction
+  lm2_v3_f64 dir = lm2_v3_normalize_f64(projected_dir);
+
+  // Calculate half length
+  double half_length = lm2_mul_f64(length, 0.5);
+
+  // Create edge centered at the given point
+  lm2_edge3_f64 edge;
+  edge.start.x = lm2_sub_f64(center.x, lm2_mul_f64(dir.x, half_length));
+  edge.start.y = lm2_sub_f64(center.y, lm2_mul_f64(dir.y, half_length));
+  edge.start.z = lm2_sub_f64(center.z, lm2_mul_f64(dir.z, half_length));
+  edge.end.x = lm2_add_f64(center.x, lm2_mul_f64(dir.x, half_length));
+  edge.end.y = lm2_add_f64(center.y, lm2_mul_f64(dir.y, half_length));
+  edge.end.z = lm2_add_f64(center.z, lm2_mul_f64(dir.z, half_length));
+
+  return edge;
+}
+
+LM2_API lm2_edge3_f32 lm2_edge3_from_plane_f32(lm2_plane3_f32 plane, lm2_v3_f32 center, lm2_v3_f32 direction, float length) {
+  // Project the direction onto the plane (remove component along normal)
+  float dot = lm2_v3_dot_f32(direction, plane.normal);
+  lm2_v3_f32 projected_dir;
+  projected_dir.x = lm2_sub_f32(direction.x, lm2_mul_f32(plane.normal.x, dot));
+  projected_dir.y = lm2_sub_f32(direction.y, lm2_mul_f32(plane.normal.y, dot));
+  projected_dir.z = lm2_sub_f32(direction.z, lm2_mul_f32(plane.normal.z, dot));
+
+  // Normalize the projected direction
+  lm2_v3_f32 dir = lm2_v3_normalize_f32(projected_dir);
+
+  // Calculate half length
+  float half_length = lm2_mul_f32(length, 0.5f);
+
+  // Create edge centered at the given point
+  lm2_edge3_f32 edge;
+  edge.start.x = lm2_sub_f32(center.x, lm2_mul_f32(dir.x, half_length));
+  edge.start.y = lm2_sub_f32(center.y, lm2_mul_f32(dir.y, half_length));
+  edge.start.z = lm2_sub_f32(center.z, lm2_mul_f32(dir.z, half_length));
+  edge.end.x = lm2_add_f32(center.x, lm2_mul_f32(dir.x, half_length));
+  edge.end.y = lm2_add_f32(center.y, lm2_mul_f32(dir.y, half_length));
+  edge.end.z = lm2_add_f32(center.z, lm2_mul_f32(dir.z, half_length));
+
   return edge;
 }
 
