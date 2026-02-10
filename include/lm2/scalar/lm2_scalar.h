@@ -106,10 +106,6 @@ LM2_API float lm2_fract_f32(float a);
 LM2_API double lm2_mod_f64(double a, double b);
 LM2_API float lm2_mod_f32(float a, float b);
 
-// Normalize (divide by sign)
-LM2_API double lm2_norm_f64(double a);
-LM2_API float lm2_norm_f32(float a);
-
 // Power
 LM2_API double lm2_pow_f64(double base, double exponent);
 LM2_API float lm2_pow_f32(float base, float exponent);

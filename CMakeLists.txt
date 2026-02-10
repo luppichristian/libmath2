@@ -62,7 +62,7 @@ if(LM2_BUILD_TESTS)
         FetchContent_MakeAvailable(googletest)
     endif()
 
-    file(GLOB LM2_TEST_SOURCES tests/*.cpp)
+    file(GLOB_RECURSE LM2_TEST_SOURCES tests/*.cpp)
 
     add_executable(libmath2-tests ${LM2_TEST_SOURCES})
     target_link_libraries(libmath2-tests PRIVATE libmath2 GTest::gtest_main)
