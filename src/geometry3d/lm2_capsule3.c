@@ -215,10 +215,12 @@ LM2_API bool lm2_capsule3_contains_point_f32(lm2_capsule3_f32 capsule, lm2_v3_f3
 // Helper function to compute segment to segment distance squared
 static double segment_to_segment_distance_sq_f64(lm2_v3_f64 a1, lm2_v3_f64 a2, lm2_v3_f64 b1, lm2_v3_f64 b2) {
   // Use the minimum of four point-to-segment distances
-  double d1 = point_to_segment_distance_sq_f64(a1, b1, b2);
-  double d2 = point_to_segment_distance_sq_f64(a2, b1, b2);
-  double d3 = point_to_segment_distance_sq_f64(b1, a1, a2);
-  double d4 = point_to_segment_distance_sq_f64(b2, a1, a2);
+  lm2_edge3_f64 edge_b = {b1, b2};
+  lm2_edge3_f64 edge_a = {a1, a2};
+  double d1 = lm2_point_to_edge3_distance_sq_f64(a1, edge_b);
+  double d2 = lm2_point_to_edge3_distance_sq_f64(a2, edge_b);
+  double d3 = lm2_point_to_edge3_distance_sq_f64(b1, edge_a);
+  double d4 = lm2_point_to_edge3_distance_sq_f64(b2, edge_a);
 
   double min1 = lm2_min_f64(d1, d2);
   double min2 = lm2_min_f64(d3, d4);
@@ -227,10 +229,12 @@ static double segment_to_segment_distance_sq_f64(lm2_v3_f64 a1, lm2_v3_f64 a2, l
 
 static float segment_to_segment_distance_sq_f32(lm2_v3_f32 a1, lm2_v3_f32 a2, lm2_v3_f32 b1, lm2_v3_f32 b2) {
   // Use the minimum of four point-to-segment distances
-  float d1 = point_to_segment_distance_sq_f32(a1, b1, b2);
-  float d2 = point_to_segment_distance_sq_f32(a2, b1, b2);
-  float d3 = point_to_segment_distance_sq_f32(b1, a1, a2);
-  float d4 = point_to_segment_distance_sq_f32(b2, a1, a2);
+  lm2_edge3_f32 edge_b = {b1, b2};
+  lm2_edge3_f32 edge_a = {a1, a2};
+  float d1 = lm2_point_to_edge3_distance_sq_f32(a1, edge_b);
+  float d2 = lm2_point_to_edge3_distance_sq_f32(a2, edge_b);
+  float d3 = lm2_point_to_edge3_distance_sq_f32(b1, edge_a);
+  float d4 = lm2_point_to_edge3_distance_sq_f32(b2, edge_a);
 
   float min1 = lm2_min_f32(d1, d2);
   float min2 = lm2_min_f32(d3, d4);

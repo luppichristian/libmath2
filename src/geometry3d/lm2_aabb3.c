@@ -502,34 +502,24 @@ LM2_API lm2_aabb3_f32 lm2_aabb3_translate_f32(lm2_aabb3_f32 aabb3, lm2_v3_f32 of
 }
 
 LM2_API lm2_aabb3_f64 lm2_aabb3_scale_f64(lm2_aabb3_f64 aabb3, lm2_v3_f64 scale) {
-  lm2_v3_f64 center = lm2_r3_center_f64(aabb3);
-  lm2_v3_f64 extents = lm2_r3_extents_f64(aabb3);
   lm2_aabb3_f64 result;
-  double new_ext_x = lm2_mul_f64(extents.x, scale.x);
-  double new_ext_y = lm2_mul_f64(extents.y, scale.y);
-  double new_ext_z = lm2_mul_f64(extents.z, scale.z);
-  result.min.x = lm2_sub_f64(center.x, new_ext_x);
-  result.min.y = lm2_sub_f64(center.y, new_ext_y);
-  result.min.z = lm2_sub_f64(center.z, new_ext_z);
-  result.max.x = lm2_add_f64(center.x, new_ext_x);
-  result.max.y = lm2_add_f64(center.y, new_ext_y);
-  result.max.z = lm2_add_f64(center.z, new_ext_z);
+  result.min.x = lm2_mul_f64(aabb3.min.x, scale.x);
+  result.min.y = lm2_mul_f64(aabb3.min.y, scale.y);
+  result.min.z = lm2_mul_f64(aabb3.min.z, scale.z);
+  result.max.x = lm2_mul_f64(aabb3.max.x, scale.x);
+  result.max.y = lm2_mul_f64(aabb3.max.y, scale.y);
+  result.max.z = lm2_mul_f64(aabb3.max.z, scale.z);
   return result;
 }
 
 LM2_API lm2_aabb3_f32 lm2_aabb3_scale_f32(lm2_aabb3_f32 aabb3, lm2_v3_f32 scale) {
-  lm2_v3_f32 center = lm2_r3_center_f32(aabb3);
-  lm2_v3_f32 extents = lm2_r3_extents_f32(aabb3);
   lm2_aabb3_f32 result;
-  float new_ext_x = lm2_mul_f32(extents.x, scale.x);
-  float new_ext_y = lm2_mul_f32(extents.y, scale.y);
-  float new_ext_z = lm2_mul_f32(extents.z, scale.z);
-  result.min.x = lm2_sub_f32(center.x, new_ext_x);
-  result.min.y = lm2_sub_f32(center.y, new_ext_y);
-  result.min.z = lm2_sub_f32(center.z, new_ext_z);
-  result.max.x = lm2_add_f32(center.x, new_ext_x);
-  result.max.y = lm2_add_f32(center.y, new_ext_y);
-  result.max.z = lm2_add_f32(center.z, new_ext_z);
+  result.min.x = lm2_mul_f32(aabb3.min.x, scale.x);
+  result.min.y = lm2_mul_f32(aabb3.min.y, scale.y);
+  result.min.z = lm2_mul_f32(aabb3.min.z, scale.z);
+  result.max.x = lm2_mul_f32(aabb3.max.x, scale.x);
+  result.max.y = lm2_mul_f32(aabb3.max.y, scale.y);
+  result.max.z = lm2_mul_f32(aabb3.max.z, scale.z);
   return result;
 }
 

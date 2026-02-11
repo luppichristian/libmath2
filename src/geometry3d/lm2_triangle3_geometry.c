@@ -211,19 +211,48 @@ LM2_API lm2_indexed_mesh3_size lm2_triangle3_list_to_indexed_mesh_size_f64(
 
   lm2_indexed_mesh3_size result = {0, 0};
 
-  // We need temporary storage to track unique vertices during size calculation
-  // Worst case: all vertices are unique (triangle_count * 3)
+// Use stack buffer for reasonable triangle counts, else use worst case
+#define MAX_STACK_VERTICES 1024
+  lm2_v3_f64 stack_vertices[MAX_STACK_VERTICES];
+  lm2_v3_f64* vertices = stack_vertices;
   size_t max_vertices = lm2_mul_u64(triangle_count, 3);
+  bool use_stack = max_vertices <= MAX_STACK_VERTICES;
 
-  // For size query, we need to actually perform the deduplication
-  // This requires temporary storage which violates our no-allocation policy
-  // So we'll do a simplified estimation: return worst-case size
-  // Users can call this with a temp buffer pattern if needed
+  if (!use_stack) {
+    // Too many vertices for stack - return worst case as documented
+    result.vertex_count = max_vertices;
+    result.index_count = lm2_mul_u64(triangle_count, 3);
+    return result;
+  }
 
-  result.vertex_count = max_vertices;  // Worst case
+  // Perform actual deduplication count
+  uint32_t vertex_count = 0;
+
+  for (size_t i = 0; i < triangle_count; i = lm2_add_u64(i, 1)) {
+    for (int j = 0; j < 3; j++) {
+      lm2_v3_f64 vertex = triangles[i][j];
+
+      // Search for existing vertex
+      bool found = false;
+      for (uint32_t k = 0; k < vertex_count; k++) {
+        if (_lm2_vertices3_equal_f64(vertices[k], vertex, epsilon)) {
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        vertices[vertex_count] = vertex;
+        vertex_count = lm2_add_u32(vertex_count, 1);
+      }
+    }
+  }
+
+  result.vertex_count = vertex_count;
   result.index_count = lm2_mul_u64(triangle_count, 3);
 
   return result;
+#undef MAX_STACK_VERTICES
 }
 
 LM2_API lm2_indexed_mesh3_size lm2_triangle3_list_to_indexed_mesh_size_f32(
@@ -234,13 +263,48 @@ LM2_API lm2_indexed_mesh3_size lm2_triangle3_list_to_indexed_mesh_size_f32(
 
   lm2_indexed_mesh3_size result = {0, 0};
 
-  // Worst case: all vertices are unique
+// Use stack buffer for reasonable triangle counts, else use worst case
+#define MAX_STACK_VERTICES 1024
+  lm2_v3_f32 stack_vertices[MAX_STACK_VERTICES];
+  lm2_v3_f32* vertices = stack_vertices;
   size_t max_vertices = lm2_mul_u64(triangle_count, 3);
+  bool use_stack = max_vertices <= MAX_STACK_VERTICES;
 
-  result.vertex_count = max_vertices;  // Worst case
+  if (!use_stack) {
+    // Too many vertices for stack - return worst case as documented
+    result.vertex_count = max_vertices;
+    result.index_count = lm2_mul_u64(triangle_count, 3);
+    return result;
+  }
+
+  // Perform actual deduplication count
+  uint32_t vertex_count = 0;
+
+  for (size_t i = 0; i < triangle_count; i = lm2_add_u64(i, 1)) {
+    for (int j = 0; j < 3; j++) {
+      lm2_v3_f32 vertex = triangles[i][j];
+
+      // Search for existing vertex
+      bool found = false;
+      for (uint32_t k = 0; k < vertex_count; k++) {
+        if (_lm2_vertices3_equal_f32(vertices[k], vertex, epsilon)) {
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        vertices[vertex_count] = vertex;
+        vertex_count = lm2_add_u32(vertex_count, 1);
+      }
+    }
+  }
+
+  result.vertex_count = vertex_count;
   result.index_count = lm2_mul_u64(triangle_count, 3);
 
   return result;
+#undef MAX_STACK_VERTICES
 }
 
 LM2_API void lm2_triangle3_list_to_indexed_mesh_f64(

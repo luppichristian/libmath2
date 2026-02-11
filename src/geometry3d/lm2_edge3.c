@@ -318,7 +318,7 @@ LM2_API double lm2_point_to_edge3_distance_sq_f64(lm2_v3_f64 point, lm2_edge3_f6
 
   // Project p onto line ab, clamped to [0, 1]
   double t = lm2_div_f64(lm2_v3_dot_f64(ap, ab), ab_len_sq);
-  t = lm2_clamp_f64(t, 0.0, 1.0);
+  t = lm2_clamp_f64(0.0, t, 1.0);
 
   // Find closest point on segment
   lm2_v3_f64 closest = lm2_v3_add_f64(edge.start, lm2_v3_mul_s_f64(ab, t));
@@ -340,7 +340,7 @@ LM2_API float lm2_point_to_edge3_distance_sq_f32(lm2_v3_f32 point, lm2_edge3_f32
 
   // Project p onto line ab, clamped to [0, 1]
   float t = lm2_div_f32(lm2_v3_dot_f32(ap, ab), ab_len_sq);
-  t = lm2_clamp_f32(t, 0.0f, 1.0f);
+  t = lm2_clamp_f32(0.0f, t, 1.0f);
 
   // Find closest point on segment
   lm2_v3_f32 closest = lm2_v3_add_f32(edge.start, lm2_v3_mul_s_f32(ab, t));
@@ -350,25 +350,109 @@ LM2_API float lm2_point_to_edge3_distance_sq_f32(lm2_v3_f32 point, lm2_edge3_f32
 }
 
 LM2_API double lm2_edge3_to_edge3_distance_sq_f64(lm2_edge3_f64 e1, lm2_edge3_f64 e2) {
-  // Use the minimum of four point-to-segment distances
-  double d1 = lm2_point_to_edge3_distance_sq_f64(e1.start, e2);
-  double d2 = lm2_point_to_edge3_distance_sq_f64(e1.end, e2);
-  double d3 = lm2_point_to_edge3_distance_sq_f64(e2.start, e1);
-  double d4 = lm2_point_to_edge3_distance_sq_f64(e2.end, e1);
+  // Direction vectors
+  lm2_v3_f64 d1 = lm2_v3_sub_f64(e1.end, e1.start);
+  lm2_v3_f64 d2 = lm2_v3_sub_f64(e2.end, e2.start);
+  lm2_v3_f64 r = lm2_v3_sub_f64(e1.start, e2.start);
 
-  double min1 = lm2_min_f64(d1, d2);
-  double min2 = lm2_min_f64(d3, d4);
-  return lm2_min_f64(min1, min2);
+  double a = lm2_v3_dot_f64(d1, d1);
+  double b = lm2_v3_dot_f64(d1, d2);
+  double c = lm2_v3_dot_f64(d2, d2);
+  double d = lm2_v3_dot_f64(d1, r);
+  double e = lm2_v3_dot_f64(d2, r);
+
+  double denom = lm2_sub_f64(lm2_mul_f64(a, c), lm2_mul_f64(b, b));
+
+  double s, t;
+  const double epsilon = 1e-10;
+
+  // Check if segments are parallel
+  if (lm2_abs_f64(denom) < epsilon) {
+    // Segments are parallel, use endpoint distances
+    s = 0.0;
+    t = lm2_div_f64(e, c);
+    t = lm2_clamp_f64(0.0, t, 1.0);
+  } else {
+    // Compute closest points on infinite lines
+    s = lm2_div_f64(lm2_sub_f64(lm2_mul_f64(b, e), lm2_mul_f64(c, d)), denom);
+    t = lm2_div_f64(lm2_add_f64(lm2_mul_f64(a, e), lm2_mul_f64(b, d)), denom);
+
+    // Clamp to segment bounds
+    s = lm2_clamp_f64(0.0, s, 1.0);
+    t = lm2_clamp_f64(0.0, t, 1.0);
+  }
+
+  // Compute closest points
+  lm2_v3_f64 p1 = lm2_v3_add_f64(e1.start, lm2_v3_mul_s_f64(d1, s));
+  lm2_v3_f64 p2 = lm2_v3_add_f64(e2.start, lm2_v3_mul_s_f64(d2, t));
+
+  // Also check the four endpoint distances to handle edge cases
+  double d_endpoints1 = lm2_point_to_edge3_distance_sq_f64(e1.start, e2);
+  double d_endpoints2 = lm2_point_to_edge3_distance_sq_f64(e1.end, e2);
+  double d_endpoints3 = lm2_point_to_edge3_distance_sq_f64(e2.start, e1);
+  double d_endpoints4 = lm2_point_to_edge3_distance_sq_f64(e2.end, e1);
+
+  double d_segment = lm2_v3_distance_sq_f64(p1, p2);
+
+  double min_d = d_segment;
+  min_d = lm2_min_f64(min_d, d_endpoints1);
+  min_d = lm2_min_f64(min_d, d_endpoints2);
+  min_d = lm2_min_f64(min_d, d_endpoints3);
+  min_d = lm2_min_f64(min_d, d_endpoints4);
+
+  return min_d;
 }
 
 LM2_API float lm2_edge3_to_edge3_distance_sq_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2) {
-  // Use the minimum of four point-to-segment distances
-  float d1 = lm2_point_to_edge3_distance_sq_f32(e1.start, e2);
-  float d2 = lm2_point_to_edge3_distance_sq_f32(e1.end, e2);
-  float d3 = lm2_point_to_edge3_distance_sq_f32(e2.start, e1);
-  float d4 = lm2_point_to_edge3_distance_sq_f32(e2.end, e1);
+  // Direction vectors
+  lm2_v3_f32 d1 = lm2_v3_sub_f32(e1.end, e1.start);
+  lm2_v3_f32 d2 = lm2_v3_sub_f32(e2.end, e2.start);
+  lm2_v3_f32 r = lm2_v3_sub_f32(e1.start, e2.start);
 
-  float min1 = lm2_min_f32(d1, d2);
-  float min2 = lm2_min_f32(d3, d4);
-  return lm2_min_f32(min1, min2);
+  float a = lm2_v3_dot_f32(d1, d1);
+  float b = lm2_v3_dot_f32(d1, d2);
+  float c = lm2_v3_dot_f32(d2, d2);
+  float d = lm2_v3_dot_f32(d1, r);
+  float e = lm2_v3_dot_f32(d2, r);
+
+  float denom = lm2_sub_f32(lm2_mul_f32(a, c), lm2_mul_f32(b, b));
+
+  float s, t;
+  const float epsilon = 1e-6f;
+
+  // Check if segments are parallel
+  if (lm2_abs_f32(denom) < epsilon) {
+    // Segments are parallel, use endpoint distances
+    s = 0.0f;
+    t = lm2_div_f32(e, c);
+    t = lm2_clamp_f32(0.0f, t, 1.0f);
+  } else {
+    // Compute closest points on infinite lines
+    s = lm2_div_f32(lm2_sub_f32(lm2_mul_f32(b, e), lm2_mul_f32(c, d)), denom);
+    t = lm2_div_f32(lm2_add_f32(lm2_mul_f32(a, e), lm2_mul_f32(b, d)), denom);
+
+    // Clamp to segment bounds
+    s = lm2_clamp_f32(0.0f, s, 1.0f);
+    t = lm2_clamp_f32(0.0f, t, 1.0f);
+  }
+
+  // Compute closest points
+  lm2_v3_f32 p1 = lm2_v3_add_f32(e1.start, lm2_v3_mul_s_f32(d1, s));
+  lm2_v3_f32 p2 = lm2_v3_add_f32(e2.start, lm2_v3_mul_s_f32(d2, t));
+
+  // Also check the four endpoint distances to handle edge cases
+  float d_endpoints1 = lm2_point_to_edge3_distance_sq_f32(e1.start, e2);
+  float d_endpoints2 = lm2_point_to_edge3_distance_sq_f32(e1.end, e2);
+  float d_endpoints3 = lm2_point_to_edge3_distance_sq_f32(e2.start, e1);
+  float d_endpoints4 = lm2_point_to_edge3_distance_sq_f32(e2.end, e1);
+
+  float d_segment = lm2_v3_distance_sq_f32(p1, p2);
+
+  float min_d = d_segment;
+  min_d = lm2_min_f32(min_d, d_endpoints1);
+  min_d = lm2_min_f32(min_d, d_endpoints2);
+  min_d = lm2_min_f32(min_d, d_endpoints3);
+  min_d = lm2_min_f32(min_d, d_endpoints4);
+
+  return min_d;
 }

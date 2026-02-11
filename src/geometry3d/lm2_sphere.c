@@ -129,26 +129,26 @@ LM2_API float lm2_sphere_diameter_f32(lm2_sphere_f32 sphere) {
 // =============================================================================
 
 LM2_API bool lm2_sphere_contains_point_f64(lm2_sphere_f64 sphere, lm2_v3_f64 point) {
-  double dist_sq = lm2_distance_squared3_f64(sphere.center, point);
+  double dist_sq = lm2_v3_distance_sq_f64(sphere.center, point);
   double radius_sq = lm2_mul_f64(sphere.radius, sphere.radius);
   return dist_sq <= radius_sq;
 }
 
 LM2_API bool lm2_sphere_contains_point_f32(lm2_sphere_f32 sphere, lm2_v3_f32 point) {
-  float dist_sq = lm2_distance_squared3_f32(sphere.center, point);
+  float dist_sq = lm2_v3_distance_sq_f32(sphere.center, point);
   float radius_sq = lm2_mul_f32(sphere.radius, sphere.radius);
   return dist_sq <= radius_sq;
 }
 
 LM2_API bool lm2_spheres_overlap_f64(lm2_sphere_f64 a, lm2_sphere_f64 b) {
-  double dist_sq = lm2_distance_squared3_f64(a.center, b.center);
+  double dist_sq = lm2_v3_distance_sq_f64(a.center, b.center);
   double radius_sum = lm2_add_f64(a.radius, b.radius);
   double radius_sum_sq = lm2_mul_f64(radius_sum, radius_sum);
   return dist_sq <= radius_sum_sq;
 }
 
 LM2_API bool lm2_spheres_overlap_f32(lm2_sphere_f32 a, lm2_sphere_f32 b) {
-  float dist_sq = lm2_distance_squared3_f32(a.center, b.center);
+  float dist_sq = lm2_v3_distance_sq_f32(a.center, b.center);
   float radius_sum = lm2_add_f32(a.radius, b.radius);
   float radius_sum_sq = lm2_mul_f32(radius_sum, radius_sum);
   return dist_sq <= radius_sum_sq;
@@ -185,7 +185,6 @@ LM2_API lm2_sphere_f32 lm2_sphere_translate_f32(lm2_sphere_f32 sphere, lm2_v3_f3
 }
 
 LM2_API lm2_sphere_f64 lm2_sphere_scale_f64(lm2_sphere_f64 sphere, double scale) {
-  LM2_ASSERT(scale >= 0.0);
   lm2_sphere_f64 result;
   result.center = sphere.center;
   result.radius = lm2_mul_f64(sphere.radius, scale);
@@ -193,7 +192,6 @@ LM2_API lm2_sphere_f64 lm2_sphere_scale_f64(lm2_sphere_f64 sphere, double scale)
 }
 
 LM2_API lm2_sphere_f32 lm2_sphere_scale_f32(lm2_sphere_f32 sphere, float scale) {
-  LM2_ASSERT(scale >= 0.0f);
   lm2_sphere_f32 result;
   result.center = sphere.center;
   result.radius = lm2_mul_f32(sphere.radius, scale);

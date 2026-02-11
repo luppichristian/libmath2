@@ -234,7 +234,7 @@ LM2_API double lm2_point_to_edge2_distance_sq_f64(lm2_v2_f64 point, lm2_edge2_f6
 
   // Project p onto line ab, clamped to [0, 1]
   double t = lm2_div_f64(lm2_v2_dot_f64(ap, ab), ab_len_sq);
-  t = lm2_clamp_f64(t, 0.0, 1.0);
+  t = lm2_clamp_f64(0.0, t, 1.0);
 
   // Find closest point on segment
   lm2_v2_f64 closest = lm2_v2_add_f64(edge.start, lm2_v2_mul_s_f64(ab, t));
@@ -256,7 +256,7 @@ LM2_API float lm2_point_to_edge2_distance_sq_f32(lm2_v2_f32 point, lm2_edge2_f32
 
   // Project p onto line ab, clamped to [0, 1]
   float t = lm2_div_f32(lm2_v2_dot_f32(ap, ab), ab_len_sq);
-  t = lm2_clamp_f32(t, 0.0f, 1.0f);
+  t = lm2_clamp_f32(0.0f, t, 1.0f);
 
   // Find closest point on segment
   lm2_v2_f32 closest = lm2_v2_add_f32(edge.start, lm2_v2_mul_s_f32(ab, t));

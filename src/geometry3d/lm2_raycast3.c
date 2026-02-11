@@ -111,6 +111,11 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_sphere_f64(lm2_ray3_f64 ray, lm2_v3_f64 cent
     double sqrt_disc = lm2_sqrt_f64(discriminant);
     double t = lm2_div_f64(lm2_sub_f64(lm2_mul_f64(-1.0, b), sqrt_disc), lm2_mul_f64(2.0, a));
 
+    // If first intersection is behind ray, try the second (exit point for rays starting inside)
+    if (t < 0.0) {
+      t = lm2_div_f64(lm2_add_f64(lm2_mul_f64(-1.0, b), sqrt_disc), lm2_mul_f64(2.0, a));
+    }
+
     if (t < 0.0 || t > ray.t_max) {
       result.hit = false;
       result.t = 0.0;
@@ -129,12 +134,26 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_sphere_f64(lm2_ray3_f64 ray, lm2_v3_f64 cent
 
 LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3_f64 aabb) {
   lm2_rayhit3_f64 result;
+  const double epsilon = LM2_RAYCAST3_EPSILON_F64;
 
   // Ray-AABB intersection using slab method
   double t_min = 0.0;
   double t_max = ray.t_max;
 
   for (int i = 0; i < 3; ++i) {
+    // Handle case when ray direction component is near zero (parallel to slab)
+    if (lm2_abs_f64(ray.direction.e[i]) < epsilon) {
+      // Ray is parallel to slab - check if origin is within slab bounds
+      if (ray.origin.e[i] < aabb.min.e[i] || ray.origin.e[i] > aabb.max.e[i]) {
+        result.hit = false;
+        result.t = 0.0;
+        result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+        result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
+        return result;
+      }
+      continue;
+    }
+
     double inv_d = lm2_div_f64(1.0, ray.direction.e[i]);
     double t0 = lm2_mul_f64(lm2_sub_f64(aabb.min.e[i], ray.origin.e[i]), inv_d);
     double t1 = lm2_mul_f64(lm2_sub_f64(aabb.max.e[i], ray.origin.e[i]), inv_d);
@@ -286,6 +305,11 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_sphere_f32(lm2_ray3_f32 ray, lm2_v3_f32 cent
     float sqrt_disc = lm2_sqrt_f32(discriminant);
     float t = lm2_div_f32(lm2_sub_f32(lm2_mul_f32(-1.0f, b), sqrt_disc), lm2_mul_f32(2.0f, a));
 
+    // If first intersection is behind ray, try the second (exit point for rays starting inside)
+    if (t < 0.0f) {
+      t = lm2_div_f32(lm2_add_f32(lm2_mul_f32(-1.0f, b), sqrt_disc), lm2_mul_f32(2.0f, a));
+    }
+
     if (t < 0.0f || t > ray.t_max) {
       result.hit = false;
       result.t = 0.0f;
@@ -304,12 +328,26 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_sphere_f32(lm2_ray3_f32 ray, lm2_v3_f32 cent
 
 LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3_f32 aabb) {
   lm2_rayhit3_f32 result;
+  const float epsilon = LM2_RAYCAST3_EPSILON_F32;
 
   // Ray-AABB intersection using slab method
   float t_min = 0.0f;
   float t_max = ray.t_max;
 
   for (int i = 0; i < 3; ++i) {
+    // Handle case when ray direction component is near zero (parallel to slab)
+    if (lm2_abs_f32(ray.direction.e[i]) < epsilon) {
+      // Ray is parallel to slab - check if origin is within slab bounds
+      if (ray.origin.e[i] < aabb.min.e[i] || ray.origin.e[i] > aabb.max.e[i]) {
+        result.hit = false;
+        result.t = 0.0f;
+        result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+        result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+        return result;
+      }
+      continue;
+    }
+
     float inv_d = lm2_div_f32(1.0f, ray.direction.e[i]);
     float t0 = lm2_mul_f32(lm2_sub_f32(aabb.min.e[i], ray.origin.e[i]), inv_d);
     float t1 = lm2_mul_f32(lm2_sub_f32(aabb.max.e[i], ray.origin.e[i]), inv_d);
