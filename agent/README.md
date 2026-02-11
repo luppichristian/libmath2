@@ -13,7 +13,7 @@
 
 **Theme**: Math library
 
-# ⚡ Quick Query Guide for LLMs
+# Quick Query Guide for LLMs
 
 **ALWAYS check YAML files first** when users ask about module contents:
 
