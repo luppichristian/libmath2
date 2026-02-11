@@ -1,0 +1,32 @@
+category: geometry3d
+types:
+  - lm2_plane3_f64
+  - lm2_plane3_f32
+  - lm2_plane3
+functions:
+  - lm2_plane3_make_f64
+  - lm2_plane3_make_f32
+  - lm2_plane3_from_point_normal_f64
+  - lm2_plane3_from_point_normal_f32
+  - lm2_plane3_from_points_f64
+  - lm2_plane3_from_points_f32
+  - lm2_plane3_xy_f64
+  - lm2_plane3_xy_f32
+  - lm2_plane3_xz_f64
+  - lm2_plane3_xz_f32
+  - lm2_plane3_yz_f64
+  - lm2_plane3_yz_f32
+  - lm2_plane3_distance_to_point_f64
+  - lm2_plane3_distance_to_point_f32
+  - lm2_plane3_project_point_f64
+  - lm2_plane3_project_point_f32
+  - lm2_plane3_closest_point_f64
+  - lm2_plane3_closest_point_f32
+  - lm2_plane3_contains_point_f64
+  - lm2_plane3_contains_point_f32
+  - lm2_plane3_side_f64
+  - lm2_plane3_side_f32
+  - lm2_plane3_flip_f64
+  - lm2_plane3_flip_f32
+  - lm2_plane3_translate_f64
+  - lm2_plane3_translate_f32

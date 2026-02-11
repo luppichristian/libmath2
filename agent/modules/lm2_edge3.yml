@@ -1,0 +1,31 @@
+category: geometry3d
+types:
+  - lm2_edge3_f64
+  - lm2_edge3_f32
+  - lm2_edge3
+  - lm2_edge3_result_f64
+  - lm2_edge3_result_f32
+  - lm2_edge3_result
+functions:
+  - lm2_edge3_make_f64
+  - lm2_edge3_make_f32
+  - lm2_edge3_make_coords_f64
+  - lm2_edge3_make_coords_f32
+  - lm2_edge3_from_ray_f64
+  - lm2_edge3_from_ray_f32
+  - lm2_edge3_from_plane_f64
+  - lm2_edge3_from_plane_f32
+  - lm2_edge3_length_f64
+  - lm2_edge3_length_f32
+  - lm2_edge3_length_sq_f64
+  - lm2_edge3_length_sq_f32
+  - lm2_points3_equal_f64
+  - lm2_points3_equal_f32
+  - lm2_edges3_equal_f64
+  - lm2_edges3_equal_f32
+  - lm2_edges3_intersect_f64
+  - lm2_edges3_intersect_f32
+  - lm2_point_to_edge3_distance_sq_f64
+  - lm2_point_to_edge3_distance_sq_f32
+  - lm2_edge3_to_edge3_distance_sq_f64
+  - lm2_edge3_to_edge3_distance_sq_f32

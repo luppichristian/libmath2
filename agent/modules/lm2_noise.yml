@@ -1,0 +1,11 @@
+category: misc
+types: []
+functions:
+  - lm2_perlin2_f64
+  - lm2_perlin2_f32
+  - lm2_perlin3_f64
+  - lm2_perlin3_f32
+  - lm2_voronoi2_f64
+  - lm2_voronoi2_f32
+  - lm2_voronoi3_f64
+  - lm2_voronoi3_f32

@@ -1,0 +1,57 @@
+scalar:
+  - lm2_safe_ops
+  - lm2_scalar
+  - lm2_trigonometry
+
+misc:
+  - lm2_bezier_curves
+  - lm2_easings
+  - lm2_hash
+  - lm2_noise
+  - lm2_quaternion
+
+vectors:
+  - lm2_vector2
+  - lm2_vector3
+  - lm2_vector4
+  - lm2_vector_conversions
+  - lm2_vector_specifics
+
+ranges:
+  - lm2_range2
+  - lm2_range3
+  - lm2_range4
+  - lm2_range_conversions
+
+matrices:
+  - lm2_matrix3x2
+  - lm2_matrix3x3
+  - lm2_matrix4x4
+
+geometry2d:
+  - lm2_aabb2
+  - lm2_capsule2
+  - lm2_circle
+  - lm2_edge2
+  - lm2_manifold2
+  - lm2_plane2
+  - lm2_polygon
+  - lm2_raycast2
+  - lm2_shape2
+  - lm2_triangle2
+  - lm2_triangle2_geometry
+
+geometry3d:
+  - lm2_aabb3
+  - lm2_capsule3
+  - lm2_edge3
+  - lm2_plane3
+  - lm2_raycast3
+  - lm2_shape3
+  - lm2_sphere
+  - lm2_triangle3
+  - lm2_triangle3_geometry
+  
+base:
+  - lm2_base
+  - lm2_constants

@@ -1,0 +1,20 @@
+category: geometry2d
+types:
+  - lm2_indexed_mesh_size
+functions:
+  - lm2_triangle2_list_to_vertex_array_size_f64
+  - lm2_triangle2_list_to_vertex_array_size_f32
+  - lm2_triangle2_list_to_vertex_array_f64
+  - lm2_triangle2_list_to_vertex_array_f32
+  - lm2_vertex_array_to_triangle_list_size_f64
+  - lm2_vertex_array_to_triangle_list_size_f32
+  - lm2_vertex_array_to_triangle_list_f64
+  - lm2_vertex_array_to_triangle_list_f32
+  - lm2_triangle2_list_to_indexed_mesh_size_f64
+  - lm2_triangle2_list_to_indexed_mesh_size_f32
+  - lm2_triangle2_list_to_indexed_mesh_f64
+  - lm2_triangle2_list_to_indexed_mesh_f32
+  - lm2_indexed_mesh_to_triangle_list_size_f64
+  - lm2_indexed_mesh_to_triangle_list_size_f32
+  - lm2_indexed_mesh_to_triangle_list_f64
+  - lm2_indexed_mesh_to_triangle_list_f32

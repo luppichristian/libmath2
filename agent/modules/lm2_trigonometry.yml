@@ -1,0 +1,33 @@
+category: scalar
+types: []
+functions:
+  - lm2_cos_f64
+  - lm2_cos_f32
+  - lm2_sin_f64
+  - lm2_sin_f32
+  - lm2_tan_f64
+  - lm2_tan_f32
+  - lm2_acos_f64
+  - lm2_acos_f32
+  - lm2_asin_f64
+  - lm2_asin_f32
+  - lm2_atan_f64
+  - lm2_atan_f32
+  - lm2_atan2_f64
+  - lm2_atan2_f32
+  - lm2_deg_to_rad_f64
+  - lm2_deg_to_rad_f32
+  - lm2_rad_to_deg_f64
+  - lm2_rad_to_deg_f32
+  - lm2_wrap_rad_f64
+  - lm2_wrap_rad_f32
+  - lm2_shortest_rad_f64
+  - lm2_shortest_rad_f32
+  - lm2_lerp_rad_f64
+  - lm2_lerp_rad_f32
+  - lm2_wrap_deg_f64
+  - lm2_wrap_deg_f32
+  - lm2_shortest_deg_f64
+  - lm2_shortest_deg_f32
+  - lm2_lerp_deg_f64
+  - lm2_lerp_deg_f32

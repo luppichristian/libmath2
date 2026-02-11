@@ -1,0 +1,29 @@
+category: geometry3d
+types:
+  - lm2_ray3_f64
+  - lm2_ray3_f32
+  - lm2_ray3
+  - lm2_rayhit3_f64
+  - lm2_rayhit3_f32
+  - lm2_rayhit3
+functions:
+  - lm2_ray3_make_f64
+  - lm2_ray3_make_f32
+  - lm2_ray3_from_points_f64
+  - lm2_ray3_from_points_f32
+  - lm2_ray3_point_at_f64
+  - lm2_ray3_point_at_f32
+  - lm2_raycast_sphere_f64
+  - lm2_raycast_sphere_f32
+  - lm2_raycast_aabb3_f64
+  - lm2_raycast_aabb3_f32
+  - lm2_raycast_triangle_f64
+  - lm2_raycast_triangle_f32
+  - lm2_raycast_plane_f64
+  - lm2_raycast_plane_f32
+  - lm2_raycast_capsule_f64
+  - lm2_raycast_capsule_f32
+  - lm2_raycast_edge_f64
+  - lm2_raycast_edge_f32
+  - lm2_raycast_shape3_f64
+  - lm2_raycast_shape3_f32

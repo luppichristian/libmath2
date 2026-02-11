@@ -1,0 +1,31 @@
+category: geometry2d
+types:
+  - lm2_ray2_f64
+  - lm2_ray2_f32
+  - lm2_ray2
+  - lm2_rayhit2_f64
+  - lm2_rayhit2_f32
+  - lm2_rayhit2
+functions:
+  - lm2_ray2_make_f64
+  - lm2_ray2_make_f32
+  - lm2_ray2_from_points_f64
+  - lm2_ray2_from_points_f32
+  - lm2_ray2_point_at_f64
+  - lm2_ray2_point_at_f32
+  - lm2_raycast_circle_f64
+  - lm2_raycast_circle_f32
+  - lm2_raycast_aabb_f64
+  - lm2_raycast_aabb_f32
+  - lm2_raycast_capsule2_f64
+  - lm2_raycast_capsule2_f32
+  - lm2_raycast_polygon_f64
+  - lm2_raycast_polygon_f32
+  - lm2_raycast_segment_f64
+  - lm2_raycast_segment_f32
+  - lm2_raycast_triangle2_f64
+  - lm2_raycast_triangle2_f32
+  - lm2_raycast_plane2_f64
+  - lm2_raycast_plane2_f32
+  - lm2_raycast_shape2_f64
+  - lm2_raycast_shape2_f32

@@ -1,0 +1,32 @@
+category: geometry2d
+types:
+  - lm2_plane2_f64
+  - lm2_plane2_f32
+  - lm2_plane2
+functions:
+  - lm2_plane2_make_f64
+  - lm2_plane2_make_f32
+  - lm2_plane2_from_point_normal_f64
+  - lm2_plane2_from_point_normal_f32
+  - lm2_plane2_from_points_f64
+  - lm2_plane2_from_points_f32
+  - lm2_plane2_x_axis_f64
+  - lm2_plane2_x_axis_f32
+  - lm2_plane2_y_axis_f64
+  - lm2_plane2_y_axis_f32
+  - lm2_plane2_distance_to_point_f64
+  - lm2_plane2_distance_to_point_f32
+  - lm2_plane2_project_point_f64
+  - lm2_plane2_project_point_f32
+  - lm2_plane2_closest_point_f64
+  - lm2_plane2_closest_point_f32
+  - lm2_plane2_contains_point_f64
+  - lm2_plane2_contains_point_f32
+  - lm2_plane2_side_f64
+  - lm2_plane2_side_f32
+  - lm2_plane2_flip_f64
+  - lm2_plane2_flip_f32
+  - lm2_plane2_translate_f64
+  - lm2_plane2_translate_f32
+  - lm2_plane2_rotate_f64
+  - lm2_plane2_rotate_f32

@@ -1,0 +1,38 @@
+category: geometry2d
+types:
+  - lm2_triangle2_f64
+  - lm2_triangle2_f32
+  - lm2_triangle2
+  - lm2_triangle2_type
+  - lm2_winding_order
+functions:
+  - lm2_triangle2_make_f64
+  - lm2_triangle2_make_f32
+  - lm2_triangle2_make_coords_f64
+  - lm2_triangle2_make_coords_f32
+  - lm2_triangle2_signed_area_f64
+  - lm2_triangle2_signed_area_f32
+  - lm2_triangle2_area_f64
+  - lm2_triangle2_area_f32
+  - lm2_triangle2_perimeter_f64
+  - lm2_triangle2_perimeter_f32
+  - lm2_triangle2_winding_f64
+  - lm2_triangle2_winding_f32
+  - lm2_triangle2_is_degenerate_f64
+  - lm2_triangle2_is_degenerate_f32
+  - lm2_triangle2_is_right_f64
+  - lm2_triangle2_is_right_f32
+  - lm2_triangle2_is_isosceles_f64
+  - lm2_triangle2_is_isosceles_f32
+  - lm2_triangle2_is_equilateral_f64
+  - lm2_triangle2_is_equilateral_f32
+  - lm2_triangle2_is_scalene_f64
+  - lm2_triangle2_is_scalene_f32
+  - lm2_triangle2_classify_f64
+  - lm2_triangle2_classify_f32
+  - lm2_triangle2_contains_point_f64
+  - lm2_triangle2_contains_point_f32
+  - lm2_triangle2_overlaps_f64
+  - lm2_triangle2_overlaps_f32
+  - lm2_triangle2_shared_edge_f64
+  - lm2_triangle2_shared_edge_f32

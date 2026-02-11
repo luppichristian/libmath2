@@ -1,0 +1,19 @@
+category: misc
+types: []
+functions:
+  - lm2_hash_mix_u64
+  - lm2_hash_mix_u32
+  - lm2_hash_f64
+  - lm2_hash_f32
+  - lm2_hash_i64
+  - lm2_hash_i32
+  - lm2_hash_i16
+  - lm2_hash_i8
+  - lm2_hash_u64
+  - lm2_hash_u32
+  - lm2_hash_u16
+  - lm2_hash_u8
+  - lm2_hash_fnv1a_u32
+  - lm2_hash_fnv1a_u64
+  - lm2_hash_combine_u32
+  - lm2_hash_combine_u64

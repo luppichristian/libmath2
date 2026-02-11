@@ -1,0 +1,37 @@
+category: geometry3d
+types:
+  - lm2_triangle3_f64
+  - lm2_triangle3_f32
+  - lm2_triangle3
+  - lm2_triangle3_type
+functions:
+  - lm2_triangle3_make_f64
+  - lm2_triangle3_make_f32
+  - lm2_triangle3_make_coords_f64
+  - lm2_triangle3_make_coords_f32
+  - lm2_triangle3_area_f64
+  - lm2_triangle3_area_f32
+  - lm2_triangle3_perimeter_f64
+  - lm2_triangle3_perimeter_f32
+  - lm2_triangle3_normal_f64
+  - lm2_triangle3_normal_f32
+  - lm2_triangle3_centroid_f64
+  - lm2_triangle3_centroid_f32
+  - lm2_triangle3_is_degenerate_f64
+  - lm2_triangle3_is_degenerate_f32
+  - lm2_triangle3_is_right_f64
+  - lm2_triangle3_is_right_f32
+  - lm2_triangle3_is_isosceles_f64
+  - lm2_triangle3_is_isosceles_f32
+  - lm2_triangle3_is_equilateral_f64
+  - lm2_triangle3_is_equilateral_f32
+  - lm2_triangle3_is_scalene_f64
+  - lm2_triangle3_is_scalene_f32
+  - lm2_triangle3_classify_f64
+  - lm2_triangle3_classify_f32
+  - lm2_triangle3_contains_point_f64
+  - lm2_triangle3_contains_point_f32
+  - lm2_triangle3_overlaps_f64
+  - lm2_triangle3_overlaps_f32
+  - lm2_triangle3_shared_edge_f64
+  - lm2_triangle3_shared_edge_f32

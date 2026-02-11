@@ -1,0 +1,28 @@
+category: geometry2d
+types:
+  - lm2_circle_f64
+  - lm2_circle_f32
+  - lm2_circle
+functions:
+  - lm2_circle_make_f64
+  - lm2_circle_make_f32
+  - lm2_circle_make_coords_f64
+  - lm2_circle_make_coords_f32
+  - lm2_circle_unit_f64
+  - lm2_circle_unit_f32
+  - lm2_circle_area_f64
+  - lm2_circle_area_f32
+  - lm2_circle_circumference_f64
+  - lm2_circle_circumference_f32
+  - lm2_circle_diameter_f64
+  - lm2_circle_diameter_f32
+  - lm2_circle_contains_point_f64
+  - lm2_circle_contains_point_f32
+  - lm2_circles_overlap_f64
+  - lm2_circles_overlap_f32
+  - lm2_circle_contains_circle_f64
+  - lm2_circle_contains_circle_f32
+  - lm2_circle_translate_f64
+  - lm2_circle_translate_f32
+  - lm2_circle_scale_f64
+  - lm2_circle_scale_f32

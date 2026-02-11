@@ -1,0 +1,35 @@
+category: geometry2d
+types:
+  - lm2_shape2_type
+  - lm2_shape2_f32
+  - lm2_shape2_f64
+  - lm2_shape2
+functions:
+  - lm2_shape2_from_circle_f64
+  - lm2_shape2_from_circle_f32
+  - lm2_shape2_from_capsule_f64
+  - lm2_shape2_from_capsule_f32
+  - lm2_shape2_from_aabb2_f64
+  - lm2_shape2_from_aabb2_f32
+  - lm2_shape2_from_triangle_f64
+  - lm2_shape2_from_triangle_f32
+  - lm2_shape2_from_polygon_f64
+  - lm2_shape2_from_polygon_f32
+  - lm2_shape2_from_edge_f64
+  - lm2_shape2_from_edge_f32
+  - lm2_shape2_as_circle_f64
+  - lm2_shape2_as_circle_f32
+  - lm2_shape2_as_capsule_f64
+  - lm2_shape2_as_capsule_f32
+  - lm2_shape2_as_aabb2_f64
+  - lm2_shape2_as_aabb2_f32
+  - lm2_shape2_as_triangle_f64
+  - lm2_shape2_as_triangle_f32
+  - lm2_shape2_as_polygon_f64
+  - lm2_shape2_as_polygon_f32
+  - lm2_shape2_as_edge_f64
+  - lm2_shape2_as_edge_f32
+  - lm2_shape2_is_type_f64
+  - lm2_shape2_is_type_f32
+  - lm2_shape2_get_type_f64
+  - lm2_shape2_get_type_f32
