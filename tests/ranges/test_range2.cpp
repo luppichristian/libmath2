@@ -150,6 +150,55 @@ TEST_F(Range2Test, Zero_I64) {
 }
 
 // =============================================================================
+// Scalar Constructor Tests (f64)
+// =============================================================================
+
+TEST_F(Range2Test, FromScalars_F64) {
+  lm2_r2_f64 r = lm2_r2_from_scalars_f64(1.0, 2.0, 5.0, 6.0);
+
+  EXPECT_DOUBLE_EQ(r.min.x, 1.0);
+  EXPECT_DOUBLE_EQ(r.min.y, 2.0);
+  EXPECT_DOUBLE_EQ(r.max.x, 5.0);
+  EXPECT_DOUBLE_EQ(r.max.y, 6.0);
+}
+
+TEST_F(Range2Test, FromScalars_F32) {
+  lm2_r2_f32 r = lm2_r2_from_scalars_f32(1.0f, 2.0f, 5.0f, 6.0f);
+
+  EXPECT_FLOAT_EQ(r.min.x, 1.0f);
+  EXPECT_FLOAT_EQ(r.min.y, 2.0f);
+  EXPECT_FLOAT_EQ(r.max.x, 5.0f);
+  EXPECT_FLOAT_EQ(r.max.y, 6.0f);
+}
+
+TEST_F(Range2Test, FromScalars_I64) {
+  lm2_r2_i64 r = lm2_r2_from_scalars_i64(1, 2, 5, 6);
+
+  EXPECT_EQ(r.min.x, 1);
+  EXPECT_EQ(r.min.y, 2);
+  EXPECT_EQ(r.max.x, 5);
+  EXPECT_EQ(r.max.y, 6);
+}
+
+TEST_F(Range2Test, FromScalars_I32) {
+  lm2_r2_i32 r = lm2_r2_from_scalars_i32(1, 2, 5, 6);
+
+  EXPECT_EQ(r.min.x, 1);
+  EXPECT_EQ(r.min.y, 2);
+  EXPECT_EQ(r.max.x, 5);
+  EXPECT_EQ(r.max.y, 6);
+}
+
+TEST_F(Range2Test, FromScalars_I16) {
+  lm2_r2_i16 r = lm2_r2_from_scalars_i16(1, 2, 5, 6);
+
+  EXPECT_EQ(r.min.x, 1);
+  EXPECT_EQ(r.min.y, 2);
+  EXPECT_EQ(r.max.x, 5);
+  EXPECT_EQ(r.max.y, 6);
+}
+
+// =============================================================================
 // Arithmetic Operations (f64)
 // =============================================================================
 

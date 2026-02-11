@@ -101,6 +101,65 @@ TEST_F(Range3Test, Zero_F64) {
 }
 
 // =============================================================================
+// Scalar Constructor Tests
+// =============================================================================
+
+TEST_F(Range3Test, FromScalars_F64) {
+  lm2_r3_f64 r = lm2_r3_from_scalars_f64(1.0, 2.0, 3.0, 5.0, 6.0, 7.0);
+
+  EXPECT_DOUBLE_EQ(r.min.x, 1.0);
+  EXPECT_DOUBLE_EQ(r.min.y, 2.0);
+  EXPECT_DOUBLE_EQ(r.min.z, 3.0);
+  EXPECT_DOUBLE_EQ(r.max.x, 5.0);
+  EXPECT_DOUBLE_EQ(r.max.y, 6.0);
+  EXPECT_DOUBLE_EQ(r.max.z, 7.0);
+}
+
+TEST_F(Range3Test, FromScalars_F32) {
+  lm2_r3_f32 r = lm2_r3_from_scalars_f32(1.0f, 2.0f, 3.0f, 5.0f, 6.0f, 7.0f);
+
+  EXPECT_FLOAT_EQ(r.min.x, 1.0f);
+  EXPECT_FLOAT_EQ(r.min.y, 2.0f);
+  EXPECT_FLOAT_EQ(r.min.z, 3.0f);
+  EXPECT_FLOAT_EQ(r.max.x, 5.0f);
+  EXPECT_FLOAT_EQ(r.max.y, 6.0f);
+  EXPECT_FLOAT_EQ(r.max.z, 7.0f);
+}
+
+TEST_F(Range3Test, FromScalars_I64) {
+  lm2_r3_i64 r = lm2_r3_from_scalars_i64(1, 2, 3, 5, 6, 7);
+
+  EXPECT_EQ(r.min.x, 1);
+  EXPECT_EQ(r.min.y, 2);
+  EXPECT_EQ(r.min.z, 3);
+  EXPECT_EQ(r.max.x, 5);
+  EXPECT_EQ(r.max.y, 6);
+  EXPECT_EQ(r.max.z, 7);
+}
+
+TEST_F(Range3Test, FromScalars_I32) {
+  lm2_r3_i32 r = lm2_r3_from_scalars_i32(1, 2, 3, 5, 6, 7);
+
+  EXPECT_EQ(r.min.x, 1);
+  EXPECT_EQ(r.min.y, 2);
+  EXPECT_EQ(r.min.z, 3);
+  EXPECT_EQ(r.max.x, 5);
+  EXPECT_EQ(r.max.y, 6);
+  EXPECT_EQ(r.max.z, 7);
+}
+
+TEST_F(Range3Test, FromScalars_I16) {
+  lm2_r3_i16 r = lm2_r3_from_scalars_i16(1, 2, 3, 5, 6, 7);
+
+  EXPECT_EQ(r.min.x, 1);
+  EXPECT_EQ(r.min.y, 2);
+  EXPECT_EQ(r.min.z, 3);
+  EXPECT_EQ(r.max.x, 5);
+  EXPECT_EQ(r.max.y, 6);
+  EXPECT_EQ(r.max.z, 7);
+}
+
+// =============================================================================
 // Constructor Tests (f32)
 // =============================================================================
 

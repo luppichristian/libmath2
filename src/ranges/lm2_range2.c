@@ -31,37 +31,45 @@ SOFTWARE.
 // Constructors
 // =============================================================================
 
-#define _LM2_IMPL_R2_CONSTRUCTORS(type_name, vec_type, scalar_type, scalar_suffix)                  \
-  LM2_API type_name lm2_r2_from_min_max_##scalar_suffix(vec_type min, vec_type max) {               \
-    type_name result;                                                                               \
-    result.min = min;                                                                               \
-    result.max = max;                                                                               \
-    return result;                                                                                  \
-  }                                                                                                 \
-  LM2_API type_name lm2_r2_from_center_extents_##scalar_suffix(vec_type center, vec_type extents) { \
-    type_name result;                                                                               \
-    result.min = lm2_v2_sub_##scalar_suffix(center, extents);                                       \
-    result.max = lm2_v2_add_##scalar_suffix(center, extents);                                       \
-    return result;                                                                                  \
-  }                                                                                                 \
-  LM2_API type_name lm2_r2_from_center_size_##scalar_suffix(vec_type center, vec_type size) {       \
-    vec_type half_size = lm2_v2_mul_s_##scalar_suffix(size, (scalar_type)0.5);                      \
-    type_name result;                                                                               \
-    result.min = lm2_v2_sub_##scalar_suffix(center, half_size);                                     \
-    result.max = lm2_v2_add_##scalar_suffix(center, half_size);                                     \
-    return result;                                                                                  \
-  }                                                                                                 \
-  LM2_API type_name lm2_r2_from_position_size_##scalar_suffix(vec_type position, vec_type size) {   \
-    type_name result;                                                                               \
-    result.min = position;                                                                          \
-    result.max = lm2_v2_add_##scalar_suffix(position, size);                                        \
-    return result;                                                                                  \
-  }                                                                                                 \
-  LM2_API type_name lm2_r2_zero_##scalar_suffix(void) {                                             \
-    type_name result;                                                                               \
-    result.min = lm2_v2_zero_##scalar_suffix();                                                     \
-    result.max = lm2_v2_zero_##scalar_suffix();                                                     \
-    return result;                                                                                  \
+#define _LM2_IMPL_R2_CONSTRUCTORS(type_name, vec_type, scalar_type, scalar_suffix)                                                    \
+  LM2_API type_name lm2_r2_from_min_max_##scalar_suffix(vec_type min, vec_type max) {                                                 \
+    type_name result;                                                                                                                 \
+    result.min = min;                                                                                                                 \
+    result.max = max;                                                                                                                 \
+    return result;                                                                                                                    \
+  }                                                                                                                                   \
+  LM2_API type_name lm2_r2_from_center_extents_##scalar_suffix(vec_type center, vec_type extents) {                                   \
+    type_name result;                                                                                                                 \
+    result.min = lm2_v2_sub_##scalar_suffix(center, extents);                                                                         \
+    result.max = lm2_v2_add_##scalar_suffix(center, extents);                                                                         \
+    return result;                                                                                                                    \
+  }                                                                                                                                   \
+  LM2_API type_name lm2_r2_from_center_size_##scalar_suffix(vec_type center, vec_type size) {                                         \
+    vec_type half_size = lm2_v2_mul_s_##scalar_suffix(size, (scalar_type)0.5);                                                        \
+    type_name result;                                                                                                                 \
+    result.min = lm2_v2_sub_##scalar_suffix(center, half_size);                                                                       \
+    result.max = lm2_v2_add_##scalar_suffix(center, half_size);                                                                       \
+    return result;                                                                                                                    \
+  }                                                                                                                                   \
+  LM2_API type_name lm2_r2_from_position_size_##scalar_suffix(vec_type position, vec_type size) {                                     \
+    type_name result;                                                                                                                 \
+    result.min = position;                                                                                                            \
+    result.max = lm2_v2_add_##scalar_suffix(position, size);                                                                          \
+    return result;                                                                                                                    \
+  }                                                                                                                                   \
+  LM2_API type_name lm2_r2_from_scalars_##scalar_suffix(scalar_type min_x, scalar_type min_y, scalar_type max_x, scalar_type max_y) { \
+    type_name result;                                                                                                                 \
+    result.min.x = min_x;                                                                                                             \
+    result.min.y = min_y;                                                                                                             \
+    result.max.x = max_x;                                                                                                             \
+    result.max.y = max_y;                                                                                                             \
+    return result;                                                                                                                    \
+  }                                                                                                                                   \
+  LM2_API type_name lm2_r2_zero_##scalar_suffix(void) {                                                                               \
+    type_name result;                                                                                                                 \
+    result.min = lm2_v2_zero_##scalar_suffix();                                                                                       \
+    result.max = lm2_v2_zero_##scalar_suffix();                                                                                       \
+    return result;                                                                                                                    \
   }
 
 // =============================================================================
