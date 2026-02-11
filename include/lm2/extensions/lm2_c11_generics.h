@@ -173,67 +173,67 @@ SOFTWARE.
 #  define lm2_bezier_cubic_length4(p0, p1, p2, p3, steps) \
     _Generic((p0), lm2_v4_f32: lm2_bezier_cubic_length4_f32, lm2_v4_f64: lm2_bezier_cubic_length4_f64)(p0, p1, p2, p3, steps)
 #  define ease_linear(t) \
-    _Generic((t), float: ease_linear_f32, double: ease_linear_f64)(t)
+    _Generic((t), float: ease_linear_f32, double: lm2_ease_linear_f64)(t)
 #  define ease_sin_in(t) \
-    _Generic((t), float: ease_sin_in_f32, double: ease_sin_in_f64)(t)
+    _Generic((t), float: ease_sin_in_f32, double: lm2_ease_sin_in_f64)(t)
 #  define ease_sin_out(t) \
-    _Generic((t), float: ease_sin_out_f32, double: ease_sin_out_f64)(t)
+    _Generic((t), float: ease_sin_out_f32, double: lm2_ease_sin_out_f64)(t)
 #  define ease_sin_in_out(t) \
-    _Generic((t), float: ease_sin_in_out_f32, double: ease_sin_in_out_f64)(t)
+    _Generic((t), float: ease_sin_in_out_f32, double: lm2_ease_sin_in_out_f64)(t)
 #  define ease_quad_in(t) \
-    _Generic((t), float: ease_quad_in_f32, double: ease_quad_in_f64)(t)
+    _Generic((t), float: ease_quad_in_f32, double: lm2_ease_quad_in_f64)(t)
 #  define ease_quad_out(t) \
-    _Generic((t), float: ease_quad_out_f32, double: ease_quad_out_f64)(t)
+    _Generic((t), float: ease_quad_out_f32, double: lm2_ease_quad_out_f64)(t)
 #  define ease_quad_in_out(t) \
-    _Generic((t), float: ease_quad_in_out_f32, double: ease_quad_in_out_f64)(t)
+    _Generic((t), float: ease_quad_in_out_f32, double: lm2_ease_quad_in_out_f64)(t)
 #  define ease_cubic_in(t) \
-    _Generic((t), float: ease_cubic_in_f32, double: ease_cubic_in_f64)(t)
+    _Generic((t), float: ease_cubic_in_f32, double: lm2_ease_cubic_in_f64)(t)
 #  define ease_cubic_out(t) \
-    _Generic((t), float: ease_cubic_out_f32, double: ease_cubic_out_f64)(t)
+    _Generic((t), float: ease_cubic_out_f32, double: lm2_ease_cubic_out_f64)(t)
 #  define ease_cubic_in_out(t) \
-    _Generic((t), float: ease_cubic_in_out_f32, double: ease_cubic_in_out_f64)(t)
+    _Generic((t), float: ease_cubic_in_out_f32, double: lm2_ease_cubic_in_out_f64)(t)
 #  define ease_quart_in(t) \
-    _Generic((t), float: ease_quart_in_f32, double: ease_quart_in_f64)(t)
+    _Generic((t), float: ease_quart_in_f32, double: lm2_ease_quart_in_f64)(t)
 #  define ease_quart_out(t) \
-    _Generic((t), float: ease_quart_out_f32, double: ease_quart_out_f64)(t)
+    _Generic((t), float: ease_quart_out_f32, double: lm2_ease_quart_out_f64)(t)
 #  define ease_quart_in_out(t) \
-    _Generic((t), float: ease_quart_in_out_f32, double: ease_quart_in_out_f64)(t)
+    _Generic((t), float: ease_quart_in_out_f32, double: lm2_ease_quart_in_out_f64)(t)
 #  define ease_quint_in(t) \
-    _Generic((t), float: ease_quint_in_f32, double: ease_quint_in_f64)(t)
+    _Generic((t), float: ease_quint_in_f32, double: lm2_ease_quint_in_f64)(t)
 #  define ease_quint_out(t) \
-    _Generic((t), float: ease_quint_out_f32, double: ease_quint_out_f64)(t)
+    _Generic((t), float: ease_quint_out_f32, double: lm2_ease_quint_out_f64)(t)
 #  define ease_quint_in_out(t) \
-    _Generic((t), float: ease_quint_in_out_f32, double: ease_quint_in_out_f64)(t)
+    _Generic((t), float: ease_quint_in_out_f32, double: lm2_ease_quint_in_out_f64)(t)
 #  define ease_exp_in(t) \
-    _Generic((t), float: ease_exp_in_f32, double: ease_exp_in_f64)(t)
+    _Generic((t), float: ease_exp_in_f32, double: lm2_ease_exp_in_f64)(t)
 #  define ease_exp_out(t) \
-    _Generic((t), float: ease_exp_out_f32, double: ease_exp_out_f64)(t)
+    _Generic((t), float: ease_exp_out_f32, double: lm2_ease_exp_out_f64)(t)
 #  define ease_exp_in_out(t) \
-    _Generic((t), float: ease_exp_in_out_f32, double: ease_exp_in_out_f64)(t)
+    _Generic((t), float: ease_exp_in_out_f32, double: lm2_ease_exp_in_out_f64)(t)
 #  define ease_circ_in(t) \
-    _Generic((t), float: ease_circ_in_f32, double: ease_circ_in_f64)(t)
+    _Generic((t), float: ease_circ_in_f32, double: lm2_ease_circ_in_f64)(t)
 #  define ease_circ_out(t) \
-    _Generic((t), float: ease_circ_out_f32, double: ease_circ_out_f64)(t)
+    _Generic((t), float: ease_circ_out_f32, double: lm2_ease_circ_out_f64)(t)
 #  define ease_circ_in_out(t) \
-    _Generic((t), float: ease_circ_in_out_f32, double: ease_circ_in_out_f64)(t)
+    _Generic((t), float: ease_circ_in_out_f32, double: lm2_ease_circ_in_out_f64)(t)
 #  define ease_back_in(t) \
-    _Generic((t), float: ease_back_in_f32, double: ease_back_in_f64)(t)
+    _Generic((t), float: ease_back_in_f32, double: lm2_ease_back_in_f64)(t)
 #  define ease_back_out(t) \
-    _Generic((t), float: ease_back_out_f32, double: ease_back_out_f64)(t)
+    _Generic((t), float: ease_back_out_f32, double: lm2_ease_back_out_f64)(t)
 #  define ease_back_in_out(t) \
-    _Generic((t), float: ease_back_in_out_f32, double: ease_back_in_out_f64)(t)
+    _Generic((t), float: ease_back_in_out_f32, double: lm2_ease_back_in_out_f64)(t)
 #  define ease_elastic_in(t) \
-    _Generic((t), float: ease_elastic_in_f32, double: ease_elastic_in_f64)(t)
+    _Generic((t), float: ease_elastic_in_f32, double: lm2_ease_elastic_in_f64)(t)
 #  define ease_elastic_out(t) \
-    _Generic((t), float: ease_elastic_out_f32, double: ease_elastic_out_f64)(t)
+    _Generic((t), float: ease_elastic_out_f32, double: lm2_ease_elastic_out_f64)(t)
 #  define ease_elastic_in_out(t) \
-    _Generic((t), float: ease_elastic_in_out_f32, double: ease_elastic_in_out_f64)(t)
+    _Generic((t), float: ease_elastic_in_out_f32, double: lm2_ease_elastic_in_out_f64)(t)
 #  define ease_bounce_in(t) \
-    _Generic((t), float: ease_bounce_in_f32, double: ease_bounce_in_f64)(t)
+    _Generic((t), float: ease_bounce_in_f32, double: lm2_ease_bounce_in_f64)(t)
 #  define ease_bounce_out(t) \
-    _Generic((t), float: ease_bounce_out_f32, double: ease_bounce_out_f64)(t)
+    _Generic((t), float: ease_bounce_out_f32, double: lm2_ease_bounce_out_f64)(t)
 #  define ease_bounce_in_out(t) \
-    _Generic((t), float: ease_bounce_in_out_f32, double: ease_bounce_in_out_f64)(t)
+    _Generic((t), float: ease_bounce_in_out_f32, double: lm2_ease_bounce_in_out_f64)(t)
 #  define lm2_ease(e, t) \
     _Generic((t), float: lm2_ease_f32, double: lm2_ease_f64)(e, t)
 

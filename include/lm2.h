@@ -28,6 +28,7 @@ SOFTWARE.
 // - LM2_UNSAFE: Disable safe checks in safe ops (for performance)
 // - LM2_NO_CPP_OPERATORS: Disable C++ operators for all types (for C compatibility)
 // - LM2_NO_GENERICS: Disable C11 or C++ generics
+// - LM2_ENABLE_UNPREFIXED_NAMES: Enable unprefixed names (e.g. v2 instead of lm2_v2)
 
 #include "lm2/geometry2d/lm2_aabb2.h"
 #include "lm2/geometry2d/lm2_capsule2.h"
@@ -81,4 +82,7 @@ SOFTWARE.
 #endif
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2/extensions/lm2_cpp_operators.h"
+#endif
+#ifdef LM2_ENABLE_UNPREFIXED_NAMES
+#  include "lm2/extensions/lm2_unprefixed_names.h"
 #endif

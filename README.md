@@ -48,10 +48,11 @@ Fetched automatically via CMake FetchContent:
 | `LM2_UNSAFE` | Disable overflow/underflow assertions in safe ops for performance |
 | `LM2_NO_CPP_OPERATORS` | Disable C++ operator overloads for all types |
 | `LM2_NO_GENERICS` | Disable C11 `_Generic` macros and C++ function overloads |
+| `LM2_ENABLE_UNPREFIXED_NAMES` | Enable unprefixed names (e.g. v2 instead of lm2_v2) |
 
 ## Documentation
 
-See the [docs/](docs/) directory for comprehensive API documentation and usage patterns.
+See the [docs](https://luppichristian.github.io/libmath2/) directory for comprehensive API documentation and usage patterns.
 
 ## License
 

@@ -775,128 +775,128 @@ static inline T lm2_hash_combine(T a, T b) {
 
 // EASINGS
 template <typename T>
-static inline T ease_linear(T t) {
-  LM2_DISPATCH_FLOAT(ease_linear, t)
+static inline T lm2_ease_linear(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_linear, t)
 }
 template <typename T>
-static inline T ease_sin_in(T t) {
-  LM2_DISPATCH_FLOAT(ease_sin_in, t)
+static inline T lm2_ease_sin_in(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_sin_in, t)
 }
 template <typename T>
-static inline T ease_sin_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_sin_out, t)
+static inline T lm2_ease_sin_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_sin_out, t)
 }
 template <typename T>
-static inline T ease_sin_in_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_sin_in_out, t)
+static inline T lm2_ease_sin_in_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_sin_in_out, t)
 }
 template <typename T>
-static inline T ease_quad_in(T t) {
-  LM2_DISPATCH_FLOAT(ease_quad_in, t)
+static inline T lm2_ease_quad_in(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_quad_in, t)
 }
 template <typename T>
-static inline T ease_quad_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_quad_out, t)
+static inline T lm2_ease_quad_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_quad_out, t)
 }
 template <typename T>
-static inline T ease_quad_in_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_quad_in_out, t)
+static inline T lm2_ease_quad_in_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_quad_in_out, t)
 }
 template <typename T>
-static inline T ease_cubic_in(T t) {
-  LM2_DISPATCH_FLOAT(ease_cubic_in, t)
+static inline T lm2_ease_cubic_in(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_cubic_in, t)
 }
 template <typename T>
-static inline T ease_cubic_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_cubic_out, t)
+static inline T lm2_ease_cubic_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_cubic_out, t)
 }
 template <typename T>
-static inline T ease_cubic_in_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_cubic_in_out, t)
+static inline T lm2_ease_cubic_in_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_cubic_in_out, t)
 }
 template <typename T>
-static inline T ease_quart_in(T t) {
-  LM2_DISPATCH_FLOAT(ease_quart_in, t)
+static inline T lm2_ease_quart_in(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_quart_in, t)
 }
 template <typename T>
-static inline T ease_quart_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_quart_out, t)
+static inline T lm2_ease_quart_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_quart_out, t)
 }
 template <typename T>
-static inline T ease_quart_in_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_quart_in_out, t)
+static inline T lm2_ease_quart_in_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_quart_in_out, t)
 }
 template <typename T>
-static inline T ease_quint_in(T t) {
-  LM2_DISPATCH_FLOAT(ease_quint_in, t)
+static inline T lm2_ease_quint_in(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_quint_in, t)
 }
 template <typename T>
-static inline T ease_quint_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_quint_out, t)
+static inline T lm2_ease_quint_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_quint_out, t)
 }
 template <typename T>
-static inline T ease_quint_in_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_quint_in_out, t)
+static inline T lm2_ease_quint_in_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_quint_in_out, t)
 }
 template <typename T>
-static inline T ease_exp_in(T t) {
-  LM2_DISPATCH_FLOAT(ease_exp_in, t)
+static inline T lm2_ease_exp_in(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_exp_in, t)
 }
 template <typename T>
-static inline T ease_exp_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_exp_out, t)
+static inline T lm2_ease_exp_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_exp_out, t)
 }
 template <typename T>
-static inline T ease_exp_in_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_exp_in_out, t)
+static inline T lm2_ease_exp_in_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_exp_in_out, t)
 }
 template <typename T>
-static inline T ease_circ_in(T t) {
-  LM2_DISPATCH_FLOAT(ease_circ_in, t)
+static inline T lm2_ease_circ_in(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_circ_in, t)
 }
 template <typename T>
-static inline T ease_circ_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_circ_out, t)
+static inline T lm2_ease_circ_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_circ_out, t)
 }
 template <typename T>
-static inline T ease_circ_in_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_circ_in_out, t)
+static inline T lm2_ease_circ_in_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_circ_in_out, t)
 }
 template <typename T>
-static inline T ease_back_in(T t) {
-  LM2_DISPATCH_FLOAT(ease_back_in, t)
+static inline T lm2_ease_back_in(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_back_in, t)
 }
 template <typename T>
-static inline T ease_back_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_back_out, t)
+static inline T lm2_ease_back_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_back_out, t)
 }
 template <typename T>
-static inline T ease_back_in_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_back_in_out, t)
+static inline T lm2_ease_back_in_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_back_in_out, t)
 }
 template <typename T>
-static inline T ease_elastic_in(T t) {
-  LM2_DISPATCH_FLOAT(ease_elastic_in, t)
+static inline T lm2_ease_elastic_in(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_elastic_in, t)
 }
 template <typename T>
-static inline T ease_elastic_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_elastic_out, t)
+static inline T lm2_ease_elastic_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_elastic_out, t)
 }
 template <typename T>
-static inline T ease_elastic_in_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_elastic_in_out, t)
+static inline T lm2_ease_elastic_in_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_elastic_in_out, t)
 }
 template <typename T>
-static inline T ease_bounce_in(T t) {
-  LM2_DISPATCH_FLOAT(ease_bounce_in, t)
+static inline T lm2_ease_bounce_in(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_bounce_in, t)
 }
 template <typename T>
-static inline T ease_bounce_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_bounce_out, t)
+static inline T lm2_ease_bounce_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_bounce_out, t)
 }
 template <typename T>
-static inline T ease_bounce_in_out(T t) {
-  LM2_DISPATCH_FLOAT(ease_bounce_in_out, t)
+static inline T lm2_ease_bounce_in_out(T t) {
+  LM2_DISPATCH_FLOAT(lm2_ease_bounce_in_out, t)
 }
 
 #  undef LM2_DISPATCH_FULL

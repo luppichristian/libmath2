@@ -31,88 +31,88 @@ LM2_HEADER_BEGIN;
 // #############################################################################
 
 // Linear
-LM2_API double ease_linear_f64(double t);
-LM2_API float ease_linear_f32(float t);
+LM2_API double lm2_ease_linear_f64(double t);
+LM2_API float lm2_ease_linear_f32(float t);
 
 // Sin
-LM2_API double ease_sin_in_f64(double t);
-LM2_API double ease_sin_out_f64(double t);
-LM2_API double ease_sin_in_out_f64(double t);
-LM2_API float ease_sin_in_f32(float t);
-LM2_API float ease_sin_out_f32(float t);
-LM2_API float ease_sin_in_out_f32(float t);
+LM2_API double lm2_ease_sin_in_f64(double t);
+LM2_API double lm2_ease_sin_out_f64(double t);
+LM2_API double lm2_ease_sin_in_out_f64(double t);
+LM2_API float lm2_ease_sin_in_f32(float t);
+LM2_API float lm2_ease_sin_out_f32(float t);
+LM2_API float lm2_ease_sin_in_out_f32(float t);
 
 // Quad
-LM2_API double ease_quad_in_f64(double t);
-LM2_API double ease_quad_out_f64(double t);
-LM2_API double ease_quad_in_out_f64(double t);
-LM2_API float ease_quad_in_f32(float t);
-LM2_API float ease_quad_out_f32(float t);
-LM2_API float ease_quad_in_out_f32(float t);
+LM2_API double lm2_ease_quad_in_f64(double t);
+LM2_API double lm2_ease_quad_out_f64(double t);
+LM2_API double lm2_ease_quad_in_out_f64(double t);
+LM2_API float lm2_ease_quad_in_f32(float t);
+LM2_API float lm2_ease_quad_out_f32(float t);
+LM2_API float lm2_ease_quad_in_out_f32(float t);
 
 // Cubic
-LM2_API double ease_cubic_in_f64(double t);
-LM2_API double ease_cubic_out_f64(double t);
-LM2_API double ease_cubic_in_out_f64(double t);
-LM2_API float ease_cubic_in_f32(float t);
-LM2_API float ease_cubic_out_f32(float t);
-LM2_API float ease_cubic_in_out_f32(float t);
+LM2_API double lm2_ease_cubic_in_f64(double t);
+LM2_API double lm2_ease_cubic_out_f64(double t);
+LM2_API double lm2_ease_cubic_in_out_f64(double t);
+LM2_API float lm2_ease_cubic_in_f32(float t);
+LM2_API float lm2_ease_cubic_out_f32(float t);
+LM2_API float lm2_ease_cubic_in_out_f32(float t);
 
 // Quart
-LM2_API double ease_quart_in_f64(double t);
-LM2_API double ease_quart_out_f64(double t);
-LM2_API double ease_quart_in_out_f64(double t);
-LM2_API float ease_quart_in_f32(float t);
-LM2_API float ease_quart_out_f32(float t);
-LM2_API float ease_quart_in_out_f32(float t);
+LM2_API double lm2_ease_quart_in_f64(double t);
+LM2_API double lm2_ease_quart_out_f64(double t);
+LM2_API double lm2_ease_quart_in_out_f64(double t);
+LM2_API float lm2_ease_quart_in_f32(float t);
+LM2_API float lm2_ease_quart_out_f32(float t);
+LM2_API float lm2_ease_quart_in_out_f32(float t);
 
 // Quint
-LM2_API double ease_quint_in_f64(double t);
-LM2_API double ease_quint_out_f64(double t);
-LM2_API double ease_quint_in_out_f64(double t);
-LM2_API float ease_quint_in_f32(float t);
-LM2_API float ease_quint_out_f32(float t);
-LM2_API float ease_quint_in_out_f32(float t);
+LM2_API double lm2_ease_quint_in_f64(double t);
+LM2_API double lm2_ease_quint_out_f64(double t);
+LM2_API double lm2_ease_quint_in_out_f64(double t);
+LM2_API float lm2_ease_quint_in_f32(float t);
+LM2_API float lm2_ease_quint_out_f32(float t);
+LM2_API float lm2_ease_quint_in_out_f32(float t);
 
 // Exp
-LM2_API double ease_exp_in_f64(double t);
-LM2_API double ease_exp_out_f64(double t);
-LM2_API double ease_exp_in_out_f64(double t);
-LM2_API float ease_exp_in_f32(float t);
-LM2_API float ease_exp_out_f32(float t);
-LM2_API float ease_exp_in_out_f32(float t);
+LM2_API double lm2_ease_exp_in_f64(double t);
+LM2_API double lm2_ease_exp_out_f64(double t);
+LM2_API double lm2_ease_exp_in_out_f64(double t);
+LM2_API float lm2_ease_exp_in_f32(float t);
+LM2_API float lm2_ease_exp_out_f32(float t);
+LM2_API float lm2_ease_exp_in_out_f32(float t);
 
 // Circ
-LM2_API double ease_circ_in_f64(double t);
-LM2_API double ease_circ_out_f64(double t);
-LM2_API double ease_circ_in_out_f64(double t);
-LM2_API float ease_circ_in_f32(float t);
-LM2_API float ease_circ_out_f32(float t);
-LM2_API float ease_circ_in_out_f32(float t);
+LM2_API double lm2_ease_circ_in_f64(double t);
+LM2_API double lm2_ease_circ_out_f64(double t);
+LM2_API double lm2_ease_circ_in_out_f64(double t);
+LM2_API float lm2_ease_circ_in_f32(float t);
+LM2_API float lm2_ease_circ_out_f32(float t);
+LM2_API float lm2_ease_circ_in_out_f32(float t);
 
 // Back
-LM2_API double ease_back_in_f64(double t);
-LM2_API double ease_back_out_f64(double t);
-LM2_API double ease_back_in_out_f64(double t);
-LM2_API float ease_back_in_f32(float t);
-LM2_API float ease_back_out_f32(float t);
-LM2_API float ease_back_in_out_f32(float t);
+LM2_API double lm2_ease_back_in_f64(double t);
+LM2_API double lm2_ease_back_out_f64(double t);
+LM2_API double lm2_ease_back_in_out_f64(double t);
+LM2_API float lm2_ease_back_in_f32(float t);
+LM2_API float lm2_ease_back_out_f32(float t);
+LM2_API float lm2_ease_back_in_out_f32(float t);
 
 // Elastic
-LM2_API double ease_elastic_in_f64(double t);
-LM2_API double ease_elastic_out_f64(double t);
-LM2_API double ease_elastic_in_out_f64(double t);
-LM2_API float ease_elastic_in_f32(float t);
-LM2_API float ease_elastic_out_f32(float t);
-LM2_API float ease_elastic_in_out_f32(float t);
+LM2_API double lm2_ease_elastic_in_f64(double t);
+LM2_API double lm2_ease_elastic_out_f64(double t);
+LM2_API double lm2_ease_elastic_in_out_f64(double t);
+LM2_API float lm2_ease_elastic_in_f32(float t);
+LM2_API float lm2_ease_elastic_out_f32(float t);
+LM2_API float lm2_ease_elastic_in_out_f32(float t);
 
 // Bounce
-LM2_API double ease_bounce_in_f64(double t);
-LM2_API double ease_bounce_out_f64(double t);
-LM2_API double ease_bounce_in_out_f64(double t);
-LM2_API float ease_bounce_in_f32(float t);
-LM2_API float ease_bounce_out_f32(float t);
-LM2_API float ease_bounce_in_out_f32(float t);
+LM2_API double lm2_ease_bounce_in_f64(double t);
+LM2_API double lm2_ease_bounce_out_f64(double t);
+LM2_API double lm2_ease_bounce_in_out_f64(double t);
+LM2_API float lm2_ease_bounce_in_f32(float t);
+LM2_API float lm2_ease_bounce_out_f32(float t);
+LM2_API float lm2_ease_bounce_in_out_f32(float t);
 
 // Easing types (enum)
 typedef enum easing {
