@@ -37,7 +37,11 @@ SOFTWARE.
 // =============================================================================
 
 LM2_API bool lm2_collide_circle_to_circle_f64(lm2_circle_f64 a, lm2_circle_f64 b) {
-  return c2CircletoCircle(lm2_circle_f64_to_c2(a), lm2_circle_f64_to_c2(b)) != 0;
+  double dx = lm2_sub_f64(b.center.x, a.center.x);
+  double dy = lm2_sub_f64(b.center.y, a.center.y);
+  double dist_sq = lm2_add_f64(lm2_mul_f64(dx, dx), lm2_mul_f64(dy, dy));
+  double r_sum = lm2_add_f64(a.radius, b.radius);
+  return dist_sq <= lm2_mul_f64(r_sum, r_sum);
 }
 
 LM2_API bool lm2_collide_circle_to_aabb_f64(lm2_circle_f64 circle, lm2_r2_f64 aabb) {
@@ -86,7 +90,11 @@ LM2_API bool lm2_collide_polygon_to_polygon_f64(lm2_polygon_f64 a, lm2_polygon_f
 // =============================================================================
 
 LM2_API bool lm2_collide_circle_to_circle_f32(lm2_circle_f32 a, lm2_circle_f32 b) {
-  return c2CircletoCircle(lm2_circle_f32_to_c2(a), lm2_circle_f32_to_c2(b)) != 0;
+  float dx = lm2_sub_f32(b.center.x, a.center.x);
+  float dy = lm2_sub_f32(b.center.y, a.center.y);
+  float dist_sq = lm2_add_f32(lm2_mul_f32(dx, dx), lm2_mul_f32(dy, dy));
+  float r_sum = lm2_add_f32(a.radius, b.radius);
+  return dist_sq <= lm2_mul_f32(r_sum, r_sum);
 }
 
 LM2_API bool lm2_collide_circle_to_aabb_f32(lm2_circle_f32 circle, lm2_r2_f32 aabb) {

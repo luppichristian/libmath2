@@ -90,6 +90,21 @@ LM2_API lm2_v2_f32 lm2_ray2_point_at_f32(lm2_ray2_f32 ray, float t) {
 
 LM2_API lm2_rayhit2_f64 lm2_raycast_circle_f64(lm2_ray2_f64 ray, lm2_circle_f64 circle) {
   lm2_rayhit2_f64 result;
+
+  // Check if ray origin is inside the circle
+  double dx = lm2_sub_f64(ray.origin.x, circle.center.x);
+  double dy = lm2_sub_f64(ray.origin.y, circle.center.y);
+  double dist_sq = lm2_add_f64(lm2_mul_f64(dx, dx), lm2_mul_f64(dy, dy));
+  double r_sq = lm2_mul_f64(circle.radius, circle.radius);
+
+  if (dist_sq <= r_sq) {
+    result.hit = true;
+    result.t = 0.0;
+    result.point = ray.origin;
+    result.normal = (lm2_v2_f64) {0.0, 0.0};
+    return result;
+  }
+
   c2Raycast hit;
   c2Ray c2_ray = lm2_ray2_f64_to_c2(ray);
   c2Circle c2_circle = lm2_circle_f64_to_c2(circle);
@@ -192,6 +207,21 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_segment_f64(lm2_ray2_f64 ray, lm2_v2_f64 seg
 
 LM2_API lm2_rayhit2_f32 lm2_raycast_circle_f32(lm2_ray2_f32 ray, lm2_circle_f32 circle) {
   lm2_rayhit2_f32 result;
+
+  // Check if ray origin is inside the circle
+  float dx = lm2_sub_f32(ray.origin.x, circle.center.x);
+  float dy = lm2_sub_f32(ray.origin.y, circle.center.y);
+  float dist_sq = lm2_add_f32(lm2_mul_f32(dx, dx), lm2_mul_f32(dy, dy));
+  float r_sq = lm2_mul_f32(circle.radius, circle.radius);
+
+  if (dist_sq <= r_sq) {
+    result.hit = true;
+    result.t = 0.0f;
+    result.point = ray.origin;
+    result.normal = (lm2_v2_f32) {0.0f, 0.0f};
+    return result;
+  }
+
   c2Raycast hit;
   c2Ray c2_ray = lm2_ray2_f32_to_c2(ray);
   c2Circle c2_circle = lm2_circle_f32_to_c2(circle);
@@ -362,7 +392,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_plane2_f64(lm2_ray2_f64 ray, lm2_plane2_f64 
   result.normal = (lm2_v2_f64) {0.0, 0.0};
 
   // Compute denominator (dot product of ray direction and plane normal)
-  double denom = lm2_dot_f64(ray.direction, plane.normal);
+  double denom = lm2_v2_dot_f64(ray.direction, plane.normal);
 
   // Check if ray is parallel to plane (denom close to zero)
   if (lm2_abs_f64(denom) < LM2_RAYCAST2_EPSILON_F64) {
@@ -370,7 +400,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_plane2_f64(lm2_ray2_f64 ray, lm2_plane2_f64 
   }
 
   // Compute signed distance from ray origin to plane
-  double origin_dist = lm2_sub_f64(lm2_dot_f64(ray.origin, plane.normal), plane.distance);
+  double origin_dist = lm2_sub_f64(lm2_v2_dot_f64(ray.origin, plane.normal), plane.distance);
 
   // Compute t parameter
   double t = lm2_div_f64(lm2_mul_f64(origin_dist, -1.0), denom);
@@ -405,7 +435,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_plane2_f32(lm2_ray2_f32 ray, lm2_plane2_f32 
   result.normal = (lm2_v2_f32) {0.0f, 0.0f};
 
   // Compute denominator (dot product of ray direction and plane normal)
-  float denom = lm2_dot_f32(ray.direction, plane.normal);
+  float denom = lm2_v2_dot_f32(ray.direction, plane.normal);
 
   // Check if ray is parallel to plane (denom close to zero)
   if (lm2_abs_f32(denom) < LM2_RAYCAST2_EPSILON_F32) {
@@ -413,7 +443,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_plane2_f32(lm2_ray2_f32 ray, lm2_plane2_f32 
   }
 
   // Compute signed distance from ray origin to plane
-  float origin_dist = lm2_sub_f32(lm2_dot_f32(ray.origin, plane.normal), plane.distance);
+  float origin_dist = lm2_sub_f32(lm2_v2_dot_f32(ray.origin, plane.normal), plane.distance);
 
   // Compute t parameter
   float t = lm2_div_f32(lm2_mul_f32(origin_dist, -1.0f), denom);

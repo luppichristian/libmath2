@@ -364,7 +364,7 @@ LM2_API bool lm2_triangle2_overlaps_f64(const lm2_triangle2_f64 t1, const lm2_tr
 
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      if (lm2_edges_intersect_f64(t1_edges[i], t2_edges[j])) {
+      if (lm2_edges2_intersect_f64(t1_edges[i], t2_edges[j])) {
         return true;
       }
     }
@@ -399,7 +399,7 @@ LM2_API bool lm2_triangle2_overlaps_f32(const lm2_triangle2_f32 t1, const lm2_tr
 
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      if (lm2_edges_intersect_f32(t1_edges[i], t2_edges[j])) {
+      if (lm2_edges2_intersect_f32(t1_edges[i], t2_edges[j])) {
         return true;
       }
     }
@@ -431,7 +431,7 @@ LM2_API lm2_edge2_result_f64 lm2_triangle2_shared_edge_f64(const lm2_triangle2_f
   // Check each edge of t1 against each edge of t2
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      if (lm2_edges_equal_f64(t1_edges[i], t2_edges[j], epsilon)) {
+      if (lm2_edges2_equal_f64(t1_edges[i], t2_edges[j], epsilon)) {
         result.edge = t1_edges[i];
         result.exists = true;
         return result;
@@ -459,7 +459,7 @@ LM2_API lm2_edge2_result_f32 lm2_triangle2_shared_edge_f32(const lm2_triangle2_f
 
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
-      if (lm2_edges_equal_f32(t1_edges[i], t2_edges[j], epsilon)) {
+      if (lm2_edges2_equal_f32(t1_edges[i], t2_edges[j], epsilon)) {
         result.edge = t1_edges[i];
         result.exists = true;
         return result;

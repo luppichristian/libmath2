@@ -25,6 +25,7 @@ SOFTWARE.
 #include <lm2/geometry2d/lm2_triangle2_geometry.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
+#include <stdlib.h>  // For malloc, free
 #include <string.h>  // For memcpy
 
 // =============================================================================
@@ -208,17 +209,26 @@ LM2_API lm2_indexed_mesh_size lm2_triangle2_list_to_indexed_mesh_size_f64(
   LM2_ASSERT(triangles != NULL);
 
   lm2_indexed_mesh_size result = {0, 0};
-
-  // We need temporary storage to track unique vertices during size calculation
-  // Worst case: all vertices are unique (triangle_count * 3)
   size_t max_vertices = lm2_mul_u64(triangle_count, 3);
 
-  // For size query, we need to actually perform the deduplication
-  // This requires temporary storage which violates our no-allocation policy
-  // So we'll do a simplified estimation: return worst-case size
-  // Users can call this with a temp buffer pattern if needed
+  // Allocate temporary buffer to perform actual vertex deduplication
+  lm2_v2_f64* temp_vertices = (lm2_v2_f64*)malloc(max_vertices * sizeof(lm2_v2_f64));
+  if (temp_vertices == NULL) {
+    result.vertex_count = max_vertices;
+    result.index_count = max_vertices;
+    return result;
+  }
 
-  result.vertex_count = max_vertices;  // Worst case
+  uint32_t vertex_count = 0;
+  for (size_t i = 0; i < triangle_count; i = lm2_add_u64(i, 1)) {
+    for (int j = 0; j < 3; j++) {
+      _lm2_find_or_add_vertex_f64(triangles[i][j], temp_vertices, &vertex_count, epsilon);
+    }
+  }
+
+  free(temp_vertices);
+
+  result.vertex_count = vertex_count;
   result.index_count = lm2_mul_u64(triangle_count, 3);
 
   return result;
@@ -231,11 +241,26 @@ LM2_API lm2_indexed_mesh_size lm2_triangle2_list_to_indexed_mesh_size_f32(
   LM2_ASSERT(triangles != NULL);
 
   lm2_indexed_mesh_size result = {0, 0};
-
-  // Worst case: all vertices are unique
   size_t max_vertices = lm2_mul_u64(triangle_count, 3);
 
-  result.vertex_count = max_vertices;  // Worst case
+  // Allocate temporary buffer to perform actual vertex deduplication
+  lm2_v2_f32* temp_vertices = (lm2_v2_f32*)malloc(max_vertices * sizeof(lm2_v2_f32));
+  if (temp_vertices == NULL) {
+    result.vertex_count = max_vertices;
+    result.index_count = max_vertices;
+    return result;
+  }
+
+  uint32_t vertex_count = 0;
+  for (size_t i = 0; i < triangle_count; i = lm2_add_u64(i, 1)) {
+    for (int j = 0; j < 3; j++) {
+      _lm2_find_or_add_vertex_f32(triangles[i][j], temp_vertices, &vertex_count, epsilon);
+    }
+  }
+
+  free(temp_vertices);
+
+  result.vertex_count = vertex_count;
   result.index_count = lm2_mul_u64(triangle_count, 3);
 
   return result;

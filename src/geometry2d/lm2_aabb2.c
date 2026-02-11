@@ -190,8 +190,8 @@ SOFTWARE.
 #define _LM2_IMPL_RECT2_GET_CLOSEST_POINT(type_name, vec_type, scalar_type, suffix)    \
   LM2_API vec_type lm2_r2_get_closest_point_##suffix(type_name rect, vec_type point) { \
     vec_type result;                                                                   \
-    result.x = lm2_clamp_##suffix(point.x, rect.min.x, rect.max.x);                    \
-    result.y = lm2_clamp_##suffix(point.y, rect.min.y, rect.max.y);                    \
+    result.x = lm2_clamp_##suffix(rect.min.x, point.x, rect.max.x);                    \
+    result.y = lm2_clamp_##suffix(rect.min.y, point.y, rect.max.y);                    \
     return result;                                                                     \
   }
 
@@ -230,7 +230,30 @@ SOFTWARE.
     scalar_type diff_y = lm2_sub_##suffix(b0.y, a0.y);                                                                         \
     scalar_type t = lm2_div_##suffix(lm2_sub_##suffix(lm2_mul_##suffix(diff_x, d2_y), lm2_mul_##suffix(diff_y, d2_x)), cross); \
     scalar_type u = lm2_div_##suffix(lm2_sub_##suffix(lm2_mul_##suffix(diff_x, d1_y), lm2_mul_##suffix(diff_y, d1_x)), cross); \
-    return (t >= (scalar_type)0 && t <= (scalar_type)1 && u >= (scalar_type)0 && u <= (scalar_type)1);                         \
+    scalar_type zero = (scalar_type)0;                                                                                         \
+    scalar_type one = (scalar_type)1;                                                                                          \
+    return (t >= zero && t <= one && u >= zero && u <= one);                                                                   \
+  }
+
+// Segments intersect for unsigned types (no abs needed for cross product comparison)
+#define _LM2_IMPL_RECT2_SEGMENTS_INTERSECT_UNSIGNED(vec_type, scalar_type, suffix)                                             \
+  LM2_API int lm2_segments_intersect_##suffix(vec_type a0, vec_type a1, vec_type b0, vec_type b1) {                            \
+    scalar_type d1_x = lm2_sub_##suffix(a1.x, a0.x);                                                                           \
+    scalar_type d1_y = lm2_sub_##suffix(a1.y, a0.y);                                                                           \
+    scalar_type d2_x = lm2_sub_##suffix(b1.x, b0.x);                                                                           \
+    scalar_type d2_y = lm2_sub_##suffix(b1.y, b0.y);                                                                           \
+    scalar_type cross = lm2_sub_##suffix(lm2_mul_##suffix(d1_x, d2_y), lm2_mul_##suffix(d1_y, d2_x));                          \
+    scalar_type epsilon = (scalar_type)0;                                                                                      \
+    if (cross == epsilon) {                                                                                                    \
+      return 0;                                                                                                                \
+    }                                                                                                                          \
+    scalar_type diff_x = lm2_sub_##suffix(b0.x, a0.x);                                                                         \
+    scalar_type diff_y = lm2_sub_##suffix(b0.y, a0.y);                                                                         \
+    scalar_type t = lm2_div_##suffix(lm2_sub_##suffix(lm2_mul_##suffix(diff_x, d2_y), lm2_mul_##suffix(diff_y, d2_x)), cross); \
+    scalar_type u = lm2_div_##suffix(lm2_sub_##suffix(lm2_mul_##suffix(diff_x, d1_y), lm2_mul_##suffix(diff_y, d1_x)), cross); \
+    scalar_type zero = (scalar_type)0;                                                                                         \
+    scalar_type one = (scalar_type)1;                                                                                          \
+    return (t >= zero && t <= one && u >= zero && u <= one);                                                                   \
   }
 
 // =============================================================================
@@ -345,7 +368,8 @@ SOFTWARE.
 // Complete AABB2 Implementation for One Type
 // =============================================================================
 
-#define _LM2_IMPL_RECT2_ALL(type_name, vec_type, scalar_type, suffix)                   \
+// Macro for floating-point types (includes distance functions)
+#define _LM2_IMPL_RECT2_ALL_FLOAT(type_name, vec_type, scalar_type, suffix)             \
   _LM2_IMPL_RECT2_GET_CORNER(type_name, vec_type, scalar_type, suffix)                  \
   _LM2_IMPL_RECT2_GET_BOTTOM_LEFT(type_name, vec_type, scalar_type, suffix)             \
   _LM2_IMPL_RECT2_GET_TOP_RIGHT(type_name, vec_type, scalar_type, suffix)               \
@@ -372,29 +396,61 @@ SOFTWARE.
   _LM2_IMPL_RECT2_CUT_TOP(type_name, vec_type, scalar_type, suffix)                     \
   _LM2_IMPL_RECT2_ALIGN_SUBRECT(type_name, vec_type, scalar_type, suffix)
 
+// Macro for integer types (excludes distance functions that require sqrt)
+#define _LM2_IMPL_RECT2_ALL_INT(type_name, vec_type, scalar_type, suffix)     \
+  _LM2_IMPL_RECT2_GET_CORNER(type_name, vec_type, scalar_type, suffix)        \
+  _LM2_IMPL_RECT2_GET_BOTTOM_LEFT(type_name, vec_type, scalar_type, suffix)   \
+  _LM2_IMPL_RECT2_GET_TOP_RIGHT(type_name, vec_type, scalar_type, suffix)     \
+  _LM2_IMPL_RECT2_GET_BOTTOM_RIGHT(type_name, vec_type, scalar_type, suffix)  \
+  _LM2_IMPL_RECT2_GET_TOP_LEFT(type_name, vec_type, scalar_type, suffix)      \
+  _LM2_IMPL_RECT2_SCALE_FROM_CENTER(type_name, vec_type, scalar_type, suffix) \
+  _LM2_IMPL_RECT2_SCALE_FROM_MIN(type_name, vec_type, scalar_type, suffix)    \
+  _LM2_IMPL_RECT2_SCALE_FROM_MAX(type_name, vec_type, scalar_type, suffix)    \
+  _LM2_IMPL_RECT2_SHRINK_VEC(type_name, vec_type, scalar_type, suffix)        \
+  _LM2_IMPL_RECT2_SHRINK_SCALAR(type_name, vec_type, scalar_type, suffix)     \
+  _LM2_IMPL_RECT2_INFLATE_VEC(type_name, vec_type, scalar_type, suffix)       \
+  _LM2_IMPL_RECT2_INFLATE_SCALAR(type_name, vec_type, scalar_type, suffix)    \
+  _LM2_IMPL_RECT2_GET_DIM(type_name, vec_type, scalar_type, suffix)           \
+  _LM2_IMPL_RECT2_OVERLAP_RECT(type_name, vec_type, scalar_type, suffix)      \
+  _LM2_IMPL_RECT2_OVERLAP_POINT(type_name, vec_type, scalar_type, suffix)     \
+  _LM2_IMPL_RECT2_CONTAINS(type_name, vec_type, scalar_type, suffix)          \
+  _LM2_IMPL_RECT2_GET_CLOSEST_POINT(type_name, vec_type, scalar_type, suffix) \
+  _LM2_IMPL_RECT2_CUT(type_name, vec_type, scalar_type, suffix)               \
+  _LM2_IMPL_RECT2_CUT_LEFT(type_name, vec_type, scalar_type, suffix)          \
+  _LM2_IMPL_RECT2_CUT_RIGHT(type_name, vec_type, scalar_type, suffix)         \
+  _LM2_IMPL_RECT2_CUT_BOTTOM(type_name, vec_type, scalar_type, suffix)        \
+  _LM2_IMPL_RECT2_CUT_TOP(type_name, vec_type, scalar_type, suffix)           \
+  _LM2_IMPL_RECT2_ALIGN_SUBRECT(type_name, vec_type, scalar_type, suffix)
+
 // =============================================================================
 // AABB2 Implementations for All 10 Types
 // =============================================================================
 
-_LM2_IMPL_RECT2_ALL(lm2_r2_f64, lm2_v2_f64, double, f64)
-_LM2_IMPL_RECT2_ALL(lm2_r2_f32, lm2_v2_f32, float, f32)
-_LM2_IMPL_RECT2_ALL(lm2_r2_i64, lm2_v2_i64, int64_t, i64)
-_LM2_IMPL_RECT2_ALL(lm2_r2_i32, lm2_v2_i32, int32_t, i32)
-_LM2_IMPL_RECT2_ALL(lm2_r2_i16, lm2_v2_i16, int16_t, i16)
-_LM2_IMPL_RECT2_ALL(lm2_r2_i8, lm2_v2_i8, int8_t, i8)
-_LM2_IMPL_RECT2_ALL(lm2_r2_u64, lm2_v2_u64, uint64_t, u64)
-_LM2_IMPL_RECT2_ALL(lm2_r2_u32, lm2_v2_u32, uint32_t, u32)
-_LM2_IMPL_RECT2_ALL(lm2_r2_u16, lm2_v2_u16, uint16_t, u16)
-_LM2_IMPL_RECT2_ALL(lm2_r2_u8, lm2_v2_u8, uint8_t, u8)
+// Floating-point types (with distance functions)
+_LM2_IMPL_RECT2_ALL_FLOAT(lm2_r2_f64, lm2_v2_f64, double, f64)
+_LM2_IMPL_RECT2_ALL_FLOAT(lm2_r2_f32, lm2_v2_f32, float, f32)
 
-// Segments intersect implementations for all vector types
+// Integer types (without distance functions that require sqrt or lm2_v2_distance)
+_LM2_IMPL_RECT2_ALL_INT(lm2_r2_i64, lm2_v2_i64, int64_t, i64)
+_LM2_IMPL_RECT2_ALL_INT(lm2_r2_i32, lm2_v2_i32, int32_t, i32)
+_LM2_IMPL_RECT2_ALL_INT(lm2_r2_i16, lm2_v2_i16, int16_t, i16)
+_LM2_IMPL_RECT2_ALL_INT(lm2_r2_i8, lm2_v2_i8, int8_t, i8)
+_LM2_IMPL_RECT2_ALL_INT(lm2_r2_u64, lm2_v2_u64, uint64_t, u64)
+_LM2_IMPL_RECT2_ALL_INT(lm2_r2_u32, lm2_v2_u32, uint32_t, u32)
+_LM2_IMPL_RECT2_ALL_INT(lm2_r2_u16, lm2_v2_u16, uint16_t, u16)
+_LM2_IMPL_RECT2_ALL_INT(lm2_r2_u8, lm2_v2_u8, uint8_t, u8)
+
+// Segments intersect implementations
+// Floating-point and signed integer types (with abs)
 _LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_f64, double, f64)
 _LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_f32, float, f32)
 _LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_i64, int64_t, i64)
 _LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_i32, int32_t, i32)
 _LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_i16, int16_t, i16)
 _LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_i8, int8_t, i8)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_u64, uint64_t, u64)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_u32, uint32_t, u32)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_u16, uint16_t, u16)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_u8, uint8_t, u8)
+
+// Unsigned integer types (without abs)
+_LM2_IMPL_RECT2_SEGMENTS_INTERSECT_UNSIGNED(lm2_v2_u64, uint64_t, u64)
+_LM2_IMPL_RECT2_SEGMENTS_INTERSECT_UNSIGNED(lm2_v2_u32, uint32_t, u32)
+_LM2_IMPL_RECT2_SEGMENTS_INTERSECT_UNSIGNED(lm2_v2_u16, uint16_t, u16)
+_LM2_IMPL_RECT2_SEGMENTS_INTERSECT_UNSIGNED(lm2_v2_u8, uint8_t, u8)

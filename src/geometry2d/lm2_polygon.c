@@ -40,7 +40,6 @@ SOFTWARE.
 
 LM2_API lm2_polygon_f64 lm2_polygon_make_f64(lm2_v2_f64* vertices, size_t vertex_count) {
   LM2_ASSERT(vertices != NULL);
-  LM2_ASSERT(vertex_count >= 3);
   lm2_polygon_f64 polygon;
   polygon.vertices = vertices;
   polygon.vertex_count = vertex_count;
@@ -49,7 +48,6 @@ LM2_API lm2_polygon_f64 lm2_polygon_make_f64(lm2_v2_f64* vertices, size_t vertex
 
 LM2_API lm2_polygon_f32 lm2_polygon_make_f32(lm2_v2_f32* vertices, size_t vertex_count) {
   LM2_ASSERT(vertices != NULL);
-  LM2_ASSERT(vertex_count >= 3);
   lm2_polygon_f32 polygon;
   polygon.vertices = vertices;
   polygon.vertex_count = vertex_count;
