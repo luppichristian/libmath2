@@ -1,0 +1,53 @@
+name: Sync Documentation to GitHub Wiki
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main", "master"]
+    paths:
+      - 'docs/**'
+      - '.github/workflows/sync-wiki.yml'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync-wiki:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout main repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Checkout wiki repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}.wiki
+          path: wiki
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Sync documentation to wiki
+        run: |
+          # Remove _config.yml and other Jekyll-specific files
+          find docs -name '_config.yml' -o -name 'Gemfile*' -o -name '_site' | xargs rm -rf
+          
+          # Copy all markdown files from docs to wiki
+          rsync -av --delete --exclude='.git' docs/ wiki/
+          
+          cd wiki
+          
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Check if there are changes
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "Sync documentation from main repository (commit: ${{ github.sha }})"
+            git push origin master
+            echo "Wiki updated successfully"
+          else
+            echo "No changes to wiki"
+          fi
