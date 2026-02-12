@@ -28,7 +28,7 @@ jobs:
         with:
           repository: ${{ github.repository }}.wiki
           path: wiki
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.WIKI_TOKEN }}
       
       - name: Check if wiki exists
         id: wiki-check
@@ -57,9 +57,10 @@ jobs:
           
           cd wiki
           
-          # Configure git
+          # Configure git with token authentication
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.WIKI_TOKEN }}@github.com/${{ github.repository }}.wiki.git
           
           # Check if there are changes
           if [ -n "$(git status --porcelain)" ]; then
