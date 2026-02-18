@@ -30,6 +30,8 @@ SOFTWARE.
 // - LM2_NO_GENERICS: Disable C11 or C++ generics
 // - LM2_ENABLE_UNPREFIXED_NAMES: Enable unprefixed names (e.g. v2 instead of lm2_v2)
 
+#include "lm2/camera/lm2_camera2.h"
+#include "lm2/camera/lm2_camera3.h"
 #include "lm2/geometry2d/lm2_aabb2.h"
 #include "lm2/geometry2d/lm2_capsule2.h"
 #include "lm2/geometry2d/lm2_circle.h"

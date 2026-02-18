@@ -57,8 +57,10 @@ All functions available in `_f64` and `_f32` variants. Suffix `2`, `3`, `4` indi
 |----------|-------------|
 | `lm2_bezier_quadratic_derivative2_f32(p0, p1, p2, t)` | 2D quadratic velocity |
 | `lm2_bezier_quadratic_derivative3_f32(p0, p1, p2, t)` | 3D quadratic velocity |
+| `lm2_bezier_quadratic_derivative4_f32(p0, p1, p2, t)` | 4D quadratic velocity |
 | `lm2_bezier_cubic_derivative2_f32(p0, p1, p2, p3, t)` | 2D cubic velocity |
 | `lm2_bezier_cubic_derivative3_f32(p0, p1, p2, p3, t)` | 3D cubic velocity |
+| `lm2_bezier_cubic_derivative4_f32(p0, p1, p2, p3, t)` | 4D cubic velocity |
 
 #### Second Derivative (Acceleration)
 
@@ -66,6 +68,7 @@ All functions available in `_f64` and `_f32` variants. Suffix `2`, `3`, `4` indi
 |----------|-------------|
 | `lm2_bezier_cubic_second_derivative2_f32(p0, p1, p2, p3, t)` | 2D cubic acceleration |
 | `lm2_bezier_cubic_second_derivative3_f32(p0, p1, p2, p3, t)` | 3D cubic acceleration |
+| `lm2_bezier_cubic_second_derivative4_f32(p0, p1, p2, p3, t)` | 4D cubic acceleration |
 
 ### Splitting
 
@@ -87,10 +90,16 @@ Also available in 3D (`_split3_`) and 4D (`_split4_`).
 
 Approximate arc length of a cubic Bezier curve using segment subdivision.
 
-**Signature:** `float lm2_bezier_cubic_length2_f32(lm2_v2_f32 p0, lm2_v2_f32 p1, lm2_v2_f32 p2, lm2_v2_f32 p3, int segments)`
+| Function | Description |
+|----------|-------------|
+| `lm2_bezier_cubic_length2_f32(p0, p1, p2, p3, segments)` | 2D cubic arc length |
+| `lm2_bezier_cubic_length3_f32(p0, p1, p2, p3, segments)` | 3D cubic arc length |
+| `lm2_bezier_cubic_length4_f32(p0, p1, p2, p3, segments)` | 4D cubic arc length |
 
 **Parameters:**
 - `segments` — Number of segments for approximation (higher = more accurate)
+
+All arc length functions also available in `_f64` variants.
 
 ## Example
 

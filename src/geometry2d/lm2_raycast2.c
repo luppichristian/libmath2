@@ -192,7 +192,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_polygon_f64(lm2_ray2_f64 ray, lm2_polygon_f6
 }
 
 LM2_API lm2_rayhit2_f64 lm2_raycast_segment_f64(lm2_ray2_f64 ray, lm2_v2_f64 segment_start, lm2_v2_f64 segment_end) {
-  // Convert segment to capsule with zero radius
+  // Backward-compat wrapper - canonical API is lm2_raycast_edge2_f64 in lm2_edge2.h
   lm2_capsule2_f64 capsule;
   capsule.start = segment_start;
   capsule.end = segment_end;
@@ -309,7 +309,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_polygon_f32(lm2_ray2_f32 ray, lm2_polygon_f3
 }
 
 LM2_API lm2_rayhit2_f32 lm2_raycast_segment_f32(lm2_ray2_f32 ray, lm2_v2_f32 segment_start, lm2_v2_f32 segment_end) {
-  // Convert segment to capsule with zero radius
+  // Backward-compat wrapper - canonical API is lm2_raycast_edge2_f32 in lm2_edge2.h
   lm2_capsule2_f32 capsule;
   capsule.start = segment_start;
   capsule.end = segment_end;

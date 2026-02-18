@@ -37,7 +37,25 @@ LM2_HEADER_BEGIN;
 // Represents a 2D affine transformation in augmented form:
 //   [m00 m01 m02]   [a  c  tx]
 //   [m10 m11 m12] = [b  d  ty]
-//   [ 0   0   1 ]   [0  0  1 ] (implicit)
+//   [ 0   0   1 ]   [0  0  1 ] (implicit third row, never stored)
+//
+// STORAGE: Row-major, 6 elements. mRC = row R, column C. e[R*3+C].
+//   Alternative field names: a=m00, c=m01, tx=m02, b=m10, d=m11, ty=m12.
+//
+// MULTIPLICATION: M * v (column vector on the right), implicit w=1 for points.
+//   result.x = m00*v.x + m01*v.y + m02   (point, row 0 dot [v 1])
+//   result.y = m10*v.x + m11*v.y + m12
+//   For vectors (w=0): translation (m02, m12) is ignored.
+//
+// TRANSLATION: stored in column 2 (m02=tx, m12=ty).
+//   lm2_m3x2_translate produces: [1 0 tx / 0 1 ty]
+//
+// 2D ROTATION: CCW by angle θ:
+//   [cos θ  -sin θ  0]
+//   [sin θ   cos θ  0]
+//
+// COMPOSITION: lm2_m3x2_multiply(A, B) applies B first, then A (A*B).
+//   To build TRS: multiply(translate, multiply(rotate, scale)).
 //
 // Can represent: translation, rotation, scaling, shearing, and combinations.
 // Efficient for 2D transformations (only stores 6 values vs 9 for full 3x3).

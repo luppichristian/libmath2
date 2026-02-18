@@ -159,6 +159,11 @@ functions:
 5. Update the YML structure:
    - Add the module to `/agent/modules.yml` if it's new
    - Update or create `/agent/modules/<module_name>.yml` with all public types and functions
+6. **Update extension headers** to reflect the new public API:
+   - `/include/lm2/extensions/lm2_cpp_generics.h` — Add C++ template overloads
+   - `/include/lm2/extensions/lm2_cpp_operators.h` — Add C++ operator overloads if applicable
+   - `/include/lm2/extensions/lm2_c11_generics.h` — Add `_Generic` dispatch entries
+   - `/include/lm2/extensions/lm2_unprefixed_names.h` — Add unprefixed name aliases
 
 ### Refactoring Function Signatures
 1. Update the function declaration in the public header (`/include/`)
@@ -166,6 +171,11 @@ functions:
 3. Update all call sites across the entire codebase
 4. Update corresponding unit tests (`/tests/`)
 5. Update the module's YML file in `/agent/modules/`
+6. **Update extension headers** to match the new signature:
+   - `/include/lm2/extensions/lm2_cpp_generics.h`
+   - `/include/lm2/extensions/lm2_cpp_operators.h`
+   - `/include/lm2/extensions/lm2_c11_generics.h`
+   - `/include/lm2/extensions/lm2_unprefixed_names.h`
 
 ### Adding New Modules
 1. Create public header: `/include/lm2/<category>/<module_name>.h`
@@ -174,6 +184,11 @@ functions:
 4. Add include to `/include/lm2.h`
 5. Add module to `/agent/modules.yml` under appropriate category
 6. Create `/agent/modules/<module_name>.yml` with all public types and functions
+7. **Update extension headers** for all new public types and functions:
+   - `/include/lm2/extensions/lm2_cpp_generics.h`
+   - `/include/lm2/extensions/lm2_cpp_operators.h`
+   - `/include/lm2/extensions/lm2_c11_generics.h`
+   - `/include/lm2/extensions/lm2_unprefixed_names.h`
 
 ## YML Structure Synchronization
 

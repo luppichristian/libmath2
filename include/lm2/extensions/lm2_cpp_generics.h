@@ -899,6 +899,142 @@ static inline T lm2_ease_bounce_in_out(T t) {
   LM2_DISPATCH_FLOAT(lm2_ease_bounce_in_out, t)
 }
 
+// CAMERA2
+template <typename T, typename C2, typename V2, typename R2>
+static inline C2 lm2_camera2_make(V2 position, T rotation, T zoom, R2 viewport) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_make, position, rotation, zoom, viewport)
+}
+template <typename T, typename C2, typename R2>
+static inline C2 lm2_camera2_default(R2 viewport) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_default, viewport)
+}
+template <typename T, typename C2, typename M>
+static inline M lm2_camera2_get_view(C2 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_get_view, camera)
+}
+template <typename T, typename C2, typename M>
+static inline M lm2_camera2_get_inv_view(C2 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_get_inv_view, camera)
+}
+template <typename T, typename C2, typename V2>
+static inline V2 lm2_camera2_world_to_screen(C2 camera, V2 world_pos) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_world_to_screen, camera, world_pos)
+}
+template <typename T, typename C2, typename V2>
+static inline V2 lm2_camera2_screen_to_world(C2 camera, V2 screen_pos) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_screen_to_world, camera, screen_pos)
+}
+template <typename T, typename C2, typename V2>
+static inline C2 lm2_camera2_move(C2 camera, V2 delta) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_move, camera, delta)
+}
+template <typename T, typename C2, typename V2>
+static inline C2 lm2_camera2_zoom_at(C2 camera, T zoom_factor, V2 screen_anchor) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_zoom_at, camera, zoom_factor, screen_anchor)
+}
+template <typename T, typename C2>
+static inline C2 lm2_camera2_set_zoom(C2 camera, T zoom) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_set_zoom, camera, zoom)
+}
+template <typename T, typename C2>
+static inline C2 lm2_camera2_rotate(C2 camera, T delta_radians) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_rotate, camera, delta_radians)
+}
+template <typename T, typename C2, typename V2>
+static inline V2 lm2_camera2_get_viewport_size(C2 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_get_viewport_size, camera)
+}
+template <typename T, typename C2, typename V2>
+static inline V2 lm2_camera2_get_viewport_center(C2 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_get_viewport_center, camera)
+}
+template <typename T, typename C2, typename R2>
+static inline R2 lm2_camera2_get_world_bounds(C2 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera2_get_world_bounds, camera)
+}
+
+// CAMERA3
+template <typename T, typename C3, typename V3>
+static inline C3 lm2_camera3_perspective(V3 position, V3 target, V3 up, T fov_y, T aspect, T near_plane, T far_plane) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_perspective, position, target, up, fov_y, aspect, near_plane, far_plane)
+}
+template <typename T, typename C3, typename V3>
+static inline C3 lm2_camera3_orthographic(V3 position, V3 target, V3 up, T ortho_size, T aspect, T near_plane, T far_plane) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_orthographic, position, target, up, ortho_size, aspect, near_plane, far_plane)
+}
+template <typename T, typename C3, typename M4>
+static inline M4 lm2_camera3_get_view(C3 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_get_view, camera)
+}
+template <typename T, typename C3, typename M4>
+static inline M4 lm2_camera3_get_projection(C3 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_get_projection, camera)
+}
+template <typename T, typename C3, typename M4>
+static inline M4 lm2_camera3_get_view_projection(C3 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_get_view_projection, camera)
+}
+template <typename T, typename C3, typename M4>
+static inline M4 lm2_camera3_get_inv_view(C3 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_get_inv_view, camera)
+}
+template <typename T, typename C3, typename V3>
+static inline V3 lm2_camera3_get_forward(C3 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_get_forward, camera)
+}
+template <typename T, typename C3, typename V3>
+static inline V3 lm2_camera3_get_right(C3 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_get_right, camera)
+}
+template <typename T, typename C3, typename V3>
+static inline V3 lm2_camera3_get_up(C3 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_get_up, camera)
+}
+template <typename T, typename C3, typename V3>
+static inline C3 lm2_camera3_move(C3 camera, V3 delta) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_move, camera, delta)
+}
+template <typename T, typename C3, typename V3>
+static inline C3 lm2_camera3_look_at(C3 camera, V3 target) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_look_at, camera, target)
+}
+template <typename T, typename C3>
+static inline C3 lm2_camera3_orbit(C3 camera, T yaw, T pitch) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_orbit, camera, yaw, pitch)
+}
+template <typename T, typename C3>
+static inline C3 lm2_camera3_set_aspect(C3 camera, T aspect) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_set_aspect, camera, aspect)
+}
+template <typename T, typename C3>
+static inline C3 lm2_camera3_set_fov_y(C3 camera, T fov_y) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_set_fov_y, camera, fov_y)
+}
+template <typename T, typename C3, typename V3, typename Q>
+static inline C3 lm2_camera3_from_quat(V3 position, Q orientation, T fov_y, T aspect, T near_plane, T far_plane) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_from_quat, position, orientation, fov_y, aspect, near_plane, far_plane)
+}
+template <typename T, typename C3, typename Q>
+static inline Q lm2_camera3_get_orientation(C3 camera) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_get_orientation, camera)
+}
+template <typename T, typename C3, typename Q>
+static inline C3 lm2_camera3_set_orientation(C3 camera, Q orientation) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_set_orientation, camera, orientation)
+}
+template <typename T, typename C3, typename Q>
+static inline C3 lm2_camera3_rotate_local(C3 camera, Q rotation) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_rotate_local, camera, rotation)
+}
+template <typename T, typename C3, typename V3>
+static inline V3 lm2_camera3_world_to_ndc(C3 camera, V3 world_pos) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_world_to_ndc, camera, world_pos)
+}
+template <typename T, typename C3, typename V3>
+static inline V3 lm2_camera3_ndc_to_world(C3 camera, V3 ndc_pos) {
+  LM2_DISPATCH_FLOAT(lm2_camera3_ndc_to_world, camera, ndc_pos)
+}
+
 #  undef LM2_DISPATCH_FULL
 #  undef LM2_DISPATCH_FLOAT
 #  undef LM2_DISPATCH_SIGNED

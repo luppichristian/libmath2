@@ -28,6 +28,7 @@ SOFTWARE.
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
+#include <lm2/geometry2d/lm2_capsule2.h>
 
 // =============================================================================
 // Construction Helpers
@@ -287,4 +288,40 @@ LM2_API float lm2_edge2_to_edge2_distance_sq_f32(lm2_edge2_f32 e1, lm2_edge2_f32
   float min1 = lm2_min_f32(d1, d2);
   float min2 = lm2_min_f32(d3, d4);
   return lm2_min_f32(min1, min2);
+}
+
+// =============================================================================
+// Raw-Coordinate Segment Intersection
+// =============================================================================
+
+LM2_API int lm2_edge2_segments_intersect_f64(lm2_v2_f64 a0, lm2_v2_f64 a1, lm2_v2_f64 b0, lm2_v2_f64 b1) {
+  lm2_edge2_f64 e1 = lm2_edge2_make_f64(a0, a1);
+  lm2_edge2_f64 e2 = lm2_edge2_make_f64(b0, b1);
+  return (int)lm2_edges2_intersect_f64(e1, e2);
+}
+
+LM2_API int lm2_edge2_segments_intersect_f32(lm2_v2_f32 a0, lm2_v2_f32 a1, lm2_v2_f32 b0, lm2_v2_f32 b1) {
+  lm2_edge2_f32 e1 = lm2_edge2_make_f32(a0, a1);
+  lm2_edge2_f32 e2 = lm2_edge2_make_f32(b0, b1);
+  return (int)lm2_edges2_intersect_f32(e1, e2);
+}
+
+// =============================================================================
+// Raycasting Against an Edge
+// =============================================================================
+
+LM2_API lm2_rayhit2_f64 lm2_raycast_edge2_f64(lm2_ray2_f64 ray, lm2_edge2_f64 edge) {
+  lm2_capsule2_f64 capsule;
+  capsule.start = edge.start;
+  capsule.end = edge.end;
+  capsule.radius = 0.0;
+  return lm2_raycast_capsule2_f64(ray, capsule);
+}
+
+LM2_API lm2_rayhit2_f32 lm2_raycast_edge2_f32(lm2_ray2_f32 ray, lm2_edge2_f32 edge) {
+  lm2_capsule2_f32 capsule;
+  capsule.start = edge.start;
+  capsule.end = edge.end;
+  capsule.radius = 0.0f;
+  return lm2_raycast_capsule2_f32(ray, capsule);
 }

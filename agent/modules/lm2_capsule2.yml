@@ -1,30 +1,29 @@
 category: geometry2d
 types:
-  - lm2_capsule2_f64
   - lm2_capsule2_f32
-  - lm2_capsule2
+  - lm2_capsule2_f64
 functions:
-  - lm2_capsule2_make_f64
-  - lm2_capsule2_make_f32
-  - lm2_capsule2_make_coords_f64
-  - lm2_capsule2_make_coords_f32
-  - lm2_capsule2_from_center_f64
-  - lm2_capsule2_from_center_f32
-  - lm2_capsule2_length_f64
-  - lm2_capsule2_length_f32
-  - lm2_capsule2_total_length_f64
-  - lm2_capsule2_total_length_f32
-  - lm2_capsule2_area_f64
   - lm2_capsule2_area_f32
-  - lm2_capsule2_perimeter_f64
-  - lm2_capsule2_perimeter_f32
-  - lm2_capsule2_center_f64
+  - lm2_capsule2_area_f64
   - lm2_capsule2_center_f32
-  - lm2_capsule2_contains_point_f64
+  - lm2_capsule2_center_f64
   - lm2_capsule2_contains_point_f32
-  - lm2_capsule2s_overlap_f64
-  - lm2_capsule2s_overlap_f32
-  - lm2_capsule2_translate_f64
-  - lm2_capsule2_translate_f32
-  - lm2_capsule2_scale_radius_f64
+  - lm2_capsule2_contains_point_f64
+  - lm2_capsule2_from_center_f32
+  - lm2_capsule2_from_center_f64
+  - lm2_capsule2_length_f32
+  - lm2_capsule2_length_f64
+  - lm2_capsule2_make_coords_f32
+  - lm2_capsule2_make_coords_f64
+  - lm2_capsule2_make_f32
+  - lm2_capsule2_make_f64
+  - lm2_capsule2_perimeter_f32
+  - lm2_capsule2_perimeter_f64
   - lm2_capsule2_scale_radius_f32
+  - lm2_capsule2_scale_radius_f64
+  - lm2_capsule2_total_length_f32
+  - lm2_capsule2_total_length_f64
+  - lm2_capsule2_translate_f32
+  - lm2_capsule2_translate_f64
+  - lm2_capsule2s_overlap_f32
+  - lm2_capsule2s_overlap_f64

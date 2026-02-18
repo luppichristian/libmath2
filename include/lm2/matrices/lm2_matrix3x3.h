@@ -33,12 +33,28 @@ LM2_HEADER_BEGIN;
 // #############################################################################
 
 // =============================================================================
-// Matrix 3x3 - General 3x3 Matrix
+// Matrix 3x3 - 2D Homogeneous / 3D Rotation Matrix
 // =============================================================================
 // Represents a 3x3 matrix (row-major):
 //   [m00 m01 m02]
 //   [m10 m11 m12]
 //   [m20 m21 m22]
+//
+// STORAGE: Row-major. mRC = row R, column C. e[R*3+C].
+//   e.g. m02 is row 0, column 2.
+//
+// MULTIPLICATION: M * v (column vector on the right).
+//   result.x = m00*v.x + m01*v.y + m02*v.z  (row 0 dot v)
+//
+// 2D HOMOGENEOUS USE: The bottom row is implicitly [0 0 1].
+//   TRANSLATION stored in column 2 (m02, m12).
+//   lm2_m3x3_translate produces: [1 0 tx / 0 1 ty / 0 0 1]
+//   transform_point appends w=1; transform_vector appends w=0.
+//
+// 2D ROTATION: CCW by angle θ:
+//   [cos θ  -sin θ  0]
+//   [sin θ   cos θ  0]
+//   [  0       0    1]
 //
 // Can represent: 2D homogeneous transformations (including projective),
 // 3D rotations (around axes), and general 3x3 linear transformations.

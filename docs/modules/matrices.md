@@ -19,15 +19,149 @@ Matrices are essential for combining translation, rotation, and scaling transfor
 |------|--------|-------------|
 | `lm2_m3x2_f64` | `double` | 3x2 affine 2D transformation matrix |
 | `lm2_m3x2_f32` | `float` | 3x2 affine 2D transformation matrix |
-| `lm2_m3x3_f64` | `double` | 3x3 matrix (2D rotation, scale, skew) |
+| `lm2_m3x2` | `float` | Default alias for `lm2_m3x2_f32` |
+| `lm2_m3x3_f64` | `double` | 3x3 matrix (2D homogeneous / 3D rotation) |
 | `lm2_m3x3_f32` | `float` | 3x3 matrix |
+| `lm2_m3x3` | `float` | Default alias for `lm2_m3x3_f32` |
 | `lm2_m4x4_f64` | `double` | 4x4 3D transformation matrix |
 | `lm2_m4x4_f32` | `float` | 4x4 3D transformation matrix |
 | `lm2_m4x4` | `float` | Default alias for `lm2_m4x4_f32` |
 
-## Matrix 4x4 Layout
+## Matrix 3x2 Layout
 
-Row-major order:
+Row-major, 6 elements representing a 2D affine transform:
+
+```
+[m00 m01 m02]   [a  c  tx]
+[m10 m11 m12] = [b  d  ty]
+[  0   0   1]   (implicit third row, never stored)
+```
+
+Access via named fields (`m.m00`, `m.tx`, `m.a`, ...) or flat array (`m.e[0]` through `m.e[5]`).
+
+## Functions (3x2)
+
+All functions shown with `_f32` suffix. Also available with `_f64`.
+
+### Construction
+
+| Function | Description |
+|----------|-------------|
+| `lm2_m3x2_identity_f32()` | Identity matrix |
+| `lm2_m3x2_zero_f32()` | Zero matrix |
+| `lm2_m3x2_make_f32(m00..m12)` | Construct from 6 values |
+
+### Transformation Builders
+
+| Function | Description |
+|----------|-------------|
+| `lm2_m3x2_scale_f32(scale)` | Scale by v2 |
+| `lm2_m3x2_scale_uniform_f32(s)` | Uniform scale |
+| `lm2_m3x2_translate_f32(translation)` | Translation matrix |
+| `lm2_m3x2_rotate_f32(angle)` | Rotation by angle (radians) |
+| `lm2_m3x2_rotate_around_pivot_f32(angle, pivot)` | Rotation around a pivot point |
+| `lm2_m3x2_scale_translate_f32(scale, translation)` | Combined scale + translate |
+| `lm2_m3x2_world_transform_f32(translation, scale, rotation)` | Full TRS 2D world transform |
+
+### Operations
+
+| Function | Description |
+|----------|-------------|
+| `lm2_m3x2_multiply_f32(a, b)` | Matrix multiplication (applies b first, then a) |
+| `lm2_m3x2_inverse_f32(m)` | Inverse |
+| `lm2_m3x2_determinant_f32(m)` | Determinant |
+
+### Transforming Points and Vectors
+
+| Function | Description |
+|----------|-------------|
+| `lm2_m3x2_transform_point_f32(m, v)` | Transform 2D point (applies translation) |
+| `lm2_m3x2_transform_vector_f32(m, v)` | Transform 2D direction (ignores translation) |
+| `lm2_m3x2_transform_points_f32(m, points, count)` | Transform array of points in-place |
+| `lm2_m3x2_transform_points_src_dst_f32(m, src, dst, count)` | Transform array of points (separate output) |
+
+### Extraction
+
+| Function | Description |
+|----------|-------------|
+| `lm2_m3x2_get_rotation_f32(m)` | Extract rotation angle from matrix |
+| `lm2_m3x2_get_scale_f32(m)` | Extract scale from matrix |
+| `lm2_m3x2_get_translation_f32(m)` | Extract translation from matrix |
+
+### Projection
+
+| Function | Description |
+|----------|-------------|
+| `lm2_m3x2_ortho_f32(left, right, bottom, top)` | 2D orthographic projection |
+
+---
+
+## Matrix 3x3 Layout
+
+Row-major, 9 elements:
+
+```
+[m00 m01 m02]
+[m10 m11 m12]
+[m20 m21 m22]
+```
+
+Access via named fields (`m.m00`, ...) or flat array (`m.e[0]` through `m.e[8]`).
+
+Used for 2D homogeneous transformations (with implicit bottom row `[0 0 1]`) or 3D rotation matrices.
+
+## Functions (3x3)
+
+All functions shown with `_f32` suffix. Also available with `_f64`.
+
+### Construction
+
+| Function | Description |
+|----------|-------------|
+| `lm2_m3x3_identity_f32()` | Identity matrix |
+| `lm2_m3x3_zero_f32()` | Zero matrix |
+| `lm2_m3x3_make_f32(m00..m22)` | Construct from 9 values |
+
+### Transformation Builders
+
+| Function | Description |
+|----------|-------------|
+| `lm2_m3x3_scale_f32(scale)` | Scale by v2 |
+| `lm2_m3x3_scale_uniform_f32(s)` | Uniform scale |
+| `lm2_m3x3_translate_f32(translation)` | Translation matrix (2D homogeneous) |
+| `lm2_m3x3_rotate_f32(angle)` | Rotation by angle (radians) |
+| `lm2_m3x3_rotate_around_pivot_f32(angle, pivot)` | Rotation around a pivot point |
+| `lm2_m3x3_scale_translate_f32(scale, translation)` | Combined scale + translate |
+
+### Operations
+
+| Function | Description |
+|----------|-------------|
+| `lm2_m3x3_multiply_f32(a, b)` | Matrix multiplication |
+| `lm2_m3x3_transpose_f32(m)` | Transpose |
+| `lm2_m3x3_inverse_f32(m)` | Inverse |
+| `lm2_m3x3_determinant_f32(m)` | Determinant |
+| `lm2_m3x3_trace_f32(m)` | Trace (sum of diagonal) |
+
+### Transforming Points and Vectors
+
+| Function | Description |
+|----------|-------------|
+| `lm2_m3x3_transform_point_f32(m, v)` | Transform 2D point (applies translation) |
+| `lm2_m3x3_transform_vector_f32(m, v)` | Transform 2D direction (ignores translation) |
+| `lm2_m3x3_transform_f32(m, v)` | Transform full 3D vector |
+| `lm2_m3x3_transform_points_f32(m, points, count)` | Transform array of 2D points in-place |
+| `lm2_m3x3_transform_points_src_dst_f32(m, src, dst, count)` | Transform array of 2D points (separate output) |
+
+### Extraction
+
+| Function | Description |
+|----------|-------------|
+| `lm2_m3x3_get_rotation_f32(m)` | Extract rotation angle from matrix |
+| `lm2_m3x3_get_scale_f32(m)` | Extract scale from matrix |
+| `lm2_m3x3_get_translation_f32(m)` | Extract translation from matrix |
+
+---
 
 ```
 [m00 m01 m02 m03]

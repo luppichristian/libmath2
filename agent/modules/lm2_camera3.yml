@@ -1,0 +1,46 @@
+category: camera
+types:
+  - lm2_camera3_projection
+  - lm2_camera3_f64
+  - lm2_camera3_f32
+functions:
+  - lm2_camera3_perspective_f64
+  - lm2_camera3_orthographic_f64
+  - lm2_camera3_get_view_f64
+  - lm2_camera3_get_projection_f64
+  - lm2_camera3_get_view_projection_f64
+  - lm2_camera3_get_inv_view_f64
+  - lm2_camera3_get_forward_f64
+  - lm2_camera3_get_right_f64
+  - lm2_camera3_get_up_f64
+  - lm2_camera3_move_f64
+  - lm2_camera3_look_at_f64
+  - lm2_camera3_orbit_f64
+  - lm2_camera3_set_aspect_f64
+  - lm2_camera3_set_fov_y_f64
+  - lm2_camera3_from_quat_f64
+  - lm2_camera3_get_orientation_f64
+  - lm2_camera3_set_orientation_f64
+  - lm2_camera3_rotate_local_f64
+  - lm2_camera3_world_to_ndc_f64
+  - lm2_camera3_ndc_to_world_f64
+  - lm2_camera3_perspective_f32
+  - lm2_camera3_orthographic_f32
+  - lm2_camera3_get_view_f32
+  - lm2_camera3_get_projection_f32
+  - lm2_camera3_get_view_projection_f32
+  - lm2_camera3_get_inv_view_f32
+  - lm2_camera3_get_forward_f32
+  - lm2_camera3_get_right_f32
+  - lm2_camera3_get_up_f32
+  - lm2_camera3_move_f32
+  - lm2_camera3_look_at_f32
+  - lm2_camera3_orbit_f32
+  - lm2_camera3_set_aspect_f32
+  - lm2_camera3_set_fov_y_f32
+  - lm2_camera3_from_quat_f32
+  - lm2_camera3_get_orientation_f32
+  - lm2_camera3_set_orientation_f32
+  - lm2_camera3_rotate_local_f32
+  - lm2_camera3_world_to_ndc_f32
+  - lm2_camera3_ndc_to_world_f32

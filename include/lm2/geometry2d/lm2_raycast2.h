@@ -117,6 +117,9 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_polygon_f64(lm2_ray2_f64 ray, lm2_polygon_f6
 LM2_API lm2_rayhit2_f32 lm2_raycast_polygon_f32(lm2_ray2_f32 ray, lm2_polygon_f32 polygon);
 
 // Ray vs Line Segment (edge)
+// NOTE: Prefer lm2_raycast_edge2_f64/f32 (from lm2_edge2.h) which accepts an
+// lm2_edge2 struct and is the canonical edge2 API.  These wrappers are kept
+// for backward compatibility.
 LM2_API lm2_rayhit2_f64 lm2_raycast_segment_f64(lm2_ray2_f64 ray, lm2_v2_f64 segment_start, lm2_v2_f64 segment_end);
 LM2_API lm2_rayhit2_f32 lm2_raycast_segment_f32(lm2_ray2_f32 ray, lm2_v2_f32 segment_start, lm2_v2_f32 segment_end);
 

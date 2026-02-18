@@ -1,31 +1,33 @@
 category: geometry2d
 types:
-  - lm2_edge2_f64
   - lm2_edge2_f32
-  - lm2_edge2
-  - lm2_edge2_result_f64
+  - lm2_edge2_f64
   - lm2_edge2_result_f32
-  - lm2_edge2_result
+  - lm2_edge2_result_f64
 functions:
-  - lm2_edge2_make_f64
-  - lm2_edge2_make_f32
-  - lm2_edge2_make_coords_f64
-  - lm2_edge2_make_coords_f32
-  - lm2_edge2_from_ray_f64
-  - lm2_edge2_from_ray_f32
-  - lm2_edge2_from_plane_f64
   - lm2_edge2_from_plane_f32
-  - lm2_edge2_length_f64
+  - lm2_edge2_from_plane_f64
+  - lm2_edge2_from_ray_f32
+  - lm2_edge2_from_ray_f64
   - lm2_edge2_length_f32
-  - lm2_edge2_length_sq_f64
+  - lm2_edge2_length_f64
   - lm2_edge2_length_sq_f32
-  - lm2_points2_equal_f64
-  - lm2_points2_equal_f32
-  - lm2_edges2_equal_f64
-  - lm2_edges2_equal_f32
-  - lm2_edges2_intersect_f64
-  - lm2_edges2_intersect_f32
-  - lm2_point_to_edge2_distance_sq_f64
-  - lm2_point_to_edge2_distance_sq_f32
-  - lm2_edge2_to_edge2_distance_sq_f64
+  - lm2_edge2_length_sq_f64
+  - lm2_edge2_make_coords_f32
+  - lm2_edge2_make_coords_f64
+  - lm2_edge2_make_f32
+  - lm2_edge2_make_f64
+  - lm2_edge2_segments_intersect_f32
+  - lm2_edge2_segments_intersect_f64
   - lm2_edge2_to_edge2_distance_sq_f32
+  - lm2_edge2_to_edge2_distance_sq_f64
+  - lm2_edges2_equal_f32
+  - lm2_edges2_equal_f64
+  - lm2_edges2_intersect_f32
+  - lm2_edges2_intersect_f64
+  - lm2_point_to_edge2_distance_sq_f32
+  - lm2_point_to_edge2_distance_sq_f64
+  - lm2_points2_equal_f32
+  - lm2_points2_equal_f64
+  - lm2_raycast_edge2_f32
+  - lm2_raycast_edge2_f64

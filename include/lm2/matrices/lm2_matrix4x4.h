@@ -45,6 +45,24 @@ typedef union lm2_quat_f32 lm2_quat_f32;
 //   [m20 m21 m22 m23]
 //   [m30 m31 m32 m33]
 //
+// STORAGE: Row-major. mRC = row R, column C. e[R*4+C].
+//   e.g. m03 is row 0, column 3 (the X translation in a TRS matrix).
+//
+// MULTIPLICATION: M * v (column vector on the right).
+//   result.x = m00*v.x + m01*v.y + m02*v.z + m03*v.w  (row 0 dot v)
+//   result.w = m30*v.x + m31*v.y + m32*v.z + m33*v.w  (row 3 dot v)
+//
+// TRANSLATION: stored in column 3 (m03, m13, m23).
+//   lm2_m4x4_translate produces: [1 0 0 tx / 0 1 0 ty / 0 0 1 tz / 0 0 0 1]
+//
+// PERSPECTIVE: m32 = -1 (perspective divide: w_clip = -z_view).
+//   m22/m23 hold the depth mapping terms; m33 = 0.
+//
+// VIEW (look_at): rows are the camera's {right, up, -forward} basis vectors.
+//   This is the inverse (transpose) of the camera's world rotation.
+//   Extracting orientation via lm2_m4x4_to_quat_f64 from a view matrix yields
+//   the conjugate of the camera's world orientation quaternion.
+//
 // Can represent: translation, rotation, scaling, projection, and combinations.
 // Standard format for 3D graphics transformations.
 

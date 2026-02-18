@@ -212,44 +212,19 @@ LM2_API bool lm2_capsule3_contains_point_f32(lm2_capsule3_f32 capsule, lm2_v3_f3
   return dist_sq <= radius_sq;
 }
 
-// Helper function to compute segment to segment distance squared
-static double segment_to_segment_distance_sq_f64(lm2_v3_f64 a1, lm2_v3_f64 a2, lm2_v3_f64 b1, lm2_v3_f64 b2) {
-  // Use the minimum of four point-to-segment distances
-  lm2_edge3_f64 edge_b = {b1, b2};
-  lm2_edge3_f64 edge_a = {a1, a2};
-  double d1 = lm2_point_to_edge3_distance_sq_f64(a1, edge_b);
-  double d2 = lm2_point_to_edge3_distance_sq_f64(a2, edge_b);
-  double d3 = lm2_point_to_edge3_distance_sq_f64(b1, edge_a);
-  double d4 = lm2_point_to_edge3_distance_sq_f64(b2, edge_a);
-
-  double min1 = lm2_min_f64(d1, d2);
-  double min2 = lm2_min_f64(d3, d4);
-  return lm2_min_f64(min1, min2);
-}
-
-static float segment_to_segment_distance_sq_f32(lm2_v3_f32 a1, lm2_v3_f32 a2, lm2_v3_f32 b1, lm2_v3_f32 b2) {
-  // Use the minimum of four point-to-segment distances
-  lm2_edge3_f32 edge_b = {b1, b2};
-  lm2_edge3_f32 edge_a = {a1, a2};
-  float d1 = lm2_point_to_edge3_distance_sq_f32(a1, edge_b);
-  float d2 = lm2_point_to_edge3_distance_sq_f32(a2, edge_b);
-  float d3 = lm2_point_to_edge3_distance_sq_f32(b1, edge_a);
-  float d4 = lm2_point_to_edge3_distance_sq_f32(b2, edge_a);
-
-  float min1 = lm2_min_f32(d1, d2);
-  float min2 = lm2_min_f32(d3, d4);
-  return lm2_min_f32(min1, min2);
-}
-
 LM2_API bool lm2_capsules3_overlap_f64(lm2_capsule3_f64 a, lm2_capsule3_f64 b) {
-  double dist_sq = segment_to_segment_distance_sq_f64(a.start, a.end, b.start, b.end);
+  lm2_edge3_f64 edge_a = {a.start, a.end};
+  lm2_edge3_f64 edge_b = {b.start, b.end};
+  double dist_sq = lm2_edge3_to_edge3_distance_sq_f64(edge_a, edge_b);
   double sum_radii = lm2_add_f64(a.radius, b.radius);
   double sum_radii_sq = lm2_mul_f64(sum_radii, sum_radii);
   return dist_sq <= sum_radii_sq;
 }
 
 LM2_API bool lm2_capsules3_overlap_f32(lm2_capsule3_f32 a, lm2_capsule3_f32 b) {
-  float dist_sq = segment_to_segment_distance_sq_f32(a.start, a.end, b.start, b.end);
+  lm2_edge3_f32 edge_a = {a.start, a.end};
+  lm2_edge3_f32 edge_b = {b.start, b.end};
+  float dist_sq = lm2_edge3_to_edge3_distance_sq_f32(edge_a, edge_b);
   float sum_radii = lm2_add_f32(a.radius, b.radius);
   float sum_radii_sq = lm2_mul_f32(sum_radii, sum_radii);
   return dist_sq <= sum_radii_sq;

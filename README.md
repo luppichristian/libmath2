@@ -6,9 +6,12 @@ Designed for graphics programming, game development, and physics simulations, li
 
 ## Features
 
+> **Note for contributors**: this list must be kept up to date when modules are added or removed.
+
 - **Vectors** — 2D, 3D, and 4D vector types with arithmetic, interpolation, rounding, and comparison operations across 10 numeric types
-- **Matrices** — 3x2, 3x3, and 4x4 matrix types for 2D/3D transformations, projections, and camera systems
+- **Matrices** — 3x2, 3x3, and 4x4 matrix types for 2D/3D transformations and projections
 - **Quaternions** — Rotation representation with SLERP/NLERP interpolation, Euler/axis-angle conversions
+- **Cameras** — 2D camera (pan, zoom, rotate, world↔screen) and 3D camera (perspective/orthographic, look-at, orbit, NDC conversions)
 - **Ranges** — 2D, 3D, and 4D axis-aligned bounding boxes with containment, overlap, union, and intersection tests
 - **2D Geometry** — Circles, AABBs, capsules, edges, planes, polygons, triangles, raycasting, and collision manifolds
 - **3D Geometry** — Spheres, AABBs, capsules, edges, planes, triangles, and raycasting

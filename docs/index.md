@@ -39,6 +39,7 @@ float  len = lm2_v3_length_f32(pos);
 | [Ranges](modules/ranges.md) | 2D, 3D, and 4D axis-aligned bounding boxes |
 | [Geometry 2D](modules/geometry2d.md) | 2D shapes: circles, AABBs, capsules, edges, planes, polygons, triangles |
 | [Geometry 3D](modules/geometry3d.md) | 3D shapes: spheres, AABBs, capsules, edges, planes, triangles |
+| [Cameras](modules/cameras.md) | 2D orthographic and 3D perspective/orthographic camera types with view matrix and space transform helpers |
 | [Quaternions](modules/quaternions.md) | Rotation quaternions with SLERP, Euler, and axis-angle conversions |
 | [Bezier Curves](modules/bezier-curves.md) | Linear, quadratic, and cubic Bezier evaluation, derivatives, splitting |
 | [Easings](modules/easings.md) | 30 easing functions for animation and tweening |

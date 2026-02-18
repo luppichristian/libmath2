@@ -81,12 +81,16 @@ typedef union lm2_r2_f32 {
 | `lm2_r2_center_f32(r)` | Center point |
 | `lm2_r2_area_f32(r)` | Area (size.x * size.y) |
 
+All property functions available for all 10 numeric type suffixes.
+
 ### Tests
 
 | Function | Returns | Description |
 |----------|---------|-------------|
 | `lm2_r2_contains_point_f32(r, point)` | `int` | True if point is inside range |
 | `lm2_r2_overlaps_f32(a, b)` | `int` | True if two ranges overlap |
+
+Both test functions are available for all 10 numeric type suffixes.
 
 ### Set Operations
 

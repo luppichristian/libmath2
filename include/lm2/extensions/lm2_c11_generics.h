@@ -720,5 +720,65 @@ SOFTWARE.
     _Generic((r), lm2_ray3_f64: lm2_raycast_triangle_f64, lm2_ray3_f32: lm2_raycast_triangle_f32)(r, t)
 #  define lm2_collide_circle_to_circle(a, b) \
     _Generic((a), lm2_circle_f64: lm2_collide_circle_to_circle_f64, lm2_circle_f32: lm2_collide_circle_to_circle_f32)(a, b)
+#  define lm2_camera2_make(pos, rot, zoom, vp) \
+    _Generic((pos), lm2_v2_f64: lm2_camera2_make_f64, lm2_v2_f32: lm2_camera2_make_f32)(pos, rot, zoom, vp)
+#  define lm2_camera2_default(vp) \
+    _Generic((vp), lm2_r2_f64: lm2_camera2_default_f64, lm2_r2_f32: lm2_camera2_default_f32)(vp)
+#  define lm2_camera2_get_view(c) \
+    _Generic((c), lm2_camera2_f64: lm2_camera2_get_view_f64, lm2_camera2_f32: lm2_camera2_get_view_f32)(c)
+#  define lm2_camera2_get_inv_view(c) \
+    _Generic((c), lm2_camera2_f64: lm2_camera2_get_inv_view_f64, lm2_camera2_f32: lm2_camera2_get_inv_view_f32)(c)
+#  define lm2_camera2_world_to_screen(c, p) \
+    _Generic((c), lm2_camera2_f64: lm2_camera2_world_to_screen_f64, lm2_camera2_f32: lm2_camera2_world_to_screen_f32)(c, p)
+#  define lm2_camera2_screen_to_world(c, p) \
+    _Generic((c), lm2_camera2_f64: lm2_camera2_screen_to_world_f64, lm2_camera2_f32: lm2_camera2_screen_to_world_f32)(c, p)
+#  define lm2_camera2_move(c, d) \
+    _Generic((c), lm2_camera2_f64: lm2_camera2_move_f64, lm2_camera2_f32: lm2_camera2_move_f32)(c, d)
+#  define lm2_camera2_zoom_at(c, f, a) \
+    _Generic((c), lm2_camera2_f64: lm2_camera2_zoom_at_f64, lm2_camera2_f32: lm2_camera2_zoom_at_f32)(c, f, a)
+#  define lm2_camera2_set_zoom(c, z) \
+    _Generic((c), lm2_camera2_f64: lm2_camera2_set_zoom_f64, lm2_camera2_f32: lm2_camera2_set_zoom_f32)(c, z)
+#  define lm2_camera2_rotate(c, r) \
+    _Generic((c), lm2_camera2_f64: lm2_camera2_rotate_f64, lm2_camera2_f32: lm2_camera2_rotate_f32)(c, r)
+#  define lm2_camera2_get_viewport_size(c) \
+    _Generic((c), lm2_camera2_f64: lm2_camera2_get_viewport_size_f64, lm2_camera2_f32: lm2_camera2_get_viewport_size_f32)(c)
+#  define lm2_camera2_get_viewport_center(c) \
+    _Generic((c), lm2_camera2_f64: lm2_camera2_get_viewport_center_f64, lm2_camera2_f32: lm2_camera2_get_viewport_center_f32)(c)
+#  define lm2_camera2_get_world_bounds(c) \
+    _Generic((c), lm2_camera2_f64: lm2_camera2_get_world_bounds_f64, lm2_camera2_f32: lm2_camera2_get_world_bounds_f32)(c)
+#  define lm2_camera3_get_view(c) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_get_view_f64, lm2_camera3_f32: lm2_camera3_get_view_f32)(c)
+#  define lm2_camera3_get_projection(c) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_get_projection_f64, lm2_camera3_f32: lm2_camera3_get_projection_f32)(c)
+#  define lm2_camera3_get_view_projection(c) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_get_view_projection_f64, lm2_camera3_f32: lm2_camera3_get_view_projection_f32)(c)
+#  define lm2_camera3_get_inv_view(c) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_get_inv_view_f64, lm2_camera3_f32: lm2_camera3_get_inv_view_f32)(c)
+#  define lm2_camera3_get_forward(c) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_get_forward_f64, lm2_camera3_f32: lm2_camera3_get_forward_f32)(c)
+#  define lm2_camera3_get_right(c) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_get_right_f64, lm2_camera3_f32: lm2_camera3_get_right_f32)(c)
+#  define lm2_camera3_get_up(c) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_get_up_f64, lm2_camera3_f32: lm2_camera3_get_up_f32)(c)
+#  define lm2_camera3_move(c, d) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_move_f64, lm2_camera3_f32: lm2_camera3_move_f32)(c, d)
+#  define lm2_camera3_look_at(c, t) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_look_at_f64, lm2_camera3_f32: lm2_camera3_look_at_f32)(c, t)
+#  define lm2_camera3_orbit(c, y, p) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_orbit_f64, lm2_camera3_f32: lm2_camera3_orbit_f32)(c, y, p)
+#  define lm2_camera3_set_aspect(c, a) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_set_aspect_f64, lm2_camera3_f32: lm2_camera3_set_aspect_f32)(c, a)
+#  define lm2_camera3_set_fov_y(c, f) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_set_fov_y_f64, lm2_camera3_f32: lm2_camera3_set_fov_y_f32)(c, f)
+#  define lm2_camera3_get_orientation(c) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_get_orientation_f64, lm2_camera3_f32: lm2_camera3_get_orientation_f32)(c)
+#  define lm2_camera3_set_orientation(c, q) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_set_orientation_f64, lm2_camera3_f32: lm2_camera3_set_orientation_f32)(c, q)
+#  define lm2_camera3_rotate_local(c, q) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_rotate_local_f64, lm2_camera3_f32: lm2_camera3_rotate_local_f32)(c, q)
+#  define lm2_camera3_world_to_ndc(c, p) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_world_to_ndc_f64, lm2_camera3_f32: lm2_camera3_world_to_ndc_f32)(c, p)
+#  define lm2_camera3_ndc_to_world(c, p) \
+    _Generic((c), lm2_camera3_f64: lm2_camera3_ndc_to_world_f64, lm2_camera3_f32: lm2_camera3_ndc_to_world_f32)(c, p)
 
 #endif

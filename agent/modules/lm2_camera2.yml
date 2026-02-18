@@ -1,0 +1,31 @@
+category: camera
+types:
+  - lm2_camera2_f64
+  - lm2_camera2_f32
+functions:
+  - lm2_camera2_make_f64
+  - lm2_camera2_default_f64
+  - lm2_camera2_get_view_f64
+  - lm2_camera2_get_inv_view_f64
+  - lm2_camera2_world_to_screen_f64
+  - lm2_camera2_screen_to_world_f64
+  - lm2_camera2_move_f64
+  - lm2_camera2_zoom_at_f64
+  - lm2_camera2_set_zoom_f64
+  - lm2_camera2_rotate_f64
+  - lm2_camera2_get_viewport_size_f64
+  - lm2_camera2_get_viewport_center_f64
+  - lm2_camera2_get_world_bounds_f64
+  - lm2_camera2_make_f32
+  - lm2_camera2_default_f32
+  - lm2_camera2_get_view_f32
+  - lm2_camera2_get_inv_view_f32
+  - lm2_camera2_world_to_screen_f32
+  - lm2_camera2_screen_to_world_f32
+  - lm2_camera2_move_f32
+  - lm2_camera2_zoom_at_f32
+  - lm2_camera2_set_zoom_f32
+  - lm2_camera2_rotate_f32
+  - lm2_camera2_get_viewport_size_f32
+  - lm2_camera2_get_viewport_center_f32
+  - lm2_camera2_get_world_bounds_f32

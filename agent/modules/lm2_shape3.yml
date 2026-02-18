@@ -1,31 +1,30 @@
 category: geometry3d
 types:
-  - lm2_shape3_type
   - lm2_shape3_f32
   - lm2_shape3_f64
-  - lm2_shape3
+  - lm2_shape3_type
 functions:
-  - lm2_shape3_from_sphere_f64
-  - lm2_shape3_from_sphere_f32
-  - lm2_shape3_from_capsule_f64
-  - lm2_shape3_from_capsule_f32
-  - lm2_shape3_from_aabb3_f64
-  - lm2_shape3_from_aabb3_f32
-  - lm2_shape3_from_triangle_f64
-  - lm2_shape3_from_triangle_f32
-  - lm2_shape3_from_edge_f64
-  - lm2_shape3_from_edge_f32
-  - lm2_shape3_as_sphere_f64
-  - lm2_shape3_as_sphere_f32
-  - lm2_shape3_as_capsule_f64
-  - lm2_shape3_as_capsule_f32
-  - lm2_shape3_as_aabb3_f64
   - lm2_shape3_as_aabb3_f32
-  - lm2_shape3_as_triangle_f64
-  - lm2_shape3_as_triangle_f32
-  - lm2_shape3_as_edge_f64
+  - lm2_shape3_as_aabb3_f64
+  - lm2_shape3_as_capsule_f32
+  - lm2_shape3_as_capsule_f64
   - lm2_shape3_as_edge_f32
-  - lm2_shape3_is_type_f64
-  - lm2_shape3_is_type_f32
-  - lm2_shape3_get_type_f64
+  - lm2_shape3_as_edge_f64
+  - lm2_shape3_as_sphere_f32
+  - lm2_shape3_as_sphere_f64
+  - lm2_shape3_as_triangle_f32
+  - lm2_shape3_as_triangle_f64
+  - lm2_shape3_from_aabb3_f32
+  - lm2_shape3_from_aabb3_f64
+  - lm2_shape3_from_capsule_f32
+  - lm2_shape3_from_capsule_f64
+  - lm2_shape3_from_edge_f32
+  - lm2_shape3_from_edge_f64
+  - lm2_shape3_from_sphere_f32
+  - lm2_shape3_from_sphere_f64
+  - lm2_shape3_from_triangle_f32
+  - lm2_shape3_from_triangle_f64
   - lm2_shape3_get_type_f32
+  - lm2_shape3_get_type_f64
+  - lm2_shape3_is_type_f32
+  - lm2_shape3_is_type_f64

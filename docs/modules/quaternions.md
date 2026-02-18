@@ -62,7 +62,7 @@ Quaternions avoid gimbal lock, interpolate smoothly, concatenate efficiently, an
 | `lm2_quat_dot_f32(a, b)` | Dot product |
 | `lm2_quat_length_f32(q)` | Length (magnitude) |
 | `lm2_quat_length_squared_f32(q)` | Squared length |
-| `lm2_quat_equals_f32(a, b, epsilon)` | Approximate equality |
+| `lm2_quat_equals_f32(a, b, epsilon)` | Approximate equality (returns `bool`) |
 
 ### Rotation
 

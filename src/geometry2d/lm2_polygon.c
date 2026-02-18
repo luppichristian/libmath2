@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include <lm2/geometry2d/lm2_polygon.h>
+#include <lm2/geometry2d/lm2_aabb2.h>
 #include <lm2/geometry2d/lm2_edge2.h>
 #include <lm2/geometry2d/lm2_triangle2.h>
 #include <lm2/lm2_constants.h>
@@ -417,21 +418,7 @@ LM2_API bool lm2_polygon_contains_point_f32(lm2_polygon_f32 polygon, lm2_v2_f32 
 }
 
 // Helper function to compute cross product of vectors (p1->p2) and (p1->p3)
-static double cross_product_f64(lm2_v2_f64 p1, lm2_v2_f64 p2, lm2_v2_f64 p3) {
-  double dx1 = lm2_sub_f64(p2.x, p1.x);
-  double dy1 = lm2_sub_f64(p2.y, p1.y);
-  double dx2 = lm2_sub_f64(p3.x, p1.x);
-  double dy2 = lm2_sub_f64(p3.y, p1.y);
-  return lm2_sub_f64(lm2_mul_f64(dx1, dy2), lm2_mul_f64(dy1, dx2));
-}
-
-static float cross_product_f32(lm2_v2_f32 p1, lm2_v2_f32 p2, lm2_v2_f32 p3) {
-  float dx1 = lm2_sub_f32(p2.x, p1.x);
-  float dy1 = lm2_sub_f32(p2.y, p1.y);
-  float dx2 = lm2_sub_f32(p3.x, p1.x);
-  float dy2 = lm2_sub_f32(p3.y, p1.y);
-  return lm2_sub_f32(lm2_mul_f32(dx1, dy2), lm2_mul_f32(dy1, dx2));
-}
+// replaced by lm2_v2_cross3_f64 / lm2_v2_cross3_f32
 
 LM2_API bool lm2_polygon_is_convex_f64(lm2_polygon_f64 polygon) {
   LM2_ASSERT(polygon.vertices != NULL);
@@ -445,7 +432,7 @@ LM2_API bool lm2_polygon_is_convex_f64(lm2_polygon_f64 polygon) {
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
     size_t k = (i + 2) % polygon.vertex_count;
-    double cross = cross_product_f64(polygon.vertices[i], polygon.vertices[j], polygon.vertices[k]);
+    double cross = lm2_v2_cross3_f64(polygon.vertices[i], polygon.vertices[j], polygon.vertices[k]);
 
     if (cross > 0.0) has_positive = true;
     if (cross < 0.0) has_negative = true;
@@ -468,7 +455,7 @@ LM2_API bool lm2_polygon_is_convex_f32(lm2_polygon_f32 polygon) {
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
     size_t k = (i + 2) % polygon.vertex_count;
-    float cross = cross_product_f32(polygon.vertices[i], polygon.vertices[j], polygon.vertices[k]);
+    float cross = lm2_v2_cross3_f32(polygon.vertices[i], polygon.vertices[j], polygon.vertices[k]);
 
     if (cross > 0.0f) has_positive = true;
     if (cross < 0.0f) has_negative = true;
@@ -480,33 +467,7 @@ LM2_API bool lm2_polygon_is_convex_f32(lm2_polygon_f32 polygon) {
 }
 
 // Helper function to check if two line segments intersect
-static bool segments_intersect_f64(lm2_v2_f64 a1, lm2_v2_f64 a2, lm2_v2_f64 b1, lm2_v2_f64 b2) {
-  double d1 = cross_product_f64(b1, b2, a1);
-  double d2 = cross_product_f64(b1, b2, a2);
-  double d3 = cross_product_f64(a1, a2, b1);
-  double d4 = cross_product_f64(a1, a2, b2);
-
-  if (((d1 > 0.0 && d2 < 0.0) || (d1 < 0.0 && d2 > 0.0)) &&
-      ((d3 > 0.0 && d4 < 0.0) || (d3 < 0.0 && d4 > 0.0))) {
-    return true;
-  }
-
-  return false;
-}
-
-static bool segments_intersect_f32(lm2_v2_f32 a1, lm2_v2_f32 a2, lm2_v2_f32 b1, lm2_v2_f32 b2) {
-  float d1 = lm2_v2_cross3_f32(b1, b2, a1);
-  float d2 = lm2_v2_cross3_f32(b1, b2, a2);
-  float d3 = lm2_v2_cross3_f32(a1, a2, b1);
-  float d4 = lm2_v2_cross3_f32(a1, a2, b2);
-
-  if (((d1 > 0.0f && d2 < 0.0f) || (d1 < 0.0f && d2 > 0.0f)) &&
-      ((d3 > 0.0f && d4 < 0.0f) || (d3 < 0.0f && d4 > 0.0f))) {
-    return true;
-  }
-
-  return false;
-}
+// replaced by lm2_segments_intersect_f64 / lm2_segments_intersect_f32
 
 LM2_API bool lm2_polygon_is_simple_f64(lm2_polygon_f64 polygon) {
   LM2_ASSERT(polygon.vertices != NULL);
@@ -526,7 +487,7 @@ LM2_API bool lm2_polygon_is_simple_f64(lm2_polygon_f64 polygon) {
       lm2_v2_f64 b1 = polygon.vertices[k];
       lm2_v2_f64 b2 = polygon.vertices[l];
 
-      if (segments_intersect_f64(a1, a2, b1, b2)) {
+      if (lm2_segments_intersect_f64(a1, a2, b1, b2)) {
         return false;
       }
     }
@@ -553,7 +514,7 @@ LM2_API bool lm2_polygon_is_simple_f32(lm2_polygon_f32 polygon) {
       lm2_v2_f32 b1 = polygon.vertices[k];
       lm2_v2_f32 b2 = polygon.vertices[l];
 
-      if (segments_intersect_f32(a1, a2, b1, b2)) {
+      if (lm2_segments_intersect_f32(a1, a2, b1, b2)) {
         return false;
       }
     }

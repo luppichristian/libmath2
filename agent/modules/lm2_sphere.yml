@@ -1,28 +1,27 @@
 category: geometry3d
 types:
-  - lm2_sphere_f64
   - lm2_sphere_f32
-  - lm2_sphere
+  - lm2_sphere_f64
 functions:
-  - lm2_sphere_make_f64
-  - lm2_sphere_make_f32
-  - lm2_sphere_make_coords_f64
-  - lm2_sphere_make_coords_f32
-  - lm2_sphere_unit_f64
-  - lm2_sphere_unit_f32
-  - lm2_sphere_volume_f64
-  - lm2_sphere_volume_f32
-  - lm2_sphere_surface_area_f64
-  - lm2_sphere_surface_area_f32
-  - lm2_sphere_diameter_f64
-  - lm2_sphere_diameter_f32
-  - lm2_sphere_contains_point_f64
   - lm2_sphere_contains_point_f32
-  - lm2_spheres_overlap_f64
-  - lm2_spheres_overlap_f32
-  - lm2_sphere_contains_sphere_f64
+  - lm2_sphere_contains_point_f64
   - lm2_sphere_contains_sphere_f32
-  - lm2_sphere_translate_f64
-  - lm2_sphere_translate_f32
-  - lm2_sphere_scale_f64
+  - lm2_sphere_contains_sphere_f64
+  - lm2_sphere_diameter_f32
+  - lm2_sphere_diameter_f64
+  - lm2_sphere_make_coords_f32
+  - lm2_sphere_make_coords_f64
+  - lm2_sphere_make_f32
+  - lm2_sphere_make_f64
   - lm2_sphere_scale_f32
+  - lm2_sphere_scale_f64
+  - lm2_sphere_surface_area_f32
+  - lm2_sphere_surface_area_f64
+  - lm2_sphere_translate_f32
+  - lm2_sphere_translate_f64
+  - lm2_sphere_unit_f32
+  - lm2_sphere_unit_f64
+  - lm2_sphere_volume_f32
+  - lm2_sphere_volume_f64
+  - lm2_spheres_overlap_f32
+  - lm2_spheres_overlap_f64

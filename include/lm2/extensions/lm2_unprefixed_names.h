@@ -904,6 +904,10 @@ SOFTWARE.
 #define point_to_edge2_distance_sq_f64          lm2_point_to_edge2_distance_sq_f64
 #define points2_equal_f32                       lm2_points2_equal_f32
 #define points2_equal_f64                       lm2_points2_equal_f64
+#define edge2_segments_intersect_f32            lm2_edge2_segments_intersect_f32
+#define edge2_segments_intersect_f64            lm2_edge2_segments_intersect_f64
+#define raycast_edge2_f32                       lm2_raycast_edge2_f32
+#define raycast_edge2_f64                       lm2_raycast_edge2_f64
 #define align                                   lm2_align
 #define manifold                                lm2_manifold
 #define manifold_f32                            lm2_manifold_f32
@@ -1452,6 +1456,77 @@ SOFTWARE.
 #define vertex_array_to_triangle3_list_f64      lm2_vertex_array_to_triangle3_list_f64
 #define vertex_array_to_triangle3_list_size_f32 lm2_vertex_array_to_triangle3_list_size_f32
 #define vertex_array_to_triangle3_list_size_f64 lm2_vertex_array_to_triangle3_list_size_f64
+#define camera2_f64                             lm2_camera2_f64
+#define camera2_f32                             lm2_camera2_f32
+#define camera2_make_f64                        lm2_camera2_make_f64
+#define camera2_default_f64                     lm2_camera2_default_f64
+#define camera2_get_view_f64                    lm2_camera2_get_view_f64
+#define camera2_get_inv_view_f64                lm2_camera2_get_inv_view_f64
+#define camera2_world_to_screen_f64             lm2_camera2_world_to_screen_f64
+#define camera2_screen_to_world_f64             lm2_camera2_screen_to_world_f64
+#define camera2_move_f64                        lm2_camera2_move_f64
+#define camera2_zoom_at_f64                     lm2_camera2_zoom_at_f64
+#define camera2_set_zoom_f64                    lm2_camera2_set_zoom_f64
+#define camera2_rotate_f64                      lm2_camera2_rotate_f64
+#define camera2_get_viewport_size_f64           lm2_camera2_get_viewport_size_f64
+#define camera2_get_viewport_center_f64         lm2_camera2_get_viewport_center_f64
+#define camera2_get_world_bounds_f64            lm2_camera2_get_world_bounds_f64
+#define camera2_make_f32                        lm2_camera2_make_f32
+#define camera2_default_f32                     lm2_camera2_default_f32
+#define camera2_get_view_f32                    lm2_camera2_get_view_f32
+#define camera2_get_inv_view_f32                lm2_camera2_get_inv_view_f32
+#define camera2_world_to_screen_f32             lm2_camera2_world_to_screen_f32
+#define camera2_screen_to_world_f32             lm2_camera2_screen_to_world_f32
+#define camera2_move_f32                        lm2_camera2_move_f32
+#define camera2_zoom_at_f32                     lm2_camera2_zoom_at_f32
+#define camera2_set_zoom_f32                    lm2_camera2_set_zoom_f32
+#define camera2_rotate_f32                      lm2_camera2_rotate_f32
+#define camera2_get_viewport_size_f32           lm2_camera2_get_viewport_size_f32
+#define camera2_get_viewport_center_f32         lm2_camera2_get_viewport_center_f32
+#define camera2_get_world_bounds_f32            lm2_camera2_get_world_bounds_f32
+#define camera3_projection                      lm2_camera3_projection
+#define camera3_f64                             lm2_camera3_f64
+#define camera3_f32                             lm2_camera3_f32
+#define camera3_perspective_f64                 lm2_camera3_perspective_f64
+#define camera3_orthographic_f64                lm2_camera3_orthographic_f64
+#define camera3_get_view_f64                    lm2_camera3_get_view_f64
+#define camera3_get_projection_f64              lm2_camera3_get_projection_f64
+#define camera3_get_view_projection_f64         lm2_camera3_get_view_projection_f64
+#define camera3_get_inv_view_f64                lm2_camera3_get_inv_view_f64
+#define camera3_get_forward_f64                 lm2_camera3_get_forward_f64
+#define camera3_get_right_f64                   lm2_camera3_get_right_f64
+#define camera3_get_up_f64                      lm2_camera3_get_up_f64
+#define camera3_move_f64                        lm2_camera3_move_f64
+#define camera3_look_at_f64                     lm2_camera3_look_at_f64
+#define camera3_orbit_f64                       lm2_camera3_orbit_f64
+#define camera3_set_aspect_f64                  lm2_camera3_set_aspect_f64
+#define camera3_set_fov_y_f64                   lm2_camera3_set_fov_y_f64
+#define camera3_from_quat_f64                   lm2_camera3_from_quat_f64
+#define camera3_get_orientation_f64             lm2_camera3_get_orientation_f64
+#define camera3_set_orientation_f64             lm2_camera3_set_orientation_f64
+#define camera3_rotate_local_f64                lm2_camera3_rotate_local_f64
+#define camera3_world_to_ndc_f64                lm2_camera3_world_to_ndc_f64
+#define camera3_ndc_to_world_f64                lm2_camera3_ndc_to_world_f64
+#define camera3_perspective_f32                 lm2_camera3_perspective_f32
+#define camera3_orthographic_f32                lm2_camera3_orthographic_f32
+#define camera3_get_view_f32                    lm2_camera3_get_view_f32
+#define camera3_get_projection_f32              lm2_camera3_get_projection_f32
+#define camera3_get_view_projection_f32         lm2_camera3_get_view_projection_f32
+#define camera3_get_inv_view_f32                lm2_camera3_get_inv_view_f32
+#define camera3_get_forward_f32                 lm2_camera3_get_forward_f32
+#define camera3_get_right_f32                   lm2_camera3_get_right_f32
+#define camera3_get_up_f32                      lm2_camera3_get_up_f32
+#define camera3_move_f32                        lm2_camera3_move_f32
+#define camera3_look_at_f32                     lm2_camera3_look_at_f32
+#define camera3_orbit_f32                       lm2_camera3_orbit_f32
+#define camera3_set_aspect_f32                  lm2_camera3_set_aspect_f32
+#define camera3_set_fov_y_f32                   lm2_camera3_set_fov_y_f32
+#define camera3_from_quat_f32                   lm2_camera3_from_quat_f32
+#define camera3_get_orientation_f32             lm2_camera3_get_orientation_f32
+#define camera3_set_orientation_f32             lm2_camera3_set_orientation_f32
+#define camera3_rotate_local_f32                lm2_camera3_rotate_local_f32
+#define camera3_world_to_ndc_f32                lm2_camera3_world_to_ndc_f32
+#define camera3_ndc_to_world_f32                lm2_camera3_ndc_to_world_f32
 
 #ifndef LM2_NO_GENERICS
 #  define add                             lm2_add
@@ -1792,4 +1867,37 @@ SOFTWARE.
 #  define raycast_sphere                  lm2_raycast_sphere
 #  define raycast_triangle                lm2_raycast_triangle
 #  define collide_circle_to_circle        lm2_collide_circle_to_circle
+#  define camera2_make                    lm2_camera2_make
+#  define camera2_default                 lm2_camera2_default
+#  define camera2_get_view                lm2_camera2_get_view
+#  define camera2_get_inv_view            lm2_camera2_get_inv_view
+#  define camera2_world_to_screen         lm2_camera2_world_to_screen
+#  define camera2_screen_to_world         lm2_camera2_screen_to_world
+#  define camera2_move                    lm2_camera2_move
+#  define camera2_zoom_at                 lm2_camera2_zoom_at
+#  define camera2_set_zoom                lm2_camera2_set_zoom
+#  define camera2_rotate                  lm2_camera2_rotate
+#  define camera2_get_viewport_size       lm2_camera2_get_viewport_size
+#  define camera2_get_viewport_center     lm2_camera2_get_viewport_center
+#  define camera2_get_world_bounds        lm2_camera2_get_world_bounds
+#  define camera3_perspective             lm2_camera3_perspective
+#  define camera3_orthographic            lm2_camera3_orthographic
+#  define camera3_get_view                lm2_camera3_get_view
+#  define camera3_get_projection          lm2_camera3_get_projection
+#  define camera3_get_view_projection     lm2_camera3_get_view_projection
+#  define camera3_get_inv_view            lm2_camera3_get_inv_view
+#  define camera3_get_forward             lm2_camera3_get_forward
+#  define camera3_get_right               lm2_camera3_get_right
+#  define camera3_get_up                  lm2_camera3_get_up
+#  define camera3_move                    lm2_camera3_move
+#  define camera3_look_at                 lm2_camera3_look_at
+#  define camera3_orbit                   lm2_camera3_orbit
+#  define camera3_set_aspect              lm2_camera3_set_aspect
+#  define camera3_set_fov_y               lm2_camera3_set_fov_y
+#  define camera3_from_quat               lm2_camera3_from_quat
+#  define camera3_get_orientation         lm2_camera3_get_orientation
+#  define camera3_set_orientation         lm2_camera3_set_orientation
+#  define camera3_rotate_local            lm2_camera3_rotate_local
+#  define camera3_world_to_ndc            lm2_camera3_world_to_ndc
+#  define camera3_ndc_to_world            lm2_camera3_ndc_to_world
 #endif

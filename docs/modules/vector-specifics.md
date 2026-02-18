@@ -35,11 +35,15 @@ Returns the cross product vector, perpendicular to both inputs.
 
 **Signature:** `lm2_v3_f32 lm2_v3_cross_f32(lm2_v3_f32 a, lm2_v3_f32 b)`
 
+Also available for `_f64` and integer types (`_i64`, `_i32`, `_i16`, `_i8`).
+
 #### 2D Cross Product
 
 Returns the scalar z-component of the cross product (a.x * b.y - a.y * b.x).
 
 **Signature:** `float lm2_v2_cross_f32(lm2_v2_f32 a, lm2_v2_f32 b)`
+
+Also available for `_f64` and integer types (`_i64`, `_i32`, `_i16`, `_i8`).
 
 #### 2D Cross Product (3-point)
 
@@ -49,6 +53,8 @@ Returns the cross product of vectors (b-a) and (c-a). Useful for turn detection:
 - `= 0`: Collinear
 
 **Signature:** `float lm2_v2_cross3_f32(lm2_v2_f32 a, lm2_v2_f32 b, lm2_v2_f32 c)`
+
+Also available for `_f64` and integer types (`_i64`, `_i32`, `_i16`, `_i8`).
 
 ### Length / Magnitude
 

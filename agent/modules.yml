@@ -55,3 +55,8 @@ geometry3d:
 base:
   - lm2_base
   - lm2_constants
+
+camera:
+  - lm2_camera2
+  - lm2_camera3
+  - lm2_camera3

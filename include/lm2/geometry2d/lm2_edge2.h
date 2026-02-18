@@ -135,6 +135,27 @@ LM2_API float lm2_point_to_edge2_distance_sq_f32(lm2_v2_f32 point, lm2_edge2_f32
 LM2_API double lm2_edge2_to_edge2_distance_sq_f64(lm2_edge2_f64 e1, lm2_edge2_f64 e2);
 LM2_API float lm2_edge2_to_edge2_distance_sq_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2);
 
+// =============================================================================
+// Raw-Coordinate Segment Intersection
+// =============================================================================
+
+// Check if two line segments intersect, given as raw start/end point pairs.
+// Equivalent to lm2_edges2_intersect but avoids constructing edge structs.
+LM2_API int lm2_edge2_segments_intersect_f64(lm2_v2_f64 a0, lm2_v2_f64 a1, lm2_v2_f64 b0, lm2_v2_f64 b1);
+LM2_API int lm2_edge2_segments_intersect_f32(lm2_v2_f32 a0, lm2_v2_f32 a1, lm2_v2_f32 b0, lm2_v2_f32 b1);
+
+// =============================================================================
+// Raycasting Against an Edge
+// =============================================================================
+
+// Forward declaration of ray / rayhit types (defined in lm2_raycast2.h)
+typedef struct lm2_rayhit2_f64 lm2_rayhit2_f64;
+typedef struct lm2_rayhit2_f32 lm2_rayhit2_f32;
+
+// Cast a ray against a 2D line segment (edge)
+LM2_API lm2_rayhit2_f64 lm2_raycast_edge2_f64(lm2_ray2_f64 ray, lm2_edge2_f64 edge);
+LM2_API lm2_rayhit2_f32 lm2_raycast_edge2_f32(lm2_ray2_f32 ray, lm2_edge2_f32 edge);
+
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

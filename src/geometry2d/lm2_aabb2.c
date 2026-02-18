@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include <lm2/geometry2d/lm2_aabb2.h>
+#include <lm2/geometry2d/lm2_edge2.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
@@ -441,9 +442,14 @@ _LM2_IMPL_RECT2_ALL_INT(lm2_r2_u16, lm2_v2_u16, uint16_t, u16)
 _LM2_IMPL_RECT2_ALL_INT(lm2_r2_u8, lm2_v2_u8, uint8_t, u8)
 
 // Segments intersect implementations
-// Floating-point and signed integer types (with abs)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_f64, double, f64)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_f32, float, f32)
+// f64/f32: forward to canonical lm2_edge2 API
+LM2_API int lm2_segments_intersect_f64(lm2_v2_f64 a0, lm2_v2_f64 a1, lm2_v2_f64 b0, lm2_v2_f64 b1) {
+  return lm2_edge2_segments_intersect_f64(a0, a1, b0, b1);
+}
+LM2_API int lm2_segments_intersect_f32(lm2_v2_f32 a0, lm2_v2_f32 a1, lm2_v2_f32 b0, lm2_v2_f32 b1) {
+  return lm2_edge2_segments_intersect_f32(a0, a1, b0, b1);
+}
+// Signed integer types (with abs)
 _LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_i64, int64_t, i64)
 _LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_i32, int32_t, i32)
 _LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_i16, int16_t, i16)

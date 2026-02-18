@@ -450,6 +450,9 @@ LM2_API lm2_r2_u8 lm2_r2_align_subrect_u8(lm2_r2_u8 rect, lm2_r2_u8 subrect, lm2
 // Segment Intersection Functions for All Vector Types
 // =============================================================================
 
+// NOTE: For float/double segments prefer lm2_edge2_segments_intersect_f64/f32
+// from lm2_edge2.h which is the canonical edge2 API.
+// These wrappers are kept for backward compatibility.
 LM2_API int lm2_segments_intersect_f64(lm2_v2_f64 a0, lm2_v2_f64 a1, lm2_v2_f64 b0, lm2_v2_f64 b1);
 LM2_API int lm2_segments_intersect_f32(lm2_v2_f32 a0, lm2_v2_f32 a1, lm2_v2_f32 b0, lm2_v2_f32 b1);
 LM2_API int lm2_segments_intersect_i64(lm2_v2_i64 a0, lm2_v2_i64 a1, lm2_v2_i64 b0, lm2_v2_i64 b1);

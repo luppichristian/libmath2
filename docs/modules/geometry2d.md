@@ -39,9 +39,9 @@ typedef struct lm2_circle_f32 {
 | `lm2_circle_area_f32(c)` | Area |
 | `lm2_circle_circumference_f32(c)` | Circumference |
 | `lm2_circle_diameter_f32(c)` | Diameter |
-| `lm2_circle_contains_point_f32(c, point)` | Point-in-circle test |
-| `lm2_circles_overlap_f32(a, b)` | Circle-circle overlap |
-| `lm2_circle_contains_circle_f32(a, b)` | Circle containment |
+| `lm2_circle_contains_point_f32(c, point)` | Point-in-circle test (returns `bool`) |
+| `lm2_circles_overlap_f32(a, b)` | Circle-circle overlap (returns `bool`) |
+| `lm2_circle_contains_circle_f32(a, b)` | Circle containment (returns `bool`) |
 | `lm2_circle_translate_f32(c, offset)` | Translate circle |
 | `lm2_circle_scale_f32(c, scale)` | Scale radius |
 
@@ -91,4 +91,5 @@ lm2_v2_f32 point = lm2_v2_make_f32(3.0f, 4.0f);
 
 bool inside = lm2_circle_contains_point_f32(c, point);  // true (dist=5, radius=5)
 float area = lm2_circle_area_f32(c);                     // ~78.54
+```
 ```

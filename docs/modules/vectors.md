@@ -130,7 +130,7 @@ Create a zero vector.
 | `lm2_v2_max_f32(a, b)` | Component-wise maximum |
 | `lm2_v2_min_abs_f32(a, b)` | Component-wise minimum by absolute value |
 | `lm2_v2_max_abs_f32(a, b)` | Component-wise maximum by absolute value |
-| `lm2_v2_clamp_f32(min, val, max)` | Clamp each component to range |
+| `lm2_v2_clamp_f32(a, b, c)` | Clamp each component: `min=a, value=b, max=c` |
 
 ### Sign and Absolute Value
 
@@ -145,9 +145,9 @@ Create a zero vector.
 | Function | Description |
 |----------|-------------|
 | `lm2_v2_saturate_f32(a)` | Clamp each component to [0, 1] |
-| `lm2_v2_lerp_f32(a, t, b)` | Linear interpolation |
-| `lm2_v2_smoothstep_f32(edge0, x, edge1)` | Smooth Hermite interpolation |
-| `lm2_v2_alpha_f32(a, val, b)` | Inverse lerp (compute t from value) |
+| `lm2_v2_lerp_f32(a, b, c)` | Linear interpolation (component-wise: `a + b*(c-a)`) |
+| `lm2_v2_smoothstep_f32(a, b, c)` | Smooth Hermite interpolation (component-wise) |
+| `lm2_v2_alpha_f32(a, b, c)` | Inverse lerp (compute t from value, component-wise) |
 
 ### Math (float types only)
 
