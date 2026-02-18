@@ -14,13 +14,14 @@ Designed for graphics programming, game development, and physics simulations, li
 - **Cameras** — 2D camera (pan, zoom, rotate, world↔screen) and 3D camera (perspective/orthographic, look-at, orbit, NDC conversions)
 - **Ranges** — 2D, 3D, and 4D axis-aligned bounding boxes with containment, overlap, union, and intersection tests
 - **2D Geometry** — Circles, AABBs, capsules, edges, planes, polygons, triangles, raycasting, and collision manifolds
-- **3D Geometry** — Spheres, AABBs, capsules, edges, planes, triangles, and raycasting
+- **3D Geometry** — Spheres, AABBs, capsules, edges, planes, triangles (area, normals, barycentric, circumsphere), and raycasting
 - **Scalar Math** — Floor, ceil, round, clamp, lerp, smoothstep, and safe arithmetic with overflow detection
 - **Trigonometry** — Trig functions with angle wrapping, shortest-path interpolation in radians and degrees
 - **Bezier Curves** — Linear, quadratic, and cubic evaluation with derivatives, splitting, and arc length
 - **Easing Functions** — 30 easing curves (sin, quad, cubic, quart, quint, exp, circ, back, elastic, bounce)
 - **Noise** — Perlin and Voronoi noise in 2D and 3D
 - **Hashing** — Non-cryptographic hash functions for all numeric types plus FNV-1a for arbitrary buffers
+- **Constants** — Typed `f32`/`f64` constants for π, 2π, half-π, rad↔deg conversion factors, √2, e, and the Euler–Mascheroni constant
 - **C/C++ Extensions** — C11 `_Generic` macros, C++ function overloads, and operator overloads (+, -, *, /, [], etc.)
 
 ## Requirements
