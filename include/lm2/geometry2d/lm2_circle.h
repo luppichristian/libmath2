@@ -46,9 +46,6 @@ typedef struct lm2_circle_f32 {
   float radius;
 } lm2_circle_f32;
 
-// Default circle type
-typedef lm2_circle_f32 lm2_circle;
-
 // =============================================================================
 // Construction Helpers
 // =============================================================================

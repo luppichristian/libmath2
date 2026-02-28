@@ -19,7 +19,6 @@ Quaternions avoid gimbal lock, interpolate smoothly, concatenate efficiently, an
 |------|--------|-------------|
 | `lm2_quat_f64` | `double` | 64-bit quaternion |
 | `lm2_quat_f32` | `float` | 32-bit quaternion |
-| `lm2_quat` | `float` | Default alias for `lm2_quat_f32` |
 
 **Format:** `[x, y, z, w]` where `w` is the scalar part and `(x, y, z)` is the vector part.
 

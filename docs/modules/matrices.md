@@ -19,13 +19,10 @@ Matrices are essential for combining translation, rotation, and scaling transfor
 |------|--------|-------------|
 | `lm2_m3x2_f64` | `double` | 3x2 affine 2D transformation matrix |
 | `lm2_m3x2_f32` | `float` | 3x2 affine 2D transformation matrix |
-| `lm2_m3x2` | `float` | Default alias for `lm2_m3x2_f32` |
 | `lm2_m3x3_f64` | `double` | 3x3 matrix (2D homogeneous / 3D rotation) |
 | `lm2_m3x3_f32` | `float` | 3x3 matrix |
-| `lm2_m3x3` | `float` | Default alias for `lm2_m3x3_f32` |
 | `lm2_m4x4_f64` | `double` | 4x4 3D transformation matrix |
 | `lm2_m4x4_f32` | `float` | 4x4 3D transformation matrix |
-| `lm2_m4x4` | `float` | Default alias for `lm2_m4x4_f32` |
 
 ## Matrix 3x2 Layout
 

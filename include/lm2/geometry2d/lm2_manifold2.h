@@ -43,21 +43,18 @@ LM2_HEADER_BEGIN;
 
 // Collision manifold structure to describe how shapes collide
 typedef struct lm2_manifold_f64 {
-  int count;                    // Number of contact points (0, 1, or 2)
-  double depths[2];             // Penetration depths
+  int count;                     // Number of contact points (0, 1, or 2)
+  double depths[2];              // Penetration depths
   lm2_v2_f64 contact_points[2];  // Contact points
   lm2_v2_f64 normal;             // Collision normal (from A to B)
 } lm2_manifold_f64;
 
 typedef struct lm2_manifold_f32 {
-  int count;                    // Number of contact points (0, 1, or 2)
-  float depths[2];              // Penetration depths
+  int count;                     // Number of contact points (0, 1, or 2)
+  float depths[2];               // Penetration depths
   lm2_v2_f32 contact_points[2];  // Contact points
   lm2_v2_f32 normal;             // Collision normal (from A to B)
 } lm2_manifold_f32;
-
-// Default manifold type
-typedef lm2_manifold_f32 lm2_manifold;
 
 // =============================================================================
 // Boolean Collision Detection (Fast, YES/NO only)

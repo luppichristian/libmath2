@@ -3,6 +3,16 @@ types:
   - lm2_align
   - lm2_corner2
   - lm2_rect_cut
+  - lm2_aabb2_f64
+  - lm2_aabb2_f32
+  - lm2_aabb2_i64
+  - lm2_aabb2_i32
+  - lm2_aabb2_i16
+  - lm2_aabb2_i8
+  - lm2_aabb2_u64
+  - lm2_aabb2_u32
+  - lm2_aabb2_u16
+  - lm2_aabb2_u8
 functions:
   - lm2_r2_align_subrect_f32
   - lm2_r2_align_subrect_f64

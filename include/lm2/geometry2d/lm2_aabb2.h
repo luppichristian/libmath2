@@ -480,8 +480,5 @@ typedef lm2_r2_u32 lm2_aabb2_u32;
 typedef lm2_r2_u16 lm2_aabb2_u16;
 typedef lm2_r2_u8 lm2_aabb2_u8;
 
-// Default AABB2 type (float-based)
-typedef lm2_r2_f32 lm2_aabb2;
-
 // #############################################################################
 LM2_HEADER_END;

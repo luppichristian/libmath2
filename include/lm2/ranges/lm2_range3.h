@@ -668,9 +668,6 @@ LM2_API int lm2_r3_contains_point_u8(lm2_r3_u8 r, lm2_v3_u8 point);
 LM2_API int lm2_r3_overlaps_u8(lm2_r3_u8 a, lm2_r3_u8 b);
 LM2_API uint8_t lm2_r3_volume_u8(lm2_r3_u8 r);
 
-// Default range3 type (float-based)
-typedef lm2_r3_f32 lm2_r3;
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

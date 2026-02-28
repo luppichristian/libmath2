@@ -49,9 +49,6 @@ typedef struct lm2_polygon_f32 {
   size_t vertex_count;   // Number of vertices
 } lm2_polygon_f32;
 
-// Default polygon type
-typedef lm2_polygon_f32 lm2_polygon;
-
 // =============================================================================
 // Construction Helpers
 // =============================================================================

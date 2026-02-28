@@ -50,9 +50,6 @@ typedef struct lm2_rayhit2_f32 {
   lm2_v2_f32 normal;  // Surface normal at hit point (unit length)
 } lm2_rayhit2_f32;
 
-// Default 2D ray hit type
-typedef lm2_rayhit2_f32 lm2_rayhit2;
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

@@ -50,9 +50,6 @@ typedef struct lm2_edge3_f32 {
   lm2_v3_f32 start, end;
 } lm2_edge3_f32;
 
-// Default edge type
-typedef lm2_edge3_f32 lm2_edge3;
-
 // Edge result with existence flag
 typedef struct lm2_edge3_result_f64 {
   lm2_edge3_f64 edge;
@@ -63,8 +60,6 @@ typedef struct lm2_edge3_result_f32 {
   lm2_edge3_f32 edge;
   bool exists;
 } lm2_edge3_result_f32;
-
-typedef lm2_edge3_result_f32 lm2_edge3_result;
 
 // =============================================================================
 // Construction Helpers

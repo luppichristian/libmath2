@@ -48,9 +48,6 @@ typedef lm2_r3_u32 lm2_aabb3_u32;
 typedef lm2_r3_u16 lm2_aabb3_u16;
 typedef lm2_r3_u8 lm2_aabb3_u8;
 
-// Default aabb3 type
-typedef lm2_r3_f32 lm2_aabb3;
-
 // =============================================================================
 // AABB3 Corner Enumeration
 // =============================================================================

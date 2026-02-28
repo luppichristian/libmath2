@@ -63,9 +63,6 @@ typedef union lm2_quat_f32 {
   _LM2_SUBSCRIPT_OP(float, 4)
 } lm2_quat_f32;
 
-// Default type alias
-typedef lm2_quat_f32 lm2_quat;
-
 // =============================================================================
 // Quaternion Function Declarations - f64
 // =============================================================================

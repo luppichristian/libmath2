@@ -157,9 +157,6 @@ LM2_API lm2_quat_f64 lm2_m4x4_to_quat_f64(lm2_m4x4_f64 m);
 LM2_API lm2_m4x4_f32 lm2_m4x4_from_quat_f32(lm2_quat_f32 q);
 LM2_API lm2_quat_f32 lm2_m4x4_to_quat_f32(lm2_m4x4_f32 m);
 
-// Default type alias
-typedef lm2_m4x4_f32 lm2_m4x4;
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

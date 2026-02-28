@@ -24,11 +24,11 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2/lm2_base.h"
+#include "lm2/geometry2d/lm2_plane2.h"
 #include "lm2/geometry2d/lm2_ray2.h"
 #include "lm2/geometry2d/lm2_rayhit2.h"
+#include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector2.h"
-#include "lm2/geometry2d/lm2_plane2.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -46,9 +46,6 @@ typedef struct lm2_edge2_f64 {
 typedef struct lm2_edge2_f32 {
   lm2_v2_f32 start, end;
 } lm2_edge2_f32;
-
-// Default edge type
-typedef lm2_edge2_f32 lm2_edge2;
 
 // Edge result with existence flag
 typedef struct lm2_edge2_result_f64 {

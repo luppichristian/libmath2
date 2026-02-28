@@ -49,9 +49,6 @@ typedef struct lm2_ray2_f32 {
   float t_max;           // Maximum distance along ray
 } lm2_ray2_f32;
 
-// Default 2D ray type
-typedef lm2_ray2_f32 lm2_ray2;
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

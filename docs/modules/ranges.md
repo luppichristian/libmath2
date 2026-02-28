@@ -29,7 +29,6 @@ AABBs are the most common spatial structure for broad-phase collision detection,
 | `lm2_r2_u32` | `uint32_t` | 2D range (uint32) |
 | `lm2_r2_u16` | `uint16_t` | 2D range (uint16) |
 | `lm2_r2_u8` | `uint8_t` | 2D range (uint8) |
-| `lm2_r2` | `float` | Default alias for `lm2_r2_f32` |
 
 3D ranges (`lm2_r3_*`) and 4D ranges (`lm2_r4_*`) follow the same pattern.
 

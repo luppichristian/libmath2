@@ -31,15 +31,14 @@ Each dimensionality has types for all supported numeric precisions:
 | `lm2_v2_u32` | `uint32_t` | 32-bit unsigned int 2D vector |
 | `lm2_v2_u16` | `uint16_t` | 16-bit unsigned int 2D vector |
 | `lm2_v2_u8` | `uint8_t` | 8-bit unsigned int 2D vector |
-| `lm2_v2` | `float` | Default alias for `lm2_v2_f32` |
 
 ### 3D Vectors (`lm2_v3_*`)
 
-Same type variants as 2D with an additional `z` component. Default: `lm2_v3` = `lm2_v3_f32`.
+Same type variants as 2D with an additional `z` component.
 
 ### 4D Vectors (`lm2_v4_*`)
 
-Same type variants with `x`, `y`, `z`, `w` components. Default: `lm2_v4` = `lm2_v4_f32`.
+Same type variants with `x`, `y`, `z`, `w` components.
 
 ## Component Access
 

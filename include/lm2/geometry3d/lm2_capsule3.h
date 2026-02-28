@@ -46,9 +46,6 @@ typedef struct lm2_capsule3_f32 {
   float radius;
 } lm2_capsule3_f32;
 
-// Default capsule type
-typedef lm2_capsule3_f32 lm2_capsule3;
-
 // =============================================================================
 // Construction Helpers
 // =============================================================================

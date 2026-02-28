@@ -138,9 +138,6 @@ LM2_API lm2_v2_f32 lm2_m3x2_get_scale_f32(lm2_m3x2_f32 m);
 LM2_API lm2_v2_f32 lm2_m3x2_get_translation_f32(lm2_m3x2_f32 m);
 LM2_API lm2_m3x2_f32 lm2_m3x2_ortho_f32(float left, float right, float bottom, float top);
 
-// Default type alias
-typedef lm2_m3x2_f32 lm2_m3x2;
-
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################

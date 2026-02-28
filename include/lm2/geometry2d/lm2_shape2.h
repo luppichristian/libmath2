@@ -24,11 +24,11 @@ SOFTWARE.
 
 #pragma once
 
+#include "lm2/geometry2d/lm2_aabb2.h"
 #include "lm2/geometry2d/lm2_capsule2.h"
 #include "lm2/geometry2d/lm2_circle.h"
 #include "lm2/geometry2d/lm2_edge2.h"
 #include "lm2/geometry2d/lm2_polygon.h"
-#include "lm2/geometry2d/lm2_aabb2.h"
 #include "lm2/geometry2d/lm2_triangle2.h"
 #include "lm2/lm2_base.h"
 
@@ -62,9 +62,6 @@ typedef struct lm2_shape2_f64 {
   lm2_shape2_type type;
   void* data;
 } lm2_shape2_f64;
-
-// Default shape type
-typedef lm2_shape2_f32 lm2_shape2;
 
 // =============================================================================
 // Construction Helpers

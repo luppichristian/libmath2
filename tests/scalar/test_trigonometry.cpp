@@ -238,13 +238,13 @@ TEST_F(TrigonometryTest, ShortestRad_F32) {
 
 TEST_F(TrigonometryTest, LerpRad_F64) {
   EXPECT_NEAR(lm2_lerp_rad_f64(0.0, 0.0, LM2_PI_F64), 0.0, EPSILON_F64);
-  EXPECT_NEAR(lm2_lerp_rad_f64(0.0, 1.0, LM2_PI_F64), -LM2_PI_F64, EPSILON_F64);  // Uses shortest path
+  EXPECT_NEAR(lm2_lerp_rad_f64(0.0, 1.0, LM2_PI_F64), -LM2_PI_F64, EPSILON_F64);        // Uses shortest path
   EXPECT_NEAR(lm2_lerp_rad_f64(0.0, 0.5, LM2_PI_F64), -LM2_PI_F64 / 2.0, EPSILON_F64);  // Halfway on shortest path
 }
 
 TEST_F(TrigonometryTest, LerpRad_F32) {
   EXPECT_NEAR(lm2_lerp_rad_f32(0.0f, 0.0f, LM2_PI_F32), 0.0f, EPSILON_F32);
-  EXPECT_NEAR(lm2_lerp_rad_f32(0.0f, 1.0f, LM2_PI_F32), -LM2_PI_F32, EPSILON_F32);  // Uses shortest path
+  EXPECT_NEAR(lm2_lerp_rad_f32(0.0f, 1.0f, LM2_PI_F32), -LM2_PI_F32, EPSILON_F32);         // Uses shortest path
   EXPECT_NEAR(lm2_lerp_rad_f32(0.0f, 0.5f, LM2_PI_F32), -LM2_PI_F32 / 2.0f, EPSILON_F32);  // Halfway on shortest path
 }
 
@@ -295,11 +295,11 @@ TEST_F(TrigonometryTest, ShortestDeg_F32) {
 TEST_F(TrigonometryTest, LerpDeg_F64) {
   EXPECT_NEAR(lm2_lerp_deg_f64(0.0, 0.0, 180.0), 0.0, EPSILON_F64);
   EXPECT_NEAR(lm2_lerp_deg_f64(0.0, 1.0, 180.0), -180.0, EPSILON_F64);  // Uses shortest path
-  EXPECT_NEAR(lm2_lerp_deg_f64(0.0, 0.5, 180.0), -90.0, EPSILON_F64);  // Halfway on shortest path
+  EXPECT_NEAR(lm2_lerp_deg_f64(0.0, 0.5, 180.0), -90.0, EPSILON_F64);   // Halfway on shortest path
 }
 
 TEST_F(TrigonometryTest, LerpDeg_F32) {
   EXPECT_NEAR(lm2_lerp_deg_f32(0.0f, 0.0f, 180.0f), 0.0f, EPSILON_F32);
   EXPECT_NEAR(lm2_lerp_deg_f32(0.0f, 1.0f, 180.0f), -180.0f, EPSILON_F32);  // Uses shortest path
-  EXPECT_NEAR(lm2_lerp_deg_f32(0.0f, 0.5f, 180.0f), -90.0f, EPSILON_F32);  // Halfway on shortest path
+  EXPECT_NEAR(lm2_lerp_deg_f32(0.0f, 0.5f, 180.0f), -90.0f, EPSILON_F32);   // Halfway on shortest path
 }

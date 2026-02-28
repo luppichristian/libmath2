@@ -48,9 +48,6 @@ typedef struct lm2_plane2_f32 {
   float distance;     // Distance from origin along normal
 } lm2_plane2_f32;
 
-// Default plane type
-typedef lm2_plane2_f32 lm2_plane2;
-
 // =============================================================================
 // Construction Helpers
 // =============================================================================

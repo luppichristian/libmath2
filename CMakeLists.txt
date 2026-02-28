@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(libmath2 VERSION 0.1.0 LANGUAGES C CXX)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -62,7 +62,7 @@ if(LM2_BUILD_TESTS)
         FetchContent_MakeAvailable(googletest)
     endif()
 
-    file(GLOB_RECURSE LM2_TEST_SOURCES tests/*.cpp)
+    file(GLOB_RECURSE LM2_TEST_SOURCES tests/**.cpp)
 
     add_executable(libmath2-tests ${LM2_TEST_SOURCES})
     target_link_libraries(libmath2-tests PRIVATE libmath2 GTest::gtest_main)

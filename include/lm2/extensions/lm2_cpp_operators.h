@@ -31,141 +31,142 @@ SOFTWARE.
 // =============================================================================
 
 // Unary negation - signed types only
-#  define LM2_VEC_NEG_OP(VT, T)        \
+// VT = C++ type (e.g. lm2_v2_f64), VEC = API base (e.g. v2), T = type suffix (e.g. f64)
+#  define LM2_VEC_NEG_OP(VT, VEC, T)   \
     static inline VT operator-(VT v) { \
-      return lm2_##VT##_neg_##T(v);    \
+      return lm2_##VEC##_neg_##T(v);   \
     }
 
 // Vector-vector binary operators
-#  define LM2_VEC_BIN_VV(VT, T)              \
+#  define LM2_VEC_BIN_VV(VT, VEC, T)         \
     static inline VT operator+(VT a, VT b) { \
-      return lm2_##VT##_add_##T(a, b);       \
+      return lm2_##VEC##_add_##T(a, b);      \
     }                                        \
     static inline VT operator-(VT a, VT b) { \
-      return lm2_##VT##_sub_##T(a, b);       \
+      return lm2_##VEC##_sub_##T(a, b);      \
     }                                        \
     static inline VT operator*(VT a, VT b) { \
-      return lm2_##VT##_mul_##T(a, b);       \
+      return lm2_##VEC##_mul_##T(a, b);      \
     }                                        \
     static inline VT operator/(VT a, VT b) { \
-      return lm2_##VT##_div_##T(a, b);       \
+      return lm2_##VEC##_div_##T(a, b);      \
     }
 
 // Vector-scalar binary operators
-#  define LM2_VEC_BIN_VS(VT, T, ST)          \
+#  define LM2_VEC_BIN_VS(VT, VEC, T, ST)     \
     static inline VT operator+(VT v, ST s) { \
-      return lm2_##VT##_add_s_##T(v, s);     \
+      return lm2_##VEC##_add_s_##T(v, s);    \
     }                                        \
     static inline VT operator-(VT v, ST s) { \
-      return lm2_##VT##_sub_s_##T(v, s);     \
+      return lm2_##VEC##_sub_s_##T(v, s);    \
     }                                        \
     static inline VT operator*(VT v, ST s) { \
-      return lm2_##VT##_mul_s_##T(v, s);     \
+      return lm2_##VEC##_mul_s_##T(v, s);    \
     }                                        \
     static inline VT operator/(VT v, ST s) { \
-      return lm2_##VT##_div_s_##T(v, s);     \
+      return lm2_##VEC##_div_s_##T(v, s);    \
     }
 
 // Scalar-vector binary operators
-#  define LM2_VEC_BIN_SV(VT, T, ST)                          \
-    static inline VT operator+(ST s, VT v) {                 \
-      return lm2_##VT##_add_s_##T(v, s);                     \
-    }                                                        \
-    static inline VT operator*(ST s, VT v) {                 \
-      return lm2_##VT##_mul_s_##T(v, s);                     \
-    }                                                        \
-    static inline VT operator-(ST s, VT v) {                 \
-      return lm2_##VT##_sub_##T(lm2_##VT##_splat_##T(s), v); \
-    }                                                        \
-    static inline VT operator/(ST s, VT v) {                 \
-      return lm2_##VT##_div_##T(lm2_##VT##_splat_##T(s), v); \
+#  define LM2_VEC_BIN_SV(VT, VEC, T, ST)                       \
+    static inline VT operator+(ST s, VT v) {                   \
+      return lm2_##VEC##_add_s_##T(v, s);                      \
+    }                                                          \
+    static inline VT operator*(ST s, VT v) {                   \
+      return lm2_##VEC##_mul_s_##T(v, s);                      \
+    }                                                          \
+    static inline VT operator-(ST s, VT v) {                   \
+      return lm2_##VEC##_sub_##T(lm2_##VEC##_splat_##T(s), v); \
+    }                                                          \
+    static inline VT operator/(ST s, VT v) {                   \
+      return lm2_##VEC##_div_##T(lm2_##VEC##_splat_##T(s), v); \
     }
 
 // Compound assignment operators
-#  define LM2_VEC_COMPOUND(VT, T, ST)           \
+#  define LM2_VEC_COMPOUND(VT, VEC, T, ST)      \
     static inline VT& operator+=(VT& a, VT b) { \
-      a = lm2_##VT##_add_##T(a, b);             \
+      a = lm2_##VEC##_add_##T(a, b);            \
       return a;                                 \
     }                                           \
     static inline VT& operator-=(VT& a, VT b) { \
-      a = lm2_##VT##_sub_##T(a, b);             \
+      a = lm2_##VEC##_sub_##T(a, b);            \
       return a;                                 \
     }                                           \
     static inline VT& operator*=(VT& a, VT b) { \
-      a = lm2_##VT##_mul_##T(a, b);             \
+      a = lm2_##VEC##_mul_##T(a, b);            \
       return a;                                 \
     }                                           \
     static inline VT& operator/=(VT& a, VT b) { \
-      a = lm2_##VT##_div_##T(a, b);             \
+      a = lm2_##VEC##_div_##T(a, b);            \
       return a;                                 \
     }                                           \
     static inline VT& operator+=(VT& v, ST s) { \
-      v = lm2_##VT##_add_s_##T(v, s);           \
+      v = lm2_##VEC##_add_s_##T(v, s);          \
       return v;                                 \
     }                                           \
     static inline VT& operator-=(VT& v, ST s) { \
-      v = lm2_##VT##_sub_s_##T(v, s);           \
+      v = lm2_##VEC##_sub_s_##T(v, s);          \
       return v;                                 \
     }                                           \
     static inline VT& operator*=(VT& v, ST s) { \
-      v = lm2_##VT##_mul_s_##T(v, s);           \
+      v = lm2_##VEC##_mul_s_##T(v, s);          \
       return v;                                 \
     }                                           \
     static inline VT& operator/=(VT& v, ST s) { \
-      v = lm2_##VT##_div_s_##T(v, s);           \
+      v = lm2_##VEC##_div_s_##T(v, s);          \
       return v;                                 \
     }
 
 // Complete vector operator set for signed types
-#  define LM2_VEC_OPS_SIGNED(VT, T, ST) \
-    LM2_VEC_NEG_OP(VT, T)               \
-    LM2_VEC_BIN_VV(VT, T)               \
-    LM2_VEC_BIN_VS(VT, T, ST)           \
-    LM2_VEC_BIN_SV(VT, T, ST)           \
-    LM2_VEC_COMPOUND(VT, T, ST)
+#  define LM2_VEC_OPS_SIGNED(VT, VEC, T, ST) \
+    LM2_VEC_NEG_OP(VT, VEC, T)               \
+    LM2_VEC_BIN_VV(VT, VEC, T)               \
+    LM2_VEC_BIN_VS(VT, VEC, T, ST)           \
+    LM2_VEC_BIN_SV(VT, VEC, T, ST)           \
+    LM2_VEC_COMPOUND(VT, VEC, T, ST)
 
 // Complete vector operator set for unsigned types
-#  define LM2_VEC_OPS_UNSIGNED(VT, T, ST) \
-    LM2_VEC_BIN_VV(VT, T)                 \
-    LM2_VEC_BIN_VS(VT, T, ST)             \
-    LM2_VEC_BIN_SV(VT, T, ST)             \
-    LM2_VEC_COMPOUND(VT, T, ST)
+#  define LM2_VEC_OPS_UNSIGNED(VT, VEC, T, ST) \
+    LM2_VEC_BIN_VV(VT, VEC, T)                 \
+    LM2_VEC_BIN_VS(VT, VEC, T, ST)             \
+    LM2_VEC_BIN_SV(VT, VEC, T, ST)             \
+    LM2_VEC_COMPOUND(VT, VEC, T, ST)
 
 // Vector2 operators
-LM2_VEC_OPS_SIGNED(lm2_v2_f64, f64, double)
-LM2_VEC_OPS_SIGNED(lm2_v2_f32, f32, float)
-LM2_VEC_OPS_SIGNED(lm2_v2_i64, i64, int64_t)
-LM2_VEC_OPS_SIGNED(lm2_v2_i32, i32, int32_t)
-LM2_VEC_OPS_SIGNED(lm2_v2_i16, i16, int16_t)
-LM2_VEC_OPS_SIGNED(lm2_v2_i8, i8, int8_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v2_u64, u64, uint64_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v2_u32, u32, uint32_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v2_u16, u16, uint16_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v2_u8, u8, uint8_t)
+LM2_VEC_OPS_SIGNED(lm2_v2_f64, v2, f64, double)
+LM2_VEC_OPS_SIGNED(lm2_v2_f32, v2, f32, float)
+LM2_VEC_OPS_SIGNED(lm2_v2_i64, v2, i64, int64_t)
+LM2_VEC_OPS_SIGNED(lm2_v2_i32, v2, i32, int32_t)
+LM2_VEC_OPS_SIGNED(lm2_v2_i16, v2, i16, int16_t)
+LM2_VEC_OPS_SIGNED(lm2_v2_i8, v2, i8, int8_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v2_u64, v2, u64, uint64_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v2_u32, v2, u32, uint32_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v2_u16, v2, u16, uint16_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v2_u8, v2, u8, uint8_t)
 
 // Vector3 operators
-LM2_VEC_OPS_SIGNED(lm2_v3_f64, f64, double)
-LM2_VEC_OPS_SIGNED(lm2_v3_f32, f32, float)
-LM2_VEC_OPS_SIGNED(lm2_v3_i64, i64, int64_t)
-LM2_VEC_OPS_SIGNED(lm2_v3_i32, i32, int32_t)
-LM2_VEC_OPS_SIGNED(lm2_v3_i16, i16, int16_t)
-LM2_VEC_OPS_SIGNED(lm2_v3_i8, i8, int8_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v3_u64, u64, uint64_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v3_u32, u32, uint32_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v3_u16, u16, uint16_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v3_u8, u8, uint8_t)
+LM2_VEC_OPS_SIGNED(lm2_v3_f64, v3, f64, double)
+LM2_VEC_OPS_SIGNED(lm2_v3_f32, v3, f32, float)
+LM2_VEC_OPS_SIGNED(lm2_v3_i64, v3, i64, int64_t)
+LM2_VEC_OPS_SIGNED(lm2_v3_i32, v3, i32, int32_t)
+LM2_VEC_OPS_SIGNED(lm2_v3_i16, v3, i16, int16_t)
+LM2_VEC_OPS_SIGNED(lm2_v3_i8, v3, i8, int8_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v3_u64, v3, u64, uint64_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v3_u32, v3, u32, uint32_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v3_u16, v3, u16, uint16_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v3_u8, v3, u8, uint8_t)
 
 // Vector4 operators
-LM2_VEC_OPS_SIGNED(lm2_v4_f64, f64, double)
-LM2_VEC_OPS_SIGNED(lm2_v4_f32, f32, float)
-LM2_VEC_OPS_SIGNED(lm2_v4_i64, i64, int64_t)
-LM2_VEC_OPS_SIGNED(lm2_v4_i32, i32, int32_t)
-LM2_VEC_OPS_SIGNED(lm2_v4_i16, i16, int16_t)
-LM2_VEC_OPS_SIGNED(lm2_v4_i8, i8, int8_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v4_u64, u64, uint64_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v4_u32, u32, uint32_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v4_u16, u16, uint16_t)
-LM2_VEC_OPS_UNSIGNED(lm2_v4_u8, u8, uint8_t)
+LM2_VEC_OPS_SIGNED(lm2_v4_f64, v4, f64, double)
+LM2_VEC_OPS_SIGNED(lm2_v4_f32, v4, f32, float)
+LM2_VEC_OPS_SIGNED(lm2_v4_i64, v4, i64, int64_t)
+LM2_VEC_OPS_SIGNED(lm2_v4_i32, v4, i32, int32_t)
+LM2_VEC_OPS_SIGNED(lm2_v4_i16, v4, i16, int16_t)
+LM2_VEC_OPS_SIGNED(lm2_v4_i8, v4, i8, int8_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v4_u64, v4, u64, uint64_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v4_u32, v4, u32, uint32_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v4_u16, v4, u16, uint16_t)
+LM2_VEC_OPS_UNSIGNED(lm2_v4_u8, v4, u8, uint8_t)
 
 // =============================================================================
 // Matrix Operators
@@ -248,20 +249,21 @@ static inline lm2_m4x4_f32& operator*=(lm2_m4x4_f32& a, const lm2_m4x4_f32& b) {
 // =============================================================================
 
 // Range translation operators
-#  define LM2_RANGE_TRANSLATE(RT, VT, T)                         \
-    static inline RT operator+(const RT& r, const VT& v) {       \
-      return lm2_##RT##_translate_##T(r, v);                     \
-    }                                                            \
-    static inline RT operator-(const RT& r, const VT& v) {       \
-      return lm2_##RT##_translate_##T(r, lm2_##VT##_neg_##T(v)); \
-    }                                                            \
-    static inline RT& operator+=(RT& r, const VT& v) {           \
-      r = lm2_##RT##_translate_##T(r, v);                        \
-      return r;                                                  \
-    }                                                            \
-    static inline RT& operator-=(RT& r, const VT& v) {           \
-      r = lm2_##RT##_translate_##T(r, lm2_##VT##_neg_##T(v));    \
-      return r;                                                  \
+// VT = C++ vector type, VEC = API base (v2/v3/v4), T = type suffix
+#  define LM2_RANGE_TRANSLATE(RT, VT, VEC, T)                     \
+    static inline RT operator+(const RT& r, const VT& v) {        \
+      return lm2_##RT##_translate_##T(r, v);                      \
+    }                                                             \
+    static inline RT operator-(const RT& r, const VT& v) {        \
+      return lm2_##RT##_translate_##T(r, lm2_##VEC##_neg_##T(v)); \
+    }                                                             \
+    static inline RT& operator+=(RT& r, const VT& v) {            \
+      r = lm2_##RT##_translate_##T(r, v);                         \
+      return r;                                                   \
+    }                                                             \
+    static inline RT& operator-=(RT& r, const VT& v) {            \
+      r = lm2_##RT##_translate_##T(r, lm2_##VEC##_neg_##T(v));    \
+      return r;                                                   \
     }
 
 // Range scalar scaling operators
@@ -285,23 +287,23 @@ static inline lm2_m4x4_f32& operator*=(lm2_m4x4_f32& a, const lm2_m4x4_f32& b) {
     }
 
 // Range vector scaling operators
-#  define LM2_RANGE_SCALE_VECTOR(RT, VT, T)                                           \
-    static inline RT operator*(const RT& r, const VT& v) {                            \
-      return lm2_##RT##_scale_##T(r, v);                                              \
-    }                                                                                 \
-    static inline RT operator*(const VT& v, const RT& r) {                            \
-      return lm2_##RT##_scale_##T(r, v);                                              \
-    }                                                                                 \
-    static inline RT operator/(const RT& r, const VT& v) {                            \
-      return lm2_##RT##_scale_##T(r, lm2_##VT##_div_##T(lm2_##VT##_splat_##T(1), v)); \
-    }                                                                                 \
-    static inline RT& operator*=(RT& r, const VT& v) {                                \
-      r = lm2_##RT##_scale_##T(r, v);                                                 \
-      return r;                                                                       \
-    }                                                                                 \
-    static inline RT& operator/=(RT& r, const VT& v) {                                \
-      r = lm2_##RT##_scale_##T(r, lm2_##VT##_div_##T(lm2_##VT##_splat_##T(1), v));    \
-      return r;                                                                       \
+#  define LM2_RANGE_SCALE_VECTOR(RT, VT, VEC, T)                                        \
+    static inline RT operator*(const RT& r, const VT& v) {                              \
+      return lm2_##RT##_scale_##T(r, v);                                                \
+    }                                                                                   \
+    static inline RT operator*(const VT& v, const RT& r) {                              \
+      return lm2_##RT##_scale_##T(r, v);                                                \
+    }                                                                                   \
+    static inline RT operator/(const RT& r, const VT& v) {                              \
+      return lm2_##RT##_scale_##T(r, lm2_##VEC##_div_##T(lm2_##VEC##_splat_##T(1), v)); \
+    }                                                                                   \
+    static inline RT& operator*=(RT& r, const VT& v) {                                  \
+      r = lm2_##RT##_scale_##T(r, v);                                                   \
+      return r;                                                                         \
+    }                                                                                   \
+    static inline RT& operator/=(RT& r, const VT& v) {                                  \
+      r = lm2_##RT##_scale_##T(r, lm2_##VEC##_div_##T(lm2_##VEC##_splat_##T(1), v));    \
+      return r;                                                                         \
     }
 
 // Range set operators
@@ -364,15 +366,15 @@ static inline lm2_m4x4_f32& operator*=(lm2_m4x4_f32& a, const lm2_m4x4_f32& b) {
     }
 
 // Complete range operator set for signed types
-#  define LM2_RANGE_OPS_SIGNED(RT, VT, T, ST) \
-    LM2_RANGE_TRANSLATE(RT, VT, T)            \
-    LM2_RANGE_SCALE_SCALAR(RT, T, ST)         \
-    LM2_RANGE_SCALE_VECTOR(RT, VT, T)         \
-    LM2_RANGE_SET_OPS(RT, T)                  \
+#  define LM2_RANGE_OPS_SIGNED(RT, VT, VEC, T, ST) \
+    LM2_RANGE_TRANSLATE(RT, VT, VEC, T)            \
+    LM2_RANGE_SCALE_SCALAR(RT, T, ST)              \
+    LM2_RANGE_SCALE_VECTOR(RT, VT, VEC, T)         \
+    LM2_RANGE_SET_OPS(RT, T)                       \
     LM2_RANGE_EQUALITY(RT, VT, T)
 
 // Complete range operator set for unsigned types (no negation in translate)
-#  define LM2_RANGE_OPS_UNSIGNED(RT, VT, T, ST)            \
+#  define LM2_RANGE_OPS_UNSIGNED(RT, VT, VEC, T, ST)       \
     static inline RT operator+(const RT& r, const VT& v) { \
       return lm2_##RT##_translate_##T(r, v);               \
     }                                                      \
@@ -381,32 +383,32 @@ static inline lm2_m4x4_f32& operator*=(lm2_m4x4_f32& a, const lm2_m4x4_f32& b) {
       return r;                                            \
     }                                                      \
     LM2_RANGE_SCALE_SCALAR(RT, T, ST)                      \
-    LM2_RANGE_SCALE_VECTOR(RT, VT, T)                      \
+    LM2_RANGE_SCALE_VECTOR(RT, VT, VEC, T)                 \
     LM2_RANGE_SET_OPS(RT, T)                               \
     LM2_RANGE_EQUALITY(RT, VT, T)
 
 // Range2 operators
-LM2_RANGE_OPS_SIGNED(lm2_r2_f64, lm2_v2_f64, f64, double)
-LM2_RANGE_OPS_SIGNED(lm2_r2_f32, lm2_v2_f32, f32, float)
-LM2_RANGE_OPS_SIGNED(lm2_r2_i64, lm2_v2_i64, i64, int64_t)
-LM2_RANGE_OPS_SIGNED(lm2_r2_i32, lm2_v2_i32, i32, int32_t)
-LM2_RANGE_OPS_SIGNED(lm2_r2_i16, lm2_v2_i16, i16, int16_t)
-LM2_RANGE_OPS_SIGNED(lm2_r2_i8, lm2_v2_i8, i8, int8_t)
-LM2_RANGE_OPS_UNSIGNED(lm2_r2_u64, lm2_v2_u64, u64, uint64_t)
-LM2_RANGE_OPS_UNSIGNED(lm2_r2_u32, lm2_v2_u32, u32, uint32_t)
-LM2_RANGE_OPS_UNSIGNED(lm2_r2_u16, lm2_v2_u16, u16, uint16_t)
-LM2_RANGE_OPS_UNSIGNED(lm2_r2_u8, lm2_v2_u8, u8, uint8_t)
+LM2_RANGE_OPS_SIGNED(lm2_r2_f64, lm2_v2_f64, v2, f64, double)
+LM2_RANGE_OPS_SIGNED(lm2_r2_f32, lm2_v2_f32, v2, f32, float)
+LM2_RANGE_OPS_SIGNED(lm2_r2_i64, lm2_v2_i64, v2, i64, int64_t)
+LM2_RANGE_OPS_SIGNED(lm2_r2_i32, lm2_v2_i32, v2, i32, int32_t)
+LM2_RANGE_OPS_SIGNED(lm2_r2_i16, lm2_v2_i16, v2, i16, int16_t)
+LM2_RANGE_OPS_SIGNED(lm2_r2_i8, lm2_v2_i8, v2, i8, int8_t)
+LM2_RANGE_OPS_UNSIGNED(lm2_r2_u64, lm2_v2_u64, v2, u64, uint64_t)
+LM2_RANGE_OPS_UNSIGNED(lm2_r2_u32, lm2_v2_u32, v2, u32, uint32_t)
+LM2_RANGE_OPS_UNSIGNED(lm2_r2_u16, lm2_v2_u16, v2, u16, uint16_t)
+LM2_RANGE_OPS_UNSIGNED(lm2_r2_u8, lm2_v2_u8, v2, u8, uint8_t)
 
 // Complete range3 operator set for signed types
-#  define LM2_RANGE3_OPS_SIGNED(RT, VT, T, ST) \
-    LM2_RANGE_TRANSLATE(RT, VT, T)             \
-    LM2_RANGE_SCALE_SCALAR(RT, T, ST)          \
-    LM2_RANGE_SCALE_VECTOR(RT, VT, T)          \
-    LM2_RANGE_SET_OPS(RT, T)                   \
+#  define LM2_RANGE3_OPS_SIGNED(RT, VT, VEC, T, ST) \
+    LM2_RANGE_TRANSLATE(RT, VT, VEC, T)             \
+    LM2_RANGE_SCALE_SCALAR(RT, T, ST)               \
+    LM2_RANGE_SCALE_VECTOR(RT, VT, VEC, T)          \
+    LM2_RANGE_SET_OPS(RT, T)                        \
     LM2_RANGE3_EQUALITY(RT, VT, T)
 
 // Complete range3 operator set for unsigned types
-#  define LM2_RANGE3_OPS_UNSIGNED(RT, VT, T, ST)           \
+#  define LM2_RANGE3_OPS_UNSIGNED(RT, VT, VEC, T, ST)      \
     static inline RT operator+(const RT& r, const VT& v) { \
       return lm2_##RT##_translate_##T(r, v);               \
     }                                                      \
@@ -415,32 +417,32 @@ LM2_RANGE_OPS_UNSIGNED(lm2_r2_u8, lm2_v2_u8, u8, uint8_t)
       return r;                                            \
     }                                                      \
     LM2_RANGE_SCALE_SCALAR(RT, T, ST)                      \
-    LM2_RANGE_SCALE_VECTOR(RT, VT, T)                      \
+    LM2_RANGE_SCALE_VECTOR(RT, VT, VEC, T)                 \
     LM2_RANGE_SET_OPS(RT, T)                               \
     LM2_RANGE3_EQUALITY(RT, VT, T)
 
 // Range3 operators
-LM2_RANGE3_OPS_SIGNED(lm2_r3_f64, lm2_v3_f64, f64, double)
-LM2_RANGE3_OPS_SIGNED(lm2_r3_f32, lm2_v3_f32, f32, float)
-LM2_RANGE3_OPS_SIGNED(lm2_r3_i64, lm2_v3_i64, i64, int64_t)
-LM2_RANGE3_OPS_SIGNED(lm2_r3_i32, lm2_v3_i32, i32, int32_t)
-LM2_RANGE3_OPS_SIGNED(lm2_r3_i16, lm2_v3_i16, i16, int16_t)
-LM2_RANGE3_OPS_SIGNED(lm2_r3_i8, lm2_v3_i8, i8, int8_t)
-LM2_RANGE3_OPS_UNSIGNED(lm2_r3_u64, lm2_v3_u64, u64, uint64_t)
-LM2_RANGE3_OPS_UNSIGNED(lm2_r3_u32, lm2_v3_u32, u32, uint32_t)
-LM2_RANGE3_OPS_UNSIGNED(lm2_r3_u16, lm2_v3_u16, u16, uint16_t)
-LM2_RANGE3_OPS_UNSIGNED(lm2_r3_u8, lm2_v3_u8, u8, uint8_t)
+LM2_RANGE3_OPS_SIGNED(lm2_r3_f64, lm2_v3_f64, v3, f64, double)
+LM2_RANGE3_OPS_SIGNED(lm2_r3_f32, lm2_v3_f32, v3, f32, float)
+LM2_RANGE3_OPS_SIGNED(lm2_r3_i64, lm2_v3_i64, v3, i64, int64_t)
+LM2_RANGE3_OPS_SIGNED(lm2_r3_i32, lm2_v3_i32, v3, i32, int32_t)
+LM2_RANGE3_OPS_SIGNED(lm2_r3_i16, lm2_v3_i16, v3, i16, int16_t)
+LM2_RANGE3_OPS_SIGNED(lm2_r3_i8, lm2_v3_i8, v3, i8, int8_t)
+LM2_RANGE3_OPS_UNSIGNED(lm2_r3_u64, lm2_v3_u64, v3, u64, uint64_t)
+LM2_RANGE3_OPS_UNSIGNED(lm2_r3_u32, lm2_v3_u32, v3, u32, uint32_t)
+LM2_RANGE3_OPS_UNSIGNED(lm2_r3_u16, lm2_v3_u16, v3, u16, uint16_t)
+LM2_RANGE3_OPS_UNSIGNED(lm2_r3_u8, lm2_v3_u8, v3, u8, uint8_t)
 
 // Complete range4 operator set for signed types
-#  define LM2_RANGE4_OPS_SIGNED(RT, VT, T, ST) \
-    LM2_RANGE_TRANSLATE(RT, VT, T)             \
-    LM2_RANGE_SCALE_SCALAR(RT, T, ST)          \
-    LM2_RANGE_SCALE_VECTOR(RT, VT, T)          \
-    LM2_RANGE_SET_OPS(RT, T)                   \
+#  define LM2_RANGE4_OPS_SIGNED(RT, VT, VEC, T, ST) \
+    LM2_RANGE_TRANSLATE(RT, VT, VEC, T)             \
+    LM2_RANGE_SCALE_SCALAR(RT, T, ST)               \
+    LM2_RANGE_SCALE_VECTOR(RT, VT, VEC, T)          \
+    LM2_RANGE_SET_OPS(RT, T)                        \
     LM2_RANGE4_EQUALITY(RT, VT, T)
 
 // Complete range4 operator set for unsigned types
-#  define LM2_RANGE4_OPS_UNSIGNED(RT, VT, T, ST)           \
+#  define LM2_RANGE4_OPS_UNSIGNED(RT, VT, VEC, T, ST)      \
     static inline RT operator+(const RT& r, const VT& v) { \
       return lm2_##RT##_translate_##T(r, v);               \
     }                                                      \
@@ -449,21 +451,21 @@ LM2_RANGE3_OPS_UNSIGNED(lm2_r3_u8, lm2_v3_u8, u8, uint8_t)
       return r;                                            \
     }                                                      \
     LM2_RANGE_SCALE_SCALAR(RT, T, ST)                      \
-    LM2_RANGE_SCALE_VECTOR(RT, VT, T)                      \
+    LM2_RANGE_SCALE_VECTOR(RT, VT, VEC, T)                 \
     LM2_RANGE_SET_OPS(RT, T)                               \
     LM2_RANGE4_EQUALITY(RT, VT, T)
 
 // Range4 operators
-LM2_RANGE4_OPS_SIGNED(lm2_r4_f64, lm2_v4_f64, f64, double)
-LM2_RANGE4_OPS_SIGNED(lm2_r4_f32, lm2_v4_f32, f32, float)
-LM2_RANGE4_OPS_SIGNED(lm2_r4_i64, lm2_v4_i64, i64, int64_t)
-LM2_RANGE4_OPS_SIGNED(lm2_r4_i32, lm2_v4_i32, i32, int32_t)
-LM2_RANGE4_OPS_SIGNED(lm2_r4_i16, lm2_v4_i16, i16, int16_t)
-LM2_RANGE4_OPS_SIGNED(lm2_r4_i8, lm2_v4_i8, i8, int8_t)
-LM2_RANGE4_OPS_UNSIGNED(lm2_r4_u64, lm2_v4_u64, u64, uint64_t)
-LM2_RANGE4_OPS_UNSIGNED(lm2_r4_u32, lm2_v4_u32, u32, uint32_t)
-LM2_RANGE4_OPS_UNSIGNED(lm2_r4_u16, lm2_v4_u16, u16, uint16_t)
-LM2_RANGE4_OPS_UNSIGNED(lm2_r4_u8, lm2_v4_u8, u8, uint8_t)
+LM2_RANGE4_OPS_SIGNED(lm2_r4_f64, lm2_v4_f64, v4, f64, double)
+LM2_RANGE4_OPS_SIGNED(lm2_r4_f32, lm2_v4_f32, v4, f32, float)
+LM2_RANGE4_OPS_SIGNED(lm2_r4_i64, lm2_v4_i64, v4, i64, int64_t)
+LM2_RANGE4_OPS_SIGNED(lm2_r4_i32, lm2_v4_i32, v4, i32, int32_t)
+LM2_RANGE4_OPS_SIGNED(lm2_r4_i16, lm2_v4_i16, v4, i16, int16_t)
+LM2_RANGE4_OPS_SIGNED(lm2_r4_i8, lm2_v4_i8, v4, i8, int8_t)
+LM2_RANGE4_OPS_UNSIGNED(lm2_r4_u64, lm2_v4_u64, v4, u64, uint64_t)
+LM2_RANGE4_OPS_UNSIGNED(lm2_r4_u32, lm2_v4_u32, v4, u32, uint32_t)
+LM2_RANGE4_OPS_UNSIGNED(lm2_r4_u16, lm2_v4_u16, v4, u16, uint16_t)
+LM2_RANGE4_OPS_UNSIGNED(lm2_r4_u8, lm2_v4_u8, v4, u8, uint8_t)
 
 // =============================================================================
 // Quaternion Operators

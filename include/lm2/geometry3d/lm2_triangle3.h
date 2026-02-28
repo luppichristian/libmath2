@@ -40,9 +40,6 @@ LM2_HEADER_BEGIN;
 typedef lm2_v3_f64 lm2_triangle3_f64[3];
 typedef lm2_v3_f32 lm2_triangle3_f32[3];
 
-// Default triangle type
-typedef lm2_triangle3_f32 lm2_triangle3;
-
 // =============================================================================
 // Triangle Type Enums
 // =============================================================================

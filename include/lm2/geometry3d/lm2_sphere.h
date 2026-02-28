@@ -46,9 +46,6 @@ typedef struct lm2_sphere_f32 {
   float radius;
 } lm2_sphere_f32;
 
-// Default sphere type
-typedef lm2_sphere_f32 lm2_sphere;
-
 // =============================================================================
 // Construction Helpers
 // =============================================================================

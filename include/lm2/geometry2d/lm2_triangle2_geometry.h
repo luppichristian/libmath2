@@ -24,9 +24,9 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2_triangle2.h"
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector2.h"
+#include "lm2_triangle2.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;

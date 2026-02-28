@@ -49,9 +49,6 @@ typedef struct lm2_ray3_f32 {
   float t_max;           // Maximum distance along ray
 } lm2_ray3_f32;
 
-// Default 3D ray type
-typedef lm2_ray3_f32 lm2_ray3;
-
 // =============================================================================
 // Ray Hit Result Types (3D)
 // =============================================================================
@@ -70,9 +67,6 @@ typedef struct lm2_rayhit3_f32 {
   lm2_v3_f32 point;   // Hit point in world space
   lm2_v3_f32 normal;  // Surface normal at hit point (unit length)
 } lm2_rayhit3_f32;
-
-// Default 3D ray hit type
-typedef lm2_rayhit3_f32 lm2_rayhit3;
 
 // =============================================================================
 // 3D Ray Construction

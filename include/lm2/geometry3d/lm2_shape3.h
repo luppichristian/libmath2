@@ -24,8 +24,8 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2/geometry3d/lm2_capsule3.h"
 #include "lm2/geometry3d/lm2_aabb3.h"
+#include "lm2/geometry3d/lm2_capsule3.h"
 #include "lm2/geometry3d/lm2_edge3.h"
 #include "lm2/geometry3d/lm2_sphere.h"
 #include "lm2/geometry3d/lm2_triangle3.h"
@@ -60,9 +60,6 @@ typedef struct lm2_shape3_f64 {
   lm2_shape3_type type;
   void* data;
 } lm2_shape3_f64;
-
-// Default shape type
-typedef lm2_shape3_f32 lm2_shape3;
 
 // =============================================================================
 // Construction Helpers
