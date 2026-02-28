@@ -25,13 +25,10 @@ SOFTWARE.
 #pragma once
 
 #include "lm2/lm2_base.h"
+#include "lm2/geometry2d/lm2_ray2.h"
+#include "lm2/geometry2d/lm2_rayhit2.h"
 #include "lm2/vectors/lm2_vector2.h"
-
-// Forward declarations
-typedef struct lm2_ray2_f64 lm2_ray2_f64;
-typedef struct lm2_ray2_f32 lm2_ray2_f32;
-typedef struct lm2_plane2_f64 lm2_plane2_f64;
-typedef struct lm2_plane2_f32 lm2_plane2_f32;
+#include "lm2/geometry2d/lm2_plane2.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -147,10 +144,6 @@ LM2_API int lm2_edge2_segments_intersect_f32(lm2_v2_f32 a0, lm2_v2_f32 a1, lm2_v
 // =============================================================================
 // Raycasting Against an Edge
 // =============================================================================
-
-// Forward declaration of ray / rayhit types (defined in lm2_raycast2.h)
-typedef struct lm2_rayhit2_f64 lm2_rayhit2_f64;
-typedef struct lm2_rayhit2_f32 lm2_rayhit2_f32;
 
 // Cast a ray against a 2D line segment (edge)
 LM2_API lm2_rayhit2_f64 lm2_raycast_edge2_f64(lm2_ray2_f64 ray, lm2_edge2_f64 edge);

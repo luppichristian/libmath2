@@ -8,6 +8,7 @@ out/
 .claude/
 *.swp
 *.swo
+.cache/
 *~
 
 # OS
