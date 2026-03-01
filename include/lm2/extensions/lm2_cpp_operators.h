@@ -450,7 +450,7 @@ LM2_RANGE_OPS_UNSIGNED(lm2_r2_u8, lm2_v2_u8, r2, v2, u8, uint8_t)
     LM2_RANGE_SCALE_SCALAR(RT, REC, T, ST)               \
     LM2_RANGE_SCALE_VECTOR(RT, VT, REC, VEC, T)          \
     LM2_RANGE_SET_OPS(RT, REC, T)                        \
-    LM2_RANGE3_EQUALITY(RT, VT, T)
+    LM2_RANGE3_EQUALITY(RT, REC, VT, T)
 
 // Complete range3 operator set for unsigned types
 #  define LM2_RANGE3_OPS_UNSIGNED(RT, VT, REC, VEC, T, ST) \
@@ -464,7 +464,7 @@ LM2_RANGE_OPS_UNSIGNED(lm2_r2_u8, lm2_v2_u8, r2, v2, u8, uint8_t)
     LM2_RANGE_SCALE_SCALAR(RT, REC, T, ST)                 \
     LM2_RANGE_SCALE_VECTOR(RT, VT, REC, VEC, T)            \
     LM2_RANGE_SET_OPS(RT, REC, T)                          \
-    LM2_RANGE3_EQUALITY(RT, VT, T)
+    LM2_RANGE3_EQUALITY(RT, REC, VT, T)
 
 // Range3 operators
 LM2_RANGE3_OPS_SIGNED(lm2_r3_f64, lm2_v3_f64, r3, v3, f64, double)
@@ -484,7 +484,7 @@ LM2_RANGE3_OPS_UNSIGNED(lm2_r3_u8, lm2_v3_u8, r3, v3, u8, uint8_t)
     LM2_RANGE_SCALE_SCALAR(RT, REC, T, ST)               \
     LM2_RANGE_SCALE_VECTOR(RT, VT, REC, VEC, T)          \
     LM2_RANGE_SET_OPS(RT, REC, T)                        \
-    LM2_RANGE4_EQUALITY(RT, VT, T)
+    LM2_RANGE4_EQUALITY(RT, REC, VT, T)
 
 // Complete range4 operator set for unsigned types
 #  define LM2_RANGE4_OPS_UNSIGNED(RT, VT, REC, VEC, T, ST) \
@@ -498,7 +498,7 @@ LM2_RANGE3_OPS_UNSIGNED(lm2_r3_u8, lm2_v3_u8, r3, v3, u8, uint8_t)
     LM2_RANGE_SCALE_SCALAR(RT, REC, T, ST)                 \
     LM2_RANGE_SCALE_VECTOR(RT, VT, REC, VEC, T)            \
     LM2_RANGE_SET_OPS(RT, REC, T)                          \
-    LM2_RANGE4_EQUALITY(RT, VT, T)
+    LM2_RANGE4_EQUALITY(RT, REC, VT, T)
 
 // Range4 operators
 LM2_RANGE4_OPS_SIGNED(lm2_r4_f64, lm2_v4_f64, r4, v4, f64, double)
