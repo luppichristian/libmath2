@@ -72,8 +72,21 @@ LM2_HEADER_BEGIN;
 // #############################################################################
 
 #if !defined(LM2_ASSERT)
-#  include <assert.h>
-#  define LM2_ASSERT(expr) assert(expr)
+#  if defined(LM2_CUSTOM_ASSERT)
+
+// Custom assertion function provided by the user
+extern void _lm2_custom_assert(
+    int expression,
+    const char* msg,
+    const char* file,
+    const char* function,
+    int line);
+
+#    define LM2_ASSERT(expr) _lm2_custom_assert((expr), #expr, __FILE__, __func__, __LINE__)
+#  else
+#    include <assert.h>
+#    define LM2_ASSERT(expr) assert(expr)
+#  endif
 #endif
 
 #ifdef LM2_UNSAFE
