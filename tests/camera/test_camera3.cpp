@@ -91,7 +91,7 @@ TEST_F(Camera3Test, InvView_IsViewInverse_F64) {
   lm2_camera3_f64 cam = make_default_f64();
   lm2_m4x4_f64 view = lm2_camera3_get_view_f64(cam);
   lm2_m4x4_f64 inv = lm2_camera3_get_inv_view_f64(cam);
-  lm2_m4x4_f64 product = lm2_m4x4_multiply_f64(view, inv);
+  lm2_m4x4_f64 product = lm2_m4x4_mul_f64(view, inv);
 
   EXPECT_NEAR(product.m00, 1.0, EPSILON_F64);
   EXPECT_NEAR(product.m11, 1.0, EPSILON_F64);
@@ -240,7 +240,7 @@ TEST_F(Camera3Test, InvView_IsViewInverse_F32) {
   lm2_camera3_f32 cam = make_default_f32();
   lm2_m4x4_f32 view = lm2_camera3_get_view_f32(cam);
   lm2_m4x4_f32 inv = lm2_camera3_get_inv_view_f32(cam);
-  lm2_m4x4_f32 product = lm2_m4x4_multiply_f32(view, inv);
+  lm2_m4x4_f32 product = lm2_m4x4_mul_f32(view, inv);
 
   EXPECT_NEAR(product.m00, 1.0f, EPSILON_F32);
   EXPECT_NEAR(product.m11, 1.0f, EPSILON_F32);

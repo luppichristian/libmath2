@@ -168,5 +168,5 @@ lm2_v3_f32 b = lm2_v3_make_f32(0.0f, 1.0f, 0.0f);
 lm2_v3_f32 sum = lm2_v3_add_f32(a, b);       // {3, 1, 4}
 lm2_v3_f32 half = lm2_v3_mul_s_f32(a, 0.5f); // {1.5, 0, 2}
 float dot = lm2_v3_dot_f32(a, b);             // 0
-lm2_v3_f32 unit = lm2_v3_normalize_f32(a);    // {0.6, 0, 0.8}
+lm2_v3_f32 unit = lm2_v3_norm_f32(a);    // {0.6, 0, 0.8}
 ```

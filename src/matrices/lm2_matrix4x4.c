@@ -152,14 +152,14 @@ LM2_API lm2_m4x4_f64 lm2_m4x4_world_transform_f64(lm2_v3_f64 translation, lm2_v3
   lm2_m4x4_f64 rz = lm2_m4x4_rotate_z_f64(rotation_euler.z);
   lm2_m4x4_f64 t = lm2_m4x4_translate_f64(translation);
 
-  lm2_m4x4_f64 temp1 = lm2_m4x4_multiply_f64(rz, s);
-  lm2_m4x4_f64 temp2 = lm2_m4x4_multiply_f64(ry, temp1);
-  lm2_m4x4_f64 temp3 = lm2_m4x4_multiply_f64(rx, temp2);
-  return lm2_m4x4_multiply_f64(t, temp3);
+  lm2_m4x4_f64 temp1 = lm2_m4x4_mul_f64(rz, s);
+  lm2_m4x4_f64 temp2 = lm2_m4x4_mul_f64(ry, temp1);
+  lm2_m4x4_f64 temp3 = lm2_m4x4_mul_f64(rx, temp2);
+  return lm2_m4x4_mul_f64(t, temp3);
 }
 
 // Operations
-LM2_API lm2_m4x4_f64 lm2_m4x4_multiply_f64(lm2_m4x4_f64 a, lm2_m4x4_f64 b) {
+LM2_API lm2_m4x4_f64 lm2_m4x4_mul_f64(lm2_m4x4_f64 a, lm2_m4x4_f64 b) {
   lm2_m4x4_f64 result;
 
   // Row 0
@@ -433,7 +433,7 @@ LM2_API lm2_m4x4_f64 lm2_m4x4_look_at_f64(lm2_v3_f64 eye, lm2_v3_f64 target, lm2
 // Quaternion conversions - f64
 LM2_API lm2_m4x4_f64 lm2_m4x4_from_quat_f64(lm2_quat_f64 q) {
   // Normalize quaternion
-  q = lm2_quat_normalize_f64(q);
+  q = lm2_quat_norm_f64(q);
 
   double xx = lm2_mul_f64(q.x, q.x);
   double yy = lm2_mul_f64(q.y, q.y);
@@ -627,14 +627,14 @@ LM2_API lm2_m4x4_f32 lm2_m4x4_world_transform_f32(lm2_v3_f32 translation, lm2_v3
   lm2_m4x4_f32 rz = lm2_m4x4_rotate_z_f32(rotation_euler.z);
   lm2_m4x4_f32 t = lm2_m4x4_translate_f32(translation);
 
-  lm2_m4x4_f32 temp1 = lm2_m4x4_multiply_f32(rz, s);
-  lm2_m4x4_f32 temp2 = lm2_m4x4_multiply_f32(ry, temp1);
-  lm2_m4x4_f32 temp3 = lm2_m4x4_multiply_f32(rx, temp2);
-  return lm2_m4x4_multiply_f32(t, temp3);
+  lm2_m4x4_f32 temp1 = lm2_m4x4_mul_f32(rz, s);
+  lm2_m4x4_f32 temp2 = lm2_m4x4_mul_f32(ry, temp1);
+  lm2_m4x4_f32 temp3 = lm2_m4x4_mul_f32(rx, temp2);
+  return lm2_m4x4_mul_f32(t, temp3);
 }
 
 // Operations
-LM2_API lm2_m4x4_f32 lm2_m4x4_multiply_f32(lm2_m4x4_f32 a, lm2_m4x4_f32 b) {
+LM2_API lm2_m4x4_f32 lm2_m4x4_mul_f32(lm2_m4x4_f32 a, lm2_m4x4_f32 b) {
   lm2_m4x4_f32 result;
 
   // Row 0
@@ -908,7 +908,7 @@ LM2_API lm2_m4x4_f32 lm2_m4x4_look_at_f32(lm2_v3_f32 eye, lm2_v3_f32 target, lm2
 // Quaternion conversions - f32
 LM2_API lm2_m4x4_f32 lm2_m4x4_from_quat_f32(lm2_quat_f32 q) {
   // Normalize quaternion
-  q = lm2_quat_normalize_f32(q);
+  q = lm2_quat_norm_f32(q);
 
   float xx = lm2_mul_f32(q.x, q.x);
   float yy = lm2_mul_f32(q.y, q.y);

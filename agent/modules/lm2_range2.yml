@@ -308,6 +308,26 @@ functions:
   - lm2_r2_round_multiple_f64
   - lm2_r2_saturate_f32
   - lm2_r2_saturate_f64
+  - lm2_r2_scale_from_center_s_f32
+  - lm2_r2_scale_from_center_s_f64
+  - lm2_r2_scale_from_center_s_i16
+  - lm2_r2_scale_from_center_s_i32
+  - lm2_r2_scale_from_center_s_i64
+  - lm2_r2_scale_from_center_s_i8
+  - lm2_r2_scale_from_center_s_u16
+  - lm2_r2_scale_from_center_s_u32
+  - lm2_r2_scale_from_center_s_u64
+  - lm2_r2_scale_from_center_s_u8
+  - lm2_r2_scale_from_center_v_f32
+  - lm2_r2_scale_from_center_v_f64
+  - lm2_r2_scale_from_center_v_i16
+  - lm2_r2_scale_from_center_v_i32
+  - lm2_r2_scale_from_center_v_i64
+  - lm2_r2_scale_from_center_v_i8
+  - lm2_r2_scale_from_center_v_u16
+  - lm2_r2_scale_from_center_v_u32
+  - lm2_r2_scale_from_center_v_u64
+  - lm2_r2_scale_from_center_v_u8
   - lm2_r2_sign0_f32
   - lm2_r2_sign0_f64
   - lm2_r2_sign0_i16

@@ -100,7 +100,7 @@ LM2_API lm2_edge3_f64 lm2_edge3_from_plane_f64(lm2_plane3_f64 plane, lm2_v3_f64 
   projected_dir.z = lm2_sub_f64(direction.z, lm2_mul_f64(plane.normal.z, dot));
 
   // Normalize the projected direction
-  lm2_v3_f64 dir = lm2_v3_normalize_f64(projected_dir);
+  lm2_v3_f64 dir = lm2_v3_norm_f64(projected_dir);
 
   // Calculate half length
   double half_length = lm2_mul_f64(length, 0.5);
@@ -126,7 +126,7 @@ LM2_API lm2_edge3_f32 lm2_edge3_from_plane_f32(lm2_plane3_f32 plane, lm2_v3_f32 
   projected_dir.z = lm2_sub_f32(direction.z, lm2_mul_f32(plane.normal.z, dot));
 
   // Normalize the projected direction
-  lm2_v3_f32 dir = lm2_v3_normalize_f32(projected_dir);
+  lm2_v3_f32 dir = lm2_v3_norm_f32(projected_dir);
 
   // Calculate half length
   float half_length = lm2_mul_f32(length, 0.5f);

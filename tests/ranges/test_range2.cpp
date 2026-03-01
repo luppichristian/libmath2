@@ -482,6 +482,74 @@ TEST_F(Range2Test, Intersection_F64) {
   EXPECT_DOUBLE_EQ(result.max.y, 5.0);
 }
 
+TEST_F(Range2Test, ScaleFromCenter_S_F64) {
+  lm2_r2_f64 r = lm2_r2_from_min_max_f64(
+      lm2_v2_make_f64(2.0, 4.0), lm2_v2_make_f64(8.0, 10.0));
+  // Center is (5, 7), extents (3, 3)
+
+  lm2_r2_f64 scaled1 = lm2_r2_scale_from_center_s_f64(r, 1.0);
+  EXPECT_DOUBLE_EQ(scaled1.min.x, 2.0);
+  EXPECT_DOUBLE_EQ(scaled1.min.y, 4.0);
+  EXPECT_DOUBLE_EQ(scaled1.max.x, 8.0);
+  EXPECT_DOUBLE_EQ(scaled1.max.y, 10.0);
+
+  lm2_r2_f64 scaled2 = lm2_r2_scale_from_center_s_f64(r, 2.0);
+  // New extents: (6, 6), center (5, 7) -> min (5-6, 7-6) = (-1, 1), max (11, 13)
+  EXPECT_DOUBLE_EQ(scaled2.min.x, -1.0);
+  EXPECT_DOUBLE_EQ(scaled2.min.y, 1.0);
+  EXPECT_DOUBLE_EQ(scaled2.max.x, 11.0);
+  EXPECT_DOUBLE_EQ(scaled2.max.y, 13.0);
+
+  lm2_r2_f64 scaled_half = lm2_r2_scale_from_center_s_f64(r, 0.5);
+  // New extents: (1.5, 1.5), center (5, 7) -> min (3.5, 5.5), max (6.5, 8.5)
+  EXPECT_DOUBLE_EQ(scaled_half.min.x, 3.5);
+  EXPECT_DOUBLE_EQ(scaled_half.min.y, 5.5);
+  EXPECT_DOUBLE_EQ(scaled_half.max.x, 6.5);
+  EXPECT_DOUBLE_EQ(scaled_half.max.y, 8.5);
+}
+
+TEST_F(Range2Test, ScaleFromCenter_S_F32) {
+  lm2_r2_f32 r = lm2_r2_from_min_max_f32(
+      lm2_v2_make_f32(2.0f, 4.0f), lm2_v2_make_f32(8.0f, 10.0f));
+  lm2_r2_f32 scaled = lm2_r2_scale_from_center_s_f32(r, 2.0f);
+
+  EXPECT_FLOAT_EQ(scaled.min.x, -1.0f);
+  EXPECT_FLOAT_EQ(scaled.min.y, 1.0f);
+  EXPECT_FLOAT_EQ(scaled.max.x, 11.0f);
+  EXPECT_FLOAT_EQ(scaled.max.y, 13.0f);
+}
+
+TEST_F(Range2Test, ScaleFromCenter_V_F64) {
+  lm2_r2_f64 r = lm2_r2_from_min_max_f64(
+      lm2_v2_make_f64(2.0, 4.0), lm2_v2_make_f64(8.0, 10.0));
+  // Center (5, 7), extents (3, 3)
+
+  lm2_v2_f64 scale_xy = lm2_v2_make_f64(2.0, 0.5);
+  lm2_r2_f64 scaled = lm2_r2_scale_from_center_v_f64(r, scale_xy);
+  // new_extents: (3*2, 3*0.5) = (6, 1.5), center (5, 7)
+  // min = (5-6, 7-1.5) = (-1, 5.5), max = (5+6, 7+1.5) = (11, 8.5)
+  EXPECT_DOUBLE_EQ(scaled.min.x, -1.0);
+  EXPECT_DOUBLE_EQ(scaled.min.y, 5.5);
+  EXPECT_DOUBLE_EQ(scaled.max.x, 11.0);
+  EXPECT_DOUBLE_EQ(scaled.max.y, 8.5);
+}
+
+TEST_F(Range2Test, ScaleFromCenter_V_F32) {
+  lm2_r2_f32 r = lm2_r2_from_min_max_f32(
+      lm2_v2_make_f32(2.0f, 4.0f), lm2_v2_make_f32(8.0f, 10.0f));
+  lm2_v2_f32 scale_uniform = lm2_v2_make_f32(2.0f, 2.0f);
+  lm2_r2_f32 scaled = lm2_r2_scale_from_center_v_f32(r, scale_uniform);
+
+  EXPECT_FLOAT_EQ(scaled.min.x, -1.0f);
+  EXPECT_FLOAT_EQ(scaled.min.y, 1.0f);
+  EXPECT_FLOAT_EQ(scaled.max.x, 11.0f);
+  EXPECT_FLOAT_EQ(scaled.max.y, 13.0f);
+}
+
+// Note: scale_from_center_s for integers uses extents/center which rely on
+// 0.5 multiplication - that truncates for integer types. Use float types for
+// scale_from_center, or aabb2's scale_from_center with vector scale.
+
 // =============================================================================
 // Integer Type Tests (i32)
 // =============================================================================

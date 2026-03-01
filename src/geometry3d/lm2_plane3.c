@@ -33,28 +33,28 @@ SOFTWARE.
 
 LM2_API lm2_plane3_f64 lm2_plane3_make_f64(lm2_v3_f64 normal, double distance) {
   lm2_plane3_f64 plane;
-  plane.normal = lm2_v3_normalize_f64(normal);
+  plane.normal = lm2_v3_norm_f64(normal);
   plane.distance = distance;
   return plane;
 }
 
 LM2_API lm2_plane3_f32 lm2_plane3_make_f32(lm2_v3_f32 normal, float distance) {
   lm2_plane3_f32 plane;
-  plane.normal = lm2_v3_normalize_f32(normal);
+  plane.normal = lm2_v3_norm_f32(normal);
   plane.distance = distance;
   return plane;
 }
 
 LM2_API lm2_plane3_f64 lm2_plane3_from_point_normal_f64(lm2_v3_f64 point, lm2_v3_f64 normal) {
   lm2_plane3_f64 plane;
-  plane.normal = lm2_v3_normalize_f64(normal);
+  plane.normal = lm2_v3_norm_f64(normal);
   plane.distance = lm2_v3_dot_f64(plane.normal, point);
   return plane;
 }
 
 LM2_API lm2_plane3_f32 lm2_plane3_from_point_normal_f32(lm2_v3_f32 point, lm2_v3_f32 normal) {
   lm2_plane3_f32 plane;
-  plane.normal = lm2_v3_normalize_f32(normal);
+  plane.normal = lm2_v3_norm_f32(normal);
   plane.distance = lm2_v3_dot_f32(plane.normal, point);
   return plane;
 }

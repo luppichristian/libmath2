@@ -97,6 +97,7 @@ Both test functions are available for all 10 numeric type suffixes.
 |----------|-------------|
 | `lm2_r2_union_f32(a, b)` | Smallest range containing both |
 | `lm2_r2_intersection_f32(a, b)` | Overlap region of both ranges |
+| `lm2_r2_scale_from_center_s_f32(r, scale)` | Scale extents uniformly from center by scalar (all ranges use `_s` suffix) |
 
 ### Rounding, Comparison, Interpolation
 

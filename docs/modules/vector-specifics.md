@@ -84,9 +84,9 @@ Returns a unit vector in the same direction.
 
 | Function | Description |
 |----------|-------------|
-| `lm2_v2_normalize_f32(v)` | Normalize 2D vector |
-| `lm2_v3_normalize_f32(v)` | Normalize 3D vector |
-| `lm2_v4_normalize_f32(v)` | Normalize 4D vector |
+| `lm2_v2_norm_f32(v)` | Normalize 2D vector |
+| `lm2_v3_norm_f32(v)` | Normalize 3D vector |
+| `lm2_v4_norm_f32(v)` | Normalize 4D vector |
 
 ### Angle
 

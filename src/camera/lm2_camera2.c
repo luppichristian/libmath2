@@ -78,9 +78,9 @@ LM2_API lm2_m3x2_f64 lm2_camera2_get_view_f64(lm2_camera2_f64 camera) {
   lm2_m3x2_f64 tc = lm2_m3x2_translate_f64(center);
 
   // Compose: tc * s * r * t
-  lm2_m3x2_f64 tmp = lm2_m3x2_multiply_f64(r, t);
-  tmp = lm2_m3x2_multiply_f64(s, tmp);
-  tmp = lm2_m3x2_multiply_f64(tc, tmp);
+  lm2_m3x2_f64 tmp = lm2_m3x2_mul_f64(r, t);
+  tmp = lm2_m3x2_mul_f64(s, tmp);
+  tmp = lm2_m3x2_mul_f64(tc, tmp);
   return tmp;
 }
 
@@ -195,9 +195,9 @@ LM2_API lm2_m3x2_f32 lm2_camera2_get_view_f32(lm2_camera2_f32 camera) {
   lm2_m3x2_f32 s = lm2_m3x2_scale_f32(zoom_vec);
   lm2_m3x2_f32 tc = lm2_m3x2_translate_f32(center);
 
-  lm2_m3x2_f32 tmp = lm2_m3x2_multiply_f32(r, t);
-  tmp = lm2_m3x2_multiply_f32(s, tmp);
-  tmp = lm2_m3x2_multiply_f32(tc, tmp);
+  lm2_m3x2_f32 tmp = lm2_m3x2_mul_f32(r, t);
+  tmp = lm2_m3x2_mul_f32(s, tmp);
+  tmp = lm2_m3x2_mul_f32(tc, tmp);
   return tmp;
 }
 

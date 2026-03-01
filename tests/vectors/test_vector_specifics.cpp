@@ -394,21 +394,21 @@ TEST_F(VectorSpecificsTest, DistanceSq4_F32) {
 
 TEST_F(VectorSpecificsTest, Normalize2_F64) {
   lm2_v2_f64 v = lm2_v2_make_f64(3.0, 4.0);
-  lm2_v2_f64 result = lm2_v2_normalize_f64(v);
+  lm2_v2_f64 result = lm2_v2_norm_f64(v);
   EXPECT_DOUBLE_EQ(result.x, 0.6);  // 3/5
   EXPECT_DOUBLE_EQ(result.y, 0.8);  // 4/5
 }
 
 TEST_F(VectorSpecificsTest, Normalize2_F32) {
   lm2_v2_f32 v = lm2_v2_make_f32(3.0f, 4.0f);
-  lm2_v2_f32 result = lm2_v2_normalize_f32(v);
+  lm2_v2_f32 result = lm2_v2_norm_f32(v);
   EXPECT_FLOAT_EQ(result.x, 0.6f);
   EXPECT_FLOAT_EQ(result.y, 0.8f);
 }
 
 TEST_F(VectorSpecificsTest, Normalize3_F64) {
   lm2_v3_f64 v = lm2_v3_make_f64(2.0, 3.0, 6.0);
-  lm2_v3_f64 result = lm2_v3_normalize_f64(v);
+  lm2_v3_f64 result = lm2_v3_norm_f64(v);
   EXPECT_DOUBLE_EQ(result.x, 2.0 / 7.0);
   EXPECT_DOUBLE_EQ(result.y, 3.0 / 7.0);
   EXPECT_DOUBLE_EQ(result.z, 6.0 / 7.0);
@@ -416,7 +416,7 @@ TEST_F(VectorSpecificsTest, Normalize3_F64) {
 
 TEST_F(VectorSpecificsTest, Normalize3_F32) {
   lm2_v3_f32 v = lm2_v3_make_f32(2.0f, 3.0f, 6.0f);
-  lm2_v3_f32 result = lm2_v3_normalize_f32(v);
+  lm2_v3_f32 result = lm2_v3_norm_f32(v);
   EXPECT_FLOAT_EQ(result.x, 2.0f / 7.0f);
   EXPECT_FLOAT_EQ(result.y, 3.0f / 7.0f);
   EXPECT_FLOAT_EQ(result.z, 6.0f / 7.0f);
@@ -424,7 +424,7 @@ TEST_F(VectorSpecificsTest, Normalize3_F32) {
 
 TEST_F(VectorSpecificsTest, Normalize4_F64) {
   lm2_v4_f64 v = lm2_v4_make_f64(2.0, 0.0, 0.0, 0.0);
-  lm2_v4_f64 result = lm2_v4_normalize_f64(v);
+  lm2_v4_f64 result = lm2_v4_norm_f64(v);
   EXPECT_DOUBLE_EQ(result.x, 1.0);
   EXPECT_DOUBLE_EQ(result.y, 0.0);
   EXPECT_DOUBLE_EQ(result.z, 0.0);
@@ -433,7 +433,7 @@ TEST_F(VectorSpecificsTest, Normalize4_F64) {
 
 TEST_F(VectorSpecificsTest, Normalize4_F32) {
   lm2_v4_f32 v = lm2_v4_make_f32(2.0f, 0.0f, 0.0f, 0.0f);
-  lm2_v4_f32 result = lm2_v4_normalize_f32(v);
+  lm2_v4_f32 result = lm2_v4_norm_f32(v);
   EXPECT_FLOAT_EQ(result.x, 1.0f);
   EXPECT_FLOAT_EQ(result.y, 0.0f);
   EXPECT_FLOAT_EQ(result.z, 0.0f);

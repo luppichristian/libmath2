@@ -318,8 +318,8 @@ SOFTWARE.
     _Generic((a), lm2_v2_f64: lm2_v2_distance_f64, lm2_v2_f32: lm2_v2_distance_f32)(a, b)
 #  define lm2_v2_distance_sq(a, b) \
     _Generic((a), lm2_v2_f64: lm2_v2_distance_sq_f64, lm2_v2_f32: lm2_v2_distance_sq_f32)(a, b)
-#  define lm2_v2_normalize(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_normalize_f64, lm2_v2_f32: lm2_v2_normalize_f32)(a)
+#  define lm2_v2_norm(a) \
+    _Generic((a), lm2_v2_f64: lm2_v2_norm_f64, lm2_v2_f32: lm2_v2_norm_f32)(a)
 #  define lm2_v2_angle(a, b) \
     _Generic((a), lm2_v2_f64: lm2_v2_angle_f64, lm2_v2_f32: lm2_v2_angle_f32)(a, b)
 #  define lm2_v2_rotate(v, a) \
@@ -416,8 +416,8 @@ SOFTWARE.
     _Generic((a), lm2_v3_f64: lm2_v3_distance_f64, lm2_v3_f32: lm2_v3_distance_f32)(a, b)
 #  define lm2_v3_distance_sq(a, b) \
     _Generic((a), lm2_v3_f64: lm2_v3_distance_sq_f64, lm2_v3_f32: lm2_v3_distance_sq_f32)(a, b)
-#  define lm2_v3_normalize(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_normalize_f64, lm2_v3_f32: lm2_v3_normalize_f32)(a)
+#  define lm2_v3_norm(a) \
+    _Generic((a), lm2_v3_f64: lm2_v3_norm_f64, lm2_v3_f32: lm2_v3_norm_f32)(a)
 #  define lm2_v3_angle(a, b) \
     _Generic((a), lm2_v3_f64: lm2_v3_angle_f64, lm2_v3_f32: lm2_v3_angle_f32)(a, b)
 #  define lm2_v3_reflect(v, n) \
@@ -506,8 +506,8 @@ SOFTWARE.
     _Generic((a), lm2_v4_f64: lm2_v4_distance_f64, lm2_v4_f32: lm2_v4_distance_f32)(a, b)
 #  define lm2_v4_distance_sq(a, b) \
     _Generic((a), lm2_v4_f64: lm2_v4_distance_sq_f64, lm2_v4_f32: lm2_v4_distance_sq_f32)(a, b)
-#  define lm2_v4_normalize(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_normalize_f64, lm2_v4_f32: lm2_v4_normalize_f32)(a)
+#  define lm2_v4_norm(a) \
+    _Generic((a), lm2_v4_f64: lm2_v4_norm_f64, lm2_v4_f32: lm2_v4_norm_f32)(a)
 #  define lm2_v4_downcast(v) \
     _Generic((v), lm2_v4_f64: lm2_v4_downcast_f64, lm2_v4_f32: lm2_v4_downcast_f32, lm2_v4_i64: lm2_v4_downcast_i64, lm2_v4_i32: lm2_v4_downcast_i32, lm2_v4_i16: lm2_v4_downcast_i16, lm2_v4_i8: lm2_v4_downcast_i8, lm2_v4_u64: lm2_v4_downcast_u64, lm2_v4_u32: lm2_v4_downcast_u32, lm2_v4_u16: lm2_v4_downcast_u16, lm2_v4_u8: lm2_v4_downcast_u8)(v)
 
@@ -536,14 +536,12 @@ SOFTWARE.
     _Generic((float) {0}, float: lm2_quat_identity_f32, double: lm2_quat_identity_f64)()
 #  define lm2_quat_multiply(a, b) \
     _Generic((a), lm2_quat_f64: lm2_quat_multiply_f64, lm2_quat_f32: lm2_quat_multiply_f32)(a, b)
-#  define lm2_quat_normalize(q) \
-    _Generic((q), lm2_quat_f64: lm2_quat_normalize_f64, lm2_quat_f32: lm2_quat_normalize_f32)(q)
+#  define lm2_quat_norm(q) \
+    _Generic((q), lm2_quat_f64: lm2_quat_norm_f64, lm2_quat_f32: lm2_quat_norm_f32)(q)
 
 // Range2/3/4 operations - comprehensive set
 #  define lm2_r2_make(a, b, c, d) \
     _Generic((a), double: lm2_r2_make_f64, float: lm2_r2_make_f32, int64_t: lm2_r2_make_i64, int32_t: lm2_r2_make_i32, int16_t: lm2_r2_make_i16, int8_t: lm2_r2_make_i8, uint64_t: lm2_r2_make_u64, uint32_t: lm2_r2_make_u32, uint16_t: lm2_r2_make_u16, uint8_t: lm2_r2_make_u8)(a, b, c, d)
-#  define lm2_r2_translate(r, v) \
-    _Generic((r), lm2_r2_f64: lm2_r2_translate_f64, lm2_r2_f32: lm2_r2_translate_f32, lm2_r2_i64: lm2_r2_translate_i64, lm2_r2_i32: lm2_r2_translate_i32, lm2_r2_i16: lm2_r2_translate_i16, lm2_r2_i8: lm2_r2_translate_i8, lm2_r2_u64: lm2_r2_translate_u64, lm2_r2_u32: lm2_r2_translate_u32, lm2_r2_u16: lm2_r2_translate_u16, lm2_r2_u8: lm2_r2_translate_u8)(r, v)
 #  define lm2_r2_contains_point(r, p) \
     _Generic((r), lm2_r2_f64: lm2_r2_contains_point_f64, lm2_r2_f32: lm2_r2_contains_point_f32, lm2_r2_i64: lm2_r2_contains_point_i64, lm2_r2_i32: lm2_r2_contains_point_i32, lm2_r2_i16: lm2_r2_contains_point_i16, lm2_r2_i8: lm2_r2_contains_point_i8, lm2_r2_u64: lm2_r2_contains_point_u64, lm2_r2_u32: lm2_r2_contains_point_u32, lm2_r2_u16: lm2_r2_contains_point_u16, lm2_r2_u8: lm2_r2_contains_point_u8)(r, p)
 #  define lm2_r2_overlaps(a, b) \
@@ -556,6 +554,10 @@ SOFTWARE.
     _Generic((a), lm2_r2_f64: lm2_r2_union_f64, lm2_r2_f32: lm2_r2_union_f32, lm2_r2_i64: lm2_r2_union_i64, lm2_r2_i32: lm2_r2_union_i32, lm2_r2_i16: lm2_r2_union_i16, lm2_r2_i8: lm2_r2_union_i8, lm2_r2_u64: lm2_r2_union_u64, lm2_r2_u32: lm2_r2_union_u32, lm2_r2_u16: lm2_r2_union_u16, lm2_r2_u8: lm2_r2_union_u8)(a, b)
 #  define lm2_r2_intersection(a, b) \
     _Generic((a), lm2_r2_f64: lm2_r2_intersection_f64, lm2_r2_f32: lm2_r2_intersection_f32, lm2_r2_i64: lm2_r2_intersection_i64, lm2_r2_i32: lm2_r2_intersection_i32, lm2_r2_i16: lm2_r2_intersection_i16, lm2_r2_i8: lm2_r2_intersection_i8, lm2_r2_u64: lm2_r2_intersection_u64, lm2_r2_u32: lm2_r2_intersection_u32, lm2_r2_u16: lm2_r2_intersection_u16, lm2_r2_u8: lm2_r2_intersection_u8)(a, b)
+#  define lm2_r2_scale_from_center_s(r, scale) \
+    _Generic((r), lm2_r2_f64: lm2_r2_scale_from_center_s_f64, lm2_r2_f32: lm2_r2_scale_from_center_s_f32, lm2_r2_i64: lm2_r2_scale_from_center_s_i64, lm2_r2_i32: lm2_r2_scale_from_center_s_i32, lm2_r2_i16: lm2_r2_scale_from_center_s_i16, lm2_r2_i8: lm2_r2_scale_from_center_s_i8, lm2_r2_u64: lm2_r2_scale_from_center_s_u64, lm2_r2_u32: lm2_r2_scale_from_center_s_u32, lm2_r2_u16: lm2_r2_scale_from_center_s_u16, lm2_r2_u8: lm2_r2_scale_from_center_s_u8)(r, scale)
+#  define lm2_r2_scale_from_center_v(r, scale) \
+    _Generic((r), lm2_r2_f64: lm2_r2_scale_from_center_v_f64, lm2_r2_f32: lm2_r2_scale_from_center_v_f32, lm2_r2_i64: lm2_r2_scale_from_center_v_i64, lm2_r2_i32: lm2_r2_scale_from_center_v_i32, lm2_r2_i16: lm2_r2_scale_from_center_v_i16, lm2_r2_i8: lm2_r2_scale_from_center_v_i8, lm2_r2_u64: lm2_r2_scale_from_center_v_u64, lm2_r2_u32: lm2_r2_scale_from_center_v_u32, lm2_r2_u16: lm2_r2_scale_from_center_v_u16, lm2_r2_u8: lm2_r2_scale_from_center_v_u8)(r, scale)
 #  define lm2_r3_make(a, b, c, d, e, f) \
     _Generic((a), double: lm2_r3_make_f64, float: lm2_r3_make_f32, int64_t: lm2_r3_make_i64, int32_t: lm2_r3_make_i32, int16_t: lm2_r3_make_i16, int8_t: lm2_r3_make_i8, uint64_t: lm2_r3_make_u64, uint32_t: lm2_r3_make_u32, uint16_t: lm2_r3_make_u16, uint8_t: lm2_r3_make_u8)(a, b, c, d, e, f)
 #  define lm2_r3_contains_point(r, p) \
@@ -564,12 +566,20 @@ SOFTWARE.
     _Generic((r), lm2_r3_f64: lm2_r3_volume_f64, lm2_r3_f32: lm2_r3_volume_f32, lm2_r3_i64: lm2_r3_volume_i64, lm2_r3_i32: lm2_r3_volume_i32, lm2_r3_i16: lm2_r3_volume_i16, lm2_r3_i8: lm2_r3_volume_i8, lm2_r3_u64: lm2_r3_volume_u64, lm2_r3_u32: lm2_r3_volume_u32, lm2_r3_u16: lm2_r3_volume_u16, lm2_r3_u8: lm2_r3_volume_u8)(r)
 #  define lm2_r3_overlaps(a, b) \
     _Generic((a), lm2_r3_f64: lm2_r3_overlaps_f64, lm2_r3_f32: lm2_r3_overlaps_f32, lm2_r3_i64: lm2_r3_overlaps_i64, lm2_r3_i32: lm2_r3_overlaps_i32, lm2_r3_i16: lm2_r3_overlaps_i16, lm2_r3_i8: lm2_r3_overlaps_i8, lm2_r3_u64: lm2_r3_overlaps_u64, lm2_r3_u32: lm2_r3_overlaps_u32, lm2_r3_u16: lm2_r3_overlaps_u16, lm2_r3_u8: lm2_r3_overlaps_u8)(a, b)
+#  define lm2_r3_scale_from_center_s(r, scale) \
+    _Generic((r), lm2_r3_f64: lm2_r3_scale_from_center_s_f64, lm2_r3_f32: lm2_r3_scale_from_center_s_f32, lm2_r3_i64: lm2_r3_scale_from_center_s_i64, lm2_r3_i32: lm2_r3_scale_from_center_s_i32, lm2_r3_i16: lm2_r3_scale_from_center_s_i16, lm2_r3_i8: lm2_r3_scale_from_center_s_i8, lm2_r3_u64: lm2_r3_scale_from_center_s_u64, lm2_r3_u32: lm2_r3_scale_from_center_s_u32, lm2_r3_u16: lm2_r3_scale_from_center_s_u16, lm2_r3_u8: lm2_r3_scale_from_center_s_u8)(r, scale)
+#  define lm2_r3_scale_from_center_v(r, scale) \
+    _Generic((r), lm2_r3_f64: lm2_r3_scale_from_center_v_f64, lm2_r3_f32: lm2_r3_scale_from_center_v_f32, lm2_r3_i64: lm2_r3_scale_from_center_v_i64, lm2_r3_i32: lm2_r3_scale_from_center_v_i32, lm2_r3_i16: lm2_r3_scale_from_center_v_i16, lm2_r3_i8: lm2_r3_scale_from_center_v_i8, lm2_r3_u64: lm2_r3_scale_from_center_v_u64, lm2_r3_u32: lm2_r3_scale_from_center_v_u32, lm2_r3_u16: lm2_r3_scale_from_center_v_u16, lm2_r3_u8: lm2_r3_scale_from_center_v_u8)(r, scale)
 #  define lm2_r4_make(x1, x2, y1, y2, z1, z2, w1, w2) \
     _Generic((x1), double: lm2_r4_make_f64, float: lm2_r4_make_f32, int64_t: lm2_r4_make_i64, int32_t: lm2_r4_make_i32, int16_t: lm2_r4_make_i16, int8_t: lm2_r4_make_i8, uint64_t: lm2_r4_make_u64, uint32_t: lm2_r4_make_u32, uint16_t: lm2_r4_make_u16, uint8_t: lm2_r4_make_u8)(x1, x2, y1, y2, z1, z2, w1, w2)
 #  define lm2_r4_contains_point(r, p) \
     _Generic((r), lm2_r4_f64: lm2_r4_contains_point_f64, lm2_r4_f32: lm2_r4_contains_point_f32, lm2_r4_i64: lm2_r4_contains_point_i64, lm2_r4_i32: lm2_r4_contains_point_i32, lm2_r4_i16: lm2_r4_contains_point_i16, lm2_r4_i8: lm2_r4_contains_point_i8, lm2_r4_u64: lm2_r4_contains_point_u64, lm2_r4_u32: lm2_r4_contains_point_u32, lm2_r4_u16: lm2_r4_contains_point_u16, lm2_r4_u8: lm2_r4_contains_point_u8)(r, p)
 #  define lm2_r4_hypervolume(r) \
     _Generic((r), lm2_r4_f64: lm2_r4_hypervolume_f64, lm2_r4_f32: lm2_r4_hypervolume_f32, lm2_r4_i64: lm2_r4_hypervolume_i64, lm2_r4_i32: lm2_r4_hypervolume_i32, lm2_r4_i16: lm2_r4_hypervolume_i16, lm2_r4_i8: lm2_r4_hypervolume_i8, lm2_r4_u64: lm2_r4_hypervolume_u64, lm2_r4_u32: lm2_r4_hypervolume_u32, lm2_r4_u16: lm2_r4_hypervolume_u16, lm2_r4_u8: lm2_r4_hypervolume_u8)(r)
+#  define lm2_r4_scale_from_center_s(r, scale) \
+    _Generic((r), lm2_r4_f64: lm2_r4_scale_from_center_s_f64, lm2_r4_f32: lm2_r4_scale_from_center_s_f32, lm2_r4_i64: lm2_r4_scale_from_center_s_i64, lm2_r4_i32: lm2_r4_scale_from_center_s_i32, lm2_r4_i16: lm2_r4_scale_from_center_s_i16, lm2_r4_i8: lm2_r4_scale_from_center_s_i8, lm2_r4_u64: lm2_r4_scale_from_center_s_u64, lm2_r4_u32: lm2_r4_scale_from_center_s_u32, lm2_r4_u16: lm2_r4_scale_from_center_s_u16, lm2_r4_u8: lm2_r4_scale_from_center_s_u8)(r, scale)
+#  define lm2_r4_scale_from_center_v(r, scale) \
+    _Generic((r), lm2_r4_f64: lm2_r4_scale_from_center_v_f64, lm2_r4_f32: lm2_r4_scale_from_center_v_f32, lm2_r4_i64: lm2_r4_scale_from_center_v_i64, lm2_r4_i32: lm2_r4_scale_from_center_v_i32, lm2_r4_i16: lm2_r4_scale_from_center_v_i16, lm2_r4_i8: lm2_r4_scale_from_center_v_i8, lm2_r4_u64: lm2_r4_scale_from_center_v_u64, lm2_r4_u32: lm2_r4_scale_from_center_v_u32, lm2_r4_u16: lm2_r4_scale_from_center_v_u16, lm2_r4_u8: lm2_r4_scale_from_center_v_u8)(r, scale)
 
 // Matrix3x2/3x3/4x4 operations - comprehensive set
 #  define lm2_m3x2_from_translation(v) \

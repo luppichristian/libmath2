@@ -214,7 +214,7 @@ TEST_F(Camera2Test, InvView_IsViewInverse_F64) {
   c.rotation = 0.3;
   lm2_m3x2_f64 view = lm2_camera2_get_view_f64(c);
   lm2_m3x2_f64 inv = lm2_camera2_get_inv_view_f64(c);
-  lm2_m3x2_f64 prod = lm2_m3x2_multiply_f64(view, inv);
+  lm2_m3x2_f64 prod = lm2_m3x2_mul_f64(view, inv);
 
   // Product should be identity
   EXPECT_NEAR(prod.m00, 1.0, 1e-6);

@@ -31,8 +31,8 @@ functions:
   - lm2_quat_multiply_f64
   - lm2_quat_nlerp_f32
   - lm2_quat_nlerp_f64
-  - lm2_quat_normalize_f32
-  - lm2_quat_normalize_f64
+  - lm2_quat_norm_f32
+  - lm2_quat_norm_f64
   - lm2_quat_rotate_vector_f32
   - lm2_quat_rotate_vector_f64
   - lm2_quat_scale_f32

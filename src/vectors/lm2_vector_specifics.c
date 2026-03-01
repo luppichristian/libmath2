@@ -465,7 +465,7 @@ LM2_API float lm2_v4_distance_sq_f32(lm2_v4_f32 a, lm2_v4_f32 b) {
 // Normalize
 // =============================================================================
 
-LM2_API lm2_v2_f64 lm2_v2_normalize_f64(lm2_v2_f64 v) {
+LM2_API lm2_v2_f64 lm2_v2_norm_f64(lm2_v2_f64 v) {
   double len = lm2_v2_length_f64(v);
   lm2_v2_f64 result;
   if (len == 0.0) {
@@ -478,7 +478,7 @@ LM2_API lm2_v2_f64 lm2_v2_normalize_f64(lm2_v2_f64 v) {
   return result;
 }
 
-LM2_API lm2_v2_f32 lm2_v2_normalize_f32(lm2_v2_f32 v) {
+LM2_API lm2_v2_f32 lm2_v2_norm_f32(lm2_v2_f32 v) {
   float len = lm2_v2_length_f32(v);
   lm2_v2_f32 result;
   if (len == 0.0f) {
@@ -491,7 +491,7 @@ LM2_API lm2_v2_f32 lm2_v2_normalize_f32(lm2_v2_f32 v) {
   return result;
 }
 
-LM2_API lm2_v3_f64 lm2_v3_normalize_f64(lm2_v3_f64 v) {
+LM2_API lm2_v3_f64 lm2_v3_norm_f64(lm2_v3_f64 v) {
   double len = lm2_v3_length_f64(v);
   lm2_v3_f64 result;
   if (len == 0.0) {
@@ -506,7 +506,7 @@ LM2_API lm2_v3_f64 lm2_v3_normalize_f64(lm2_v3_f64 v) {
   return result;
 }
 
-LM2_API lm2_v3_f32 lm2_v3_normalize_f32(lm2_v3_f32 v) {
+LM2_API lm2_v3_f32 lm2_v3_norm_f32(lm2_v3_f32 v) {
   float len = lm2_v3_length_f32(v);
   lm2_v3_f32 result;
   if (len == 0.0f) {
@@ -521,7 +521,7 @@ LM2_API lm2_v3_f32 lm2_v3_normalize_f32(lm2_v3_f32 v) {
   return result;
 }
 
-LM2_API lm2_v4_f64 lm2_v4_normalize_f64(lm2_v4_f64 v) {
+LM2_API lm2_v4_f64 lm2_v4_norm_f64(lm2_v4_f64 v) {
   double len = lm2_v4_length_f64(v);
   lm2_v4_f64 result;
   if (len == 0.0) {
@@ -538,7 +538,7 @@ LM2_API lm2_v4_f64 lm2_v4_normalize_f64(lm2_v4_f64 v) {
   return result;
 }
 
-LM2_API lm2_v4_f32 lm2_v4_normalize_f32(lm2_v4_f32 v) {
+LM2_API lm2_v4_f32 lm2_v4_norm_f32(lm2_v4_f32 v) {
   float len = lm2_v4_length_f32(v);
   lm2_v4_f32 result;
   if (len == 0.0f) {

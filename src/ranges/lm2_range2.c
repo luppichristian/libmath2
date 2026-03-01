@@ -262,6 +262,20 @@ SOFTWARE.
     return size.x * size.y;                                                \
   }
 
+#define _LM2_IMPL_R2_SCALE_FROM_CENTER(type_name, vec_type, scalar_type, scalar_suffix) \
+  LM2_API type_name lm2_r2_scale_from_center_s_##scalar_suffix(type_name r, scalar_type scale) { \
+    vec_type center = lm2_r2_center_##scalar_suffix(r);                    \
+    vec_type extents = lm2_r2_extents_##scalar_suffix(r);                  \
+    vec_type new_extents = lm2_v2_mul_s_##scalar_suffix(extents, scale);   \
+    return lm2_r2_from_center_extents_##scalar_suffix(center, new_extents); \
+  }                                                                        \
+  LM2_API type_name lm2_r2_scale_from_center_v_##scalar_suffix(type_name r, vec_type scale) { \
+    vec_type center = lm2_r2_center_##scalar_suffix(r);                    \
+    vec_type extents = lm2_r2_extents_##scalar_suffix(r);                  \
+    vec_type new_extents = lm2_v2_mul_##scalar_suffix(extents, scale);     \
+    return lm2_r2_from_center_extents_##scalar_suffix(center, new_extents); \
+  }
+
 #define _LM2_IMPL_R2_ALL_RANGE_FUNCS(type_name, vec_type, scalar_type, scalar_suffix) \
   _LM2_IMPL_R2_UNION(type_name, vec_type, scalar_suffix)                              \
   _LM2_IMPL_R2_INTERSECTION(type_name, vec_type, scalar_suffix)                       \
@@ -270,7 +284,8 @@ SOFTWARE.
   _LM2_IMPL_R2_CENTER(type_name, vec_type, scalar_type, scalar_suffix)                \
   _LM2_IMPL_R2_CONTAINS_POINT(type_name, vec_type, scalar_type, scalar_suffix)        \
   _LM2_IMPL_R2_OVERLAPS(type_name, vec_type, scalar_type, scalar_suffix)              \
-  _LM2_IMPL_R2_AREA(type_name, vec_type, scalar_type, scalar_suffix)
+  _LM2_IMPL_R2_AREA(type_name, vec_type, scalar_type, scalar_suffix)                   \
+  _LM2_IMPL_R2_SCALE_FROM_CENTER(type_name, vec_type, scalar_type, scalar_suffix)
 
 // =============================================================================
 // Integer-specific scalar functions

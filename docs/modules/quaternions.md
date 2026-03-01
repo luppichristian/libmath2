@@ -48,7 +48,7 @@ Quaternions avoid gimbal lock, interpolate smoothly, concatenate efficiently, an
 |----------|-------------|
 | `lm2_quat_conjugate_f32(q)` | Conjugate (negate vector part) |
 | `lm2_quat_inverse_f32(q)` | Inverse rotation |
-| `lm2_quat_normalize_f32(q)` | Normalize to unit quaternion |
+| `lm2_quat_norm_f32(q)` | Normalize to unit quaternion |
 | `lm2_quat_multiply_f32(a, b)` | Combine rotations |
 | `lm2_quat_add_f32(a, b)` | Component-wise addition |
 | `lm2_quat_sub_f32(a, b)` | Component-wise subtraction |

@@ -171,7 +171,7 @@ LM2_API lm2_quat_f64 lm2_quat_inverse_f64(lm2_quat_f64 q) {
   return result;
 }
 
-LM2_API lm2_quat_f64 lm2_quat_normalize_f64(lm2_quat_f64 q) {
+LM2_API lm2_quat_f64 lm2_quat_norm_f64(lm2_quat_f64 q) {
   double len_sq = lm2_add_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(q.x, q.x), lm2_mul_f64(q.y, q.y)), lm2_mul_f64(q.z, q.z)), lm2_mul_f64(q.w, q.w));
   LM2_ASSERT_UNSAFE(len_sq > 0.0);
 
@@ -314,7 +314,7 @@ LM2_API lm2_quat_f64 lm2_quat_nlerp_f64(lm2_quat_f64 a, lm2_quat_f64 b, double t
   result.z = lm2_add_f64(lm2_mul_f64(a.z, one_minus_t), lm2_mul_f64(b.z, t));
   result.w = lm2_add_f64(lm2_mul_f64(a.w, one_minus_t), lm2_mul_f64(b.w, t));
 
-  return lm2_quat_normalize_f64(result);
+  return lm2_quat_norm_f64(result);
 }
 
 LM2_API bool lm2_quat_equals_f64(lm2_quat_f64 a, lm2_quat_f64 b, double epsilon) {
@@ -467,7 +467,7 @@ LM2_API lm2_quat_f32 lm2_quat_inverse_f32(lm2_quat_f32 q) {
   return result;
 }
 
-LM2_API lm2_quat_f32 lm2_quat_normalize_f32(lm2_quat_f32 q) {
+LM2_API lm2_quat_f32 lm2_quat_norm_f32(lm2_quat_f32 q) {
   float len_sq = lm2_add_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(q.x, q.x), lm2_mul_f32(q.y, q.y)), lm2_mul_f32(q.z, q.z)), lm2_mul_f32(q.w, q.w));
   LM2_ASSERT_UNSAFE(len_sq > 0.0f);
 
@@ -610,7 +610,7 @@ LM2_API lm2_quat_f32 lm2_quat_nlerp_f32(lm2_quat_f32 a, lm2_quat_f32 b, float t)
   result.z = lm2_add_f32(lm2_mul_f32(a.z, one_minus_t), lm2_mul_f32(b.z, t));
   result.w = lm2_add_f32(lm2_mul_f32(a.w, one_minus_t), lm2_mul_f32(b.w, t));
 
-  return lm2_quat_normalize_f32(result);
+  return lm2_quat_norm_f32(result);
 }
 
 LM2_API bool lm2_quat_equals_f32(lm2_quat_f32 a, lm2_quat_f32 b, float epsilon) {

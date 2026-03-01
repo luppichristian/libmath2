@@ -71,7 +71,7 @@ typedef struct lm2_vec2_f64 {} lm2_vec2_f64;
 
 // Type-related functions (type is first parameter)
 lm2_list_add_f32(lm2_list_f32 list, float val);
-lm2_vec2_normalize_f64(lm2_vec2_f64 v);
+lm2_vec2_norm_f64(lm2_vec2_f64 v);
 
 // Generic functions
 lm2_lerp_f32(float a, float b, float t);

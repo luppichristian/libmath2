@@ -88,7 +88,7 @@ lm2_v3_f32 cross = lm2_v3_cross_f32(a, b);
 
 // Length and normalization
 float len = lm2_v3_length_f32(a);
-lm2_v3_f32 unit = lm2_v3_normalize_f32(a);
+lm2_v3_f32 unit = lm2_v3_norm_f32(a);
 
 // Access components
 float x = a.x;
@@ -108,7 +108,7 @@ lm2_m4x4_f32 rot = lm2_m4x4_rotate_y_f32(LM2_HPI_F32);
 lm2_m4x4_f32 scl = lm2_m4x4_scale_f32(lm2_v3_splat_f32(2.0f));
 
 // Combine transforms
-lm2_m4x4_f32 model = lm2_m4x4_multiply_f32(trans, rot);
+lm2_m4x4_f32 model = lm2_m4x4_mul_f32(trans, rot);
 
 // Transform a point
 lm2_v3_f32 world_pos = lm2_m4x4_transform_point_f32(model, lm2_v3_zero_f32());

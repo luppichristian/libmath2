@@ -167,16 +167,16 @@ LM2_API float lm2_v4_distance_sq_f32(lm2_v4_f32 a, lm2_v4_f32 b);
 // =============================================================================
 
 // 2D normalize
-LM2_API lm2_v2_f64 lm2_v2_normalize_f64(lm2_v2_f64 v);
-LM2_API lm2_v2_f32 lm2_v2_normalize_f32(lm2_v2_f32 v);
+LM2_API lm2_v2_f64 lm2_v2_norm_f64(lm2_v2_f64 v);
+LM2_API lm2_v2_f32 lm2_v2_norm_f32(lm2_v2_f32 v);
 
 // 3D normalize
-LM2_API lm2_v3_f64 lm2_v3_normalize_f64(lm2_v3_f64 v);
-LM2_API lm2_v3_f32 lm2_v3_normalize_f32(lm2_v3_f32 v);
+LM2_API lm2_v3_f64 lm2_v3_norm_f64(lm2_v3_f64 v);
+LM2_API lm2_v3_f32 lm2_v3_norm_f32(lm2_v3_f32 v);
 
 // 4D normalize
-LM2_API lm2_v4_f64 lm2_v4_normalize_f64(lm2_v4_f64 v);
-LM2_API lm2_v4_f32 lm2_v4_normalize_f32(lm2_v4_f32 v);
+LM2_API lm2_v4_f64 lm2_v4_norm_f64(lm2_v4_f64 v);
+LM2_API lm2_v4_f32 lm2_v4_norm_f32(lm2_v4_f32 v);
 
 // =============================================================================
 // Angle Between Vectors (in radians)

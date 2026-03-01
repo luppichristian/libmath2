@@ -311,7 +311,7 @@ SOFTWARE.
 #define quat_to_euler_f64                       lm2_quat_to_euler_f64
 #define quat_conjugate_f64                      lm2_quat_conjugate_f64
 #define quat_inverse_f64                        lm2_quat_inverse_f64
-#define quat_normalize_f64                      lm2_quat_normalize_f64
+#define quat_norm_f64                           lm2_quat_norm_f64
 #define quat_multiply_f64                       lm2_quat_multiply_f64
 #define quat_add_f64                            lm2_quat_add_f64
 #define quat_sub_f64                            lm2_quat_sub_f64
@@ -333,7 +333,7 @@ SOFTWARE.
 #define quat_to_euler_f32                       lm2_quat_to_euler_f32
 #define quat_conjugate_f32                      lm2_quat_conjugate_f32
 #define quat_inverse_f32                        lm2_quat_inverse_f32
-#define quat_normalize_f32                      lm2_quat_normalize_f32
+#define quat_norm_f32                           lm2_quat_norm_f32
 #define quat_multiply_f32                       lm2_quat_multiply_f32
 #define quat_add_f32                            lm2_quat_add_f32
 #define quat_sub_f32                            lm2_quat_sub_f32
@@ -421,7 +421,7 @@ SOFTWARE.
 #define v2_length_sq_f64                        lm2_v2_length_sq_f64
 #define v2_distance_f64                         lm2_v2_distance_f64
 #define v2_distance_sq_f64                      lm2_v2_distance_sq_f64
-#define v2_normalize_f64                        lm2_v2_normalize_f64
+#define v2_norm_f64                             lm2_v2_norm_f64
 #define v2_angle_f64                            lm2_v2_angle_f64
 #define v2_rotate_f64                           lm2_v2_rotate_f64
 #define v2_rotate_around_f64                    lm2_v2_rotate_around_f64
@@ -472,7 +472,7 @@ SOFTWARE.
 #define v2_length_sq_f32                        lm2_v2_length_sq_f32
 #define v2_distance_f32                         lm2_v2_distance_f32
 #define v2_distance_sq_f32                      lm2_v2_distance_sq_f32
-#define v2_normalize_f32                        lm2_v2_normalize_f32
+#define v2_norm_f32                             lm2_v2_norm_f32
 #define v2_angle_f32                            lm2_v2_angle_f32
 #define v2_rotate_f32                           lm2_v2_rotate_f32
 #define v2_rotate_around_f32                    lm2_v2_rotate_around_f32
@@ -512,7 +512,7 @@ SOFTWARE.
 #define v3_length_sq_f64                        lm2_v3_length_sq_f64
 #define v3_distance_f64                         lm2_v3_distance_f64
 #define v3_distance_sq_f64                      lm2_v3_distance_sq_f64
-#define v3_normalize_f64                        lm2_v3_normalize_f64
+#define v3_norm_f64                             lm2_v3_norm_f64
 #define v3_angle_f64                            lm2_v3_angle_f64
 #define v3_reflect_f64                          lm2_v3_reflect_f64
 #define v3_project_f64                          lm2_v3_project_f64
@@ -548,7 +548,7 @@ SOFTWARE.
 #define v3_length_sq_f32                        lm2_v3_length_sq_f32
 #define v3_distance_f32                         lm2_v3_distance_f32
 #define v3_distance_sq_f32                      lm2_v3_distance_sq_f32
-#define v3_normalize_f32                        lm2_v3_normalize_f32
+#define v3_norm_f32                             lm2_v3_norm_f32
 #define v3_angle_f32                            lm2_v3_angle_f32
 #define v3_reflect_f32                          lm2_v3_reflect_f32
 #define v3_project_f32                          lm2_v3_project_f32
@@ -583,7 +583,7 @@ SOFTWARE.
 #define v4_length_sq_f64                        lm2_v4_length_sq_f64
 #define v4_distance_f64                         lm2_v4_distance_f64
 #define v4_distance_sq_f64                      lm2_v4_distance_sq_f64
-#define v4_normalize_f64                        lm2_v4_normalize_f64
+#define v4_norm_f64                             lm2_v4_norm_f64
 #define v4_add_f32                              lm2_v4_add_f32
 #define v4_sub_f32                              lm2_v4_sub_f32
 #define v4_mul_f32                              lm2_v4_mul_f32
@@ -615,7 +615,7 @@ SOFTWARE.
 #define v4_length_sq_f32                        lm2_v4_length_sq_f32
 #define v4_distance_f32                         lm2_v4_distance_f32
 #define v4_distance_sq_f32                      lm2_v4_distance_sq_f32
-#define v4_normalize_f32                        lm2_v4_normalize_f32
+#define v4_norm_f32                             lm2_v4_norm_f32
 #define r2_f64                                  lm2_r2_f64
 #define r2_f32                                  lm2_r2_f32
 #define r2_i64                                  lm2_r2_i64
@@ -657,12 +657,12 @@ SOFTWARE.
 #define r2_get_max_f64                          lm2_r2_get_max_f64
 #define r2_get_size_f64                         lm2_r2_get_size_f64
 #define r2_get_center_f64                       lm2_r2_get_center_f64
-#define r2_normalize_f64                        lm2_r2_normalize_f64
-#define r2_translate_f64                        lm2_r2_translate_f64
+#define r2_norm_f64                             lm2_r2_norm_f64
 #define r2_expand_f64                           lm2_r2_expand_f64
-#define r2_scale_f64                            lm2_r2_scale_f64
 #define r2_union_f64                            lm2_r2_union_f64
 #define r2_intersection_f64                     lm2_r2_intersection_f64
+#define r2_scale_from_center_s_f64              lm2_r2_scale_from_center_s_f64
+#define r2_scale_from_center_v_f64              lm2_r2_scale_from_center_v_f64
 #define r2_contains_point_f64                   lm2_r2_contains_point_f64
 #define r2_overlaps_f64                         lm2_r2_overlaps_f64
 #define r2_area_f64                             lm2_r2_area_f64
@@ -675,12 +675,12 @@ SOFTWARE.
 #define r2_get_max_f32                          lm2_r2_get_max_f32
 #define r2_get_size_f32                         lm2_r2_get_size_f32
 #define r2_get_center_f32                       lm2_r2_get_center_f32
-#define r2_normalize_f32                        lm2_r2_normalize_f32
-#define r2_translate_f32                        lm2_r2_translate_f32
+#define r2_norm_f32                             lm2_r2_norm_f32
 #define r2_expand_f32                           lm2_r2_expand_f32
-#define r2_scale_f32                            lm2_r2_scale_f32
 #define r2_union_f32                            lm2_r2_union_f32
 #define r2_intersection_f32                     lm2_r2_intersection_f32
+#define r2_scale_from_center_s_f32              lm2_r2_scale_from_center_s_f32
+#define r2_scale_from_center_v_f32              lm2_r2_scale_from_center_v_f32
 #define r2_contains_point_f32                   lm2_r2_contains_point_f32
 #define r2_overlaps_f32                         lm2_r2_overlaps_f32
 #define r2_area_f32                             lm2_r2_area_f32
@@ -691,12 +691,12 @@ SOFTWARE.
 #define r3_get_max_f64                          lm2_r3_get_max_f64
 #define r3_get_size_f64                         lm2_r3_get_size_f64
 #define r3_get_center_f64                       lm2_r3_get_center_f64
-#define r3_normalize_f64                        lm2_r3_normalize_f64
-#define r3_translate_f64                        lm2_r3_translate_f64
+#define r3_norm_f64                             lm2_r3_norm_f64
 #define r3_expand_f64                           lm2_r3_expand_f64
-#define r3_scale_f64                            lm2_r3_scale_f64
 #define r3_union_f64                            lm2_r3_union_f64
 #define r3_intersection_f64                     lm2_r3_intersection_f64
+#define r3_scale_from_center_s_f64              lm2_r3_scale_from_center_s_f64
+#define r3_scale_from_center_v_f64              lm2_r3_scale_from_center_v_f64
 #define r3_contains_point_f64                   lm2_r3_contains_point_f64
 #define r3_overlaps_f64                         lm2_r3_overlaps_f64
 #define r3_volume_f64                           lm2_r3_volume_f64
@@ -706,12 +706,12 @@ SOFTWARE.
 #define r3_get_max_f32                          lm2_r3_get_max_f32
 #define r3_get_size_f32                         lm2_r3_get_size_f32
 #define r3_get_center_f32                       lm2_r3_get_center_f32
-#define r3_normalize_f32                        lm2_r3_normalize_f32
-#define r3_translate_f32                        lm2_r3_translate_f32
+#define r3_norm_f32                             lm2_r3_norm_f32
 #define r3_expand_f32                           lm2_r3_expand_f32
-#define r3_scale_f32                            lm2_r3_scale_f32
 #define r3_union_f32                            lm2_r3_union_f32
 #define r3_intersection_f32                     lm2_r3_intersection_f32
+#define r3_scale_from_center_s_f32              lm2_r3_scale_from_center_s_f32
+#define r3_scale_from_center_v_f32              lm2_r3_scale_from_center_v_f32
 #define r3_contains_point_f32                   lm2_r3_contains_point_f32
 #define r3_overlaps_f32                         lm2_r3_overlaps_f32
 #define r3_volume_f32                           lm2_r3_volume_f32
@@ -1674,7 +1674,7 @@ SOFTWARE.
 #  define v2_length_sq                    lm2_v2_length_sq
 #  define v2_distance                     lm2_v2_distance
 #  define v2_distance_sq                  lm2_v2_distance_sq
-#  define v2_normalize                    lm2_v2_normalize
+#  define v2_norm                         lm2_v2_norm
 #  define v2_angle                        lm2_v2_angle
 #  define v2_rotate                       lm2_v2_rotate
 #  define v2_rotate_around                lm2_v2_rotate_around
@@ -1722,7 +1722,7 @@ SOFTWARE.
 #  define v3_length_sq                    lm2_v3_length_sq
 #  define v3_distance                     lm2_v3_distance
 #  define v3_distance_sq                  lm2_v3_distance_sq
-#  define v3_normalize                    lm2_v3_normalize
+#  define v3_norm                         lm2_v3_norm
 #  define v3_angle                        lm2_v3_angle
 #  define v3_reflect                      lm2_v3_reflect
 #  define v3_project                      lm2_v3_project
@@ -1766,7 +1766,7 @@ SOFTWARE.
 #  define v4_length_sq                    lm2_v4_length_sq
 #  define v4_distance                     lm2_v4_distance
 #  define v4_distance_sq                  lm2_v4_distance_sq
-#  define v4_normalize                    lm2_v4_normalize
+#  define v4_norm                         lm2_v4_norm
 #  define v4_downcast                     lm2_v4_downcast
 #  define m3x2_identity                   lm2_m3x2_identity
 #  define m3x2_zero                       lm2_m3x2_zero
@@ -1779,22 +1779,27 @@ SOFTWARE.
 #  define m4x4_mul                        lm2_m4x4_mul
 #  define quat_identity                   lm2_quat_identity
 #  define quat_multiply                   lm2_quat_multiply
-#  define quat_normalize                  lm2_quat_normalize
+#  define quat_norm                       lm2_quat_norm
 #  define r2_make                         lm2_r2_make
-#  define r2_translate                    lm2_r2_translate
 #  define r2_contains_point               lm2_r2_contains_point
 #  define r2_overlaps                     lm2_r2_overlaps
 #  define r2_area                         lm2_r2_area
 #  define r2_get_center                   lm2_r2_get_center
 #  define r2_union                        lm2_r2_union
 #  define r2_intersection                 lm2_r2_intersection
+#  define r2_scale_from_center_s          lm2_r2_scale_from_center_s
+#  define r2_scale_from_center_v          lm2_r2_scale_from_center_v
 #  define r3_make                         lm2_r3_make
 #  define r3_contains_point               lm2_r3_contains_point
 #  define r3_volume                       lm2_r3_volume
 #  define r3_overlaps                     lm2_r3_overlaps
+#  define r3_scale_from_center_s          lm2_r3_scale_from_center_s
+#  define r3_scale_from_center_v          lm2_r3_scale_from_center_v
 #  define r4_make                         lm2_r4_make
 #  define r4_contains_point               lm2_r4_contains_point
 #  define r4_hypervolume                  lm2_r4_hypervolume
+#  define r4_scale_from_center_s          lm2_r4_scale_from_center_s
+#  define r4_scale_from_center_v          lm2_r4_scale_from_center_v
 #  define m3x2_from_translation           lm2_m3x2_from_translation
 #  define m3x2_from_rotation              lm2_m3x2_from_rotation
 #  define m3x2_from_scale                 lm2_m3x2_from_scale

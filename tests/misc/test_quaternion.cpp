@@ -212,7 +212,7 @@ TEST_F(QuaternionTest, Length_F64) {
 
 TEST_F(QuaternionTest, Normalize_F64) {
   lm2_quat_f64 q = lm2_quat_make_f64(3.0, 0.0, 4.0, 0.0);
-  lm2_quat_f64 norm = lm2_quat_normalize_f64(q);
+  lm2_quat_f64 norm = lm2_quat_norm_f64(q);
 
   double len = lm2_quat_length_f64(norm);
   EXPECT_NEAR(len, 1.0, EPSILON_F64);
@@ -300,7 +300,7 @@ TEST_F(QuaternionTest, Conjugate_F32) {
 
 TEST_F(QuaternionTest, Normalize_F32) {
   lm2_quat_f32 q = lm2_quat_make_f32(3.0f, 0.0f, 4.0f, 0.0f);
-  lm2_quat_f32 norm = lm2_quat_normalize_f32(q);
+  lm2_quat_f32 norm = lm2_quat_norm_f32(q);
 
   float len = lm2_quat_length_f32(norm);
   EXPECT_NEAR(len, 1.0f, EPSILON_F32);
@@ -400,7 +400,7 @@ TEST_F(QuaternionTest, RotateVector_F64_PreservesLength) {
   lm2_v3_f64 axis = {1.0, 1.0, 1.0};
   double angle = LM2_PI_F64 / 3.0;
   lm2_quat_f64 q = lm2_quat_from_axis_angle_f64(axis, angle);
-  q = lm2_quat_normalize_f64(q);
+  q = lm2_quat_norm_f64(q);
 
   lm2_v3_f64 v = {3.0, 4.0, 5.0};
   double original_length = std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);

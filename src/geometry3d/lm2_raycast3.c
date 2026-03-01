@@ -51,7 +51,7 @@ LM2_API lm2_ray3_f64 lm2_ray3_from_points_f64(lm2_v3_f64 start, lm2_v3_f64 end) 
   result.origin = start;
   lm2_v3_f64 diff = lm2_v3_sub_f64(end, start);
   double length = lm2_v3_length_f64(diff);
-  result.direction = lm2_v3_normalize_f64(diff);
+  result.direction = lm2_v3_norm_f64(diff);
   result.t_max = length;
   return result;
 }
@@ -78,7 +78,7 @@ LM2_API lm2_ray3_f32 lm2_ray3_from_points_f32(lm2_v3_f32 start, lm2_v3_f32 end) 
   result.origin = start;
   lm2_v3_f32 diff = lm2_v3_sub_f32(end, start);
   float length = lm2_v3_length_f32(diff);
-  result.direction = lm2_v3_normalize_f32(diff);
+  result.direction = lm2_v3_norm_f32(diff);
   result.t_max = length;
   return result;
 }
@@ -125,7 +125,7 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_sphere_f64(lm2_ray3_f64 ray, lm2_v3_f64 cent
       result.hit = true;
       result.t = t;
       result.point = lm2_ray3_point_at_f64(ray, t);
-      result.normal = lm2_v3_normalize_f64(lm2_v3_sub_f64(result.point, center));
+      result.normal = lm2_v3_norm_f64(lm2_v3_sub_f64(result.point, center));
     }
   }
 
@@ -244,7 +244,7 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_triangle_f64(lm2_ray3_f64 ray, lm2_v3_f64 v0
     result.hit = true;
     result.t = t;
     result.point = lm2_ray3_point_at_f64(ray, t);
-    result.normal = lm2_v3_normalize_f64(lm2_v3_cross_f64(edge1, edge2));
+    result.normal = lm2_v3_norm_f64(lm2_v3_cross_f64(edge1, edge2));
   } else {
     result.hit = false;
     result.t = 0.0;
@@ -319,7 +319,7 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_sphere_f32(lm2_ray3_f32 ray, lm2_v3_f32 cent
       result.hit = true;
       result.t = t;
       result.point = lm2_ray3_point_at_f32(ray, t);
-      result.normal = lm2_v3_normalize_f32(lm2_v3_sub_f32(result.point, center));
+      result.normal = lm2_v3_norm_f32(lm2_v3_sub_f32(result.point, center));
     }
   }
 
@@ -438,7 +438,7 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3_f32 v0
     result.hit = true;
     result.t = t;
     result.point = lm2_ray3_point_at_f32(ray, t);
-    result.normal = lm2_v3_normalize_f32(lm2_v3_cross_f32(edge1, edge2));
+    result.normal = lm2_v3_norm_f32(lm2_v3_cross_f32(edge1, edge2));
   } else {
     result.hit = false;
     result.t = 0.0f;
@@ -597,7 +597,7 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3_f64 sta
               // Valid hit on cylinder portion
               lm2_v3_f64 point = lm2_ray3_point_at_f64(ray, t);
               lm2_v3_f64 seg_point = lm2_v3_add_f64(start, lm2_v3_mul_s_f64(seg_dir, s));
-              lm2_v3_f64 normal = lm2_v3_normalize_f64(lm2_v3_sub_f64(point, seg_point));
+              lm2_v3_f64 normal = lm2_v3_norm_f64(lm2_v3_sub_f64(point, seg_point));
 
               best_t = t;
               best_point = point;
@@ -713,7 +713,7 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3_f32 sta
             if (s >= 0.0f && s <= 1.0f) {
               lm2_v3_f32 point = lm2_ray3_point_at_f32(ray, t);
               lm2_v3_f32 seg_point = lm2_v3_add_f32(start, lm2_v3_mul_s_f32(seg_dir, s));
-              lm2_v3_f32 normal = lm2_v3_normalize_f32(lm2_v3_sub_f32(point, seg_point));
+              lm2_v3_f32 normal = lm2_v3_norm_f32(lm2_v3_sub_f32(point, seg_point));
 
               best_t = t;
               best_point = point;
@@ -819,13 +819,13 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3_f64 edge_s
     result.point = ray_point;
     // Normal points from edge to ray
     if (dist > epsilon) {
-      result.normal = lm2_v3_normalize_f64(lm2_v3_sub_f64(ray_point, edge_point));
+      result.normal = lm2_v3_norm_f64(lm2_v3_sub_f64(ray_point, edge_point));
     } else {
       // Ray intersects edge, use perpendicular to both
       lm2_v3_f64 cross = lm2_v3_cross_f64(ray.direction, edge_dir);
       double cross_len = lm2_v3_length_f64(cross);
       if (cross_len > epsilon) {
-        result.normal = lm2_v3_normalize_f64(cross);
+        result.normal = lm2_v3_norm_f64(cross);
       } else {
         // Parallel, use any perpendicular
         result.normal = (lm2_v3_f64) {1.0, 0.0, 0.0};
@@ -901,12 +901,12 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3_f32 edge_s
     result.t = t_ray;
     result.point = ray_point;
     if (dist > epsilon) {
-      result.normal = lm2_v3_normalize_f32(lm2_v3_sub_f32(ray_point, edge_point));
+      result.normal = lm2_v3_norm_f32(lm2_v3_sub_f32(ray_point, edge_point));
     } else {
       lm2_v3_f32 cross = lm2_v3_cross_f32(ray.direction, edge_dir);
       float cross_len = lm2_v3_length_f32(cross);
       if (cross_len > epsilon) {
-        result.normal = lm2_v3_normalize_f32(cross);
+        result.normal = lm2_v3_norm_f32(cross);
       } else {
         result.normal = (lm2_v3_f32) {1.0f, 0.0f, 0.0f};
       }

@@ -342,16 +342,16 @@ functions:
   - lm2_r4_mul_v_u32
   - lm2_r4_mul_v_u64
   - lm2_r4_mul_v_u8
-  - lm2_r4_normalize_f32
-  - lm2_r4_normalize_f64
-  - lm2_r4_normalize_i16
-  - lm2_r4_normalize_i32
-  - lm2_r4_normalize_i64
-  - lm2_r4_normalize_i8
-  - lm2_r4_normalize_u16
-  - lm2_r4_normalize_u32
-  - lm2_r4_normalize_u64
-  - lm2_r4_normalize_u8
+  - lm2_r4_norm_f32
+  - lm2_r4_norm_f64
+  - lm2_r4_norm_i16
+  - lm2_r4_norm_i32
+  - lm2_r4_norm_i64
+  - lm2_r4_norm_i8
+  - lm2_r4_norm_u16
+  - lm2_r4_norm_u32
+  - lm2_r4_norm_u64
+  - lm2_r4_norm_u8
   - lm2_r4_overlaps_f32
   - lm2_r4_overlaps_f64
   - lm2_r4_overlaps_i16
@@ -386,16 +386,26 @@ functions:
   - lm2_r4_round_u8
   - lm2_r4_saturate_f32
   - lm2_r4_saturate_f64
-  - lm2_r4_scale_f32
-  - lm2_r4_scale_f64
-  - lm2_r4_scale_i16
-  - lm2_r4_scale_i32
-  - lm2_r4_scale_i64
-  - lm2_r4_scale_i8
-  - lm2_r4_scale_u16
-  - lm2_r4_scale_u32
-  - lm2_r4_scale_u64
-  - lm2_r4_scale_u8
+  - lm2_r4_scale_from_center_s_f32
+  - lm2_r4_scale_from_center_s_f64
+  - lm2_r4_scale_from_center_s_i16
+  - lm2_r4_scale_from_center_s_i32
+  - lm2_r4_scale_from_center_s_i64
+  - lm2_r4_scale_from_center_s_i8
+  - lm2_r4_scale_from_center_s_u16
+  - lm2_r4_scale_from_center_s_u32
+  - lm2_r4_scale_from_center_s_u64
+  - lm2_r4_scale_from_center_s_u8
+  - lm2_r4_scale_from_center_v_f32
+  - lm2_r4_scale_from_center_v_f64
+  - lm2_r4_scale_from_center_v_i16
+  - lm2_r4_scale_from_center_v_i32
+  - lm2_r4_scale_from_center_v_i64
+  - lm2_r4_scale_from_center_v_i8
+  - lm2_r4_scale_from_center_v_u16
+  - lm2_r4_scale_from_center_v_u32
+  - lm2_r4_scale_from_center_v_u64
+  - lm2_r4_scale_from_center_v_u8
   - lm2_r4_sign0_f32
   - lm2_r4_sign0_f64
   - lm2_r4_sign0_i16
@@ -452,16 +462,6 @@ functions:
   - lm2_r4_sub_v_u32
   - lm2_r4_sub_v_u64
   - lm2_r4_sub_v_u8
-  - lm2_r4_translate_f32
-  - lm2_r4_translate_f64
-  - lm2_r4_translate_i16
-  - lm2_r4_translate_i32
-  - lm2_r4_translate_i64
-  - lm2_r4_translate_i8
-  - lm2_r4_translate_u16
-  - lm2_r4_translate_u32
-  - lm2_r4_translate_u64
-  - lm2_r4_translate_u8
   - lm2_r4_trunc_f32
   - lm2_r4_trunc_f64
   - lm2_r4_trunc_i16

@@ -47,7 +47,7 @@ LM2_API lm2_ray2_f64 lm2_ray2_from_points_f64(lm2_v2_f64 start, lm2_v2_f64 end) 
   result.origin = start;
   lm2_v2_f64 diff = lm2_v2_sub_f64(end, start);
   double length = lm2_v2_length_f64(diff);
-  result.direction = lm2_v2_normalize_f64(diff);
+  result.direction = lm2_v2_norm_f64(diff);
   result.t_max = length;
   return result;
 }
@@ -74,7 +74,7 @@ LM2_API lm2_ray2_f32 lm2_ray2_from_points_f32(lm2_v2_f32 start, lm2_v2_f32 end) 
   result.origin = start;
   lm2_v2_f32 diff = lm2_v2_sub_f32(end, start);
   float length = lm2_v2_length_f32(diff);
-  result.direction = lm2_v2_normalize_f32(diff);
+  result.direction = lm2_v2_norm_f32(diff);
   result.t_max = length;
   return result;
 }

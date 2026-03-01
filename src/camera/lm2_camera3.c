@@ -76,7 +76,7 @@ LM2_API lm2_m4x4_f64 lm2_camera3_get_projection_f64(lm2_camera3_f64 camera) {
 LM2_API lm2_m4x4_f64 lm2_camera3_get_view_projection_f64(lm2_camera3_f64 camera) {
   lm2_m4x4_f64 v = lm2_camera3_get_view_f64(camera);
   lm2_m4x4_f64 p = lm2_camera3_get_projection_f64(camera);
-  return lm2_m4x4_multiply_f64(p, v);
+  return lm2_m4x4_mul_f64(p, v);
 }
 
 LM2_API lm2_m4x4_f64 lm2_camera3_get_inv_view_f64(lm2_camera3_f64 camera) {
@@ -88,13 +88,13 @@ LM2_API lm2_v3_f64 lm2_camera3_get_forward_f64(lm2_camera3_f64 camera) {
   dir.x = camera.target.x - camera.position.x;
   dir.y = camera.target.y - camera.position.y;
   dir.z = camera.target.z - camera.position.z;
-  return lm2_v3_normalize_f64(dir);
+  return lm2_v3_norm_f64(dir);
 }
 
 LM2_API lm2_v3_f64 lm2_camera3_get_right_f64(lm2_camera3_f64 camera) {
   lm2_v3_f64 fwd = lm2_camera3_get_forward_f64(camera);
   lm2_v3_f64 right = lm2_v3_cross_f64(fwd, camera.up);
-  return lm2_v3_normalize_f64(right);
+  return lm2_v3_norm_f64(right);
 }
 
 LM2_API lm2_v3_f64 lm2_camera3_get_up_f64(lm2_camera3_f64 camera) {
@@ -224,7 +224,7 @@ LM2_API lm2_m4x4_f32 lm2_camera3_get_projection_f32(lm2_camera3_f32 camera) {
 LM2_API lm2_m4x4_f32 lm2_camera3_get_view_projection_f32(lm2_camera3_f32 camera) {
   lm2_m4x4_f32 v = lm2_camera3_get_view_f32(camera);
   lm2_m4x4_f32 p = lm2_camera3_get_projection_f32(camera);
-  return lm2_m4x4_multiply_f32(p, v);
+  return lm2_m4x4_mul_f32(p, v);
 }
 
 LM2_API lm2_m4x4_f32 lm2_camera3_get_inv_view_f32(lm2_camera3_f32 camera) {
@@ -236,13 +236,13 @@ LM2_API lm2_v3_f32 lm2_camera3_get_forward_f32(lm2_camera3_f32 camera) {
   dir.x = camera.target.x - camera.position.x;
   dir.y = camera.target.y - camera.position.y;
   dir.z = camera.target.z - camera.position.z;
-  return lm2_v3_normalize_f32(dir);
+  return lm2_v3_norm_f32(dir);
 }
 
 LM2_API lm2_v3_f32 lm2_camera3_get_right_f32(lm2_camera3_f32 camera) {
   lm2_v3_f32 fwd = lm2_camera3_get_forward_f32(camera);
   lm2_v3_f32 right = lm2_v3_cross_f32(fwd, camera.up);
-  return lm2_v3_normalize_f32(right);
+  return lm2_v3_norm_f32(right);
 }
 
 LM2_API lm2_v3_f32 lm2_camera3_get_up_f32(lm2_camera3_f32 camera) {
@@ -376,7 +376,7 @@ LM2_API lm2_camera3_f64 lm2_camera3_rotate_local_f64(lm2_camera3_f64 camera, lm2
   // get_orientation extracts from the view matrix (inverse of camera rotation),
   // so conjugate to recover the actual camera orientation before composing.
   lm2_quat_f64 current = lm2_quat_conjugate_f64(lm2_camera3_get_orientation_f64(camera));
-  lm2_quat_f64 next = lm2_quat_normalize_f64(lm2_quat_multiply_f64(current, rotation));
+  lm2_quat_f64 next = lm2_quat_norm_f64(lm2_quat_multiply_f64(current, rotation));
   return lm2_camera3_set_orientation_f64(camera, next);
 }
 
@@ -427,6 +427,6 @@ LM2_API lm2_camera3_f32 lm2_camera3_rotate_local_f32(lm2_camera3_f32 camera, lm2
   // get_orientation extracts from the view matrix (inverse of camera rotation),
   // so conjugate to recover the actual camera orientation before composing.
   lm2_quat_f32 current = lm2_quat_conjugate_f32(lm2_camera3_get_orientation_f32(camera));
-  lm2_quat_f32 next = lm2_quat_normalize_f32(lm2_quat_multiply_f32(current, rotation));
+  lm2_quat_f32 next = lm2_quat_norm_f32(lm2_quat_multiply_f32(current, rotation));
   return lm2_camera3_set_orientation_f32(camera, next);
 }

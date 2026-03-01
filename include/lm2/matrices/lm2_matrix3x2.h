@@ -54,7 +54,7 @@ LM2_HEADER_BEGIN;
 //   [cos θ  -sin θ  0]
 //   [sin θ   cos θ  0]
 //
-// COMPOSITION: lm2_m3x2_multiply(A, B) applies B first, then A (A*B).
+// COMPOSITION: lm2_m3x2_mul(A, B) applies B first, then A (A*B).
 //   To build TRS: multiply(translate, multiply(rotate, scale)).
 //
 // Can represent: translation, rotation, scaling, shearing, and combinations.
@@ -87,7 +87,7 @@ LM2_API lm2_m3x2_f64 lm2_m3x2_rotate_f64(double angle);
 LM2_API lm2_m3x2_f64 lm2_m3x2_rotate_around_pivot_f64(double angle, lm2_v2_f64 pivot);
 LM2_API lm2_m3x2_f64 lm2_m3x2_scale_translate_f64(lm2_v2_f64 scale, lm2_v2_f64 translation);
 LM2_API lm2_m3x2_f64 lm2_m3x2_world_transform_f64(lm2_v2_f64 translation, lm2_v2_f64 scale, double rotation);
-LM2_API lm2_m3x2_f64 lm2_m3x2_multiply_f64(lm2_m3x2_f64 a, lm2_m3x2_f64 b);
+LM2_API lm2_m3x2_f64 lm2_m3x2_mul_f64(lm2_m3x2_f64 a, lm2_m3x2_f64 b);
 LM2_API lm2_m3x2_f64 lm2_m3x2_inverse_f64(lm2_m3x2_f64 m);
 LM2_API double lm2_m3x2_determinant_f64(lm2_m3x2_f64 m);
 LM2_API lm2_v2_f64 lm2_m3x2_transform_point_f64(lm2_m3x2_f64 m, lm2_v2_f64 v);
@@ -126,7 +126,7 @@ LM2_API lm2_m3x2_f32 lm2_m3x2_rotate_f32(float angle);
 LM2_API lm2_m3x2_f32 lm2_m3x2_rotate_around_pivot_f32(float angle, lm2_v2_f32 pivot);
 LM2_API lm2_m3x2_f32 lm2_m3x2_scale_translate_f32(lm2_v2_f32 scale, lm2_v2_f32 translation);
 LM2_API lm2_m3x2_f32 lm2_m3x2_world_transform_f32(lm2_v2_f32 translation, lm2_v2_f32 scale, float rotation);
-LM2_API lm2_m3x2_f32 lm2_m3x2_multiply_f32(lm2_m3x2_f32 a, lm2_m3x2_f32 b);
+LM2_API lm2_m3x2_f32 lm2_m3x2_mul_f32(lm2_m3x2_f32 a, lm2_m3x2_f32 b);
 LM2_API lm2_m3x2_f32 lm2_m3x2_inverse_f32(lm2_m3x2_f32 m);
 LM2_API float lm2_m3x2_determinant_f32(lm2_m3x2_f32 m);
 LM2_API lm2_v2_f32 lm2_m3x2_transform_point_f32(lm2_m3x2_f32 m, lm2_v2_f32 v);

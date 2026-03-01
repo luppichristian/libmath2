@@ -81,7 +81,7 @@ LM2_API lm2_capsule3_f32 lm2_capsule3_make_coords_f32(float x1, float y1, float 
 LM2_API lm2_capsule3_f64 lm2_capsule3_from_center_f64(lm2_v3_f64 center, lm2_v3_f64 direction, double half_length, double radius) {
   LM2_ASSERT(radius >= 0.0);
   LM2_ASSERT(half_length >= 0.0);
-  lm2_v3_f64 normalized = lm2_v3_normalize_f64(direction);
+  lm2_v3_f64 normalized = lm2_v3_norm_f64(direction);
   lm2_v3_f64 offset = lm2_v3_mul_s_f64(normalized, half_length);
   lm2_capsule3_f64 capsule;
   capsule.start = lm2_v3_sub_f64(center, offset);
@@ -93,7 +93,7 @@ LM2_API lm2_capsule3_f64 lm2_capsule3_from_center_f64(lm2_v3_f64 center, lm2_v3_
 LM2_API lm2_capsule3_f32 lm2_capsule3_from_center_f32(lm2_v3_f32 center, lm2_v3_f32 direction, float half_length, float radius) {
   LM2_ASSERT(radius >= 0.0f);
   LM2_ASSERT(half_length >= 0.0f);
-  lm2_v3_f32 normalized = lm2_v3_normalize_f32(direction);
+  lm2_v3_f32 normalized = lm2_v3_norm_f32(direction);
   lm2_v3_f32 offset = lm2_v3_mul_s_f32(normalized, half_length);
   lm2_capsule3_f32 capsule;
   capsule.start = lm2_v3_sub_f32(center, offset);

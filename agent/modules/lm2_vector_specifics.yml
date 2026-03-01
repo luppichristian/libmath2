@@ -61,12 +61,12 @@ functions:
   - lm2_v3_distance_sq_f32
   - lm2_v4_distance_sq_f64
   - lm2_v4_distance_sq_f32
-  - lm2_v2_normalize_f64
-  - lm2_v2_normalize_f32
-  - lm2_v3_normalize_f64
-  - lm2_v3_normalize_f32
-  - lm2_v4_normalize_f64
-  - lm2_v4_normalize_f32
+  - lm2_v2_norm_f64
+  - lm2_v2_norm_f32
+  - lm2_v3_norm_f64
+  - lm2_v3_norm_f32
+  - lm2_v4_norm_f64
+  - lm2_v4_norm_f32
   - lm2_v2_angle_f64
   - lm2_v2_angle_f32
   - lm2_v3_angle_f64

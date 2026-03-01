@@ -64,7 +64,7 @@ All functions shown with `_f32` suffix. Also available with `_f64`.
 
 | Function | Description |
 |----------|-------------|
-| `lm2_m3x2_multiply_f32(a, b)` | Matrix multiplication (applies b first, then a) |
+| `lm2_m3x2_mul_f32(a, b)` | Matrix multiplication (applies b first, then a) |
 | `lm2_m3x2_inverse_f32(m)` | Inverse |
 | `lm2_m3x2_determinant_f32(m)` | Determinant |
 
@@ -134,7 +134,7 @@ All functions shown with `_f32` suffix. Also available with `_f64`.
 
 | Function | Description |
 |----------|-------------|
-| `lm2_m3x3_multiply_f32(a, b)` | Matrix multiplication |
+| `lm2_m3x3_mul_f32(a, b)` | Matrix multiplication |
 | `lm2_m3x3_transpose_f32(m)` | Transpose |
 | `lm2_m3x3_inverse_f32(m)` | Inverse |
 | `lm2_m3x3_determinant_f32(m)` | Determinant |
@@ -197,7 +197,7 @@ Access via named fields (`m.m00`, `m.m01`, ...) or flat array (`m.e[0]` through 
 
 | Function | Description |
 |----------|-------------|
-| `lm2_m4x4_multiply_f32(a, b)` | Matrix multiplication |
+| `lm2_m4x4_mul_f32(a, b)` | Matrix multiplication |
 | `lm2_m4x4_transpose_f32(m)` | Transpose |
 | `lm2_m4x4_inverse_f32(m)` | Inverse |
 | `lm2_m4x4_determinant_f32(m)` | Determinant |
@@ -271,7 +271,7 @@ lm2_m4x4_f32 view = lm2_m4x4_look_at_f32(
 
 lm2_m4x4_f32 proj = lm2_m4x4_perspective_f32(1.047f, 16.0f/9.0f, 0.1f, 100.0f);
 
-lm2_m4x4_f32 mvp = lm2_m4x4_multiply_f32(
-    lm2_m4x4_multiply_f32(proj, view), model
+lm2_m4x4_f32 mvp = lm2_m4x4_mul_f32(
+    lm2_m4x4_mul_f32(proj, view), model
 );
 ```

@@ -269,7 +269,7 @@ SOFTWARE.
   }
 
 #define _LM2_IMPL_R3_NORMALIZE(type_name, vec_type, scalar_type, scalar_suffix) \
-  LM2_API type_name lm2_r3_normalize_##scalar_suffix(type_name r) {             \
+  LM2_API type_name lm2_r3_norm_##scalar_suffix(type_name r) {                  \
     type_name result = r;                                                       \
     if (result.min.x > result.max.x) {                                          \
       scalar_type temp = result.min.x;                                          \
@@ -289,22 +289,6 @@ SOFTWARE.
     return result;                                                              \
   }
 
-#define _LM2_IMPL_R3_TRANSLATE(type_name, vec_type, scalar_suffix)                   \
-  LM2_API type_name lm2_r3_translate_##scalar_suffix(type_name r, vec_type offset) { \
-    type_name result;                                                                \
-    result.min = lm2_v3_add_##scalar_suffix(r.min, offset);                          \
-    result.max = lm2_v3_add_##scalar_suffix(r.max, offset);                          \
-    return result;                                                                   \
-  }
-
-#define _LM2_IMPL_R3_SCALE(type_name, vec_type, scalar_type, scalar_suffix)         \
-  LM2_API type_name lm2_r3_scale_##scalar_suffix(type_name r, scalar_type factor) { \
-    vec_type center = lm2_r3_center_##scalar_suffix(r);                             \
-    vec_type extents = lm2_r3_extents_##scalar_suffix(r);                           \
-    extents = lm2_v3_mul_s_##scalar_suffix(extents, factor);                        \
-    return lm2_r3_from_center_extents_##scalar_suffix(center, extents);             \
-  }
-
 #define _LM2_IMPL_R3_EXPAND(type_name, vec_type, scalar_type, scalar_suffix)         \
   LM2_API type_name lm2_r3_expand_##scalar_suffix(type_name r, scalar_type amount) { \
     vec_type expand_vec = lm2_v3_splat_##scalar_suffix(amount);                      \
@@ -312,6 +296,20 @@ SOFTWARE.
     result.min = lm2_v3_sub_##scalar_suffix(r.min, expand_vec);                      \
     result.max = lm2_v3_add_##scalar_suffix(r.max, expand_vec);                      \
     return result;                                                                   \
+  }
+
+#define _LM2_IMPL_R3_SCALE_FROM_CENTER(type_name, vec_type, scalar_type, scalar_suffix) \
+  LM2_API type_name lm2_r3_scale_from_center_s_##scalar_suffix(type_name r, scalar_type scale) { \
+    vec_type center = lm2_r3_center_##scalar_suffix(r);                                \
+    vec_type extents = lm2_r3_extents_##scalar_suffix(r);                              \
+    vec_type new_extents = lm2_v3_mul_s_##scalar_suffix(extents, scale);              \
+    return lm2_r3_from_center_extents_##scalar_suffix(center, new_extents);           \
+  }                                                                                    \
+  LM2_API type_name lm2_r3_scale_from_center_v_##scalar_suffix(type_name r, vec_type scale) { \
+    vec_type center = lm2_r3_center_##scalar_suffix(r);                                \
+    vec_type extents = lm2_r3_extents_##scalar_suffix(r);                              \
+    vec_type new_extents = lm2_v3_mul_##scalar_suffix(extents, scale);                 \
+    return lm2_r3_from_center_extents_##scalar_suffix(center, new_extents);           \
   }
 
 #define _LM2_IMPL_R3_ALL_RANGE_FUNCS(type_name, vec_type, scalar_type, scalar_suffix) \
@@ -324,9 +322,8 @@ SOFTWARE.
   _LM2_IMPL_R3_OVERLAPS(type_name, vec_type, scalar_type, scalar_suffix)              \
   _LM2_IMPL_R3_VOLUME(type_name, vec_type, scalar_type, scalar_suffix)                \
   _LM2_IMPL_R3_NORMALIZE(type_name, vec_type, scalar_type, scalar_suffix)             \
-  _LM2_IMPL_R3_TRANSLATE(type_name, vec_type, scalar_suffix)                          \
-  _LM2_IMPL_R3_SCALE(type_name, vec_type, scalar_type, scalar_suffix)                 \
-  _LM2_IMPL_R3_EXPAND(type_name, vec_type, scalar_type, scalar_suffix)
+  _LM2_IMPL_R3_EXPAND(type_name, vec_type, scalar_type, scalar_suffix)                  \
+  _LM2_IMPL_R3_SCALE_FROM_CENTER(type_name, vec_type, scalar_type, scalar_suffix)
 
 // =============================================================================
 // Integer-specific scalar functions

@@ -22,7 +22,7 @@ cmake --build build
 #include <lm2.h>
 
 lm2_v3 pos = lm2_v3_make_f32(1.0f, 2.0f, 3.0f);
-lm2_v3 dir = lm2_v3_normalize_f32(pos);
+lm2_v3 dir = lm2_v3_norm_f32(pos);
 float  len = lm2_v3_length_f32(pos);
 ```
 

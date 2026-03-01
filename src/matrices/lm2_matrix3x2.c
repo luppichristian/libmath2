@@ -152,7 +152,7 @@ LM2_API lm2_m3x2_f64 lm2_m3x2_world_transform_f64(lm2_v2_f64 translation, lm2_v2
   return result;
 }
 
-LM2_API lm2_m3x2_f64 lm2_m3x2_multiply_f64(lm2_m3x2_f64 a, lm2_m3x2_f64 b) {
+LM2_API lm2_m3x2_f64 lm2_m3x2_mul_f64(lm2_m3x2_f64 a, lm2_m3x2_f64 b) {
   lm2_m3x2_f64 result;
   result.m00 = lm2_add_f64(
       lm2_mul_f64(a.m00, b.m00),
@@ -414,7 +414,7 @@ LM2_API lm2_m3x2_f32 lm2_m3x2_world_transform_f32(lm2_v2_f32 translation, lm2_v2
   return result;
 }
 
-LM2_API lm2_m3x2_f32 lm2_m3x2_multiply_f32(lm2_m3x2_f32 a, lm2_m3x2_f32 b) {
+LM2_API lm2_m3x2_f32 lm2_m3x2_mul_f32(lm2_m3x2_f32 a, lm2_m3x2_f32 b) {
   lm2_m3x2_f32 result;
   result.m00 = lm2_add_f32(
       lm2_mul_f32(a.m00, b.m00),

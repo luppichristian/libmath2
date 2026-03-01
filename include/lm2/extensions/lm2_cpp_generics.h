@@ -349,8 +349,8 @@ static inline T lm2_v2_distance(V a, V b) {
   LM2_DISPATCH_FLOAT(lm2_v2_distance, a, b)
 }
 template <typename T, typename V>
-static inline V lm2_v2_normalize(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v2_normalize, v)
+static inline V lm2_v2_norm(V v) {
+  LM2_DISPATCH_FLOAT(lm2_v2_norm, v)
 }
 template <typename T, typename V>
 static inline T lm2_v2_angle(V a, V b) {
@@ -447,8 +447,8 @@ static inline T lm2_v3_distance(V a, V b) {
   LM2_DISPATCH_FLOAT(lm2_v3_distance, a, b)
 }
 template <typename T, typename V>
-static inline V lm2_v3_normalize(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v3_normalize, v)
+static inline V lm2_v3_norm(V v) {
+  LM2_DISPATCH_FLOAT(lm2_v3_norm, v)
 }
 template <typename T, typename V>
 static inline T lm2_v3_angle(V a, V b) {
@@ -529,8 +529,8 @@ static inline T lm2_v4_distance(V a, V b) {
   LM2_DISPATCH_FLOAT(lm2_v4_distance, a, b)
 }
 template <typename T, typename V>
-static inline V lm2_v4_normalize(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v4_normalize, v)
+static inline V lm2_v4_norm(V v) {
+  LM2_DISPATCH_FLOAT(lm2_v4_norm, v)
 }
 
 // MATRIX3X2
@@ -721,8 +721,8 @@ static inline Q lm2_quat_inverse(Q q) {
   LM2_DISPATCH_FLOAT(lm2_quat_inverse, q)
 }
 template <typename T, typename Q>
-static inline Q lm2_quat_normalize(Q q) {
-  LM2_DISPATCH_FLOAT(lm2_quat_normalize, q)
+static inline Q lm2_quat_norm(Q q) {
+  LM2_DISPATCH_FLOAT(lm2_quat_norm, q)
 }
 template <typename T, typename Q>
 static inline Q lm2_quat_multiply(Q a, Q b) {

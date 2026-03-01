@@ -108,14 +108,14 @@ LM2_API lm2_v3_f64 lm2_triangle3_normal_f64(const lm2_triangle3_f64 tri) {
   lm2_v3_f64 ab = lm2_v3_sub_f64(tri[1], tri[0]);
   lm2_v3_f64 ac = lm2_v3_sub_f64(tri[2], tri[0]);
   lm2_v3_f64 cross = lm2_v3_cross_f64(ab, ac);
-  return lm2_v3_normalize_f64(cross);
+  return lm2_v3_norm_f64(cross);
 }
 
 LM2_API lm2_v3_f32 lm2_triangle3_normal_f32(const lm2_triangle3_f32 tri) {
   lm2_v3_f32 ab = lm2_v3_sub_f32(tri[1], tri[0]);
   lm2_v3_f32 ac = lm2_v3_sub_f32(tri[2], tri[0]);
   lm2_v3_f32 cross = lm2_v3_cross_f32(ab, ac);
-  return lm2_v3_normalize_f32(cross);
+  return lm2_v3_norm_f32(cross);
 }
 
 LM2_API lm2_v3_f64 lm2_triangle3_centroid_f64(const lm2_triangle3_f64 tri) {

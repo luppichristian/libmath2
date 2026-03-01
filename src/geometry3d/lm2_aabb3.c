@@ -494,11 +494,11 @@ LM2_API int lm2_aabb3_overlaps_f32(lm2_aabb3_f32 a, lm2_aabb3_f32 b) {
 // =============================================================================
 
 LM2_API lm2_aabb3_f64 lm2_aabb3_translate_f64(lm2_aabb3_f64 aabb3, lm2_v3_f64 offset) {
-  return lm2_r3_translate_f64(aabb3, offset);
+  return lm2_r3_add_v_f64(aabb3, offset);
 }
 
 LM2_API lm2_aabb3_f32 lm2_aabb3_translate_f32(lm2_aabb3_f32 aabb3, lm2_v3_f32 offset) {
-  return lm2_r3_translate_f32(aabb3, offset);
+  return lm2_r3_add_v_f32(aabb3, offset);
 }
 
 LM2_API lm2_aabb3_f64 lm2_aabb3_scale_f64(lm2_aabb3_f64 aabb3, lm2_v3_f64 scale) {

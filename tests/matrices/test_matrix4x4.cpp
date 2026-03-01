@@ -196,7 +196,7 @@ TEST_F(Matrix4x4Test, WorldTransform_F64) {
 TEST_F(Matrix4x4Test, Multiply_F64) {
   lm2_m4x4_f64 a = lm2_m4x4_translate_f64({10.0, 20.0, 30.0});
   lm2_m4x4_f64 b = lm2_m4x4_scale_f64({2.0, 3.0, 4.0});
-  lm2_m4x4_f64 result = lm2_m4x4_multiply_f64(a, b);
+  lm2_m4x4_f64 result = lm2_m4x4_mul_f64(a, b);
 
   lm2_v3_f64 p = {1.0, 1.0, 1.0};
   lm2_v3_f64 transformed = lm2_m4x4_transform_point_f64(result, p);
@@ -239,7 +239,7 @@ TEST_F(Matrix4x4Test, Trace_F64) {
 TEST_F(Matrix4x4Test, Inverse_F64) {
   lm2_m4x4_f64 m = lm2_m4x4_scale_translate_f64({2.0, 3.0, 4.0}, {10.0, 20.0, 30.0});
   lm2_m4x4_f64 inv = lm2_m4x4_inverse_f64(m);
-  lm2_m4x4_f64 identity = lm2_m4x4_multiply_f64(m, inv);
+  lm2_m4x4_f64 identity = lm2_m4x4_mul_f64(m, inv);
 
   EXPECT_NEAR(identity.m00, 1.0, EPSILON_F64);
   EXPECT_NEAR(identity.m11, 1.0, EPSILON_F64);
@@ -476,7 +476,7 @@ TEST_F(Matrix4x4Test, RotateZ90Degrees_F32) {
 TEST_F(Matrix4x4Test, Multiply_F32) {
   lm2_m4x4_f32 a = lm2_m4x4_translate_f32({10.0f, 20.0f, 30.0f});
   lm2_m4x4_f32 b = lm2_m4x4_scale_f32({2.0f, 3.0f, 4.0f});
-  lm2_m4x4_f32 result = lm2_m4x4_multiply_f32(a, b);
+  lm2_m4x4_f32 result = lm2_m4x4_mul_f32(a, b);
 
   lm2_v3_f32 p = {1.0f, 1.0f, 1.0f};
   lm2_v3_f32 transformed = lm2_m4x4_transform_point_f32(result, p);
@@ -515,7 +515,7 @@ TEST_F(Matrix4x4Test, Trace_F32) {
 TEST_F(Matrix4x4Test, Inverse_F32) {
   lm2_m4x4_f32 m = lm2_m4x4_scale_translate_f32({2.0f, 3.0f, 4.0f}, {10.0f, 20.0f, 30.0f});
   lm2_m4x4_f32 inv = lm2_m4x4_inverse_f32(m);
-  lm2_m4x4_f32 identity = lm2_m4x4_multiply_f32(m, inv);
+  lm2_m4x4_f32 identity = lm2_m4x4_mul_f32(m, inv);
 
   EXPECT_NEAR(identity.m00, 1.0f, EPSILON_F32);
   EXPECT_NEAR(identity.m11, 1.0f, EPSILON_F32);

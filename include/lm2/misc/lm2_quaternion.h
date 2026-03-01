@@ -84,7 +84,7 @@ LM2_API lm2_v3_f64 lm2_quat_to_euler_f64(lm2_quat_f64 q);
 // Operations
 LM2_API lm2_quat_f64 lm2_quat_conjugate_f64(lm2_quat_f64 q);
 LM2_API lm2_quat_f64 lm2_quat_inverse_f64(lm2_quat_f64 q);
-LM2_API lm2_quat_f64 lm2_quat_normalize_f64(lm2_quat_f64 q);
+LM2_API lm2_quat_f64 lm2_quat_norm_f64(lm2_quat_f64 q);
 LM2_API lm2_quat_f64 lm2_quat_multiply_f64(lm2_quat_f64 a, lm2_quat_f64 b);
 LM2_API lm2_quat_f64 lm2_quat_add_f64(lm2_quat_f64 a, lm2_quat_f64 b);
 LM2_API lm2_quat_f64 lm2_quat_sub_f64(lm2_quat_f64 a, lm2_quat_f64 b);
@@ -118,7 +118,7 @@ LM2_API lm2_v3_f32 lm2_quat_to_euler_f32(lm2_quat_f32 q);
 // Operations
 LM2_API lm2_quat_f32 lm2_quat_conjugate_f32(lm2_quat_f32 q);
 LM2_API lm2_quat_f32 lm2_quat_inverse_f32(lm2_quat_f32 q);
-LM2_API lm2_quat_f32 lm2_quat_normalize_f32(lm2_quat_f32 q);
+LM2_API lm2_quat_f32 lm2_quat_norm_f32(lm2_quat_f32 q);
 LM2_API lm2_quat_f32 lm2_quat_multiply_f32(lm2_quat_f32 a, lm2_quat_f32 b);
 LM2_API lm2_quat_f32 lm2_quat_add_f32(lm2_quat_f32 a, lm2_quat_f32 b);
 LM2_API lm2_quat_f32 lm2_quat_sub_f32(lm2_quat_f32 a, lm2_quat_f32 b);

@@ -19,8 +19,8 @@ functions:
   - lm2_m4x4_look_at_f64
   - lm2_m4x4_make_f32
   - lm2_m4x4_make_f64
-  - lm2_m4x4_multiply_f32
-  - lm2_m4x4_multiply_f64
+  - lm2_m4x4_mul_f32
+  - lm2_m4x4_mul_f64
   - lm2_m4x4_ortho_f32
   - lm2_m4x4_ortho_f64
   - lm2_m4x4_perspective_f32

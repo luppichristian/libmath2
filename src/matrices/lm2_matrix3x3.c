@@ -85,8 +85,8 @@ LM2_API lm2_m3x3_f64 lm2_m3x3_rotate_around_pivot_f64(double angle, lm2_v2_f64 p
   lm2_m3x3_f64 rotate = lm2_m3x3_rotate_f64(angle);
   lm2_m3x3_f64 translate_back = lm2_m3x3_translate_f64(pivot);
 
-  lm2_m3x3_f64 temp = lm2_m3x3_multiply_f64(rotate, translate_to_origin);
-  return lm2_m3x3_multiply_f64(translate_back, temp);
+  lm2_m3x3_f64 temp = lm2_m3x3_mul_f64(rotate, translate_to_origin);
+  return lm2_m3x3_mul_f64(translate_back, temp);
 }
 
 LM2_API lm2_m3x3_f64 lm2_m3x3_scale_translate_f64(lm2_v2_f64 scale, lm2_v2_f64 translation) {
@@ -96,7 +96,7 @@ LM2_API lm2_m3x3_f64 lm2_m3x3_scale_translate_f64(lm2_v2_f64 scale, lm2_v2_f64 t
 }
 
 // Operations
-LM2_API lm2_m3x3_f64 lm2_m3x3_multiply_f64(lm2_m3x3_f64 a, lm2_m3x3_f64 b) {
+LM2_API lm2_m3x3_f64 lm2_m3x3_mul_f64(lm2_m3x3_f64 a, lm2_m3x3_f64 b) {
   lm2_m3x3_f64 result;
 
   // Row 0
@@ -288,8 +288,8 @@ LM2_API lm2_m3x3_f32 lm2_m3x3_rotate_around_pivot_f32(float angle, lm2_v2_f32 pi
   lm2_m3x3_f32 rotate = lm2_m3x3_rotate_f32(angle);
   lm2_m3x3_f32 translate_back = lm2_m3x3_translate_f32(pivot);
 
-  lm2_m3x3_f32 temp = lm2_m3x3_multiply_f32(rotate, translate_to_origin);
-  return lm2_m3x3_multiply_f32(translate_back, temp);
+  lm2_m3x3_f32 temp = lm2_m3x3_mul_f32(rotate, translate_to_origin);
+  return lm2_m3x3_mul_f32(translate_back, temp);
 }
 
 LM2_API lm2_m3x3_f32 lm2_m3x3_scale_translate_f32(lm2_v2_f32 scale, lm2_v2_f32 translation) {
@@ -299,7 +299,7 @@ LM2_API lm2_m3x3_f32 lm2_m3x3_scale_translate_f32(lm2_v2_f32 scale, lm2_v2_f32 t
 }
 
 // Operations
-LM2_API lm2_m3x3_f32 lm2_m3x3_multiply_f32(lm2_m3x3_f32 a, lm2_m3x3_f32 b) {
+LM2_API lm2_m3x3_f32 lm2_m3x3_mul_f32(lm2_m3x3_f32 a, lm2_m3x3_f32 b) {
   lm2_m3x3_f32 result;
 
   // Row 0

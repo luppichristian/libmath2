@@ -17,8 +17,8 @@ functions:
   - lm2_m3x2_inverse_f64
   - lm2_m3x2_make_f32
   - lm2_m3x2_make_f64
-  - lm2_m3x2_multiply_f32
-  - lm2_m3x2_multiply_f64
+  - lm2_m3x2_mul_f32
+  - lm2_m3x2_mul_f64
   - lm2_m3x2_ortho_f32
   - lm2_m3x2_ortho_f64
   - lm2_m3x2_rotate_around_pivot_f32
