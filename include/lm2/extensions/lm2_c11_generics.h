@@ -23,6 +23,9 @@ SOFTWARE.
 */
 
 #pragma once
+
+#include "../../lm2.h"
+
 #if !defined(LM2_NO_GENERICS) && !defined(__cplusplus) && defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
 
 // Scalar operations
@@ -237,279 +240,347 @@ SOFTWARE.
 #  define lm2_ease(e, t) \
     _Generic((t), float: lm2_ease_f32, double: lm2_ease_f64)(e, t)
 
-// Vector2 operations
-#  define lm2_v2_add(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_add_f64, lm2_v2_f32: lm2_v2_add_f32, lm2_v2_i64: lm2_v2_add_i64, lm2_v2_i32: lm2_v2_add_i32, lm2_v2_i16: lm2_v2_add_i16, lm2_v2_i8: lm2_v2_add_i8, lm2_v2_u64: lm2_v2_add_u64, lm2_v2_u32: lm2_v2_add_u32, lm2_v2_u16: lm2_v2_add_u16, lm2_v2_u8: lm2_v2_add_u8)(a, b)
-#  define lm2_v2_sub(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_sub_f64, lm2_v2_f32: lm2_v2_sub_f32, lm2_v2_i64: lm2_v2_sub_i64, lm2_v2_i32: lm2_v2_sub_i32, lm2_v2_i16: lm2_v2_sub_i16, lm2_v2_i8: lm2_v2_sub_i8, lm2_v2_u64: lm2_v2_sub_u64, lm2_v2_u32: lm2_v2_sub_u32, lm2_v2_u16: lm2_v2_sub_u16, lm2_v2_u8: lm2_v2_sub_u8)(a, b)
-#  define lm2_v2_mul(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_mul_f64, lm2_v2_f32: lm2_v2_mul_f32, lm2_v2_i64: lm2_v2_mul_i64, lm2_v2_i32: lm2_v2_mul_i32, lm2_v2_i16: lm2_v2_mul_i16, lm2_v2_i8: lm2_v2_mul_i8, lm2_v2_u64: lm2_v2_mul_u64, lm2_v2_u32: lm2_v2_mul_u32, lm2_v2_u16: lm2_v2_mul_u16, lm2_v2_u8: lm2_v2_mul_u8)(a, b)
-#  define lm2_v2_div(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_div_f64, lm2_v2_f32: lm2_v2_div_f32, lm2_v2_i64: lm2_v2_div_i64, lm2_v2_i32: lm2_v2_div_i32, lm2_v2_i16: lm2_v2_div_i16, lm2_v2_i8: lm2_v2_div_i8, lm2_v2_u64: lm2_v2_div_u64, lm2_v2_u32: lm2_v2_div_u32, lm2_v2_u16: lm2_v2_div_u16, lm2_v2_u8: lm2_v2_div_u8)(a, b)
-#  define lm2_v2_add_s(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_add_s_f64, lm2_v2_f32: lm2_v2_add_s_f32, lm2_v2_i64: lm2_v2_add_s_i64, lm2_v2_i32: lm2_v2_add_s_i32, lm2_v2_i16: lm2_v2_add_s_i16, lm2_v2_i8: lm2_v2_add_s_i8, lm2_v2_u64: lm2_v2_add_s_u64, lm2_v2_u32: lm2_v2_add_s_u32, lm2_v2_u16: lm2_v2_add_s_u16, lm2_v2_u8: lm2_v2_add_s_u8)(a, b)
-#  define lm2_v2_sub_s(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_sub_s_f64, lm2_v2_f32: lm2_v2_sub_s_f32, lm2_v2_i64: lm2_v2_sub_s_i64, lm2_v2_i32: lm2_v2_sub_s_i32, lm2_v2_i16: lm2_v2_sub_s_i16, lm2_v2_i8: lm2_v2_sub_s_i8, lm2_v2_u64: lm2_v2_sub_s_u64, lm2_v2_u32: lm2_v2_sub_s_u32, lm2_v2_u16: lm2_v2_sub_s_u16, lm2_v2_u8: lm2_v2_sub_s_u8)(a, b)
-#  define lm2_v2_mul_s(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_mul_s_f64, lm2_v2_f32: lm2_v2_mul_s_f32, lm2_v2_i64: lm2_v2_mul_s_i64, lm2_v2_i32: lm2_v2_mul_s_i32, lm2_v2_i16: lm2_v2_mul_s_i16, lm2_v2_i8: lm2_v2_mul_s_i8, lm2_v2_u64: lm2_v2_mul_s_u64, lm2_v2_u32: lm2_v2_mul_s_u32, lm2_v2_u16: lm2_v2_mul_s_u16, lm2_v2_u8: lm2_v2_mul_s_u8)(a, b)
-#  define lm2_v2_div_s(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_div_s_f64, lm2_v2_f32: lm2_v2_div_s_f32, lm2_v2_i64: lm2_v2_div_s_i64, lm2_v2_i32: lm2_v2_div_s_i32, lm2_v2_i16: lm2_v2_div_s_i16, lm2_v2_i8: lm2_v2_div_s_i8, lm2_v2_u64: lm2_v2_div_s_u64, lm2_v2_u32: lm2_v2_div_s_u32, lm2_v2_u16: lm2_v2_div_s_u16, lm2_v2_u8: lm2_v2_div_s_u8)(a, b)
-#  define lm2_v2_neg(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_neg_f64, lm2_v2_f32: lm2_v2_neg_f32, lm2_v2_i64: lm2_v2_neg_i64, lm2_v2_i32: lm2_v2_neg_i32, lm2_v2_i16: lm2_v2_neg_i16, lm2_v2_i8: lm2_v2_neg_i8, lm2_v2_u64: lm2_v2_neg_u64)(a)
-#  define lm2_v2_floor(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_floor_f64, lm2_v2_f32: lm2_v2_floor_f32)(a)
-#  define lm2_v2_ceil(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_ceil_f64, lm2_v2_f32: lm2_v2_ceil_f32)(a)
-#  define lm2_v2_round(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_round_f64, lm2_v2_f32: lm2_v2_round_f32)(a)
-#  define lm2_v2_trunc(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_trunc_f64, lm2_v2_f32: lm2_v2_trunc_f32)(a)
+// Vector operations
 #  define lm2_v2_abs(a) \
     _Generic((a), lm2_v2_f64: lm2_v2_abs_f64, lm2_v2_f32: lm2_v2_abs_f32, lm2_v2_i64: lm2_v2_abs_i64, lm2_v2_i32: lm2_v2_abs_i32, lm2_v2_i16: lm2_v2_abs_i16, lm2_v2_i8: lm2_v2_abs_i8)(a)
-#  define lm2_v2_sign(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_sign_f64, lm2_v2_f32: lm2_v2_sign_f32, lm2_v2_i64: lm2_v2_sign_i64, lm2_v2_i32: lm2_v2_sign_i32, lm2_v2_i16: lm2_v2_sign_i16, lm2_v2_i8: lm2_v2_sign_i8)(a)
-#  define lm2_v2_sign0(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_sign0_f64, lm2_v2_f32: lm2_v2_sign0_f32, lm2_v2_i64: lm2_v2_sign0_i64, lm2_v2_i32: lm2_v2_sign0_i32, lm2_v2_i16: lm2_v2_sign0_i16, lm2_v2_i8: lm2_v2_sign0_i8)(a)
-#  define lm2_v2_saturate(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_saturate_f64, lm2_v2_f32: lm2_v2_saturate_f32)(a)
-#  define lm2_v2_fract(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_fract_f64, lm2_v2_f32: lm2_v2_fract_f32)(a)
-#  define lm2_v2_sqrt(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_sqrt_f64, lm2_v2_f32: lm2_v2_sqrt_f32)(a)
-#  define lm2_v2_floor_multiple(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_floor_multiple_f64, lm2_v2_f32: lm2_v2_floor_multiple_f32)(a, b)
+#  define lm2_v2_add(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_add_f64, lm2_v2_f32: lm2_v2_add_f32, lm2_v2_i64: lm2_v2_add_i64, lm2_v2_i32: lm2_v2_add_i32, lm2_v2_i16: lm2_v2_add_i16, lm2_v2_i8: lm2_v2_add_i8, lm2_v2_u64: lm2_v2_add_u64, lm2_v2_u32: lm2_v2_add_u32, lm2_v2_u16: lm2_v2_add_u16, lm2_v2_u8: lm2_v2_add_u8)(a, b)
+#  define lm2_v2_add_s(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_add_s_f64, lm2_v2_f32: lm2_v2_add_s_f32, lm2_v2_i64: lm2_v2_add_s_i64, lm2_v2_i32: lm2_v2_add_s_i32, lm2_v2_i16: lm2_v2_add_s_i16, lm2_v2_i8: lm2_v2_add_s_i8, lm2_v2_u64: lm2_v2_add_s_u64, lm2_v2_u32: lm2_v2_add_s_u32, lm2_v2_u16: lm2_v2_add_s_u16, lm2_v2_u8: lm2_v2_add_s_u8)(a, b)
+#  define lm2_v2_alpha(a, b, c) \
+    _Generic((a), lm2_v2_f64: lm2_v2_alpha_f64, lm2_v2_f32: lm2_v2_alpha_f32)(a, b, c)
+#  define lm2_v2_angle(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_angle_f64, lm2_v2_f32: lm2_v2_angle_f32)(a, b)
+#  define lm2_v2_ceil(a) \
+    _Generic((a), lm2_v2_f64: lm2_v2_ceil_f64, lm2_v2_f32: lm2_v2_ceil_f32)(a)
 #  define lm2_v2_ceil_multiple(a, b) \
     _Generic((a), lm2_v2_f64: lm2_v2_ceil_multiple_f64, lm2_v2_f32: lm2_v2_ceil_multiple_f32)(a, b)
-#  define lm2_v2_round_multiple(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_round_multiple_f64, lm2_v2_f32: lm2_v2_round_multiple_f32)(a, b)
-#  define lm2_v2_trunc_multiple(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_trunc_multiple_f64, lm2_v2_f32: lm2_v2_trunc_multiple_f32)(a, b)
-#  define lm2_v2_min(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_min_f64, lm2_v2_f32: lm2_v2_min_f32, lm2_v2_i64: lm2_v2_min_i64, lm2_v2_i32: lm2_v2_min_i32, lm2_v2_i16: lm2_v2_min_i16, lm2_v2_i8: lm2_v2_min_i8, lm2_v2_u64: lm2_v2_min_u64, lm2_v2_u32: lm2_v2_min_u32, lm2_v2_u16: lm2_v2_min_u16, lm2_v2_u8: lm2_v2_min_u8)(a, b)
-#  define lm2_v2_min_abs(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_min_abs_f64, lm2_v2_f32: lm2_v2_min_abs_f32, lm2_v2_i64: lm2_v2_min_abs_i64, lm2_v2_i32: lm2_v2_min_abs_i32, lm2_v2_i16: lm2_v2_min_abs_i16, lm2_v2_i8: lm2_v2_min_abs_i8)(a, b)
-#  define lm2_v2_max(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_max_f64, lm2_v2_f32: lm2_v2_max_f32, lm2_v2_i64: lm2_v2_max_i64, lm2_v2_i32: lm2_v2_max_i32, lm2_v2_i16: lm2_v2_max_i16, lm2_v2_i8: lm2_v2_max_i8, lm2_v2_u64: lm2_v2_max_u64, lm2_v2_u32: lm2_v2_max_u32, lm2_v2_u16: lm2_v2_max_u16, lm2_v2_u8: lm2_v2_max_u8)(a, b)
-#  define lm2_v2_max_abs(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_max_abs_f64, lm2_v2_f32: lm2_v2_max_abs_f32, lm2_v2_i64: lm2_v2_max_abs_i64, lm2_v2_i32: lm2_v2_max_abs_i32, lm2_v2_i16: lm2_v2_max_abs_i16, lm2_v2_i8: lm2_v2_max_abs_i8)(a, b)
-#  define lm2_v2_mod(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_mod_f64, lm2_v2_f32: lm2_v2_mod_f32, lm2_v2_i64: lm2_v2_mod_i64, lm2_v2_i32: lm2_v2_mod_i32, lm2_v2_i16: lm2_v2_mod_i16, lm2_v2_i8: lm2_v2_mod_i8, lm2_v2_u64: lm2_v2_mod_u64, lm2_v2_u32: lm2_v2_mod_u32, lm2_v2_u16: lm2_v2_mod_u16, lm2_v2_u8: lm2_v2_mod_u8)(a, b)
-#  define lm2_v2_pow(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_pow_f64, lm2_v2_f32: lm2_v2_pow_f32)(a, b)
 #  define lm2_v2_clamp(a, b, c) \
     _Generic((a), lm2_v2_f64: lm2_v2_clamp_f64, lm2_v2_f32: lm2_v2_clamp_f32, lm2_v2_i64: lm2_v2_clamp_i64, lm2_v2_i32: lm2_v2_clamp_i32, lm2_v2_i16: lm2_v2_clamp_i16, lm2_v2_i8: lm2_v2_clamp_i8, lm2_v2_u64: lm2_v2_clamp_u64, lm2_v2_u32: lm2_v2_clamp_u32, lm2_v2_u16: lm2_v2_clamp_u16, lm2_v2_u8: lm2_v2_clamp_u8)(a, b, c)
-#  define lm2_v2_lerp(a, b, t) \
-    _Generic((a), lm2_v2_f64: lm2_v2_lerp_f64, lm2_v2_f32: lm2_v2_lerp_f32)(a, b, t)
-#  define lm2_v2_smoothstep(a, b, t) \
-    _Generic((a), lm2_v2_f64: lm2_v2_smoothstep_f64, lm2_v2_f32: lm2_v2_smoothstep_f32)(a, b, t)
-#  define lm2_v2_alpha(a, b, t) \
-    _Generic((a), lm2_v2_f64: lm2_v2_alpha_f64, lm2_v2_f32: lm2_v2_alpha_f32)(a, b, t)
-#  define lm2_v2_dot(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_dot_f64, lm2_v2_f32: lm2_v2_dot_f32, lm2_v2_i64: lm2_v2_dot_i64, lm2_v2_i32: lm2_v2_dot_i32, lm2_v2_i16: lm2_v2_dot_i16, lm2_v2_i8: lm2_v2_dot_i8)(a, b)
 #  define lm2_v2_cross(a, b) \
     _Generic((a), lm2_v2_f64: lm2_v2_cross_f64, lm2_v2_f32: lm2_v2_cross_f32, lm2_v2_i64: lm2_v2_cross_i64, lm2_v2_i32: lm2_v2_cross_i32, lm2_v2_i16: lm2_v2_cross_i16, lm2_v2_i8: lm2_v2_cross_i8)(a, b)
-#  define lm2_v2_cross3(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_cross3_f64, lm2_v2_f32: lm2_v2_cross3_f32, lm2_v2_i64: lm2_v2_cross3_i64, lm2_v2_i32: lm2_v2_cross3_i32, lm2_v2_i16: lm2_v2_cross3_i16, lm2_v2_i8: lm2_v2_cross3_i8)(a, b)
-#  define lm2_v2_length(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_length_f64, lm2_v2_f32: lm2_v2_length_f32)(a)
-#  define lm2_v2_length_sq(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_length_sq_f64, lm2_v2_f32: lm2_v2_length_sq_f32)(a)
+#  define lm2_v2_cross3(a, b, c) \
+    _Generic((a), lm2_v2_f64: lm2_v2_cross3_f64, lm2_v2_f32: lm2_v2_cross3_f32, lm2_v2_i64: lm2_v2_cross3_i64, lm2_v2_i32: lm2_v2_cross3_i32, lm2_v2_i16: lm2_v2_cross3_i16, lm2_v2_i8: lm2_v2_cross3_i8)(a, b, c)
 #  define lm2_v2_distance(a, b) \
     _Generic((a), lm2_v2_f64: lm2_v2_distance_f64, lm2_v2_f32: lm2_v2_distance_f32)(a, b)
 #  define lm2_v2_distance_sq(a, b) \
     _Generic((a), lm2_v2_f64: lm2_v2_distance_sq_f64, lm2_v2_f32: lm2_v2_distance_sq_f32)(a, b)
-#  define lm2_v2_norm(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_norm_f64, lm2_v2_f32: lm2_v2_norm_f32)(a)
-#  define lm2_v2_angle(a, b) \
-    _Generic((a), lm2_v2_f64: lm2_v2_angle_f64, lm2_v2_f32: lm2_v2_angle_f32)(a, b)
-#  define lm2_v2_rotate(v, a) \
-    _Generic((v), lm2_v2_f64: lm2_v2_rotate_f64, lm2_v2_f32: lm2_v2_rotate_f32)(v, a)
-#  define lm2_v2_rotate_around(v, c, a) \
-    _Generic((v), lm2_v2_f64: lm2_v2_rotate_around_f64, lm2_v2_f32: lm2_v2_rotate_around_f32)(v, c, a)
-#  define lm2_v2_perp_ccw(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_perp_ccw_f64, lm2_v2_f32: lm2_v2_perp_ccw_f32, lm2_v2_i64: lm2_v2_perp_ccw_i64, lm2_v2_i32: lm2_v2_perp_ccw_i32, lm2_v2_i16: lm2_v2_perp_ccw_i16, lm2_v2_i8: lm2_v2_perp_ccw_i8)(a)
-#  define lm2_v2_perp_cw(a) \
-    _Generic((a), lm2_v2_f64: lm2_v2_perp_cw_f64, lm2_v2_f32: lm2_v2_perp_cw_f32, lm2_v2_i64: lm2_v2_perp_cw_i64, lm2_v2_i32: lm2_v2_perp_cw_i32, lm2_v2_i16: lm2_v2_perp_cw_i16, lm2_v2_i8: lm2_v2_perp_cw_i8)(a)
-#  define lm2_v2_reflect(v, n) \
-    _Generic((v), lm2_v2_f64: lm2_v2_reflect_f64, lm2_v2_f32: lm2_v2_reflect_f32)(v, n)
-#  define lm2_v2_project(v, onto) \
-    _Generic((v), lm2_v2_f64: lm2_v2_project_f64, lm2_v2_f32: lm2_v2_project_f32)(v, onto)
-#  define lm2_v2_upcast(v) \
-    _Generic((v), lm2_v2_f64: lm2_v2_upcast_f64, lm2_v2_f32: lm2_v2_upcast_f32, lm2_v2_i64: lm2_v2_upcast_i64, lm2_v2_i32: lm2_v2_upcast_i32, lm2_v2_i16: lm2_v2_upcast_i16, lm2_v2_i8: lm2_v2_upcast_i8, lm2_v2_u64: lm2_v2_upcast_u64, lm2_v2_u32: lm2_v2_upcast_u32, lm2_v2_u16: lm2_v2_upcast_u16, lm2_v2_u8: lm2_v2_upcast_u8)(v)
-
-// Vector3 operations
-#  define lm2_v3_add(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_add_f64, lm2_v3_f32: lm2_v3_add_f32, lm2_v3_i64: lm2_v3_add_i64, lm2_v3_i32: lm2_v3_add_i32, lm2_v3_i16: lm2_v3_add_i16, lm2_v3_i8: lm2_v3_add_i8, lm2_v3_u64: lm2_v3_add_u64, lm2_v3_u32: lm2_v3_add_u32, lm2_v3_u16: lm2_v3_add_u16, lm2_v3_u8: lm2_v3_add_u8)(a, b)
-#  define lm2_v3_sub(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_sub_f64, lm2_v3_f32: lm2_v3_sub_f32, lm2_v3_i64: lm2_v3_sub_i64, lm2_v3_i32: lm2_v3_sub_i32, lm2_v3_i16: lm2_v3_sub_i16, lm2_v3_i8: lm2_v3_sub_i8, lm2_v3_u64: lm2_v3_sub_u64, lm2_v3_u32: lm2_v3_sub_u32, lm2_v3_u16: lm2_v3_sub_u16, lm2_v3_u8: lm2_v3_sub_u8)(a, b)
-#  define lm2_v3_mul(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_mul_f64, lm2_v3_f32: lm2_v3_mul_f32, lm2_v3_i64: lm2_v3_mul_i64, lm2_v3_i32: lm2_v3_mul_i32, lm2_v3_i16: lm2_v3_mul_i16, lm2_v3_i8: lm2_v3_mul_i8, lm2_v3_u64: lm2_v3_mul_u64, lm2_v3_u32: lm2_v3_mul_u32, lm2_v3_u16: lm2_v3_mul_u16, lm2_v3_u8: lm2_v3_mul_u8)(a, b)
-#  define lm2_v3_div(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_div_f64, lm2_v3_f32: lm2_v3_div_f32, lm2_v3_i64: lm2_v3_div_i64, lm2_v3_i32: lm2_v3_div_i32, lm2_v3_i16: lm2_v3_div_i16, lm2_v3_i8: lm2_v3_div_i8, lm2_v3_u64: lm2_v3_div_u64, lm2_v3_u32: lm2_v3_div_u32, lm2_v3_u16: lm2_v3_div_u16, lm2_v3_u8: lm2_v3_div_u8)(a, b)
-#  define lm2_v3_add_s(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_add_s_f64, lm2_v3_f32: lm2_v3_add_s_f32, lm2_v3_i64: lm2_v3_add_s_i64, lm2_v3_i32: lm2_v3_add_s_i32, lm2_v3_i16: lm2_v3_add_s_i16, lm2_v3_i8: lm2_v3_add_s_i8, lm2_v3_u64: lm2_v3_add_s_u64, lm2_v3_u32: lm2_v3_add_s_u32, lm2_v3_u16: lm2_v3_add_s_u16, lm2_v3_u8: lm2_v3_add_s_u8)(a, b)
-#  define lm2_v3_sub_s(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_sub_s_f64, lm2_v3_f32: lm2_v3_sub_s_f32, lm2_v3_i64: lm2_v3_sub_s_i64, lm2_v3_i32: lm2_v3_sub_s_i32, lm2_v3_i16: lm2_v3_sub_s_i16, lm2_v3_i8: lm2_v3_sub_s_i8, lm2_v3_u64: lm2_v3_sub_s_u64, lm2_v3_u32: lm2_v3_sub_s_u32, lm2_v3_u16: lm2_v3_sub_s_u16, lm2_v3_u8: lm2_v3_sub_s_u8)(a, b)
-#  define lm2_v3_mul_s(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_mul_s_f64, lm2_v3_f32: lm2_v3_mul_s_f32, lm2_v3_i64: lm2_v3_mul_s_i64, lm2_v3_i32: lm2_v3_mul_s_i32, lm2_v3_i16: lm2_v3_mul_s_i16, lm2_v3_i8: lm2_v3_mul_s_i8, lm2_v3_u64: lm2_v3_mul_s_u64, lm2_v3_u32: lm2_v3_mul_s_u32, lm2_v3_u16: lm2_v3_mul_s_u16, lm2_v3_u8: lm2_v3_mul_s_u8)(a, b)
-#  define lm2_v3_div_s(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_div_s_f64, lm2_v3_f32: lm2_v3_div_s_f32, lm2_v3_i64: lm2_v3_div_s_i64, lm2_v3_i32: lm2_v3_div_s_i32, lm2_v3_i16: lm2_v3_div_s_i16, lm2_v3_i8: lm2_v3_div_s_i8, lm2_v3_u64: lm2_v3_div_s_u64, lm2_v3_u32: lm2_v3_div_s_u32, lm2_v3_u16: lm2_v3_div_s_u16, lm2_v3_u8: lm2_v3_div_s_u8)(a, b)
-#  define lm2_v3_neg(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_neg_f64, lm2_v3_f32: lm2_v3_neg_f32, lm2_v3_i64: lm2_v3_neg_i64, lm2_v3_i32: lm2_v3_neg_i32, lm2_v3_i16: lm2_v3_neg_i16, lm2_v3_i8: lm2_v3_neg_i8, lm2_v3_u64: lm2_v3_neg_u64)(a)
-#  define lm2_v3_floor(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_floor_f64, lm2_v3_f32: lm2_v3_floor_f32)(a)
-#  define lm2_v3_ceil(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_ceil_f64, lm2_v3_f32: lm2_v3_ceil_f32)(a)
-#  define lm2_v3_round(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_round_f64, lm2_v3_f32: lm2_v3_round_f32)(a)
-#  define lm2_v3_trunc(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_trunc_f64, lm2_v3_f32: lm2_v3_trunc_f32)(a)
+#  define lm2_v2_div(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_div_f64, lm2_v2_f32: lm2_v2_div_f32, lm2_v2_i64: lm2_v2_div_i64, lm2_v2_i32: lm2_v2_div_i32, lm2_v2_i16: lm2_v2_div_i16, lm2_v2_i8: lm2_v2_div_i8, lm2_v2_u64: lm2_v2_div_u64, lm2_v2_u32: lm2_v2_div_u32, lm2_v2_u16: lm2_v2_div_u16, lm2_v2_u8: lm2_v2_div_u8)(a, b)
+#  define lm2_v2_div_s(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_div_s_f64, lm2_v2_f32: lm2_v2_div_s_f32, lm2_v2_i64: lm2_v2_div_s_i64, lm2_v2_i32: lm2_v2_div_s_i32, lm2_v2_i16: lm2_v2_div_s_i16, lm2_v2_i8: lm2_v2_div_s_i8, lm2_v2_u64: lm2_v2_div_s_u64, lm2_v2_u32: lm2_v2_div_s_u32, lm2_v2_u16: lm2_v2_div_s_u16, lm2_v2_u8: lm2_v2_div_s_u8)(a, b)
+#  define lm2_v2_dot(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_dot_f64, lm2_v2_f32: lm2_v2_dot_f32, lm2_v2_i64: lm2_v2_dot_i64, lm2_v2_i32: lm2_v2_dot_i32, lm2_v2_i16: lm2_v2_dot_i16, lm2_v2_i8: lm2_v2_dot_i8)(a, b)
+#  define lm2_v2_floor(a) \
+    _Generic((a), lm2_v2_f64: lm2_v2_floor_f64, lm2_v2_f32: lm2_v2_floor_f32)(a)
+#  define lm2_v2_floor_multiple(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_floor_multiple_f64, lm2_v2_f32: lm2_v2_floor_multiple_f32)(a, b)
+#  define lm2_v2_fract(a) \
+    _Generic((a), lm2_v2_f64: lm2_v2_fract_f64, lm2_v2_f32: lm2_v2_fract_f32)(a)
+#  define lm2_v2_length(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_length_f64, lm2_v2_f32: lm2_v2_length_f32)(v)
+#  define lm2_v2_length_sq(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_length_sq_f64, lm2_v2_f32: lm2_v2_length_sq_f32)(v)
+#  define lm2_v2_lerp(a, b, c) \
+    _Generic((a), lm2_v2_f64: lm2_v2_lerp_f64, lm2_v2_f32: lm2_v2_lerp_f32)(a, b, c)
+#  define lm2_v2_make(x, y) \
+    _Generic((x), double: lm2_v2_make_f64, float: lm2_v2_make_f32, int64_t: lm2_v2_make_i64, int32_t: lm2_v2_make_i32, int16_t: lm2_v2_make_i16, int8_t: lm2_v2_make_i8, uint64_t: lm2_v2_make_u64, uint32_t: lm2_v2_make_u32, uint16_t: lm2_v2_make_u16, uint8_t: lm2_v2_make_u8)(x, y)
+#  define lm2_v2_max(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_max_f64, lm2_v2_f32: lm2_v2_max_f32, lm2_v2_i64: lm2_v2_max_i64, lm2_v2_i32: lm2_v2_max_i32, lm2_v2_i16: lm2_v2_max_i16, lm2_v2_i8: lm2_v2_max_i8, lm2_v2_u64: lm2_v2_max_u64, lm2_v2_u32: lm2_v2_max_u32, lm2_v2_u16: lm2_v2_max_u16, lm2_v2_u8: lm2_v2_max_u8)(a, b)
+#  define lm2_v2_max_abs(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_max_abs_f64, lm2_v2_f32: lm2_v2_max_abs_f32, lm2_v2_i64: lm2_v2_max_abs_i64, lm2_v2_i32: lm2_v2_max_abs_i32, lm2_v2_i16: lm2_v2_max_abs_i16, lm2_v2_i8: lm2_v2_max_abs_i8)(a, b)
+#  define lm2_v2_min(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_min_f64, lm2_v2_f32: lm2_v2_min_f32, lm2_v2_i64: lm2_v2_min_i64, lm2_v2_i32: lm2_v2_min_i32, lm2_v2_i16: lm2_v2_min_i16, lm2_v2_i8: lm2_v2_min_i8, lm2_v2_u64: lm2_v2_min_u64, lm2_v2_u32: lm2_v2_min_u32, lm2_v2_u16: lm2_v2_min_u16, lm2_v2_u8: lm2_v2_min_u8)(a, b)
+#  define lm2_v2_min_abs(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_min_abs_f64, lm2_v2_f32: lm2_v2_min_abs_f32, lm2_v2_i64: lm2_v2_min_abs_i64, lm2_v2_i32: lm2_v2_min_abs_i32, lm2_v2_i16: lm2_v2_min_abs_i16, lm2_v2_i8: lm2_v2_min_abs_i8)(a, b)
+#  define lm2_v2_mod(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_mod_f64, lm2_v2_f32: lm2_v2_mod_f32, lm2_v2_i64: lm2_v2_mod_i64, lm2_v2_i32: lm2_v2_mod_i32, lm2_v2_i16: lm2_v2_mod_i16, lm2_v2_i8: lm2_v2_mod_i8, lm2_v2_u64: lm2_v2_mod_u64, lm2_v2_u32: lm2_v2_mod_u32, lm2_v2_u16: lm2_v2_mod_u16, lm2_v2_u8: lm2_v2_mod_u8)(a, b)
+#  define lm2_v2_mul(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_mul_f64, lm2_v2_f32: lm2_v2_mul_f32, lm2_v2_i64: lm2_v2_mul_i64, lm2_v2_i32: lm2_v2_mul_i32, lm2_v2_i16: lm2_v2_mul_i16, lm2_v2_i8: lm2_v2_mul_i8, lm2_v2_u64: lm2_v2_mul_u64, lm2_v2_u32: lm2_v2_mul_u32, lm2_v2_u16: lm2_v2_mul_u16, lm2_v2_u8: lm2_v2_mul_u8)(a, b)
+#  define lm2_v2_mul_s(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_mul_s_f64, lm2_v2_f32: lm2_v2_mul_s_f32, lm2_v2_i64: lm2_v2_mul_s_i64, lm2_v2_i32: lm2_v2_mul_s_i32, lm2_v2_i16: lm2_v2_mul_s_i16, lm2_v2_i8: lm2_v2_mul_s_i8, lm2_v2_u64: lm2_v2_mul_s_u64, lm2_v2_u32: lm2_v2_mul_s_u32, lm2_v2_u16: lm2_v2_mul_s_u16, lm2_v2_u8: lm2_v2_mul_s_u8)(a, b)
+#  define lm2_v2_neg(a) \
+    _Generic((a), lm2_v2_f64: lm2_v2_neg_f64, lm2_v2_f32: lm2_v2_neg_f32, lm2_v2_i64: lm2_v2_neg_i64, lm2_v2_i32: lm2_v2_neg_i32, lm2_v2_i16: lm2_v2_neg_i16, lm2_v2_i8: lm2_v2_neg_i8)(a)
+#  define lm2_v2_norm(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_norm_f64, lm2_v2_f32: lm2_v2_norm_f32)(v)
+#  define lm2_v2_perp_ccw(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_perp_ccw_f64, lm2_v2_f32: lm2_v2_perp_ccw_f32, lm2_v2_i64: lm2_v2_perp_ccw_i64, lm2_v2_i32: lm2_v2_perp_ccw_i32, lm2_v2_i16: lm2_v2_perp_ccw_i16, lm2_v2_i8: lm2_v2_perp_ccw_i8)(v)
+#  define lm2_v2_perp_cw(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_perp_cw_f64, lm2_v2_f32: lm2_v2_perp_cw_f32, lm2_v2_i64: lm2_v2_perp_cw_i64, lm2_v2_i32: lm2_v2_perp_cw_i32, lm2_v2_i16: lm2_v2_perp_cw_i16, lm2_v2_i8: lm2_v2_perp_cw_i8)(v)
+#  define lm2_v2_pow(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_pow_f64, lm2_v2_f32: lm2_v2_pow_f32)(a, b)
+#  define lm2_v2_project(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_project_f64, lm2_v2_f32: lm2_v2_project_f32)(a, b)
+#  define lm2_v2_reflect(v, normal) \
+    _Generic((v), lm2_v2_f64: lm2_v2_reflect_f64, lm2_v2_f32: lm2_v2_reflect_f32)(v, normal)
+#  define lm2_v2_rotate(v, angle) \
+    _Generic((v), lm2_v2_f64: lm2_v2_rotate_f64, lm2_v2_f32: lm2_v2_rotate_f32)(v, angle)
+#  define lm2_v2_rotate_around(v, point, angle) \
+    _Generic((v), lm2_v2_f64: lm2_v2_rotate_around_f64, lm2_v2_f32: lm2_v2_rotate_around_f32)(v, point, angle)
+#  define lm2_v2_round(a) \
+    _Generic((a), lm2_v2_f64: lm2_v2_round_f64, lm2_v2_f32: lm2_v2_round_f32)(a)
+#  define lm2_v2_round_multiple(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_round_multiple_f64, lm2_v2_f32: lm2_v2_round_multiple_f32)(a, b)
+#  define lm2_v2_saturate(a) \
+    _Generic((a), lm2_v2_f64: lm2_v2_saturate_f64, lm2_v2_f32: lm2_v2_saturate_f32)(a)
+#  define lm2_v2_sign(a) \
+    _Generic((a), lm2_v2_f64: lm2_v2_sign_f64, lm2_v2_f32: lm2_v2_sign_f32, lm2_v2_i64: lm2_v2_sign_i64, lm2_v2_i32: lm2_v2_sign_i32, lm2_v2_i16: lm2_v2_sign_i16, lm2_v2_i8: lm2_v2_sign_i8)(a)
+#  define lm2_v2_sign0(a) \
+    _Generic((a), lm2_v2_f64: lm2_v2_sign0_f64, lm2_v2_f32: lm2_v2_sign0_f32, lm2_v2_i64: lm2_v2_sign0_i64, lm2_v2_i32: lm2_v2_sign0_i32, lm2_v2_i16: lm2_v2_sign0_i16, lm2_v2_i8: lm2_v2_sign0_i8)(a)
+#  define lm2_v2_smoothstep(a, b, c) \
+    _Generic((a), lm2_v2_f64: lm2_v2_smoothstep_f64, lm2_v2_f32: lm2_v2_smoothstep_f32)(a, b, c)
+#  define lm2_v2_splat(v) \
+    _Generic((v), double: lm2_v2_splat_f64, float: lm2_v2_splat_f32, int64_t: lm2_v2_splat_i64, int32_t: lm2_v2_splat_i32, int16_t: lm2_v2_splat_i16, int8_t: lm2_v2_splat_i8, uint64_t: lm2_v2_splat_u64, uint32_t: lm2_v2_splat_u32, uint16_t: lm2_v2_splat_u16, uint8_t: lm2_v2_splat_u8)(v)
+#  define lm2_v2_sqrt(a) \
+    _Generic((a), lm2_v2_f64: lm2_v2_sqrt_f64, lm2_v2_f32: lm2_v2_sqrt_f32)(a)
+#  define lm2_v2_sub(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_sub_f64, lm2_v2_f32: lm2_v2_sub_f32, lm2_v2_i64: lm2_v2_sub_i64, lm2_v2_i32: lm2_v2_sub_i32, lm2_v2_i16: lm2_v2_sub_i16, lm2_v2_i8: lm2_v2_sub_i8, lm2_v2_u64: lm2_v2_sub_u64, lm2_v2_u32: lm2_v2_sub_u32, lm2_v2_u16: lm2_v2_sub_u16, lm2_v2_u8: lm2_v2_sub_u8)(a, b)
+#  define lm2_v2_sub_s(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_sub_s_f64, lm2_v2_f32: lm2_v2_sub_s_f32, lm2_v2_i64: lm2_v2_sub_s_i64, lm2_v2_i32: lm2_v2_sub_s_i32, lm2_v2_i16: lm2_v2_sub_s_i16, lm2_v2_i8: lm2_v2_sub_s_i8, lm2_v2_u64: lm2_v2_sub_s_u64, lm2_v2_u32: lm2_v2_sub_s_u32, lm2_v2_u16: lm2_v2_sub_s_u16, lm2_v2_u8: lm2_v2_sub_s_u8)(a, b)
+#  define lm2_v2_to_f32(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_f64_to_f32, lm2_v2_i64: lm2_v2_i64_to_f32, lm2_v2_i32: lm2_v2_i32_to_f32, lm2_v2_i16: lm2_v2_i16_to_f32, lm2_v2_i8: lm2_v2_i8_to_f32, lm2_v2_u64: lm2_v2_u64_to_f32, lm2_v2_u32: lm2_v2_u32_to_f32, lm2_v2_u16: lm2_v2_u16_to_f32, lm2_v2_u8: lm2_v2_u8_to_f32)(v)
+#  define lm2_v2_to_f64(v) \
+    _Generic((v), lm2_v2_f32: lm2_v2_f32_to_f64, lm2_v2_i64: lm2_v2_i64_to_f64, lm2_v2_i32: lm2_v2_i32_to_f64, lm2_v2_i16: lm2_v2_i16_to_f64, lm2_v2_i8: lm2_v2_i8_to_f64, lm2_v2_u64: lm2_v2_u64_to_f64, lm2_v2_u32: lm2_v2_u32_to_f64, lm2_v2_u16: lm2_v2_u16_to_f64, lm2_v2_u8: lm2_v2_u8_to_f64)(v)
+#  define lm2_v2_to_i16(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_f64_to_i16, lm2_v2_f32: lm2_v2_f32_to_i16, lm2_v2_i64: lm2_v2_i64_to_i16, lm2_v2_i32: lm2_v2_i32_to_i16, lm2_v2_i8: lm2_v2_i8_to_i16, lm2_v2_u64: lm2_v2_u64_to_i16, lm2_v2_u32: lm2_v2_u32_to_i16, lm2_v2_u16: lm2_v2_u16_to_i16, lm2_v2_u8: lm2_v2_u8_to_i16)(v)
+#  define lm2_v2_to_i32(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_f64_to_i32, lm2_v2_f32: lm2_v2_f32_to_i32, lm2_v2_i64: lm2_v2_i64_to_i32, lm2_v2_i16: lm2_v2_i16_to_i32, lm2_v2_i8: lm2_v2_i8_to_i32, lm2_v2_u64: lm2_v2_u64_to_i32, lm2_v2_u32: lm2_v2_u32_to_i32, lm2_v2_u16: lm2_v2_u16_to_i32, lm2_v2_u8: lm2_v2_u8_to_i32)(v)
+#  define lm2_v2_to_i64(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_f64_to_i64, lm2_v2_f32: lm2_v2_f32_to_i64, lm2_v2_i32: lm2_v2_i32_to_i64, lm2_v2_i16: lm2_v2_i16_to_i64, lm2_v2_i8: lm2_v2_i8_to_i64, lm2_v2_u64: lm2_v2_u64_to_i64, lm2_v2_u32: lm2_v2_u32_to_i64, lm2_v2_u16: lm2_v2_u16_to_i64, lm2_v2_u8: lm2_v2_u8_to_i64)(v)
+#  define lm2_v2_to_i8(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_f64_to_i8, lm2_v2_f32: lm2_v2_f32_to_i8, lm2_v2_i64: lm2_v2_i64_to_i8, lm2_v2_i32: lm2_v2_i32_to_i8, lm2_v2_i16: lm2_v2_i16_to_i8, lm2_v2_u64: lm2_v2_u64_to_i8, lm2_v2_u32: lm2_v2_u32_to_i8, lm2_v2_u16: lm2_v2_u16_to_i8, lm2_v2_u8: lm2_v2_u8_to_i8)(v)
+#  define lm2_v2_to_u16(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_f64_to_u16, lm2_v2_f32: lm2_v2_f32_to_u16, lm2_v2_i64: lm2_v2_i64_to_u16, lm2_v2_i32: lm2_v2_i32_to_u16, lm2_v2_i16: lm2_v2_i16_to_u16, lm2_v2_i8: lm2_v2_i8_to_u16, lm2_v2_u64: lm2_v2_u64_to_u16, lm2_v2_u32: lm2_v2_u32_to_u16, lm2_v2_u8: lm2_v2_u8_to_u16)(v)
+#  define lm2_v2_to_u32(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_f64_to_u32, lm2_v2_f32: lm2_v2_f32_to_u32, lm2_v2_i64: lm2_v2_i64_to_u32, lm2_v2_i32: lm2_v2_i32_to_u32, lm2_v2_i16: lm2_v2_i16_to_u32, lm2_v2_i8: lm2_v2_i8_to_u32, lm2_v2_u64: lm2_v2_u64_to_u32, lm2_v2_u16: lm2_v2_u16_to_u32, lm2_v2_u8: lm2_v2_u8_to_u32)(v)
+#  define lm2_v2_to_u64(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_f64_to_u64, lm2_v2_f32: lm2_v2_f32_to_u64, lm2_v2_i64: lm2_v2_i64_to_u64, lm2_v2_i32: lm2_v2_i32_to_u64, lm2_v2_i16: lm2_v2_i16_to_u64, lm2_v2_i8: lm2_v2_i8_to_u64, lm2_v2_u32: lm2_v2_u32_to_u64, lm2_v2_u16: lm2_v2_u16_to_u64, lm2_v2_u8: lm2_v2_u8_to_u64)(v)
+#  define lm2_v2_to_u8(v) \
+    _Generic((v), lm2_v2_f64: lm2_v2_f64_to_u8, lm2_v2_f32: lm2_v2_f32_to_u8, lm2_v2_i64: lm2_v2_i64_to_u8, lm2_v2_i32: lm2_v2_i32_to_u8, lm2_v2_i16: lm2_v2_i16_to_u8, lm2_v2_i8: lm2_v2_i8_to_u8, lm2_v2_u64: lm2_v2_u64_to_u8, lm2_v2_u32: lm2_v2_u32_to_u8, lm2_v2_u16: lm2_v2_u16_to_u8)(v)
+#  define lm2_v2_trunc(a) \
+    _Generic((a), lm2_v2_f64: lm2_v2_trunc_f64, lm2_v2_f32: lm2_v2_trunc_f32)(a)
+#  define lm2_v2_trunc_multiple(a, b) \
+    _Generic((a), lm2_v2_f64: lm2_v2_trunc_multiple_f64, lm2_v2_f32: lm2_v2_trunc_multiple_f32)(a, b)
+#  define lm2_v2_upcast(v, z) \
+    _Generic((v), lm2_v2_f64: lm2_v2_upcast_f64, lm2_v2_f32: lm2_v2_upcast_f32, lm2_v2_i64: lm2_v2_upcast_i64, lm2_v2_i32: lm2_v2_upcast_i32, lm2_v2_i16: lm2_v2_upcast_i16, lm2_v2_i8: lm2_v2_upcast_i8, lm2_v2_u64: lm2_v2_upcast_u64, lm2_v2_u32: lm2_v2_upcast_u32, lm2_v2_u16: lm2_v2_upcast_u16, lm2_v2_u8: lm2_v2_upcast_u8)(v, z)
 #  define lm2_v3_abs(a) \
     _Generic((a), lm2_v3_f64: lm2_v3_abs_f64, lm2_v3_f32: lm2_v3_abs_f32, lm2_v3_i64: lm2_v3_abs_i64, lm2_v3_i32: lm2_v3_abs_i32, lm2_v3_i16: lm2_v3_abs_i16, lm2_v3_i8: lm2_v3_abs_i8)(a)
-#  define lm2_v3_sign(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_sign_f64, lm2_v3_f32: lm2_v3_sign_f32, lm2_v3_i64: lm2_v3_sign_i64, lm2_v3_i32: lm2_v3_sign_i32, lm2_v3_i16: lm2_v3_sign_i16, lm2_v3_i8: lm2_v3_sign_i8)(a)
-#  define lm2_v3_sign0(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_sign0_f64, lm2_v3_f32: lm2_v3_sign0_f32, lm2_v3_i64: lm2_v3_sign0_i64, lm2_v3_i32: lm2_v3_sign0_i32, lm2_v3_i16: lm2_v3_sign0_i16, lm2_v3_i8: lm2_v3_sign0_i8)(a)
-#  define lm2_v3_saturate(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_saturate_f64, lm2_v3_f32: lm2_v3_saturate_f32)(a)
-#  define lm2_v3_fract(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_fract_f64, lm2_v3_f32: lm2_v3_fract_f32)(a)
-#  define lm2_v3_sqrt(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_sqrt_f64, lm2_v3_f32: lm2_v3_sqrt_f32)(a)
-#  define lm2_v3_floor_multiple(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_floor_multiple_f64, lm2_v3_f32: lm2_v3_floor_multiple_f32)(a, b)
+#  define lm2_v3_add(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_add_f64, lm2_v3_f32: lm2_v3_add_f32, lm2_v3_i64: lm2_v3_add_i64, lm2_v3_i32: lm2_v3_add_i32, lm2_v3_i16: lm2_v3_add_i16, lm2_v3_i8: lm2_v3_add_i8, lm2_v3_u64: lm2_v3_add_u64, lm2_v3_u32: lm2_v3_add_u32, lm2_v3_u16: lm2_v3_add_u16, lm2_v3_u8: lm2_v3_add_u8)(a, b)
+#  define lm2_v3_add_s(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_add_s_f64, lm2_v3_f32: lm2_v3_add_s_f32, lm2_v3_i64: lm2_v3_add_s_i64, lm2_v3_i32: lm2_v3_add_s_i32, lm2_v3_i16: lm2_v3_add_s_i16, lm2_v3_i8: lm2_v3_add_s_i8, lm2_v3_u64: lm2_v3_add_s_u64, lm2_v3_u32: lm2_v3_add_s_u32, lm2_v3_u16: lm2_v3_add_s_u16, lm2_v3_u8: lm2_v3_add_s_u8)(a, b)
+#  define lm2_v3_alpha(a, b, c) \
+    _Generic((a), lm2_v3_f64: lm2_v3_alpha_f64, lm2_v3_f32: lm2_v3_alpha_f32)(a, b, c)
+#  define lm2_v3_angle(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_angle_f64, lm2_v3_f32: lm2_v3_angle_f32)(a, b)
+#  define lm2_v3_ceil(a) \
+    _Generic((a), lm2_v3_f64: lm2_v3_ceil_f64, lm2_v3_f32: lm2_v3_ceil_f32)(a)
 #  define lm2_v3_ceil_multiple(a, b) \
     _Generic((a), lm2_v3_f64: lm2_v3_ceil_multiple_f64, lm2_v3_f32: lm2_v3_ceil_multiple_f32)(a, b)
-#  define lm2_v3_round_multiple(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_round_multiple_f64, lm2_v3_f32: lm2_v3_round_multiple_f32)(a, b)
-#  define lm2_v3_trunc_multiple(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_trunc_multiple_f64, lm2_v3_f32: lm2_v3_trunc_multiple_f32)(a, b)
-#  define lm2_v3_min(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_min_f64, lm2_v3_f32: lm2_v3_min_f32, lm2_v3_i64: lm2_v3_min_i64, lm2_v3_i32: lm2_v3_min_i32, lm2_v3_i16: lm2_v3_min_i16, lm2_v3_i8: lm2_v3_min_i8, lm2_v3_u64: lm2_v3_min_u64, lm2_v3_u32: lm2_v3_min_u32, lm2_v3_u16: lm2_v3_min_u16, lm2_v3_u8: lm2_v3_min_u8)(a, b)
-#  define lm2_v3_min_abs(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_min_abs_f64, lm2_v3_f32: lm2_v3_min_abs_f32, lm2_v3_i64: lm2_v3_min_abs_i64, lm2_v3_i32: lm2_v3_min_abs_i32, lm2_v3_i16: lm2_v3_min_abs_i16, lm2_v3_i8: lm2_v3_min_abs_i8)(a, b)
-#  define lm2_v3_max(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_max_f64, lm2_v3_f32: lm2_v3_max_f32, lm2_v3_i64: lm2_v3_max_i64, lm2_v3_i32: lm2_v3_max_i32, lm2_v3_i16: lm2_v3_max_i16, lm2_v3_i8: lm2_v3_max_i8, lm2_v3_u64: lm2_v3_max_u64, lm2_v3_u32: lm2_v3_max_u32, lm2_v3_u16: lm2_v3_max_u16, lm2_v3_u8: lm2_v3_max_u8)(a, b)
-#  define lm2_v3_max_abs(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_max_abs_f64, lm2_v3_f32: lm2_v3_max_abs_f32, lm2_v3_i64: lm2_v3_max_abs_i64, lm2_v3_i32: lm2_v3_max_abs_i32, lm2_v3_i16: lm2_v3_max_abs_i16, lm2_v3_i8: lm2_v3_max_abs_i8)(a, b)
-#  define lm2_v3_mod(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_mod_f64, lm2_v3_f32: lm2_v3_mod_f32, lm2_v3_i64: lm2_v3_mod_i64, lm2_v3_i32: lm2_v3_mod_i32, lm2_v3_i16: lm2_v3_mod_i16, lm2_v3_i8: lm2_v3_mod_i8, lm2_v3_u64: lm2_v3_mod_u64, lm2_v3_u32: lm2_v3_mod_u32, lm2_v3_u16: lm2_v3_mod_u16, lm2_v3_u8: lm2_v3_mod_u8)(a, b)
-#  define lm2_v3_pow(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_pow_f64, lm2_v3_f32: lm2_v3_pow_f32)(a, b)
 #  define lm2_v3_clamp(a, b, c) \
     _Generic((a), lm2_v3_f64: lm2_v3_clamp_f64, lm2_v3_f32: lm2_v3_clamp_f32, lm2_v3_i64: lm2_v3_clamp_i64, lm2_v3_i32: lm2_v3_clamp_i32, lm2_v3_i16: lm2_v3_clamp_i16, lm2_v3_i8: lm2_v3_clamp_i8, lm2_v3_u64: lm2_v3_clamp_u64, lm2_v3_u32: lm2_v3_clamp_u32, lm2_v3_u16: lm2_v3_clamp_u16, lm2_v3_u8: lm2_v3_clamp_u8)(a, b, c)
-#  define lm2_v3_lerp(a, b, t) \
-    _Generic((a), lm2_v3_f64: lm2_v3_lerp_f64, lm2_v3_f32: lm2_v3_lerp_f32)(a, b, t)
-#  define lm2_v3_smoothstep(a, b, t) \
-    _Generic((a), lm2_v3_f64: lm2_v3_smoothstep_f64, lm2_v3_f32: lm2_v3_smoothstep_f32)(a, b, t)
-#  define lm2_v3_alpha(a, b, t) \
-    _Generic((a), lm2_v3_f64: lm2_v3_alpha_f64, lm2_v3_f32: lm2_v3_alpha_f32)(a, b, t)
-#  define lm2_v3_dot(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_dot_f64, lm2_v3_f32: lm2_v3_dot_f32, lm2_v3_i64: lm2_v3_dot_i64, lm2_v3_i32: lm2_v3_dot_i32, lm2_v3_i16: lm2_v3_dot_i16, lm2_v3_i8: lm2_v3_dot_i8)(a, b)
 #  define lm2_v3_cross(a, b) \
     _Generic((a), lm2_v3_f64: lm2_v3_cross_f64, lm2_v3_f32: lm2_v3_cross_f32, lm2_v3_i64: lm2_v3_cross_i64, lm2_v3_i32: lm2_v3_cross_i32, lm2_v3_i16: lm2_v3_cross_i16, lm2_v3_i8: lm2_v3_cross_i8)(a, b)
-#  define lm2_v3_length(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_length_f64, lm2_v3_f32: lm2_v3_length_f32)(a)
-#  define lm2_v3_length_sq(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_length_sq_f64, lm2_v3_f32: lm2_v3_length_sq_f32)(a)
 #  define lm2_v3_distance(a, b) \
     _Generic((a), lm2_v3_f64: lm2_v3_distance_f64, lm2_v3_f32: lm2_v3_distance_f32)(a, b)
 #  define lm2_v3_distance_sq(a, b) \
     _Generic((a), lm2_v3_f64: lm2_v3_distance_sq_f64, lm2_v3_f32: lm2_v3_distance_sq_f32)(a, b)
-#  define lm2_v3_norm(a) \
-    _Generic((a), lm2_v3_f64: lm2_v3_norm_f64, lm2_v3_f32: lm2_v3_norm_f32)(a)
-#  define lm2_v3_angle(a, b) \
-    _Generic((a), lm2_v3_f64: lm2_v3_angle_f64, lm2_v3_f32: lm2_v3_angle_f32)(a, b)
-#  define lm2_v3_reflect(v, n) \
-    _Generic((v), lm2_v3_f64: lm2_v3_reflect_f64, lm2_v3_f32: lm2_v3_reflect_f32)(v, n)
-#  define lm2_v3_project(v, onto) \
-    _Generic((v), lm2_v3_f64: lm2_v3_project_f64, lm2_v3_f32: lm2_v3_project_f32)(v, onto)
-#  define lm2_v3_upcast(v) \
-    _Generic((v), lm2_v3_f64: lm2_v3_upcast_f64, lm2_v3_f32: lm2_v3_upcast_f32, lm2_v3_i64: lm2_v3_upcast_i64, lm2_v3_i32: lm2_v3_upcast_i32, lm2_v3_i16: lm2_v3_upcast_i16, lm2_v3_i8: lm2_v3_upcast_i8, lm2_v3_u64: lm2_v3_upcast_u64, lm2_v3_u32: lm2_v3_upcast_u32, lm2_v3_u16: lm2_v3_upcast_u16, lm2_v3_u8: lm2_v3_upcast_u8)(v)
+#  define lm2_v3_div(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_div_f64, lm2_v3_f32: lm2_v3_div_f32, lm2_v3_i64: lm2_v3_div_i64, lm2_v3_i32: lm2_v3_div_i32, lm2_v3_i16: lm2_v3_div_i16, lm2_v3_i8: lm2_v3_div_i8, lm2_v3_u64: lm2_v3_div_u64, lm2_v3_u32: lm2_v3_div_u32, lm2_v3_u16: lm2_v3_div_u16, lm2_v3_u8: lm2_v3_div_u8)(a, b)
+#  define lm2_v3_div_s(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_div_s_f64, lm2_v3_f32: lm2_v3_div_s_f32, lm2_v3_i64: lm2_v3_div_s_i64, lm2_v3_i32: lm2_v3_div_s_i32, lm2_v3_i16: lm2_v3_div_s_i16, lm2_v3_i8: lm2_v3_div_s_i8, lm2_v3_u64: lm2_v3_div_s_u64, lm2_v3_u32: lm2_v3_div_s_u32, lm2_v3_u16: lm2_v3_div_s_u16, lm2_v3_u8: lm2_v3_div_s_u8)(a, b)
+#  define lm2_v3_dot(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_dot_f64, lm2_v3_f32: lm2_v3_dot_f32, lm2_v3_i64: lm2_v3_dot_i64, lm2_v3_i32: lm2_v3_dot_i32, lm2_v3_i16: lm2_v3_dot_i16, lm2_v3_i8: lm2_v3_dot_i8)(a, b)
 #  define lm2_v3_downcast(v) \
     _Generic((v), lm2_v3_f64: lm2_v3_downcast_f64, lm2_v3_f32: lm2_v3_downcast_f32, lm2_v3_i64: lm2_v3_downcast_i64, lm2_v3_i32: lm2_v3_downcast_i32, lm2_v3_i16: lm2_v3_downcast_i16, lm2_v3_i8: lm2_v3_downcast_i8, lm2_v3_u64: lm2_v3_downcast_u64, lm2_v3_u32: lm2_v3_downcast_u32, lm2_v3_u16: lm2_v3_downcast_u16, lm2_v3_u8: lm2_v3_downcast_u8)(v)
-
-// Vector4 operations
-#  define lm2_v4_add(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_add_f64, lm2_v4_f32: lm2_v4_add_f32, lm2_v4_i64: lm2_v4_add_i64, lm2_v4_i32: lm2_v4_add_i32, lm2_v4_i16: lm2_v4_add_i16, lm2_v4_i8: lm2_v4_add_i8, lm2_v4_u64: lm2_v4_add_u64, lm2_v4_u32: lm2_v4_add_u32, lm2_v4_u16: lm2_v4_add_u16, lm2_v4_u8: lm2_v4_add_u8)(a, b)
-#  define lm2_v4_sub(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_sub_f64, lm2_v4_f32: lm2_v4_sub_f32, lm2_v4_i64: lm2_v4_sub_i64, lm2_v4_i32: lm2_v4_sub_i32, lm2_v4_i16: lm2_v4_sub_i16, lm2_v4_i8: lm2_v4_sub_i8, lm2_v4_u64: lm2_v4_sub_u64, lm2_v4_u32: lm2_v4_sub_u32, lm2_v4_u16: lm2_v4_sub_u16, lm2_v4_u8: lm2_v4_sub_u8)(a, b)
-#  define lm2_v4_mul(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_mul_f64, lm2_v4_f32: lm2_v4_mul_f32, lm2_v4_i64: lm2_v4_mul_i64, lm2_v4_i32: lm2_v4_mul_i32, lm2_v4_i16: lm2_v4_mul_i16, lm2_v4_i8: lm2_v4_mul_i8, lm2_v4_u64: lm2_v4_mul_u64, lm2_v4_u32: lm2_v4_mul_u32, lm2_v4_u16: lm2_v4_mul_u16, lm2_v4_u8: lm2_v4_mul_u8)(a, b)
-#  define lm2_v4_div(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_div_f64, lm2_v4_f32: lm2_v4_div_f32, lm2_v4_i64: lm2_v4_div_i64, lm2_v4_i32: lm2_v4_div_i32, lm2_v4_i16: lm2_v4_div_i16, lm2_v4_i8: lm2_v4_div_i8, lm2_v4_u64: lm2_v4_div_u64, lm2_v4_u32: lm2_v4_div_u32, lm2_v4_u16: lm2_v4_div_u16, lm2_v4_u8: lm2_v4_div_u8)(a, b)
-#  define lm2_v4_add_s(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_add_s_f64, lm2_v4_f32: lm2_v4_add_s_f32, lm2_v4_i64: lm2_v4_add_s_i64, lm2_v4_i32: lm2_v4_add_s_i32, lm2_v4_i16: lm2_v4_add_s_i16, lm2_v4_i8: lm2_v4_add_s_i8, lm2_v4_u64: lm2_v4_add_s_u64, lm2_v4_u32: lm2_v4_add_s_u32, lm2_v4_u16: lm2_v4_add_s_u16, lm2_v4_u8: lm2_v4_add_s_u8)(a, b)
-#  define lm2_v4_sub_s(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_sub_s_f64, lm2_v4_f32: lm2_v4_sub_s_f32, lm2_v4_i64: lm2_v4_sub_s_i64, lm2_v4_i32: lm2_v4_sub_s_i32, lm2_v4_i16: lm2_v4_sub_s_i16, lm2_v4_i8: lm2_v4_sub_s_i8, lm2_v4_u64: lm2_v4_sub_s_u64, lm2_v4_u32: lm2_v4_sub_s_u32, lm2_v4_u16: lm2_v4_sub_s_u16, lm2_v4_u8: lm2_v4_sub_s_u8)(a, b)
-#  define lm2_v4_mul_s(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_mul_s_f64, lm2_v4_f32: lm2_v4_mul_s_f32, lm2_v4_i64: lm2_v4_mul_s_i64, lm2_v4_i32: lm2_v4_mul_s_i32, lm2_v4_i16: lm2_v4_mul_s_i16, lm2_v4_i8: lm2_v4_mul_s_i8, lm2_v4_u64: lm2_v4_mul_s_u64, lm2_v4_u32: lm2_v4_mul_s_u32, lm2_v4_u16: lm2_v4_mul_s_u16, lm2_v4_u8: lm2_v4_mul_s_u8)(a, b)
-#  define lm2_v4_div_s(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_div_s_f64, lm2_v4_f32: lm2_v4_div_s_f32, lm2_v4_i64: lm2_v4_div_s_i64, lm2_v4_i32: lm2_v4_div_s_i32, lm2_v4_i16: lm2_v4_div_s_i16, lm2_v4_i8: lm2_v4_div_s_i8, lm2_v4_u64: lm2_v4_div_s_u64, lm2_v4_u32: lm2_v4_div_s_u32, lm2_v4_u16: lm2_v4_div_s_u16, lm2_v4_u8: lm2_v4_div_s_u8)(a, b)
-#  define lm2_v4_neg(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_neg_f64, lm2_v4_f32: lm2_v4_neg_f32, lm2_v4_i64: lm2_v4_neg_i64, lm2_v4_i32: lm2_v4_neg_i32, lm2_v4_i16: lm2_v4_neg_i16, lm2_v4_i8: lm2_v4_neg_i8, lm2_v4_u8: lm2_v4_neg_u8, lm2_v4_u32: lm2_v4_neg_u32)(a)
-#  define lm2_v4_floor(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_floor_f64, lm2_v4_f32: lm2_v4_floor_f32)(a)
-#  define lm2_v4_ceil(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_ceil_f64, lm2_v4_f32: lm2_v4_ceil_f32)(a)
-#  define lm2_v4_round(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_round_f64, lm2_v4_f32: lm2_v4_round_f32)(a)
-#  define lm2_v4_trunc(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_trunc_f64, lm2_v4_f32: lm2_v4_trunc_f32)(a)
+#  define lm2_v3_floor(a) \
+    _Generic((a), lm2_v3_f64: lm2_v3_floor_f64, lm2_v3_f32: lm2_v3_floor_f32)(a)
+#  define lm2_v3_floor_multiple(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_floor_multiple_f64, lm2_v3_f32: lm2_v3_floor_multiple_f32)(a, b)
+#  define lm2_v3_fract(a) \
+    _Generic((a), lm2_v3_f64: lm2_v3_fract_f64, lm2_v3_f32: lm2_v3_fract_f32)(a)
+#  define lm2_v3_length(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_length_f64, lm2_v3_f32: lm2_v3_length_f32)(v)
+#  define lm2_v3_length_sq(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_length_sq_f64, lm2_v3_f32: lm2_v3_length_sq_f32)(v)
+#  define lm2_v3_lerp(a, b, c) \
+    _Generic((a), lm2_v3_f64: lm2_v3_lerp_f64, lm2_v3_f32: lm2_v3_lerp_f32)(a, b, c)
+#  define lm2_v3_make(x, y, z) \
+    _Generic((x), double: lm2_v3_make_f64, float: lm2_v3_make_f32, int64_t: lm2_v3_make_i64, int32_t: lm2_v3_make_i32, int16_t: lm2_v3_make_i16, int8_t: lm2_v3_make_i8, uint64_t: lm2_v3_make_u64, uint32_t: lm2_v3_make_u32, uint16_t: lm2_v3_make_u16, uint8_t: lm2_v3_make_u8)(x, y, z)
+#  define lm2_v3_max(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_max_f64, lm2_v3_f32: lm2_v3_max_f32, lm2_v3_i64: lm2_v3_max_i64, lm2_v3_i32: lm2_v3_max_i32, lm2_v3_i16: lm2_v3_max_i16, lm2_v3_i8: lm2_v3_max_i8, lm2_v3_u64: lm2_v3_max_u64, lm2_v3_u32: lm2_v3_max_u32, lm2_v3_u16: lm2_v3_max_u16, lm2_v3_u8: lm2_v3_max_u8)(a, b)
+#  define lm2_v3_max_abs(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_max_abs_f64, lm2_v3_f32: lm2_v3_max_abs_f32, lm2_v3_i64: lm2_v3_max_abs_i64, lm2_v3_i32: lm2_v3_max_abs_i32, lm2_v3_i16: lm2_v3_max_abs_i16, lm2_v3_i8: lm2_v3_max_abs_i8)(a, b)
+#  define lm2_v3_min(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_min_f64, lm2_v3_f32: lm2_v3_min_f32, lm2_v3_i64: lm2_v3_min_i64, lm2_v3_i32: lm2_v3_min_i32, lm2_v3_i16: lm2_v3_min_i16, lm2_v3_i8: lm2_v3_min_i8, lm2_v3_u64: lm2_v3_min_u64, lm2_v3_u32: lm2_v3_min_u32, lm2_v3_u16: lm2_v3_min_u16, lm2_v3_u8: lm2_v3_min_u8)(a, b)
+#  define lm2_v3_min_abs(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_min_abs_f64, lm2_v3_f32: lm2_v3_min_abs_f32, lm2_v3_i64: lm2_v3_min_abs_i64, lm2_v3_i32: lm2_v3_min_abs_i32, lm2_v3_i16: lm2_v3_min_abs_i16, lm2_v3_i8: lm2_v3_min_abs_i8)(a, b)
+#  define lm2_v3_mod(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_mod_f64, lm2_v3_f32: lm2_v3_mod_f32, lm2_v3_i64: lm2_v3_mod_i64, lm2_v3_i32: lm2_v3_mod_i32, lm2_v3_i16: lm2_v3_mod_i16, lm2_v3_i8: lm2_v3_mod_i8, lm2_v3_u64: lm2_v3_mod_u64, lm2_v3_u32: lm2_v3_mod_u32, lm2_v3_u16: lm2_v3_mod_u16, lm2_v3_u8: lm2_v3_mod_u8)(a, b)
+#  define lm2_v3_mul(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_mul_f64, lm2_v3_f32: lm2_v3_mul_f32, lm2_v3_i64: lm2_v3_mul_i64, lm2_v3_i32: lm2_v3_mul_i32, lm2_v3_i16: lm2_v3_mul_i16, lm2_v3_i8: lm2_v3_mul_i8, lm2_v3_u64: lm2_v3_mul_u64, lm2_v3_u32: lm2_v3_mul_u32, lm2_v3_u16: lm2_v3_mul_u16, lm2_v3_u8: lm2_v3_mul_u8)(a, b)
+#  define lm2_v3_mul_s(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_mul_s_f64, lm2_v3_f32: lm2_v3_mul_s_f32, lm2_v3_i64: lm2_v3_mul_s_i64, lm2_v3_i32: lm2_v3_mul_s_i32, lm2_v3_i16: lm2_v3_mul_s_i16, lm2_v3_i8: lm2_v3_mul_s_i8, lm2_v3_u64: lm2_v3_mul_s_u64, lm2_v3_u32: lm2_v3_mul_s_u32, lm2_v3_u16: lm2_v3_mul_s_u16, lm2_v3_u8: lm2_v3_mul_s_u8)(a, b)
+#  define lm2_v3_neg(a) \
+    _Generic((a), lm2_v3_f64: lm2_v3_neg_f64, lm2_v3_f32: lm2_v3_neg_f32, lm2_v3_i64: lm2_v3_neg_i64, lm2_v3_i32: lm2_v3_neg_i32, lm2_v3_i16: lm2_v3_neg_i16, lm2_v3_i8: lm2_v3_neg_i8, lm2_v3_u64: lm2_v3_neg_u64)(a)
+#  define lm2_v3_norm(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_norm_f64, lm2_v3_f32: lm2_v3_norm_f32)(v)
+#  define lm2_v3_pow(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_pow_f64, lm2_v3_f32: lm2_v3_pow_f32)(a, b)
+#  define lm2_v3_project(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_project_f64, lm2_v3_f32: lm2_v3_project_f32)(a, b)
+#  define lm2_v3_reflect(v, normal) \
+    _Generic((v), lm2_v3_f64: lm2_v3_reflect_f64, lm2_v3_f32: lm2_v3_reflect_f32)(v, normal)
+#  define lm2_v3_round(a) \
+    _Generic((a), lm2_v3_f64: lm2_v3_round_f64, lm2_v3_f32: lm2_v3_round_f32)(a)
+#  define lm2_v3_round_multiple(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_round_multiple_f64, lm2_v3_f32: lm2_v3_round_multiple_f32)(a, b)
+#  define lm2_v3_saturate(a) \
+    _Generic((a), lm2_v3_f64: lm2_v3_saturate_f64, lm2_v3_f32: lm2_v3_saturate_f32)(a)
+#  define lm2_v3_sign(a) \
+    _Generic((a), lm2_v3_f64: lm2_v3_sign_f64, lm2_v3_f32: lm2_v3_sign_f32, lm2_v3_i64: lm2_v3_sign_i64, lm2_v3_i32: lm2_v3_sign_i32, lm2_v3_i16: lm2_v3_sign_i16, lm2_v3_i8: lm2_v3_sign_i8)(a)
+#  define lm2_v3_sign0(a) \
+    _Generic((a), lm2_v3_f64: lm2_v3_sign0_f64, lm2_v3_f32: lm2_v3_sign0_f32, lm2_v3_i64: lm2_v3_sign0_i64, lm2_v3_i32: lm2_v3_sign0_i32, lm2_v3_i16: lm2_v3_sign0_i16, lm2_v3_i8: lm2_v3_sign0_i8)(a)
+#  define lm2_v3_smoothstep(a, b, c) \
+    _Generic((a), lm2_v3_f64: lm2_v3_smoothstep_f64, lm2_v3_f32: lm2_v3_smoothstep_f32)(a, b, c)
+#  define lm2_v3_splat(v) \
+    _Generic((v), double: lm2_v3_splat_f64, float: lm2_v3_splat_f32, int64_t: lm2_v3_splat_i64, int32_t: lm2_v3_splat_i32, int16_t: lm2_v3_splat_i16, int8_t: lm2_v3_splat_i8, uint64_t: lm2_v3_splat_u64, uint32_t: lm2_v3_splat_u32, uint16_t: lm2_v3_splat_u16, uint8_t: lm2_v3_splat_u8)(v)
+#  define lm2_v3_sqrt(a) \
+    _Generic((a), lm2_v3_f64: lm2_v3_sqrt_f64, lm2_v3_f32: lm2_v3_sqrt_f32)(a)
+#  define lm2_v3_sub(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_sub_f64, lm2_v3_f32: lm2_v3_sub_f32, lm2_v3_i64: lm2_v3_sub_i64, lm2_v3_i32: lm2_v3_sub_i32, lm2_v3_i16: lm2_v3_sub_i16, lm2_v3_i8: lm2_v3_sub_i8, lm2_v3_u64: lm2_v3_sub_u64, lm2_v3_u32: lm2_v3_sub_u32, lm2_v3_u16: lm2_v3_sub_u16, lm2_v3_u8: lm2_v3_sub_u8)(a, b)
+#  define lm2_v3_sub_s(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_sub_s_f64, lm2_v3_f32: lm2_v3_sub_s_f32, lm2_v3_i64: lm2_v3_sub_s_i64, lm2_v3_i32: lm2_v3_sub_s_i32, lm2_v3_i16: lm2_v3_sub_s_i16, lm2_v3_i8: lm2_v3_sub_s_i8, lm2_v3_u64: lm2_v3_sub_s_u64, lm2_v3_u32: lm2_v3_sub_s_u32, lm2_v3_u16: lm2_v3_sub_s_u16, lm2_v3_u8: lm2_v3_sub_s_u8)(a, b)
+#  define lm2_v3_to_f32(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_f64_to_f32, lm2_v3_i64: lm2_v3_i64_to_f32, lm2_v3_i32: lm2_v3_i32_to_f32, lm2_v3_i16: lm2_v3_i16_to_f32, lm2_v3_i8: lm2_v3_i8_to_f32, lm2_v3_u64: lm2_v3_u64_to_f32, lm2_v3_u32: lm2_v3_u32_to_f32, lm2_v3_u16: lm2_v3_u16_to_f32, lm2_v3_u8: lm2_v3_u8_to_f32)(v)
+#  define lm2_v3_to_f64(v) \
+    _Generic((v), lm2_v3_f32: lm2_v3_f32_to_f64, lm2_v3_i64: lm2_v3_i64_to_f64, lm2_v3_i32: lm2_v3_i32_to_f64, lm2_v3_i16: lm2_v3_i16_to_f64, lm2_v3_i8: lm2_v3_i8_to_f64, lm2_v3_u64: lm2_v3_u64_to_f64, lm2_v3_u32: lm2_v3_u32_to_f64, lm2_v3_u16: lm2_v3_u16_to_f64, lm2_v3_u8: lm2_v3_u8_to_f64)(v)
+#  define lm2_v3_to_i16(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_f64_to_i16, lm2_v3_f32: lm2_v3_f32_to_i16, lm2_v3_i64: lm2_v3_i64_to_i16, lm2_v3_i32: lm2_v3_i32_to_i16, lm2_v3_i8: lm2_v3_i8_to_i16, lm2_v3_u64: lm2_v3_u64_to_i16, lm2_v3_u32: lm2_v3_u32_to_i16, lm2_v3_u16: lm2_v3_u16_to_i16, lm2_v3_u8: lm2_v3_u8_to_i16)(v)
+#  define lm2_v3_to_i32(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_f64_to_i32, lm2_v3_f32: lm2_v3_f32_to_i32, lm2_v3_i64: lm2_v3_i64_to_i32, lm2_v3_i16: lm2_v3_i16_to_i32, lm2_v3_i8: lm2_v3_i8_to_i32, lm2_v3_u64: lm2_v3_u64_to_i32, lm2_v3_u32: lm2_v3_u32_to_i32, lm2_v3_u16: lm2_v3_u16_to_i32, lm2_v3_u8: lm2_v3_u8_to_i32)(v)
+#  define lm2_v3_to_i64(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_f64_to_i64, lm2_v3_f32: lm2_v3_f32_to_i64, lm2_v3_i32: lm2_v3_i32_to_i64, lm2_v3_i16: lm2_v3_i16_to_i64, lm2_v3_i8: lm2_v3_i8_to_i64, lm2_v3_u64: lm2_v3_u64_to_i64, lm2_v3_u32: lm2_v3_u32_to_i64, lm2_v3_u16: lm2_v3_u16_to_i64, lm2_v3_u8: lm2_v3_u8_to_i64)(v)
+#  define lm2_v3_to_i8(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_f64_to_i8, lm2_v3_f32: lm2_v3_f32_to_i8, lm2_v3_i64: lm2_v3_i64_to_i8, lm2_v3_i32: lm2_v3_i32_to_i8, lm2_v3_i16: lm2_v3_i16_to_i8, lm2_v3_u64: lm2_v3_u64_to_i8, lm2_v3_u32: lm2_v3_u32_to_i8, lm2_v3_u16: lm2_v3_u16_to_i8, lm2_v3_u8: lm2_v3_u8_to_i8)(v)
+#  define lm2_v3_to_u16(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_f64_to_u16, lm2_v3_f32: lm2_v3_f32_to_u16, lm2_v3_i64: lm2_v3_i64_to_u16, lm2_v3_i32: lm2_v3_i32_to_u16, lm2_v3_i16: lm2_v3_i16_to_u16, lm2_v3_i8: lm2_v3_i8_to_u16, lm2_v3_u64: lm2_v3_u64_to_u16, lm2_v3_u32: lm2_v3_u32_to_u16, lm2_v3_u8: lm2_v3_u8_to_u16)(v)
+#  define lm2_v3_to_u32(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_f64_to_u32, lm2_v3_f32: lm2_v3_f32_to_u32, lm2_v3_i64: lm2_v3_i64_to_u32, lm2_v3_i32: lm2_v3_i32_to_u32, lm2_v3_i16: lm2_v3_i16_to_u32, lm2_v3_i8: lm2_v3_i8_to_u32, lm2_v3_u64: lm2_v3_u64_to_u32, lm2_v3_u16: lm2_v3_u16_to_u32, lm2_v3_u8: lm2_v3_u8_to_u32)(v)
+#  define lm2_v3_to_u64(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_f64_to_u64, lm2_v3_f32: lm2_v3_f32_to_u64, lm2_v3_i64: lm2_v3_i64_to_u64, lm2_v3_i32: lm2_v3_i32_to_u64, lm2_v3_i16: lm2_v3_i16_to_u64, lm2_v3_i8: lm2_v3_i8_to_u64, lm2_v3_u32: lm2_v3_u32_to_u64, lm2_v3_u16: lm2_v3_u16_to_u64, lm2_v3_u8: lm2_v3_u8_to_u64)(v)
+#  define lm2_v3_to_u8(v) \
+    _Generic((v), lm2_v3_f64: lm2_v3_f64_to_u8, lm2_v3_f32: lm2_v3_f32_to_u8, lm2_v3_i64: lm2_v3_i64_to_u8, lm2_v3_i32: lm2_v3_i32_to_u8, lm2_v3_i16: lm2_v3_i16_to_u8, lm2_v3_i8: lm2_v3_i8_to_u8, lm2_v3_u64: lm2_v3_u64_to_u8, lm2_v3_u32: lm2_v3_u32_to_u8, lm2_v3_u16: lm2_v3_u16_to_u8)(v)
+#  define lm2_v3_trunc(a) \
+    _Generic((a), lm2_v3_f64: lm2_v3_trunc_f64, lm2_v3_f32: lm2_v3_trunc_f32)(a)
+#  define lm2_v3_trunc_multiple(a, b) \
+    _Generic((a), lm2_v3_f64: lm2_v3_trunc_multiple_f64, lm2_v3_f32: lm2_v3_trunc_multiple_f32)(a, b)
+#  define lm2_v3_upcast(v, w) \
+    _Generic((v), lm2_v3_f64: lm2_v3_upcast_f64, lm2_v3_f32: lm2_v3_upcast_f32, lm2_v3_i64: lm2_v3_upcast_i64, lm2_v3_i32: lm2_v3_upcast_i32, lm2_v3_i16: lm2_v3_upcast_i16, lm2_v3_i8: lm2_v3_upcast_i8, lm2_v3_u64: lm2_v3_upcast_u64, lm2_v3_u32: lm2_v3_upcast_u32, lm2_v3_u16: lm2_v3_upcast_u16, lm2_v3_u8: lm2_v3_upcast_u8)(v, w)
 #  define lm2_v4_abs(a) \
     _Generic((a), lm2_v4_f64: lm2_v4_abs_f64, lm2_v4_f32: lm2_v4_abs_f32, lm2_v4_i64: lm2_v4_abs_i64, lm2_v4_i32: lm2_v4_abs_i32, lm2_v4_i16: lm2_v4_abs_i16, lm2_v4_i8: lm2_v4_abs_i8)(a)
-#  define lm2_v4_sign(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_sign_f64, lm2_v4_f32: lm2_v4_sign_f32, lm2_v4_i64: lm2_v4_sign_i64, lm2_v4_i32: lm2_v4_sign_i32, lm2_v4_i16: lm2_v4_sign_i16, lm2_v4_i8: lm2_v4_sign_i8)(a)
-#  define lm2_v4_sign0(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_sign0_f64, lm2_v4_f32: lm2_v4_sign0_f32, lm2_v4_i64: lm2_v4_sign0_i64, lm2_v4_i32: lm2_v4_sign0_i32, lm2_v4_i16: lm2_v4_sign0_i16, lm2_v4_i8: lm2_v4_sign0_i8)(a)
-#  define lm2_v4_saturate(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_saturate_f64, lm2_v4_f32: lm2_v4_saturate_f32)(a)
-#  define lm2_v4_fract(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_fract_f64, lm2_v4_f32: lm2_v4_fract_f32)(a)
-#  define lm2_v4_sqrt(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_sqrt_f64, lm2_v4_f32: lm2_v4_sqrt_f32)(a)
-#  define lm2_v4_floor_multiple(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_floor_multiple_f64, lm2_v4_f32: lm2_v4_floor_multiple_f32)(a, b)
+#  define lm2_v4_add(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_add_f64, lm2_v4_f32: lm2_v4_add_f32, lm2_v4_i64: lm2_v4_add_i64, lm2_v4_i32: lm2_v4_add_i32, lm2_v4_i16: lm2_v4_add_i16, lm2_v4_i8: lm2_v4_add_i8, lm2_v4_u64: lm2_v4_add_u64, lm2_v4_u32: lm2_v4_add_u32, lm2_v4_u16: lm2_v4_add_u16, lm2_v4_u8: lm2_v4_add_u8)(a, b)
+#  define lm2_v4_add_s(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_add_s_f64, lm2_v4_f32: lm2_v4_add_s_f32, lm2_v4_i64: lm2_v4_add_s_i64, lm2_v4_i32: lm2_v4_add_s_i32, lm2_v4_i16: lm2_v4_add_s_i16, lm2_v4_i8: lm2_v4_add_s_i8, lm2_v4_u64: lm2_v4_add_s_u64, lm2_v4_u32: lm2_v4_add_s_u32, lm2_v4_u16: lm2_v4_add_s_u16, lm2_v4_u8: lm2_v4_add_s_u8)(a, b)
+#  define lm2_v4_alpha(a, b, c) \
+    _Generic((a), lm2_v4_f64: lm2_v4_alpha_f64, lm2_v4_f32: lm2_v4_alpha_f32)(a, b, c)
+#  define lm2_v4_ceil(a) \
+    _Generic((a), lm2_v4_f64: lm2_v4_ceil_f64, lm2_v4_f32: lm2_v4_ceil_f32)(a)
 #  define lm2_v4_ceil_multiple(a, b) \
     _Generic((a), lm2_v4_f64: lm2_v4_ceil_multiple_f64, lm2_v4_f32: lm2_v4_ceil_multiple_f32)(a, b)
-#  define lm2_v4_round_multiple(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_round_multiple_f64, lm2_v4_f32: lm2_v4_round_multiple_f32)(a, b)
-#  define lm2_v4_trunc_multiple(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_trunc_multiple_f64, lm2_v4_f32: lm2_v4_trunc_multiple_f32)(a, b)
-#  define lm2_v4_min(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_min_f64, lm2_v4_f32: lm2_v4_min_f32, lm2_v4_i64: lm2_v4_min_i64, lm2_v4_i32: lm2_v4_min_i32, lm2_v4_i16: lm2_v4_min_i16, lm2_v4_i8: lm2_v4_min_i8, lm2_v4_u64: lm2_v4_min_u64, lm2_v4_u32: lm2_v4_min_u32, lm2_v4_u16: lm2_v4_min_u16, lm2_v4_u8: lm2_v4_min_u8)(a, b)
-#  define lm2_v4_min_abs(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_min_abs_f64, lm2_v4_f32: lm2_v4_min_abs_f32, lm2_v4_i64: lm2_v4_min_abs_i64, lm2_v4_i32: lm2_v4_min_abs_i32, lm2_v4_i16: lm2_v4_min_abs_i16, lm2_v4_i8: lm2_v4_min_abs_i8)(a, b)
-#  define lm2_v4_max(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_max_f64, lm2_v4_f32: lm2_v4_max_f32, lm2_v4_i64: lm2_v4_max_i64, lm2_v4_i32: lm2_v4_max_i32, lm2_v4_i16: lm2_v4_max_i16, lm2_v4_i8: lm2_v4_max_i8, lm2_v4_u64: lm2_v4_max_u64, lm2_v4_u32: lm2_v4_max_u32, lm2_v4_u16: lm2_v4_max_u16, lm2_v4_u8: lm2_v4_max_u8)(a, b)
-#  define lm2_v4_max_abs(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_max_abs_f64, lm2_v4_f32: lm2_v4_max_abs_f32, lm2_v4_i64: lm2_v4_max_abs_i64, lm2_v4_i32: lm2_v4_max_abs_i32, lm2_v4_i16: lm2_v4_max_abs_i16, lm2_v4_i8: lm2_v4_max_abs_i8)(a, b)
-#  define lm2_v4_mod(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_mod_f64, lm2_v4_f32: lm2_v4_mod_f32, lm2_v4_i64: lm2_v4_mod_i64, lm2_v4_i32: lm2_v4_mod_i32, lm2_v4_i16: lm2_v4_mod_i16, lm2_v4_i8: lm2_v4_mod_i8, lm2_v4_u64: lm2_v4_mod_u64, lm2_v4_u32: lm2_v4_mod_u32, lm2_v4_u16: lm2_v4_mod_u16, lm2_v4_u8: lm2_v4_mod_u8)(a, b)
-#  define lm2_v4_pow(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_pow_f64, lm2_v4_f32: lm2_v4_pow_f32)(a, b)
 #  define lm2_v4_clamp(a, b, c) \
     _Generic((a), lm2_v4_f64: lm2_v4_clamp_f64, lm2_v4_f32: lm2_v4_clamp_f32, lm2_v4_i64: lm2_v4_clamp_i64, lm2_v4_i32: lm2_v4_clamp_i32, lm2_v4_i16: lm2_v4_clamp_i16, lm2_v4_i8: lm2_v4_clamp_i8, lm2_v4_u64: lm2_v4_clamp_u64, lm2_v4_u32: lm2_v4_clamp_u32, lm2_v4_u16: lm2_v4_clamp_u16, lm2_v4_u8: lm2_v4_clamp_u8)(a, b, c)
-#  define lm2_v4_lerp(a, b, t) \
-    _Generic((a), lm2_v4_f64: lm2_v4_lerp_f64, lm2_v4_f32: lm2_v4_lerp_f32)(a, b, t)
-#  define lm2_v4_smoothstep(a, b, t) \
-    _Generic((a), lm2_v4_f64: lm2_v4_smoothstep_f64, lm2_v4_f32: lm2_v4_smoothstep_f32)(a, b, t)
-#  define lm2_v4_alpha(a, b, t) \
-    _Generic((a), lm2_v4_f64: lm2_v4_alpha_f64, lm2_v4_f32: lm2_v4_alpha_f32)(a, b, t)
-#  define lm2_v4_dot(a, b) \
-    _Generic((a), lm2_v4_f64: lm2_v4_dot_f64, lm2_v4_f32: lm2_v4_dot_f32, lm2_v4_i64: lm2_v4_dot_i64, lm2_v4_i32: lm2_v4_dot_i32, lm2_v4_i16: lm2_v4_dot_i16, lm2_v4_i8: lm2_v4_dot_i8)(a, b)
-#  define lm2_v4_length(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_length_f64, lm2_v4_f32: lm2_v4_length_f32)(a)
-#  define lm2_v4_length_sq(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_length_sq_f64, lm2_v4_f32: lm2_v4_length_sq_f32)(a)
 #  define lm2_v4_distance(a, b) \
     _Generic((a), lm2_v4_f64: lm2_v4_distance_f64, lm2_v4_f32: lm2_v4_distance_f32)(a, b)
 #  define lm2_v4_distance_sq(a, b) \
     _Generic((a), lm2_v4_f64: lm2_v4_distance_sq_f64, lm2_v4_f32: lm2_v4_distance_sq_f32)(a, b)
-#  define lm2_v4_norm(a) \
-    _Generic((a), lm2_v4_f64: lm2_v4_norm_f64, lm2_v4_f32: lm2_v4_norm_f32)(a)
+#  define lm2_v4_div(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_div_f64, lm2_v4_f32: lm2_v4_div_f32, lm2_v4_i64: lm2_v4_div_i64, lm2_v4_i32: lm2_v4_div_i32, lm2_v4_i16: lm2_v4_div_i16, lm2_v4_i8: lm2_v4_div_i8, lm2_v4_u64: lm2_v4_div_u64, lm2_v4_u32: lm2_v4_div_u32, lm2_v4_u16: lm2_v4_div_u16, lm2_v4_u8: lm2_v4_div_u8)(a, b)
+#  define lm2_v4_div_s(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_div_s_f64, lm2_v4_f32: lm2_v4_div_s_f32, lm2_v4_i64: lm2_v4_div_s_i64, lm2_v4_i32: lm2_v4_div_s_i32, lm2_v4_i16: lm2_v4_div_s_i16, lm2_v4_i8: lm2_v4_div_s_i8, lm2_v4_u64: lm2_v4_div_s_u64, lm2_v4_u32: lm2_v4_div_s_u32, lm2_v4_u16: lm2_v4_div_s_u16, lm2_v4_u8: lm2_v4_div_s_u8)(a, b)
+#  define lm2_v4_dot(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_dot_f64, lm2_v4_f32: lm2_v4_dot_f32, lm2_v4_i64: lm2_v4_dot_i64, lm2_v4_i32: lm2_v4_dot_i32, lm2_v4_i16: lm2_v4_dot_i16, lm2_v4_i8: lm2_v4_dot_i8)(a, b)
 #  define lm2_v4_downcast(v) \
     _Generic((v), lm2_v4_f64: lm2_v4_downcast_f64, lm2_v4_f32: lm2_v4_downcast_f32, lm2_v4_i64: lm2_v4_downcast_i64, lm2_v4_i32: lm2_v4_downcast_i32, lm2_v4_i16: lm2_v4_downcast_i16, lm2_v4_i8: lm2_v4_downcast_i8, lm2_v4_u64: lm2_v4_downcast_u64, lm2_v4_u32: lm2_v4_downcast_u32, lm2_v4_u16: lm2_v4_downcast_u16, lm2_v4_u8: lm2_v4_downcast_u8)(v)
+#  define lm2_v4_floor(a) \
+    _Generic((a), lm2_v4_f64: lm2_v4_floor_f64, lm2_v4_f32: lm2_v4_floor_f32)(a)
+#  define lm2_v4_floor_multiple(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_floor_multiple_f64, lm2_v4_f32: lm2_v4_floor_multiple_f32)(a, b)
+#  define lm2_v4_fract(a) \
+    _Generic((a), lm2_v4_f64: lm2_v4_fract_f64, lm2_v4_f32: lm2_v4_fract_f32)(a)
+#  define lm2_v4_length(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_length_f64, lm2_v4_f32: lm2_v4_length_f32)(v)
+#  define lm2_v4_length_sq(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_length_sq_f64, lm2_v4_f32: lm2_v4_length_sq_f32)(v)
+#  define lm2_v4_lerp(a, b, c) \
+    _Generic((a), lm2_v4_f64: lm2_v4_lerp_f64, lm2_v4_f32: lm2_v4_lerp_f32)(a, b, c)
+#  define lm2_v4_make(x, y, z, w) \
+    _Generic((x), double: lm2_v4_make_f64, float: lm2_v4_make_f32, int64_t: lm2_v4_make_i64, int32_t: lm2_v4_make_i32, int16_t: lm2_v4_make_i16, int8_t: lm2_v4_make_i8, uint64_t: lm2_v4_make_u64, uint32_t: lm2_v4_make_u32, uint16_t: lm2_v4_make_u16, uint8_t: lm2_v4_make_u8)(x, y, z, w)
+#  define lm2_v4_max(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_max_f64, lm2_v4_f32: lm2_v4_max_f32, lm2_v4_i64: lm2_v4_max_i64, lm2_v4_i32: lm2_v4_max_i32, lm2_v4_i16: lm2_v4_max_i16, lm2_v4_i8: lm2_v4_max_i8, lm2_v4_u64: lm2_v4_max_u64, lm2_v4_u32: lm2_v4_max_u32, lm2_v4_u16: lm2_v4_max_u16, lm2_v4_u8: lm2_v4_max_u8)(a, b)
+#  define lm2_v4_max_abs(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_max_abs_f64, lm2_v4_f32: lm2_v4_max_abs_f32, lm2_v4_i64: lm2_v4_max_abs_i64, lm2_v4_i32: lm2_v4_max_abs_i32, lm2_v4_i16: lm2_v4_max_abs_i16, lm2_v4_i8: lm2_v4_max_abs_i8)(a, b)
+#  define lm2_v4_min(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_min_f64, lm2_v4_f32: lm2_v4_min_f32, lm2_v4_i64: lm2_v4_min_i64, lm2_v4_i32: lm2_v4_min_i32, lm2_v4_i16: lm2_v4_min_i16, lm2_v4_i8: lm2_v4_min_i8, lm2_v4_u64: lm2_v4_min_u64, lm2_v4_u32: lm2_v4_min_u32, lm2_v4_u16: lm2_v4_min_u16, lm2_v4_u8: lm2_v4_min_u8)(a, b)
+#  define lm2_v4_min_abs(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_min_abs_f64, lm2_v4_f32: lm2_v4_min_abs_f32, lm2_v4_i64: lm2_v4_min_abs_i64, lm2_v4_i32: lm2_v4_min_abs_i32, lm2_v4_i16: lm2_v4_min_abs_i16, lm2_v4_i8: lm2_v4_min_abs_i8)(a, b)
+#  define lm2_v4_mod(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_mod_f64, lm2_v4_f32: lm2_v4_mod_f32, lm2_v4_i64: lm2_v4_mod_i64, lm2_v4_i32: lm2_v4_mod_i32, lm2_v4_i16: lm2_v4_mod_i16, lm2_v4_i8: lm2_v4_mod_i8, lm2_v4_u64: lm2_v4_mod_u64, lm2_v4_u32: lm2_v4_mod_u32, lm2_v4_u16: lm2_v4_mod_u16, lm2_v4_u8: lm2_v4_mod_u8)(a, b)
+#  define lm2_v4_mul(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_mul_f64, lm2_v4_f32: lm2_v4_mul_f32, lm2_v4_i64: lm2_v4_mul_i64, lm2_v4_i32: lm2_v4_mul_i32, lm2_v4_i16: lm2_v4_mul_i16, lm2_v4_i8: lm2_v4_mul_i8, lm2_v4_u64: lm2_v4_mul_u64, lm2_v4_u32: lm2_v4_mul_u32, lm2_v4_u16: lm2_v4_mul_u16, lm2_v4_u8: lm2_v4_mul_u8)(a, b)
+#  define lm2_v4_mul_s(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_mul_s_f64, lm2_v4_f32: lm2_v4_mul_s_f32, lm2_v4_i64: lm2_v4_mul_s_i64, lm2_v4_i32: lm2_v4_mul_s_i32, lm2_v4_i16: lm2_v4_mul_s_i16, lm2_v4_i8: lm2_v4_mul_s_i8, lm2_v4_u64: lm2_v4_mul_s_u64, lm2_v4_u32: lm2_v4_mul_s_u32, lm2_v4_u16: lm2_v4_mul_s_u16, lm2_v4_u8: lm2_v4_mul_s_u8)(a, b)
+#  define lm2_v4_neg(a) \
+    _Generic((a), lm2_v4_f64: lm2_v4_neg_f64, lm2_v4_f32: lm2_v4_neg_f32, lm2_v4_i64: lm2_v4_neg_i64, lm2_v4_i32: lm2_v4_neg_i32, lm2_v4_i16: lm2_v4_neg_i16, lm2_v4_i8: lm2_v4_neg_i8, lm2_v4_u32: lm2_v4_neg_u32, lm2_v4_u8: lm2_v4_neg_u8)(a)
+#  define lm2_v4_norm(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_norm_f64, lm2_v4_f32: lm2_v4_norm_f32)(v)
+#  define lm2_v4_pow(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_pow_f64, lm2_v4_f32: lm2_v4_pow_f32)(a, b)
+#  define lm2_v4_round(a) \
+    _Generic((a), lm2_v4_f64: lm2_v4_round_f64, lm2_v4_f32: lm2_v4_round_f32)(a)
+#  define lm2_v4_round_multiple(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_round_multiple_f64, lm2_v4_f32: lm2_v4_round_multiple_f32)(a, b)
+#  define lm2_v4_saturate(a) \
+    _Generic((a), lm2_v4_f64: lm2_v4_saturate_f64, lm2_v4_f32: lm2_v4_saturate_f32)(a)
+#  define lm2_v4_sign(a) \
+    _Generic((a), lm2_v4_f64: lm2_v4_sign_f64, lm2_v4_f32: lm2_v4_sign_f32, lm2_v4_i64: lm2_v4_sign_i64, lm2_v4_i32: lm2_v4_sign_i32, lm2_v4_i16: lm2_v4_sign_i16, lm2_v4_i8: lm2_v4_sign_i8)(a)
+#  define lm2_v4_sign0(a) \
+    _Generic((a), lm2_v4_f64: lm2_v4_sign0_f64, lm2_v4_f32: lm2_v4_sign0_f32, lm2_v4_i64: lm2_v4_sign0_i64, lm2_v4_i32: lm2_v4_sign0_i32, lm2_v4_i16: lm2_v4_sign0_i16, lm2_v4_i8: lm2_v4_sign0_i8)(a)
+#  define lm2_v4_smoothstep(a, b, c) \
+    _Generic((a), lm2_v4_f64: lm2_v4_smoothstep_f64, lm2_v4_f32: lm2_v4_smoothstep_f32)(a, b, c)
+#  define lm2_v4_splat(v) \
+    _Generic((v), double: lm2_v4_splat_f64, float: lm2_v4_splat_f32, int64_t: lm2_v4_splat_i64, int32_t: lm2_v4_splat_i32, int16_t: lm2_v4_splat_i16, int8_t: lm2_v4_splat_i8, uint64_t: lm2_v4_splat_u64, uint32_t: lm2_v4_splat_u32, uint16_t: lm2_v4_splat_u16, uint8_t: lm2_v4_splat_u8)(v)
+#  define lm2_v4_sqrt(a) \
+    _Generic((a), lm2_v4_f64: lm2_v4_sqrt_f64, lm2_v4_f32: lm2_v4_sqrt_f32)(a)
+#  define lm2_v4_sub(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_sub_f64, lm2_v4_f32: lm2_v4_sub_f32, lm2_v4_i64: lm2_v4_sub_i64, lm2_v4_i32: lm2_v4_sub_i32, lm2_v4_i16: lm2_v4_sub_i16, lm2_v4_i8: lm2_v4_sub_i8, lm2_v4_u64: lm2_v4_sub_u64, lm2_v4_u32: lm2_v4_sub_u32, lm2_v4_u16: lm2_v4_sub_u16, lm2_v4_u8: lm2_v4_sub_u8)(a, b)
+#  define lm2_v4_sub_s(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_sub_s_f64, lm2_v4_f32: lm2_v4_sub_s_f32, lm2_v4_i64: lm2_v4_sub_s_i64, lm2_v4_i32: lm2_v4_sub_s_i32, lm2_v4_i16: lm2_v4_sub_s_i16, lm2_v4_i8: lm2_v4_sub_s_i8, lm2_v4_u64: lm2_v4_sub_s_u64, lm2_v4_u32: lm2_v4_sub_s_u32, lm2_v4_u16: lm2_v4_sub_s_u16, lm2_v4_u8: lm2_v4_sub_s_u8)(a, b)
+#  define lm2_v4_to_f32(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_f64_to_f32, lm2_v4_i64: lm2_v4_i64_to_f32, lm2_v4_i32: lm2_v4_i32_to_f32, lm2_v4_i16: lm2_v4_i16_to_f32, lm2_v4_i8: lm2_v4_i8_to_f32, lm2_v4_u64: lm2_v4_u64_to_f32, lm2_v4_u32: lm2_v4_u32_to_f32, lm2_v4_u16: lm2_v4_u16_to_f32, lm2_v4_u8: lm2_v4_u8_to_f32)(v)
+#  define lm2_v4_to_f64(v) \
+    _Generic((v), lm2_v4_f32: lm2_v4_f32_to_f64, lm2_v4_i64: lm2_v4_i64_to_f64, lm2_v4_i32: lm2_v4_i32_to_f64, lm2_v4_i16: lm2_v4_i16_to_f64, lm2_v4_i8: lm2_v4_i8_to_f64, lm2_v4_u64: lm2_v4_u64_to_f64, lm2_v4_u32: lm2_v4_u32_to_f64, lm2_v4_u16: lm2_v4_u16_to_f64, lm2_v4_u8: lm2_v4_u8_to_f64)(v)
+#  define lm2_v4_to_i16(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_f64_to_i16, lm2_v4_f32: lm2_v4_f32_to_i16, lm2_v4_i64: lm2_v4_i64_to_i16, lm2_v4_i32: lm2_v4_i32_to_i16, lm2_v4_i8: lm2_v4_i8_to_i16, lm2_v4_u64: lm2_v4_u64_to_i16, lm2_v4_u32: lm2_v4_u32_to_i16, lm2_v4_u16: lm2_v4_u16_to_i16, lm2_v4_u8: lm2_v4_u8_to_i16)(v)
+#  define lm2_v4_to_i32(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_f64_to_i32, lm2_v4_f32: lm2_v4_f32_to_i32, lm2_v4_i64: lm2_v4_i64_to_i32, lm2_v4_i16: lm2_v4_i16_to_i32, lm2_v4_i8: lm2_v4_i8_to_i32, lm2_v4_u64: lm2_v4_u64_to_i32, lm2_v4_u32: lm2_v4_u32_to_i32, lm2_v4_u16: lm2_v4_u16_to_i32, lm2_v4_u8: lm2_v4_u8_to_i32)(v)
+#  define lm2_v4_to_i64(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_f64_to_i64, lm2_v4_f32: lm2_v4_f32_to_i64, lm2_v4_i32: lm2_v4_i32_to_i64, lm2_v4_i16: lm2_v4_i16_to_i64, lm2_v4_i8: lm2_v4_i8_to_i64, lm2_v4_u64: lm2_v4_u64_to_i64, lm2_v4_u32: lm2_v4_u32_to_i64, lm2_v4_u16: lm2_v4_u16_to_i64, lm2_v4_u8: lm2_v4_u8_to_i64)(v)
+#  define lm2_v4_to_i8(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_f64_to_i8, lm2_v4_f32: lm2_v4_f32_to_i8, lm2_v4_i64: lm2_v4_i64_to_i8, lm2_v4_i32: lm2_v4_i32_to_i8, lm2_v4_i16: lm2_v4_i16_to_i8, lm2_v4_u64: lm2_v4_u64_to_i8, lm2_v4_u32: lm2_v4_u32_to_i8, lm2_v4_u16: lm2_v4_u16_to_i8, lm2_v4_u8: lm2_v4_u8_to_i8)(v)
+#  define lm2_v4_to_u16(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_f64_to_u16, lm2_v4_f32: lm2_v4_f32_to_u16, lm2_v4_i64: lm2_v4_i64_to_u16, lm2_v4_i32: lm2_v4_i32_to_u16, lm2_v4_i16: lm2_v4_i16_to_u16, lm2_v4_i8: lm2_v4_i8_to_u16, lm2_v4_u64: lm2_v4_u64_to_u16, lm2_v4_u32: lm2_v4_u32_to_u16, lm2_v4_u8: lm2_v4_u8_to_u16)(v)
+#  define lm2_v4_to_u32(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_f64_to_u32, lm2_v4_f32: lm2_v4_f32_to_u32, lm2_v4_i64: lm2_v4_i64_to_u32, lm2_v4_i32: lm2_v4_i32_to_u32, lm2_v4_i16: lm2_v4_i16_to_u32, lm2_v4_i8: lm2_v4_i8_to_u32, lm2_v4_u64: lm2_v4_u64_to_u32, lm2_v4_u16: lm2_v4_u16_to_u32, lm2_v4_u8: lm2_v4_u8_to_u32)(v)
+#  define lm2_v4_to_u64(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_f64_to_u64, lm2_v4_f32: lm2_v4_f32_to_u64, lm2_v4_i64: lm2_v4_i64_to_u64, lm2_v4_i32: lm2_v4_i32_to_u64, lm2_v4_i16: lm2_v4_i16_to_u64, lm2_v4_i8: lm2_v4_i8_to_u64, lm2_v4_u32: lm2_v4_u32_to_u64, lm2_v4_u16: lm2_v4_u16_to_u64, lm2_v4_u8: lm2_v4_u8_to_u64)(v)
+#  define lm2_v4_to_u8(v) \
+    _Generic((v), lm2_v4_f64: lm2_v4_f64_to_u8, lm2_v4_f32: lm2_v4_f32_to_u8, lm2_v4_i64: lm2_v4_i64_to_u8, lm2_v4_i32: lm2_v4_i32_to_u8, lm2_v4_i16: lm2_v4_i16_to_u8, lm2_v4_i8: lm2_v4_i8_to_u8, lm2_v4_u64: lm2_v4_u64_to_u8, lm2_v4_u32: lm2_v4_u32_to_u8, lm2_v4_u16: lm2_v4_u16_to_u8)(v)
+#  define lm2_v4_trunc(a) \
+    _Generic((a), lm2_v4_f64: lm2_v4_trunc_f64, lm2_v4_f32: lm2_v4_trunc_f32)(a)
+#  define lm2_v4_trunc_multiple(a, b) \
+    _Generic((a), lm2_v4_f64: lm2_v4_trunc_multiple_f64, lm2_v4_f32: lm2_v4_trunc_multiple_f32)(a, b)
 
 // Matrix operations
 #  define lm2_m3x2_identity() \

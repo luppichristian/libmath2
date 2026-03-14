@@ -200,6 +200,7 @@ LM2_VEC_OPS_UNSIGNED(lm2_v3_u64, v3, u64, uint64_t)
 LM2_VEC_OPS_UNSIGNED(lm2_v3_u32, v3, u32, uint32_t)
 LM2_VEC_OPS_UNSIGNED(lm2_v3_u16, v3, u16, uint16_t)
 LM2_VEC_OPS_UNSIGNED(lm2_v3_u8, v3, u8, uint8_t)
+LM2_VEC_NEG_OP(lm2_v3_u64, v3, u64)
 
 // Vector4 operators
 LM2_VEC_OPS_SIGNED(lm2_v4_f64, v4, f64, double)
@@ -212,6 +213,8 @@ LM2_VEC_OPS_UNSIGNED(lm2_v4_u64, v4, u64, uint64_t)
 LM2_VEC_OPS_UNSIGNED(lm2_v4_u32, v4, u32, uint32_t)
 LM2_VEC_OPS_UNSIGNED(lm2_v4_u16, v4, u16, uint16_t)
 LM2_VEC_OPS_UNSIGNED(lm2_v4_u8, v4, u8, uint8_t)
+LM2_VEC_NEG_OP(lm2_v4_u32, v4, u32)
+LM2_VEC_NEG_OP(lm2_v4_u8, v4, u8)
 
 // =============================================================================
 // Matrix Operators

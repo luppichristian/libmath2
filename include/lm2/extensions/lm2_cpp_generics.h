@@ -23,6 +23,9 @@ SOFTWARE.
 */
 
 #pragma once
+
+#include "../../lm2.h"
+
 #if defined(__cplusplus) && !defined(LM2_NO_GENERICS)
 #  include <cstdint>
 #  include <type_traits>
@@ -262,275 +265,3158 @@ static inline T lm2_lerp_deg(T a, T b, T t) {
 }
 
 // ==================================================================
-// Note: Vector/Matrix/Quaternion operations require explicit
-// template instantiation by the user due to C++17 limitations.
-//
-// Example usage:
-//   lm2_v2_add<float>(v1, v2)
-//   lm2_m4x4_identity<double>()
-//   lm2_quat_slerp<float>(q1, q2, t)
+// Vector operations deduce the vector type from the first argument.
+// Zero-value helpers still use an explicit scalar template argument.
 // ==================================================================
 
-// VECTOR2
-template <typename T, typename V>
-static inline V lm2_v2_add(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v2_add, a, b)
+// VECTOR OPERATIONS
+template <typename A>
+static inline auto lm2_v2_abs(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_abs_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_abs_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_abs_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_abs_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_abs_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_abs_i8(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_sub(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v2_sub, a, b)
+template <typename A, typename B>
+static inline auto lm2_v2_add(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_add_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_add_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_add_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_add_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_add_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_add_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_add_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_add_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_add_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_add_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_mul(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v2_mul, a, b)
+template <typename A, typename B>
+static inline auto lm2_v2_add_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_add_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_add_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_add_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_add_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_add_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_add_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_add_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_add_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_add_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_add_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_div(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v2_div, a, b)
+template <typename A, typename B, typename C>
+static inline auto lm2_v2_alpha(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_alpha_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_alpha_f32(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_add_s(V v, T s) {
-  LM2_DISPATCH_FULL(lm2_v2_add_s, v, s)
+template <typename A, typename B>
+static inline auto lm2_v2_angle(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_angle_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_angle_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_mul_s(V v, T s) {
-  LM2_DISPATCH_FULL(lm2_v2_mul_s, v, s)
+template <typename A>
+static inline auto lm2_v2_ceil(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_ceil_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_ceil_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_neg(V v) {
-  LM2_DISPATCH_SIGNED(lm2_v2_neg, v)
+template <typename A, typename B>
+static inline auto lm2_v2_ceil_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_ceil_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_ceil_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_min(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v2_min, a, b)
+template <typename A, typename B, typename C>
+static inline auto lm2_v2_clamp(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_clamp_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_clamp_f32(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_clamp_i64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_clamp_i32(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_clamp_i16(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_clamp_i8(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_clamp_u64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_clamp_u32(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_clamp_u16(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_clamp_u8(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_max(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v2_max, a, b)
+template <typename A, typename B>
+static inline auto lm2_v2_cross(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_cross_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_cross_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_cross_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_cross_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_cross_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_cross_i8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_clamp(V v, V min, V max) {
-  LM2_DISPATCH_FULL(lm2_v2_clamp, v, min, max)
+template <typename A, typename B, typename C>
+static inline auto lm2_v2_cross3(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_cross3_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_cross3_f32(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_cross3_i64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_cross3_i32(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_cross3_i16(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_cross3_i8(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_lerp(V a, V b, T t) {
-  LM2_DISPATCH_FLOAT(lm2_v2_lerp, a, b, t)
+template <typename A, typename B>
+static inline auto lm2_v2_distance(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_distance_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_distance_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_distance_sq(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_distance_sq_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_distance_sq_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_div(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_div_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_div_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_div_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_div_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_div_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_div_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_div_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_div_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_div_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_div_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_div_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_div_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_div_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_div_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_div_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_div_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_div_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_div_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_div_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_div_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_div_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_dot(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_dot_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_dot_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_dot_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_dot_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_dot_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_dot_i8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_floor(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_floor_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_floor_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_floor_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_floor_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_floor_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_fract(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_fract_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_fract_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_length(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_length_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_length_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_length_sq(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_length_sq_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_length_sq_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B, typename C>
+static inline auto lm2_v2_lerp(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_lerp_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_lerp_f32(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
 template <typename T>
-static inline decltype(auto) lm2_v2_make(T x, T y) {
-  LM2_DISPATCH_FULL(lm2_v2_make, x, y)
+static inline auto lm2_v2_make(T x, T y) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<T, double>)
+    return lm2_v2_make_f64(x, y);
+  else if constexpr (std::is_same_v<T, float>)
+    return lm2_v2_make_f32(x, y);
+  else if constexpr (std::is_same_v<T, int64_t>)
+    return lm2_v2_make_i64(x, y);
+  else if constexpr (std::is_same_v<T, int32_t>)
+    return lm2_v2_make_i32(x, y);
+  else if constexpr (std::is_same_v<T, int16_t>)
+    return lm2_v2_make_i16(x, y);
+  else if constexpr (std::is_same_v<T, int8_t>)
+    return lm2_v2_make_i8(x, y);
+  else if constexpr (std::is_same_v<T, uint64_t>)
+    return lm2_v2_make_u64(x, y);
+  else if constexpr (std::is_same_v<T, uint32_t>)
+    return lm2_v2_make_u32(x, y);
+  else if constexpr (std::is_same_v<T, uint16_t>)
+    return lm2_v2_make_u16(x, y);
+  else if constexpr (std::is_same_v<T, uint8_t>)
+    return lm2_v2_make_u8(x, y);
+  else
+    static_assert(sizeof(T) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_max(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_max_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_max_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_max_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_max_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_max_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_max_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_max_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_max_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_max_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_max_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_max_abs(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_max_abs_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_max_abs_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_max_abs_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_max_abs_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_max_abs_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_max_abs_i8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_min(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_min_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_min_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_min_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_min_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_min_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_min_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_min_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_min_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_min_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_min_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_min_abs(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_min_abs_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_min_abs_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_min_abs_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_min_abs_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_min_abs_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_min_abs_i8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_mod(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_mod_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_mod_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_mod_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_mod_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_mod_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_mod_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_mod_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_mod_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_mod_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_mod_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_mul(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_mul_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_mul_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_mul_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_mul_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_mul_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_mul_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_mul_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_mul_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_mul_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_mul_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_mul_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_mul_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_mul_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_mul_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_mul_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_mul_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_mul_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_mul_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_mul_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_mul_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_mul_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_neg(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_neg_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_neg_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_neg_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_neg_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_neg_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_neg_i8(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_norm(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_norm_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_norm_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_perp_ccw(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_perp_ccw_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_perp_ccw_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_perp_ccw_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_perp_ccw_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_perp_ccw_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_perp_ccw_i8(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_perp_cw(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_perp_cw_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_perp_cw_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_perp_cw_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_perp_cw_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_perp_cw_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_perp_cw_i8(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_pow(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_pow_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_pow_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_project(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_project_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_project_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_reflect(A v, B normal) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_reflect_f64(v, normal);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_reflect_f32(v, normal);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_rotate(A v, B angle) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_rotate_f64(v, angle);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_rotate_f32(v, angle);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B, typename C>
+static inline auto lm2_v2_rotate_around(A v, B point, C angle) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_rotate_around_f64(v, point, angle);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_rotate_around_f32(v, point, angle);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_round(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_round_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_round_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_round_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_round_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_round_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_saturate(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_saturate_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_saturate_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_sign(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_sign_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_sign_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_sign_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_sign_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_sign_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_sign_i8(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_sign0(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_sign0_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_sign0_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_sign0_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_sign0_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_sign0_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_sign0_i8(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B, typename C>
+static inline auto lm2_v2_smoothstep(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_smoothstep_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_smoothstep_f32(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
 template <typename T>
-static inline decltype(auto) lm2_v2_splat(T s) {
-  LM2_DISPATCH_FULL(lm2_v2_splat, s)
+static inline auto lm2_v2_splat(T v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<T, double>)
+    return lm2_v2_splat_f64(v);
+  else if constexpr (std::is_same_v<T, float>)
+    return lm2_v2_splat_f32(v);
+  else if constexpr (std::is_same_v<T, int64_t>)
+    return lm2_v2_splat_i64(v);
+  else if constexpr (std::is_same_v<T, int32_t>)
+    return lm2_v2_splat_i32(v);
+  else if constexpr (std::is_same_v<T, int16_t>)
+    return lm2_v2_splat_i16(v);
+  else if constexpr (std::is_same_v<T, int8_t>)
+    return lm2_v2_splat_i8(v);
+  else if constexpr (std::is_same_v<T, uint64_t>)
+    return lm2_v2_splat_u64(v);
+  else if constexpr (std::is_same_v<T, uint32_t>)
+    return lm2_v2_splat_u32(v);
+  else if constexpr (std::is_same_v<T, uint16_t>)
+    return lm2_v2_splat_u16(v);
+  else if constexpr (std::is_same_v<T, uint8_t>)
+    return lm2_v2_splat_u8(v);
+  else
+    static_assert(sizeof(T) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_sqrt(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_sqrt_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_sqrt_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_sub(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_sub_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_sub_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_sub_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_sub_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_sub_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_sub_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_sub_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_sub_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_sub_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_sub_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_sub_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_sub_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_sub_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_sub_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_sub_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_sub_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_sub_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_sub_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_sub_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_sub_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_sub_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_to_f32(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_f64_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_i64_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_i32_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_i16_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_i8_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_u64_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_u32_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_u16_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_u8_to_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_to_f64(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_f32_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_i64_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_i32_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_i16_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_i8_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_u64_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_u32_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_u16_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_u8_to_f64(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_to_i16(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_f64_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_f32_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_i64_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_i32_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_i8_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_u64_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_u32_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_u16_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_u8_to_i16(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_to_i32(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_f64_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_f32_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_i64_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_i16_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_i8_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_u64_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_u32_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_u16_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_u8_to_i32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_to_i64(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_f64_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_f32_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_i32_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_i16_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_i8_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_u64_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_u32_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_u16_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_u8_to_i64(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_to_i8(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_f64_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_f32_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_i64_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_i32_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_i16_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_u64_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_u32_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_u16_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_u8_to_i8(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_to_u16(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_f64_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_f32_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_i64_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_i32_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_i16_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_i8_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_u64_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_u32_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_u8_to_u16(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_to_u32(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_f64_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_f32_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_i64_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_i32_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_i16_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_i8_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_u64_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_u16_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_u8_to_u32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_to_u64(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_f64_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_f32_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_i64_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_i32_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_i16_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_i8_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_u32_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_u16_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_u8_to_u64(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_to_u8(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_f64_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_f32_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_i64_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_i32_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_i16_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_i8_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_u64_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_u32_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_u16_to_u8(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v2_trunc(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_trunc_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_trunc_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_trunc_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_trunc_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_trunc_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v2_upcast(A v, B z) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v2_f64>)
+    return lm2_v2_upcast_f64(v, z);
+  else if constexpr (std::is_same_v<A, lm2_v2_f32>)
+    return lm2_v2_upcast_f32(v, z);
+  else if constexpr (std::is_same_v<A, lm2_v2_i64>)
+    return lm2_v2_upcast_i64(v, z);
+  else if constexpr (std::is_same_v<A, lm2_v2_i32>)
+    return lm2_v2_upcast_i32(v, z);
+  else if constexpr (std::is_same_v<A, lm2_v2_i16>)
+    return lm2_v2_upcast_i16(v, z);
+  else if constexpr (std::is_same_v<A, lm2_v2_i8>)
+    return lm2_v2_upcast_i8(v, z);
+  else if constexpr (std::is_same_v<A, lm2_v2_u64>)
+    return lm2_v2_upcast_u64(v, z);
+  else if constexpr (std::is_same_v<A, lm2_v2_u32>)
+    return lm2_v2_upcast_u32(v, z);
+  else if constexpr (std::is_same_v<A, lm2_v2_u16>)
+    return lm2_v2_upcast_u16(v, z);
+  else if constexpr (std::is_same_v<A, lm2_v2_u8>)
+    return lm2_v2_upcast_u8(v, z);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
 template <typename T>
-static inline decltype(auto) lm2_v2_zero() {
-  LM2_DISPATCH_FULL(lm2_v2_zero)
+static inline auto lm2_v2_zero() {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<T, double>)
+    return lm2_v2_zero_f64();
+  else if constexpr (std::is_same_v<T, float>)
+    return lm2_v2_zero_f32();
+  else if constexpr (std::is_same_v<T, int64_t>)
+    return lm2_v2_zero_i64();
+  else if constexpr (std::is_same_v<T, int32_t>)
+    return lm2_v2_zero_i32();
+  else if constexpr (std::is_same_v<T, int16_t>)
+    return lm2_v2_zero_i16();
+  else if constexpr (std::is_same_v<T, int8_t>)
+    return lm2_v2_zero_i8();
+  else if constexpr (std::is_same_v<T, uint64_t>)
+    return lm2_v2_zero_u64();
+  else if constexpr (std::is_same_v<T, uint32_t>)
+    return lm2_v2_zero_u32();
+  else if constexpr (std::is_same_v<T, uint16_t>)
+    return lm2_v2_zero_u16();
+  else if constexpr (std::is_same_v<T, uint8_t>)
+    return lm2_v2_zero_u8();
+  else
+    static_assert(sizeof(T) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline T lm2_v2_dot(V a, V b) {
-  LM2_DISPATCH_SIGNED(lm2_v2_dot, a, b)
+template <typename A>
+static inline auto lm2_v3_abs(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_abs_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_abs_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_abs_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_abs_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_abs_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_abs_i8(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline T lm2_v2_cross(V a, V b) {
-  LM2_DISPATCH_SIGNED(lm2_v2_cross, a, b)
+template <typename A, typename B>
+static inline auto lm2_v3_add(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_add_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_add_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_add_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_add_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_add_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_add_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_add_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_add_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_add_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_add_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline T lm2_v2_length(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v2_length, v)
+template <typename A, typename B>
+static inline auto lm2_v3_add_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_add_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_add_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_add_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_add_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_add_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_add_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_add_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_add_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_add_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_add_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline T lm2_v2_length_sq(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v2_length_sq, v)
+template <typename A, typename B, typename C>
+static inline auto lm2_v3_alpha(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_alpha_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_alpha_f32(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline T lm2_v2_distance(V a, V b) {
-  LM2_DISPATCH_FLOAT(lm2_v2_distance, a, b)
+template <typename A, typename B>
+static inline auto lm2_v3_angle(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_angle_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_angle_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_norm(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v2_norm, v)
+template <typename A>
+static inline auto lm2_v3_ceil(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_ceil_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_ceil_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline T lm2_v2_angle(V a, V b) {
-  LM2_DISPATCH_FLOAT(lm2_v2_angle, a, b)
+template <typename A, typename B>
+static inline auto lm2_v3_ceil_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_ceil_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_ceil_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_rotate(V v, T angle) {
-  LM2_DISPATCH_FLOAT(lm2_v2_rotate, v, angle)
+template <typename A, typename B, typename C>
+static inline auto lm2_v3_clamp(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_clamp_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_clamp_f32(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_clamp_i64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_clamp_i32(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_clamp_i16(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_clamp_i8(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_clamp_u64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_clamp_u32(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_clamp_u16(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_clamp_u8(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_perp_ccw(V v) {
-  LM2_DISPATCH_SIGNED(lm2_v2_perp_ccw, v)
+template <typename A, typename B>
+static inline auto lm2_v3_cross(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_cross_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_cross_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_cross_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_cross_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_cross_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_cross_i8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v2_perp_cw(V v) {
-  LM2_DISPATCH_SIGNED(lm2_v2_perp_cw, v)
+template <typename A, typename B>
+static inline auto lm2_v3_distance(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_distance_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_distance_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-
-// VECTOR3
-template <typename T, typename V>
-static inline V lm2_v3_add(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v3_add, a, b)
+template <typename A, typename B>
+static inline auto lm2_v3_distance_sq(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_distance_sq_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_distance_sq_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_sub(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v3_sub, a, b)
+template <typename A, typename B>
+static inline auto lm2_v3_div(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_div_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_div_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_div_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_div_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_div_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_div_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_div_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_div_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_div_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_div_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_mul(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v3_mul, a, b)
+template <typename A, typename B>
+static inline auto lm2_v3_div_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_div_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_div_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_div_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_div_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_div_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_div_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_div_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_div_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_div_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_div_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_div(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v3_div, a, b)
+template <typename A, typename B>
+static inline auto lm2_v3_dot(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_dot_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_dot_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_dot_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_dot_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_dot_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_dot_i8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_add_s(V v, T s) {
-  LM2_DISPATCH_FULL(lm2_v3_add_s, v, s)
+template <typename A>
+static inline auto lm2_v3_downcast(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_downcast_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_downcast_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_downcast_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_downcast_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_downcast_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_downcast_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_downcast_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_downcast_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_downcast_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_downcast_u8(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_mul_s(V v, T s) {
-  LM2_DISPATCH_FULL(lm2_v3_mul_s, v, s)
+template <typename A>
+static inline auto lm2_v3_floor(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_floor_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_floor_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_neg(V v) {
-  LM2_DISPATCH_SIGNED(lm2_v3_neg, v)
+template <typename A, typename B>
+static inline auto lm2_v3_floor_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_floor_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_floor_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_min(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v3_min, a, b)
+template <typename A>
+static inline auto lm2_v3_fract(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_fract_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_fract_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_max(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v3_max, a, b)
+template <typename A>
+static inline auto lm2_v3_length(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_length_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_length_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_clamp(V v, V min, V max) {
-  LM2_DISPATCH_FULL(lm2_v3_clamp, v, min, max)
+template <typename A>
+static inline auto lm2_v3_length_sq(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_length_sq_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_length_sq_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_lerp(V a, V b, T t) {
-  LM2_DISPATCH_FLOAT(lm2_v3_lerp, a, b, t)
+template <typename A, typename B, typename C>
+static inline auto lm2_v3_lerp(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_lerp_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_lerp_f32(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
 template <typename T>
-static inline decltype(auto) lm2_v3_make(T x, T y, T z) {
-  LM2_DISPATCH_FULL(lm2_v3_make, x, y, z)
+static inline auto lm2_v3_make(T x, T y, T z) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<T, double>)
+    return lm2_v3_make_f64(x, y, z);
+  else if constexpr (std::is_same_v<T, float>)
+    return lm2_v3_make_f32(x, y, z);
+  else if constexpr (std::is_same_v<T, int64_t>)
+    return lm2_v3_make_i64(x, y, z);
+  else if constexpr (std::is_same_v<T, int32_t>)
+    return lm2_v3_make_i32(x, y, z);
+  else if constexpr (std::is_same_v<T, int16_t>)
+    return lm2_v3_make_i16(x, y, z);
+  else if constexpr (std::is_same_v<T, int8_t>)
+    return lm2_v3_make_i8(x, y, z);
+  else if constexpr (std::is_same_v<T, uint64_t>)
+    return lm2_v3_make_u64(x, y, z);
+  else if constexpr (std::is_same_v<T, uint32_t>)
+    return lm2_v3_make_u32(x, y, z);
+  else if constexpr (std::is_same_v<T, uint16_t>)
+    return lm2_v3_make_u16(x, y, z);
+  else if constexpr (std::is_same_v<T, uint8_t>)
+    return lm2_v3_make_u8(x, y, z);
+  else
+    static_assert(sizeof(T) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_max(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_max_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_max_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_max_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_max_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_max_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_max_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_max_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_max_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_max_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_max_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_max_abs(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_max_abs_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_max_abs_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_max_abs_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_max_abs_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_max_abs_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_max_abs_i8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_min(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_min_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_min_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_min_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_min_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_min_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_min_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_min_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_min_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_min_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_min_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_min_abs(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_min_abs_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_min_abs_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_min_abs_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_min_abs_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_min_abs_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_min_abs_i8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_mod(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_mod_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_mod_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_mod_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_mod_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_mod_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_mod_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_mod_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_mod_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_mod_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_mod_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_mul(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_mul_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_mul_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_mul_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_mul_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_mul_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_mul_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_mul_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_mul_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_mul_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_mul_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_mul_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_mul_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_mul_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_mul_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_mul_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_mul_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_mul_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_mul_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_mul_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_mul_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_mul_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_neg(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_neg_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_neg_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_neg_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_neg_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_neg_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_neg_i8(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_neg_u64(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_norm(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_norm_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_norm_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_pow(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_pow_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_pow_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_project(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_project_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_project_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_reflect(A v, B normal) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_reflect_f64(v, normal);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_reflect_f32(v, normal);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_round(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_round_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_round_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_round_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_round_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_round_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_saturate(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_saturate_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_saturate_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_sign(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_sign_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_sign_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_sign_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_sign_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_sign_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_sign_i8(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_sign0(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_sign0_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_sign0_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_sign0_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_sign0_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_sign0_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_sign0_i8(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B, typename C>
+static inline auto lm2_v3_smoothstep(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_smoothstep_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_smoothstep_f32(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
 template <typename T>
-static inline decltype(auto) lm2_v3_splat(T s) {
-  LM2_DISPATCH_FULL(lm2_v3_splat, s)
+static inline auto lm2_v3_splat(T v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<T, double>)
+    return lm2_v3_splat_f64(v);
+  else if constexpr (std::is_same_v<T, float>)
+    return lm2_v3_splat_f32(v);
+  else if constexpr (std::is_same_v<T, int64_t>)
+    return lm2_v3_splat_i64(v);
+  else if constexpr (std::is_same_v<T, int32_t>)
+    return lm2_v3_splat_i32(v);
+  else if constexpr (std::is_same_v<T, int16_t>)
+    return lm2_v3_splat_i16(v);
+  else if constexpr (std::is_same_v<T, int8_t>)
+    return lm2_v3_splat_i8(v);
+  else if constexpr (std::is_same_v<T, uint64_t>)
+    return lm2_v3_splat_u64(v);
+  else if constexpr (std::is_same_v<T, uint32_t>)
+    return lm2_v3_splat_u32(v);
+  else if constexpr (std::is_same_v<T, uint16_t>)
+    return lm2_v3_splat_u16(v);
+  else if constexpr (std::is_same_v<T, uint8_t>)
+    return lm2_v3_splat_u8(v);
+  else
+    static_assert(sizeof(T) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_sqrt(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_sqrt_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_sqrt_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_sub(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_sub_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_sub_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_sub_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_sub_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_sub_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_sub_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_sub_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_sub_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_sub_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_sub_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_sub_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_sub_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_sub_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_sub_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_sub_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_sub_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_sub_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_sub_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_sub_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_sub_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_sub_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_to_f32(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_f64_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_i64_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_i32_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_i16_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_i8_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_u64_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_u32_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_u16_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_u8_to_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_to_f64(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_f32_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_i64_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_i32_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_i16_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_i8_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_u64_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_u32_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_u16_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_u8_to_f64(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_to_i16(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_f64_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_f32_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_i64_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_i32_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_i8_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_u64_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_u32_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_u16_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_u8_to_i16(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_to_i32(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_f64_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_f32_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_i64_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_i16_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_i8_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_u64_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_u32_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_u16_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_u8_to_i32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_to_i64(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_f64_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_f32_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_i32_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_i16_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_i8_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_u64_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_u32_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_u16_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_u8_to_i64(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_to_i8(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_f64_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_f32_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_i64_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_i32_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_i16_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_u64_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_u32_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_u16_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_u8_to_i8(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_to_u16(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_f64_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_f32_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_i64_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_i32_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_i16_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_i8_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_u64_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_u32_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_u8_to_u16(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_to_u32(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_f64_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_f32_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_i64_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_i32_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_i16_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_i8_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_u64_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_u16_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_u8_to_u32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_to_u64(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_f64_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_f32_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_i64_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_i32_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_i16_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_i8_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_u32_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_u16_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_u8_to_u64(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_to_u8(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_f64_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_f32_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_i64_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_i32_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_i16_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_i8_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_u64_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_u32_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_u16_to_u8(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v3_trunc(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_trunc_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_trunc_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_trunc_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_trunc_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_trunc_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v3_upcast(A v, B w) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v3_f64>)
+    return lm2_v3_upcast_f64(v, w);
+  else if constexpr (std::is_same_v<A, lm2_v3_f32>)
+    return lm2_v3_upcast_f32(v, w);
+  else if constexpr (std::is_same_v<A, lm2_v3_i64>)
+    return lm2_v3_upcast_i64(v, w);
+  else if constexpr (std::is_same_v<A, lm2_v3_i32>)
+    return lm2_v3_upcast_i32(v, w);
+  else if constexpr (std::is_same_v<A, lm2_v3_i16>)
+    return lm2_v3_upcast_i16(v, w);
+  else if constexpr (std::is_same_v<A, lm2_v3_i8>)
+    return lm2_v3_upcast_i8(v, w);
+  else if constexpr (std::is_same_v<A, lm2_v3_u64>)
+    return lm2_v3_upcast_u64(v, w);
+  else if constexpr (std::is_same_v<A, lm2_v3_u32>)
+    return lm2_v3_upcast_u32(v, w);
+  else if constexpr (std::is_same_v<A, lm2_v3_u16>)
+    return lm2_v3_upcast_u16(v, w);
+  else if constexpr (std::is_same_v<A, lm2_v3_u8>)
+    return lm2_v3_upcast_u8(v, w);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
 template <typename T>
-static inline decltype(auto) lm2_v3_zero() {
-  LM2_DISPATCH_FULL(lm2_v3_zero)
+static inline auto lm2_v3_zero() {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<T, double>)
+    return lm2_v3_zero_f64();
+  else if constexpr (std::is_same_v<T, float>)
+    return lm2_v3_zero_f32();
+  else if constexpr (std::is_same_v<T, int64_t>)
+    return lm2_v3_zero_i64();
+  else if constexpr (std::is_same_v<T, int32_t>)
+    return lm2_v3_zero_i32();
+  else if constexpr (std::is_same_v<T, int16_t>)
+    return lm2_v3_zero_i16();
+  else if constexpr (std::is_same_v<T, int8_t>)
+    return lm2_v3_zero_i8();
+  else if constexpr (std::is_same_v<T, uint64_t>)
+    return lm2_v3_zero_u64();
+  else if constexpr (std::is_same_v<T, uint32_t>)
+    return lm2_v3_zero_u32();
+  else if constexpr (std::is_same_v<T, uint16_t>)
+    return lm2_v3_zero_u16();
+  else if constexpr (std::is_same_v<T, uint8_t>)
+    return lm2_v3_zero_u8();
+  else
+    static_assert(sizeof(T) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline T lm2_v3_dot(V a, V b) {
-  LM2_DISPATCH_SIGNED(lm2_v3_dot, a, b)
+template <typename A>
+static inline auto lm2_v4_abs(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_abs_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_abs_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_abs_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_abs_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_abs_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_abs_i8(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_cross(V a, V b) {
-  LM2_DISPATCH_SIGNED(lm2_v3_cross, a, b)
+template <typename A, typename B>
+static inline auto lm2_v4_add(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_add_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_add_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_add_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_add_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_add_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_add_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_add_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_add_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_add_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_add_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline T lm2_v3_length(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v3_length, v)
+template <typename A, typename B>
+static inline auto lm2_v4_add_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_add_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_add_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_add_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_add_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_add_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_add_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_add_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_add_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_add_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_add_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline T lm2_v3_length_sq(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v3_length_sq, v)
+template <typename A, typename B, typename C>
+static inline auto lm2_v4_alpha(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_alpha_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_alpha_f32(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline T lm2_v3_distance(V a, V b) {
-  LM2_DISPATCH_FLOAT(lm2_v3_distance, a, b)
+template <typename A>
+static inline auto lm2_v4_ceil(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_ceil_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_ceil_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v3_norm(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v3_norm, v)
+template <typename A, typename B>
+static inline auto lm2_v4_ceil_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_ceil_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_ceil_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline T lm2_v3_angle(V a, V b) {
-  LM2_DISPATCH_FLOAT(lm2_v3_angle, a, b)
+template <typename A, typename B, typename C>
+static inline auto lm2_v4_clamp(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_clamp_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_clamp_f32(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_clamp_i64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_clamp_i32(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_clamp_i16(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_clamp_i8(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_clamp_u64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_clamp_u32(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_clamp_u16(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_clamp_u8(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-
-// VECTOR4
-template <typename T, typename V>
-static inline V lm2_v4_add(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v4_add, a, b)
+template <typename A, typename B>
+static inline auto lm2_v4_distance(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_distance_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_distance_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v4_sub(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v4_sub, a, b)
+template <typename A, typename B>
+static inline auto lm2_v4_distance_sq(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_distance_sq_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_distance_sq_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v4_mul(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v4_mul, a, b)
+template <typename A, typename B>
+static inline auto lm2_v4_div(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_div_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_div_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_div_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_div_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_div_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_div_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_div_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_div_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_div_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_div_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v4_div(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v4_div, a, b)
+template <typename A, typename B>
+static inline auto lm2_v4_div_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_div_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_div_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_div_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_div_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_div_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_div_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_div_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_div_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_div_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_div_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v4_add_s(V v, T s) {
-  LM2_DISPATCH_FULL(lm2_v4_add_s, v, s)
+template <typename A, typename B>
+static inline auto lm2_v4_dot(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_dot_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_dot_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_dot_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_dot_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_dot_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_dot_i8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v4_mul_s(V v, T s) {
-  LM2_DISPATCH_FULL(lm2_v4_mul_s, v, s)
+template <typename A>
+static inline auto lm2_v4_downcast(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_downcast_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_downcast_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_downcast_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_downcast_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_downcast_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_downcast_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_downcast_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_downcast_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_downcast_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_downcast_u8(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v4_neg(V v) {
-  LM2_DISPATCH_SIGNED(lm2_v4_neg, v)
+template <typename A>
+static inline auto lm2_v4_floor(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_floor_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_floor_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v4_min(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v4_min, a, b)
+template <typename A, typename B>
+static inline auto lm2_v4_floor_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_floor_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_floor_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v4_max(V a, V b) {
-  LM2_DISPATCH_FULL(lm2_v4_max, a, b)
+template <typename A>
+static inline auto lm2_v4_fract(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_fract_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_fract_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v4_clamp(V v, V min, V max) {
-  LM2_DISPATCH_FULL(lm2_v4_clamp, v, min, max)
+template <typename A>
+static inline auto lm2_v4_length(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_length_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_length_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
-template <typename T, typename V>
-static inline V lm2_v4_lerp(V a, V b, T t) {
-  LM2_DISPATCH_FLOAT(lm2_v4_lerp, a, b, t)
+template <typename A>
+static inline auto lm2_v4_length_sq(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_length_sq_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_length_sq_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B, typename C>
+static inline auto lm2_v4_lerp(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_lerp_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_lerp_f32(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
 template <typename T>
-static inline decltype(auto) lm2_v4_make(T x, T y, T z, T w) {
-  LM2_DISPATCH_FULL(lm2_v4_make, x, y, z, w)
+static inline auto lm2_v4_make(T x, T y, T z, T w) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<T, double>)
+    return lm2_v4_make_f64(x, y, z, w);
+  else if constexpr (std::is_same_v<T, float>)
+    return lm2_v4_make_f32(x, y, z, w);
+  else if constexpr (std::is_same_v<T, int64_t>)
+    return lm2_v4_make_i64(x, y, z, w);
+  else if constexpr (std::is_same_v<T, int32_t>)
+    return lm2_v4_make_i32(x, y, z, w);
+  else if constexpr (std::is_same_v<T, int16_t>)
+    return lm2_v4_make_i16(x, y, z, w);
+  else if constexpr (std::is_same_v<T, int8_t>)
+    return lm2_v4_make_i8(x, y, z, w);
+  else if constexpr (std::is_same_v<T, uint64_t>)
+    return lm2_v4_make_u64(x, y, z, w);
+  else if constexpr (std::is_same_v<T, uint32_t>)
+    return lm2_v4_make_u32(x, y, z, w);
+  else if constexpr (std::is_same_v<T, uint16_t>)
+    return lm2_v4_make_u16(x, y, z, w);
+  else if constexpr (std::is_same_v<T, uint8_t>)
+    return lm2_v4_make_u8(x, y, z, w);
+  else
+    static_assert(sizeof(T) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_max(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_max_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_max_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_max_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_max_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_max_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_max_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_max_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_max_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_max_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_max_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_max_abs(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_max_abs_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_max_abs_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_max_abs_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_max_abs_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_max_abs_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_max_abs_i8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_min(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_min_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_min_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_min_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_min_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_min_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_min_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_min_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_min_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_min_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_min_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_min_abs(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_min_abs_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_min_abs_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_min_abs_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_min_abs_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_min_abs_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_min_abs_i8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_mod(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_mod_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_mod_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_mod_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_mod_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_mod_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_mod_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_mod_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_mod_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_mod_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_mod_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_mul(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_mul_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_mul_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_mul_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_mul_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_mul_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_mul_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_mul_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_mul_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_mul_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_mul_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_mul_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_mul_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_mul_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_mul_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_mul_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_mul_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_mul_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_mul_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_mul_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_mul_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_mul_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_neg(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_neg_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_neg_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_neg_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_neg_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_neg_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_neg_i8(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_neg_u32(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_neg_u8(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_norm(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_norm_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_norm_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_pow(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_pow_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_pow_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_round(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_round_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_round_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_round_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_round_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_round_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_saturate(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_saturate_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_saturate_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_sign(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_sign_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_sign_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_sign_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_sign_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_sign_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_sign_i8(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_sign0(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_sign0_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_sign0_f32(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_sign0_i64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_sign0_i32(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_sign0_i16(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_sign0_i8(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B, typename C>
+static inline auto lm2_v4_smoothstep(A a, B b, C c) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_smoothstep_f64(a, b, c);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_smoothstep_f32(a, b, c);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
 template <typename T>
-static inline decltype(auto) lm2_v4_splat(T s) {
-  LM2_DISPATCH_FULL(lm2_v4_splat, s)
+static inline auto lm2_v4_splat(T v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<T, double>)
+    return lm2_v4_splat_f64(v);
+  else if constexpr (std::is_same_v<T, float>)
+    return lm2_v4_splat_f32(v);
+  else if constexpr (std::is_same_v<T, int64_t>)
+    return lm2_v4_splat_i64(v);
+  else if constexpr (std::is_same_v<T, int32_t>)
+    return lm2_v4_splat_i32(v);
+  else if constexpr (std::is_same_v<T, int16_t>)
+    return lm2_v4_splat_i16(v);
+  else if constexpr (std::is_same_v<T, int8_t>)
+    return lm2_v4_splat_i8(v);
+  else if constexpr (std::is_same_v<T, uint64_t>)
+    return lm2_v4_splat_u64(v);
+  else if constexpr (std::is_same_v<T, uint32_t>)
+    return lm2_v4_splat_u32(v);
+  else if constexpr (std::is_same_v<T, uint16_t>)
+    return lm2_v4_splat_u16(v);
+  else if constexpr (std::is_same_v<T, uint8_t>)
+    return lm2_v4_splat_u8(v);
+  else
+    static_assert(sizeof(T) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_sqrt(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_sqrt_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_sqrt_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_sub(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_sub_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_sub_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_sub_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_sub_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_sub_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_sub_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_sub_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_sub_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_sub_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_sub_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_sub_s(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_sub_s_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_sub_s_f32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_sub_s_i64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_sub_s_i32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_sub_s_i16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_sub_s_i8(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_sub_s_u64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_sub_s_u32(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_sub_s_u16(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_sub_s_u8(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_to_f32(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_f64_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_i64_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_i32_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_i16_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_i8_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_u64_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_u32_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_u16_to_f32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_u8_to_f32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_to_f64(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_f32_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_i64_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_i32_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_i16_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_i8_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_u64_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_u32_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_u16_to_f64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_u8_to_f64(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_to_i16(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_f64_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_f32_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_i64_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_i32_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_i8_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_u64_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_u32_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_u16_to_i16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_u8_to_i16(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_to_i32(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_f64_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_f32_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_i64_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_i16_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_i8_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_u64_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_u32_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_u16_to_i32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_u8_to_i32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_to_i64(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_f64_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_f32_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_i32_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_i16_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_i8_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_u64_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_u32_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_u16_to_i64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_u8_to_i64(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_to_i8(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_f64_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_f32_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_i64_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_i32_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_i16_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_u64_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_u32_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_u16_to_i8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_u8_to_i8(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_to_u16(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_f64_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_f32_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_i64_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_i32_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_i16_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_i8_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_u64_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_u32_to_u16(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_u8_to_u16(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_to_u32(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_f64_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_f32_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_i64_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_i32_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_i16_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_i8_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_u64_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_u16_to_u32(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_u8_to_u32(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_to_u64(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_f64_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_f32_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_i64_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_i32_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_i16_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_i8_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_u32_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_u16_to_u64(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u8>)
+    return lm2_v4_u8_to_u64(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_to_u8(A v) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_f64_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_f32_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i64>)
+    return lm2_v4_i64_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i32>)
+    return lm2_v4_i32_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i16>)
+    return lm2_v4_i16_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_i8>)
+    return lm2_v4_i8_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u64>)
+    return lm2_v4_u64_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u32>)
+    return lm2_v4_u32_to_u8(v);
+  else if constexpr (std::is_same_v<A, lm2_v4_u16>)
+    return lm2_v4_u16_to_u8(v);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A>
+static inline auto lm2_v4_trunc(A a) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_trunc_f64(a);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_trunc_f32(a);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
+}
+template <typename A, typename B>
+static inline auto lm2_v4_trunc_multiple(A a, B b) {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<A, lm2_v4_f64>)
+    return lm2_v4_trunc_multiple_f64(a, b);
+  else if constexpr (std::is_same_v<A, lm2_v4_f32>)
+    return lm2_v4_trunc_multiple_f32(a, b);
+  else
+    static_assert(sizeof(A) == 0, "Unsupported type");
 }
 template <typename T>
-static inline decltype(auto) lm2_v4_zero() {
-  LM2_DISPATCH_FULL(lm2_v4_zero)
-}
-template <typename T, typename V>
-static inline T lm2_v4_dot(V a, V b) {
-  LM2_DISPATCH_SIGNED(lm2_v4_dot, a, b)
-}
-template <typename T, typename V>
-static inline T lm2_v4_length(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v4_length, v)
-}
-template <typename T, typename V>
-static inline T lm2_v4_length_sq(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v4_length_sq, v)
-}
-template <typename T, typename V>
-static inline T lm2_v4_distance(V a, V b) {
-  LM2_DISPATCH_FLOAT(lm2_v4_distance, a, b)
-}
-template <typename T, typename V>
-static inline V lm2_v4_norm(V v) {
-  LM2_DISPATCH_FLOAT(lm2_v4_norm, v)
+static inline auto lm2_v4_zero() {
+  if constexpr (false) {
+  } else if constexpr (std::is_same_v<T, double>)
+    return lm2_v4_zero_f64();
+  else if constexpr (std::is_same_v<T, float>)
+    return lm2_v4_zero_f32();
+  else if constexpr (std::is_same_v<T, int64_t>)
+    return lm2_v4_zero_i64();
+  else if constexpr (std::is_same_v<T, int32_t>)
+    return lm2_v4_zero_i32();
+  else if constexpr (std::is_same_v<T, int16_t>)
+    return lm2_v4_zero_i16();
+  else if constexpr (std::is_same_v<T, int8_t>)
+    return lm2_v4_zero_i8();
+  else if constexpr (std::is_same_v<T, uint64_t>)
+    return lm2_v4_zero_u64();
+  else if constexpr (std::is_same_v<T, uint32_t>)
+    return lm2_v4_zero_u32();
+  else if constexpr (std::is_same_v<T, uint16_t>)
+    return lm2_v4_zero_u16();
+  else if constexpr (std::is_same_v<T, uint8_t>)
+    return lm2_v4_zero_u8();
+  else
+    static_assert(sizeof(T) == 0, "Unsupported type");
 }
 
 // MATRIX3X2
