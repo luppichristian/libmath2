@@ -1,5 +1,11 @@
 # libmath2
 
+[![Language](https://img.shields.io/badge/language-C%20%2F%20C%2B%2B-00599C)](https://github.com/luppichristian/libmath2)
+[![Build](https://img.shields.io/badge/build-CMake-orange)](https://github.com/luppichristian/libmath2)
+[![Docs](https://img.shields.io/badge/docs-online-blue)](https://luppichristian.github.io/libmath2/)
+[![CI](https://img.shields.io/github/actions/workflow/status/luppichristian/libmath2/ci.yml?branch=main&label=ci)](https://github.com/luppichristian/libmath2/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE.md)
+
 A comprehensive C/C++ mathematics library for 2D/3D vector operations, matrix transformations, quaternion rotations, collision detection, and more.
 
 Designed for graphics programming, game development, and physics simulations, libmath2 provides a complete set of mathematical primitives with support for multiple numeric types (f64, f32, i64, i32, i16, i8, u64, u32, u16, u8) and first-class C/C++ interoperability.
