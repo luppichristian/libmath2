@@ -57,39 +57,65 @@ jobs:
     - name: Set up CMake
       uses: lukka/get-cmake@latest
 
-    - name: Install gcovr
-      run: python -m pip install gcovr
+    - name: Install LLVM
+      run: |
+        sudo apt-get update
+        sudo apt-get install --yes clang llvm
 
     - name: Configure coverage build
       run: |
         cmake -B build-coverage \
           -DCMAKE_BUILD_TYPE=Debug \
+          -DCMAKE_C_COMPILER=clang \
+          -DCMAKE_CXX_COMPILER=clang++ \
           -DLM2_BUILD_TESTS=ON \
-          -DCMAKE_C_FLAGS="--coverage -O0 -g" \
-          -DCMAKE_CXX_FLAGS="--coverage -O0 -g" \
-          -DCMAKE_EXE_LINKER_FLAGS="--coverage"
+          -DCMAKE_C_FLAGS="-fprofile-instr-generate -fcoverage-mapping" \
+          -DCMAKE_CXX_FLAGS="-fprofile-instr-generate -fcoverage-mapping" \
+          -DCMAKE_EXE_LINKER_FLAGS="-fprofile-instr-generate"
 
     - name: Build
       run: cmake --build build-coverage --parallel
 
     - name: Run tests
-      run: ctest --test-dir build-coverage --output-on-failure
+      env:
+        LLVM_PROFILE_FILE: ${{ github.workspace }}/build-coverage/profiles/%p.profraw
+      run: |
+        cmake -E make_directory build-coverage/profiles
+        ctest --test-dir build-coverage --output-on-failure
 
     - name: Generate coverage report
       run: |
-        gcovr \
-          --root . \
-          --filter 'src/' \
-          --exclude-unreachable-branches \
-          --exclude-throw-branches \
-          --print-summary \
-          --fail-under-line 55 \
-          --fail-under-branch 45 \
-          --xml-pretty \
-          --output coverage.xml
+        llvm-profdata merge --sparse build-coverage/profiles/*.profraw \
+          --output build-coverage/coverage.profdata
+        llvm-cov export build-coverage/libmath2-tests \
+          --instr-profile build-coverage/coverage.profdata \
+          --summary-only \
+          --ignore-filename-regex='(^|/)(tests|include|build-coverage|_deps)/' \
+          > coverage.json
+        llvm-cov report build-coverage/libmath2-tests \
+          --instr-profile build-coverage/coverage.profdata \
+          --ignore-filename-regex='(^|/)(tests|include|build-coverage|_deps)/' \
+          | tee coverage.txt
+        python - <<'PY'
+        import json
+        import sys
+
+        with open("coverage.json", encoding="utf-8") as report:
+          totals = json.load(report)["data"][0]["totals"]
+
+        line_coverage = totals["lines"]["percent"]
+        branch_coverage = totals["branches"]["percent"]
+        print(f"Line coverage: {line_coverage:.2f}%")
+        print(f"Branch coverage: {branch_coverage:.2f}%")
+
+        if line_coverage < 55.0 or branch_coverage < 45.0:
+          sys.exit("Coverage is below the required 55% line / 45% branch floor")
+        PY
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report
-        path: coverage.xml
+        path: |
+          coverage.json
+          coverage.txt
