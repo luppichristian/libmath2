@@ -586,3 +586,208 @@ TEST_F(Matrix4x4Test, LookAt_F32) {
   EXPECT_NE(m.m11, 0.0f);
   EXPECT_NE(m.m22, 0.0f);
 }
+
+TEST_F(Matrix4x4Test, QuaternionRoundTrip_180DegreeAxes_F64) {
+  struct Case {
+    lm2_m4x4_f64 matrix;
+    lm2_quat_f64 quaternion;
+  };
+  const Case cases[] = {
+      {{1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 1.0},
+       {1.0, 0.0, 0.0, 0.0}},
+      {{-1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 1.0},
+       {0.0, 1.0, 0.0, 0.0}},
+      {{-1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0},
+       {0.0, 0.0, 1.0, 0.0}},
+  };
+
+  for (const Case& test_case : cases) {
+    const lm2_quat_f64 converted = lm2_m4x4_to_quat_f64(test_case.matrix);
+    const double dot = converted.x * test_case.quaternion.x + converted.y * test_case.quaternion.y +
+                       converted.z * test_case.quaternion.z + converted.w * test_case.quaternion.w;
+    EXPECT_NEAR(std::abs(dot), 1.0, EPSILON_F64);
+
+    const lm2_m4x4_f64 from_expected = lm2_m4x4_from_quat_f64(test_case.quaternion);
+    const lm2_m4x4_f64 round_trip = lm2_m4x4_from_quat_f64(converted);
+    for (int i = 0; i < 16; i++) {
+      EXPECT_NEAR(from_expected.e[i], test_case.matrix.e[i], EPSILON_F64) << "axis matrix element " << i;
+      EXPECT_NEAR(round_trip.e[i], test_case.matrix.e[i], EPSILON_F64) << "round-trip matrix element " << i;
+    }
+  }
+}
+
+TEST_F(Matrix4x4Test, QuaternionRoundTrip_ArbitraryAxis_F64) {
+  const lm2_m4x4_f64 expected = {
+      0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+  const lm2_quat_f64 expected_quaternion = {0.5, 0.5, 0.5, 0.5};
+  const lm2_quat_f64 converted = lm2_m4x4_to_quat_f64(expected);
+  const double dot = converted.x * expected_quaternion.x + converted.y * expected_quaternion.y +
+                     converted.z * expected_quaternion.z + converted.w * expected_quaternion.w;
+  EXPECT_NEAR(std::abs(dot), 1.0, EPSILON_F64);
+
+  const lm2_m4x4_f64 from_expected = lm2_m4x4_from_quat_f64(expected_quaternion);
+  const lm2_m4x4_f64 round_trip = lm2_m4x4_from_quat_f64(converted);
+  for (int i = 0; i < 16; i++) {
+    EXPECT_NEAR(from_expected.e[i], expected.e[i], EPSILON_F64);
+    EXPECT_NEAR(round_trip.e[i], expected.e[i], EPSILON_F64);
+  }
+}
+
+TEST_F(Matrix4x4Test, QuaternionRoundTrip_180DegreeAxesAndArbitraryAxis_F32) {
+  struct Case {
+    lm2_m4x4_f32 matrix;
+    lm2_quat_f32 quaternion;
+  };
+  const Case cases[] = {
+      {{1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f},
+       {1.0f, 0.0f, 0.0f, 0.0f}},
+      {{-1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f},
+       {0.0f, 1.0f, 0.0f, 0.0f}},
+      {{-1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f},
+       {0.0f, 0.0f, 1.0f, 0.0f}},
+      {  {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f},
+       {0.5f, 0.5f, 0.5f, 0.5f}},
+  };
+
+  for (const Case& test_case : cases) {
+    const lm2_quat_f32 converted = lm2_m4x4_to_quat_f32(test_case.matrix);
+    const float dot = converted.x * test_case.quaternion.x + converted.y * test_case.quaternion.y +
+                      converted.z * test_case.quaternion.z + converted.w * test_case.quaternion.w;
+    EXPECT_NEAR(std::abs(dot), 1.0f, EPSILON_F32);
+
+    const lm2_m4x4_f32 from_expected = lm2_m4x4_from_quat_f32(test_case.quaternion);
+    const lm2_m4x4_f32 round_trip = lm2_m4x4_from_quat_f32(converted);
+    for (int i = 0; i < 16; i++) {
+      EXPECT_NEAR(from_expected.e[i], test_case.matrix.e[i], EPSILON_F32) << "matrix element " << i;
+      EXPECT_NEAR(round_trip.e[i], test_case.matrix.e[i], EPSILON_F32) << "round-trip matrix element " << i;
+    }
+  }
+}
+
+TEST_F(Matrix4x4Test, DenseInverse_BothMultiplicationOrders_F64) {
+  const lm2_m4x4_f64 matrix = lm2_m4x4_make_f64(
+      2.0, 0.3, 0.1, 3.0, -0.2, 1.5, 0.4, -2.0, 0.5, -0.1, 0.75, 4.0, 0.1, 0.05, -0.02, 1.0);
+  const lm2_m4x4_f64 inverse = lm2_m4x4_inverse_f64(matrix);
+  const lm2_m4x4_f64 products[] = {
+      lm2_m4x4_mul_f64(matrix, inverse),
+      lm2_m4x4_mul_f64(inverse, matrix),
+  };
+  for (const lm2_m4x4_f64 product : products) {
+    for (int i = 0; i < 16; i++) {
+      const double expected = (i == 0 || i == 5 || i == 10 || i == 15) ? 1.0 : 0.0;
+      EXPECT_NEAR(product.e[i], expected, 1e-9) << "matrix element " << i;
+    }
+  }
+}
+
+TEST_F(Matrix4x4Test, DenseInverse_BothMultiplicationOrders_F32) {
+  const lm2_m4x4_f32 matrix = lm2_m4x4_make_f32(
+      2.0f, 0.3f, 0.1f, 3.0f, -0.2f, 1.5f, 0.4f, -2.0f, 0.5f, -0.1f, 0.75f, 4.0f, 0.1f, 0.05f, -0.02f, 1.0f);
+  const lm2_m4x4_f32 inverse = lm2_m4x4_inverse_f32(matrix);
+  const lm2_m4x4_f32 products[] = {
+      lm2_m4x4_mul_f32(matrix, inverse),
+      lm2_m4x4_mul_f32(inverse, matrix),
+  };
+  for (const lm2_m4x4_f32 product : products) {
+    for (int i = 0; i < 16; i++) {
+      const float expected = (i == 0 || i == 5 || i == 10 || i == 15) ? 1.0f : 0.0f;
+      EXPECT_NEAR(product.e[i], expected, 2e-5f) << "matrix element " << i;
+    }
+  }
+}
+
+TEST_F(Matrix4x4Test, ProjectionAndLookAtMappingOracles_F64) {
+  const lm2_m4x4_f64 perspective = lm2_m4x4_perspective_f64(LM2_PI_F64 / 2.0, 2.0, 1.0, 11.0);
+  const lm2_v3_f64 near_corner = lm2_m4x4_transform_point_f64(perspective, {2.0, 1.0, -1.0});
+  const lm2_v3_f64 far_center = lm2_m4x4_transform_point_f64(perspective, {0.0, 0.0, -11.0});
+  EXPECT_NEAR(near_corner.x, 1.0, EPSILON_F64);
+  EXPECT_NEAR(near_corner.y, 1.0, EPSILON_F64);
+  EXPECT_NEAR(near_corner.z, -1.0, EPSILON_F64);
+  EXPECT_NEAR(far_center.z, 1.0, EPSILON_F64);
+
+  const lm2_m4x4_f64 orthographic = lm2_m4x4_ortho_f64(-2.0, 6.0, -3.0, 1.0, 1.0, 11.0);
+  const lm2_v3_f64 ortho_min = lm2_m4x4_transform_point_f64(orthographic, {-2.0, -3.0, -1.0});
+  const lm2_v3_f64 ortho_max = lm2_m4x4_transform_point_f64(orthographic, {6.0, 1.0, -11.0});
+  EXPECT_NEAR(ortho_min.x, -1.0, EPSILON_F64);
+  EXPECT_NEAR(ortho_min.y, -1.0, EPSILON_F64);
+  EXPECT_NEAR(ortho_min.z, -1.0, EPSILON_F64);
+  EXPECT_NEAR(ortho_max.x, 1.0, EPSILON_F64);
+  EXPECT_NEAR(ortho_max.y, 1.0, EPSILON_F64);
+  EXPECT_NEAR(ortho_max.z, 1.0, EPSILON_F64);
+
+  const lm2_m4x4_f64 view = lm2_m4x4_look_at_f64({3.0, 4.0, 5.0}, {3.0, 4.0, 4.0}, {0.0, 1.0, 0.0});
+  const lm2_v3_f64 eye = lm2_m4x4_transform_point_f64(view, {3.0, 4.0, 5.0});
+  const lm2_v3_f64 right_up_forward = lm2_m4x4_transform_point_f64(view, {5.0, 7.0, 1.0});
+  EXPECT_NEAR(eye.x, 0.0, EPSILON_F64);
+  EXPECT_NEAR(eye.y, 0.0, EPSILON_F64);
+  EXPECT_NEAR(eye.z, 0.0, EPSILON_F64);
+  EXPECT_NEAR(right_up_forward.x, 2.0, EPSILON_F64);
+  EXPECT_NEAR(right_up_forward.y, 3.0, EPSILON_F64);
+  EXPECT_NEAR(right_up_forward.z, -4.0, EPSILON_F64);
+}
+
+TEST_F(Matrix4x4Test, ProjectionAndLookAtMappingOracles_F32) {
+  const lm2_m4x4_f32 perspective = lm2_m4x4_perspective_f32(LM2_PI_F32 / 2.0f, 2.0f, 1.0f, 11.0f);
+  const lm2_v3_f32 near_corner = lm2_m4x4_transform_point_f32(perspective, {2.0f, 1.0f, -1.0f});
+  const lm2_v3_f32 far_center = lm2_m4x4_transform_point_f32(perspective, {0.0f, 0.0f, -11.0f});
+  EXPECT_NEAR(near_corner.x, 1.0f, EPSILON_F32);
+  EXPECT_NEAR(near_corner.y, 1.0f, EPSILON_F32);
+  EXPECT_NEAR(near_corner.z, -1.0f, EPSILON_F32);
+  EXPECT_NEAR(far_center.z, 1.0f, EPSILON_F32);
+
+  const lm2_m4x4_f32 orthographic = lm2_m4x4_ortho_f32(-2.0f, 6.0f, -3.0f, 1.0f, 1.0f, 11.0f);
+  const lm2_v3_f32 ortho_min = lm2_m4x4_transform_point_f32(orthographic, {-2.0f, -3.0f, -1.0f});
+  const lm2_v3_f32 ortho_max = lm2_m4x4_transform_point_f32(orthographic, {6.0f, 1.0f, -11.0f});
+  EXPECT_NEAR(ortho_min.x, -1.0f, EPSILON_F32);
+  EXPECT_NEAR(ortho_min.y, -1.0f, EPSILON_F32);
+  EXPECT_NEAR(ortho_min.z, -1.0f, EPSILON_F32);
+  EXPECT_NEAR(ortho_max.x, 1.0f, EPSILON_F32);
+  EXPECT_NEAR(ortho_max.y, 1.0f, EPSILON_F32);
+  EXPECT_NEAR(ortho_max.z, 1.0f, EPSILON_F32);
+
+  const lm2_m4x4_f32 view = lm2_m4x4_look_at_f32({3.0f, 4.0f, 5.0f}, {3.0f, 4.0f, 4.0f}, {0.0f, 1.0f, 0.0f});
+  const lm2_v3_f32 eye = lm2_m4x4_transform_point_f32(view, {3.0f, 4.0f, 5.0f});
+  const lm2_v3_f32 right_up_forward = lm2_m4x4_transform_point_f32(view, {5.0f, 7.0f, 1.0f});
+  EXPECT_NEAR(eye.x, 0.0f, EPSILON_F32);
+  EXPECT_NEAR(eye.y, 0.0f, EPSILON_F32);
+  EXPECT_NEAR(eye.z, 0.0f, EPSILON_F32);
+  EXPECT_NEAR(right_up_forward.x, 2.0f, EPSILON_F32);
+  EXPECT_NEAR(right_up_forward.y, 3.0f, EPSILON_F32);
+  EXPECT_NEAR(right_up_forward.z, -4.0f, EPSILON_F32);
+}
+
+TEST_F(Matrix4x4Test, InvalidDomainsAssert) {
+  EXPECT_DEATH((void)lm2_m4x4_inverse_f64(lm2_m4x4_zero_f64()), "");
+  EXPECT_DEATH((void)lm2_m4x4_inverse_f32(lm2_m4x4_zero_f32()), "");
+  EXPECT_DEATH((void)lm2_m4x4_ortho_f64(1.0, 1.0, -1.0, 1.0, 0.1, 10.0), "");
+  EXPECT_DEATH((void)lm2_m4x4_perspective_f32(LM2_PI_F32 / 3.0f, 0.0f, 0.1f, 10.0f), "");
+  EXPECT_DEATH((void)lm2_m4x4_look_at_f64({1.0, 2.0, 3.0}, {1.0, 2.0, 3.0}, {0.0, 1.0, 0.0}), "");
+  EXPECT_DEATH((void)lm2_m4x4_look_at_f32({0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}), "");
+}
+
+TEST_F(Matrix4x4Test, TransformPointArrays_F32) {
+  const lm2_m4x4_f32 matrix = lm2_m4x4_make_f32(
+      2.0f, 0.5f, -1.0f, 3.0f, -1.0f, 1.5f, 0.25f, -2.0f, 0.75f, -0.5f, 2.0f, 4.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+  const lm2_v3_f32 source[] = {
+      { 1.0f, 2.0f, 3.0f},
+      {-3.0f, 4.0f, 2.0f},
+      { 0.0f, 0.0f, 0.0f}
+  };
+  const lm2_v3_f32 expected[] = {
+      { 3.0f, 0.75f, 9.75f},
+      {-3.0f,  7.5f, 3.75f},
+      { 3.0f, -2.0f,  4.0f}
+  };
+  lm2_v3_f32 in_place[] = {source[0], source[1], source[2]};
+  lm2_v3_f32 destination[3];
+  lm2_m4x4_transform_points_f32(matrix, in_place, 3);
+  lm2_m4x4_transform_points_src_dst_f32(matrix, source, destination, 3);
+  for (int i = 0; i < 3; i++) {
+    EXPECT_NEAR(in_place[i].x, expected[i].x, EPSILON_F32);
+    EXPECT_NEAR(in_place[i].y, expected[i].y, EPSILON_F32);
+    EXPECT_NEAR(in_place[i].z, expected[i].z, EPSILON_F32);
+    EXPECT_NEAR(destination[i].x, expected[i].x, EPSILON_F32);
+    EXPECT_NEAR(destination[i].y, expected[i].y, EPSILON_F32);
+    EXPECT_NEAR(destination[i].z, expected[i].z, EPSILON_F32);
+  }
+}

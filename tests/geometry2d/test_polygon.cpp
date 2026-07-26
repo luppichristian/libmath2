@@ -404,3 +404,135 @@ TEST_F(PolygonTest, ContainsPoint_Outside_F32) {
 
   EXPECT_FALSE(lm2_polygon_contains_point_f32(polygon, point));
 }
+
+TEST_F(PolygonTest, IsCCW_DistinguishesWinding_F64) {
+  lm2_v2_f64 ccw_vertices[] = {
+      {0.0, 0.0},
+      {2.0, 0.0},
+      {0.0, 2.0}
+  };
+  lm2_v2_f64 cw_vertices[] = {
+      {0.0, 0.0},
+      {0.0, 2.0},
+      {2.0, 0.0}
+  };
+
+  EXPECT_TRUE(lm2_polygon_is_ccw_f64(lm2_polygon_make_f64(ccw_vertices, 3)));
+  EXPECT_FALSE(lm2_polygon_is_ccw_f64(lm2_polygon_make_f64(cw_vertices, 3)));
+}
+
+TEST_F(PolygonTest, ConvexAndSimpleClassification_F64) {
+  lm2_v2_f64 square[] = {
+      {0.0, 0.0},
+      {4.0, 0.0},
+      {4.0, 4.0},
+      {0.0, 4.0}
+  };
+  lm2_v2_f64 concave[] = {
+      {0.0, 0.0},
+      {4.0, 0.0},
+      {2.0, 1.0},
+      {4.0, 4.0},
+      {0.0, 4.0}
+  };
+  lm2_v2_f64 bow_tie[] = {
+      {0.0, 0.0},
+      {4.0, 4.0},
+      {0.0, 4.0},
+      {4.0, 0.0}
+  };
+
+  EXPECT_TRUE(lm2_polygon_is_convex_f64(lm2_polygon_make_f64(square, 4)));
+  EXPECT_TRUE(lm2_polygon_is_simple_f64(lm2_polygon_make_f64(square, 4)));
+  EXPECT_FALSE(lm2_polygon_is_convex_f64(lm2_polygon_make_f64(concave, 5)));
+  EXPECT_TRUE(lm2_polygon_is_simple_f64(lm2_polygon_make_f64(concave, 5)));
+  EXPECT_FALSE(lm2_polygon_is_simple_f64(lm2_polygon_make_f64(bow_tie, 4)));
+}
+
+TEST_F(PolygonTest, TransformationsPreserveExpectedGeometry_F64) {
+  lm2_v2_f64 vertices[] = {
+      {0.0, 0.0},
+      {2.0, 0.0},
+      {0.0, 2.0}
+  };
+  lm2_polygon_f64 polygon = lm2_polygon_make_f64(vertices, 3);
+
+  lm2_polygon_translate_f64(polygon, lm2_v2_make_f64(1.0, -1.0));
+  lm2_polygon_scale_f64(polygon, lm2_v2_make_f64(1.0, -1.0), 2.0);
+  lm2_polygon_rotate_f64(polygon, lm2_v2_make_f64(1.0, -1.0), LM2_PI_F64 * 0.5);
+
+  EXPECT_NEAR(vertices[0].x, 1.0, EPSILON_F64);
+  EXPECT_NEAR(vertices[0].y, -1.0, EPSILON_F64);
+  EXPECT_NEAR(vertices[1].x, 1.0, EPSILON_F64);
+  EXPECT_NEAR(vertices[1].y, 3.0, EPSILON_F64);
+  EXPECT_NEAR(vertices[2].x, -3.0, EPSILON_F64);
+  EXPECT_NEAR(vertices[2].y, -1.0, EPSILON_F64);
+  EXPECT_NEAR(lm2_polygon_area_f64(polygon), 8.0, EPSILON_F64);
+}
+
+TEST_F(PolygonTest, InsertThenRemoveVertexRestoresSequence_F64) {
+  lm2_v2_f64 vertices[5] = {
+      {0.0, 0.0},
+      {2.0, 0.0},
+      {0.0, 2.0}
+  };
+  size_t count = 3;
+  lm2_polygon_insert_vertex_f64(vertices, &count, 1, lm2_v2_make_f64(1.0, 0.0));
+  ASSERT_EQ(count, 4);
+  EXPECT_DOUBLE_EQ(vertices[1].x, 1.0);
+  EXPECT_DOUBLE_EQ(vertices[2].x, 2.0);
+
+  lm2_polygon_remove_vertex_f64(vertices, &count, 1);
+  ASSERT_EQ(count, 3);
+  EXPECT_DOUBLE_EQ(vertices[0].x, 0.0);
+  EXPECT_DOUBLE_EQ(vertices[1].x, 2.0);
+  EXPECT_DOUBLE_EQ(vertices[2].y, 2.0);
+}
+
+TEST_F(PolygonTest, EarClippingTriangulatesConcavePolygonWithEqualArea_F64) {
+  lm2_v2_f64 vertices[] = {
+      {0.0, 0.0},
+      {4.0, 0.0},
+      {4.0, 4.0},
+      {2.0, 2.0},
+      {0.0, 4.0}
+  };
+  lm2_polygon_f64 polygon = lm2_polygon_make_f64(vertices, 5);
+  size_t indices[9] = {};
+
+  size_t count = lm2_polygon_triangulate_ear_clipping_f64(polygon, indices);
+  ASSERT_EQ(count, 3);
+  double triangle_area = 0.0;
+  for (size_t i = 0; i < count; ++i) {
+    ASSERT_LT(indices[i * 3], 5);
+    ASSERT_LT(indices[i * 3 + 1], 5);
+    ASSERT_LT(indices[i * 3 + 2], 5);
+    lm2_triangle2_f64 triangle = {
+        vertices[indices[i * 3]], vertices[indices[i * 3 + 1]], vertices[indices[i * 3 + 2]]};
+    triangle_area += lm2_triangle2_area_f64(triangle);
+  }
+  EXPECT_NEAR(triangle_area, lm2_polygon_area_f64(polygon), EPSILON_F64);
+}
+
+TEST_F(PolygonTest, SplitConvexPolygonPreservesAreaAndVertexLimit_F64) {
+  lm2_v2_f64 vertices[] = {
+      { 0.0, 0.0},
+      { 4.0, 0.0},
+      { 5.0, 2.0},
+      { 2.0, 5.0},
+      {-1.0, 2.0}
+  };
+  lm2_polygon_f64 polygon = lm2_polygon_make_f64(vertices, 5);
+  lm2_polygon_f64 pieces[3] = {};
+  lm2_v2_f64 buffer[12] = {};
+
+  size_t count = lm2_polygon_split_by_max_vertices_f64(polygon, pieces, buffer, 4);
+  ASSERT_EQ(count, 2);
+  double area = 0.0;
+  for (size_t i = 0; i < count; ++i) {
+    EXPECT_GE(pieces[i].vertex_count, 3);
+    EXPECT_LE(pieces[i].vertex_count, 4);
+    area += lm2_polygon_area_f64(pieces[i]);
+  }
+  EXPECT_NEAR(area, lm2_polygon_area_f64(polygon), EPSILON_F64);
+}

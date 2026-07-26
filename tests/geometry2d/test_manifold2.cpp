@@ -344,3 +344,85 @@ TEST_F(Manifold2Test, ManifoldCircleToAABB_Overlapping_F32) {
 
   EXPECT_GT(manifold.count, 0);
 }
+
+TEST_F(Manifold2Test, ManifoldCircleToCircle_AnalyticalValuesAndReversal_F64) {
+  lm2_circle_f64 a = lm2_circle_make_coords_f64(0.0, 0.0, 3.0);
+  lm2_circle_f64 b = lm2_circle_make_coords_f64(4.0, 0.0, 3.0);
+  lm2_manifold_f64 ab = {};
+  lm2_manifold_f64 ba = {};
+
+  lm2_manifold_circle_to_circle_f64(a, b, &ab);
+  lm2_manifold_circle_to_circle_f64(b, a, &ba);
+
+  ASSERT_EQ(ab.count, 1);
+  EXPECT_DOUBLE_EQ(ab.depths[0], 2.0);
+  EXPECT_DOUBLE_EQ(ab.contact_points[0].x, 1.0);
+  EXPECT_DOUBLE_EQ(ab.contact_points[0].y, 0.0);
+  EXPECT_DOUBLE_EQ(ab.normal.x, 1.0);
+  EXPECT_DOUBLE_EQ(ab.normal.y, 0.0);
+  EXPECT_DOUBLE_EQ(std::hypot(ab.normal.x, ab.normal.y), 1.0);
+
+  ASSERT_EQ(ba.count, 1);
+  EXPECT_DOUBLE_EQ(ba.depths[0], ab.depths[0]);
+  EXPECT_DOUBLE_EQ(ba.contact_points[0].x, 3.0);
+  EXPECT_DOUBLE_EQ(ba.contact_points[0].y, 0.0);
+  EXPECT_DOUBLE_EQ(ba.normal.x, -ab.normal.x);
+  EXPECT_DOUBLE_EQ(ba.normal.y, -ab.normal.y);
+}
+
+TEST_F(Manifold2Test, ManifoldAABBToAABB_AnalyticalValuesAndReversal_F64) {
+  lm2_r2_f64 a = lm2_r2_from_min_max_f64(lm2_v2_make_f64(0.0, 0.0), lm2_v2_make_f64(4.0, 4.0));
+  lm2_r2_f64 b = lm2_r2_from_min_max_f64(lm2_v2_make_f64(3.0, 1.0), lm2_v2_make_f64(6.0, 3.0));
+  lm2_manifold_f64 ab = {};
+  lm2_manifold_f64 ba = {};
+
+  lm2_manifold_aabb_to_aabb_f64(a, b, &ab);
+  lm2_manifold_aabb_to_aabb_f64(b, a, &ba);
+
+  ASSERT_EQ(ab.count, 1);
+  EXPECT_DOUBLE_EQ(ab.depths[0], 1.0);
+  EXPECT_DOUBLE_EQ(ab.contact_points[0].x, 4.0);
+  EXPECT_DOUBLE_EQ(ab.contact_points[0].y, 2.0);
+  EXPECT_DOUBLE_EQ(ab.normal.x, 1.0);
+  EXPECT_DOUBLE_EQ(ab.normal.y, 0.0);
+  EXPECT_DOUBLE_EQ(std::hypot(ab.normal.x, ab.normal.y), 1.0);
+
+  ASSERT_EQ(ba.count, 1);
+  EXPECT_DOUBLE_EQ(ba.depths[0], ab.depths[0]);
+  EXPECT_DOUBLE_EQ(ba.contact_points[0].x, 3.0);
+  EXPECT_DOUBLE_EQ(ba.contact_points[0].y, 2.0);
+  EXPECT_DOUBLE_EQ(ba.normal.x, -ab.normal.x);
+  EXPECT_DOUBLE_EQ(ba.normal.y, -ab.normal.y);
+}
+
+TEST_F(Manifold2Test, GenericCircleAABBDispatchMatchesDirectAndReversesNormal_F64) {
+  lm2_circle_f64 circle = lm2_circle_make_coords_f64(0.0, 0.0, 2.0);
+  lm2_aabb2_f64 aabb = lm2_r2_from_min_max_f64(lm2_v2_make_f64(1.0, -2.0), lm2_v2_make_f64(4.0, 2.0));
+  lm2_manifold_f64 direct = {};
+  lm2_manifold_f64 generic = {};
+  lm2_manifold_f64 reversed = {};
+
+  lm2_manifold_circle_to_aabb_f64(circle, aabb, &direct);
+  lm2_manifold_shape_to_shape_f64(
+      lm2_shape2_from_circle_f64(&circle), lm2_shape2_from_aabb2_f64(&aabb), &generic);
+  lm2_manifold_shape_to_shape_f64(
+      lm2_shape2_from_aabb2_f64(&aabb), lm2_shape2_from_circle_f64(&circle), &reversed);
+
+  ASSERT_EQ(direct.count, 1);
+  ASSERT_EQ(generic.count, direct.count);
+  ASSERT_EQ(reversed.count, direct.count);
+  EXPECT_DOUBLE_EQ(direct.depths[0], 1.0);
+  EXPECT_DOUBLE_EQ(direct.contact_points[0].x, 1.0);
+  EXPECT_DOUBLE_EQ(direct.contact_points[0].y, 0.0);
+  EXPECT_DOUBLE_EQ(generic.depths[0], direct.depths[0]);
+  EXPECT_DOUBLE_EQ(generic.contact_points[0].x, direct.contact_points[0].x);
+  EXPECT_DOUBLE_EQ(generic.contact_points[0].y, direct.contact_points[0].y);
+  EXPECT_DOUBLE_EQ(generic.normal.x, 1.0);
+  EXPECT_DOUBLE_EQ(generic.normal.y, 0.0);
+  EXPECT_DOUBLE_EQ(reversed.depths[0], direct.depths[0]);
+  EXPECT_DOUBLE_EQ(reversed.contact_points[0].x, direct.contact_points[0].x);
+  EXPECT_DOUBLE_EQ(reversed.contact_points[0].y, direct.contact_points[0].y);
+  EXPECT_DOUBLE_EQ(reversed.normal.x, -generic.normal.x);
+  EXPECT_DOUBLE_EQ(reversed.normal.y, -generic.normal.y);
+  EXPECT_DOUBLE_EQ(std::hypot(reversed.normal.x, reversed.normal.y), 1.0);
+}

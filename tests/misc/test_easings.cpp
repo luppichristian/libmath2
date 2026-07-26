@@ -309,6 +309,20 @@ TEST_F(EasingsTest, ElasticInOut_F64) {
   EXPECT_NEAR(lm2_ease_elastic_in_out_f64(1.0), 1.0, EPSILON_F64);
 }
 
+TEST_F(EasingsTest, ElasticInteriorSamplesAndSymmetry_F64) {
+  EXPECT_NEAR(lm2_ease_elastic_in_f64(0.3), -0.00390625, EPSILON_F64);
+  EXPECT_NEAR(lm2_ease_elastic_out_f64(0.7), 1.00390625, EPSILON_F64);
+
+  for (double t : {0.2, 0.3, 0.7, 0.8}) {
+    EXPECT_NEAR(lm2_ease_elastic_in_f64(t),
+                1.0 - lm2_ease_elastic_out_f64(1.0 - t),
+                EPSILON_F64);
+    EXPECT_NEAR(lm2_ease_elastic_in_out_f64(t),
+                1.0 - lm2_ease_elastic_in_out_f64(1.0 - t),
+                EPSILON_F64);
+  }
+}
+
 TEST_F(EasingsTest, Elastic_F32) {
   EXPECT_NEAR(lm2_ease_elastic_in_f32(0.0f), 0.0f, EPSILON_F32);
   EXPECT_NEAR(lm2_ease_elastic_out_f32(1.0f), 1.0f, EPSILON_F32);
@@ -333,6 +347,22 @@ TEST_F(EasingsTest, BounceInOut_F64) {
   EXPECT_NEAR(lm2_ease_bounce_in_out_f64(0.0), 0.0, EPSILON_F64);
   EXPECT_NEAR(lm2_ease_bounce_in_out_f64(0.5), 0.5, EPSILON_F64);
   EXPECT_NEAR(lm2_ease_bounce_in_out_f64(1.0), 1.0, EPSILON_F64);
+}
+
+TEST_F(EasingsTest, BounceInteriorBranchesAndSymmetry_F64) {
+  EXPECT_NEAR(lm2_ease_bounce_out_f64(0.25), 0.47265625, EPSILON_F64);
+  EXPECT_NEAR(lm2_ease_bounce_out_f64(0.5), 0.765625, EPSILON_F64);
+  EXPECT_NEAR(lm2_ease_bounce_out_f64(0.8), 0.94, EPSILON_F64);
+  EXPECT_NEAR(lm2_ease_bounce_out_f64(0.95), 0.98453125, EPSILON_F64);
+
+  for (double t : {0.2, 0.3, 0.7, 0.8}) {
+    EXPECT_NEAR(lm2_ease_bounce_in_f64(t),
+                1.0 - lm2_ease_bounce_out_f64(1.0 - t),
+                EPSILON_F64);
+    EXPECT_NEAR(lm2_ease_bounce_in_out_f64(t),
+                1.0 - lm2_ease_bounce_in_out_f64(1.0 - t),
+                EPSILON_F64);
+  }
 }
 
 TEST_F(EasingsTest, Bounce_F32) {

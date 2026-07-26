@@ -82,6 +82,34 @@ TEST_F(Range4Test, FromCenterSize_F64) {
   EXPECT_DOUBLE_EQ(r.max.w, 9.0);  // 5 + 4
 }
 
+TEST_F(Range4Test, FromCenterSize_I32) {
+  lm2_r4_i32 r = lm2_r4_from_center_size_i32(
+      lm2_v4_make_i32(10, -4, 20, -12), lm2_v4_make_i32(6, 8, 10, 12));
+
+  EXPECT_EQ(r.min.x, 7);
+  EXPECT_EQ(r.min.y, -8);
+  EXPECT_EQ(r.min.z, 15);
+  EXPECT_EQ(r.min.w, -18);
+  EXPECT_EQ(r.max.x, 13);
+  EXPECT_EQ(r.max.y, 0);
+  EXPECT_EQ(r.max.z, 25);
+  EXPECT_EQ(r.max.w, -6);
+}
+
+TEST_F(Range4Test, FromCenterSize_I32RoundsOddSizesDownSymmetrically) {
+  lm2_r4_i32 r = lm2_r4_from_center_size_i32(
+      lm2_v4_make_i32(10, -4, 20, -12), lm2_v4_make_i32(5, 1, 0, 7));
+
+  EXPECT_EQ(r.min.x, 8);
+  EXPECT_EQ(r.max.x, 12);
+  EXPECT_EQ(r.min.y, -4);
+  EXPECT_EQ(r.max.y, -4);
+  EXPECT_EQ(r.min.z, 20);
+  EXPECT_EQ(r.max.z, 20);
+  EXPECT_EQ(r.min.w, -15);
+  EXPECT_EQ(r.max.w, -9);
+}
+
 TEST_F(Range4Test, FromPositionSize_F64) {
   lm2_v4_f64 position = lm2_v4_make_f64(2.0, 3.0, 4.0, 5.0);
   lm2_v4_f64 size = lm2_v4_make_f64(4.0, 5.0, 6.0, 7.0);

@@ -299,3 +299,46 @@ TEST_F(Edge2Test, EdgeIntersection_NonIntersecting_F32) {
   EXPECT_FALSE(result);
 }
 */
+
+// Current Edge2 APIs use boolean intersection and squared-distance queries.
+TEST_F(Edge2Test, EdgesIntersect_CrossingParallelAndCollinear_F64) {
+  lm2_edge2_f64 horizontal = lm2_edge2_make_coords_f64(0.0, 0.0, 4.0, 0.0);
+  EXPECT_TRUE(lm2_edges2_intersect_f64(horizontal, lm2_edge2_make_coords_f64(2.0, -2.0, 2.0, 2.0)));
+  EXPECT_FALSE(lm2_edges2_intersect_f64(horizontal, lm2_edge2_make_coords_f64(0.0, 2.0, 4.0, 2.0)));
+  EXPECT_FALSE(lm2_edges2_intersect_f64(horizontal, lm2_edge2_make_coords_f64(5.0, 0.0, 7.0, 0.0)));
+  EXPECT_TRUE(lm2_edges2_intersect_f64(horizontal, lm2_edge2_make_coords_f64(3.0, 0.0, 6.0, 0.0)));
+  EXPECT_TRUE(lm2_edges2_intersect_f64(horizontal, lm2_edge2_make_coords_f64(4.0, 0.0, 6.0, 2.0)));
+}
+
+TEST_F(Edge2Test, EdgesIntersect_DegeneratePointSegment_F64) {
+  lm2_edge2_f64 on_segment = lm2_edge2_make_coords_f64(2.0, 0.0, 2.0, 0.0);
+  lm2_edge2_f64 off_segment = lm2_edge2_make_coords_f64(2.0, 1.0, 2.0, 1.0);
+  lm2_edge2_f64 segment = lm2_edge2_make_coords_f64(0.0, 0.0, 4.0, 0.0);
+  EXPECT_TRUE(lm2_edges2_intersect_f64(on_segment, segment));
+  EXPECT_FALSE(lm2_edges2_intersect_f64(off_segment, segment));
+}
+
+TEST_F(Edge2Test, PointAndEdgeSquaredDistances_F64) {
+  lm2_edge2_f64 segment = lm2_edge2_make_coords_f64(0.0, 0.0, 4.0, 0.0);
+  EXPECT_DOUBLE_EQ(lm2_point_to_edge2_distance_sq_f64(lm2_v2_make_f64(2.0, 3.0), segment), 9.0);
+  EXPECT_DOUBLE_EQ(lm2_point_to_edge2_distance_sq_f64(lm2_v2_make_f64(6.0, 0.0), segment), 4.0);
+  EXPECT_DOUBLE_EQ(lm2_point_to_edge2_distance_sq_f64(lm2_v2_make_f64(5.0, 6.0),
+                                                      lm2_edge2_make_coords_f64(1.0, 2.0, 1.0, 2.0)),
+                   32.0);
+
+  lm2_edge2_f64 crossing = lm2_edge2_make_coords_f64(2.0, -2.0, 2.0, 2.0);
+  EXPECT_DOUBLE_EQ(lm2_edge2_to_edge2_distance_sq_f64(segment, crossing), 0.0);
+  EXPECT_DOUBLE_EQ(lm2_edge2_to_edge2_distance_sq_f64(crossing, segment), 0.0);
+  EXPECT_DOUBLE_EQ(lm2_edge2_to_edge2_distance_sq_f64(segment,
+                                                      lm2_edge2_make_coords_f64(0.0, 3.0, 4.0, 3.0)),
+                   9.0);
+}
+
+TEST_F(Edge2Test, CurrentAPIs_F32) {
+  lm2_edge2_f32 horizontal = lm2_edge2_make_coords_f32(0.0f, 0.0f, 4.0f, 0.0f);
+  lm2_edge2_f32 crossing = lm2_edge2_make_coords_f32(2.0f, -2.0f, 2.0f, 2.0f);
+  EXPECT_TRUE(lm2_edges2_intersect_f32(horizontal, crossing));
+  EXPECT_FALSE(lm2_edges2_intersect_f32(horizontal, lm2_edge2_make_coords_f32(5.0f, 0.0f, 7.0f, 0.0f)));
+  EXPECT_FLOAT_EQ(lm2_point_to_edge2_distance_sq_f32(lm2_v2_make_f32(2.0f, 3.0f), horizontal), 9.0f);
+  EXPECT_FLOAT_EQ(lm2_edge2_to_edge2_distance_sq_f32(horizontal, crossing), 0.0f);
+}

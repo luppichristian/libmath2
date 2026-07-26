@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 #include <gtest/gtest.h>
+#include <limits>
 #include "lm2/vectors/lm2_vector_conversions.h"
 
 // Test fixture for vector conversion tests
@@ -66,11 +67,44 @@ TEST_F(VectorConversionsTest, V2_F32_to_I32) {
   EXPECT_EQ(result.y, 4);
 }
 
+TEST_F(VectorConversionsTest, V2_F32ToI32RejectsRoundedUpperBoundary) {
+  const float upper_boundary = 0x1p31f;
+
+  EXPECT_DEATH((void)lm2_v2_f32_to_i32(lm2_v2_make_f32(upper_boundary, 0.0f)), "");
+}
+
+TEST_F(VectorConversionsTest, V2_F64ToI32HandlesLimitsAndTruncatesTowardZero) {
+  lm2_v2_i32 limits = lm2_v2_f64_to_i32(lm2_v2_make_f64(
+      static_cast<double>(std::numeric_limits<int32_t>::min()),
+      static_cast<double>(std::numeric_limits<int32_t>::max())));
+  EXPECT_EQ(limits.x, std::numeric_limits<int32_t>::min());
+  EXPECT_EQ(limits.y, std::numeric_limits<int32_t>::max());
+
+  lm2_v2_i32 fractions = lm2_v2_f64_to_i32(lm2_v2_make_f64(-0.999, 0.999));
+  EXPECT_EQ(fractions.x, 0);
+  EXPECT_EQ(fractions.y, 0);
+}
+
+TEST_F(VectorConversionsTest, V2_F64ToI32RejectsNonFiniteValues) {
+  EXPECT_DEATH((void)lm2_v2_f64_to_i32(
+                   lm2_v2_make_f64(std::numeric_limits<double>::quiet_NaN(), 0.0)),
+               "");
+  EXPECT_DEATH((void)lm2_v2_f64_to_i32(
+                   lm2_v2_make_f64(0.0, std::numeric_limits<double>::infinity())),
+               "");
+}
+
 TEST_F(VectorConversionsTest, V2_F64_to_I64) {
   lm2_v2_f64 v = lm2_v2_make_f64(100.7, 200.2);
   lm2_v2_i64 result = lm2_v2_f64_to_i64(v);
   EXPECT_EQ(result.x, 100);
   EXPECT_EQ(result.y, 200);
+}
+
+TEST_F(VectorConversionsTest, V2_F64ToI64RejectsRoundedUpperBoundary) {
+  const double upper_boundary = 0x1p63;
+
+  EXPECT_DEATH((void)lm2_v2_f64_to_i64(lm2_v2_make_f64(0.0, upper_boundary)), "");
 }
 
 TEST_F(VectorConversionsTest, V2_F32_to_I64) {
@@ -146,11 +180,28 @@ TEST_F(VectorConversionsTest, V2_F64_to_U32) {
   EXPECT_EQ(result.y, 4u);
 }
 
+TEST_F(VectorConversionsTest, V2_F64ToU64RejectsRoundedUpperBoundary) {
+  const double upper_boundary = 0x1p64;
+
+  EXPECT_DEATH((void)lm2_v2_f64_to_u64(lm2_v2_make_f64(upper_boundary, 0.0)), "");
+}
+
 TEST_F(VectorConversionsTest, V2_F32_to_U32) {
   lm2_v2_f32 v = lm2_v2_make_f32(3.7f, 4.2f);
   lm2_v2_u32 result = lm2_v2_f32_to_u32(v);
   EXPECT_EQ(result.x, 3u);
   EXPECT_EQ(result.y, 4u);
+}
+
+TEST_F(VectorConversionsTest, V2_F32ToU32RejectsRoundedUpperBoundary) {
+  const float upper_boundary = 0x1p32f;
+
+  EXPECT_DEATH((void)lm2_v2_f32_to_u32(lm2_v2_make_f32(0.0f, upper_boundary)), "");
+}
+
+TEST_F(VectorConversionsTest, V2FloatingToUnsignedRejectsNegativeValues) {
+  EXPECT_DEATH((void)lm2_v2_f64_to_u32(lm2_v2_make_f64(-1.0, 0.0)), "");
+  EXPECT_DEATH((void)lm2_v2_f32_to_u32(lm2_v2_make_f32(0.0f, -1.0f)), "");
 }
 
 // Unsigned Integer to Float conversions (v2)
@@ -181,6 +232,18 @@ TEST_F(VectorConversionsTest, V2_U32_to_I32) {
   lm2_v2_i32 result = lm2_v2_u32_to_i32(v);
   EXPECT_EQ(result.x, 3);
   EXPECT_EQ(result.y, 4);
+}
+
+TEST_F(VectorConversionsTest, V2IntegerNarrowingRejectsUnrepresentableValues) {
+  EXPECT_DEATH((void)lm2_v2_i64_to_i32(
+                   lm2_v2_make_i64(static_cast<int64_t>(std::numeric_limits<int32_t>::max()) + 1, 0)),
+               "");
+  EXPECT_DEATH((void)lm2_v2_i32_to_i16(
+                   lm2_v2_make_i32(0, static_cast<int32_t>(std::numeric_limits<int16_t>::max()) + 1)),
+               "");
+  EXPECT_DEATH((void)lm2_v2_u32_to_i32(
+                   lm2_v2_make_u32(static_cast<uint32_t>(std::numeric_limits<int32_t>::max()) + 1u, 0u)),
+               "");
 }
 
 // =============================================================================

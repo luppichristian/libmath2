@@ -178,43 +178,43 @@ LM2_API bool lm2_edges2_equal_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2, float epsi
 // Edge Intersection
 // =============================================================================
 
+static bool lm2_edge2_on_segment_f64(lm2_v2_f64 a, lm2_v2_f64 b, lm2_v2_f64 point) {
+  return point.x >= lm2_min_f64(a.x, b.x) && point.x <= lm2_max_f64(a.x, b.x) &&
+         point.y >= lm2_min_f64(a.y, b.y) && point.y <= lm2_max_f64(a.y, b.y);
+}
+
+static bool lm2_edge2_on_segment_f32(lm2_v2_f32 a, lm2_v2_f32 b, lm2_v2_f32 point) {
+  return point.x >= lm2_min_f32(a.x, b.x) && point.x <= lm2_max_f32(a.x, b.x) &&
+         point.y >= lm2_min_f32(a.y, b.y) && point.y <= lm2_max_f32(a.y, b.y);
+}
+
 LM2_API bool lm2_edges2_intersect_f64(lm2_edge2_f64 e1, lm2_edge2_f64 e2) {
-  // Use cross products to check intersection
-  double d1 = lm2_v2_cross3_f64(e2.end, e1.start, e2.start);
-  double d2 = lm2_v2_cross3_f64(e2.end, e1.end, e2.start);
-  double d3 = lm2_v2_cross3_f64(e1.end, e2.start, e1.start);
-  double d4 = lm2_v2_cross3_f64(e1.end, e2.end, e1.start);
+  double d1 = lm2_v2_cross3_f64(e1.start, e1.end, e2.start);
+  double d2 = lm2_v2_cross3_f64(e1.start, e1.end, e2.end);
+  double d3 = lm2_v2_cross3_f64(e2.start, e2.end, e1.start);
+  double d4 = lm2_v2_cross3_f64(e2.start, e2.end, e1.end);
 
   if (((d1 > 0.0 && d2 < 0.0) || (d1 < 0.0 && d2 > 0.0)) &&
-      ((d3 > 0.0 && d4 < 0.0) || (d3 < 0.0 && d4 > 0.0))) {
-    return true;
-  }
-
-  // Check for collinear overlaps
-  if (lm2_abs_f64(d1) < DBL_EPSILON || lm2_abs_f64(d2) < DBL_EPSILON ||
-      lm2_abs_f64(d3) < DBL_EPSILON || lm2_abs_f64(d4) < DBL_EPSILON) {
-    return true;
-  }
-
+      ((d3 > 0.0 && d4 < 0.0) || (d3 < 0.0 && d4 > 0.0))) return true;
+  if (d1 == 0.0 && lm2_edge2_on_segment_f64(e1.start, e1.end, e2.start)) return true;
+  if (d2 == 0.0 && lm2_edge2_on_segment_f64(e1.start, e1.end, e2.end)) return true;
+  if (d3 == 0.0 && lm2_edge2_on_segment_f64(e2.start, e2.end, e1.start)) return true;
+  if (d4 == 0.0 && lm2_edge2_on_segment_f64(e2.start, e2.end, e1.end)) return true;
   return false;
 }
 
 LM2_API bool lm2_edges2_intersect_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2) {
-  float d1 = lm2_v2_cross3_f32(e2.end, e1.start, e2.start);
-  float d2 = lm2_v2_cross3_f32(e2.end, e1.end, e2.start);
-  float d3 = lm2_v2_cross3_f32(e1.end, e2.start, e1.start);
-  float d4 = lm2_v2_cross3_f32(e1.end, e2.end, e1.start);
+  float d1 = lm2_v2_cross3_f32(e1.start, e1.end, e2.start);
+  float d2 = lm2_v2_cross3_f32(e1.start, e1.end, e2.end);
+  float d3 = lm2_v2_cross3_f32(e2.start, e2.end, e1.start);
+  float d4 = lm2_v2_cross3_f32(e2.start, e2.end, e1.end);
 
   if (((d1 > 0.0f && d2 < 0.0f) || (d1 < 0.0f && d2 > 0.0f)) &&
-      ((d3 > 0.0f && d4 < 0.0f) || (d3 < 0.0f && d4 > 0.0f))) {
-    return true;
-  }
-
-  if (lm2_abs_f32(d1) < FLT_EPSILON || lm2_abs_f32(d2) < FLT_EPSILON ||
-      lm2_abs_f32(d3) < FLT_EPSILON || lm2_abs_f32(d4) < FLT_EPSILON) {
-    return true;
-  }
-
+      ((d3 > 0.0f && d4 < 0.0f) || (d3 < 0.0f && d4 > 0.0f))) return true;
+  if (d1 == 0.0f && lm2_edge2_on_segment_f32(e1.start, e1.end, e2.start)) return true;
+  if (d2 == 0.0f && lm2_edge2_on_segment_f32(e1.start, e1.end, e2.end)) return true;
+  if (d3 == 0.0f && lm2_edge2_on_segment_f32(e2.start, e2.end, e1.start)) return true;
+  if (d4 == 0.0f && lm2_edge2_on_segment_f32(e2.start, e2.end, e1.end)) return true;
   return false;
 }
 
@@ -267,6 +267,8 @@ LM2_API float lm2_point_to_edge2_distance_sq_f32(lm2_v2_f32 point, lm2_edge2_f32
 }
 
 LM2_API double lm2_edge2_to_edge2_distance_sq_f64(lm2_edge2_f64 e1, lm2_edge2_f64 e2) {
+  if (lm2_edges2_intersect_f64(e1, e2)) return 0.0;
+
   // Use the minimum of four point-to-segment distances
   double d1 = lm2_point_to_edge2_distance_sq_f64(e1.start, e2);
   double d2 = lm2_point_to_edge2_distance_sq_f64(e1.end, e2);
@@ -279,6 +281,8 @@ LM2_API double lm2_edge2_to_edge2_distance_sq_f64(lm2_edge2_f64 e1, lm2_edge2_f6
 }
 
 LM2_API float lm2_edge2_to_edge2_distance_sq_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2) {
+  if (lm2_edges2_intersect_f32(e1, e2)) return 0.0f;
+
   // Use the minimum of four point-to-segment distances
   float d1 = lm2_point_to_edge2_distance_sq_f32(e1.start, e2);
   float d2 = lm2_point_to_edge2_distance_sq_f32(e1.end, e2);

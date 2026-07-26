@@ -92,8 +92,12 @@ TEST_F(Triangle2GeometryTest, TriangleListToVertexArray_F32) {
 
   lm2_triangle2_list_to_vertex_array_f32(triangles, 2, vertices.data(), vertex_count);
 
-  EXPECT_FLOAT_EQ(vertices[0].x, 0.0f);
-  EXPECT_FLOAT_EQ(vertices[1].x, 1.0f);
+  for (size_t triangle = 0; triangle < 2; ++triangle) {
+    for (size_t vertex = 0; vertex < 3; ++vertex) {
+      EXPECT_FLOAT_EQ(vertices[triangle * 3 + vertex].x, triangles[triangle][vertex].x);
+      EXPECT_FLOAT_EQ(vertices[triangle * 3 + vertex].y, triangles[triangle][vertex].y);
+    }
+  }
 }
 
 // =============================================================================
@@ -214,12 +218,17 @@ TEST_F(Triangle2GeometryTest, TriangleListToIndexedMesh_F64) {
 
   lm2_triangle2_list_to_indexed_mesh_f64(triangles, 2, 0.0, vertices.data(), size.vertex_count, indices.data(), size.index_count);
 
-  EXPECT_EQ(vertices.size(), 4);
-  EXPECT_EQ(indices.size(), 6);
+  ASSERT_EQ(vertices.size(), 4);
+  ASSERT_EQ(indices.size(), 6);
 
-  // Verify indices reference valid vertices
-  for (size_t i = 0; i < indices.size(); ++i) {
-    EXPECT_LT(indices[i], vertices.size());
+  // Dereferencing the index buffer must reproduce every source triangle vertex.
+  for (size_t triangle = 0; triangle < 2; ++triangle) {
+    for (size_t vertex = 0; vertex < 3; ++vertex) {
+      uint32_t index = indices[triangle * 3 + vertex];
+      ASSERT_LT(index, vertices.size());
+      EXPECT_DOUBLE_EQ(vertices[index].x, triangles[triangle][vertex].x);
+      EXPECT_DOUBLE_EQ(vertices[index].y, triangles[triangle][vertex].y);
+    }
   }
 }
 

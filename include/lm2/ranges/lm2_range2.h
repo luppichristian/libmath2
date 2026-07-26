@@ -36,6 +36,8 @@ LM2_HEADER_BEGIN;
 // =============================================================================
 // A range2 represents a 2D axis-aligned bounding box (AABB) or rectangle
 // with minimum and maximum points.
+// Integer from-center-size overloads halve each nonnegative size component
+// with integer division, rounding odd sizes down to preserve an integral center.
 
 // ---------------------------------------------------------------------------
 // lm2_r2_f64 - 2D Range (double precision)

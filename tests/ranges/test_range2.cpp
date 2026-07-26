@@ -149,6 +149,30 @@ TEST_F(Range2Test, Zero_I64) {
   EXPECT_EQ(r.max.y, 0);
 }
 
+TEST_F(Range2Test, FromCenterSize_I32) {
+  lm2_r2_i32 r = lm2_r2_from_center_size_i32(
+      lm2_v2_make_i32(10, -4), lm2_v2_make_i32(6, 8));
+
+  EXPECT_EQ(r.min.x, 7);
+  EXPECT_EQ(r.min.y, -8);
+  EXPECT_EQ(r.max.x, 13);
+  EXPECT_EQ(r.max.y, 0);
+}
+
+TEST_F(Range2Test, FromCenterSize_I32RoundsOddSizesDownSymmetrically) {
+  lm2_r2_i32 r = lm2_r2_from_center_size_i32(
+      lm2_v2_make_i32(10, -4), lm2_v2_make_i32(5, 1));
+
+  EXPECT_EQ(r.min.x, 8);
+  EXPECT_EQ(r.max.x, 12);
+  EXPECT_EQ(r.min.y, -4);
+  EXPECT_EQ(r.max.y, -4);
+  EXPECT_EQ(lm2_r2_center_i32(r).x, 10);
+  EXPECT_EQ(lm2_r2_center_i32(r).y, -4);
+  EXPECT_EQ(lm2_r2_size_i32(r).x, 4);
+  EXPECT_EQ(lm2_r2_size_i32(r).y, 0);
+}
+
 // =============================================================================
 // Scalar Constructor Tests (f64)
 // =============================================================================

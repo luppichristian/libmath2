@@ -36,6 +36,8 @@ LM2_HEADER_BEGIN;
 // =============================================================================
 // A range4 represents a 4D axis-aligned bounding box (hyperrectangle)
 // with minimum and maximum points.
+// Integer from-center-size overloads halve each nonnegative size component
+// with integer division, rounding odd sizes down to preserve an integral center.
 
 // ---------------------------------------------------------------------------
 // lm2_r4_f64 - 4D Range (double precision)

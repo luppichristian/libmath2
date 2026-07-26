@@ -39,8 +39,8 @@ LM2_API lm2_v2_f32 lm2_v2_f64_to_f32(lm2_v2_f64 v) {
 }
 
 LM2_API lm2_v2_i64 lm2_v2_f64_to_i64(lm2_v2_f64 v) {
-  LM2_ASSERT_UNSAFE(v.x >= (double)INT64_MIN && v.x <= (double)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= (double)INT64_MIN && v.y <= (double)INT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= (double)INT64_MIN && v.x < 9223372036854775808.0);
+  LM2_ASSERT_UNSAFE(v.y >= (double)INT64_MIN && v.y < 9223372036854775808.0);
   lm2_v2_i64 result = {
       {(int64_t)v.x, (int64_t)v.y}
   };
@@ -75,8 +75,8 @@ LM2_API lm2_v2_i8 lm2_v2_f64_to_i8(lm2_v2_f64 v) {
 }
 
 LM2_API lm2_v2_u64 lm2_v2_f64_to_u64(lm2_v2_f64 v) {
-  LM2_ASSERT_UNSAFE(v.x >= 0.0 && v.x <= (double)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= 0.0 && v.y <= (double)UINT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= 0.0 && v.x < 18446744073709551616.0);
+  LM2_ASSERT_UNSAFE(v.y >= 0.0 && v.y < 18446744073709551616.0);
   lm2_v2_u64 result = {
       {(uint64_t)v.x, (uint64_t)v.y}
   };
@@ -122,8 +122,8 @@ LM2_API lm2_v2_f64 lm2_v2_f32_to_f64(lm2_v2_f32 v) {
 }
 
 LM2_API lm2_v2_i64 lm2_v2_f32_to_i64(lm2_v2_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= (float)INT64_MIN && v.x <= (float)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= (float)INT64_MIN && v.y <= (float)INT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= (float)INT64_MIN && v.x < 9223372036854775808.0f);
+  LM2_ASSERT_UNSAFE(v.y >= (float)INT64_MIN && v.y < 9223372036854775808.0f);
   lm2_v2_i64 result = {
       {(int64_t)v.x, (int64_t)v.y}
   };
@@ -131,8 +131,8 @@ LM2_API lm2_v2_i64 lm2_v2_f32_to_i64(lm2_v2_f32 v) {
 }
 
 LM2_API lm2_v2_i32 lm2_v2_f32_to_i32(lm2_v2_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= (float)INT32_MIN && v.x <= (float)INT32_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= (float)INT32_MIN && v.y <= (float)INT32_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= (float)INT32_MIN && v.x < 2147483648.0f);
+  LM2_ASSERT_UNSAFE(v.y >= (float)INT32_MIN && v.y < 2147483648.0f);
   lm2_v2_i32 result = {
       {(int32_t)v.x, (int32_t)v.y}
   };
@@ -158,8 +158,8 @@ LM2_API lm2_v2_i8 lm2_v2_f32_to_i8(lm2_v2_f32 v) {
 }
 
 LM2_API lm2_v2_u64 lm2_v2_f32_to_u64(lm2_v2_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x <= (float)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y <= (float)UINT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x < 18446744073709551616.0f);
+  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y < 18446744073709551616.0f);
   lm2_v2_u64 result = {
       {(uint64_t)v.x, (uint64_t)v.y}
   };
@@ -167,8 +167,8 @@ LM2_API lm2_v2_u64 lm2_v2_f32_to_u64(lm2_v2_f32 v) {
 }
 
 LM2_API lm2_v2_u32 lm2_v2_f32_to_u32(lm2_v2_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x <= (float)UINT32_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y <= (float)UINT32_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x < 4294967296.0f);
+  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y < 4294967296.0f);
   lm2_v2_u32 result = {
       {(uint32_t)v.x, (uint32_t)v.y}
   };
@@ -794,9 +794,9 @@ LM2_API lm2_v3_f32 lm2_v3_f64_to_f32(lm2_v3_f64 v) {
 }
 
 LM2_API lm2_v3_i64 lm2_v3_f64_to_i64(lm2_v3_f64 v) {
-  LM2_ASSERT_UNSAFE(v.x >= (double)INT64_MIN && v.x <= (double)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= (double)INT64_MIN && v.y <= (double)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= (double)INT64_MIN && v.z <= (double)INT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= (double)INT64_MIN && v.x < 9223372036854775808.0);
+  LM2_ASSERT_UNSAFE(v.y >= (double)INT64_MIN && v.y < 9223372036854775808.0);
+  LM2_ASSERT_UNSAFE(v.z >= (double)INT64_MIN && v.z < 9223372036854775808.0);
   lm2_v3_i64 result = {
       {(int64_t)v.x, (int64_t)v.y, (int64_t)v.z}
   };
@@ -834,9 +834,9 @@ LM2_API lm2_v3_i8 lm2_v3_f64_to_i8(lm2_v3_f64 v) {
 }
 
 LM2_API lm2_v3_u64 lm2_v3_f64_to_u64(lm2_v3_f64 v) {
-  LM2_ASSERT_UNSAFE(v.x >= 0.0 && v.x <= (double)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= 0.0 && v.y <= (double)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= 0.0 && v.z <= (double)UINT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= 0.0 && v.x < 18446744073709551616.0);
+  LM2_ASSERT_UNSAFE(v.y >= 0.0 && v.y < 18446744073709551616.0);
+  LM2_ASSERT_UNSAFE(v.z >= 0.0 && v.z < 18446744073709551616.0);
   lm2_v3_u64 result = {
       {(uint64_t)v.x, (uint64_t)v.y, (uint64_t)v.z}
   };
@@ -885,9 +885,9 @@ LM2_API lm2_v3_f64 lm2_v3_f32_to_f64(lm2_v3_f32 v) {
 }
 
 LM2_API lm2_v3_i64 lm2_v3_f32_to_i64(lm2_v3_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= (float)INT64_MIN && v.x <= (float)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= (float)INT64_MIN && v.y <= (float)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= (float)INT64_MIN && v.z <= (float)INT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= (float)INT64_MIN && v.x < 9223372036854775808.0f);
+  LM2_ASSERT_UNSAFE(v.y >= (float)INT64_MIN && v.y < 9223372036854775808.0f);
+  LM2_ASSERT_UNSAFE(v.z >= (float)INT64_MIN && v.z < 9223372036854775808.0f);
   lm2_v3_i64 result = {
       {(int64_t)v.x, (int64_t)v.y, (int64_t)v.z}
   };
@@ -895,9 +895,9 @@ LM2_API lm2_v3_i64 lm2_v3_f32_to_i64(lm2_v3_f32 v) {
 }
 
 LM2_API lm2_v3_i32 lm2_v3_f32_to_i32(lm2_v3_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= (float)INT32_MIN && v.x <= (float)INT32_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= (float)INT32_MIN && v.y <= (float)INT32_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= (float)INT32_MIN && v.z <= (float)INT32_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= (float)INT32_MIN && v.x < 2147483648.0f);
+  LM2_ASSERT_UNSAFE(v.y >= (float)INT32_MIN && v.y < 2147483648.0f);
+  LM2_ASSERT_UNSAFE(v.z >= (float)INT32_MIN && v.z < 2147483648.0f);
   lm2_v3_i32 result = {
       {(int32_t)v.x, (int32_t)v.y, (int32_t)v.z}
   };
@@ -925,9 +925,9 @@ LM2_API lm2_v3_i8 lm2_v3_f32_to_i8(lm2_v3_f32 v) {
 }
 
 LM2_API lm2_v3_u64 lm2_v3_f32_to_u64(lm2_v3_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x <= (float)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y <= (float)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= 0.0f && v.z <= (float)UINT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x < 18446744073709551616.0f);
+  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y < 18446744073709551616.0f);
+  LM2_ASSERT_UNSAFE(v.z >= 0.0f && v.z < 18446744073709551616.0f);
   lm2_v3_u64 result = {
       {(uint64_t)v.x, (uint64_t)v.y, (uint64_t)v.z}
   };
@@ -935,9 +935,9 @@ LM2_API lm2_v3_u64 lm2_v3_f32_to_u64(lm2_v3_f32 v) {
 }
 
 LM2_API lm2_v3_u32 lm2_v3_f32_to_u32(lm2_v3_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x <= (float)UINT32_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y <= (float)UINT32_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= 0.0f && v.z <= (float)UINT32_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x < 4294967296.0f);
+  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y < 4294967296.0f);
+  LM2_ASSERT_UNSAFE(v.z >= 0.0f && v.z < 4294967296.0f);
   lm2_v3_u32 result = {
       {(uint32_t)v.x, (uint32_t)v.y, (uint32_t)v.z}
   };
@@ -1578,10 +1578,10 @@ LM2_API lm2_v4_f32 lm2_v4_f64_to_f32(lm2_v4_f64 v) {
 }
 
 LM2_API lm2_v4_i64 lm2_v4_f64_to_i64(lm2_v4_f64 v) {
-  LM2_ASSERT_UNSAFE(v.x >= (double)INT64_MIN && v.x <= (double)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= (double)INT64_MIN && v.y <= (double)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= (double)INT64_MIN && v.z <= (double)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.w >= (double)INT64_MIN && v.w <= (double)INT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= (double)INT64_MIN && v.x < 9223372036854775808.0);
+  LM2_ASSERT_UNSAFE(v.y >= (double)INT64_MIN && v.y < 9223372036854775808.0);
+  LM2_ASSERT_UNSAFE(v.z >= (double)INT64_MIN && v.z < 9223372036854775808.0);
+  LM2_ASSERT_UNSAFE(v.w >= (double)INT64_MIN && v.w < 9223372036854775808.0);
   lm2_v4_i64 result = {
       {(int64_t)v.x, (int64_t)v.y, (int64_t)v.z, (int64_t)v.w}
   };
@@ -1622,10 +1622,10 @@ LM2_API lm2_v4_i8 lm2_v4_f64_to_i8(lm2_v4_f64 v) {
 }
 
 LM2_API lm2_v4_u64 lm2_v4_f64_to_u64(lm2_v4_f64 v) {
-  LM2_ASSERT_UNSAFE(v.x >= 0.0 && v.x <= (double)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= 0.0 && v.y <= (double)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= 0.0 && v.z <= (double)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.w >= 0.0 && v.w <= (double)UINT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= 0.0 && v.x < 18446744073709551616.0);
+  LM2_ASSERT_UNSAFE(v.y >= 0.0 && v.y < 18446744073709551616.0);
+  LM2_ASSERT_UNSAFE(v.z >= 0.0 && v.z < 18446744073709551616.0);
+  LM2_ASSERT_UNSAFE(v.w >= 0.0 && v.w < 18446744073709551616.0);
   lm2_v4_u64 result = {
       {(uint64_t)v.x, (uint64_t)v.y, (uint64_t)v.z, (uint64_t)v.w}
   };
@@ -1677,10 +1677,10 @@ LM2_API lm2_v4_f64 lm2_v4_f32_to_f64(lm2_v4_f32 v) {
 }
 
 LM2_API lm2_v4_i64 lm2_v4_f32_to_i64(lm2_v4_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= (float)INT64_MIN && v.x <= (float)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= (float)INT64_MIN && v.y <= (float)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= (float)INT64_MIN && v.z <= (float)INT64_MAX);
-  LM2_ASSERT_UNSAFE(v.w >= (float)INT64_MIN && v.w <= (float)INT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= (float)INT64_MIN && v.x < 9223372036854775808.0f);
+  LM2_ASSERT_UNSAFE(v.y >= (float)INT64_MIN && v.y < 9223372036854775808.0f);
+  LM2_ASSERT_UNSAFE(v.z >= (float)INT64_MIN && v.z < 9223372036854775808.0f);
+  LM2_ASSERT_UNSAFE(v.w >= (float)INT64_MIN && v.w < 9223372036854775808.0f);
   lm2_v4_i64 result = {
       {(int64_t)v.x, (int64_t)v.y, (int64_t)v.z, (int64_t)v.w}
   };
@@ -1688,10 +1688,10 @@ LM2_API lm2_v4_i64 lm2_v4_f32_to_i64(lm2_v4_f32 v) {
 }
 
 LM2_API lm2_v4_i32 lm2_v4_f32_to_i32(lm2_v4_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= (float)INT32_MIN && v.x <= (float)INT32_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= (float)INT32_MIN && v.y <= (float)INT32_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= (float)INT32_MIN && v.z <= (float)INT32_MAX);
-  LM2_ASSERT_UNSAFE(v.w >= (float)INT32_MIN && v.w <= (float)INT32_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= (float)INT32_MIN && v.x < 2147483648.0f);
+  LM2_ASSERT_UNSAFE(v.y >= (float)INT32_MIN && v.y < 2147483648.0f);
+  LM2_ASSERT_UNSAFE(v.z >= (float)INT32_MIN && v.z < 2147483648.0f);
+  LM2_ASSERT_UNSAFE(v.w >= (float)INT32_MIN && v.w < 2147483648.0f);
   lm2_v4_i32 result = {
       {(int32_t)v.x, (int32_t)v.y, (int32_t)v.z, (int32_t)v.w}
   };
@@ -1721,10 +1721,10 @@ LM2_API lm2_v4_i8 lm2_v4_f32_to_i8(lm2_v4_f32 v) {
 }
 
 LM2_API lm2_v4_u64 lm2_v4_f32_to_u64(lm2_v4_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x <= (float)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y <= (float)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= 0.0f && v.z <= (float)UINT64_MAX);
-  LM2_ASSERT_UNSAFE(v.w >= 0.0f && v.w <= (float)UINT64_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x < 18446744073709551616.0f);
+  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y < 18446744073709551616.0f);
+  LM2_ASSERT_UNSAFE(v.z >= 0.0f && v.z < 18446744073709551616.0f);
+  LM2_ASSERT_UNSAFE(v.w >= 0.0f && v.w < 18446744073709551616.0f);
   lm2_v4_u64 result = {
       {(uint64_t)v.x, (uint64_t)v.y, (uint64_t)v.z, (uint64_t)v.w}
   };
@@ -1732,10 +1732,10 @@ LM2_API lm2_v4_u64 lm2_v4_f32_to_u64(lm2_v4_f32 v) {
 }
 
 LM2_API lm2_v4_u32 lm2_v4_f32_to_u32(lm2_v4_f32 v) {
-  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x <= (float)UINT32_MAX);
-  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y <= (float)UINT32_MAX);
-  LM2_ASSERT_UNSAFE(v.z >= 0.0f && v.z <= (float)UINT32_MAX);
-  LM2_ASSERT_UNSAFE(v.w >= 0.0f && v.w <= (float)UINT32_MAX);
+  LM2_ASSERT_UNSAFE(v.x >= 0.0f && v.x < 4294967296.0f);
+  LM2_ASSERT_UNSAFE(v.y >= 0.0f && v.y < 4294967296.0f);
+  LM2_ASSERT_UNSAFE(v.z >= 0.0f && v.z < 4294967296.0f);
+  LM2_ASSERT_UNSAFE(v.w >= 0.0f && v.w < 4294967296.0f);
   lm2_v4_u32 result = {
       {(uint32_t)v.x, (uint32_t)v.y, (uint32_t)v.z, (uint32_t)v.w}
   };

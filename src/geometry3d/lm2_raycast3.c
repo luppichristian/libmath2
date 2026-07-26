@@ -167,7 +167,7 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3_f64 aabb)
     t_min = t0 > t_min ? t0 : t_min;
     t_max = t1 < t_max ? t1 : t_max;
 
-    if (t_max <= t_min) {
+    if (t_max < t_min) {
       result.hit = false;
       result.t = 0.0;
       result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
@@ -270,7 +270,7 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_plane_f64(lm2_ray3_f64 ray, lm2_v3_f64 plane
       result.hit = true;
       result.t = t;
       result.point = lm2_ray3_point_at_f64(ray, t);
-      result.normal = plane_normal;
+      result.normal = lm2_v3_norm_f64(plane_normal);
       return result;
     }
   }
@@ -361,7 +361,7 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3_f32 aabb)
     t_min = t0 > t_min ? t0 : t_min;
     t_max = t1 < t_max ? t1 : t_max;
 
-    if (t_max <= t_min) {
+    if (t_max < t_min) {
       result.hit = false;
       result.t = 0.0f;
       result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
@@ -464,7 +464,7 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3_f32 plane
       result.hit = true;
       result.t = t;
       result.point = lm2_ray3_point_at_f32(ray, t);
-      result.normal = plane_normal;
+      result.normal = lm2_v3_norm_f32(plane_normal);
       return result;
     }
   }

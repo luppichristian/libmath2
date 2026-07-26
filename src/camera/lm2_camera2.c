@@ -141,15 +141,21 @@ LM2_API lm2_v2_f64 lm2_camera2_get_viewport_center_f64(lm2_camera2_f64 camera) {
 }
 
 LM2_API lm2_r2_f64 lm2_camera2_get_world_bounds_f64(lm2_camera2_f64 camera) {
-  lm2_v2_f64 size = lm2_camera2_get_viewport_size_f64(camera);
-  double half_w = (size.x * 0.5) / camera.zoom;
-  double half_h = (size.y * 0.5) / camera.zoom;
+  lm2_v2_f64 corners[4] = {
+      camera.viewport.min,
+      {camera.viewport.max.x, camera.viewport.min.y},
+      camera.viewport.max,
+      {camera.viewport.min.x, camera.viewport.max.y},
+  };
+  lm2_m3x2_transform_points_f64(lm2_camera2_get_inv_view_f64(camera), corners, 4);
 
-  lm2_r2_f64 bounds;
-  bounds.min.x = camera.position.x - half_w;
-  bounds.min.y = camera.position.y - half_h;
-  bounds.max.x = camera.position.x + half_w;
-  bounds.max.y = camera.position.y + half_h;
+  lm2_r2_f64 bounds = {corners[0], corners[0]};
+  for (uint32_t i = 1; i < 4; i++) {
+    if (corners[i].x < bounds.min.x) bounds.min.x = corners[i].x;
+    if (corners[i].y < bounds.min.y) bounds.min.y = corners[i].y;
+    if (corners[i].x > bounds.max.x) bounds.max.x = corners[i].x;
+    if (corners[i].y > bounds.max.y) bounds.max.y = corners[i].y;
+  }
   return bounds;
 }
 
@@ -253,14 +259,20 @@ LM2_API lm2_v2_f32 lm2_camera2_get_viewport_center_f32(lm2_camera2_f32 camera) {
 }
 
 LM2_API lm2_r2_f32 lm2_camera2_get_world_bounds_f32(lm2_camera2_f32 camera) {
-  lm2_v2_f32 size = lm2_camera2_get_viewport_size_f32(camera);
-  float half_w = (size.x * 0.5f) / camera.zoom;
-  float half_h = (size.y * 0.5f) / camera.zoom;
+  lm2_v2_f32 corners[4] = {
+      camera.viewport.min,
+      {camera.viewport.max.x, camera.viewport.min.y},
+      camera.viewport.max,
+      {camera.viewport.min.x, camera.viewport.max.y},
+  };
+  lm2_m3x2_transform_points_f32(lm2_camera2_get_inv_view_f32(camera), corners, 4);
 
-  lm2_r2_f32 bounds;
-  bounds.min.x = camera.position.x - half_w;
-  bounds.min.y = camera.position.y - half_h;
-  bounds.max.x = camera.position.x + half_w;
-  bounds.max.y = camera.position.y + half_h;
+  lm2_r2_f32 bounds = {corners[0], corners[0]};
+  for (uint32_t i = 1; i < 4; i++) {
+    if (corners[i].x < bounds.min.x) bounds.min.x = corners[i].x;
+    if (corners[i].y < bounds.min.y) bounds.min.y = corners[i].y;
+    if (corners[i].x > bounds.max.x) bounds.max.x = corners[i].x;
+    if (corners[i].y > bounds.max.y) bounds.max.y = corners[i].y;
+  }
   return bounds;
 }

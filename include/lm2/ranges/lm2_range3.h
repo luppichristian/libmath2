@@ -36,6 +36,8 @@ LM2_HEADER_BEGIN;
 // =============================================================================
 // A range3 represents a 3D axis-aligned bounding box (AABB) or cube/box
 // with minimum and maximum points.
+// Integer from-center-size overloads halve each nonnegative size component
+// with integer division, rounding odd sizes down to preserve an integral center.
 
 // ---------------------------------------------------------------------------
 // lm2_r3_f64 - 3D Range (double precision)

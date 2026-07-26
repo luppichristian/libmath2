@@ -375,3 +375,91 @@ TEST_F(Triangle3Test, Triangle3D_Normal_F64) {
   double length = sqrt(normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
   EXPECT_NEAR(length, 1.0, EPSILON_F64);
 }
+
+TEST_F(Triangle3Test, TrianglesOverlap_CoplanarEdgesCrossWithoutContainedVertices_F64) {
+  lm2_triangle3_f64 horizontal, vertical;
+  lm2_triangle3_make_coords_f64(horizontal, -2.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+  lm2_triangle3_make_coords_f64(vertical, -2.0, 0.75, 0.0, 2.0, 0.75, 0.0, 0.0, -0.25, 0.0);
+
+  for (int i = 0; i < 3; ++i) {
+    EXPECT_FALSE(lm2_triangle3_contains_point_f64(horizontal, vertical[i], EPSILON_F64));
+    EXPECT_FALSE(lm2_triangle3_contains_point_f64(vertical, horizontal[i], EPSILON_F64));
+  }
+  EXPECT_TRUE(lm2_triangle3_overlaps_f64(horizontal, vertical, EPSILON_F64));
+  EXPECT_TRUE(lm2_triangle3_overlaps_f64(vertical, horizontal, EPSILON_F64));
+}
+
+TEST_F(Triangle3Test, TrianglesOverlap_CoplanarEdgesCrossWithoutContainedVertices_F32) {
+  lm2_triangle3_f32 horizontal, vertical;
+  lm2_triangle3_make_coords_f32(horizontal, -2.0f, 0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+  lm2_triangle3_make_coords_f32(vertical, -2.0f, 0.75f, 0.0f, 2.0f, 0.75f, 0.0f, 0.0f, -0.25f, 0.0f);
+
+  for (int i = 0; i < 3; ++i) {
+    EXPECT_FALSE(lm2_triangle3_contains_point_f32(horizontal, vertical[i], EPSILON_F32));
+    EXPECT_FALSE(lm2_triangle3_contains_point_f32(vertical, horizontal[i], EPSILON_F32));
+  }
+  EXPECT_TRUE(lm2_triangle3_overlaps_f32(horizontal, vertical, EPSILON_F32));
+  EXPECT_TRUE(lm2_triangle3_overlaps_f32(vertical, horizontal, EPSILON_F32));
+}
+
+TEST_F(Triangle3Test, TrianglesOverlap_SeparatedCoplanarCollinearEdges_F64) {
+  lm2_triangle3_f64 left, right;
+  lm2_triangle3_make_coords_f64(left, 0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0, 2.0, 0.0);
+  lm2_triangle3_make_coords_f64(right, 3.0, 0.0, 0.0, 5.0, 0.0, 0.0, 5.0, 2.0, 0.0);
+
+  EXPECT_FALSE(lm2_triangle3_overlaps_f64(left, right, EPSILON_F64));
+  EXPECT_FALSE(lm2_triangle3_overlaps_f64(right, left, EPSILON_F64));
+}
+
+TEST_F(Triangle3Test, TrianglesOverlap_SeparatedCoplanarCollinearEdges_F32) {
+  lm2_triangle3_f32 left, right;
+  lm2_triangle3_make_coords_f32(left, 0.0f, 0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 2.0f, 0.0f);
+  lm2_triangle3_make_coords_f32(right, 3.0f, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 5.0f, 2.0f, 0.0f);
+
+  EXPECT_FALSE(lm2_triangle3_overlaps_f32(left, right, EPSILON_F32));
+  EXPECT_FALSE(lm2_triangle3_overlaps_f32(right, left, EPSILON_F32));
+}
+
+TEST_F(Triangle3Test, TrianglesOverlap_NonCoplanarClassificationIsScaleInvariant_F64) {
+  for (double scale : {1e-4, 1.0, 1e4}) {
+    lm2_triangle3_f64 xy, vertical;
+    lm2_triangle3_make_coords_f64(
+        xy, 0.0, 0.0, 0.0, 2.0 * scale, 0.0, 0.0, 0.0, 2.0 * scale, 0.0);
+    lm2_triangle3_make_coords_f64(
+        vertical,
+        0.5 * scale,
+        -0.5 * scale,
+        -scale,
+        0.5 * scale,
+        1.5 * scale,
+        scale,
+        0.5 * scale,
+        1.5 * scale,
+        -scale);
+
+    EXPECT_TRUE(lm2_triangle3_overlaps_f64(xy, vertical, EPSILON_F64));
+    EXPECT_TRUE(lm2_triangle3_overlaps_f64(vertical, xy, EPSILON_F64));
+  }
+}
+
+TEST_F(Triangle3Test, TrianglesOverlap_NonCoplanarClassificationIsScaleInvariant_F32) {
+  for (float scale : {1e-2f, 1.0f, 1e2f}) {
+    lm2_triangle3_f32 xy, vertical;
+    lm2_triangle3_make_coords_f32(
+        xy, 0.0f, 0.0f, 0.0f, 2.0f * scale, 0.0f, 0.0f, 0.0f, 2.0f * scale, 0.0f);
+    lm2_triangle3_make_coords_f32(
+        vertical,
+        0.5f * scale,
+        -0.5f * scale,
+        -scale,
+        0.5f * scale,
+        1.5f * scale,
+        scale,
+        0.5f * scale,
+        1.5f * scale,
+        -scale);
+
+    EXPECT_TRUE(lm2_triangle3_overlaps_f32(xy, vertical, EPSILON_F32));
+    EXPECT_TRUE(lm2_triangle3_overlaps_f32(vertical, xy, EPSILON_F32));
+  }
+}

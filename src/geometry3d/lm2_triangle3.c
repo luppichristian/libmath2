@@ -359,40 +359,191 @@ LM2_API bool lm2_triangle3_contains_point_f32(const lm2_triangle3_f32 tri, lm2_v
 // Triangle-Triangle Intersection
 // =============================================================================
 
+static bool lm2_triangle3_point_on_segment_projected_f64(
+    lm2_v3_f64 start,
+    lm2_v3_f64 end,
+    lm2_v3_f64 point,
+    int x,
+    int y,
+    double epsilon) {
+  return point.e[x] >= lm2_min_f64(start.e[x], end.e[x]) - epsilon &&
+         point.e[x] <= lm2_max_f64(start.e[x], end.e[x]) + epsilon &&
+         point.e[y] >= lm2_min_f64(start.e[y], end.e[y]) - epsilon &&
+         point.e[y] <= lm2_max_f64(start.e[y], end.e[y]) + epsilon;
+}
+
+static bool lm2_triangle3_point_on_segment_projected_f32(
+    lm2_v3_f32 start,
+    lm2_v3_f32 end,
+    lm2_v3_f32 point,
+    int x,
+    int y,
+    float epsilon) {
+  return point.e[x] >= lm2_min_f32(start.e[x], end.e[x]) - epsilon &&
+         point.e[x] <= lm2_max_f32(start.e[x], end.e[x]) + epsilon &&
+         point.e[y] >= lm2_min_f32(start.e[y], end.e[y]) - epsilon &&
+         point.e[y] <= lm2_max_f32(start.e[y], end.e[y]) + epsilon;
+}
+
+static bool lm2_triangle3_segments_intersect_projected_f64(
+    lm2_v3_f64 a0,
+    lm2_v3_f64 a1,
+    lm2_v3_f64 b0,
+    lm2_v3_f64 b1,
+    int drop_axis,
+    double epsilon) {
+  int x = drop_axis == 0 ? 1 : 0;
+  int y = drop_axis == 2 ? 1 : 2;
+  double o1 = (a1.e[x] - a0.e[x]) * (b0.e[y] - a0.e[y]) - (a1.e[y] - a0.e[y]) * (b0.e[x] - a0.e[x]);
+  double o2 = (a1.e[x] - a0.e[x]) * (b1.e[y] - a0.e[y]) - (a1.e[y] - a0.e[y]) * (b1.e[x] - a0.e[x]);
+  double o3 = (b1.e[x] - b0.e[x]) * (a0.e[y] - b0.e[y]) - (b1.e[y] - b0.e[y]) * (a0.e[x] - b0.e[x]);
+  double o4 = (b1.e[x] - b0.e[x]) * (a1.e[y] - b0.e[y]) - (b1.e[y] - b0.e[y]) * (a1.e[x] - b0.e[x]);
+
+  double a_length = lm2_sqrt_f64(
+      (a1.e[x] - a0.e[x]) * (a1.e[x] - a0.e[x]) +
+      (a1.e[y] - a0.e[y]) * (a1.e[y] - a0.e[y]));
+  double b_length = lm2_sqrt_f64(
+      (b1.e[x] - b0.e[x]) * (b1.e[x] - b0.e[x]) +
+      (b1.e[y] - b0.e[y]) * (b1.e[y] - b0.e[y]));
+  if (a_length > 0.0) {
+    o1 /= a_length;
+    o2 /= a_length;
+  }
+  if (b_length > 0.0) {
+    o3 /= b_length;
+    o4 /= b_length;
+  }
+
+  if (((o1 > epsilon && o2 < -epsilon) || (o1 < -epsilon && o2 > epsilon)) &&
+      ((o3 > epsilon && o4 < -epsilon) || (o3 < -epsilon && o4 > epsilon))) return true;
+  if (lm2_abs_f64(o1) <= epsilon && lm2_triangle3_point_on_segment_projected_f64(a0, a1, b0, x, y, epsilon)) return true;
+  if (lm2_abs_f64(o2) <= epsilon && lm2_triangle3_point_on_segment_projected_f64(a0, a1, b1, x, y, epsilon)) return true;
+  if (lm2_abs_f64(o3) <= epsilon && lm2_triangle3_point_on_segment_projected_f64(b0, b1, a0, x, y, epsilon)) return true;
+  if (lm2_abs_f64(o4) <= epsilon && lm2_triangle3_point_on_segment_projected_f64(b0, b1, a1, x, y, epsilon)) return true;
+  return false;
+}
+
+static bool lm2_triangle3_segments_intersect_projected_f32(
+    lm2_v3_f32 a0,
+    lm2_v3_f32 a1,
+    lm2_v3_f32 b0,
+    lm2_v3_f32 b1,
+    int drop_axis,
+    float epsilon) {
+  int x = drop_axis == 0 ? 1 : 0;
+  int y = drop_axis == 2 ? 1 : 2;
+  float o1 = (a1.e[x] - a0.e[x]) * (b0.e[y] - a0.e[y]) - (a1.e[y] - a0.e[y]) * (b0.e[x] - a0.e[x]);
+  float o2 = (a1.e[x] - a0.e[x]) * (b1.e[y] - a0.e[y]) - (a1.e[y] - a0.e[y]) * (b1.e[x] - a0.e[x]);
+  float o3 = (b1.e[x] - b0.e[x]) * (a0.e[y] - b0.e[y]) - (b1.e[y] - b0.e[y]) * (a0.e[x] - b0.e[x]);
+  float o4 = (b1.e[x] - b0.e[x]) * (a1.e[y] - b0.e[y]) - (b1.e[y] - b0.e[y]) * (a1.e[x] - b0.e[x]);
+
+  float a_length = lm2_sqrt_f32(
+      (a1.e[x] - a0.e[x]) * (a1.e[x] - a0.e[x]) +
+      (a1.e[y] - a0.e[y]) * (a1.e[y] - a0.e[y]));
+  float b_length = lm2_sqrt_f32(
+      (b1.e[x] - b0.e[x]) * (b1.e[x] - b0.e[x]) +
+      (b1.e[y] - b0.e[y]) * (b1.e[y] - b0.e[y]));
+  if (a_length > 0.0f) {
+    o1 /= a_length;
+    o2 /= a_length;
+  }
+  if (b_length > 0.0f) {
+    o3 /= b_length;
+    o4 /= b_length;
+  }
+
+  if (((o1 > epsilon && o2 < -epsilon) || (o1 < -epsilon && o2 > epsilon)) &&
+      ((o3 > epsilon && o4 < -epsilon) || (o3 < -epsilon && o4 > epsilon))) return true;
+  if (lm2_abs_f32(o1) <= epsilon && lm2_triangle3_point_on_segment_projected_f32(a0, a1, b0, x, y, epsilon)) return true;
+  if (lm2_abs_f32(o2) <= epsilon && lm2_triangle3_point_on_segment_projected_f32(a0, a1, b1, x, y, epsilon)) return true;
+  if (lm2_abs_f32(o3) <= epsilon && lm2_triangle3_point_on_segment_projected_f32(b0, b1, a0, x, y, epsilon)) return true;
+  if (lm2_abs_f32(o4) <= epsilon && lm2_triangle3_point_on_segment_projected_f32(b0, b1, a1, x, y, epsilon)) return true;
+  return false;
+}
+
+static bool lm2_triangle3_edge_intersects_f64(lm2_v3_f64 start, lm2_v3_f64 end, const lm2_triangle3_f64 tri, double epsilon) {
+  lm2_v3_f64 normal = lm2_v3_cross_f64(lm2_v3_sub_f64(tri[1], tri[0]), lm2_v3_sub_f64(tri[2], tri[0]));
+  lm2_v3_f64 direction = lm2_v3_sub_f64(end, start);
+  double normal_length = lm2_v3_length_f64(normal);
+  double direction_length = lm2_v3_length_f64(direction);
+  if (normal_length == 0.0 || direction_length == 0.0) return false;
+  double denominator = lm2_v3_dot_f64(normal, direction);
+  if (lm2_abs_f64(denominator) <= epsilon * normal_length * direction_length) return false;
+  double t = lm2_v3_dot_f64(normal, lm2_v3_sub_f64(tri[0], start)) / denominator;
+  double parameter_epsilon = epsilon / direction_length;
+  if (t < -parameter_epsilon || t > 1.0 + parameter_epsilon) return false;
+  return lm2_triangle3_contains_point_f64(tri, lm2_v3_add_f64(start, lm2_v3_mul_s_f64(direction, t)), epsilon);
+}
+
+static bool lm2_triangle3_edge_intersects_f32(lm2_v3_f32 start, lm2_v3_f32 end, const lm2_triangle3_f32 tri, float epsilon) {
+  lm2_v3_f32 normal = lm2_v3_cross_f32(lm2_v3_sub_f32(tri[1], tri[0]), lm2_v3_sub_f32(tri[2], tri[0]));
+  lm2_v3_f32 direction = lm2_v3_sub_f32(end, start);
+  float normal_length = lm2_v3_length_f32(normal);
+  float direction_length = lm2_v3_length_f32(direction);
+  if (normal_length == 0.0f || direction_length == 0.0f) return false;
+  float denominator = lm2_v3_dot_f32(normal, direction);
+  if (lm2_abs_f32(denominator) <= epsilon * normal_length * direction_length) return false;
+  float t = lm2_v3_dot_f32(normal, lm2_v3_sub_f32(tri[0], start)) / denominator;
+  float parameter_epsilon = epsilon / direction_length;
+  if (t < -parameter_epsilon || t > 1.0f + parameter_epsilon) return false;
+  return lm2_triangle3_contains_point_f32(tri, lm2_v3_add_f32(start, lm2_v3_mul_s_f32(direction, t)), epsilon);
+}
+
 LM2_API bool lm2_triangle3_overlaps_f64(const lm2_triangle3_f64 t1, const lm2_triangle3_f64 t2, double epsilon) {
-  // Check if any vertex of t1 is inside t2
-  if (lm2_triangle3_contains_point_f64(t2, t1[0], epsilon) ||
-      lm2_triangle3_contains_point_f64(t2, t1[1], epsilon) ||
-      lm2_triangle3_contains_point_f64(t2, t1[2], epsilon)) {
-    return true;
+  for (int i = 0; i < 3; ++i) {
+    if (lm2_triangle3_contains_point_f64(t2, t1[i], epsilon) ||
+        lm2_triangle3_contains_point_f64(t1, t2[i], epsilon)) return true;
   }
 
-  // Check if any vertex of t2 is inside t1
-  if (lm2_triangle3_contains_point_f64(t1, t2[0], epsilon) ||
-      lm2_triangle3_contains_point_f64(t1, t2[1], epsilon) ||
-      lm2_triangle3_contains_point_f64(t1, t2[2], epsilon)) {
-    return true;
+  lm2_v3_f64 n1 = lm2_v3_cross_f64(lm2_v3_sub_f64(t1[1], t1[0]), lm2_v3_sub_f64(t1[2], t1[0]));
+  lm2_v3_f64 n2 = lm2_v3_cross_f64(lm2_v3_sub_f64(t2[1], t2[0]), lm2_v3_sub_f64(t2[2], t2[0]));
+  double n1_length = lm2_v3_length_f64(n1);
+  double n2_length = lm2_v3_length_f64(n2);
+  if (n1_length == 0.0 || n2_length == 0.0) return false;
+  double sine_angle = lm2_v3_length_f64(lm2_v3_cross_f64(n1, n2)) / (n1_length * n2_length);
+  if (sine_angle <= epsilon) {
+    if (lm2_abs_f64(lm2_v3_dot_f64(lm2_v3_norm_f64(n1), lm2_v3_sub_f64(t2[0], t1[0]))) > epsilon) return false;
+    lm2_v3_f64 absolute = lm2_v3_abs_f64(n1);
+    int drop_axis = absolute.x >= absolute.y && absolute.x >= absolute.z ? 0 : (absolute.y >= absolute.z ? 1 : 2);
+    for (int i = 0; i < 3; ++i)
+      for (int j = 0; j < 3; ++j)
+        if (lm2_triangle3_segments_intersect_projected_f64(t1[i], t1[(i + 1) % 3], t2[j], t2[(j + 1) % 3], drop_axis, epsilon)) return true;
+    return false;
   }
 
-  // For a more complete 3D triangle-triangle intersection test,
-  // we would need to check edge-triangle intersections as well.
-  // This simplified version checks vertex containment only.
+  for (int i = 0; i < 3; ++i) {
+    if (lm2_triangle3_edge_intersects_f64(t1[i], t1[(i + 1) % 3], t2, epsilon) ||
+        lm2_triangle3_edge_intersects_f64(t2[i], t2[(i + 1) % 3], t1, epsilon)) return true;
+  }
   return false;
 }
 
 LM2_API bool lm2_triangle3_overlaps_f32(const lm2_triangle3_f32 t1, const lm2_triangle3_f32 t2, float epsilon) {
-  if (lm2_triangle3_contains_point_f32(t2, t1[0], epsilon) ||
-      lm2_triangle3_contains_point_f32(t2, t1[1], epsilon) ||
-      lm2_triangle3_contains_point_f32(t2, t1[2], epsilon)) {
-    return true;
+  for (int i = 0; i < 3; ++i) {
+    if (lm2_triangle3_contains_point_f32(t2, t1[i], epsilon) ||
+        lm2_triangle3_contains_point_f32(t1, t2[i], epsilon)) return true;
   }
 
-  if (lm2_triangle3_contains_point_f32(t1, t2[0], epsilon) ||
-      lm2_triangle3_contains_point_f32(t1, t2[1], epsilon) ||
-      lm2_triangle3_contains_point_f32(t1, t2[2], epsilon)) {
-    return true;
+  lm2_v3_f32 n1 = lm2_v3_cross_f32(lm2_v3_sub_f32(t1[1], t1[0]), lm2_v3_sub_f32(t1[2], t1[0]));
+  lm2_v3_f32 n2 = lm2_v3_cross_f32(lm2_v3_sub_f32(t2[1], t2[0]), lm2_v3_sub_f32(t2[2], t2[0]));
+  float n1_length = lm2_v3_length_f32(n1);
+  float n2_length = lm2_v3_length_f32(n2);
+  if (n1_length == 0.0f || n2_length == 0.0f) return false;
+  float sine_angle = lm2_v3_length_f32(lm2_v3_cross_f32(n1, n2)) / (n1_length * n2_length);
+  if (sine_angle <= epsilon) {
+    if (lm2_abs_f32(lm2_v3_dot_f32(lm2_v3_norm_f32(n1), lm2_v3_sub_f32(t2[0], t1[0]))) > epsilon) return false;
+    lm2_v3_f32 absolute = lm2_v3_abs_f32(n1);
+    int drop_axis = absolute.x >= absolute.y && absolute.x >= absolute.z ? 0 : (absolute.y >= absolute.z ? 1 : 2);
+    for (int i = 0; i < 3; ++i)
+      for (int j = 0; j < 3; ++j)
+        if (lm2_triangle3_segments_intersect_projected_f32(t1[i], t1[(i + 1) % 3], t2[j], t2[(j + 1) % 3], drop_axis, epsilon)) return true;
+    return false;
   }
 
+  for (int i = 0; i < 3; ++i) {
+    if (lm2_triangle3_edge_intersects_f32(t1[i], t1[(i + 1) % 3], t2, epsilon) ||
+        lm2_triangle3_edge_intersects_f32(t2[i], t2[(i + 1) % 3], t1, epsilon)) return true;
+  }
   return false;
 }
 

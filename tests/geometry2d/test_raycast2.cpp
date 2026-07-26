@@ -325,3 +325,88 @@ TEST_F(Raycast2Test, RayVsPlane_Hit_F32) {
   EXPECT_TRUE(hit.hit);
   EXPECT_NEAR(hit.t, 10.0f, EPSILON_F32);
 }
+
+TEST_F(Raycast2Test, CircleHitHasOutwardUnitNormalAndConsistentPoint_F64) {
+  lm2_ray2_f64 ray = lm2_ray2_make_f64(lm2_v2_make_f64(1.0, 2.0), lm2_v2_make_f64(1.0, 0.0), 10.0);
+  lm2_circle_f64 circle = lm2_circle_make_coords_f64(6.0, 2.0, 2.0);
+
+  lm2_rayhit2_f64 hit = lm2_raycast_circle_f64(ray, circle);
+
+  ASSERT_TRUE(hit.hit);
+  EXPECT_DOUBLE_EQ(hit.t, 3.0);
+  EXPECT_DOUBLE_EQ(hit.point.x, ray.origin.x + ray.direction.x * hit.t);
+  EXPECT_DOUBLE_EQ(hit.point.y, ray.origin.y + ray.direction.y * hit.t);
+  EXPECT_DOUBLE_EQ(hit.normal.x, -1.0);
+  EXPECT_DOUBLE_EQ(hit.normal.y, 0.0);
+  EXPECT_DOUBLE_EQ(std::hypot(hit.normal.x, hit.normal.y), 1.0);
+  EXPECT_LT(hit.normal.x * ray.direction.x + hit.normal.y * ray.direction.y, 0.0);
+}
+
+TEST_F(Raycast2Test, CircleHonorsTMaxBoundaryTangentAndDirection_F64) {
+  lm2_circle_f64 tangent = lm2_circle_make_coords_f64(5.0, 1.0, 1.0);
+  lm2_ray2_f64 boundary = lm2_ray2_make_f64(lm2_v2_make_f64(0.0, 0.0), lm2_v2_make_f64(1.0, 0.0), 5.0);
+  lm2_rayhit2_f64 hit = lm2_raycast_circle_f64(boundary, tangent);
+  ASSERT_TRUE(hit.hit);
+  EXPECT_DOUBLE_EQ(hit.t, boundary.t_max);
+  EXPECT_DOUBLE_EQ(hit.point.x, 5.0);
+  EXPECT_DOUBLE_EQ(hit.point.y, 0.0);
+  EXPECT_DOUBLE_EQ(std::hypot(hit.normal.x, hit.normal.y), 1.0);
+  EXPECT_DOUBLE_EQ(hit.normal.x, 0.0);
+  EXPECT_DOUBLE_EQ(hit.normal.y, -1.0);
+
+  lm2_ray2_f64 too_short = boundary;
+  too_short.t_max = 4.999;
+  EXPECT_FALSE(lm2_raycast_circle_f64(too_short, tangent).hit);
+  lm2_circle_f64 behind = lm2_circle_make_coords_f64(-5.0, 0.0, 1.0);
+  EXPECT_FALSE(lm2_raycast_circle_f64(boundary, behind).hit);
+}
+
+TEST_F(Raycast2Test, AABBHitNormalIsOutwardAndParallelSlabsAreHandled_F64) {
+  lm2_r2_f64 aabb = lm2_r2_from_min_max_f64(lm2_v2_make_f64(5.0, 1.0), lm2_v2_make_f64(8.0, 4.0));
+  lm2_ray2_f64 ray = lm2_ray2_make_f64(lm2_v2_make_f64(0.0, 2.0), lm2_v2_make_f64(1.0, 0.0), 5.0);
+  lm2_rayhit2_f64 hit = lm2_raycast_aabb_f64(ray, aabb);
+
+  ASSERT_TRUE(hit.hit);
+  EXPECT_DOUBLE_EQ(hit.t, ray.t_max);
+  EXPECT_DOUBLE_EQ(hit.point.x, ray.origin.x + ray.direction.x * hit.t);
+  EXPECT_DOUBLE_EQ(hit.point.y, ray.origin.y + ray.direction.y * hit.t);
+  EXPECT_DOUBLE_EQ(hit.normal.x, -1.0);
+  EXPECT_DOUBLE_EQ(hit.normal.y, 0.0);
+  EXPECT_DOUBLE_EQ(std::hypot(hit.normal.x, hit.normal.y), 1.0);
+  EXPECT_LT(hit.normal.x * ray.direction.x + hit.normal.y * ray.direction.y, 0.0);
+
+  lm2_ray2_f64 parallel_outside =
+      lm2_ray2_make_f64(lm2_v2_make_f64(0.0, 5.0), lm2_v2_make_f64(1.0, 0.0), 20.0);
+  EXPECT_FALSE(lm2_raycast_aabb_f64(parallel_outside, aabb).hit);
+}
+
+TEST_F(Raycast2Test, PlaneRejectsBehindAndParallelAndAcceptsTMaxBoundary_F64) {
+  lm2_plane2_f64 plane = lm2_plane2_make_f64(lm2_v2_make_f64(2.0, 0.0), 10.0);
+  lm2_ray2_f64 boundary = lm2_ray2_make_f64(lm2_v2_make_f64(0.0, 1.0), lm2_v2_make_f64(1.0, 0.0), 5.0);
+  lm2_rayhit2_f64 hit = lm2_raycast_plane2_f64(boundary, plane);
+  ASSERT_TRUE(hit.hit);
+  EXPECT_DOUBLE_EQ(hit.t, boundary.t_max);
+  EXPECT_DOUBLE_EQ(hit.point.x, boundary.origin.x + boundary.direction.x * hit.t);
+  EXPECT_DOUBLE_EQ(hit.point.y, boundary.origin.y + boundary.direction.y * hit.t);
+  EXPECT_DOUBLE_EQ(std::hypot(hit.normal.x, hit.normal.y), 1.0);
+  EXPECT_LT(hit.normal.x * boundary.direction.x + hit.normal.y * boundary.direction.y, 0.0);
+
+  lm2_ray2_f64 behind = lm2_ray2_make_f64(lm2_v2_make_f64(6.0, 1.0), lm2_v2_make_f64(1.0, 0.0), 10.0);
+  lm2_ray2_f64 parallel = lm2_ray2_make_f64(lm2_v2_make_f64(0.0, 1.0), lm2_v2_make_f64(0.0, 1.0), 10.0);
+  EXPECT_FALSE(lm2_raycast_plane2_f64(behind, plane).hit);
+  EXPECT_FALSE(lm2_raycast_plane2_f64(parallel, plane).hit);
+}
+
+TEST_F(Raycast2Test, GenericCircleDispatchMatchesPrimitive_F64) {
+  lm2_circle_f64 circle = lm2_circle_make_coords_f64(6.0, 2.0, 2.0);
+  lm2_ray2_f64 ray = lm2_ray2_make_f64(lm2_v2_make_f64(1.0, 2.0), lm2_v2_make_f64(1.0, 0.0), 10.0);
+  lm2_rayhit2_f64 direct = lm2_raycast_circle_f64(ray, circle);
+  lm2_rayhit2_f64 generic = lm2_raycast_shape2_f64(ray, lm2_shape2_from_circle_f64(&circle));
+
+  ASSERT_TRUE(generic.hit);
+  EXPECT_DOUBLE_EQ(generic.t, direct.t);
+  EXPECT_DOUBLE_EQ(generic.point.x, direct.point.x);
+  EXPECT_DOUBLE_EQ(generic.point.y, direct.point.y);
+  EXPECT_DOUBLE_EQ(generic.normal.x, direct.normal.x);
+  EXPECT_DOUBLE_EQ(generic.normal.y, direct.normal.y);
+}

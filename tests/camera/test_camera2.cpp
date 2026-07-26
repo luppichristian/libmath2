@@ -265,3 +265,31 @@ TEST_F(Camera2Test, ZoomAt_PreservesAnchorPoint_F32) {
   EXPECT_NEAR(world_before.x, world_after.x, EPSILON_F32);
   EXPECT_NEAR(world_before.y, world_after.y, EPSILON_F32);
 }
+
+TEST_F(Camera2Test, WorldBounds_EncloseRotatedViewport_F64) {
+  const lm2_r2_f64 viewport = lm2_r2_from_min_max_f64({0.0, 0.0}, {800.0, 400.0});
+  const lm2_camera2_f64 camera = lm2_camera2_make_f64({10.0, -20.0}, LM2_PI_F64 / 4.0, 2.0, viewport);
+  const lm2_r2_f64 bounds = lm2_camera2_get_world_bounds_f64(camera);
+
+  const double c = std::cos(camera.rotation);
+  const double s = std::sin(camera.rotation);
+  const double half_width = 200.0;
+  const double half_height = 100.0;
+  const double extent_x = std::abs(c) * half_width + std::abs(s) * half_height;
+  const double extent_y = std::abs(s) * half_width + std::abs(c) * half_height;
+  EXPECT_NEAR(bounds.min.x, camera.position.x - extent_x, EPSILON_F64);
+  EXPECT_NEAR(bounds.max.x, camera.position.x + extent_x, EPSILON_F64);
+  EXPECT_NEAR(bounds.min.y, camera.position.y - extent_y, EPSILON_F64);
+  EXPECT_NEAR(bounds.max.y, camera.position.y + extent_y, EPSILON_F64);
+}
+
+TEST_F(Camera2Test, WorldBounds_EncloseRotatedViewport_F32) {
+  const lm2_r2_f32 viewport = lm2_r2_from_min_max_f32({0.0f, 0.0f}, {800.0f, 400.0f});
+  const lm2_camera2_f32 camera = lm2_camera2_make_f32({10.0f, -20.0f}, LM2_PI_F32 / 4.0f, 2.0f, viewport);
+  const lm2_r2_f32 bounds = lm2_camera2_get_world_bounds_f32(camera);
+  const float extent = 150.0f * std::sqrt(2.0f);
+  EXPECT_NEAR(bounds.min.x, camera.position.x - extent, 5e-5f);
+  EXPECT_NEAR(bounds.max.x, camera.position.x + extent, 5e-5f);
+  EXPECT_NEAR(bounds.min.y, camera.position.y - extent, 5e-5f);
+  EXPECT_NEAR(bounds.max.y, camera.position.y + extent, 5e-5f);
+}

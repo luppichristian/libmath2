@@ -45,7 +45,7 @@ SOFTWARE.
     return result;                                                                                                                    \
   }                                                                                                                                   \
   LM2_API type_name lm2_r2_from_center_size_##scalar_suffix(vec_type center, vec_type size) {                                         \
-    vec_type half_size = lm2_v2_mul_s_##scalar_suffix(size, (scalar_type)0.5);                                                        \
+    vec_type half_size = lm2_v2_div_s_##scalar_suffix(size, (scalar_type)2);                                                          \
     type_name result;                                                                                                                 \
     result.min = lm2_v2_sub_##scalar_suffix(center, half_size);                                                                       \
     result.max = lm2_v2_add_##scalar_suffix(center, half_size);                                                                       \
@@ -235,13 +235,13 @@ SOFTWARE.
 #define _LM2_IMPL_R2_EXTENTS(type_name, vec_type, scalar_type, scalar_suffix) \
   LM2_API vec_type lm2_r2_extents_##scalar_suffix(type_name r) {              \
     vec_type size = lm2_v2_sub_##scalar_suffix(r.max, r.min);                 \
-    return lm2_v2_mul_s_##scalar_suffix(size, (scalar_type)0.5);              \
+    return lm2_v2_div_s_##scalar_suffix(size, (scalar_type)2);                \
   }
 
 #define _LM2_IMPL_R2_CENTER(type_name, vec_type, scalar_type, scalar_suffix) \
   LM2_API vec_type lm2_r2_center_##scalar_suffix(type_name r) {              \
     vec_type sum = lm2_v2_add_##scalar_suffix(r.min, r.max);                 \
-    return lm2_v2_mul_s_##scalar_suffix(sum, (scalar_type)0.5);              \
+    return lm2_v2_div_s_##scalar_suffix(sum, (scalar_type)2);                \
   }
 
 #define _LM2_IMPL_R2_CONTAINS_POINT(type_name, vec_type, scalar_type, scalar_suffix) \

@@ -320,7 +320,7 @@ LM2_API lm2_v2_f32 lm2_polygon_centroid_f32(lm2_polygon_f32 polygon) {
 }
 
 LM2_API bool lm2_polygon_is_ccw_f64(lm2_polygon_f64 polygon) {
-  double area = lm2_polygon_area_f64(polygon);
+  double area = lm2_polygon_signed_area_f64(polygon);
   return area > 0.0;
 }
 

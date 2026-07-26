@@ -457,3 +457,40 @@ TEST_F(Matrix3x2Test, GetTranslation_F32) {
   EXPECT_FLOAT_EQ(extracted.x, 10.0f);
   EXPECT_FLOAT_EQ(extracted.y, 20.0f);
 }
+
+TEST_F(Matrix3x2Test, DenseAffineInverse_BothMultiplicationOrders_F64) {
+  const lm2_m3x2_f64 matrix = lm2_m3x2_make_f64(2.0, 1.25, 3.0, -0.75, 4.0, -2.0);
+  const lm2_m3x2_f64 inverse = lm2_m3x2_inverse_f64(matrix);
+  const lm2_m3x2_f64 products[] = {
+      lm2_m3x2_mul_f64(matrix, inverse),
+      lm2_m3x2_mul_f64(inverse, matrix),
+  };
+  const double expected[] = {1.0, 0.0, 0.0, 0.0, 1.0, 0.0};
+  for (const lm2_m3x2_f64 product : products) {
+    for (int i = 0; i < 6; i++) EXPECT_NEAR(product.e[i], expected[i], EPSILON_F64);
+  }
+}
+
+TEST_F(Matrix3x2Test, TransformPointArrays_F32) {
+  const lm2_m3x2_f32 matrix = lm2_m3x2_world_transform_f32({3.0f, -2.0f}, {2.0f, 0.5f}, LM2_PI_F32 / 2.0f);
+  const lm2_v2_f32 source[] = {
+      { 1.0f, 2.0f},
+      {-3.0f, 4.0f},
+      { 0.0f, 0.0f}
+  };
+  const lm2_v2_f32 expected[] = {
+      {2.0f,  0.0f},
+      {1.0f, -8.0f},
+      {3.0f, -2.0f}
+  };
+  lm2_v2_f32 in_place[] = {source[0], source[1], source[2]};
+  lm2_v2_f32 destination[3];
+  lm2_m3x2_transform_points_f32(matrix, in_place, 3);
+  lm2_m3x2_transform_points_src_dst_f32(matrix, source, destination, 3);
+  for (int i = 0; i < 3; i++) {
+    EXPECT_NEAR(in_place[i].x, expected[i].x, EPSILON_F32);
+    EXPECT_NEAR(in_place[i].y, expected[i].y, EPSILON_F32);
+    EXPECT_NEAR(destination[i].x, expected[i].x, EPSILON_F32);
+    EXPECT_NEAR(destination[i].y, expected[i].y, EPSILON_F32);
+  }
+}

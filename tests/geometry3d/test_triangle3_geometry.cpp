@@ -90,8 +90,13 @@ TEST_F(Triangle3GeometryTest, TriangleListToVertexArray_F32) {
 
   lm2_triangle3_list_to_vertex_array_f32(triangles, 2, vertices.data(), vertex_count);
 
-  EXPECT_FLOAT_EQ(vertices[0].x, 0.0f);
-  EXPECT_FLOAT_EQ(vertices[1].x, 1.0f);
+  for (size_t triangle = 0; triangle < 2; ++triangle) {
+    for (size_t vertex = 0; vertex < 3; ++vertex) {
+      EXPECT_FLOAT_EQ(vertices[triangle * 3 + vertex].x, triangles[triangle][vertex].x);
+      EXPECT_FLOAT_EQ(vertices[triangle * 3 + vertex].y, triangles[triangle][vertex].y);
+      EXPECT_FLOAT_EQ(vertices[triangle * 3 + vertex].z, triangles[triangle][vertex].z);
+    }
+  }
 }
 
 // =============================================================================
@@ -207,13 +212,18 @@ TEST_F(Triangle3GeometryTest, TriangleListToIndexedMesh_F64) {
   lm2_triangle3_list_to_indexed_mesh_f64(
       triangles, 2, EPSILON_F64, vertices.data(), size.vertex_count, indices.data(), size.index_count);
 
-  // Verify we have the expected number of unique vertices
-  EXPECT_EQ(vertices.size(), 4);
-  EXPECT_EQ(indices.size(), 6);
+  ASSERT_EQ(vertices.size(), 4);
+  ASSERT_EQ(indices.size(), 6);
 
-  // All indices should be valid (< vertex_count)
-  for (size_t i = 0; i < indices.size(); ++i) {
-    EXPECT_LT(indices[i], size.vertex_count);
+  // Dereferencing the index buffer must reproduce every source triangle vertex.
+  for (size_t triangle = 0; triangle < 2; ++triangle) {
+    for (size_t vertex = 0; vertex < 3; ++vertex) {
+      uint32_t index = indices[triangle * 3 + vertex];
+      ASSERT_LT(index, size.vertex_count);
+      EXPECT_DOUBLE_EQ(vertices[index].x, triangles[triangle][vertex].x);
+      EXPECT_DOUBLE_EQ(vertices[index].y, triangles[triangle][vertex].y);
+      EXPECT_DOUBLE_EQ(vertices[index].z, triangles[triangle][vertex].z);
+    }
   }
 }
 
@@ -353,8 +363,15 @@ TEST_F(Triangle3GeometryTest, RoundTrip_IndexedMesh_F64) {
   lm2_indexed_mesh_to_triangle3_list_f64(
       vertices.data(), size.vertex_count, indices.data(), size.index_count, result.get(), triangle_count);
 
-  // Verify round-trip (triangles should be identical)
-  EXPECT_EQ(triangle_count, 2);
+  // Verify every reconstructed triangle vertex, not only the output sizes.
+  ASSERT_EQ(triangle_count, 2);
+  for (size_t triangle = 0; triangle < triangle_count; ++triangle) {
+    for (size_t vertex = 0; vertex < 3; ++vertex) {
+      EXPECT_NEAR(result[triangle][vertex].x, original[triangle][vertex].x, EPSILON_F64);
+      EXPECT_NEAR(result[triangle][vertex].y, original[triangle][vertex].y, EPSILON_F64);
+      EXPECT_NEAR(result[triangle][vertex].z, original[triangle][vertex].z, EPSILON_F64);
+    }
+  }
 }
 
 // =============================================================================

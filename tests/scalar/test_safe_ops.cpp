@@ -580,3 +580,31 @@ TEST_F(SafeOpsTest, Neg_SmallValues_F64) {
   EXPECT_DOUBLE_EQ(lm2_neg_f64(small), -small);
   EXPECT_DOUBLE_EQ(lm2_neg_f64(-small), small);
 }
+
+TEST_F(SafeOpsTest, SignedIntegerOperationsAcceptExactBoundaries) {
+  EXPECT_EQ(lm2_add_i8(std::numeric_limits<int8_t>::max(), 0),
+            std::numeric_limits<int8_t>::max());
+  EXPECT_EQ(lm2_sub_i16(std::numeric_limits<int16_t>::min(), 0),
+            std::numeric_limits<int16_t>::min());
+  EXPECT_EQ(lm2_mul_i32(std::numeric_limits<int32_t>::min(), 1),
+            std::numeric_limits<int32_t>::min());
+  EXPECT_EQ(lm2_div_i64(std::numeric_limits<int64_t>::min(), 1),
+            std::numeric_limits<int64_t>::min());
+  EXPECT_EQ(lm2_mod_i64(std::numeric_limits<int64_t>::min(), 2), 0);
+}
+
+TEST_F(SafeOpsTest, SignedIntegerOperationsRejectUndefinedResults) {
+  EXPECT_DEATH((void)lm2_add_i64(std::numeric_limits<int64_t>::max(), 1), "");
+  EXPECT_DEATH((void)lm2_add_i32(std::numeric_limits<int32_t>::max(), 1), "");
+  EXPECT_DEATH((void)lm2_add_i16(std::numeric_limits<int16_t>::min(), -1), "");
+  EXPECT_DEATH((void)lm2_add_i8(std::numeric_limits<int8_t>::max(), 1), "");
+  EXPECT_DEATH((void)lm2_sub_i32(std::numeric_limits<int32_t>::min(), 1), "");
+  EXPECT_DEATH((void)lm2_sub_i8(std::numeric_limits<int8_t>::max(), -1), "");
+  EXPECT_DEATH((void)lm2_mul_i64(std::numeric_limits<int64_t>::min(), -1), "");
+  EXPECT_DEATH((void)lm2_mul_i32(std::numeric_limits<int32_t>::max(), 2), "");
+  EXPECT_DEATH((void)lm2_mul_i16(std::numeric_limits<int16_t>::min(), -1), "");
+  EXPECT_DEATH((void)lm2_mul_i8(std::numeric_limits<int8_t>::max(), 2), "");
+  EXPECT_DEATH((void)lm2_div_i32(std::numeric_limits<int32_t>::min(), -1), "");
+  EXPECT_DEATH((void)lm2_mod_i32(std::numeric_limits<int32_t>::min(), -1), "");
+  EXPECT_DEATH((void)lm2_neg_i32(std::numeric_limits<int32_t>::min()), "");
+}

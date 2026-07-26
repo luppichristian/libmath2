@@ -359,3 +359,57 @@ TEST_F(Camera3Test, SetOrientation_ChangesForward_F32) {
   EXPECT_NEAR(fwd.y, 0.0f, EPSILON_F32);
   EXPECT_NEAR(fwd.z, 0.0f, EPSILON_F32);
 }
+
+TEST_F(Camera3Test, PerspectiveAndOrthographicWorldToNdcOracles_F64) {
+  const lm2_camera3_f64 perspective = lm2_camera3_perspective_f64(
+      {3.0, 4.0, 5.0}, {3.0, 4.0, 4.0}, {0.0, 1.0, 0.0}, LM2_PI_F64 / 2.0, 2.0, 1.0, 11.0);
+  const lm2_v3_f64 near_corner = lm2_camera3_world_to_ndc_f64(perspective, {5.0, 5.0, 4.0});
+  const lm2_v3_f64 far_center = lm2_camera3_world_to_ndc_f64(perspective, {3.0, 4.0, -6.0});
+  EXPECT_NEAR(near_corner.x, 1.0, EPSILON_F64);
+  EXPECT_NEAR(near_corner.y, 1.0, EPSILON_F64);
+  EXPECT_NEAR(near_corner.z, -1.0, EPSILON_F64);
+  EXPECT_NEAR(far_center.z, 1.0, EPSILON_F64);
+
+  const lm2_camera3_f64 orthographic = lm2_camera3_orthographic_f64(
+      {0.0, 0.0, 5.0}, {0.0, 0.0, 4.0}, {0.0, 1.0, 0.0}, 2.0, 2.0, 1.0, 11.0);
+  const lm2_v3_f64 ortho_corner = lm2_camera3_world_to_ndc_f64(orthographic, {4.0, 2.0, 4.0});
+  EXPECT_NEAR(ortho_corner.x, 1.0, EPSILON_F64);
+  EXPECT_NEAR(ortho_corner.y, 1.0, EPSILON_F64);
+  EXPECT_NEAR(ortho_corner.z, -1.0, EPSILON_F64);
+}
+
+TEST_F(Camera3Test, Orbit_PreservesRadiusAndTarget_F32) {
+  const lm2_camera3_f32 camera = make_default_f32();
+  const lm2_camera3_f32 orbited = lm2_camera3_orbit_f32(camera, LM2_PI_F32 / 2.0f, 0.0f);
+  const float original_radius = std::sqrt(
+      std::pow(camera.position.x - camera.target.x, 2.0f) +
+      std::pow(camera.position.y - camera.target.y, 2.0f) +
+      std::pow(camera.position.z - camera.target.z, 2.0f));
+  const float orbited_radius = std::sqrt(
+      std::pow(orbited.position.x - orbited.target.x, 2.0f) +
+      std::pow(orbited.position.y - orbited.target.y, 2.0f) +
+      std::pow(orbited.position.z - orbited.target.z, 2.0f));
+  EXPECT_NEAR(orbited_radius, original_radius, EPSILON_F32);
+  EXPECT_FLOAT_EQ(orbited.target.x, camera.target.x);
+  EXPECT_FLOAT_EQ(orbited.target.y, camera.target.y);
+  EXPECT_FLOAT_EQ(orbited.target.z, camera.target.z);
+  EXPECT_NEAR(orbited.position.x, 5.0f, EPSILON_F32);
+  EXPECT_NEAR(orbited.position.y, 0.0f, EPSILON_F32);
+  EXPECT_NEAR(orbited.position.z, 0.0f, EPSILON_F32);
+}
+
+TEST_F(Camera3Test, Orbit_AppliesYawAndPitchAroundTarget_F64) {
+  const lm2_camera3_f64 camera = make_default_f64();
+  const lm2_camera3_f64 yawed = lm2_camera3_orbit_f64(camera, LM2_PI_F64 / 2.0, 0.0);
+  EXPECT_NEAR(yawed.position.x, 5.0, EPSILON_F64);
+  EXPECT_NEAR(yawed.position.y, 0.0, EPSILON_F64);
+  EXPECT_NEAR(yawed.position.z, 0.0, EPSILON_F64);
+
+  const lm2_camera3_f64 pitched = lm2_camera3_orbit_f64(camera, 0.0, LM2_PI_F64 / 6.0);
+  EXPECT_NEAR(pitched.position.x, 0.0, EPSILON_F64);
+  EXPECT_NEAR(pitched.position.y, -2.5, EPSILON_F64);
+  EXPECT_NEAR(pitched.position.z, 2.5 * std::sqrt(3.0), EPSILON_F64);
+  EXPECT_DOUBLE_EQ(pitched.target.x, camera.target.x);
+  EXPECT_DOUBLE_EQ(pitched.target.y, camera.target.y);
+  EXPECT_DOUBLE_EQ(pitched.target.z, camera.target.z);
+}

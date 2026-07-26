@@ -85,7 +85,12 @@ extern void _lm2_custom_assert(
 #    define LM2_ASSERT(expr) _lm2_custom_assert((expr), #expr, __FILE__, __func__, __LINE__)
 #  else
 #    include <assert.h>
-#    define LM2_ASSERT(expr) assert(expr)
+#    ifdef NDEBUG
+#      include <stdlib.h>
+#      define LM2_ASSERT(expr) ((expr) ? (void)0 : abort())
+#    else
+#      define LM2_ASSERT(expr) assert(expr)
+#    endif
 #  endif
 #endif
 

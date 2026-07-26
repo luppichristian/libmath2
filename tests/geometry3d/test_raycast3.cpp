@@ -465,3 +465,106 @@ TEST_F(Raycast3Test, RayTooShort_F64) {
 
   EXPECT_FALSE(hit.hit);
 }
+
+TEST_F(Raycast3Test, SphereBoundaryTangentHasOutwardUnitNormalAndConsistentPoint_F64) {
+  lm2_ray3_f64 ray = lm2_ray3_make_f64(
+      lm2_v3_make_f64(0.0, 0.0, 0.0), lm2_v3_make_f64(1.0, 0.0, 0.0), 5.0);
+  lm2_v3_f64 center = lm2_v3_make_f64(5.0, 1.0, 0.0);
+  lm2_rayhit3_f64 hit = lm2_raycast_sphere_f64(ray, center, 1.0);
+
+  ASSERT_TRUE(hit.hit);
+  EXPECT_DOUBLE_EQ(hit.t, ray.t_max);
+  EXPECT_DOUBLE_EQ(hit.point.x, ray.origin.x + ray.direction.x * hit.t);
+  EXPECT_DOUBLE_EQ(hit.point.y, ray.origin.y + ray.direction.y * hit.t);
+  EXPECT_DOUBLE_EQ(hit.point.z, ray.origin.z + ray.direction.z * hit.t);
+  EXPECT_DOUBLE_EQ(hit.normal.x, 0.0);
+  EXPECT_DOUBLE_EQ(hit.normal.y, -1.0);
+  EXPECT_DOUBLE_EQ(hit.normal.z, 0.0);
+  EXPECT_DOUBLE_EQ(std::sqrt(hit.normal.x * hit.normal.x + hit.normal.y * hit.normal.y +
+                             hit.normal.z * hit.normal.z),
+                   1.0);
+
+  ray.t_max = 4.999;
+  EXPECT_FALSE(lm2_raycast_sphere_f64(ray, center, 1.0).hit);
+  lm2_ray3_f64 forward = lm2_ray3_make_f64(
+      lm2_v3_make_f64(0.0, 0.0, 0.0), lm2_v3_make_f64(1.0, 0.0, 0.0), 10.0);
+  EXPECT_FALSE(lm2_raycast_sphere_f64(forward, lm2_v3_make_f64(-5.0, 0.0, 0.0), 1.0).hit);
+}
+
+TEST_F(Raycast3Test, AABBAcceptsTMaxBoundaryAndRejectsParallelOutside_F64) {
+  lm2_aabb3_f64 aabb = lm2_aabb3_from_min_max_f64(
+      lm2_v3_make_f64(5.0, -1.0, -1.0), lm2_v3_make_f64(8.0, 1.0, 1.0));
+  lm2_ray3_f64 boundary = lm2_ray3_make_f64(
+      lm2_v3_make_f64(0.0, 0.0, 0.0), lm2_v3_make_f64(1.0, 0.0, 0.0), 5.0);
+  lm2_rayhit3_f64 hit = lm2_raycast_aabb3_f64(boundary, aabb);
+
+  ASSERT_TRUE(hit.hit);
+  EXPECT_DOUBLE_EQ(hit.t, boundary.t_max);
+  EXPECT_DOUBLE_EQ(hit.point.x, boundary.origin.x + boundary.direction.x * hit.t);
+  EXPECT_DOUBLE_EQ(hit.point.y, boundary.origin.y + boundary.direction.y * hit.t);
+  EXPECT_DOUBLE_EQ(hit.point.z, boundary.origin.z + boundary.direction.z * hit.t);
+  EXPECT_DOUBLE_EQ(hit.normal.x, -1.0);
+  EXPECT_DOUBLE_EQ(hit.normal.y, 0.0);
+  EXPECT_DOUBLE_EQ(hit.normal.z, 0.0);
+
+  lm2_ray3_f64 parallel_outside = lm2_ray3_make_f64(
+      lm2_v3_make_f64(0.0, 2.0, 0.0), lm2_v3_make_f64(1.0, 0.0, 0.0), 20.0);
+  EXPECT_FALSE(lm2_raycast_aabb3_f64(parallel_outside, aabb).hit);
+}
+
+TEST_F(Raycast3Test, AABBAcceptsTMaxBoundary_F32) {
+  lm2_aabb3_f32 aabb = lm2_aabb3_from_min_max_f32(
+      lm2_v3_make_f32(5.0f, -1.0f, -1.0f), lm2_v3_make_f32(8.0f, 1.0f, 1.0f));
+  lm2_ray3_f32 ray = lm2_ray3_make_f32(
+      lm2_v3_make_f32(0.0f, 0.0f, 0.0f), lm2_v3_make_f32(1.0f, 0.0f, 0.0f), 5.0f);
+  lm2_rayhit3_f32 hit = lm2_raycast_aabb3_f32(ray, aabb);
+
+  ASSERT_TRUE(hit.hit);
+  EXPECT_FLOAT_EQ(hit.t, ray.t_max);
+  EXPECT_FLOAT_EQ(hit.normal.x, -1.0f);
+}
+
+TEST_F(Raycast3Test, PlaneReturnsSuppliedOutwardDirectionAsUnitNormal_F64) {
+  lm2_ray3_f64 ray = lm2_ray3_make_f64(
+      lm2_v3_make_f64(5.0, 1.0, 2.0), lm2_v3_make_f64(-1.0, 0.0, 0.0), 5.0);
+  lm2_rayhit3_f64 hit = lm2_raycast_plane_f64(
+      ray, lm2_v3_make_f64(0.0, 0.0, 0.0), lm2_v3_make_f64(2.0, 0.0, 0.0));
+
+  ASSERT_TRUE(hit.hit);
+  EXPECT_DOUBLE_EQ(hit.t, ray.t_max);
+  EXPECT_DOUBLE_EQ(hit.point.x, ray.origin.x + ray.direction.x * hit.t);
+  EXPECT_DOUBLE_EQ(hit.point.y, ray.origin.y + ray.direction.y * hit.t);
+  EXPECT_DOUBLE_EQ(hit.point.z, ray.origin.z + ray.direction.z * hit.t);
+  EXPECT_DOUBLE_EQ(hit.normal.x, 1.0);
+  EXPECT_DOUBLE_EQ(hit.normal.y, 0.0);
+  EXPECT_DOUBLE_EQ(hit.normal.z, 0.0);
+}
+
+TEST_F(Raycast3Test, PlaneReturnsSuppliedOutwardDirectionAsUnitNormal_F32) {
+  lm2_ray3_f32 ray = lm2_ray3_make_f32(
+      lm2_v3_make_f32(5.0f, 0.0f, 0.0f), lm2_v3_make_f32(-1.0f, 0.0f, 0.0f), 5.0f);
+  lm2_rayhit3_f32 hit = lm2_raycast_plane_f32(
+      ray, lm2_v3_make_f32(0.0f, 0.0f, 0.0f), lm2_v3_make_f32(3.0f, 0.0f, 0.0f));
+
+  ASSERT_TRUE(hit.hit);
+  EXPECT_FLOAT_EQ(hit.normal.x, 1.0f);
+  EXPECT_FLOAT_EQ(hit.normal.y, 0.0f);
+  EXPECT_FLOAT_EQ(hit.normal.z, 0.0f);
+}
+
+TEST_F(Raycast3Test, GenericSphereDispatchMatchesPrimitive_F64) {
+  lm2_sphere_f64 sphere = lm2_sphere_make_coords_f64(5.0, 0.0, 0.0, 1.0);
+  lm2_ray3_f64 ray = lm2_ray3_make_f64(
+      lm2_v3_make_f64(0.0, 0.0, 0.0), lm2_v3_make_f64(1.0, 0.0, 0.0), 10.0);
+  lm2_rayhit3_f64 direct = lm2_raycast_sphere_f64(ray, sphere.center, sphere.radius);
+  lm2_rayhit3_f64 generic = lm2_raycast_shape3_f64(ray, lm2_shape3_from_sphere_f64(&sphere));
+
+  ASSERT_TRUE(generic.hit);
+  EXPECT_DOUBLE_EQ(generic.t, direct.t);
+  EXPECT_DOUBLE_EQ(generic.point.x, direct.point.x);
+  EXPECT_DOUBLE_EQ(generic.point.y, direct.point.y);
+  EXPECT_DOUBLE_EQ(generic.point.z, direct.point.z);
+  EXPECT_DOUBLE_EQ(generic.normal.x, direct.normal.x);
+  EXPECT_DOUBLE_EQ(generic.normal.y, direct.normal.y);
+  EXPECT_DOUBLE_EQ(generic.normal.z, direct.normal.z);
+}

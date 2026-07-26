@@ -197,13 +197,13 @@ LM2_API lm2_m4x4_f64 lm2_m4x4_transpose_f64(lm2_m4x4_f64 m) {
 
 LM2_API double lm2_m4x4_determinant_f64(lm2_m4x4_f64 m) {
   // Calculate determinant using cofactor expansion along first row
-  double a00_det = lm2_sub_f64(lm2_sub_f64(lm2_mul_f64(m.m11, lm2_sub_f64(lm2_mul_f64(m.m22, m.m33), lm2_mul_f64(m.m23, m.m32))), lm2_mul_f64(m.m12, lm2_sub_f64(lm2_mul_f64(m.m21, m.m33), lm2_mul_f64(m.m23, m.m31)))), lm2_mul_f64(m.m13, lm2_sub_f64(lm2_mul_f64(m.m21, m.m32), lm2_mul_f64(m.m22, m.m31))));
+  double a00_det = lm2_add_f64(lm2_sub_f64(lm2_mul_f64(m.m11, lm2_sub_f64(lm2_mul_f64(m.m22, m.m33), lm2_mul_f64(m.m23, m.m32))), lm2_mul_f64(m.m12, lm2_sub_f64(lm2_mul_f64(m.m21, m.m33), lm2_mul_f64(m.m23, m.m31)))), lm2_mul_f64(m.m13, lm2_sub_f64(lm2_mul_f64(m.m21, m.m32), lm2_mul_f64(m.m22, m.m31))));
 
-  double a01_det = lm2_sub_f64(lm2_sub_f64(lm2_mul_f64(m.m10, lm2_sub_f64(lm2_mul_f64(m.m22, m.m33), lm2_mul_f64(m.m23, m.m32))), lm2_mul_f64(m.m12, lm2_sub_f64(lm2_mul_f64(m.m20, m.m33), lm2_mul_f64(m.m23, m.m30)))), lm2_mul_f64(m.m13, lm2_sub_f64(lm2_mul_f64(m.m20, m.m32), lm2_mul_f64(m.m22, m.m30))));
+  double a01_det = lm2_add_f64(lm2_sub_f64(lm2_mul_f64(m.m10, lm2_sub_f64(lm2_mul_f64(m.m22, m.m33), lm2_mul_f64(m.m23, m.m32))), lm2_mul_f64(m.m12, lm2_sub_f64(lm2_mul_f64(m.m20, m.m33), lm2_mul_f64(m.m23, m.m30)))), lm2_mul_f64(m.m13, lm2_sub_f64(lm2_mul_f64(m.m20, m.m32), lm2_mul_f64(m.m22, m.m30))));
 
-  double a02_det = lm2_sub_f64(lm2_sub_f64(lm2_mul_f64(m.m10, lm2_sub_f64(lm2_mul_f64(m.m21, m.m33), lm2_mul_f64(m.m23, m.m31))), lm2_mul_f64(m.m11, lm2_sub_f64(lm2_mul_f64(m.m20, m.m33), lm2_mul_f64(m.m23, m.m30)))), lm2_mul_f64(m.m13, lm2_sub_f64(lm2_mul_f64(m.m20, m.m31), lm2_mul_f64(m.m21, m.m30))));
+  double a02_det = lm2_add_f64(lm2_sub_f64(lm2_mul_f64(m.m10, lm2_sub_f64(lm2_mul_f64(m.m21, m.m33), lm2_mul_f64(m.m23, m.m31))), lm2_mul_f64(m.m11, lm2_sub_f64(lm2_mul_f64(m.m20, m.m33), lm2_mul_f64(m.m23, m.m30)))), lm2_mul_f64(m.m13, lm2_sub_f64(lm2_mul_f64(m.m20, m.m31), lm2_mul_f64(m.m21, m.m30))));
 
-  double a03_det = lm2_sub_f64(lm2_sub_f64(lm2_mul_f64(m.m10, lm2_sub_f64(lm2_mul_f64(m.m21, m.m32), lm2_mul_f64(m.m22, m.m31))), lm2_mul_f64(m.m11, lm2_sub_f64(lm2_mul_f64(m.m20, m.m32), lm2_mul_f64(m.m22, m.m30)))), lm2_mul_f64(m.m12, lm2_sub_f64(lm2_mul_f64(m.m20, m.m31), lm2_mul_f64(m.m21, m.m30))));
+  double a03_det = lm2_add_f64(lm2_sub_f64(lm2_mul_f64(m.m10, lm2_sub_f64(lm2_mul_f64(m.m21, m.m32), lm2_mul_f64(m.m22, m.m31))), lm2_mul_f64(m.m11, lm2_sub_f64(lm2_mul_f64(m.m20, m.m32), lm2_mul_f64(m.m22, m.m30)))), lm2_mul_f64(m.m12, lm2_sub_f64(lm2_mul_f64(m.m20, m.m31), lm2_mul_f64(m.m21, m.m30))));
 
   return lm2_sub_f64(lm2_add_f64(lm2_mul_f64(m.m00, a00_det), lm2_mul_f64(m.m02, a02_det)), lm2_add_f64(lm2_mul_f64(m.m01, a01_det), lm2_mul_f64(m.m03, a03_det)));
 }
@@ -481,14 +481,14 @@ LM2_API lm2_quat_f64 lm2_m4x4_to_quat_f64(lm2_m4x4_f64 m) {
     q.y = lm2_mul_f64(lm2_sub_f64(m.m02, m.m20), s);
     q.z = lm2_mul_f64(lm2_sub_f64(m.m10, m.m01), s);
   } else if ((m.m00 > m.m11) && (m.m00 > m.m22)) {
-    double s = lm2_mul_f64(2.0, lm2_sqrt_f64(lm2_add_f64(lm2_sub_f64(lm2_sub_f64(1.0, m.m00), m.m11), m.m22)));
+    double s = lm2_mul_f64(2.0, lm2_sqrt_f64(lm2_sub_f64(lm2_sub_f64(lm2_add_f64(1.0, m.m00), m.m11), m.m22)));
     LM2_ASSERT_UNSAFE(lm2_abs_f64(s) > 1e-10);
     q.w = lm2_div_f64(lm2_sub_f64(m.m21, m.m12), s);
     q.x = lm2_mul_f64(0.25, s);
     q.y = lm2_div_f64(lm2_add_f64(m.m01, m.m10), s);
     q.z = lm2_div_f64(lm2_add_f64(m.m02, m.m20), s);
   } else if (m.m11 > m.m22) {
-    double s = lm2_mul_f64(2.0, lm2_sqrt_f64(lm2_add_f64(lm2_sub_f64(lm2_sub_f64(1.0, m.m00), m.m11), m.m22)));
+    double s = lm2_mul_f64(2.0, lm2_sqrt_f64(lm2_sub_f64(lm2_add_f64(lm2_sub_f64(1.0, m.m00), m.m11), m.m22)));
     LM2_ASSERT_UNSAFE(lm2_abs_f64(s) > 1e-10);
     q.w = lm2_div_f64(lm2_sub_f64(m.m02, m.m20), s);
     q.x = lm2_div_f64(lm2_add_f64(m.m01, m.m10), s);
@@ -672,13 +672,13 @@ LM2_API lm2_m4x4_f32 lm2_m4x4_transpose_f32(lm2_m4x4_f32 m) {
 
 LM2_API float lm2_m4x4_determinant_f32(lm2_m4x4_f32 m) {
   // Calculate determinant using cofactor expansion along first row
-  float a00_det = lm2_sub_f32(lm2_sub_f32(lm2_mul_f32(m.m11, lm2_sub_f32(lm2_mul_f32(m.m22, m.m33), lm2_mul_f32(m.m23, m.m32))), lm2_mul_f32(m.m12, lm2_sub_f32(lm2_mul_f32(m.m21, m.m33), lm2_mul_f32(m.m23, m.m31)))), lm2_mul_f32(m.m13, lm2_sub_f32(lm2_mul_f32(m.m21, m.m32), lm2_mul_f32(m.m22, m.m31))));
+  float a00_det = lm2_add_f32(lm2_sub_f32(lm2_mul_f32(m.m11, lm2_sub_f32(lm2_mul_f32(m.m22, m.m33), lm2_mul_f32(m.m23, m.m32))), lm2_mul_f32(m.m12, lm2_sub_f32(lm2_mul_f32(m.m21, m.m33), lm2_mul_f32(m.m23, m.m31)))), lm2_mul_f32(m.m13, lm2_sub_f32(lm2_mul_f32(m.m21, m.m32), lm2_mul_f32(m.m22, m.m31))));
 
-  float a01_det = lm2_sub_f32(lm2_sub_f32(lm2_mul_f32(m.m10, lm2_sub_f32(lm2_mul_f32(m.m22, m.m33), lm2_mul_f32(m.m23, m.m32))), lm2_mul_f32(m.m12, lm2_sub_f32(lm2_mul_f32(m.m20, m.m33), lm2_mul_f32(m.m23, m.m30)))), lm2_mul_f32(m.m13, lm2_sub_f32(lm2_mul_f32(m.m20, m.m32), lm2_mul_f32(m.m22, m.m30))));
+  float a01_det = lm2_add_f32(lm2_sub_f32(lm2_mul_f32(m.m10, lm2_sub_f32(lm2_mul_f32(m.m22, m.m33), lm2_mul_f32(m.m23, m.m32))), lm2_mul_f32(m.m12, lm2_sub_f32(lm2_mul_f32(m.m20, m.m33), lm2_mul_f32(m.m23, m.m30)))), lm2_mul_f32(m.m13, lm2_sub_f32(lm2_mul_f32(m.m20, m.m32), lm2_mul_f32(m.m22, m.m30))));
 
-  float a02_det = lm2_sub_f32(lm2_sub_f32(lm2_mul_f32(m.m10, lm2_sub_f32(lm2_mul_f32(m.m21, m.m33), lm2_mul_f32(m.m23, m.m31))), lm2_mul_f32(m.m11, lm2_sub_f32(lm2_mul_f32(m.m20, m.m33), lm2_mul_f32(m.m23, m.m30)))), lm2_mul_f32(m.m13, lm2_sub_f32(lm2_mul_f32(m.m20, m.m31), lm2_mul_f32(m.m21, m.m30))));
+  float a02_det = lm2_add_f32(lm2_sub_f32(lm2_mul_f32(m.m10, lm2_sub_f32(lm2_mul_f32(m.m21, m.m33), lm2_mul_f32(m.m23, m.m31))), lm2_mul_f32(m.m11, lm2_sub_f32(lm2_mul_f32(m.m20, m.m33), lm2_mul_f32(m.m23, m.m30)))), lm2_mul_f32(m.m13, lm2_sub_f32(lm2_mul_f32(m.m20, m.m31), lm2_mul_f32(m.m21, m.m30))));
 
-  float a03_det = lm2_sub_f32(lm2_sub_f32(lm2_mul_f32(m.m10, lm2_sub_f32(lm2_mul_f32(m.m21, m.m32), lm2_mul_f32(m.m22, m.m31))), lm2_mul_f32(m.m11, lm2_sub_f32(lm2_mul_f32(m.m20, m.m32), lm2_mul_f32(m.m22, m.m30)))), lm2_mul_f32(m.m12, lm2_sub_f32(lm2_mul_f32(m.m20, m.m31), lm2_mul_f32(m.m21, m.m30))));
+  float a03_det = lm2_add_f32(lm2_sub_f32(lm2_mul_f32(m.m10, lm2_sub_f32(lm2_mul_f32(m.m21, m.m32), lm2_mul_f32(m.m22, m.m31))), lm2_mul_f32(m.m11, lm2_sub_f32(lm2_mul_f32(m.m20, m.m32), lm2_mul_f32(m.m22, m.m30)))), lm2_mul_f32(m.m12, lm2_sub_f32(lm2_mul_f32(m.m20, m.m31), lm2_mul_f32(m.m21, m.m30))));
 
   return lm2_sub_f32(lm2_add_f32(lm2_mul_f32(m.m00, a00_det), lm2_mul_f32(m.m02, a02_det)), lm2_add_f32(lm2_mul_f32(m.m01, a01_det), lm2_mul_f32(m.m03, a03_det)));
 }
@@ -956,14 +956,14 @@ LM2_API lm2_quat_f32 lm2_m4x4_to_quat_f32(lm2_m4x4_f32 m) {
     q.y = lm2_mul_f32(lm2_sub_f32(m.m02, m.m20), s);
     q.z = lm2_mul_f32(lm2_sub_f32(m.m10, m.m01), s);
   } else if ((m.m00 > m.m11) && (m.m00 > m.m22)) {
-    float s = lm2_mul_f32(2.0f, lm2_sqrt_f32(lm2_add_f32(lm2_sub_f32(lm2_sub_f32(1.0f, m.m00), m.m11), m.m22)));
+    float s = lm2_mul_f32(2.0f, lm2_sqrt_f32(lm2_sub_f32(lm2_sub_f32(lm2_add_f32(1.0f, m.m00), m.m11), m.m22)));
     LM2_ASSERT_UNSAFE(lm2_abs_f32(s) > 1e-6f);
     q.w = lm2_div_f32(lm2_sub_f32(m.m21, m.m12), s);
     q.x = lm2_mul_f32(0.25f, s);
     q.y = lm2_div_f32(lm2_add_f32(m.m01, m.m10), s);
     q.z = lm2_div_f32(lm2_add_f32(m.m02, m.m20), s);
   } else if (m.m11 > m.m22) {
-    float s = lm2_mul_f32(2.0f, lm2_sqrt_f32(lm2_add_f32(lm2_sub_f32(lm2_sub_f32(1.0f, m.m00), m.m11), m.m22)));
+    float s = lm2_mul_f32(2.0f, lm2_sqrt_f32(lm2_sub_f32(lm2_add_f32(lm2_sub_f32(1.0f, m.m00), m.m11), m.m22)));
     LM2_ASSERT_UNSAFE(lm2_abs_f32(s) > 1e-6f);
     q.w = lm2_div_f32(lm2_sub_f32(m.m02, m.m20), s);
     q.x = lm2_div_f32(lm2_add_f32(m.m01, m.m10), s);

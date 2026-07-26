@@ -49,28 +49,27 @@ LM2_API float lm2_add_f32(float a, float b) {
 }
 
 LM2_API int64_t lm2_add_i64(int64_t a, int64_t b) {
-  int64_t result = a + b;
-  // Check for overflow: if both operands have same sign, result must have same sign
-  LM2_ASSERT_UNSAFE(!((a > 0 && b > 0 && result < 0) || (a < 0 && b < 0 && result > 0)));
-  return result;
+  LM2_ASSERT_UNSAFE(b <= 0 || a <= INT64_MAX - b);
+  LM2_ASSERT_UNSAFE(b >= 0 || a >= INT64_MIN - b);
+  return a + b;
 }
 
 LM2_API int32_t lm2_add_i32(int32_t a, int32_t b) {
-  int32_t result = a + b;
-  LM2_ASSERT_UNSAFE(!((a > 0 && b > 0 && result < 0) || (a < 0 && b < 0 && result > 0)));
-  return result;
+  LM2_ASSERT_UNSAFE(b <= 0 || a <= INT32_MAX - b);
+  LM2_ASSERT_UNSAFE(b >= 0 || a >= INT32_MIN - b);
+  return a + b;
 }
 
 LM2_API int16_t lm2_add_i16(int16_t a, int16_t b) {
-  int16_t result = a + b;
-  LM2_ASSERT_UNSAFE(!((a > 0 && b > 0 && result < 0) || (a < 0 && b < 0 && result > 0)));
-  return result;
+  LM2_ASSERT_UNSAFE(b <= 0 || a <= INT16_MAX - b);
+  LM2_ASSERT_UNSAFE(b >= 0 || a >= INT16_MIN - b);
+  return (int16_t)(a + b);
 }
 
 LM2_API int8_t lm2_add_i8(int8_t a, int8_t b) {
-  int8_t result = a + b;
-  LM2_ASSERT_UNSAFE(!((a > 0 && b > 0 && result < 0) || (a < 0 && b < 0 && result > 0)));
-  return result;
+  LM2_ASSERT_UNSAFE(b <= 0 || a <= INT8_MAX - b);
+  LM2_ASSERT_UNSAFE(b >= 0 || a >= INT8_MIN - b);
+  return (int8_t)(a + b);
 }
 
 LM2_API uint64_t lm2_add_u64(uint64_t a, uint64_t b) {
@@ -119,28 +118,27 @@ LM2_API float lm2_sub_f32(float a, float b) {
 }
 
 LM2_API int64_t lm2_sub_i64(int64_t a, int64_t b) {
-  int64_t result = a - b;
-  // Check for overflow: subtracting negative can overflow, subtracting positive can underflow
-  LM2_ASSERT_UNSAFE(!((b < 0 && a > INT64_MAX + b) || (b > 0 && a < INT64_MIN + b)));
-  return result;
+  LM2_ASSERT_UNSAFE(b <= 0 || a >= INT64_MIN + b);
+  LM2_ASSERT_UNSAFE(b >= 0 || a <= INT64_MAX + b);
+  return a - b;
 }
 
 LM2_API int32_t lm2_sub_i32(int32_t a, int32_t b) {
-  int32_t result = a - b;
-  LM2_ASSERT_UNSAFE(!((b < 0 && a > INT32_MAX + b) || (b > 0 && a < INT32_MIN + b)));
-  return result;
+  LM2_ASSERT_UNSAFE(b <= 0 || a >= INT32_MIN + b);
+  LM2_ASSERT_UNSAFE(b >= 0 || a <= INT32_MAX + b);
+  return a - b;
 }
 
 LM2_API int16_t lm2_sub_i16(int16_t a, int16_t b) {
-  int16_t result = a - b;
-  LM2_ASSERT_UNSAFE(!((b < 0 && a > INT16_MAX + b) || (b > 0 && a < INT16_MIN + b)));
-  return result;
+  LM2_ASSERT_UNSAFE(b <= 0 || a >= INT16_MIN + b);
+  LM2_ASSERT_UNSAFE(b >= 0 || a <= INT16_MAX + b);
+  return (int16_t)(a - b);
 }
 
 LM2_API int8_t lm2_sub_i8(int8_t a, int8_t b) {
-  int8_t result = a - b;
-  LM2_ASSERT_UNSAFE(!((b < 0 && a > INT8_MAX + b) || (b > 0 && a < INT8_MIN + b)));
-  return result;
+  LM2_ASSERT_UNSAFE(b <= 0 || a >= INT8_MIN + b);
+  LM2_ASSERT_UNSAFE(b >= 0 || a <= INT8_MAX + b);
+  return (int8_t)(a - b);
 }
 
 LM2_API uint64_t lm2_sub_u64(uint64_t a, uint64_t b) {
@@ -185,42 +183,51 @@ LM2_API float lm2_mul_f32(float a, float b) {
 }
 
 LM2_API int64_t lm2_mul_i64(int64_t a, int64_t b) {
-  // Special cases
   if (a == 0 || b == 0) return 0;
-
-  int64_t result = a * b;
-  // Check for overflow by dividing back
-  LM2_ASSERT_UNSAFE(result / b == a);
-  // Special case: INT64_MIN * -1 overflows
   LM2_ASSERT_UNSAFE(!(a == INT64_MIN && b == -1));
-  return result;
+  LM2_ASSERT_UNSAFE(!(b == INT64_MIN && a == -1));
+  if (a > 0) {
+    LM2_ASSERT_UNSAFE(b > 0 ? a <= INT64_MAX / b : b >= INT64_MIN / a);
+  } else {
+    LM2_ASSERT_UNSAFE(b > 0 ? a >= INT64_MIN / b : a >= INT64_MAX / b);
+  }
+  return a * b;
 }
 
 LM2_API int32_t lm2_mul_i32(int32_t a, int32_t b) {
   if (a == 0 || b == 0) return 0;
-
-  int32_t result = a * b;
-  LM2_ASSERT_UNSAFE(result / b == a);
   LM2_ASSERT_UNSAFE(!(a == INT32_MIN && b == -1));
-  return result;
+  LM2_ASSERT_UNSAFE(!(b == INT32_MIN && a == -1));
+  if (a > 0) {
+    LM2_ASSERT_UNSAFE(b > 0 ? a <= INT32_MAX / b : b >= INT32_MIN / a);
+  } else {
+    LM2_ASSERT_UNSAFE(b > 0 ? a >= INT32_MIN / b : a >= INT32_MAX / b);
+  }
+  return a * b;
 }
 
 LM2_API int16_t lm2_mul_i16(int16_t a, int16_t b) {
   if (a == 0 || b == 0) return 0;
-
-  int16_t result = a * b;
-  LM2_ASSERT_UNSAFE(result / b == a);
   LM2_ASSERT_UNSAFE(!(a == INT16_MIN && b == -1));
-  return result;
+  LM2_ASSERT_UNSAFE(!(b == INT16_MIN && a == -1));
+  if (a > 0) {
+    LM2_ASSERT_UNSAFE(b > 0 ? a <= INT16_MAX / b : b >= INT16_MIN / a);
+  } else {
+    LM2_ASSERT_UNSAFE(b > 0 ? a >= INT16_MIN / b : a >= INT16_MAX / b);
+  }
+  return (int16_t)(a * b);
 }
 
 LM2_API int8_t lm2_mul_i8(int8_t a, int8_t b) {
   if (a == 0 || b == 0) return 0;
-
-  int8_t result = a * b;
-  LM2_ASSERT_UNSAFE(result / b == a);
   LM2_ASSERT_UNSAFE(!(a == INT8_MIN && b == -1));
-  return result;
+  LM2_ASSERT_UNSAFE(!(b == INT8_MIN && a == -1));
+  if (a > 0) {
+    LM2_ASSERT_UNSAFE(b > 0 ? a <= INT8_MAX / b : b >= INT8_MIN / a);
+  } else {
+    LM2_ASSERT_UNSAFE(b > 0 ? a >= INT8_MIN / b : a >= INT8_MAX / b);
+  }
+  return (int8_t)(a * b);
 }
 
 LM2_API uint64_t lm2_mul_u64(uint64_t a, uint64_t b) {

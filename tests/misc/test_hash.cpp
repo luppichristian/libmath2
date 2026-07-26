@@ -301,6 +301,12 @@ TEST_F(HashTest, FNV1a32_EmptyBuffer) {
   EXPECT_NE(hash, 0U);
 }
 
+TEST_F(HashTest, FNV1a32_PublishedVectors) {
+  EXPECT_EQ(lm2_hash_fnv1a_u32(nullptr, 0), 0x811c9dc5u);
+  EXPECT_EQ(lm2_hash_fnv1a_u32("a", 1), 0xe40c292cu);
+  EXPECT_EQ(lm2_hash_fnv1a_u32("foobar", 6), 0xbf9cf968u);
+}
+
 TEST_F(HashTest, FNV1a32_Deterministic) {
   const char* data = "Hello, World!";
   size_t size = strlen(data);
@@ -355,6 +361,12 @@ TEST_F(HashTest, FNV1a64_EmptyBuffer) {
   uint64_t hash = lm2_hash_fnv1a_u64(nullptr, 0);
   // Should return FNV-1a offset basis for 64-bit
   EXPECT_NE(hash, 0ULL);
+}
+
+TEST_F(HashTest, FNV1a64_PublishedVectors) {
+  EXPECT_EQ(lm2_hash_fnv1a_u64(nullptr, 0), 0xcbf29ce484222325ull);
+  EXPECT_EQ(lm2_hash_fnv1a_u64("a", 1), 0xaf63dc4c8601ec8cull);
+  EXPECT_EQ(lm2_hash_fnv1a_u64("foobar", 6), 0x85944171f73967e8ull);
 }
 
 TEST_F(HashTest, FNV1a64_Deterministic) {
