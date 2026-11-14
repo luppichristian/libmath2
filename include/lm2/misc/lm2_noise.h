@@ -30,6 +30,11 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
+// Noise coordinates must be finite. Perlin repeats every 256 cells and Voronoi
+// hashes cells modulo 2^32; coordinate rounding limits observable periodicity.
+// Voronoi distances are evaluated relative to the cell to retain precision at
+// large coordinates, but fractional input precision is limited by the type.
+
 // Perlin Noise 2D (returns value in [-1, 1])
 LM2_API double lm2_perlin2_f64(double x, double y);
 LM2_API float lm2_perlin2_f32(float x, float y);

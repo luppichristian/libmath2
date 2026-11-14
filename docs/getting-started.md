@@ -52,6 +52,14 @@ cmake -B build -DLM2_BUILD_SHARED=ON -DLM2_BUILD_TESTS=OFF
 | `LM2_BUILD_TESTS` | `ON` | Build the GoogleTest test suite |
 | `LM2_GTEST_FETCH` | `ON` | Auto-fetch GoogleTest 1.14.0 if not found locally |
 
+The collision backend is fetched using the project-specific FetchContent name
+`lm2_cute_c2`, so a parent's separate `cute_c2` declaration does not replace
+it. For an offline build, set `FETCHCONTENT_SOURCE_DIR_LM2_CUTE_C2` to a local
+checkout of the pinned dependency. The previous
+`FETCHCONTENT_SOURCE_DIR_CUTE_C2` override remains supported, including in a
+parent build; migrate to the namespaced override to avoid ambiguity. If both
+are set, the namespaced override takes precedence.
+
 ## Basic Usage
 
 ### Include the Library
@@ -170,6 +178,10 @@ All vector, matrix, range, and scalar functions are suffixed with the numeric ty
 | `LM2_ASSERT(expr)` | Override the assertion macro (defaults to `assert(expr)`) |
 
 ## C++ Features
+
+The public vector types use anonymous-struct extensions to expose component
+aliases. Clang, GCC, and MSVC accept these in their default modes, but strict
+ISO C++20 builds with `-pedantic-errors` do not support the current vector API.
 
 When compiled as C++, libmath2 automatically provides:
 

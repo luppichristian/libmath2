@@ -63,6 +63,13 @@ LM2_HEADER_BEGIN;
 // Can represent: translation, rotation, scaling, projection, and combinations.
 // Standard format for 3D graphics transformations.
 
+// Inversion requires a finite, invertible matrix and arithmetic within the
+// safe-ops range. With checks enabled, a computed zero determinant or invalid
+// arithmetic asserts. A nonzero computed determinant does not guarantee an
+// accurate inverse: ill-conditioned matrices and extreme scales can lose
+// precision, overflow, or underflow. LM2_UNSAFE disables these checks when
+// defined while compiling the library.
+
 // =============================================================================
 // Matrix 4x4 Function Declarations - f64
 // =============================================================================

@@ -24,6 +24,22 @@ Matrices are essential for combining translation, rotation, and scaling transfor
 | `lm2_m4x4_f64` | `double` | 4x4 3D transformation matrix |
 | `lm2_m4x4_f32` | `float` | 4x4 3D transformation matrix |
 
+## Inversion requirements and numerical limits
+
+The inverse functions require a finite, invertible matrix and arithmetic within
+the [safe operations](safe-ops.md) range. For 3x2 affine matrices, the 2x2
+linear part must be invertible. When the library is built without `LM2_UNSAFE`,
+a computed zero determinant (including signed zero) or invalid arithmetic
+causes an assertion. `LM2_UNSAFE` disables these checks when defined while
+compiling the library; the caller remains responsible for valid inputs.
+
+The inverses use determinant/cofactor arithmetic. A nonzero computed
+determinant does not guarantee that a matrix is well-conditioned or that its
+inverse is accurate. Rounding, overflow, and underflow can affect results or
+cause assertions, especially for ill-conditioned matrices and extreme scales.
+Choose input scales and precision appropriate for the application, and check
+inverse residuals where accuracy matters.
+
 ## Matrix 3x2 Layout
 
 Row-major, 6 elements representing a 2D affine transform:

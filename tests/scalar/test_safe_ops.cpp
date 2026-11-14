@@ -608,3 +608,67 @@ TEST_F(SafeOpsTest, SignedIntegerOperationsRejectUndefinedResults) {
   EXPECT_DEATH((void)lm2_mod_i32(std::numeric_limits<int32_t>::min(), -1), "");
   EXPECT_DEATH((void)lm2_neg_i32(std::numeric_limits<int32_t>::min()), "");
 }
+
+template <typename F>
+static void expect_assertion(F operation) {
+  EXPECT_DEATH(operation(), "");
+}
+
+// Exercise every width at its representable limits, not only small operands.
+#define LM2_TEST_SIGNED_LIMITS(suffix, type)                    \
+  TEST_F(SafeOpsTest, SignedLimits_##suffix) {                  \
+    constexpr type min = std::numeric_limits<type>::min();      \
+    constexpr type max = std::numeric_limits<type>::max();      \
+    EXPECT_EQ(lm2_add_##suffix(max, 0), max);                   \
+    EXPECT_EQ(lm2_sub_##suffix(min, 0), min);                   \
+    EXPECT_EQ(lm2_mul_##suffix(min, 1), min);                   \
+    EXPECT_EQ(lm2_div_##suffix(min, 1), min);                   \
+    EXPECT_EQ(lm2_mod_##suffix(min, 1), 0);                     \
+    expect_assertion([=] { (void)lm2_add_##suffix(max, 1); });  \
+    expect_assertion([=] { (void)lm2_add_##suffix(min, -1); }); \
+    expect_assertion([=] { (void)lm2_sub_##suffix(min, 1); });  \
+    expect_assertion([=] { (void)lm2_sub_##suffix(max, -1); }); \
+    expect_assertion([=] { (void)lm2_mul_##suffix(min, -1); }); \
+    expect_assertion([=] { (void)lm2_mul_##suffix(max, 2); });  \
+    expect_assertion([=] { (void)lm2_div_##suffix(1, 0); });    \
+    expect_assertion([=] { (void)lm2_div_##suffix(min, -1); }); \
+    expect_assertion([=] { (void)lm2_mod_##suffix(1, 0); });    \
+    expect_assertion([=] { (void)lm2_mod_##suffix(min, -1); }); \
+    expect_assertion([=] { (void)lm2_neg_##suffix(min); });     \
+  }
+
+LM2_TEST_SIGNED_LIMITS(i8, int8_t)
+LM2_TEST_SIGNED_LIMITS(i16, int16_t)
+LM2_TEST_SIGNED_LIMITS(i32, int32_t)
+LM2_TEST_SIGNED_LIMITS(i64, int64_t)
+#undef LM2_TEST_SIGNED_LIMITS
+
+#define LM2_TEST_UNSIGNED_LIMITS(suffix, type)                   \
+  TEST_F(SafeOpsTest, UnsignedLimits_##suffix) {                 \
+    constexpr type max = std::numeric_limits<type>::max();       \
+    EXPECT_EQ(lm2_add_##suffix(max, 0), max);                    \
+    EXPECT_EQ(lm2_sub_##suffix(max, max), 0);                    \
+    EXPECT_EQ(lm2_mul_##suffix(max, 1), max);                    \
+    EXPECT_EQ(lm2_div_##suffix(max, 1), max);                    \
+    EXPECT_EQ(lm2_mod_##suffix(max, 1), 0);                      \
+    expect_assertion([=] { (void)lm2_add_##suffix(max, 1); });   \
+    expect_assertion([=] { (void)lm2_sub_##suffix(0, 1); });     \
+    expect_assertion([=] { (void)lm2_mul_##suffix(max, max); }); \
+    expect_assertion([=] { (void)lm2_div_##suffix(1, 0); });     \
+    expect_assertion([=] { (void)lm2_mod_##suffix(1, 0); });     \
+  }
+
+LM2_TEST_UNSIGNED_LIMITS(u8, uint8_t)
+LM2_TEST_UNSIGNED_LIMITS(u16, uint16_t)
+LM2_TEST_UNSIGNED_LIMITS(u32, uint32_t)
+LM2_TEST_UNSIGNED_LIMITS(u64, uint64_t)
+#undef LM2_TEST_UNSIGNED_LIMITS
+
+TEST_F(SafeOpsTest, FloatingOperationsRejectInvalidInputsAndSubnormalResults) {
+  EXPECT_DEATH((void)lm2_add_f32(std::numeric_limits<float>::infinity(), 1.0f), "");
+  EXPECT_DEATH((void)lm2_mul_f32(std::numeric_limits<float>::min(), 0.5f), "");
+  EXPECT_DEATH((void)lm2_div_f32(1.0f, 0.0f), "");
+  EXPECT_DEATH((void)lm2_sub_f64(std::numeric_limits<double>::quiet_NaN(), 1.0), "");
+  EXPECT_DEATH((void)lm2_mul_f64(std::numeric_limits<double>::max(), 2.0), "");
+  EXPECT_DEATH((void)lm2_div_f64(1.0, 0.0), "");
+}

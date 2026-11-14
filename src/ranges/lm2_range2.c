@@ -332,13 +332,13 @@ SOFTWARE.
   _LM2_IMPL_R2_ALL_RANGE_FUNCS(type_name, vec_type, scalar_type, scalar_suffix)
 
 // Instantiate all types
-_LM2_IMPL_R2_FLOAT_TYPE(lm2_r2_f64, lm2_v2_f64, double, f64);
-_LM2_IMPL_R2_FLOAT_TYPE(lm2_r2_f32, lm2_v2_f32, float, f32);
-_LM2_IMPL_R2_SIGNED_INT_TYPE(lm2_r2_i64, lm2_v2_i64, int64_t, i64);
-_LM2_IMPL_R2_SIGNED_INT_TYPE(lm2_r2_i32, lm2_v2_i32, int32_t, i32);
-_LM2_IMPL_R2_SIGNED_INT_TYPE(lm2_r2_i16, lm2_v2_i16, int16_t, i16);
-_LM2_IMPL_R2_SIGNED_INT_TYPE(lm2_r2_i8, lm2_v2_i8, int8_t, i8);
-_LM2_IMPL_R2_UNSIGNED_INT_TYPE(lm2_r2_u64, lm2_v2_u64, uint64_t, u64);
-_LM2_IMPL_R2_UNSIGNED_INT_TYPE(lm2_r2_u32, lm2_v2_u32, uint32_t, u32);
-_LM2_IMPL_R2_UNSIGNED_INT_TYPE(lm2_r2_u16, lm2_v2_u16, uint16_t, u16);
-_LM2_IMPL_R2_UNSIGNED_INT_TYPE(lm2_r2_u8, lm2_v2_u8, uint8_t, u8);
+_LM2_IMPL_R2_FLOAT_TYPE(lm2_r2_f64, lm2_v2_f64, double, f64)
+_LM2_IMPL_R2_FLOAT_TYPE(lm2_r2_f32, lm2_v2_f32, float, f32)
+_LM2_IMPL_R2_SIGNED_INT_TYPE(lm2_r2_i64, lm2_v2_i64, int64_t, i64)
+_LM2_IMPL_R2_SIGNED_INT_TYPE(lm2_r2_i32, lm2_v2_i32, int32_t, i32)
+_LM2_IMPL_R2_SIGNED_INT_TYPE(lm2_r2_i16, lm2_v2_i16, int16_t, i16)
+_LM2_IMPL_R2_SIGNED_INT_TYPE(lm2_r2_i8, lm2_v2_i8, int8_t, i8)
+_LM2_IMPL_R2_UNSIGNED_INT_TYPE(lm2_r2_u64, lm2_v2_u64, uint64_t, u64)
+_LM2_IMPL_R2_UNSIGNED_INT_TYPE(lm2_r2_u32, lm2_v2_u32, uint32_t, u32)
+_LM2_IMPL_R2_UNSIGNED_INT_TYPE(lm2_r2_u16, lm2_v2_u16, uint16_t, u16)
+_LM2_IMPL_R2_UNSIGNED_INT_TYPE(lm2_r2_u8, lm2_v2_u8, uint8_t, u8)

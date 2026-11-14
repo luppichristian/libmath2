@@ -180,8 +180,9 @@ c2Poly lm2_triangle2_f64_to_c2(const lm2_triangle2_f64 tri) {
 void c2_manifold_to_lm2_f32(c2Manifold m, lm2_manifold_f32* out) {
   LM2_ASSERT(out != NULL);
 
+  *out = (lm2_manifold_f32) {0};
   out->count = m.count;
-  out->normal = c2v_to_lm22_f32(m.n);
+  if (m.count > 0) out->normal = c2v_to_lm22_f32(m.n);
 
   for (int i = 0; i < m.count; ++i) {
     out->depths[i] = m.depths[i];
@@ -192,8 +193,9 @@ void c2_manifold_to_lm2_f32(c2Manifold m, lm2_manifold_f32* out) {
 void c2_manifold_to_lm2_f64(c2Manifold m, lm2_manifold_f64* out) {
   LM2_ASSERT(out != NULL);
 
+  *out = (lm2_manifold_f64) {0};
   out->count = m.count;
-  out->normal = c2v_to_lm22_f64(m.n);
+  if (m.count > 0) out->normal = c2v_to_lm22_f64(m.n);
 
   for (int i = 0; i < m.count; ++i) {
     out->depths[i] = (double)m.depths[i];

@@ -23,6 +23,8 @@ SOFTWARE.
 */
 
 #include <gtest/gtest.h>
+#include <algorithm>
+#include <limits>
 #include <cmath>
 #include "lm2/lm2_constants.h"
 #include "lm2/matrices/lm2_matrix3x2.h"
@@ -493,4 +495,108 @@ TEST_F(Matrix3x2Test, TransformPointArrays_F32) {
     EXPECT_NEAR(destination[i].x, expected[i].x, EPSILON_F32);
     EXPECT_NEAR(destination[i].y, expected[i].y, EPSILON_F32);
   }
+}
+
+TEST_F(Matrix3x2Test, NonzeroRankDeficientInverseAsserts_F64) {
+  const auto matrix = lm2_m3x2_make_f64(1, 0, 2, 1, 0, 3);
+  EXPECT_DEATH((void)lm2_m3x2_inverse_f64(matrix), "");
+}
+
+TEST_F(Matrix3x2Test, ScaledAndIllConditionedInverseResiduals_F64) {
+  const lm2_m3x2_f64 matrices[] = {
+      lm2_m3x2_make_f64(1e-4, 0, 0, 0, 1e-4, 0),
+      lm2_m3x2_make_f64(1, 1, 0, 1, 1.00000001, 0),
+  };
+  for (const auto& matrix : matrices) {
+    const auto inverse = lm2_m3x2_inverse_f64(matrix);
+    // Evaluate products in double, independently of the library's matrix multiply.
+    double norm_a = 0.0, norm_inv = 0.0, residual_ab = 0.0, residual_ba = 0.0;
+    for (int row = 0; row < 2; ++row) {
+      double row_a = 0.0, row_inv = 0.0, row_ab = 0.0, row_ba = 0.0;
+      for (int col = 0; col < 2; ++col) {
+        row_a += std::abs(static_cast<double>(matrix.e[row * 3 + col]));
+        row_inv += std::abs(static_cast<double>(inverse.e[row * 3 + col]));
+        double ab = 0.0, ba = 0.0;
+        for (int k = 0; k < 2; ++k) {
+          ab += static_cast<double>(matrix.e[row * 3 + k]) * inverse.e[k * 3 + col];
+          ba += static_cast<double>(inverse.e[row * 3 + k]) * matrix.e[k * 3 + col];
+        }
+        row_ab += std::abs(ab - (row == col ? 1.0 : 0.0));
+        row_ba += std::abs(ba - (row == col ? 1.0 : 0.0));
+      }
+      norm_a = std::max(norm_a, row_a);
+      norm_inv = std::max(norm_inv, row_inv);
+      residual_ab = std::max(residual_ab, row_ab);
+      residual_ba = std::max(residual_ba, row_ba);
+    }
+    const double bound = 16.0 * std::numeric_limits<double>::epsilon() * std::max(1.0, norm_a * norm_inv);
+    EXPECT_LE(residual_ab, bound);
+    EXPECT_LE(residual_ba, bound);
+  }
+}
+
+TEST_F(Matrix3x2Test, NonzeroRankDeficientInverseAsserts_F32) {
+  const auto matrix = lm2_m3x2_make_f32(1, 0, 2, 1, 0, 3);
+  EXPECT_DEATH((void)lm2_m3x2_inverse_f32(matrix), "");
+}
+
+TEST_F(Matrix3x2Test, ScaledAndIllConditionedInverseResiduals_F32) {
+  const lm2_m3x2_f32 matrices[] = {
+      lm2_m3x2_make_f32(1e-4, 0, 0, 0, 1e-4, 0),
+      lm2_m3x2_make_f32(1, 1, 0, 1, 1.0001, 0),
+  };
+  for (const auto& matrix : matrices) {
+    const auto inverse = lm2_m3x2_inverse_f32(matrix);
+    // Evaluate products in double, independently of the library's matrix multiply.
+    double norm_a = 0.0, norm_inv = 0.0, residual_ab = 0.0, residual_ba = 0.0;
+    for (int row = 0; row < 2; ++row) {
+      double row_a = 0.0, row_inv = 0.0, row_ab = 0.0, row_ba = 0.0;
+      for (int col = 0; col < 2; ++col) {
+        row_a += std::abs(static_cast<double>(matrix.e[row * 3 + col]));
+        row_inv += std::abs(static_cast<double>(inverse.e[row * 3 + col]));
+        double ab = 0.0, ba = 0.0;
+        for (int k = 0; k < 2; ++k) {
+          ab += static_cast<double>(matrix.e[row * 3 + k]) * inverse.e[k * 3 + col];
+          ba += static_cast<double>(inverse.e[row * 3 + k]) * matrix.e[k * 3 + col];
+        }
+        row_ab += std::abs(ab - (row == col ? 1.0 : 0.0));
+        row_ba += std::abs(ba - (row == col ? 1.0 : 0.0));
+      }
+      norm_a = std::max(norm_a, row_a);
+      norm_inv = std::max(norm_inv, row_inv);
+      residual_ab = std::max(residual_ab, row_ab);
+      residual_ba = std::max(residual_ba, row_ba);
+    }
+    const double bound = 16.0 * std::numeric_limits<float>::epsilon() * std::max(1.0, norm_a * norm_inv);
+    EXPECT_LE(residual_ab, bound);
+    EXPECT_LE(residual_ba, bound);
+  }
+}
+
+TEST_F(Matrix3x2Test, InverseRejectsSignedZeroAndNonfinite_F64) {
+  auto matrix = lm2_m3x2_identity_f64();
+  matrix.m00 = -0.0;
+  EXPECT_TRUE(std::signbit(lm2_m3x2_determinant_f64(matrix)));
+  EXPECT_DEATH((void)lm2_m3x2_inverse_f64(matrix), "");
+  matrix.m00 = std::numeric_limits<double>::quiet_NaN();
+  EXPECT_DEATH((void)lm2_m3x2_inverse_f64(matrix), "");
+  matrix.m00 = std::numeric_limits<double>::infinity();
+  EXPECT_DEATH((void)lm2_m3x2_inverse_f64(matrix), "");
+  matrix = lm2_m3x2_identity_f64();
+  matrix.m02 = std::numeric_limits<double>::quiet_NaN();
+  EXPECT_DEATH((void)lm2_m3x2_inverse_f64(matrix), "");
+}
+
+TEST_F(Matrix3x2Test, InverseRejectsSignedZeroAndNonfinite_F32) {
+  auto matrix = lm2_m3x2_identity_f32();
+  matrix.m00 = -0.0;
+  EXPECT_TRUE(std::signbit(lm2_m3x2_determinant_f32(matrix)));
+  EXPECT_DEATH((void)lm2_m3x2_inverse_f32(matrix), "");
+  matrix.m00 = std::numeric_limits<float>::quiet_NaN();
+  EXPECT_DEATH((void)lm2_m3x2_inverse_f32(matrix), "");
+  matrix.m00 = std::numeric_limits<float>::infinity();
+  EXPECT_DEATH((void)lm2_m3x2_inverse_f32(matrix), "");
+  matrix = lm2_m3x2_identity_f32();
+  matrix.m02 = std::numeric_limits<float>::quiet_NaN();
+  EXPECT_DEATH((void)lm2_m3x2_inverse_f32(matrix), "");
 }

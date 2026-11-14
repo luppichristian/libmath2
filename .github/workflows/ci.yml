@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-test:
-    name: ${{ matrix.os }} - ${{ matrix.build_type }}
+    name: ${{ matrix.os }} - ${{ matrix.build_type }} - shared ${{ matrix.shared }}
     runs-on: ${{ matrix.os }}
     
     strategy:
@@ -17,6 +17,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         build_type: [Debug, Release]
+        shared: ["OFF", "ON"]
     
     steps:
     - name: Checkout code
@@ -27,24 +28,80 @@ jobs:
     
     - name: Configure CMake
       run: |
-        cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DLM2_BUILD_TESTS=ON
+        cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DLM2_BUILD_TESTS=ON -DLM2_BUILD_SHARED=${{ matrix.shared }}
     
     - name: Build
       run: cmake --build build --config ${{ matrix.build_type }}
     
     - name: Run tests
       working-directory: build
-      run: ctest -C ${{ matrix.build_type }} --output-on-failure --verbose
+      run: ctest -C ${{ matrix.build_type }} --output-on-failure --no-tests=error
+
+    - name: Build without test dependencies
+      if: matrix.os == 'ubuntu-latest' && matrix.build_type == 'Debug' && matrix.shared == 'OFF'
+      run: |
+        cmake -B build-no-tests -DLM2_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=/nonexistent/lm2-cxx
+        cmake --build build-no-tests --parallel
+
+    - name: Build and consume strict C11 library
+      if: matrix.os == 'ubuntu-latest' && matrix.build_type == 'Debug' && matrix.shared == 'OFF'
+      run: |
+        cmake -B build-clang-werror -DLM2_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=clang -DCMAKE_C_EXTENSIONS=OFF -DCMAKE_C_FLAGS="-Werror -pedantic-errors"
+        cmake --build build-clang-werror --parallel
+        clang -std=c11 -pedantic-errors -I include tests/consumer/consumer.c build-clang-werror/liblibmath2.a -lm -o build-clang-werror/strict-consumer
+        build-clang-werror/strict-consumer
+        while IFS= read -r -d '' header; do
+          printf '#include <%s>\ntypedef int lm2_header_isolation_translation_unit;\n' "${header#include/}" |
+            clang -x c -std=c11 -pedantic-errors -Werror -I include -fsyntax-only -
+        done < <(find include -type f -name '*.h' -print0)
     
     - name: Upload test results on failure
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: test-results-${{ matrix.os }}-${{ matrix.build_type }}
+        name: test-results-${{ matrix.os }}-${{ matrix.build_type }}-shared-${{ matrix.shared }}
         path: |
           build/Testing/Temporary/LastTest.log
           build/Testing/Temporary/LastTestsFailed.log
         if-no-files-found: ignore
+
+  sanitizers:
+    name: Clang ASan and UBSan
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure
+      run: >-
+        cmake -B build-sanitizers -DCMAKE_BUILD_TYPE=Debug
+        -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+        -DCMAKE_C_FLAGS="-fsanitize=address,undefined,float-cast-overflow -fno-omit-frame-pointer"
+        -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined,float-cast-overflow -fno-omit-frame-pointer"
+        -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address,undefined,float-cast-overflow"
+    - name: Build
+      run: cmake --build build-sanitizers --parallel
+    - name: Run tests
+      env:
+        UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+        ASAN_OPTIONS: detect_leaks=1
+      run: ctest --test-dir build-sanitizers --output-on-failure --no-tests=error
+    # A sanitizer abort also satisfies EXPECT_DEATH(..., ""). In this second
+    # pass, sanitizer failures exit zero so GoogleTest rejects them as deaths;
+    # the normal sanitizer pass above must remain enabled to catch errors in
+    # the test process itself. Require an XML report to detect premature exit.
+    - name: Check assertion deaths under sanitizers
+      env:
+        UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1:exitcode=0
+        ASAN_OPTIONS: detect_leaks=1:abort_on_error=0:exitcode=0
+      run: |
+        rm -f build-sanitizers/sanitizer-assertions.xml
+        build-sanitizers/libmath2-tests --gtest_brief=1 --gtest_output=xml:build-sanitizers/sanitizer-assertions.xml
+        python - <<'PY'
+        import xml.etree.ElementTree as ET
+
+        report = ET.parse("build-sanitizers/sanitizer-assertions.xml").getroot()
+        if int(report.get("tests", "0")) == 0 or int(report.get("failures", "0")) or int(report.get("errors", "0")):
+            raise SystemExit("Sanitizer assertion pass did not complete successfully")
+        PY
 
   coverage:
     name: Coverage
@@ -108,8 +165,8 @@ jobs:
         print(f"Line coverage: {line_coverage:.2f}%")
         print(f"Branch coverage: {branch_coverage:.2f}%")
 
-        if line_coverage < 55.0 or branch_coverage < 45.0:
-          sys.exit("Coverage is below the required 55% line / 45% branch floor")
+        if line_coverage < 80.0 or branch_coverage < 65.0:
+          sys.exit("Coverage is below the required 80% line / 65% branch floor")
         PY
 
     - name: Upload coverage report

@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include <gtest/gtest.h>
 #include <limits>
+#include <type_traits>
 #include "lm2/vectors/lm2_vector_conversions.h"
 
 // Test fixture for vector conversion tests
@@ -606,4 +607,263 @@ TEST_F(VectorConversionsTest, V4_U32_to_I32) {
   EXPECT_EQ(result.y, 4);
   EXPECT_EQ(result.z, 5);
   EXPECT_EQ(result.w, 6);
+}
+
+// Exercise each public pair using distinct components and ordinary C++ casts
+// as an independent oracle. Inputs stay within both source and target ranges.
+template <typename SourceVector, typename Convert>
+static void expect_component_casts(Convert convert, const char* name) {
+  SourceVector source = {};
+  using Source = std::remove_reference_t<decltype(source.e[0])>;
+  using Destination = std::remove_reference_t<decltype(convert(source).e[0])>;
+  constexpr size_t count = sizeof(source.e) / sizeof(source.e[0]);
+  for (size_t i = 0; i < count; ++i) {
+    const double magnitude = static_cast<double>(i + 2) + 0.75;
+    const bool negative = std::numeric_limits<Source>::is_signed &&
+                          std::numeric_limits<Destination>::is_signed && i % 2 == 0;
+    source.e[i] = static_cast<Source>(negative ? -magnitude : magnitude);
+  }
+  const auto result = convert(source);
+  for (size_t i = 0; i < count; ++i) {
+    EXPECT_EQ(result.e[i], static_cast<Destination>(source.e[i])) << name << " component " << i;
+  }
+}
+
+#define CHECK_VECTOR_CAST(DIM, FROM, TO)                                     \
+  expect_component_casts<lm2_v##DIM##_##FROM>(lm2_v##DIM##_##FROM##_to_##TO, \
+                                              "v" #DIM "_" #FROM "_to_" #TO)
+#define CHECK_FROM_f64(DIM)         \
+  CHECK_VECTOR_CAST(DIM, f64, f32); \
+  CHECK_VECTOR_CAST(DIM, f64, i64); \
+  CHECK_VECTOR_CAST(DIM, f64, i32); \
+  CHECK_VECTOR_CAST(DIM, f64, i16); \
+  CHECK_VECTOR_CAST(DIM, f64, i8);  \
+  CHECK_VECTOR_CAST(DIM, f64, u64); \
+  CHECK_VECTOR_CAST(DIM, f64, u32); \
+  CHECK_VECTOR_CAST(DIM, f64, u16); \
+  CHECK_VECTOR_CAST(DIM, f64, u8);
+#define CHECK_FROM_f32(DIM)         \
+  CHECK_VECTOR_CAST(DIM, f32, f64); \
+  CHECK_VECTOR_CAST(DIM, f32, i64); \
+  CHECK_VECTOR_CAST(DIM, f32, i32); \
+  CHECK_VECTOR_CAST(DIM, f32, i16); \
+  CHECK_VECTOR_CAST(DIM, f32, i8);  \
+  CHECK_VECTOR_CAST(DIM, f32, u64); \
+  CHECK_VECTOR_CAST(DIM, f32, u32); \
+  CHECK_VECTOR_CAST(DIM, f32, u16); \
+  CHECK_VECTOR_CAST(DIM, f32, u8);
+#define CHECK_FROM_i64(DIM)         \
+  CHECK_VECTOR_CAST(DIM, i64, f64); \
+  CHECK_VECTOR_CAST(DIM, i64, f32); \
+  CHECK_VECTOR_CAST(DIM, i64, i32); \
+  CHECK_VECTOR_CAST(DIM, i64, i16); \
+  CHECK_VECTOR_CAST(DIM, i64, i8);  \
+  CHECK_VECTOR_CAST(DIM, i64, u64); \
+  CHECK_VECTOR_CAST(DIM, i64, u32); \
+  CHECK_VECTOR_CAST(DIM, i64, u16); \
+  CHECK_VECTOR_CAST(DIM, i64, u8);
+#define CHECK_FROM_i32(DIM)         \
+  CHECK_VECTOR_CAST(DIM, i32, f64); \
+  CHECK_VECTOR_CAST(DIM, i32, f32); \
+  CHECK_VECTOR_CAST(DIM, i32, i64); \
+  CHECK_VECTOR_CAST(DIM, i32, i16); \
+  CHECK_VECTOR_CAST(DIM, i32, i8);  \
+  CHECK_VECTOR_CAST(DIM, i32, u64); \
+  CHECK_VECTOR_CAST(DIM, i32, u32); \
+  CHECK_VECTOR_CAST(DIM, i32, u16); \
+  CHECK_VECTOR_CAST(DIM, i32, u8);
+#define CHECK_FROM_i16(DIM)         \
+  CHECK_VECTOR_CAST(DIM, i16, f64); \
+  CHECK_VECTOR_CAST(DIM, i16, f32); \
+  CHECK_VECTOR_CAST(DIM, i16, i64); \
+  CHECK_VECTOR_CAST(DIM, i16, i32); \
+  CHECK_VECTOR_CAST(DIM, i16, i8);  \
+  CHECK_VECTOR_CAST(DIM, i16, u64); \
+  CHECK_VECTOR_CAST(DIM, i16, u32); \
+  CHECK_VECTOR_CAST(DIM, i16, u16); \
+  CHECK_VECTOR_CAST(DIM, i16, u8);
+#define CHECK_FROM_i8(DIM)         \
+  CHECK_VECTOR_CAST(DIM, i8, f64); \
+  CHECK_VECTOR_CAST(DIM, i8, f32); \
+  CHECK_VECTOR_CAST(DIM, i8, i64); \
+  CHECK_VECTOR_CAST(DIM, i8, i32); \
+  CHECK_VECTOR_CAST(DIM, i8, i16); \
+  CHECK_VECTOR_CAST(DIM, i8, u64); \
+  CHECK_VECTOR_CAST(DIM, i8, u32); \
+  CHECK_VECTOR_CAST(DIM, i8, u16); \
+  CHECK_VECTOR_CAST(DIM, i8, u8);
+#define CHECK_FROM_u64(DIM)         \
+  CHECK_VECTOR_CAST(DIM, u64, f64); \
+  CHECK_VECTOR_CAST(DIM, u64, f32); \
+  CHECK_VECTOR_CAST(DIM, u64, i64); \
+  CHECK_VECTOR_CAST(DIM, u64, i32); \
+  CHECK_VECTOR_CAST(DIM, u64, i16); \
+  CHECK_VECTOR_CAST(DIM, u64, i8);  \
+  CHECK_VECTOR_CAST(DIM, u64, u32); \
+  CHECK_VECTOR_CAST(DIM, u64, u16); \
+  CHECK_VECTOR_CAST(DIM, u64, u8);
+#define CHECK_FROM_u32(DIM)         \
+  CHECK_VECTOR_CAST(DIM, u32, f64); \
+  CHECK_VECTOR_CAST(DIM, u32, f32); \
+  CHECK_VECTOR_CAST(DIM, u32, i64); \
+  CHECK_VECTOR_CAST(DIM, u32, i32); \
+  CHECK_VECTOR_CAST(DIM, u32, i16); \
+  CHECK_VECTOR_CAST(DIM, u32, i8);  \
+  CHECK_VECTOR_CAST(DIM, u32, u64); \
+  CHECK_VECTOR_CAST(DIM, u32, u16); \
+  CHECK_VECTOR_CAST(DIM, u32, u8);
+#define CHECK_FROM_u16(DIM)         \
+  CHECK_VECTOR_CAST(DIM, u16, f64); \
+  CHECK_VECTOR_CAST(DIM, u16, f32); \
+  CHECK_VECTOR_CAST(DIM, u16, i64); \
+  CHECK_VECTOR_CAST(DIM, u16, i32); \
+  CHECK_VECTOR_CAST(DIM, u16, i16); \
+  CHECK_VECTOR_CAST(DIM, u16, i8);  \
+  CHECK_VECTOR_CAST(DIM, u16, u64); \
+  CHECK_VECTOR_CAST(DIM, u16, u32); \
+  CHECK_VECTOR_CAST(DIM, u16, u8);
+#define CHECK_FROM_u8(DIM)         \
+  CHECK_VECTOR_CAST(DIM, u8, f64); \
+  CHECK_VECTOR_CAST(DIM, u8, f32); \
+  CHECK_VECTOR_CAST(DIM, u8, i64); \
+  CHECK_VECTOR_CAST(DIM, u8, i32); \
+  CHECK_VECTOR_CAST(DIM, u8, i16); \
+  CHECK_VECTOR_CAST(DIM, u8, i8);  \
+  CHECK_VECTOR_CAST(DIM, u8, u64); \
+  CHECK_VECTOR_CAST(DIM, u8, u32); \
+  CHECK_VECTOR_CAST(DIM, u8, u16);
+
+TEST_F(VectorConversionsTest, AllV2PrimitivePairsMatchComponentCasts) {
+  CHECK_FROM_f64(2);
+  CHECK_FROM_f32(2);
+  CHECK_FROM_i64(2);
+  CHECK_FROM_i32(2);
+  CHECK_FROM_i16(2);
+  CHECK_FROM_i8(2);
+  CHECK_FROM_u64(2);
+  CHECK_FROM_u32(2);
+  CHECK_FROM_u16(2);
+  CHECK_FROM_u8(2);
+}
+
+TEST_F(VectorConversionsTest, AllV3PrimitivePairsMatchComponentCasts) {
+  CHECK_FROM_f64(3);
+  CHECK_FROM_f32(3);
+  CHECK_FROM_i64(3);
+  CHECK_FROM_i32(3);
+  CHECK_FROM_i16(3);
+  CHECK_FROM_i8(3);
+  CHECK_FROM_u64(3);
+  CHECK_FROM_u32(3);
+  CHECK_FROM_u16(3);
+  CHECK_FROM_u8(3);
+}
+
+TEST_F(VectorConversionsTest, AllV4PrimitivePairsMatchComponentCasts) {
+  CHECK_FROM_f64(4);
+  CHECK_FROM_f32(4);
+  CHECK_FROM_i64(4);
+  CHECK_FROM_i32(4);
+  CHECK_FROM_i16(4);
+  CHECK_FROM_i8(4);
+  CHECK_FROM_u64(4);
+  CHECK_FROM_u32(4);
+  CHECK_FROM_u16(4);
+  CHECK_FROM_u8(4);
+}
+#undef CHECK_FROM_f64
+#undef CHECK_FROM_f32
+#undef CHECK_FROM_i64
+#undef CHECK_FROM_i32
+#undef CHECK_FROM_i16
+#undef CHECK_FROM_i8
+#undef CHECK_FROM_u64
+#undef CHECK_FROM_u32
+#undef CHECK_FROM_u16
+#undef CHECK_FROM_u8
+#undef CHECK_VECTOR_CAST
+
+// Checked builds must reject a bad value in every component, not just x.
+template <typename SourceVector, typename Convert, typename Value>
+static void expect_rejected_in_each_component(Convert convert, Value invalid) {
+  SourceVector source = {};
+  constexpr size_t count = sizeof(source.e) / sizeof(source.e[0]);
+  for (size_t i = 0; i < count; ++i) {
+    source.e[i] = invalid;
+    SCOPED_TRACE(i);
+    EXPECT_DEATH((void)convert(source), "");
+    source.e[i] = 0;
+  }
+}
+
+#define CHECK_INVALID_VECTOR_CAST(DIM, FROM, TO, VALUE) \
+  expect_rejected_in_each_component<lm2_v##DIM##_##FROM>(lm2_v##DIM##_##FROM##_to_##TO, VALUE)
+
+TEST_F(VectorConversionsTest, V2NarrowingRejectsInvalidValuesInEachComponent) {
+  CHECK_INVALID_VECTOR_CAST(2, f64, i8, 128.0);
+  CHECK_INVALID_VECTOR_CAST(2, f64, i8, -129.0);
+  CHECK_INVALID_VECTOR_CAST(2, f32, u8, 256.0f);
+  CHECK_INVALID_VECTOR_CAST(2, f32, u8, -1.0f);
+  CHECK_INVALID_VECTOR_CAST(2, i64, i16, int64_t(32768));
+  CHECK_INVALID_VECTOR_CAST(2, i64, i16, int64_t(-32769));
+  CHECK_INVALID_VECTOR_CAST(2, u64, i32, uint64_t(2147483648ULL));
+  CHECK_INVALID_VECTOR_CAST(2, i16, u8, int16_t(-1));
+  CHECK_INVALID_VECTOR_CAST(2, f64, f32, std::numeric_limits<double>::infinity());
+}
+
+TEST_F(VectorConversionsTest, V3NarrowingRejectsInvalidValuesInEachComponent) {
+  CHECK_INVALID_VECTOR_CAST(3, f64, i8, 128.0);
+  CHECK_INVALID_VECTOR_CAST(3, f64, i8, -129.0);
+  CHECK_INVALID_VECTOR_CAST(3, f32, u8, 256.0f);
+  CHECK_INVALID_VECTOR_CAST(3, f32, u8, -1.0f);
+  CHECK_INVALID_VECTOR_CAST(3, i64, i16, int64_t(32768));
+  CHECK_INVALID_VECTOR_CAST(3, i64, i16, int64_t(-32769));
+  CHECK_INVALID_VECTOR_CAST(3, u64, i32, uint64_t(2147483648ULL));
+  CHECK_INVALID_VECTOR_CAST(3, i16, u8, int16_t(-1));
+  CHECK_INVALID_VECTOR_CAST(3, f64, f32, std::numeric_limits<double>::infinity());
+}
+
+TEST_F(VectorConversionsTest, V4NarrowingRejectsInvalidValuesInEachComponent) {
+  CHECK_INVALID_VECTOR_CAST(4, f64, i8, 128.0);
+  CHECK_INVALID_VECTOR_CAST(4, f64, i8, -129.0);
+  CHECK_INVALID_VECTOR_CAST(4, f32, u8, 256.0f);
+  CHECK_INVALID_VECTOR_CAST(4, f32, u8, -1.0f);
+  CHECK_INVALID_VECTOR_CAST(4, i64, i16, int64_t(32768));
+  CHECK_INVALID_VECTOR_CAST(4, i64, i16, int64_t(-32769));
+  CHECK_INVALID_VECTOR_CAST(4, u64, i32, uint64_t(2147483648ULL));
+  CHECK_INVALID_VECTOR_CAST(4, i16, u8, int16_t(-1));
+  CHECK_INVALID_VECTOR_CAST(4, f64, f32, std::numeric_limits<double>::infinity());
+}
+
+#undef CHECK_INVALID_VECTOR_CAST
+
+TEST_F(VectorConversionsTest, IntegerAndFloatingNarrowingBoundaryValues) {
+  const lm2_v4_i64 signed_values = {
+      {-128, 127, 0, 42}
+  };
+  const auto signed_result = lm2_v4_i64_to_i8(signed_values);
+  EXPECT_EQ(signed_result.x, -128);
+  EXPECT_EQ(signed_result.y, 127);
+  EXPECT_EQ(signed_result.z, 0);
+  EXPECT_EQ(signed_result.w, 42);
+
+  const lm2_v3_u16 unsigned_values = {
+      {0, 255, 128}
+  };
+  const auto unsigned_result = lm2_v3_u16_to_u8(unsigned_values);
+  EXPECT_EQ(unsigned_result.x, 0);
+  EXPECT_EQ(unsigned_result.y, 255);
+  EXPECT_EQ(unsigned_result.z, 128);
+
+  // Non-exact integers and float values exercise rounding during conversion.
+  const lm2_v4_i32 integers = {
+      {16777217, -16777217, 16777219, -16777219}
+  };
+  const auto floats = lm2_v4_i32_to_f32(integers);
+  for (int i = 0; i < 4; ++i) EXPECT_EQ(floats.e[i], static_cast<float>(integers.e[i]));
+  const lm2_v4_f64 fractions = {
+      {1.0 / 3.0, -1.0 / 3.0, 0.1, -0.1}
+  };
+  const auto narrowed = lm2_v4_f64_to_f32(fractions);
+  for (int i = 0; i < 4; ++i) EXPECT_EQ(narrowed.e[i], static_cast<float>(fractions.e[i]));
 }

@@ -54,7 +54,8 @@ LM2_API float lm2_trunc_f32(float a);
 LM2_API double lm2_trunc_multiple_f64(double a, double multiple);
 LM2_API float lm2_trunc_multiple_f32(float a, float multiple);
 
-// Abs
+// Abs. Integer overloads assert when given the minimum value of their type,
+// whose positive magnitude cannot be represented in the return type.
 LM2_API double lm2_abs_f64(double a);
 LM2_API float lm2_abs_f32(float a);
 LM2_API int64_t lm2_abs_i64(int64_t a);

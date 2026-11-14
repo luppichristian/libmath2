@@ -250,7 +250,9 @@ LM2_API uint32_t lm2_mul_u32(uint32_t a, uint32_t b) {
 LM2_API uint16_t lm2_mul_u16(uint16_t a, uint16_t b) {
   if (a == 0 || b == 0) return 0;
 
-  uint16_t result = a * b;
+  // Promote to an unsigned type before multiplication: integer promotion would
+  // otherwise use signed int, which cannot represent UINT16_MAX squared.
+  uint16_t result = (uint16_t)((uint32_t)a * (uint32_t)b);
   LM2_ASSERT_UNSAFE(result / b == a);
   return result;
 }
@@ -339,14 +341,14 @@ LM2_API uint8_t lm2_div_u8(uint8_t a, uint8_t b) {
 // =============================================================================
 
 LM2_API double lm2_mod_f64(double a, double b) {
-  LM2_ASSERT(isfinite(a));
-  LM2_ASSERT(isfinite(b) && b != 0.0);
+  LM2_ASSERT_UNSAFE(isfinite(a));
+  LM2_ASSERT_UNSAFE(isfinite(b) && b != 0.0);
   return fmod(a, b);
 }
 
 LM2_API float lm2_mod_f32(float a, float b) {
-  LM2_ASSERT(isfinite(a));
-  LM2_ASSERT(isfinite(b) && b != 0.0f);
+  LM2_ASSERT_UNSAFE(isfinite(a));
+  LM2_ASSERT_UNSAFE(isfinite(b) && b != 0.0f);
   return fmodf(a, b);
 }
 

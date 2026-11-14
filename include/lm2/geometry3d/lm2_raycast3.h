@@ -88,7 +88,10 @@ LM2_API lm2_v3_f32 lm2_ray3_point_at_f32(lm2_ray3_f32 ray, float t);
 // 3D Ray vs Primitive Tests
 // =============================================================================
 
-// Ray vs Sphere (3D circle)
+// Ray vs Sphere (3D circle). Surface hit points are computed relative to the
+// sphere center; when t rounds at large distances, point can differ from
+// lm2_ray3_point_at(ray, t). A stationary ray inside returns its origin and a
+// zero normal.
 LM2_API lm2_rayhit3_f64 lm2_raycast_sphere_f64(lm2_ray3_f64 ray, lm2_v3_f64 center, double radius);
 LM2_API lm2_rayhit3_f32 lm2_raycast_sphere_f32(lm2_ray3_f32 ray, lm2_v3_f32 center, float radius);
 
@@ -104,7 +107,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3_f32 v0
 LM2_API lm2_rayhit3_f64 lm2_raycast_plane_f64(lm2_ray3_f64 ray, lm2_v3_f64 plane_point, lm2_v3_f64 plane_normal);
 LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3_f32 plane_point, lm2_v3_f32 plane_normal);
 
-// Ray vs Capsule (3D)
+// Ray vs Capsule (3D). At extreme distances, rounded t may not reproduce the
+// returned surface point when passed to lm2_ray3_point_at.
 LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3_f64 start, lm2_v3_f64 end, double radius);
 LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3_f32 start, lm2_v3_f32 end, float radius);
 

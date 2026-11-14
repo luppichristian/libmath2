@@ -318,6 +318,25 @@ TEST_F(Edge2Test, EdgesIntersect_DegeneratePointSegment_F64) {
   EXPECT_FALSE(lm2_edges2_intersect_f64(off_segment, segment));
 }
 
+TEST_F(Edge2Test, EdgesIntersectHandlesSmallAndLargeScales) {
+  for (double s : {1e-200, 1e200}) {
+    const auto horizontal = lm2_edge2_make_coords_f64(-s, 0, s, 0);
+    const auto crossing = lm2_edge2_make_coords_f64(0, -s, 0, s);
+    const auto separate = lm2_edge2_make_coords_f64(-s, s, s, s);
+    EXPECT_TRUE(lm2_edges2_intersect_f64(horizontal, crossing));
+    EXPECT_FALSE(lm2_edges2_intersect_f64(horizontal, separate));
+    EXPECT_EQ(lm2_edge2_segments_intersect_f64(horizontal.start, horizontal.end, crossing.start, crossing.end), 1);
+  }
+  for (float s : {1e-30f, 1e30f}) {
+    const auto horizontal = lm2_edge2_make_coords_f32(-s, 0, s, 0);
+    const auto crossing = lm2_edge2_make_coords_f32(0, -s, 0, s);
+    const auto separate = lm2_edge2_make_coords_f32(-s, s, s, s);
+    EXPECT_TRUE(lm2_edges2_intersect_f32(horizontal, crossing));
+    EXPECT_FALSE(lm2_edges2_intersect_f32(horizontal, separate));
+    EXPECT_EQ(lm2_edge2_segments_intersect_f32(horizontal.start, horizontal.end, crossing.start, crossing.end), 1);
+  }
+}
+
 TEST_F(Edge2Test, PointAndEdgeSquaredDistances_F64) {
   lm2_edge2_f64 segment = lm2_edge2_make_coords_f64(0.0, 0.0, 4.0, 0.0);
   EXPECT_DOUBLE_EQ(lm2_point_to_edge2_distance_sq_f64(lm2_v2_make_f64(2.0, 3.0), segment), 9.0);

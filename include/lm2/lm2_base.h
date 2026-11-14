@@ -32,8 +32,8 @@ SOFTWARE.
 #  define LM2_HEADER_BEGIN extern "C" {
 #  define LM2_HEADER_END   }
 #else
-#  define LM2_HEADER_BEGIN
-#  define LM2_HEADER_END
+#  define LM2_HEADER_BEGIN _Static_assert(1, "")
+#  define LM2_HEADER_END   _Static_assert(1, "")
 #endif
 
 // #############################################################################

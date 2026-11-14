@@ -394,3 +394,98 @@ TEST_F(ScalarTest, Sqrt_F32) {
   EXPECT_FLOAT_EQ(lm2_sqrt_f32(0.0f), 0.0f);
   EXPECT_NEAR(lm2_sqrt_f32(2.0f), 1.41421356f, EPSILON_F32);
 }
+
+// Test integer overloads at both limits and across every clamp branch.
+#define DEFINE_INTEGER_COMPARISON_TEST(suffix, value_type)          \
+  TEST_F(ScalarTest, IntegerComparisons_##suffix) {                 \
+    const value_type low = std::numeric_limits<value_type>::min();  \
+    const value_type high = std::numeric_limits<value_type>::max(); \
+    EXPECT_EQ(lm2_min_##suffix(low, high), low);                    \
+    EXPECT_EQ(lm2_min_##suffix(high, low), low);                    \
+    EXPECT_EQ(lm2_max_##suffix(low, high), high);                   \
+    EXPECT_EQ(lm2_max_##suffix(high, low), high);                   \
+    EXPECT_EQ(lm2_min_##suffix(high, high), high);                  \
+    EXPECT_EQ(lm2_max_##suffix(low, low), low);                     \
+    EXPECT_EQ(lm2_clamp_##suffix(2, 1, 6), 2);                      \
+    EXPECT_EQ(lm2_clamp_##suffix(2, 2, 6), 2);                      \
+    EXPECT_EQ(lm2_clamp_##suffix(2, 4, 6), 4);                      \
+    EXPECT_EQ(lm2_clamp_##suffix(2, 6, 6), 6);                      \
+    EXPECT_EQ(lm2_clamp_##suffix(2, 7, 6), 6);                      \
+    EXPECT_EQ(lm2_clamp_##suffix(4, 0, 4), 4);                      \
+    EXPECT_DEATH((void)lm2_clamp_##suffix(6, 4, 2), "");            \
+  }
+
+DEFINE_INTEGER_COMPARISON_TEST(i64, int64_t);
+DEFINE_INTEGER_COMPARISON_TEST(i32, int32_t);
+DEFINE_INTEGER_COMPARISON_TEST(i16, int16_t);
+DEFINE_INTEGER_COMPARISON_TEST(i8, int8_t);
+DEFINE_INTEGER_COMPARISON_TEST(u64, uint64_t);
+DEFINE_INTEGER_COMPARISON_TEST(u32, uint32_t);
+DEFINE_INTEGER_COMPARISON_TEST(u16, uint16_t);
+DEFINE_INTEGER_COMPARISON_TEST(u8, uint8_t);
+
+#undef DEFINE_INTEGER_COMPARISON_TEST
+
+#define DEFINE_SIGNED_MAGNITUDE_TEST(suffix, value_type)            \
+  TEST_F(ScalarTest, SignedMagnitudeAndSign_##suffix) {             \
+    const value_type low = std::numeric_limits<value_type>::min();  \
+    const value_type high = std::numeric_limits<value_type>::max(); \
+    EXPECT_EQ(lm2_abs_##suffix(-7), 7);                             \
+    EXPECT_EQ(lm2_abs_##suffix(0), 0);                              \
+    EXPECT_EQ(lm2_abs_##suffix(high), high);                        \
+    EXPECT_EQ(lm2_sign_##suffix(low), -1);                          \
+    EXPECT_EQ(lm2_sign_##suffix(0), 1);                             \
+    EXPECT_EQ(lm2_sign_##suffix(high), 1);                          \
+    EXPECT_EQ(lm2_sign0_##suffix(low), -1);                         \
+    EXPECT_EQ(lm2_sign0_##suffix(0), 0);                            \
+    EXPECT_EQ(lm2_sign0_##suffix(high), 1);                         \
+    EXPECT_EQ(lm2_min_abs_##suffix(-3, 7), -3);                     \
+    EXPECT_EQ(lm2_min_abs_##suffix(7, -3), -3);                     \
+    EXPECT_EQ(lm2_max_abs_##suffix(-3, 7), 7);                      \
+    EXPECT_EQ(lm2_max_abs_##suffix(7, -3), 7);                      \
+    EXPECT_EQ(lm2_min_abs_##suffix(low, high), high);               \
+    EXPECT_EQ(lm2_min_abs_##suffix(high, low), high);               \
+    EXPECT_EQ(lm2_max_abs_##suffix(low, high), low);                \
+    EXPECT_EQ(lm2_max_abs_##suffix(high, low), low);                \
+    EXPECT_DEATH((void)lm2_abs_##suffix(low), "");                  \
+  }
+
+DEFINE_SIGNED_MAGNITUDE_TEST(i64, int64_t);
+DEFINE_SIGNED_MAGNITUDE_TEST(i32, int32_t);
+DEFINE_SIGNED_MAGNITUDE_TEST(i16, int16_t);
+DEFINE_SIGNED_MAGNITUDE_TEST(i8, int8_t);
+
+#undef DEFINE_SIGNED_MAGNITUDE_TEST
+
+template <typename Function>
+static void expect_scalar_assertion(Function function) {
+  EXPECT_DEATH((void)function(), "");
+}
+
+#define DEFINE_FLOAT_BOUNDARY_TEST(suffix, value_type)                         \
+  TEST_F(ScalarTest, FloatingPointBoundaries_##suffix) {                       \
+    const value_type inf = std::numeric_limits<value_type>::infinity();        \
+    const value_type nan = std::numeric_limits<value_type>::quiet_NaN();       \
+    EXPECT_EQ(lm2_sign_##suffix(-0.0), 1);                                     \
+    EXPECT_EQ(lm2_sign0_##suffix(-0.0), 0);                                    \
+    EXPECT_EQ(lm2_fract_##suffix(-1.25), 0.75);                                \
+    EXPECT_EQ(lm2_lerp_##suffix(2, -1, 6), -2);                                \
+    EXPECT_EQ(lm2_alpha_##suffix(6, 4, 2), 0.5);                               \
+    EXPECT_EQ(lm2_smoothstep_##suffix(2, 3, 6), 0.15625);                      \
+    EXPECT_EQ(lm2_round_multiple_##suffix(-5, 2), -6);                         \
+    expect_scalar_assertion([&] { return lm2_floor_##suffix(inf); });          \
+    expect_scalar_assertion([&] { return lm2_ceil_##suffix(nan); });           \
+    expect_scalar_assertion([] { return lm2_floor_multiple_##suffix(1, 0); }); \
+    expect_scalar_assertion([] { return lm2_ceil_multiple_##suffix(1, 0); });  \
+    expect_scalar_assertion([] { return lm2_round_multiple_##suffix(1, 0); }); \
+    expect_scalar_assertion([] { return lm2_trunc_multiple_##suffix(1, 0); }); \
+    expect_scalar_assertion([] { return lm2_smoothstep_##suffix(1, 1, 1); });  \
+    expect_scalar_assertion([] { return lm2_alpha_##suffix(1, 0, 1); });       \
+    expect_scalar_assertion([] { return lm2_pow_##suffix(-1, 0.5); });         \
+    expect_scalar_assertion([] { return lm2_sqrt_##suffix(-1); });             \
+  }
+
+DEFINE_FLOAT_BOUNDARY_TEST(f64, double);
+DEFINE_FLOAT_BOUNDARY_TEST(f32, float);
+
+#undef DEFINE_FLOAT_BOUNDARY_TEST

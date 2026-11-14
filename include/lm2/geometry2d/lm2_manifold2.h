@@ -42,6 +42,14 @@ LM2_HEADER_BEGIN;
 // =============================================================================
 
 // Collision manifold structure to describe how shapes collide
+// A manifold with no contacts is fully zeroed; unused contact slots are zeroed.
+// Boolean collision and manifold routines use the named precision. Collision
+// predicates use floating-point arithmetic, not exact geometric predicates;
+// nearly collinear or extreme inputs may be sensitive to rounding or overflow.
+// Shape-pair operations involving polygons require convex, nondegenerate,
+// counterclockwise vertices and 3 to 8 vertices. Triangles must also be
+// nondegenerate and counterclockwise. These geometric preconditions are not
+// fully checked at runtime.
 typedef struct lm2_manifold_f64 {
   int count;                     // Number of contact points (0, 1, or 2)
   double depths[2];              // Penetration depths
@@ -231,11 +239,15 @@ LM2_API void lm2_manifold_shape_to_shape_f32(lm2_shape2_f32 shape_a, lm2_shape2_
 // =============================================================================
 
 // Compute convex hull of a set of points
-// Returns the number of vertices in the hull (fills out_vertices with hull points)
+// Returns the number of vertices written (up to max_vertices). The f64
+// version considers all input points, requires finite coordinates, and can
+// return more than eight vertices. If output is too small, it writes only the
+// first max_vertices hull vertices. Inputs and output may overlap.
 LM2_API int lm2_convex_hull_f64(lm2_v2_f64* points, int point_count, lm2_v2_f64* out_vertices, int max_vertices);
 LM2_API int lm2_convex_hull_f32(lm2_v2_f32* points, int point_count, lm2_v2_f32* out_vertices, int max_vertices);
 
-// Compute polygon normals
+// Compute polygon normals. The f64 variant returns zero for a zero-length edge
+// and supports overlapping input and output arrays.
 LM2_API void lm2_compute_normals_f64(lm2_v2_f64* vertices, lm2_v2_f64* out_normals, int vertex_count);
 LM2_API void lm2_compute_normals_f32(lm2_v2_f32* vertices, lm2_v2_f32* out_normals, int vertex_count);
 

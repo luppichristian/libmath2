@@ -506,3 +506,130 @@ TEST_F(RangeConversionsTest, Range4_NegativeValues) {
   EXPECT_FLOAT_EQ(r_f32.max.z, -25.0f);
   EXPECT_FLOAT_EQ(r_f32.max.w, -35.0f);
 }
+
+// Distinct bounds expose swapped minima/maxima and component ordering errors.
+// Every value is representable in each of the ten primitive types.
+#define CHECK_RANGE_COMPONENTS_2(r) \
+  EXPECT_EQ((r).min.x, 1);          \
+  EXPECT_EQ((r).min.y, 2);          \
+  EXPECT_EQ((r).max.x, 11);         \
+  EXPECT_EQ((r).max.y, 12)
+#define CHECK_RANGE_COMPONENTS_3(r) \
+  CHECK_RANGE_COMPONENTS_2(r);      \
+  EXPECT_EQ((r).min.z, 3);          \
+  EXPECT_EQ((r).max.z, 13)
+#define CHECK_RANGE_COMPONENTS_4(r) \
+  CHECK_RANGE_COMPONENTS_3(r);      \
+  EXPECT_EQ((r).min.w, 4);          \
+  EXPECT_EQ((r).max.w, 14)
+
+#define CHECK_PRIMITIVE_CONVERSION(dimension, source, destination)          \
+  {                                                                         \
+    SCOPED_TRACE("r" #dimension " " #source " -> " #destination);           \
+    auto converted = lm2_r##dimension##_##source##_to_##destination(input); \
+    CHECK_RANGE_COMPONENTS_##dimension(converted);                          \
+  }
+
+#define CHECK_NINE_DESTINATIONS(d, source, a, b, c, e, f, g, h, i, j) \
+  CHECK_PRIMITIVE_CONVERSION(d, source, a)                            \
+  CHECK_PRIMITIVE_CONVERSION(d, source, b)                            \
+  CHECK_PRIMITIVE_CONVERSION(d, source, c)                            \
+  CHECK_PRIMITIVE_CONVERSION(d, source, e)                            \
+  CHECK_PRIMITIVE_CONVERSION(d, source, f)                            \
+  CHECK_PRIMITIVE_CONVERSION(d, source, g)                            \
+  CHECK_PRIMITIVE_CONVERSION(d, source, h)                            \
+  CHECK_PRIMITIVE_CONVERSION(d, source, i)                            \
+  CHECK_PRIMITIVE_CONVERSION(d, source, j)
+
+#define CHECK_ALL_SOURCE_TYPES(d)                                 \
+  CHECK_SOURCE(d, f64, f32, i64, i32, i16, i8, u64, u32, u16, u8) \
+  CHECK_SOURCE(d, f32, f64, i64, i32, i16, i8, u64, u32, u16, u8) \
+  CHECK_SOURCE(d, i64, f64, f32, i32, i16, i8, u64, u32, u16, u8) \
+  CHECK_SOURCE(d, i32, f64, f32, i64, i16, i8, u64, u32, u16, u8) \
+  CHECK_SOURCE(d, i16, f64, f32, i64, i32, i8, u64, u32, u16, u8) \
+  CHECK_SOURCE(d, i8, f64, f32, i64, i32, i16, u64, u32, u16, u8) \
+  CHECK_SOURCE(d, u64, f64, f32, i64, i32, i16, i8, u32, u16, u8) \
+  CHECK_SOURCE(d, u32, f64, f32, i64, i32, i16, i8, u64, u16, u8) \
+  CHECK_SOURCE(d, u16, f64, f32, i64, i32, i16, i8, u64, u32, u8) \
+  CHECK_SOURCE(d, u8, f64, f32, i64, i32, i16, i8, u64, u32, u16)
+
+#define MAKE_INPUT_2(type) lm2_r2_from_min_max_##type(lm2_v2_make_##type(1, 2), lm2_v2_make_##type(11, 12))
+#define MAKE_INPUT_3(type) lm2_r3_from_min_max_##type(lm2_v3_make_##type(1, 2, 3), lm2_v3_make_##type(11, 12, 13))
+#define MAKE_INPUT_4(type) lm2_r4_from_min_max_##type(lm2_v4_make_##type(1, 2, 3, 4), lm2_v4_make_##type(11, 12, 13, 14))
+#define CHECK_SOURCE(d, source, a, b, c, e, f, g, h, i, j)        \
+  {                                                               \
+    auto input = MAKE_INPUT_##d(source);                          \
+    CHECK_NINE_DESTINATIONS(d, source, a, b, c, e, f, g, h, i, j) \
+  }
+
+TEST_F(RangeConversionsTest, AllPrimitiveConversions2D) {
+    CHECK_ALL_SOURCE_TYPES(2)}
+
+TEST_F(RangeConversionsTest, AllPrimitiveConversions3D) {
+    CHECK_ALL_SOURCE_TYPES(3)}
+
+TEST_F(RangeConversionsTest, AllPrimitiveConversions4D) {
+    CHECK_ALL_SOURCE_TYPES(4)}
+#define CHECK_DIMENSION_CONVERSIONS(type)      \
+  {                                            \
+    SCOPED_TRACE(#type);                       \
+    auto r2 = MAKE_INPUT_2(type);              \
+    auto r3 = lm2_r2_upcast_##type(r2, 3, 13); \
+    CHECK_RANGE_COMPONENTS_3(r3);              \
+    auto r4 = lm2_r3_upcast_##type(r3, 4, 14); \
+    CHECK_RANGE_COMPONENTS_4(r4);              \
+    auto down3 = lm2_r4_downcast_##type(r4);   \
+    CHECK_RANGE_COMPONENTS_3(down3);           \
+    auto down2 = lm2_r3_downcast_##type(r3);   \
+    CHECK_RANGE_COMPONENTS_2(down2);           \
+  }
+
+TEST_F(RangeConversionsTest, DimensionConversionsAllPrimitiveTypes) {
+    CHECK_DIMENSION_CONVERSIONS(f64)
+        CHECK_DIMENSION_CONVERSIONS(f32)
+            CHECK_DIMENSION_CONVERSIONS(i64)
+                CHECK_DIMENSION_CONVERSIONS(i32)
+                    CHECK_DIMENSION_CONVERSIONS(i16)
+                        CHECK_DIMENSION_CONVERSIONS(i8)
+                            CHECK_DIMENSION_CONVERSIONS(u64)
+                                CHECK_DIMENSION_CONVERSIONS(u32)
+                                    CHECK_DIMENSION_CONVERSIONS(u16)
+                                        CHECK_DIMENSION_CONVERSIONS(u8)}
+
+TEST_F(RangeConversionsTest, SignedFloatToIntegerTruncatesTowardZero) {
+  auto source = lm2_r4_from_scalars_f64(-12.75, -0.75, -3.5, -1.25, 4.75, 6.25, 9.5, 12.99);
+  auto result = lm2_r4_f64_to_i8(source);
+  EXPECT_EQ(result.min.x, -12);
+  EXPECT_EQ(result.min.y, 0);
+  EXPECT_EQ(result.min.z, -3);
+  EXPECT_EQ(result.min.w, -1);
+  EXPECT_EQ(result.max.x, 4);
+  EXPECT_EQ(result.max.y, 6);
+  EXPECT_EQ(result.max.z, 9);
+  EXPECT_EQ(result.max.w, 12);
+}
+
+TEST_F(RangeConversionsTest, SignedIntegerToUnsignedChecksBounds) {
+  auto source = lm2_r2_from_scalars_i32(0, 1, 254, 255);
+  auto result = lm2_r2_i32_to_u8(source);
+  EXPECT_EQ(result.min.x, 0);
+  EXPECT_EQ(result.min.y, 1);
+  EXPECT_EQ(result.max.x, 254);
+  EXPECT_EQ(result.max.y, 255);
+  auto below = lm2_r2_from_scalars_i32(-1, 0, 1, 2);
+  auto above = lm2_r2_from_scalars_i32(0, 1, 2, 256);
+  EXPECT_DEATH((void)lm2_r2_i32_to_u8(below), "");
+  EXPECT_DEATH((void)lm2_r2_i32_to_u8(above), "");
+}
+
+#undef CHECK_DIMENSION_CONVERSIONS
+#undef CHECK_SOURCE
+#undef MAKE_INPUT_4
+#undef MAKE_INPUT_3
+#undef MAKE_INPUT_2
+#undef CHECK_ALL_SOURCE_TYPES
+#undef CHECK_NINE_DESTINATIONS
+#undef CHECK_PRIMITIVE_CONVERSION
+#undef CHECK_RANGE_COMPONENTS_4
+#undef CHECK_RANGE_COMPONENTS_3
+#undef CHECK_RANGE_COMPONENTS_2

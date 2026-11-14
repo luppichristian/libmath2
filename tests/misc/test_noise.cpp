@@ -25,6 +25,7 @@ SOFTWARE.
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include "lm2/misc/lm2_noise.h"
 
 // Test fixture for noise tests
@@ -432,4 +433,136 @@ TEST_F(NoiseTest, Perlin_vs_Voronoi) {
   // Perlin is in [-1, 1], Voronoi is in [0, inf)
   // They should generally differ in character
   EXPECT_GE(voronoi, 0.0);
+}
+
+TEST_F(NoiseTest, PerlinFractionalGridStaysWithinDocumentedRange) {
+  for (int ix = -12; ix <= 12; ++ix) {
+    for (int iy = -12; iy <= 12; ++iy) {
+      const double x = ix * 0.25 + 0.125;
+      const double y = iy * 0.25 + 0.125;
+      const double v2 = lm2_perlin2_f64(x, y);
+      const float v2f = lm2_perlin2_f32((float)x, (float)y);
+      EXPECT_GE(v2, -1.0);
+      EXPECT_LE(v2, 1.0);
+      EXPECT_GE(v2f, -1.0f);
+      EXPECT_LE(v2f, 1.0f);
+      EXPECT_NEAR(v2f, v2, 2e-6);
+      for (int iz = -4; iz <= 4; ++iz) {
+        const double z = iz * 0.5 + 0.125;
+        const double v3 = lm2_perlin3_f64(x, y, z);
+        const float v3f = lm2_perlin3_f32((float)x, (float)y, (float)z);
+        EXPECT_GE(v3, -1.0);
+        EXPECT_LE(v3, 1.0);
+        EXPECT_GE(v3f, -1.0f);
+        EXPECT_LE(v3f, 1.0f);
+        EXPECT_NEAR(v3f, v3, 2e-6);
+      }
+    }
+  }
+}
+
+TEST_F(NoiseTest, PerlinIsContinuousAcrossPositiveAndNegativeLatticeBoundaries) {
+  constexpr double delta = 1e-5;
+  for (int boundary = -3; boundary <= 3; ++boundary) {
+    const double x = boundary;
+    EXPECT_NEAR(lm2_perlin2_f64(x - delta, 0.375), lm2_perlin2_f64(x + delta, 0.375), 5e-5);
+    EXPECT_NEAR(lm2_perlin2_f64(0.375, x - delta), lm2_perlin2_f64(0.375, x + delta), 5e-5);
+    EXPECT_NEAR(lm2_perlin3_f64(x - delta, 0.375, -0.625), lm2_perlin3_f64(x + delta, 0.375, -0.625), 5e-5);
+    EXPECT_NEAR(lm2_perlin3_f64(0.375, x - delta, -0.625), lm2_perlin3_f64(0.375, x + delta, -0.625), 5e-5);
+    EXPECT_NEAR(lm2_perlin3_f64(0.375, -0.625, x - delta), lm2_perlin3_f64(0.375, -0.625, x + delta), 5e-5);
+    EXPECT_NEAR(lm2_perlin2_f32((float)(x - delta), 0.375f), lm2_perlin2_f32((float)(x + delta), 0.375f), 5e-5f);
+    EXPECT_NEAR(lm2_perlin3_f32((float)(x - delta), 0.375f, -0.625f), lm2_perlin3_f32((float)(x + delta), 0.375f, -0.625f), 5e-5f);
+  }
+}
+
+TEST_F(NoiseTest, PerlinRepeatsAtLargeFiniteCoordinates) {
+  // The permutation table repeats every 256 cells, including beyond int range.
+  constexpr double x = 2147483712.25;
+  constexpr double y = -2147483695.625;
+  constexpr double z = 2147483679.5;
+  EXPECT_NEAR(lm2_perlin2_f64(x, y), lm2_perlin2_f64(64.25, 208.375), 1e-12);
+  EXPECT_NEAR(lm2_perlin3_f64(x, y, z), lm2_perlin3_f64(64.25, 208.375, 31.5), 1e-12);
+  EXPECT_NEAR(lm2_perlin2_f32(2147483904.0f, 0.375f), lm2_perlin2_f32(0.0f, 0.375f), 1e-6f);
+  EXPECT_NEAR(lm2_perlin3_f32(-2147483904.0f, 0.375f, -0.625f), lm2_perlin3_f32(0.0f, 0.375f, -0.625f), 1e-6f);
+}
+
+TEST_F(NoiseTest, VoronoiUsesWrappedCellsAtLargeCoordinates) {
+  constexpr double period = 4294967296.0;
+  EXPECT_NEAR(lm2_voronoi2_f64(period + 0.25, -period + 0.375), lm2_voronoi2_f64(0.25, 0.375), 1e-12);
+  EXPECT_NEAR(lm2_voronoi3_f64(period + 0.25, -period + 0.375, period - 0.5), lm2_voronoi3_f64(0.25, 0.375, -0.5), 1e-12);
+  EXPECT_NEAR(lm2_voronoi2_f32(4294967296.0f, 0.375f), lm2_voronoi2_f32(0.0f, 0.375f), 1e-6f);
+  EXPECT_NEAR(lm2_voronoi3_f32(-4294967296.0f, 0.375f, -0.5f), lm2_voronoi3_f32(0.0f, 0.375f, -0.5f), 1e-6f);
+}
+
+TEST_F(NoiseTest, VoronoiMatchesIndependentCellSearch) {
+  // Reference distances were calculated with a 5-by-5 (or 5-by-5-by-5)
+  // cell search using the algorithm's hash constants and Euclidean distance.
+  EXPECT_NEAR(lm2_voronoi2_f64(0.25, 0.375), 0.33190746301218804, 1e-12);
+  EXPECT_NEAR(lm2_voronoi2_f64(-2.25, 3.75), 0.43670401691814004, 1e-12);
+  EXPECT_NEAR(lm2_voronoi2_f64(7.125, -5.625), 0.69259318583578511, 1e-12);
+  EXPECT_NEAR(lm2_voronoi3_f64(0.25, 0.375, -0.5), 0.22719968253974571, 1e-12);
+  EXPECT_NEAR(lm2_voronoi3_f64(-2.25, 3.75, 1.125), 0.68871041548849632, 1e-12);
+  EXPECT_NEAR(lm2_voronoi3_f64(7.125, -5.625, 2.875), 0.61112229755921432, 1e-12);
+  EXPECT_NEAR(lm2_voronoi2_f32(-2.25f, 3.75f), 0.43670401691814004, 1e-6);
+  EXPECT_NEAR(lm2_voronoi3_f32(7.125f, -5.625f, 2.875f), 0.61112229755921432, 1e-6);
+}
+
+TEST_F(NoiseTest, VoronoiSearchesBeyondImmediateNeighborsWhenNecessary) {
+  // An independent five-by-five cell search finds the nearest feature in the
+  // second cell ring here; a three-by-three search returns 1.0954591309.
+  constexpr double x = 483.95473044365644;
+  constexpr double y = -530.9488158673048;
+  EXPECT_NEAR(lm2_voronoi2_f64(x, y), 1.0801618008275458, 1e-12);
+  EXPECT_NEAR(lm2_voronoi2_f32((float)x, (float)y),
+              lm2_voronoi2_f64((double)(float)x, (double)(float)y),
+              2e-6);
+
+  // The nearest 3D feature also lies in the second ring for this position.
+  constexpr double x3 = 1926.0027213022113;
+  constexpr double y3 = 4401.0350201278925;
+  constexpr double z3 = -2461.7621628567576;
+  EXPECT_NEAR(lm2_voronoi3_f64(x3, y3, z3), 1.0946613390482458, 1e-12);
+  EXPECT_NEAR(lm2_voronoi3_f32((float)x3, (float)y3, (float)z3),
+              lm2_voronoi3_f64((double)(float)x3, (double)(float)y3, (double)(float)z3),
+              2e-6);
+}
+
+TEST_F(NoiseTest, PerlinAcceptsFiniteInputsThatProduceSubnormalIntermediates) {
+  // Cubing these normal inputs produces subnormal fade terms.
+  EXPECT_NEAR(lm2_perlin2_f32(1e-13f, 0.5f), lm2_perlin2_f32(0.0f, 0.5f), 1e-6f);
+  EXPECT_NEAR(lm2_perlin3_f32(0.5f, 1e-13f, 0.25f), lm2_perlin3_f32(0.5f, 0.0f, 0.25f), 1e-6f);
+  EXPECT_NEAR(lm2_perlin2_f64(1e-105, 0.5), lm2_perlin2_f64(0.0, 0.5), 1e-14);
+  EXPECT_NEAR(lm2_perlin3_f64(0.5, 1e-105, 0.25), lm2_perlin3_f64(0.5, 0.0, 0.25), 1e-14);
+}
+
+TEST_F(NoiseTest, NoiseAcceptsSubnormalCoordinatesInEveryDimension) {
+  const float f = std::numeric_limits<float>::denorm_min();
+  const double d = std::numeric_limits<double>::denorm_min();
+  for (float x : {f, -f}) {
+    EXPECT_NEAR(lm2_perlin2_f32(x, 0.5f), lm2_perlin2_f32(0.0f, 0.5f), 1e-6f);
+    EXPECT_NEAR(lm2_perlin3_f32(0.5f, x, 0.25f), lm2_perlin3_f32(0.5f, 0.0f, 0.25f), 1e-6f);
+    EXPECT_NEAR(lm2_voronoi2_f32(x, 0.5f), lm2_voronoi2_f32(0.0f, 0.5f), 1e-6f);
+    EXPECT_NEAR(lm2_voronoi3_f32(0.5f, x, 0.25f), lm2_voronoi3_f32(0.5f, 0.0f, 0.25f), 1e-6f);
+  }
+  for (double x : {d, -d}) {
+    EXPECT_NEAR(lm2_perlin2_f64(x, 0.5), lm2_perlin2_f64(0.0, 0.5), 1e-14);
+    EXPECT_NEAR(lm2_perlin3_f64(0.5, x, 0.25), lm2_perlin3_f64(0.5, 0.0, 0.25), 1e-14);
+    EXPECT_NEAR(lm2_voronoi2_f64(x, 0.5), lm2_voronoi2_f64(0.0, 0.5), 1e-14);
+    EXPECT_NEAR(lm2_voronoi3_f64(0.5, x, 0.25), lm2_voronoi3_f64(0.5, 0.0, 0.25), 1e-14);
+  }
+}
+
+TEST_F(NoiseTest, VoronoiAcceptsSubnormalSquaredFeatureDistances) {
+  // The (0,0) cell's feature has x=0 and this independently calculated y.
+  const float feature_y_f32 = 0.5933175683021545f;
+  const double feature_y_f64 = 1274139792.0 / 2147483647.0;
+  EXPECT_NEAR(lm2_voronoi2_f32(1e-20f, feature_y_f32), 1e-20f, 1e-25f);
+  EXPECT_NEAR(lm2_voronoi2_f64(1e-160, feature_y_f64), 1e-160, 1e-164);
+  // Squaring these still-representable distances would underflow to zero.
+  EXPECT_FLOAT_EQ(lm2_voronoi2_f32(1e-30f, feature_y_f32), 1e-30f);
+  EXPECT_DOUBLE_EQ(lm2_voronoi2_f64(1e-200, feature_y_f64), 1e-200);
+  const float feature_z_f32 = 0.18663515150547028f;
+  const double feature_z_f64 = 400795937.0 / 2147483647.0;
+  EXPECT_FLOAT_EQ(lm2_voronoi3_f32(1e-30f, feature_y_f32, feature_z_f32), 1e-30f);
+  EXPECT_DOUBLE_EQ(lm2_voronoi3_f64(1e-200, feature_y_f64, feature_z_f64), 1e-200);
 }

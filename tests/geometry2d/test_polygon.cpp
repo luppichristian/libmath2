@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include <gtest/gtest.h>
 #include <cmath>
+#include <limits>
 #include <vector>
 #include "lm2/geometry2d/lm2_polygon.h"
 #include "lm2/lm2_constants.h"
@@ -535,4 +536,480 @@ TEST_F(PolygonTest, SplitConvexPolygonPreservesAreaAndVertexLimit_F64) {
     area += lm2_polygon_area_f64(pieces[i]);
   }
   EXPECT_NEAR(area, lm2_polygon_area_f64(polygon), EPSILON_F64);
+}
+
+TEST_F(PolygonTest, EarClippingSupportsClockwiseConcavePolygon_F64) {
+  lm2_v2_f64 vertices[] = {
+      {0.0, 4.0},
+      {2.0, 2.0},
+      {4.0, 4.0},
+      {4.0, 0.0},
+      {0.0, 0.0}
+  };
+  size_t guarded_indices[11] = {999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 999};
+  const size_t count = lm2_polygon_triangulate_ear_clipping_f64(
+      lm2_polygon_make_f64(vertices, 5), guarded_indices + 1);
+
+  ASSERT_EQ(count, 3);
+  EXPECT_EQ(guarded_indices[0], 999);
+  EXPECT_EQ(guarded_indices[10], 999);
+  double area = 0.0;
+  for (size_t i = 0; i < count; ++i) {
+    const size_t a = guarded_indices[1 + i * 3];
+    const size_t b = guarded_indices[2 + i * 3];
+    const size_t c = guarded_indices[3 + i * 3];
+    ASSERT_LT(a, 5);
+    ASSERT_LT(b, 5);
+    ASSERT_LT(c, 5);
+    const double cross = (vertices[b].x - vertices[a].x) * (vertices[c].y - vertices[a].y) -
+                         (vertices[b].y - vertices[a].y) * (vertices[c].x - vertices[a].x);
+    EXPECT_LT(cross, 0.0);
+    area += std::abs(cross) * 0.5;
+  }
+  EXPECT_NEAR(area, 12.0, EPSILON_F64);
+}
+
+TEST_F(PolygonTest, EarClippingSupportsClockwiseConcavePolygon_F32) {
+  lm2_v2_f32 vertices[] = {
+      {0.0f, 4.0f},
+      {2.0f, 2.0f},
+      {4.0f, 4.0f},
+      {4.0f, 0.0f},
+      {0.0f, 0.0f}
+  };
+  size_t guarded_indices[11] = {999, 0, 0, 0, 0, 0, 0, 0, 0, 0, 999};
+  const size_t count = lm2_polygon_triangulate_ear_clipping_f32(
+      lm2_polygon_make_f32(vertices, 5), guarded_indices + 1);
+
+  ASSERT_EQ(count, 3);
+  EXPECT_EQ(guarded_indices[0], 999);
+  EXPECT_EQ(guarded_indices[10], 999);
+  float area = 0.0f;
+  for (size_t i = 0; i < count; ++i) {
+    const size_t a = guarded_indices[1 + i * 3];
+    const size_t b = guarded_indices[2 + i * 3];
+    const size_t c = guarded_indices[3 + i * 3];
+    ASSERT_LT(a, 5);
+    ASSERT_LT(b, 5);
+    ASSERT_LT(c, 5);
+    const float cross = (vertices[b].x - vertices[a].x) * (vertices[c].y - vertices[a].y) -
+                        (vertices[b].y - vertices[a].y) * (vertices[c].x - vertices[a].x);
+    EXPECT_LT(cross, 0.0f);
+    area += std::abs(cross) * 0.5f;
+  }
+  EXPECT_NEAR(area, 12.0f, EPSILON_F32);
+}
+
+TEST_F(PolygonTest, SplitHexagonIntoTrianglesPreservesArea_F64) {
+  lm2_v2_f64 vertices[] = {
+      { 0, 0},
+      { 2, 0},
+      { 3, 1},
+      { 2, 2},
+      { 0, 2},
+      {-1, 1}
+  };
+  lm2_polygon_f64 pieces[4] = {};
+  lm2_v2_f64 guarded[14] = {};
+  guarded[0] = {99, 99};
+  guarded[13] = {99, 99};
+  size_t count = lm2_polygon_split_by_max_vertices_f64(
+      lm2_polygon_make_f64(vertices, 6), pieces, guarded + 1, 3);
+  ASSERT_EQ(count, 4);
+  EXPECT_DOUBLE_EQ(guarded[0].x, 99);
+  EXPECT_DOUBLE_EQ(guarded[13].x, 99);
+  double area = 0.0;
+  for (size_t i = 0; i < count; ++i) {
+    ASSERT_EQ(pieces[i].vertex_count, 3);
+    const lm2_v2_f64* p = pieces[i].vertices;
+    const double cross = (p[1].x - p[0].x) * (p[2].y - p[0].y) -
+                         (p[1].y - p[0].y) * (p[2].x - p[0].x);
+    EXPECT_GT(cross, 0.0);
+    area += cross * 0.5;
+  }
+  EXPECT_NEAR(area, 6.0, EPSILON_F64);
+}
+
+TEST_F(PolygonTest, SplitHexagonIntoTrianglesPreservesArea_F32) {
+  lm2_v2_f32 vertices[] = {
+      { 0, 0},
+      { 2, 0},
+      { 3, 1},
+      { 2, 2},
+      { 0, 2},
+      {-1, 1}
+  };
+  lm2_polygon_f32 pieces[4] = {};
+  lm2_v2_f32 guarded[14] = {};
+  guarded[0] = {99, 99};
+  guarded[13] = {99, 99};
+  size_t count = lm2_polygon_split_by_max_vertices_f32(
+      lm2_polygon_make_f32(vertices, 6), pieces, guarded + 1, 3);
+  ASSERT_EQ(count, 4);
+  EXPECT_FLOAT_EQ(guarded[0].x, 99);
+  EXPECT_FLOAT_EQ(guarded[13].x, 99);
+  float area = 0.0f;
+  for (size_t i = 0; i < count; ++i) {
+    ASSERT_EQ(pieces[i].vertex_count, 3);
+    const lm2_v2_f32* p = pieces[i].vertices;
+    const float cross = (p[1].x - p[0].x) * (p[2].y - p[0].y) -
+                        (p[1].y - p[0].y) * (p[2].x - p[0].x);
+    EXPECT_GT(cross, 0.0f);
+    area += cross * 0.5f;
+  }
+  EXPECT_NEAR(area, 6.0f, EPSILON_F32);
+}
+
+TEST_F(PolygonTest, SplitConcavePolygonIntoTrianglesPreservesArea_F64) {
+  lm2_v2_f64 vertices[] = {
+      {0, 0},
+      {4, 0},
+      {4, 4},
+      {2, 2},
+      {0, 4}
+  };
+  lm2_polygon_f64 pieces[3] = {};
+  lm2_v2_f64 guarded[11] = {};
+  guarded[0] = {99, 99};
+  guarded[10] = {99, 99};
+  size_t count = lm2_polygon_split_by_max_vertices_f64(
+      lm2_polygon_make_f64(vertices, 5), pieces, guarded + 1, 3);
+  ASSERT_EQ(count, 3);
+  EXPECT_DOUBLE_EQ(guarded[0].x, 99);
+  EXPECT_DOUBLE_EQ(guarded[10].x, 99);
+  double area = 0.0;
+  for (size_t i = 0; i < count; ++i) {
+    ASSERT_EQ(pieces[i].vertex_count, 3);
+    const lm2_v2_f64* p = pieces[i].vertices;
+    const double cross = (p[1].x - p[0].x) * (p[2].y - p[0].y) -
+                         (p[1].y - p[0].y) * (p[2].x - p[0].x);
+    EXPECT_GT(cross, 0.0);
+    area += cross * 0.5;
+  }
+  EXPECT_NEAR(area, 12.0, EPSILON_F64);
+}
+
+TEST_F(PolygonTest, SplitConcavePolygonIntoTrianglesPreservesArea_F32) {
+  lm2_v2_f32 vertices[] = {
+      {0, 4},
+      {2, 2},
+      {4, 4},
+      {4, 0},
+      {0, 0}
+  };
+  lm2_polygon_f32 pieces[3] = {};
+  lm2_v2_f32 guarded[11] = {};
+  guarded[0] = {99, 99};
+  guarded[10] = {99, 99};
+  size_t count = lm2_polygon_split_by_max_vertices_f32(
+      lm2_polygon_make_f32(vertices, 5), pieces, guarded + 1, 4);
+  ASSERT_EQ(count, 3);
+  EXPECT_FLOAT_EQ(guarded[0].x, 99);
+  EXPECT_FLOAT_EQ(guarded[10].x, 99);
+  float area = 0.0f;
+  for (size_t i = 0; i < count; ++i) {
+    ASSERT_EQ(pieces[i].vertex_count, 3);
+    const lm2_v2_f32* p = pieces[i].vertices;
+    const float cross = (p[1].x - p[0].x) * (p[2].y - p[0].y) -
+                        (p[1].y - p[0].y) * (p[2].x - p[0].x);
+    EXPECT_LT(cross, 0.0f);
+    area += -cross * 0.5f;
+  }
+  EXPECT_NEAR(area, 12.0f, EPSILON_F32);
+}
+
+TEST_F(PolygonTest, TriangulationAndSplitRejectOverflowingVertexCount) {
+  lm2_v2_f64 vertex64 = {0, 0};
+  lm2_v2_f32 vertex32 = {0, 0};
+  lm2_polygon_f64 polygon64 = {&vertex64, std::numeric_limits<size_t>::max()};
+  lm2_polygon_f32 polygon32 = {&vertex32, std::numeric_limits<size_t>::max()};
+  size_t index = 123;
+  lm2_polygon_f64 out64 = {nullptr, 123};
+  lm2_polygon_f32 out32 = {nullptr, 123};
+
+  EXPECT_EQ(lm2_polygon_triangulate_ear_clipping_f64(polygon64, &index), 0);
+  EXPECT_EQ(lm2_polygon_triangulate_ear_clipping_f32(polygon32, &index), 0);
+  EXPECT_EQ(lm2_polygon_split_by_max_vertices_f64(polygon64, &out64, &vertex64, 3), 0);
+  EXPECT_EQ(lm2_polygon_split_by_max_vertices_f32(polygon32, &out32, &vertex32, 3), 0);
+  EXPECT_EQ(index, 123);
+  EXPECT_EQ(out64.vertex_count, 123);
+  EXPECT_EQ(out32.vertex_count, 123);
+
+  polygon64.vertex_count = std::numeric_limits<size_t>::max() / (3 * sizeof(lm2_v2_f64)) + 3;
+  EXPECT_EQ(lm2_polygon_split_by_max_vertices_f64(polygon64, &out64, &vertex64, 3), 0);
+  EXPECT_EQ(out64.vertex_count, 123);
+}
+
+TEST_F(PolygonTest, SplitCollinearBoundaryVerticesProducesNondegenerateTriangles_F64) {
+  lm2_v2_f64 vertices[] = {
+      {0, 0},
+      {2, 0},
+      {4, 0},
+      {4, 3},
+      {0, 3}
+  };
+  lm2_polygon_f64 pieces[3] = {};
+  lm2_v2_f64 buffer[9] = {};
+  size_t count = lm2_polygon_split_by_max_vertices_f64(
+      lm2_polygon_make_f64(vertices, 5), pieces, buffer, 3);
+  ASSERT_EQ(count, 3);
+  double area = 0.0;
+  for (size_t i = 0; i < count; ++i) {
+    ASSERT_EQ(pieces[i].vertex_count, 3);
+    const lm2_v2_f64* p = pieces[i].vertices;
+    double cross = (p[1].x - p[0].x) * (p[2].y - p[0].y) -
+                   (p[1].y - p[0].y) * (p[2].x - p[0].x);
+    EXPECT_GT(cross, 0.0);
+    area += cross * 0.5;
+  }
+  EXPECT_NEAR(area, 12.0, EPSILON_F64);
+}
+
+TEST_F(PolygonTest, SplitCollinearBoundaryVerticesProducesNondegenerateTriangles_F32) {
+  lm2_v2_f32 vertices[] = {
+      {0, 0},
+      {2, 0},
+      {4, 0},
+      {4, 3},
+      {0, 3}
+  };
+  lm2_polygon_f32 pieces[3] = {};
+  lm2_v2_f32 buffer[9] = {};
+  size_t count = lm2_polygon_split_by_max_vertices_f32(
+      lm2_polygon_make_f32(vertices, 5), pieces, buffer, 3);
+  ASSERT_EQ(count, 3);
+  float area = 0.0f;
+  for (size_t i = 0; i < count; ++i) {
+    ASSERT_EQ(pieces[i].vertex_count, 3);
+    const lm2_v2_f32* p = pieces[i].vertices;
+    float cross = (p[1].x - p[0].x) * (p[2].y - p[0].y) -
+                  (p[1].y - p[0].y) * (p[2].x - p[0].x);
+    EXPECT_GT(cross, 0.0f);
+    area += cross * 0.5f;
+  }
+  EXPECT_NEAR(area, 12.0f, EPSILON_F32);
+}
+
+TEST_F(PolygonTest, TriangulatesConcavePolygonWithCollinearBoundary_F64) {
+  lm2_v2_f64 vertices[] = {
+      {0, 0},
+      {2, 0},
+      {4, 0},
+      {4, 4},
+      {2, 2},
+      {0, 4}
+  };
+  size_t indices[12] = {};
+  size_t count = lm2_polygon_triangulate_ear_clipping_f64(lm2_polygon_make_f64(vertices, 6), indices);
+  ASSERT_EQ(count, 4);
+  double area = 0.0;
+  for (size_t i = 0; i < count; ++i) {
+    ASSERT_LT(indices[i * 3], 6);
+    ASSERT_LT(indices[i * 3 + 1], 6);
+    ASSERT_LT(indices[i * 3 + 2], 6);
+    lm2_v2_f64 a = vertices[indices[i * 3]];
+    lm2_v2_f64 b = vertices[indices[i * 3 + 1]];
+    lm2_v2_f64 c = vertices[indices[i * 3 + 2]];
+    double cross = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+    EXPECT_GT(cross, 0.0);
+    area += cross * 0.5;
+  }
+  EXPECT_NEAR(area, 12.0, EPSILON_F64);
+}
+
+TEST_F(PolygonTest, TriangulatesConcavePolygonWithCollinearBoundary_F32) {
+  lm2_v2_f32 vertices[] = {
+      {0, 4},
+      {2, 2},
+      {4, 4},
+      {4, 0},
+      {2, 0},
+      {0, 0}
+  };
+  size_t indices[12] = {};
+  size_t count = lm2_polygon_triangulate_ear_clipping_f32(lm2_polygon_make_f32(vertices, 6), indices);
+  ASSERT_EQ(count, 4);
+  float area = 0.0f;
+  for (size_t i = 0; i < count; ++i) {
+    ASSERT_LT(indices[i * 3], 6);
+    ASSERT_LT(indices[i * 3 + 1], 6);
+    ASSERT_LT(indices[i * 3 + 2], 6);
+    lm2_v2_f32 a = vertices[indices[i * 3]];
+    lm2_v2_f32 b = vertices[indices[i * 3 + 1]];
+    lm2_v2_f32 c = vertices[indices[i * 3 + 2]];
+    float cross = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+    EXPECT_LT(cross, 0.0f);
+    area += -cross * 0.5f;
+  }
+  EXPECT_NEAR(area, 12.0f, EPSILON_F32);
+}
+
+TEST_F(PolygonTest, SignedAreaIsIndependentOfLargeTranslation) {
+  lm2_v2_f64 vertices64[] = {
+      {    1e9,     1e9},
+      {1e9 + 1,     1e9},
+      {1e9 + 1, 1e9 + 1},
+      {    1e9, 1e9 + 1}
+  };
+  lm2_v2_f32 vertices32[] = {
+      {    1e5f,     1e5f},
+      {1e5f + 1,     1e5f},
+      {1e5f + 1, 1e5f + 1},
+      {    1e5f, 1e5f + 1}
+  };
+  lm2_polygon_f64 p64 = lm2_polygon_make_f64(vertices64, 4);
+  lm2_polygon_f32 p32 = lm2_polygon_make_f32(vertices32, 4);
+  EXPECT_DOUBLE_EQ(lm2_polygon_signed_area_f64(p64), 1.0);
+  EXPECT_FLOAT_EQ(lm2_polygon_signed_area_f32(p32), 1.0f);
+  lm2_polygon_reverse_winding_f64(p64);
+  lm2_polygon_reverse_winding_f32(p32);
+  EXPECT_DOUBLE_EQ(lm2_polygon_signed_area_f64(p64), -1.0);
+  EXPECT_FLOAT_EQ(lm2_polygon_signed_area_f32(p32), -1.0f);
+}
+
+TEST_F(PolygonTest, CentroidIsIndependentOfLargeTranslationAndWinding) {
+  lm2_v2_f64 vertices64[] = {
+      {    1e9,     1e9},
+      {1e9 + 1,     1e9},
+      {1e9 + 1, 1e9 + 1},
+      {    1e9, 1e9 + 1}
+  };
+  lm2_v2_f32 vertices32[] = {
+      {    1e5f,     1e5f},
+      {1e5f + 1,     1e5f},
+      {1e5f + 1, 1e5f + 1},
+      {    1e5f, 1e5f + 1}
+  };
+  lm2_polygon_f64 p64 = lm2_polygon_make_f64(vertices64, 4);
+  lm2_polygon_f32 p32 = lm2_polygon_make_f32(vertices32, 4);
+  for (int winding = 0; winding < 2; ++winding) {
+    lm2_v2_f64 c64 = lm2_polygon_centroid_f64(p64);
+    lm2_v2_f32 c32 = lm2_polygon_centroid_f32(p32);
+    EXPECT_DOUBLE_EQ(c64.x, 1e9 + 0.5);
+    EXPECT_DOUBLE_EQ(c64.y, 1e9 + 0.5);
+    EXPECT_FLOAT_EQ(c32.x, 1e5f + 0.5f);
+    EXPECT_FLOAT_EQ(c32.y, 1e5f + 0.5f);
+    lm2_polygon_reverse_winding_f64(p64);
+    lm2_polygon_reverse_winding_f32(p32);
+  }
+}
+
+TEST_F(PolygonTest, TriangulatesAndSplitsTranslatedConcavePolygons) {
+  lm2_v2_f64 vertices64[] = {
+      {    1e9,     1e9},
+      {1e9 + 4,     1e9},
+      {1e9 + 4, 1e9 + 4},
+      {1e9 + 2, 1e9 + 2},
+      {    1e9, 1e9 + 4}
+  };
+  lm2_v2_f32 vertices32[] = {
+      {    1e5f,     1e5f},
+      {1e5f + 4,     1e5f},
+      {1e5f + 4, 1e5f + 4},
+      {1e5f + 2, 1e5f + 2},
+      {    1e5f, 1e5f + 4}
+  };
+  lm2_polygon_f64 p64 = lm2_polygon_make_f64(vertices64, 5);
+  lm2_polygon_f32 p32 = lm2_polygon_make_f32(vertices32, 5);
+  for (int winding = 0; winding < 2; ++winding) {
+    size_t indices64[9] = {};
+    size_t indices32[9] = {};
+    lm2_polygon_f64 pieces64[3] = {};
+    lm2_polygon_f32 pieces32[3] = {};
+    lm2_v2_f64 buffer64[9] = {};
+    lm2_v2_f32 buffer32[9] = {};
+    ASSERT_EQ(lm2_polygon_triangulate_ear_clipping_f64(p64, indices64), 3);
+    ASSERT_EQ(lm2_polygon_triangulate_ear_clipping_f32(p32, indices32), 3);
+    ASSERT_EQ(lm2_polygon_split_by_max_vertices_f64(p64, pieces64, buffer64, 4), 3);
+    ASSERT_EQ(lm2_polygon_split_by_max_vertices_f32(p32, pieces32, buffer32, 4), 3);
+    double area64 = 0.0;
+    float area32 = 0.0f;
+    for (size_t i = 0; i < 3; ++i) {
+      ASSERT_EQ(pieces64[i].vertex_count, 3);
+      ASSERT_EQ(pieces32[i].vertex_count, 3);
+      area64 += lm2_polygon_area_f64(pieces64[i]);
+      area32 += lm2_polygon_area_f32(pieces32[i]);
+    }
+    EXPECT_DOUBLE_EQ(area64, 12.0);
+    EXPECT_FLOAT_EQ(area32, 12.0f);
+    lm2_polygon_reverse_winding_f64(p64);
+    lm2_polygon_reverse_winding_f32(p32);
+  }
+}
+
+TEST_F(PolygonTest, SplitCopiesInputThatAlreadyFits) {
+  lm2_v2_f64 vertices64[] = {
+      {0, 0},
+      {3, 0},
+      {0, 2}
+  };
+  lm2_v2_f32 vertices32[] = {
+      {0, 0},
+      {3, 0},
+      {0, 2}
+  };
+  lm2_v2_f64 output64[3] = {};
+  lm2_v2_f32 output32[3] = {};
+  lm2_polygon_f64 out64 = {};
+  lm2_polygon_f32 out32 = {};
+  ASSERT_EQ(lm2_polygon_split_by_max_vertices_f64(lm2_polygon_make_f64(vertices64, 3), &out64, output64, 3), 1);
+  ASSERT_EQ(lm2_polygon_split_by_max_vertices_f32(lm2_polygon_make_f32(vertices32, 3), &out32, output32, 3), 1);
+  ASSERT_EQ(out64.vertices, output64);
+  ASSERT_EQ(out32.vertices, output32);
+  ASSERT_EQ(out64.vertex_count, 3);
+  ASSERT_EQ(out32.vertex_count, 3);
+  for (size_t i = 0; i < 3; ++i) {
+    EXPECT_DOUBLE_EQ(output64[i].x, vertices64[i].x);
+    EXPECT_DOUBLE_EQ(output64[i].y, vertices64[i].y);
+    EXPECT_FLOAT_EQ(output32[i].x, vertices32[i].x);
+    EXPECT_FLOAT_EQ(output32[i].y, vertices32[i].y);
+  }
+  output64[0].x = 7;
+  output32[0].x = 7;
+  EXPECT_DOUBLE_EQ(vertices64[0].x, 0);
+  EXPECT_FLOAT_EQ(vertices32[0].x, 0);
+}
+
+TEST_F(PolygonTest, SplitDoesNotModifyOutputsWhenTriangulationIsIncomplete) {
+  // This degenerate polygon cannot yield nonzero-area triangles.
+  lm2_v2_f64 vertices64[] = {
+      {0, 0},
+      {1, 0},
+      {2, 0},
+      {3, 0}
+  };
+  lm2_v2_f32 vertices32[] = {
+      {0, 0},
+      {1, 0},
+      {2, 0},
+      {3, 0}
+  };
+  lm2_polygon_f64 out64[2] = {
+      {nullptr, 123},
+      {nullptr, 123}
+  };
+  lm2_polygon_f32 out32[2] = {
+      {nullptr, 123},
+      {nullptr, 123}
+  };
+  lm2_v2_f64 buffer64[6];
+  lm2_v2_f32 buffer32[6];
+  for (size_t i = 0; i < 6; ++i) {
+    buffer64[i] = {99, 99};
+    buffer32[i] = {99, 99};
+  }
+  EXPECT_EQ(lm2_polygon_split_by_max_vertices_f64(lm2_polygon_make_f64(vertices64, 4), out64, buffer64, 3), 0);
+  EXPECT_EQ(lm2_polygon_split_by_max_vertices_f32(lm2_polygon_make_f32(vertices32, 4), out32, buffer32, 3), 0);
+  for (size_t i = 0; i < 2; ++i) {
+    EXPECT_EQ(out64[i].vertices, nullptr);
+    EXPECT_EQ(out64[i].vertex_count, 123);
+    EXPECT_EQ(out32[i].vertices, nullptr);
+    EXPECT_EQ(out32[i].vertex_count, 123);
+  }
+  for (size_t i = 0; i < 6; ++i) {
+    EXPECT_DOUBLE_EQ(buffer64[i].x, 99);
+    EXPECT_DOUBLE_EQ(buffer64[i].y, 99);
+    EXPECT_FLOAT_EQ(buffer32[i].x, 99);
+    EXPECT_FLOAT_EQ(buffer32[i].y, 99);
+  }
 }

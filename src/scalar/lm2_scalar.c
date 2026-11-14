@@ -145,18 +145,22 @@ LM2_API float lm2_abs_f32(float a) {
 }
 
 LM2_API int64_t lm2_abs_i64(int64_t a) {
+  LM2_ASSERT(a != INT64_MIN);
   return (a < 0) ? -a : a;
 }
 
 LM2_API int32_t lm2_abs_i32(int32_t a) {
+  LM2_ASSERT(a != INT32_MIN);
   return (a < 0) ? -a : a;
 }
 
 LM2_API int16_t lm2_abs_i16(int16_t a) {
+  LM2_ASSERT(a != INT16_MIN);
   return (a < 0) ? -a : a;
 }
 
 LM2_API int8_t lm2_abs_i8(int8_t a) {
+  LM2_ASSERT(a != INT8_MIN);
   return (a < 0) ? -a : a;
 }
 
@@ -284,6 +288,12 @@ LM2_API uint8_t lm2_min_u8(uint8_t a, uint8_t b) {
 // Min Abs Functions
 // =============================================================================
 
+// The magnitude of INT64_MIN is representable in uint64_t, not int64_t.
+static uint64_t lm2_signed_magnitude(int64_t value) {
+  uint64_t bits = (uint64_t)value;
+  return value < 0 ? UINT64_C(0) - bits : bits;
+}
+
 LM2_API double lm2_min_abs_f64(double a, double b) {
   LM2_ASSERT(isfinite(a));
   LM2_ASSERT(isfinite(b));
@@ -297,26 +307,26 @@ LM2_API float lm2_min_abs_f32(float a, float b) {
 }
 
 LM2_API int64_t lm2_min_abs_i64(int64_t a, int64_t b) {
-  int64_t abs_a = (a < 0) ? -a : a;
-  int64_t abs_b = (b < 0) ? -b : b;
+  uint64_t abs_a = lm2_signed_magnitude(a);
+  uint64_t abs_b = lm2_signed_magnitude(b);
   return (abs_a < abs_b) ? a : b;
 }
 
 LM2_API int32_t lm2_min_abs_i32(int32_t a, int32_t b) {
-  int32_t abs_a = (a < 0) ? -a : a;
-  int32_t abs_b = (b < 0) ? -b : b;
+  uint64_t abs_a = lm2_signed_magnitude(a);
+  uint64_t abs_b = lm2_signed_magnitude(b);
   return (abs_a < abs_b) ? a : b;
 }
 
 LM2_API int16_t lm2_min_abs_i16(int16_t a, int16_t b) {
-  int16_t abs_a = (a < 0) ? -a : a;
-  int16_t abs_b = (b < 0) ? -b : b;
+  uint64_t abs_a = lm2_signed_magnitude(a);
+  uint64_t abs_b = lm2_signed_magnitude(b);
   return (abs_a < abs_b) ? a : b;
 }
 
 LM2_API int8_t lm2_min_abs_i8(int8_t a, int8_t b) {
-  int8_t abs_a = (a < 0) ? -a : a;
-  int8_t abs_b = (b < 0) ? -b : b;
+  uint64_t abs_a = lm2_signed_magnitude(a);
+  uint64_t abs_b = lm2_signed_magnitude(b);
   return (abs_a < abs_b) ? a : b;
 }
 
@@ -381,26 +391,26 @@ LM2_API float lm2_max_abs_f32(float a, float b) {
 }
 
 LM2_API int64_t lm2_max_abs_i64(int64_t a, int64_t b) {
-  int64_t abs_a = (a < 0) ? -a : a;
-  int64_t abs_b = (b < 0) ? -b : b;
+  uint64_t abs_a = lm2_signed_magnitude(a);
+  uint64_t abs_b = lm2_signed_magnitude(b);
   return (abs_a > abs_b) ? a : b;
 }
 
 LM2_API int32_t lm2_max_abs_i32(int32_t a, int32_t b) {
-  int32_t abs_a = (a < 0) ? -a : a;
-  int32_t abs_b = (b < 0) ? -b : b;
+  uint64_t abs_a = lm2_signed_magnitude(a);
+  uint64_t abs_b = lm2_signed_magnitude(b);
   return (abs_a > abs_b) ? a : b;
 }
 
 LM2_API int16_t lm2_max_abs_i16(int16_t a, int16_t b) {
-  int16_t abs_a = (a < 0) ? -a : a;
-  int16_t abs_b = (b < 0) ? -b : b;
+  uint64_t abs_a = lm2_signed_magnitude(a);
+  uint64_t abs_b = lm2_signed_magnitude(b);
   return (abs_a > abs_b) ? a : b;
 }
 
 LM2_API int8_t lm2_max_abs_i8(int8_t a, int8_t b) {
-  int8_t abs_a = (a < 0) ? -a : a;
-  int8_t abs_b = (b < 0) ? -b : b;
+  uint64_t abs_a = lm2_signed_magnitude(a);
+  uint64_t abs_b = lm2_signed_magnitude(b);
   return (abs_a > abs_b) ? a : b;
 }
 

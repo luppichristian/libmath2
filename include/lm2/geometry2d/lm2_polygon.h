@@ -176,9 +176,11 @@ LM2_API void lm2_polygon_place_at_center_f32(lm2_polygon_f32 polygon, lm2_v2_f32
 // Calculate the maximum number of triangles for a polygon (vertex_count - 2)
 LM2_API size_t lm2_polygon_max_triangle_count(size_t vertex_count);
 
-// Triangulate a polygon using ear clipping algorithm
-// out_indices: caller-provided array to store triangle indices (size = max_triangle_count * 3)
-// Returns: actual number of triangles generated
+// Triangulate a simple, nondegenerate polygon of either winding using ear clipping.
+// out_indices has room for 3 * (vertex_count - 2) indices and must not overlap
+// the input vertices. Returns the number of triangles produced; a result below
+// vertex_count - 2 means triangulation was incomplete or allocation failed.
+// On incomplete triangulation, the first 3 * result indices may have been written.
 LM2_API size_t lm2_polygon_triangulate_ear_clipping_f64(lm2_polygon_f64 polygon, size_t* out_indices);
 LM2_API size_t lm2_polygon_triangulate_ear_clipping_f32(lm2_polygon_f32 polygon, size_t* out_indices);
 
@@ -186,11 +188,14 @@ LM2_API size_t lm2_polygon_triangulate_ear_clipping_f32(lm2_polygon_f32 polygon,
 // Polygon Splitting
 // =============================================================================
 
-// Split polygon into subpolygons with max vertices each
-// out_polygons: caller-provided array of polygon structures (size = estimated split count)
-// out_vertices_buffer: caller-provided vertex buffer for all subpolygons
-// max_vertices: maximum vertices per subpolygon
-// Returns: actual number of subpolygons generated
+// Split a simple, nondegenerate polygon of either winding into subpolygons with
+// at most max_vertices vertices (max_vertices >= 3). For n input vertices,
+// out_polygons must hold n - 2 structures and out_vertices_buffer must hold
+// 3 * (n - 2) vertices. These are worst-case bounds, including concave inputs.
+// Outputs must not overlap the input or each other. If n <= max_vertices, the
+// polygon is copied as one piece. Otherwise, 0 indicates allocation failure,
+// size overflow, or incomplete triangulation; outputs are not written on failure.
+// On success returns the number of pieces and points each piece into the buffer.
 LM2_API size_t lm2_polygon_split_by_max_vertices_f64(lm2_polygon_f64 polygon, lm2_polygon_f64* out_polygons, lm2_v2_f64* out_vertices_buffer, size_t max_vertices);
 LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm2_polygon_f32* out_polygons, lm2_v2_f32* out_vertices_buffer, size_t max_vertices);
 

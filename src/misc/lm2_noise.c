@@ -26,6 +26,41 @@ SOFTWARE.
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 
+// The public safe arithmetic functions intentionally reject subnormal results.
+// Noise coordinates are checked for finiteness by lm2_floor_f32/f64, and all
+// calculations below use bounded local cell coordinates, gradients, or hash
+// fractions. Subnormal intermediates are valid here and may underflow to zero.
+static double _lm2_noise_add_f64(double a, double b) {
+  return a + b;
+}
+static float _lm2_noise_add_f32(float a, float b) {
+  return a + b;
+}
+static double _lm2_noise_sub_f64(double a, double b) {
+  return a - b;
+}
+static float _lm2_noise_sub_f32(float a, float b) {
+  return a - b;
+}
+static double _lm2_noise_mul_f64(double a, double b) {
+  return a * b;
+}
+static float _lm2_noise_mul_f32(float a, float b) {
+  return a * b;
+}
+static double _lm2_noise_div_f64(double a, double b) {
+  return a / b;
+}
+static float _lm2_noise_div_f32(float a, float b) {
+  return a / b;
+}
+static double _lm2_noise_lerp_f64(double a, double t, double b) {
+  return a + t * (b - a);
+}
+static float _lm2_noise_lerp_f32(float a, float t, float b) {
+  return a + t * (b - a);
+}
+
 // =============================================================================
 // Permutation Table (Ken Perlin's standard table, repeated for wrapping)
 // =============================================================================
@@ -550,15 +585,15 @@ static const unsigned char _lm2_perm[512] = {
 
 // Fade: 6t^5 - 15t^4 + 10t^3 = t^3 * (t * (t * 6 - 15) + 10)
 static double _lm2_fade_f64(double t) {
-  return lm2_mul_f64(
-      lm2_mul_f64(lm2_mul_f64(t, t), t),
-      lm2_add_f64(lm2_mul_f64(t, lm2_sub_f64(lm2_mul_f64(t, 6.0), 15.0)), 10.0));
+  return _lm2_noise_mul_f64(
+      _lm2_noise_mul_f64(_lm2_noise_mul_f64(t, t), t),
+      _lm2_noise_add_f64(_lm2_noise_mul_f64(t, _lm2_noise_sub_f64(_lm2_noise_mul_f64(t, 6.0), 15.0)), 10.0));
 }
 
 static float _lm2_fade_f32(float t) {
-  return lm2_mul_f32(
-      lm2_mul_f32(lm2_mul_f32(t, t), t),
-      lm2_add_f32(lm2_mul_f32(t, lm2_sub_f32(lm2_mul_f32(t, 6.0f), 15.0f)), 10.0f));
+  return _lm2_noise_mul_f32(
+      _lm2_noise_mul_f32(_lm2_noise_mul_f32(t, t), t),
+      _lm2_noise_add_f32(_lm2_noise_mul_f32(t, _lm2_noise_sub_f32(_lm2_noise_mul_f32(t, 6.0f), 15.0f)), 10.0f));
 }
 
 // =============================================================================
@@ -568,19 +603,19 @@ static float _lm2_fade_f32(float t) {
 // 2D gradient: 4 directions (1,1), (1,-1), (-1,1), (-1,-1)
 static double _lm2_grad2d_f64(int hash, double x, double y) {
   switch (hash & 3) {
-    case 0:  return lm2_add_f64(x, y);
-    case 1:  return lm2_sub_f64(x, y);
-    case 2:  return lm2_sub_f64(y, x);
-    default: return lm2_sub_f64(0.0, lm2_add_f64(x, y));
+    case 0:  return _lm2_noise_add_f64(x, y);
+    case 1:  return _lm2_noise_sub_f64(x, y);
+    case 2:  return _lm2_noise_sub_f64(y, x);
+    default: return _lm2_noise_sub_f64(0.0, _lm2_noise_add_f64(x, y));
   }
 }
 
 static float _lm2_grad2d_f32(int hash, float x, float y) {
   switch (hash & 3) {
-    case 0:  return lm2_add_f32(x, y);
-    case 1:  return lm2_sub_f32(x, y);
-    case 2:  return lm2_sub_f32(y, x);
-    default: return lm2_sub_f32(0.0f, lm2_add_f32(x, y));
+    case 0:  return _lm2_noise_add_f32(x, y);
+    case 1:  return _lm2_noise_sub_f32(x, y);
+    case 2:  return _lm2_noise_sub_f32(y, x);
+    default: return _lm2_noise_sub_f32(0.0f, _lm2_noise_add_f32(x, y));
   }
 }
 
@@ -589,18 +624,18 @@ static double _lm2_grad3d_f64(int hash, double x, double y, double z) {
   int h = hash & 15;
   double u = (h < 8) ? x : y;
   double v = (h < 4) ? y : ((h == 12 || h == 14) ? x : z);
-  return lm2_add_f64(
-      (h & 1) ? lm2_sub_f64(0.0, u) : u,
-      (h & 2) ? lm2_sub_f64(0.0, v) : v);
+  return _lm2_noise_add_f64(
+      (h & 1) ? _lm2_noise_sub_f64(0.0, u) : u,
+      (h & 2) ? _lm2_noise_sub_f64(0.0, v) : v);
 }
 
 static float _lm2_grad3d_f32(int hash, float x, float y, float z) {
   int h = hash & 15;
   float u = (h < 8) ? x : y;
   float v = (h < 4) ? y : ((h == 12 || h == 14) ? x : z);
-  return lm2_add_f32(
-      (h & 1) ? lm2_sub_f32(0.0f, u) : u,
-      (h & 2) ? lm2_sub_f32(0.0f, v) : v);
+  return _lm2_noise_add_f32(
+      (h & 1) ? _lm2_noise_sub_f32(0.0f, u) : u,
+      (h & 2) ? _lm2_noise_sub_f32(0.0f, v) : v);
 }
 
 // =============================================================================
@@ -608,39 +643,50 @@ static float _lm2_grad3d_f32(int hash, float x, float y, float z) {
 // =============================================================================
 
 // Integer hash for cell-based random values (overflow is intentional)
-static uint32_t _lm2_noise_hash(int32_t x, int32_t y, uint32_t seed) {
-  uint32_t h = (uint32_t)x * 374761393u + (uint32_t)y * 668265263u + seed;
+static uint32_t _lm2_noise_hash(uint32_t x, uint32_t y, uint32_t seed) {
+  uint32_t h = x * 374761393u + y * 668265263u + seed;
   h = (h ^ (h >> 13)) * 1274126177u;
   return h ^ (h >> 16);
 }
 
-static uint32_t _lm2_noise_hash3(int32_t x, int32_t y, int32_t z, uint32_t seed) {
-  uint32_t h = (uint32_t)x * 374761393u + (uint32_t)y * 668265263u + (uint32_t)z * 1103515245u + seed;
+static uint32_t _lm2_noise_hash3(uint32_t x, uint32_t y, uint32_t z, uint32_t seed) {
+  uint32_t h = x * 374761393u + y * 668265263u + z * 1103515245u + seed;
   h = (h ^ (h >> 13)) * 1274126177u;
   return h ^ (h >> 16);
 }
 
 // Convert hash to [0, 1) range
 static double _lm2_hash_to_f64(uint32_t h) {
-  return lm2_div_f64((double)(h & 0x7FFFFFFFu), (double)0x7FFFFFFFu);
+  return _lm2_noise_div_f64((double)(h & 0x7FFFFFFFu), (double)0x7FFFFFFFu);
 }
 
 static float _lm2_hash_to_f32(uint32_t h) {
-  return lm2_div_f32((float)(h & 0x7FFFFFFFu), (float)0x7FFFFFFFu);
+  return _lm2_noise_div_f32((float)(h & 0x7FFFFFFFu), (float)0x7FFFFFFFu);
 }
 
 // =============================================================================
 // Perlin Noise 2D
 // =============================================================================
 
+// Reduce before converting to int: finite coordinates can exceed INT_MAX.
+static int _lm2_perlin_cell_f64(double cell) {
+  int wrapped = (int)fmod(cell, 256.0);
+  return wrapped < 0 ? wrapped + 256 : wrapped;
+}
+
+static int _lm2_perlin_cell_f32(float cell) {
+  int wrapped = (int)fmodf(cell, 256.0f);
+  return wrapped < 0 ? wrapped + 256 : wrapped;
+}
+
 LM2_API double lm2_perlin2_f64(double x, double y) {
   double xf_d = lm2_floor_f64(x);
   double yf_d = lm2_floor_f64(y);
-  int xi = (int)xf_d & 255;
-  int yi = (int)yf_d & 255;
+  int xi = _lm2_perlin_cell_f64(xf_d);
+  int yi = _lm2_perlin_cell_f64(yf_d);
 
-  double xf = lm2_sub_f64(x, xf_d);
-  double yf = lm2_sub_f64(y, yf_d);
+  double xf = _lm2_noise_sub_f64(x, xf_d);
+  double yf = _lm2_noise_sub_f64(y, yf_d);
 
   double u = _lm2_fade_f64(xf);
   double v = _lm2_fade_f64(yf);
@@ -651,23 +697,23 @@ LM2_API double lm2_perlin2_f64(double x, double y) {
   int bb = _lm2_perm[_lm2_perm[xi + 1] + yi + 1];
 
   double g00 = _lm2_grad2d_f64(aa, xf, yf);
-  double g10 = _lm2_grad2d_f64(ba, lm2_sub_f64(xf, 1.0), yf);
-  double g01 = _lm2_grad2d_f64(ab, xf, lm2_sub_f64(yf, 1.0));
-  double g11 = _lm2_grad2d_f64(bb, lm2_sub_f64(xf, 1.0), lm2_sub_f64(yf, 1.0));
+  double g10 = _lm2_grad2d_f64(ba, _lm2_noise_sub_f64(xf, 1.0), yf);
+  double g01 = _lm2_grad2d_f64(ab, xf, _lm2_noise_sub_f64(yf, 1.0));
+  double g11 = _lm2_grad2d_f64(bb, _lm2_noise_sub_f64(xf, 1.0), _lm2_noise_sub_f64(yf, 1.0));
 
-  double x0 = lm2_lerp_f64(g00, u, g10);
-  double x1 = lm2_lerp_f64(g01, u, g11);
-  return lm2_lerp_f64(x0, v, x1);
+  double x0 = _lm2_noise_lerp_f64(g00, u, g10);
+  double x1 = _lm2_noise_lerp_f64(g01, u, g11);
+  return _lm2_noise_lerp_f64(x0, v, x1);
 }
 
 LM2_API float lm2_perlin2_f32(float x, float y) {
   float xf_d = lm2_floor_f32(x);
   float yf_d = lm2_floor_f32(y);
-  int xi = (int)xf_d & 255;
-  int yi = (int)yf_d & 255;
+  int xi = _lm2_perlin_cell_f32(xf_d);
+  int yi = _lm2_perlin_cell_f32(yf_d);
 
-  float xf = lm2_sub_f32(x, xf_d);
-  float yf = lm2_sub_f32(y, yf_d);
+  float xf = _lm2_noise_sub_f32(x, xf_d);
+  float yf = _lm2_noise_sub_f32(y, yf_d);
 
   float u = _lm2_fade_f32(xf);
   float v = _lm2_fade_f32(yf);
@@ -678,13 +724,13 @@ LM2_API float lm2_perlin2_f32(float x, float y) {
   int bb = _lm2_perm[_lm2_perm[xi + 1] + yi + 1];
 
   float g00 = _lm2_grad2d_f32(aa, xf, yf);
-  float g10 = _lm2_grad2d_f32(ba, lm2_sub_f32(xf, 1.0f), yf);
-  float g01 = _lm2_grad2d_f32(ab, xf, lm2_sub_f32(yf, 1.0f));
-  float g11 = _lm2_grad2d_f32(bb, lm2_sub_f32(xf, 1.0f), lm2_sub_f32(yf, 1.0f));
+  float g10 = _lm2_grad2d_f32(ba, _lm2_noise_sub_f32(xf, 1.0f), yf);
+  float g01 = _lm2_grad2d_f32(ab, xf, _lm2_noise_sub_f32(yf, 1.0f));
+  float g11 = _lm2_grad2d_f32(bb, _lm2_noise_sub_f32(xf, 1.0f), _lm2_noise_sub_f32(yf, 1.0f));
 
-  float x0 = lm2_lerp_f32(g00, u, g10);
-  float x1 = lm2_lerp_f32(g01, u, g11);
-  return lm2_lerp_f32(x0, v, x1);
+  float x0 = _lm2_noise_lerp_f32(g00, u, g10);
+  float x1 = _lm2_noise_lerp_f32(g01, u, g11);
+  return _lm2_noise_lerp_f32(x0, v, x1);
 }
 
 // =============================================================================
@@ -695,13 +741,13 @@ LM2_API double lm2_perlin3_f64(double x, double y, double z) {
   double xf_d = lm2_floor_f64(x);
   double yf_d = lm2_floor_f64(y);
   double zf_d = lm2_floor_f64(z);
-  int xi = (int)xf_d & 255;
-  int yi = (int)yf_d & 255;
-  int zi = (int)zf_d & 255;
+  int xi = _lm2_perlin_cell_f64(xf_d);
+  int yi = _lm2_perlin_cell_f64(yf_d);
+  int zi = _lm2_perlin_cell_f64(zf_d);
 
-  double xf = lm2_sub_f64(x, xf_d);
-  double yf = lm2_sub_f64(y, yf_d);
-  double zf = lm2_sub_f64(z, zf_d);
+  double xf = _lm2_noise_sub_f64(x, xf_d);
+  double yf = _lm2_noise_sub_f64(y, yf_d);
+  double zf = _lm2_noise_sub_f64(z, zf_d);
 
   double u = _lm2_fade_f64(xf);
   double v = _lm2_fade_f64(yf);
@@ -714,9 +760,9 @@ LM2_API double lm2_perlin3_f64(double x, double y, double z) {
   int ba = _lm2_perm[b] + zi;
   int bb = _lm2_perm[b + 1] + zi;
 
-  double x1f = lm2_sub_f64(xf, 1.0);
-  double y1f = lm2_sub_f64(yf, 1.0);
-  double z1f = lm2_sub_f64(zf, 1.0);
+  double x1f = _lm2_noise_sub_f64(xf, 1.0);
+  double y1f = _lm2_noise_sub_f64(yf, 1.0);
+  double z1f = _lm2_noise_sub_f64(zf, 1.0);
 
   double g000 = _lm2_grad3d_f64(_lm2_perm[aa], xf, yf, zf);
   double g100 = _lm2_grad3d_f64(_lm2_perm[ba], x1f, yf, zf);
@@ -727,28 +773,28 @@ LM2_API double lm2_perlin3_f64(double x, double y, double z) {
   double g011 = _lm2_grad3d_f64(_lm2_perm[ab + 1], xf, y1f, z1f);
   double g111 = _lm2_grad3d_f64(_lm2_perm[bb + 1], x1f, y1f, z1f);
 
-  double lx0 = lm2_lerp_f64(g000, u, g100);
-  double lx1 = lm2_lerp_f64(g010, u, g110);
-  double lx2 = lm2_lerp_f64(g001, u, g101);
-  double lx3 = lm2_lerp_f64(g011, u, g111);
+  double lx0 = _lm2_noise_lerp_f64(g000, u, g100);
+  double lx1 = _lm2_noise_lerp_f64(g010, u, g110);
+  double lx2 = _lm2_noise_lerp_f64(g001, u, g101);
+  double lx3 = _lm2_noise_lerp_f64(g011, u, g111);
 
-  double ly0 = lm2_lerp_f64(lx0, v, lx1);
-  double ly1 = lm2_lerp_f64(lx2, v, lx3);
+  double ly0 = _lm2_noise_lerp_f64(lx0, v, lx1);
+  double ly1 = _lm2_noise_lerp_f64(lx2, v, lx3);
 
-  return lm2_lerp_f64(ly0, w, ly1);
+  return _lm2_noise_lerp_f64(ly0, w, ly1);
 }
 
 LM2_API float lm2_perlin3_f32(float x, float y, float z) {
   float xf_d = lm2_floor_f32(x);
   float yf_d = lm2_floor_f32(y);
   float zf_d = lm2_floor_f32(z);
-  int xi = (int)xf_d & 255;
-  int yi = (int)yf_d & 255;
-  int zi = (int)zf_d & 255;
+  int xi = _lm2_perlin_cell_f32(xf_d);
+  int yi = _lm2_perlin_cell_f32(yf_d);
+  int zi = _lm2_perlin_cell_f32(zf_d);
 
-  float xf = lm2_sub_f32(x, xf_d);
-  float yf = lm2_sub_f32(y, yf_d);
-  float zf = lm2_sub_f32(z, zf_d);
+  float xf = _lm2_noise_sub_f32(x, xf_d);
+  float yf = _lm2_noise_sub_f32(y, yf_d);
+  float zf = _lm2_noise_sub_f32(z, zf_d);
 
   float u = _lm2_fade_f32(xf);
   float v = _lm2_fade_f32(yf);
@@ -761,9 +807,9 @@ LM2_API float lm2_perlin3_f32(float x, float y, float z) {
   int ba = _lm2_perm[b] + zi;
   int bb = _lm2_perm[b + 1] + zi;
 
-  float x1f = lm2_sub_f32(xf, 1.0f);
-  float y1f = lm2_sub_f32(yf, 1.0f);
-  float z1f = lm2_sub_f32(zf, 1.0f);
+  float x1f = _lm2_noise_sub_f32(xf, 1.0f);
+  float y1f = _lm2_noise_sub_f32(yf, 1.0f);
+  float z1f = _lm2_noise_sub_f32(zf, 1.0f);
 
   float g000 = _lm2_grad3d_f32(_lm2_perm[aa], xf, yf, zf);
   float g100 = _lm2_grad3d_f32(_lm2_perm[ba], x1f, yf, zf);
@@ -774,40 +820,57 @@ LM2_API float lm2_perlin3_f32(float x, float y, float z) {
   float g011 = _lm2_grad3d_f32(_lm2_perm[ab + 1], xf, y1f, z1f);
   float g111 = _lm2_grad3d_f32(_lm2_perm[bb + 1], x1f, y1f, z1f);
 
-  float lx0 = lm2_lerp_f32(g000, u, g100);
-  float lx1 = lm2_lerp_f32(g010, u, g110);
-  float lx2 = lm2_lerp_f32(g001, u, g101);
-  float lx3 = lm2_lerp_f32(g011, u, g111);
+  float lx0 = _lm2_noise_lerp_f32(g000, u, g100);
+  float lx1 = _lm2_noise_lerp_f32(g010, u, g110);
+  float lx2 = _lm2_noise_lerp_f32(g001, u, g101);
+  float lx3 = _lm2_noise_lerp_f32(g011, u, g111);
 
-  float ly0 = lm2_lerp_f32(lx0, v, lx1);
-  float ly1 = lm2_lerp_f32(lx2, v, lx3);
+  float ly0 = _lm2_noise_lerp_f32(lx0, v, lx1);
+  float ly1 = _lm2_noise_lerp_f32(lx2, v, lx3);
 
-  return lm2_lerp_f32(ly0, w, ly1);
+  return _lm2_noise_lerp_f32(ly0, w, ly1);
 }
 
 // =============================================================================
 // Voronoi Noise 2D
 // =============================================================================
 
+// The hash uses 32-bit modular arithmetic; wrap in floating point before the
+// conversion so even finite coordinates outside the signed integer range work.
+static uint32_t _lm2_voronoi_cell(double cell) {
+  double wrapped = fmod(cell, 4294967296.0);
+  if (wrapped < 0.0) wrapped += 4294967296.0;
+  return (uint32_t)wrapped;
+}
+
 LM2_API double lm2_voronoi2_f64(double x, double y) {
   double xf_d = lm2_floor_f64(x);
   double yf_d = lm2_floor_f64(y);
-  int xi = (int)xf_d;
-  int yi = (int)yf_d;
+  uint32_t xi = _lm2_voronoi_cell(xf_d);
+  uint32_t yi = _lm2_voronoi_cell(yf_d);
+  double xf = _lm2_noise_sub_f64(x, xf_d);
+  double yf = _lm2_noise_sub_f64(y, yf_d);
 
   double min_dist = 1e20;
 
-  for (int dy = -1; dy <= 1; dy++) {
-    for (int dx = -1; dx <= 1; dx++) {
-      int cx = xi + dx;
-      int cy = yi + dy;
+  // The nearest feature can lie two cells away along an axis. A feature in
+  // the current cell is within sqrt(2), so no more distant cell is needed.
+  for (int dy = -2; dy <= 2; dy++) {
+    for (int dx = -2; dx <= 2; dx++) {
+      double x_gap = xf < dx ? dx - xf : (xf > dx + 1 ? xf - (dx + 1) : 0.0);
+      double y_gap = yf < dy ? dy - yf : (yf > dy + 1 ? yf - (dy + 1) : 0.0);
+      if (x_gap >= min_dist || y_gap >= min_dist) continue;
+      uint32_t cx = xi + (uint32_t)dx;
+      uint32_t cy = yi + (uint32_t)dy;
 
-      double fx = lm2_add_f64((double)cx, _lm2_hash_to_f64(_lm2_noise_hash(cx, cy, 0u)));
-      double fy = lm2_add_f64((double)cy, _lm2_hash_to_f64(_lm2_noise_hash(cx, cy, 1u)));
+      double fx = _lm2_noise_add_f64((double)dx, _lm2_hash_to_f64(_lm2_noise_hash(cx, cy, 0u)));
+      double fy = _lm2_noise_add_f64((double)dy, _lm2_hash_to_f64(_lm2_noise_hash(cx, cy, 1u)));
 
-      double ddx = lm2_sub_f64(x, fx);
-      double ddy = lm2_sub_f64(y, fy);
-      double dist = lm2_sqrt_f64(lm2_add_f64(lm2_mul_f64(ddx, ddx), lm2_mul_f64(ddy, ddy)));
+      double ddx = _lm2_noise_sub_f64(xf, fx);
+      double ddy = _lm2_noise_sub_f64(yf, fy);
+      // hypot retains small representable distances when squaring would
+      // underflow, including very close approaches to a feature point.
+      double dist = hypot(ddx, ddy);
 
       if (dist < min_dist) {
         min_dist = dist;
@@ -821,22 +884,27 @@ LM2_API double lm2_voronoi2_f64(double x, double y) {
 LM2_API float lm2_voronoi2_f32(float x, float y) {
   float xf_d = lm2_floor_f32(x);
   float yf_d = lm2_floor_f32(y);
-  int xi = (int)xf_d;
-  int yi = (int)yf_d;
+  uint32_t xi = _lm2_voronoi_cell(xf_d);
+  uint32_t yi = _lm2_voronoi_cell(yf_d);
+  float xf = _lm2_noise_sub_f32(x, xf_d);
+  float yf = _lm2_noise_sub_f32(y, yf_d);
 
   float min_dist = 1e20f;
 
-  for (int dy = -1; dy <= 1; dy++) {
-    for (int dx = -1; dx <= 1; dx++) {
-      int cx = xi + dx;
-      int cy = yi + dy;
+  for (int dy = -2; dy <= 2; dy++) {
+    for (int dx = -2; dx <= 2; dx++) {
+      float x_gap = xf < dx ? dx - xf : (xf > dx + 1 ? xf - (dx + 1) : 0.0f);
+      float y_gap = yf < dy ? dy - yf : (yf > dy + 1 ? yf - (dy + 1) : 0.0f);
+      if (x_gap >= min_dist || y_gap >= min_dist) continue;
+      uint32_t cx = xi + (uint32_t)dx;
+      uint32_t cy = yi + (uint32_t)dy;
 
-      float fx = lm2_add_f32((float)cx, _lm2_hash_to_f32(_lm2_noise_hash(cx, cy, 0u)));
-      float fy = lm2_add_f32((float)cy, _lm2_hash_to_f32(_lm2_noise_hash(cx, cy, 1u)));
+      float fx = _lm2_noise_add_f32((float)dx, _lm2_hash_to_f32(_lm2_noise_hash(cx, cy, 0u)));
+      float fy = _lm2_noise_add_f32((float)dy, _lm2_hash_to_f32(_lm2_noise_hash(cx, cy, 1u)));
 
-      float ddx = lm2_sub_f32(x, fx);
-      float ddy = lm2_sub_f32(y, fy);
-      float dist = lm2_sqrt_f32(lm2_add_f32(lm2_mul_f32(ddx, ddx), lm2_mul_f32(ddy, ddy)));
+      float ddx = _lm2_noise_sub_f32(xf, fx);
+      float ddy = _lm2_noise_sub_f32(yf, fy);
+      float dist = hypotf(ddx, ddy);
 
       if (dist < min_dist) {
         min_dist = dist;
@@ -855,27 +923,36 @@ LM2_API double lm2_voronoi3_f64(double x, double y, double z) {
   double xf_d = lm2_floor_f64(x);
   double yf_d = lm2_floor_f64(y);
   double zf_d = lm2_floor_f64(z);
-  int xi = (int)xf_d;
-  int yi = (int)yf_d;
-  int zi = (int)zf_d;
+  uint32_t xi = _lm2_voronoi_cell(xf_d);
+  uint32_t yi = _lm2_voronoi_cell(yf_d);
+  uint32_t zi = _lm2_voronoi_cell(zf_d);
+  double xf = _lm2_noise_sub_f64(x, xf_d);
+  double yf = _lm2_noise_sub_f64(y, yf_d);
+  double zf = _lm2_noise_sub_f64(z, zf_d);
 
   double min_dist = 1e20;
 
-  for (int dz = -1; dz <= 1; dz++) {
-    for (int dy = -1; dy <= 1; dy++) {
-      for (int dx = -1; dx <= 1; dx++) {
-        int cx = xi + dx;
-        int cy = yi + dy;
-        int cz = zi + dz;
+  // The current cell bounds the nearest distance by sqrt(3), so the second
+  // ring is sufficient. Skip cells whose axis-aligned bounds are too far away.
+  for (int dz = -2; dz <= 2; dz++) {
+    for (int dy = -2; dy <= 2; dy++) {
+      for (int dx = -2; dx <= 2; dx++) {
+        double x_gap = xf < dx ? dx - xf : (xf > dx + 1 ? xf - (dx + 1) : 0.0);
+        double y_gap = yf < dy ? dy - yf : (yf > dy + 1 ? yf - (dy + 1) : 0.0);
+        double z_gap = zf < dz ? dz - zf : (zf > dz + 1 ? zf - (dz + 1) : 0.0);
+        if (x_gap >= min_dist || y_gap >= min_dist || z_gap >= min_dist) continue;
+        uint32_t cx = xi + (uint32_t)dx;
+        uint32_t cy = yi + (uint32_t)dy;
+        uint32_t cz = zi + (uint32_t)dz;
 
-        double fx = lm2_add_f64((double)cx, _lm2_hash_to_f64(_lm2_noise_hash3(cx, cy, cz, 0u)));
-        double fy = lm2_add_f64((double)cy, _lm2_hash_to_f64(_lm2_noise_hash3(cx, cy, cz, 1u)));
-        double fz = lm2_add_f64((double)cz, _lm2_hash_to_f64(_lm2_noise_hash3(cx, cy, cz, 2u)));
+        double fx = _lm2_noise_add_f64((double)dx, _lm2_hash_to_f64(_lm2_noise_hash3(cx, cy, cz, 0u)));
+        double fy = _lm2_noise_add_f64((double)dy, _lm2_hash_to_f64(_lm2_noise_hash3(cx, cy, cz, 1u)));
+        double fz = _lm2_noise_add_f64((double)dz, _lm2_hash_to_f64(_lm2_noise_hash3(cx, cy, cz, 2u)));
 
-        double ddx = lm2_sub_f64(x, fx);
-        double ddy = lm2_sub_f64(y, fy);
-        double ddz = lm2_sub_f64(z, fz);
-        double dist = lm2_sqrt_f64(lm2_add_f64(lm2_add_f64(lm2_mul_f64(ddx, ddx), lm2_mul_f64(ddy, ddy)), lm2_mul_f64(ddz, ddz)));
+        double ddx = _lm2_noise_sub_f64(xf, fx);
+        double ddy = _lm2_noise_sub_f64(yf, fy);
+        double ddz = _lm2_noise_sub_f64(zf, fz);
+        double dist = hypot(hypot(ddx, ddy), ddz);
 
         if (dist < min_dist) {
           min_dist = dist;
@@ -891,27 +968,34 @@ LM2_API float lm2_voronoi3_f32(float x, float y, float z) {
   float xf_d = lm2_floor_f32(x);
   float yf_d = lm2_floor_f32(y);
   float zf_d = lm2_floor_f32(z);
-  int xi = (int)xf_d;
-  int yi = (int)yf_d;
-  int zi = (int)zf_d;
+  uint32_t xi = _lm2_voronoi_cell(xf_d);
+  uint32_t yi = _lm2_voronoi_cell(yf_d);
+  uint32_t zi = _lm2_voronoi_cell(zf_d);
+  float xf = _lm2_noise_sub_f32(x, xf_d);
+  float yf = _lm2_noise_sub_f32(y, yf_d);
+  float zf = _lm2_noise_sub_f32(z, zf_d);
 
   float min_dist = 1e20f;
 
-  for (int dz = -1; dz <= 1; dz++) {
-    for (int dy = -1; dy <= 1; dy++) {
-      for (int dx = -1; dx <= 1; dx++) {
-        int cx = xi + dx;
-        int cy = yi + dy;
-        int cz = zi + dz;
+  for (int dz = -2; dz <= 2; dz++) {
+    for (int dy = -2; dy <= 2; dy++) {
+      for (int dx = -2; dx <= 2; dx++) {
+        float x_gap = xf < dx ? dx - xf : (xf > dx + 1 ? xf - (dx + 1) : 0.0f);
+        float y_gap = yf < dy ? dy - yf : (yf > dy + 1 ? yf - (dy + 1) : 0.0f);
+        float z_gap = zf < dz ? dz - zf : (zf > dz + 1 ? zf - (dz + 1) : 0.0f);
+        if (x_gap >= min_dist || y_gap >= min_dist || z_gap >= min_dist) continue;
+        uint32_t cx = xi + (uint32_t)dx;
+        uint32_t cy = yi + (uint32_t)dy;
+        uint32_t cz = zi + (uint32_t)dz;
 
-        float fx = lm2_add_f32((float)cx, _lm2_hash_to_f32(_lm2_noise_hash3(cx, cy, cz, 0u)));
-        float fy = lm2_add_f32((float)cy, _lm2_hash_to_f32(_lm2_noise_hash3(cx, cy, cz, 1u)));
-        float fz = lm2_add_f32((float)cz, _lm2_hash_to_f32(_lm2_noise_hash3(cx, cy, cz, 2u)));
+        float fx = _lm2_noise_add_f32((float)dx, _lm2_hash_to_f32(_lm2_noise_hash3(cx, cy, cz, 0u)));
+        float fy = _lm2_noise_add_f32((float)dy, _lm2_hash_to_f32(_lm2_noise_hash3(cx, cy, cz, 1u)));
+        float fz = _lm2_noise_add_f32((float)dz, _lm2_hash_to_f32(_lm2_noise_hash3(cx, cy, cz, 2u)));
 
-        float ddx = lm2_sub_f32(x, fx);
-        float ddy = lm2_sub_f32(y, fy);
-        float ddz = lm2_sub_f32(z, fz);
-        float dist = lm2_sqrt_f32(lm2_add_f32(lm2_add_f32(lm2_mul_f32(ddx, ddx), lm2_mul_f32(ddy, ddy)), lm2_mul_f32(ddz, ddz)));
+        float ddx = _lm2_noise_sub_f32(xf, fx);
+        float ddy = _lm2_noise_sub_f32(yf, fy);
+        float ddz = _lm2_noise_sub_f32(zf, fz);
+        float dist = hypotf(hypotf(ddx, ddy), ddz);
 
         if (dist < min_dist) {
           min_dist = dist;

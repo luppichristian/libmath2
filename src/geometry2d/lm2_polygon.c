@@ -187,13 +187,17 @@ LM2_API double lm2_polygon_signed_area_f64(lm2_polygon_f64 polygon) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
-  // Shoelace formula (returns signed area)
+  // Translate to the first vertex before applying the shoelace formula.
+  // This avoids cancellation between large products for translated polygons.
+  lm2_v2_f64 origin = polygon.vertices[0];
   double area = 0.0;
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
+    lm2_v2_f64 a = lm2_v2_sub_f64(polygon.vertices[i], origin);
+    lm2_v2_f64 b = lm2_v2_sub_f64(polygon.vertices[j], origin);
     double cross = lm2_sub_f64(
-        lm2_mul_f64(polygon.vertices[i].x, polygon.vertices[j].y),
-        lm2_mul_f64(polygon.vertices[j].x, polygon.vertices[i].y));
+        lm2_mul_f64(a.x, b.y),
+        lm2_mul_f64(b.x, a.y));
     area = lm2_add_f64(area, cross);
   }
   return lm2_mul_f64(area, 0.5);
@@ -203,13 +207,15 @@ LM2_API float lm2_polygon_signed_area_f32(lm2_polygon_f32 polygon) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
-  // Shoelace formula (returns signed area)
+  lm2_v2_f32 origin = polygon.vertices[0];
   float area = 0.0f;
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
+    lm2_v2_f32 a = lm2_v2_sub_f32(polygon.vertices[i], origin);
+    lm2_v2_f32 b = lm2_v2_sub_f32(polygon.vertices[j], origin);
     float cross = lm2_sub_f32(
-        lm2_mul_f32(polygon.vertices[i].x, polygon.vertices[j].y),
-        lm2_mul_f32(polygon.vertices[j].x, polygon.vertices[i].y));
+        lm2_mul_f32(a.x, b.y),
+        lm2_mul_f32(b.x, a.y));
     area = lm2_add_f32(area, cross);
   }
   return lm2_mul_f32(area, 0.5f);
@@ -273,23 +279,26 @@ LM2_API lm2_v2_f64 lm2_polygon_centroid_f64(lm2_polygon_f64 polygon) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
+  lm2_v2_f64 origin = polygon.vertices[0];
   lm2_v2_f64 centroid = {0.0, 0.0};
   double signed_area = 0.0;
 
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
+    lm2_v2_f64 a = lm2_v2_sub_f64(polygon.vertices[i], origin);
+    lm2_v2_f64 b = lm2_v2_sub_f64(polygon.vertices[j], origin);
     double cross = lm2_sub_f64(
-        lm2_mul_f64(polygon.vertices[i].x, polygon.vertices[j].y),
-        lm2_mul_f64(polygon.vertices[j].x, polygon.vertices[i].y));
+        lm2_mul_f64(a.x, b.y),
+        lm2_mul_f64(b.x, a.y));
     signed_area = lm2_add_f64(signed_area, cross);
-    centroid.x = lm2_add_f64(centroid.x, lm2_mul_f64(lm2_add_f64(polygon.vertices[i].x, polygon.vertices[j].x), cross));
-    centroid.y = lm2_add_f64(centroid.y, lm2_mul_f64(lm2_add_f64(polygon.vertices[i].y, polygon.vertices[j].y), cross));
+    centroid.x = lm2_add_f64(centroid.x, lm2_mul_f64(lm2_add_f64(a.x, b.x), cross));
+    centroid.y = lm2_add_f64(centroid.y, lm2_mul_f64(lm2_add_f64(a.y, b.y), cross));
   }
 
   signed_area = lm2_mul_f64(signed_area, 0.5);
   double factor = lm2_div_f64(1.0, lm2_mul_f64(6.0, signed_area));
-  centroid.x = lm2_mul_f64(centroid.x, factor);
-  centroid.y = lm2_mul_f64(centroid.y, factor);
+  centroid.x = lm2_add_f64(origin.x, lm2_mul_f64(centroid.x, factor));
+  centroid.y = lm2_add_f64(origin.y, lm2_mul_f64(centroid.y, factor));
 
   return centroid;
 }
@@ -298,23 +307,26 @@ LM2_API lm2_v2_f32 lm2_polygon_centroid_f32(lm2_polygon_f32 polygon) {
   LM2_ASSERT(polygon.vertices != NULL);
   LM2_ASSERT(polygon.vertex_count >= 3);
 
+  lm2_v2_f32 origin = polygon.vertices[0];
   lm2_v2_f32 centroid = {0.0f, 0.0f};
   float signed_area = 0.0f;
 
   for (size_t i = 0; i < polygon.vertex_count; i++) {
     size_t j = (i + 1) % polygon.vertex_count;
+    lm2_v2_f32 a = lm2_v2_sub_f32(polygon.vertices[i], origin);
+    lm2_v2_f32 b = lm2_v2_sub_f32(polygon.vertices[j], origin);
     float cross = lm2_sub_f32(
-        lm2_mul_f32(polygon.vertices[i].x, polygon.vertices[j].y),
-        lm2_mul_f32(polygon.vertices[j].x, polygon.vertices[i].y));
+        lm2_mul_f32(a.x, b.y),
+        lm2_mul_f32(b.x, a.y));
     signed_area = lm2_add_f32(signed_area, cross);
-    centroid.x = lm2_add_f32(centroid.x, lm2_mul_f32(lm2_add_f32(polygon.vertices[i].x, polygon.vertices[j].x), cross));
-    centroid.y = lm2_add_f32(centroid.y, lm2_mul_f32(lm2_add_f32(polygon.vertices[i].y, polygon.vertices[j].y), cross));
+    centroid.x = lm2_add_f32(centroid.x, lm2_mul_f32(lm2_add_f32(a.x, b.x), cross));
+    centroid.y = lm2_add_f32(centroid.y, lm2_mul_f32(lm2_add_f32(a.y, b.y), cross));
   }
 
   signed_area = lm2_mul_f32(signed_area, 0.5f);
   float factor = lm2_div_f32(1.0f, lm2_mul_f32(6.0f, signed_area));
-  centroid.x = lm2_mul_f32(centroid.x, factor);
-  centroid.y = lm2_mul_f32(centroid.y, factor);
+  centroid.x = lm2_add_f32(origin.x, lm2_mul_f32(centroid.x, factor));
+  centroid.y = lm2_add_f32(origin.y, lm2_mul_f32(centroid.y, factor));
 
   return centroid;
 }
@@ -721,14 +733,15 @@ LM2_API size_t lm2_polygon_max_triangle_count(size_t vertex_count) {
 }
 
 // Helper function to check if a triangle at indices (i, j, k) is an ear
-static bool is_ear_f64(const lm2_v2_f64* vertices, const size_t* indices, size_t n, size_t i, size_t j, size_t k) {
+static bool is_ear_f64(const lm2_v2_f64* vertices, const size_t* indices, size_t n, size_t i, size_t j, size_t k, bool ccw) {
   lm2_v2_f64 a = vertices[indices[i]];
   lm2_v2_f64 b = vertices[indices[j]];
   lm2_v2_f64 c = vertices[indices[k]];
   lm2_triangle2_f64 tri = {a, b, c};
 
   // Check if triangle is convex
-  if (lm2_v2_cross3_f64(a, b, c) < 0.0) {
+  double cross = lm2_v2_cross3_f64(a, b, c);
+  if (ccw ? cross <= 0.0 : cross >= 0.0) {
     return false;
   }
 
@@ -743,14 +756,15 @@ static bool is_ear_f64(const lm2_v2_f64* vertices, const size_t* indices, size_t
   return true;
 }
 
-static bool is_ear_f32(const lm2_v2_f32* vertices, const size_t* indices, size_t n, size_t i, size_t j, size_t k) {
+static bool is_ear_f32(const lm2_v2_f32* vertices, const size_t* indices, size_t n, size_t i, size_t j, size_t k, bool ccw) {
   lm2_v2_f32 a = vertices[indices[i]];
   lm2_v2_f32 b = vertices[indices[j]];
   lm2_v2_f32 c = vertices[indices[k]];
   lm2_triangle2_f32 tri = {a, b, c};
 
   // Check if triangle is convex
-  if (lm2_v2_cross3_f32(a, b, c) < 0.0f) {
+  float cross = lm2_v2_cross3_f32(a, b, c);
+  if (ccw ? cross <= 0.0f : cross >= 0.0f) {
     return false;
   }
 
@@ -771,7 +785,9 @@ LM2_API size_t lm2_polygon_triangulate_ear_clipping_f64(lm2_polygon_f64 polygon,
   LM2_ASSERT(out_indices != NULL);
 
   size_t n = polygon.vertex_count;
+  if (n > SIZE_MAX / sizeof(size_t) || n > SIZE_MAX / sizeof(*polygon.vertices)) return 0;
   size_t triangle_count = 0;
+  bool ccw = lm2_polygon_signed_area_f64(polygon) >= 0.0;
 
   // Create working array of vertex indices (heap allocation for MSVC compatibility)
   size_t* indices = (size_t*)malloc(n * sizeof(size_t));
@@ -790,7 +806,7 @@ LM2_API size_t lm2_polygon_triangulate_ear_clipping_f64(lm2_polygon_f64 polygon,
       size_t prev = (i == 0) ? (n - 1) : (i - 1);
       size_t next = (i + 1) % n;
 
-      if (is_ear_f64(polygon.vertices, indices, n, prev, i, next)) {
+      if (is_ear_f64(polygon.vertices, indices, n, prev, i, next, ccw)) {
         // Output triangle
         out_indices[triangle_count * 3 + 0] = indices[prev];
         out_indices[triangle_count * 3 + 1] = indices[i];
@@ -813,6 +829,7 @@ LM2_API size_t lm2_polygon_triangulate_ear_clipping_f64(lm2_polygon_f64 polygon,
     }
   }
 
+  free(indices);
   return triangle_count;
 }
 
@@ -822,7 +839,9 @@ LM2_API size_t lm2_polygon_triangulate_ear_clipping_f32(lm2_polygon_f32 polygon,
   LM2_ASSERT(out_indices != NULL);
 
   size_t n = polygon.vertex_count;
+  if (n > SIZE_MAX / sizeof(size_t) || n > SIZE_MAX / sizeof(*polygon.vertices)) return 0;
   size_t triangle_count = 0;
+  bool ccw = lm2_polygon_signed_area_f32(polygon) >= 0.0f;
 
   // Create working array of vertex indices (heap allocation for MSVC compatibility)
   size_t* indices = (size_t*)malloc(n * sizeof(size_t));
@@ -841,7 +860,7 @@ LM2_API size_t lm2_polygon_triangulate_ear_clipping_f32(lm2_polygon_f32 polygon,
       size_t prev = (i == 0) ? (n - 1) : (i - 1);
       size_t next = (i + 1) % n;
 
-      if (is_ear_f32(polygon.vertices, indices, n, prev, i, next)) {
+      if (is_ear_f32(polygon.vertices, indices, n, prev, i, next, ccw)) {
         // Output triangle
         out_indices[triangle_count * 3 + 0] = indices[prev];
         out_indices[triangle_count * 3 + 1] = indices[i];
@@ -879,6 +898,12 @@ LM2_API size_t lm2_polygon_split_by_max_vertices_f64(lm2_polygon_f64 polygon, lm
   LM2_ASSERT(out_vertices_buffer != NULL);
   LM2_ASSERT(max_vertices >= 3);
 
+  size_t max_triangles = polygon.vertex_count - 2;
+  if (polygon.vertex_count > SIZE_MAX / sizeof(*polygon.vertices) ||
+      max_triangles > SIZE_MAX / (3 * sizeof(size_t)) ||
+      max_triangles > SIZE_MAX / (3 * sizeof(*out_vertices_buffer)) ||
+      max_triangles > SIZE_MAX / sizeof(*out_polygons)) return 0;
+
   // If polygon already fits within max_vertices, return it as-is
   if (polygon.vertex_count <= max_vertices) {
     out_polygons[0].vertices = out_vertices_buffer;
@@ -889,38 +914,53 @@ LM2_API size_t lm2_polygon_split_by_max_vertices_f64(lm2_polygon_f64 polygon, lm
     return 1;
   }
 
-  // Split polygon into chunks
+  // Concave polygons and fans with collinear vertices require ear clipping.
+  bool fan_safe = lm2_polygon_is_convex_f64(polygon);
+  for (size_t i = 1; fan_safe && i < polygon.vertex_count - 1; i++) {
+    if (lm2_v2_cross3_f64(polygon.vertices[0], polygon.vertices[i], polygon.vertices[i + 1]) == 0.0) {
+      fan_safe = false;
+    }
+  }
+  if (!fan_safe) {
+    size_t* indices = (size_t*)malloc(max_triangles * 3 * sizeof(size_t));
+    if (indices == NULL) return 0;
+    size_t count = lm2_polygon_triangulate_ear_clipping_f64(polygon, indices);
+    if (count != max_triangles) {
+      free(indices);
+      return 0;
+    }
+    for (size_t i = 0; i < count; i++) {
+      out_polygons[i].vertices = out_vertices_buffer + i * 3;
+      out_polygons[i].vertex_count = 3;
+      for (size_t j = 0; j < 3; j++) {
+        out_vertices_buffer[i * 3 + j] = polygon.vertices[indices[i * 3 + j]];
+      }
+    }
+    free(indices);
+    return count;
+  }
+
+  // A convex polygon can be partitioned into fans anchored at vertex zero.
   size_t num_splits = 0;
   size_t buffer_offset = 0;
-  size_t current_start = 0;
+  size_t current_start = 1;
 
-  while (current_start < polygon.vertex_count) {
-    size_t chunk_size = max_vertices;
-    if (current_start + chunk_size > polygon.vertex_count) {
-      chunk_size = polygon.vertex_count - current_start;
-    }
-
-    // Ensure we have at least 3 vertices
-    if (chunk_size < 3) {
-      chunk_size = 3;
-    }
+  while (current_start < polygon.vertex_count - 1) {
+    size_t remaining = polygon.vertex_count - current_start;
+    size_t boundary_count = remaining < max_vertices - 1 ? remaining : max_vertices - 1;
+    size_t chunk_size = boundary_count + 1;
 
     out_polygons[num_splits].vertices = out_vertices_buffer + buffer_offset;
     out_polygons[num_splits].vertex_count = chunk_size;
 
-    for (size_t i = 0; i < chunk_size; i++) {
-      size_t src_index = (current_start + i) % polygon.vertex_count;
-      out_vertices_buffer[buffer_offset + i] = polygon.vertices[src_index];
+    out_vertices_buffer[buffer_offset] = polygon.vertices[0];
+    for (size_t i = 0; i < boundary_count; i++) {
+      out_vertices_buffer[buffer_offset + 1 + i] = polygon.vertices[current_start + i];
     }
 
     buffer_offset += chunk_size;
-    current_start += (chunk_size - 1);  // Overlap by 1 vertex
+    current_start += boundary_count - 1;
     num_splits++;
-
-    // Break if we've processed all vertices
-    if (current_start >= polygon.vertex_count) {
-      break;
-    }
   }
 
   return num_splits;
@@ -933,6 +973,12 @@ LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm
   LM2_ASSERT(out_vertices_buffer != NULL);
   LM2_ASSERT(max_vertices >= 3);
 
+  size_t max_triangles = polygon.vertex_count - 2;
+  if (polygon.vertex_count > SIZE_MAX / sizeof(*polygon.vertices) ||
+      max_triangles > SIZE_MAX / (3 * sizeof(size_t)) ||
+      max_triangles > SIZE_MAX / (3 * sizeof(*out_vertices_buffer)) ||
+      max_triangles > SIZE_MAX / sizeof(*out_polygons)) return 0;
+
   // If polygon already fits within max_vertices, return it as-is
   if (polygon.vertex_count <= max_vertices) {
     out_polygons[0].vertices = out_vertices_buffer;
@@ -943,38 +989,51 @@ LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm
     return 1;
   }
 
-  // Split polygon into chunks
+  bool fan_safe = lm2_polygon_is_convex_f32(polygon);
+  for (size_t i = 1; fan_safe && i < polygon.vertex_count - 1; i++) {
+    if (lm2_v2_cross3_f32(polygon.vertices[0], polygon.vertices[i], polygon.vertices[i + 1]) == 0.0f) {
+      fan_safe = false;
+    }
+  }
+  if (!fan_safe) {
+    size_t* indices = (size_t*)malloc(max_triangles * 3 * sizeof(size_t));
+    if (indices == NULL) return 0;
+    size_t count = lm2_polygon_triangulate_ear_clipping_f32(polygon, indices);
+    if (count != max_triangles) {
+      free(indices);
+      return 0;
+    }
+    for (size_t i = 0; i < count; i++) {
+      out_polygons[i].vertices = out_vertices_buffer + i * 3;
+      out_polygons[i].vertex_count = 3;
+      for (size_t j = 0; j < 3; j++) {
+        out_vertices_buffer[i * 3 + j] = polygon.vertices[indices[i * 3 + j]];
+      }
+    }
+    free(indices);
+    return count;
+  }
+
   size_t num_splits = 0;
   size_t buffer_offset = 0;
-  size_t current_start = 0;
+  size_t current_start = 1;
 
-  while (current_start < polygon.vertex_count) {
-    size_t chunk_size = max_vertices;
-    if (current_start + chunk_size > polygon.vertex_count) {
-      chunk_size = polygon.vertex_count - current_start;
-    }
-
-    // Ensure we have at least 3 vertices
-    if (chunk_size < 3) {
-      chunk_size = 3;
-    }
+  while (current_start < polygon.vertex_count - 1) {
+    size_t remaining = polygon.vertex_count - current_start;
+    size_t boundary_count = remaining < max_vertices - 1 ? remaining : max_vertices - 1;
+    size_t chunk_size = boundary_count + 1;
 
     out_polygons[num_splits].vertices = out_vertices_buffer + buffer_offset;
     out_polygons[num_splits].vertex_count = chunk_size;
 
-    for (size_t i = 0; i < chunk_size; i++) {
-      size_t src_index = (current_start + i) % polygon.vertex_count;
-      out_vertices_buffer[buffer_offset + i] = polygon.vertices[src_index];
+    out_vertices_buffer[buffer_offset] = polygon.vertices[0];
+    for (size_t i = 0; i < boundary_count; i++) {
+      out_vertices_buffer[buffer_offset + 1 + i] = polygon.vertices[current_start + i];
     }
 
     buffer_offset += chunk_size;
-    current_start += (chunk_size - 1);  // Overlap by 1 vertex
+    current_start += boundary_count - 1;
     num_splits++;
-
-    // Break if we've processed all vertices
-    if (current_start >= polygon.vertex_count) {
-      break;
-    }
   }
 
   return num_splits;

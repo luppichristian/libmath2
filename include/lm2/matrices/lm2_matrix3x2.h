@@ -60,6 +60,13 @@ LM2_HEADER_BEGIN;
 // Can represent: translation, rotation, scaling, shearing, and combinations.
 // Efficient for 2D transformations (only stores 6 values vs 9 for full 3x3).
 
+// Inversion requires a finite, invertible matrix and arithmetic within the
+// safe-ops range. With checks enabled, a computed zero determinant or invalid
+// arithmetic asserts. A nonzero computed determinant does not guarantee an
+// accurate inverse: ill-conditioned matrices and extreme scales can lose
+// precision, overflow, or underflow. LM2_UNSAFE disables these checks when
+// defined while compiling the library.
+
 // =============================================================================
 // Matrix 3x2 Function Declarations - f64
 // =============================================================================

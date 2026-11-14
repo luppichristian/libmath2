@@ -59,7 +59,12 @@ LM2_API lm2_v2_f32 lm2_ray2_point_at_f32(lm2_ray2_f32 ray, float t);
 // 2D Ray vs Primitive Tests
 // =============================================================================
 
-// Ray vs Circle
+// Primitive and generic shape raycasts use the precision named by their suffix.
+// Polygons must be convex and nondegenerate, with 3 to 8 vertices ordered
+// counterclockwise; triangles must be nondegenerate and counterclockwise.
+
+// Ray vs Circle. At extreme distances, t may round too coarsely for
+// ray.origin + ray.direction * t to reproduce the returned surface point.
 LM2_API lm2_rayhit2_f64 lm2_raycast_circle_f64(lm2_ray2_f64 ray, lm2_circle_f64 circle);
 LM2_API lm2_rayhit2_f32 lm2_raycast_circle_f32(lm2_ray2_f32 ray, lm2_circle_f32 circle);
 
@@ -67,7 +72,8 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_circle_f32(lm2_ray2_f32 ray, lm2_circle_f32 
 LM2_API lm2_rayhit2_f64 lm2_raycast_aabb_f64(lm2_ray2_f64 ray, lm2_r2_f64 aabb);
 LM2_API lm2_rayhit2_f32 lm2_raycast_aabb_f32(lm2_ray2_f32 ray, lm2_r2_f32 aabb);
 
-// Ray vs Capsule
+// Ray vs Capsule. At extreme distances, rounded t may not reproduce the
+// returned surface point when substituted into ray.origin + ray.direction * t.
 LM2_API lm2_rayhit2_f64 lm2_raycast_capsule2_f64(lm2_ray2_f64 ray, lm2_capsule2_f64 capsule);
 LM2_API lm2_rayhit2_f32 lm2_raycast_capsule2_f32(lm2_ray2_f32 ray, lm2_capsule2_f32 capsule);
 

@@ -605,3 +605,55 @@ TEST_F(QuaternionTest, CombinedRotations_F64) {
   double r_len = std::sqrt(rotated.x * rotated.x + rotated.y * rotated.y + rotated.z * rotated.z);
   EXPECT_NEAR(r_len, v_len, 0.001);
 }
+
+TEST_F(QuaternionTest, InterpolationShortestPathAndCloseRotations_F64) {
+  const lm2_quat_f64 identity = lm2_quat_identity_f64();
+  const lm2_quat_f64 quarter_turn = lm2_quat_from_axis_angle_f64({0, 0, 1}, LM2_PI_F64 / 2);
+  const lm2_quat_f64 negated = {-quarter_turn.x, -quarter_turn.y, -quarter_turn.z, -quarter_turn.w};
+  for (double t : {double(0), double(0.25), double(0.5), double(1)}) {
+    for (auto interpolate : {lm2_quat_slerp_f64, lm2_quat_nlerp_f64}) {
+      const auto positive = interpolate(identity, quarter_turn, t);
+      const auto negative = interpolate(identity, negated, t);
+      const auto same = interpolate(quarter_turn, negated, t);
+      EXPECT_NEAR(lm2_quat_length_f64(positive), 1, 1e-10);
+      EXPECT_NEAR(lm2_quat_length_f64(negative), 1, 1e-10);
+      EXPECT_NEAR(lm2_quat_dot_f64(positive, negative), 1, 1e-10);
+      EXPECT_NEAR(lm2_quat_dot_f64(quarter_turn, same), 1, 1e-10);
+    }
+  }
+  const auto slerp = lm2_quat_slerp_f64(identity, quarter_turn, double(0.25));
+  const auto rotated = lm2_quat_rotate_vector_f64(slerp, {1, 0, 0});
+  EXPECT_NEAR(rotated.x, std::cos(LM2_PI_F64 / 8), 1e-10);
+  EXPECT_NEAR(rotated.y, std::sin(LM2_PI_F64 / 8), 1e-10);
+  EXPECT_NEAR(rotated.z, 0, 1e-10);
+  const auto close = lm2_quat_from_axis_angle_f64({0, 0, 1}, double(0.001));
+  const auto halfway = lm2_quat_slerp_f64(identity, close, double(0.5));
+  EXPECT_NEAR(halfway.z, std::sin(double(0.00025)), 1e-10);
+  EXPECT_NEAR(halfway.w, std::cos(double(0.00025)), 1e-10);
+}
+
+TEST_F(QuaternionTest, InterpolationShortestPathAndCloseRotations_F32) {
+  const lm2_quat_f32 identity = lm2_quat_identity_f32();
+  const lm2_quat_f32 quarter_turn = lm2_quat_from_axis_angle_f32({0, 0, 1}, LM2_PI_F32 / 2);
+  const lm2_quat_f32 negated = {-quarter_turn.x, -quarter_turn.y, -quarter_turn.z, -quarter_turn.w};
+  for (float t : {float(0), float(0.25), float(0.5), float(1)}) {
+    for (auto interpolate : {lm2_quat_slerp_f32, lm2_quat_nlerp_f32}) {
+      const auto positive = interpolate(identity, quarter_turn, t);
+      const auto negative = interpolate(identity, negated, t);
+      const auto same = interpolate(quarter_turn, negated, t);
+      EXPECT_NEAR(lm2_quat_length_f32(positive), 1, 1e-5f);
+      EXPECT_NEAR(lm2_quat_length_f32(negative), 1, 1e-5f);
+      EXPECT_NEAR(lm2_quat_dot_f32(positive, negative), 1, 1e-5f);
+      EXPECT_NEAR(lm2_quat_dot_f32(quarter_turn, same), 1, 1e-5f);
+    }
+  }
+  const auto slerp = lm2_quat_slerp_f32(identity, quarter_turn, float(0.25));
+  const auto rotated = lm2_quat_rotate_vector_f32(slerp, {1, 0, 0});
+  EXPECT_NEAR(rotated.x, std::cos(LM2_PI_F32 / 8), 1e-5f);
+  EXPECT_NEAR(rotated.y, std::sin(LM2_PI_F32 / 8), 1e-5f);
+  EXPECT_NEAR(rotated.z, 0, 1e-5f);
+  const auto close = lm2_quat_from_axis_angle_f32({0, 0, 1}, float(0.001));
+  const auto halfway = lm2_quat_slerp_f32(identity, close, float(0.5));
+  EXPECT_NEAR(halfway.z, std::sin(float(0.00025)), 1e-5f);
+  EXPECT_NEAR(halfway.w, std::cos(float(0.00025)), 1e-5f);
+}

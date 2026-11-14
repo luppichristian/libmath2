@@ -175,68 +175,100 @@ SOFTWARE.
     _Generic((p0), lm2_v3_f32: lm2_bezier_cubic_length3_f32, lm2_v3_f64: lm2_bezier_cubic_length3_f64)(p0, p1, p2, p3, steps)
 #  define lm2_bezier_cubic_length4(p0, p1, p2, p3, steps) \
     _Generic((p0), lm2_v4_f32: lm2_bezier_cubic_length4_f32, lm2_v4_f64: lm2_bezier_cubic_length4_f64)(p0, p1, p2, p3, steps)
-#  define ease_linear(t) \
-    _Generic((t), float: ease_linear_f32, double: lm2_ease_linear_f64)(t)
-#  define ease_sin_in(t) \
-    _Generic((t), float: ease_sin_in_f32, double: lm2_ease_sin_in_f64)(t)
-#  define ease_sin_out(t) \
-    _Generic((t), float: ease_sin_out_f32, double: lm2_ease_sin_out_f64)(t)
-#  define ease_sin_in_out(t) \
-    _Generic((t), float: ease_sin_in_out_f32, double: lm2_ease_sin_in_out_f64)(t)
-#  define ease_quad_in(t) \
-    _Generic((t), float: ease_quad_in_f32, double: lm2_ease_quad_in_f64)(t)
-#  define ease_quad_out(t) \
-    _Generic((t), float: ease_quad_out_f32, double: lm2_ease_quad_out_f64)(t)
-#  define ease_quad_in_out(t) \
-    _Generic((t), float: ease_quad_in_out_f32, double: lm2_ease_quad_in_out_f64)(t)
-#  define ease_cubic_in(t) \
-    _Generic((t), float: ease_cubic_in_f32, double: lm2_ease_cubic_in_f64)(t)
-#  define ease_cubic_out(t) \
-    _Generic((t), float: ease_cubic_out_f32, double: lm2_ease_cubic_out_f64)(t)
-#  define ease_cubic_in_out(t) \
-    _Generic((t), float: ease_cubic_in_out_f32, double: lm2_ease_cubic_in_out_f64)(t)
-#  define ease_quart_in(t) \
-    _Generic((t), float: ease_quart_in_f32, double: lm2_ease_quart_in_f64)(t)
-#  define ease_quart_out(t) \
-    _Generic((t), float: ease_quart_out_f32, double: lm2_ease_quart_out_f64)(t)
-#  define ease_quart_in_out(t) \
-    _Generic((t), float: ease_quart_in_out_f32, double: lm2_ease_quart_in_out_f64)(t)
-#  define ease_quint_in(t) \
-    _Generic((t), float: ease_quint_in_f32, double: lm2_ease_quint_in_f64)(t)
-#  define ease_quint_out(t) \
-    _Generic((t), float: ease_quint_out_f32, double: lm2_ease_quint_out_f64)(t)
-#  define ease_quint_in_out(t) \
-    _Generic((t), float: ease_quint_in_out_f32, double: lm2_ease_quint_in_out_f64)(t)
-#  define ease_exp_in(t) \
-    _Generic((t), float: ease_exp_in_f32, double: lm2_ease_exp_in_f64)(t)
-#  define ease_exp_out(t) \
-    _Generic((t), float: ease_exp_out_f32, double: lm2_ease_exp_out_f64)(t)
-#  define ease_exp_in_out(t) \
-    _Generic((t), float: ease_exp_in_out_f32, double: lm2_ease_exp_in_out_f64)(t)
-#  define ease_circ_in(t) \
-    _Generic((t), float: ease_circ_in_f32, double: lm2_ease_circ_in_f64)(t)
-#  define ease_circ_out(t) \
-    _Generic((t), float: ease_circ_out_f32, double: lm2_ease_circ_out_f64)(t)
-#  define ease_circ_in_out(t) \
-    _Generic((t), float: ease_circ_in_out_f32, double: lm2_ease_circ_in_out_f64)(t)
-#  define ease_back_in(t) \
-    _Generic((t), float: ease_back_in_f32, double: lm2_ease_back_in_f64)(t)
-#  define ease_back_out(t) \
-    _Generic((t), float: ease_back_out_f32, double: lm2_ease_back_out_f64)(t)
-#  define ease_back_in_out(t) \
-    _Generic((t), float: ease_back_in_out_f32, double: lm2_ease_back_in_out_f64)(t)
-#  define ease_elastic_in(t) \
-    _Generic((t), float: ease_elastic_in_f32, double: lm2_ease_elastic_in_f64)(t)
-#  define ease_elastic_out(t) \
-    _Generic((t), float: ease_elastic_out_f32, double: lm2_ease_elastic_out_f64)(t)
-#  define ease_elastic_in_out(t) \
-    _Generic((t), float: ease_elastic_in_out_f32, double: lm2_ease_elastic_in_out_f64)(t)
-#  define ease_bounce_in(t) \
-    _Generic((t), float: ease_bounce_in_f32, double: lm2_ease_bounce_in_f64)(t)
-#  define ease_bounce_out(t) \
-    _Generic((t), float: ease_bounce_out_f32, double: lm2_ease_bounce_out_f64)(t)
-#  define ease_bounce_in_out(t) \
-    _Generic((t), float: ease_bounce_in_out_f32, double: lm2_ease_bounce_in_out_f64)(t)
+#  define lm2_ease_linear(t) \
+    _Generic((t), float: lm2_ease_linear_f32, double: lm2_ease_linear_f64)(t)
+#  define lm2_ease_sin_in(t) \
+    _Generic((t), float: lm2_ease_sin_in_f32, double: lm2_ease_sin_in_f64)(t)
+#  define lm2_ease_sin_out(t) \
+    _Generic((t), float: lm2_ease_sin_out_f32, double: lm2_ease_sin_out_f64)(t)
+#  define lm2_ease_sin_in_out(t) \
+    _Generic((t), float: lm2_ease_sin_in_out_f32, double: lm2_ease_sin_in_out_f64)(t)
+#  define lm2_ease_quad_in(t) \
+    _Generic((t), float: lm2_ease_quad_in_f32, double: lm2_ease_quad_in_f64)(t)
+#  define lm2_ease_quad_out(t) \
+    _Generic((t), float: lm2_ease_quad_out_f32, double: lm2_ease_quad_out_f64)(t)
+#  define lm2_ease_quad_in_out(t) \
+    _Generic((t), float: lm2_ease_quad_in_out_f32, double: lm2_ease_quad_in_out_f64)(t)
+#  define lm2_ease_cubic_in(t) \
+    _Generic((t), float: lm2_ease_cubic_in_f32, double: lm2_ease_cubic_in_f64)(t)
+#  define lm2_ease_cubic_out(t) \
+    _Generic((t), float: lm2_ease_cubic_out_f32, double: lm2_ease_cubic_out_f64)(t)
+#  define lm2_ease_cubic_in_out(t) \
+    _Generic((t), float: lm2_ease_cubic_in_out_f32, double: lm2_ease_cubic_in_out_f64)(t)
+#  define lm2_ease_quart_in(t) \
+    _Generic((t), float: lm2_ease_quart_in_f32, double: lm2_ease_quart_in_f64)(t)
+#  define lm2_ease_quart_out(t) \
+    _Generic((t), float: lm2_ease_quart_out_f32, double: lm2_ease_quart_out_f64)(t)
+#  define lm2_ease_quart_in_out(t) \
+    _Generic((t), float: lm2_ease_quart_in_out_f32, double: lm2_ease_quart_in_out_f64)(t)
+#  define lm2_ease_quint_in(t) \
+    _Generic((t), float: lm2_ease_quint_in_f32, double: lm2_ease_quint_in_f64)(t)
+#  define lm2_ease_quint_out(t) \
+    _Generic((t), float: lm2_ease_quint_out_f32, double: lm2_ease_quint_out_f64)(t)
+#  define lm2_ease_quint_in_out(t) \
+    _Generic((t), float: lm2_ease_quint_in_out_f32, double: lm2_ease_quint_in_out_f64)(t)
+#  define lm2_ease_exp_in(t) \
+    _Generic((t), float: lm2_ease_exp_in_f32, double: lm2_ease_exp_in_f64)(t)
+#  define lm2_ease_exp_out(t) \
+    _Generic((t), float: lm2_ease_exp_out_f32, double: lm2_ease_exp_out_f64)(t)
+#  define lm2_ease_exp_in_out(t) \
+    _Generic((t), float: lm2_ease_exp_in_out_f32, double: lm2_ease_exp_in_out_f64)(t)
+#  define lm2_ease_circ_in(t) \
+    _Generic((t), float: lm2_ease_circ_in_f32, double: lm2_ease_circ_in_f64)(t)
+#  define lm2_ease_circ_out(t) \
+    _Generic((t), float: lm2_ease_circ_out_f32, double: lm2_ease_circ_out_f64)(t)
+#  define lm2_ease_circ_in_out(t) \
+    _Generic((t), float: lm2_ease_circ_in_out_f32, double: lm2_ease_circ_in_out_f64)(t)
+#  define lm2_ease_back_in(t) \
+    _Generic((t), float: lm2_ease_back_in_f32, double: lm2_ease_back_in_f64)(t)
+#  define lm2_ease_back_out(t) \
+    _Generic((t), float: lm2_ease_back_out_f32, double: lm2_ease_back_out_f64)(t)
+#  define lm2_ease_back_in_out(t) \
+    _Generic((t), float: lm2_ease_back_in_out_f32, double: lm2_ease_back_in_out_f64)(t)
+#  define lm2_ease_elastic_in(t) \
+    _Generic((t), float: lm2_ease_elastic_in_f32, double: lm2_ease_elastic_in_f64)(t)
+#  define lm2_ease_elastic_out(t) \
+    _Generic((t), float: lm2_ease_elastic_out_f32, double: lm2_ease_elastic_out_f64)(t)
+#  define lm2_ease_elastic_in_out(t) \
+    _Generic((t), float: lm2_ease_elastic_in_out_f32, double: lm2_ease_elastic_in_out_f64)(t)
+#  define lm2_ease_bounce_in(t) \
+    _Generic((t), float: lm2_ease_bounce_in_f32, double: lm2_ease_bounce_in_f64)(t)
+#  define lm2_ease_bounce_out(t) \
+    _Generic((t), float: lm2_ease_bounce_out_f32, double: lm2_ease_bounce_out_f64)(t)
+#  define lm2_ease_bounce_in_out(t) \
+    _Generic((t), float: lm2_ease_bounce_in_out_f32, double: lm2_ease_bounce_in_out_f64)(t)
+// Preserve the previously exposed short names for C generic easings.
+#  define ease_linear         lm2_ease_linear
+#  define ease_sin_in         lm2_ease_sin_in
+#  define ease_sin_out        lm2_ease_sin_out
+#  define ease_sin_in_out     lm2_ease_sin_in_out
+#  define ease_quad_in        lm2_ease_quad_in
+#  define ease_quad_out       lm2_ease_quad_out
+#  define ease_quad_in_out    lm2_ease_quad_in_out
+#  define ease_cubic_in       lm2_ease_cubic_in
+#  define ease_cubic_out      lm2_ease_cubic_out
+#  define ease_cubic_in_out   lm2_ease_cubic_in_out
+#  define ease_quart_in       lm2_ease_quart_in
+#  define ease_quart_out      lm2_ease_quart_out
+#  define ease_quart_in_out   lm2_ease_quart_in_out
+#  define ease_quint_in       lm2_ease_quint_in
+#  define ease_quint_out      lm2_ease_quint_out
+#  define ease_quint_in_out   lm2_ease_quint_in_out
+#  define ease_exp_in         lm2_ease_exp_in
+#  define ease_exp_out        lm2_ease_exp_out
+#  define ease_exp_in_out     lm2_ease_exp_in_out
+#  define ease_circ_in        lm2_ease_circ_in
+#  define ease_circ_out       lm2_ease_circ_out
+#  define ease_circ_in_out    lm2_ease_circ_in_out
+#  define ease_back_in        lm2_ease_back_in
+#  define ease_back_out       lm2_ease_back_out
+#  define ease_back_in_out    lm2_ease_back_in_out
+#  define ease_elastic_in     lm2_ease_elastic_in
+#  define ease_elastic_out    lm2_ease_elastic_out
+#  define ease_elastic_in_out lm2_ease_elastic_in_out
+#  define ease_bounce_in      lm2_ease_bounce_in
+#  define ease_bounce_out     lm2_ease_bounce_out
+#  define ease_bounce_in_out  lm2_ease_bounce_in_out
 #  define lm2_ease(e, t) \
     _Generic((t), float: lm2_ease_f32, double: lm2_ease_f64)(e, t)
 

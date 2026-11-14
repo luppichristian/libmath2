@@ -216,45 +216,79 @@ SOFTWARE.
     return lm2_sqrt_##suffix(lm2_add_##suffix(lm2_mul_##suffix(dx, dx), lm2_mul_##suffix(dy, dy))); \
   }
 
-#define _LM2_IMPL_RECT2_SEGMENTS_INTERSECT(vec_type, scalar_type, suffix)                                                      \
-  LM2_API int lm2_segments_intersect_##suffix(vec_type a0, vec_type a1, vec_type b0, vec_type b1) {                            \
-    scalar_type d1_x = lm2_sub_##suffix(a1.x, a0.x);                                                                           \
-    scalar_type d1_y = lm2_sub_##suffix(a1.y, a0.y);                                                                           \
-    scalar_type d2_x = lm2_sub_##suffix(b1.x, b0.x);                                                                           \
-    scalar_type d2_y = lm2_sub_##suffix(b1.y, b0.y);                                                                           \
-    scalar_type cross = lm2_sub_##suffix(lm2_mul_##suffix(d1_x, d2_y), lm2_mul_##suffix(d1_y, d2_x));                          \
-    scalar_type epsilon = (scalar_type)0.0001;                                                                                 \
-    if (lm2_abs_##suffix(cross) < epsilon) {                                                                                   \
-      return 0;                                                                                                                \
-    }                                                                                                                          \
-    scalar_type diff_x = lm2_sub_##suffix(b0.x, a0.x);                                                                         \
-    scalar_type diff_y = lm2_sub_##suffix(b0.y, a0.y);                                                                         \
-    scalar_type t = lm2_div_##suffix(lm2_sub_##suffix(lm2_mul_##suffix(diff_x, d2_y), lm2_mul_##suffix(diff_y, d2_x)), cross); \
-    scalar_type u = lm2_div_##suffix(lm2_sub_##suffix(lm2_mul_##suffix(diff_x, d1_y), lm2_mul_##suffix(diff_y, d1_x)), cross); \
-    scalar_type zero = (scalar_type)0;                                                                                         \
-    scalar_type one = (scalar_type)1;                                                                                          \
-    return (t >= zero && t <= one && u >= zero && u <= one);                                                                   \
-  }
+// Exact orientation for 64-bit integer coordinates. A coordinate difference
+// can require 64 magnitude bits and a cross-product term 128 bits, even when
+// the source coordinates are signed. Represent each product as two limbs so
+// this also works on compilers without a native 128-bit integer type.
+typedef struct _lm2_u128_pair {
+  uint64_t high, low;
+} _lm2_u128_pair;
+typedef struct _lm2_integer_point {
+  uint64_t x, y;
+} _lm2_integer_point;
 
-// Segments intersect for unsigned types (no abs needed for cross product comparison)
-#define _LM2_IMPL_RECT2_SEGMENTS_INTERSECT_UNSIGNED(vec_type, scalar_type, suffix)                                             \
-  LM2_API int lm2_segments_intersect_##suffix(vec_type a0, vec_type a1, vec_type b0, vec_type b1) {                            \
-    scalar_type d1_x = lm2_sub_##suffix(a1.x, a0.x);                                                                           \
-    scalar_type d1_y = lm2_sub_##suffix(a1.y, a0.y);                                                                           \
-    scalar_type d2_x = lm2_sub_##suffix(b1.x, b0.x);                                                                           \
-    scalar_type d2_y = lm2_sub_##suffix(b1.y, b0.y);                                                                           \
-    scalar_type cross = lm2_sub_##suffix(lm2_mul_##suffix(d1_x, d2_y), lm2_mul_##suffix(d1_y, d2_x));                          \
-    scalar_type epsilon = (scalar_type)0;                                                                                      \
-    if (cross == epsilon) {                                                                                                    \
-      return 0;                                                                                                                \
-    }                                                                                                                          \
-    scalar_type diff_x = lm2_sub_##suffix(b0.x, a0.x);                                                                         \
-    scalar_type diff_y = lm2_sub_##suffix(b0.y, a0.y);                                                                         \
-    scalar_type t = lm2_div_##suffix(lm2_sub_##suffix(lm2_mul_##suffix(diff_x, d2_y), lm2_mul_##suffix(diff_y, d2_x)), cross); \
-    scalar_type u = lm2_div_##suffix(lm2_sub_##suffix(lm2_mul_##suffix(diff_x, d1_y), lm2_mul_##suffix(diff_y, d1_x)), cross); \
-    scalar_type zero = (scalar_type)0;                                                                                         \
-    scalar_type one = (scalar_type)1;                                                                                          \
-    return (t >= zero && t <= one && u >= zero && u <= one);                                                                   \
+static _lm2_u128_pair _lm2_multiply_u64_wide(uint64_t a, uint64_t b) {
+  uint64_t al = (uint32_t)a, ah = a >> 32;
+  uint64_t bl = (uint32_t)b, bh = b >> 32;
+  uint64_t p00 = al * bl, p01 = al * bh, p10 = ah * bl, p11 = ah * bh;
+  uint64_t middle = (p00 >> 32) + (uint32_t)p01 + (uint32_t)p10;
+  return (_lm2_u128_pair) {p11 + (p01 >> 32) + (p10 >> 32) + (middle >> 32),
+                           (middle << 32) | (uint32_t)p00};
+}
+
+static int _lm2_integer_difference(uint64_t a, uint64_t b, uint64_t* magnitude) {
+  if (a > b) {
+    *magnitude = a - b;
+    return 1;
+  }
+  if (a < b) {
+    *magnitude = b - a;
+    return -1;
+  }
+  *magnitude = 0;
+  return 0;
+}
+
+static int _lm2_integer_orientation(_lm2_integer_point a, _lm2_integer_point b, _lm2_integer_point c) {
+  uint64_t bx, by, cx, cy;
+  int sx = _lm2_integer_difference(b.x, a.x, &bx);
+  int sy = _lm2_integer_difference(b.y, a.y, &by);
+  int tx = _lm2_integer_difference(c.x, a.x, &cx);
+  int ty = _lm2_integer_difference(c.y, a.y, &cy);
+  int p_sign = sx * ty, q_sign = sy * tx;
+  if (p_sign != q_sign) return p_sign > q_sign ? 1 : -1;
+  if (p_sign == 0) return 0;
+  _lm2_u128_pair p = _lm2_multiply_u64_wide(bx, cy);
+  _lm2_u128_pair q = _lm2_multiply_u64_wide(by, cx);
+  int cmp = p.high != q.high ? (p.high > q.high ? 1 : -1) : p.low != q.low ? (p.low > q.low ? 1 : -1)
+                                                                           : 0;
+  return p_sign * cmp;
+}
+
+static bool _lm2_integer_point_on_segment(_lm2_integer_point p, _lm2_integer_point a, _lm2_integer_point b) {
+  return p.x >= (a.x < b.x ? a.x : b.x) && p.x <= (a.x > b.x ? a.x : b.x) &&
+         p.y >= (a.y < b.y ? a.y : b.y) && p.y <= (a.y > b.y ? a.y : b.y);
+}
+
+static int _lm2_integer_segments_intersect(_lm2_integer_point a, _lm2_integer_point b, _lm2_integer_point c, _lm2_integer_point d) {
+  int ab_c = _lm2_integer_orientation(a, b, c), ab_d = _lm2_integer_orientation(a, b, d);
+  int cd_a = _lm2_integer_orientation(c, d, a), cd_b = _lm2_integer_orientation(c, d, b);
+  if (ab_c * ab_d < 0 && cd_a * cd_b < 0) return 1;
+  return (ab_c == 0 && _lm2_integer_point_on_segment(c, a, b)) ||
+         (ab_d == 0 && _lm2_integer_point_on_segment(d, a, b)) ||
+         (cd_a == 0 && _lm2_integer_point_on_segment(a, c, d)) ||
+         (cd_b == 0 && _lm2_integer_point_on_segment(b, c, d));
+}
+
+// XOR maps signed coordinates monotonically onto the unsigned domain. Casts
+// from signed values to uint64_t are defined modulo 2^64, including INT64_MIN.
+#define _LM2_IMPL_INTEGER_SEGMENTS(vec_type, suffix, mask)                                          \
+  LM2_API int lm2_segments_intersect_##suffix(vec_type a0, vec_type a1, vec_type b0, vec_type b1) { \
+    _lm2_integer_point a = {(uint64_t)a0.x ^ (mask), (uint64_t)a0.y ^ (mask)};                      \
+    _lm2_integer_point b = {(uint64_t)a1.x ^ (mask), (uint64_t)a1.y ^ (mask)};                      \
+    _lm2_integer_point c = {(uint64_t)b0.x ^ (mask), (uint64_t)b0.y ^ (mask)};                      \
+    _lm2_integer_point d = {(uint64_t)b1.x ^ (mask), (uint64_t)b1.y ^ (mask)};                      \
+    return _lm2_integer_segments_intersect(a, b, c, d);                                             \
   }
 
 // =============================================================================
@@ -449,14 +483,11 @@ LM2_API int lm2_segments_intersect_f64(lm2_v2_f64 a0, lm2_v2_f64 a1, lm2_v2_f64 
 LM2_API int lm2_segments_intersect_f32(lm2_v2_f32 a0, lm2_v2_f32 a1, lm2_v2_f32 b0, lm2_v2_f32 b1) {
   return lm2_edge2_segments_intersect_f32(a0, a1, b0, b1);
 }
-// Signed integer types (with abs)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_i64, int64_t, i64)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_i32, int32_t, i32)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_i16, int16_t, i16)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT(lm2_v2_i8, int8_t, i8)
-
-// Unsigned integer types (without abs)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT_UNSIGNED(lm2_v2_u64, uint64_t, u64)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT_UNSIGNED(lm2_v2_u32, uint32_t, u32)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT_UNSIGNED(lm2_v2_u16, uint16_t, u16)
-_LM2_IMPL_RECT2_SEGMENTS_INTERSECT_UNSIGNED(lm2_v2_u8, uint8_t, u8)
+_LM2_IMPL_INTEGER_SEGMENTS(lm2_v2_i64, i64, UINT64_C(0x8000000000000000))
+_LM2_IMPL_INTEGER_SEGMENTS(lm2_v2_i32, i32, UINT64_C(0x8000000000000000))
+_LM2_IMPL_INTEGER_SEGMENTS(lm2_v2_i16, i16, UINT64_C(0x8000000000000000))
+_LM2_IMPL_INTEGER_SEGMENTS(lm2_v2_i8, i8, UINT64_C(0x8000000000000000))
+_LM2_IMPL_INTEGER_SEGMENTS(lm2_v2_u64, u64, UINT64_C(0))
+_LM2_IMPL_INTEGER_SEGMENTS(lm2_v2_u32, u32, UINT64_C(0))
+_LM2_IMPL_INTEGER_SEGMENTS(lm2_v2_u16, u16, UINT64_C(0))
+_LM2_IMPL_INTEGER_SEGMENTS(lm2_v2_u8, u8, UINT64_C(0))

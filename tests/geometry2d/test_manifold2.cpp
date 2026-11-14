@@ -27,6 +27,280 @@ SOFTWARE.
 #include <vector>
 #include "lm2/geometry2d/lm2_manifold2.h"
 
+template <typename Manifold>
+static void expect_empty_manifold(const Manifold& manifold) {
+  EXPECT_EQ(manifold.count, 0);
+  EXPECT_EQ(manifold.normal.x, 0);
+  EXPECT_EQ(manifold.normal.y, 0);
+  for (int i = 0; i < 2; ++i) {
+    EXPECT_EQ(manifold.depths[i], 0);
+    EXPECT_EQ(manifold.contact_points[i].x, 0);
+    EXPECT_EQ(manifold.contact_points[i].y, 0);
+  }
+}
+
+#define LM2_TEST_TRIANGLE_MANIFOLD_NORMALS(suffix, scalar)                                      \
+  TEST(ManifoldTriangleNormals, TriangleFirst_##suffix) {                                       \
+    lm2_triangle2_##suffix tri = {                                                              \
+        {0, 0},                                                                                 \
+        {4, 0},                                                                                 \
+        {0, 4} \
+    };                                                                                \
+    lm2_circle_##suffix circle = lm2_circle_make_coords_##suffix(-0.5, 1, 1);                   \
+    lm2_capsule2_##suffix capsule = lm2_capsule2_make_coords_##suffix(-0.5, 0.5, -0.5, 1.5, 1); \
+    lm2_r2_##suffix box = lm2_r2_from_min_max_##suffix({-1, 0.5}, {0.5, 1.5});                  \
+    lm2_manifold_##suffix manifold = {};                                                        \
+    lm2_manifold_triangle_to_circle_##suffix(tri, circle, &manifold);                           \
+    ASSERT_GT(manifold.count, 0);                                                               \
+    EXPECT_NEAR(manifold.normal.x, -1, 1e-5);                                                   \
+    EXPECT_NEAR(manifold.normal.y, 0, 1e-5);                                                    \
+    lm2_manifold_triangle_to_capsule_##suffix(tri, capsule, &manifold);                         \
+    ASSERT_GT(manifold.count, 0);                                                               \
+    EXPECT_NEAR(manifold.normal.x, -1, 1e-5);                                                   \
+    EXPECT_NEAR(manifold.normal.y, 0, 1e-5);                                                    \
+    lm2_manifold_triangle_to_aabb_##suffix(tri, box, &manifold);                                \
+    ASSERT_GT(manifold.count, 0);                                                               \
+    EXPECT_NEAR(manifold.normal.x, -1, 1e-5);                                                   \
+    EXPECT_NEAR(manifold.normal.y, 0, 1e-5);                                                    \
+  }
+
+LM2_TEST_TRIANGLE_MANIFOLD_NORMALS(f32, float)
+LM2_TEST_TRIANGLE_MANIFOLD_NORMALS(f64, double)
+
+#undef LM2_TEST_TRIANGLE_MANIFOLD_NORMALS
+
+#define LM2_TEST_SHAPE_PAIR_MANIFOLDS(suffix)                                            \
+  TEST(ManifoldShapePairs, OverlapAndSeparation_##suffix) {                              \
+    lm2_circle_##suffix circles[] = {                                                    \
+        {{-0.75, 0}, 1},                                                                 \
+        { {0.75, 0}, 1},                                                                  \
+        {   {20, 0}, 1} \
+    };                                                                   \
+    lm2_capsule2_##suffix capsules[] = {                                                 \
+        {{-0.75, -0.5}, {-0.75, 0.5}, 1},                                                \
+        { {0.75, -0.5},  {0.75, 0.5}, 1},                                                  \
+        {   {20, -0.5},    {20, 0.5}, 1} \
+    };                                                     \
+    lm2_r2_##suffix boxes[] = {                                                          \
+        lm2_r2_from_min_max_##suffix({-1.75, -1}, {0.25, 1}),                            \
+        lm2_r2_from_min_max_##suffix({-0.25, -1}, {1.75, 1}),                            \
+        lm2_r2_from_min_max_##suffix({19, -1}, {21, 1})};                                \
+    lm2_triangle2_##suffix triangles[] = {                                               \
+        {{-1.75, -1}, {0.25, -1}, {-0.75, 1}},                                           \
+        {{-0.25, -1}, {1.75, -1},  {0.75, 1}},                                            \
+        {   {19, -1},   {21, -1},    {20, 1}} \
+    };                                                  \
+    lm2_v2_##suffix points[][4] = {                                                      \
+        {{-1.75, -1}, {0.25, -1}, {0.25, 1}, {-1.75, 1}},                                \
+        {{-0.25, -1}, {1.75, -1}, {1.75, 1}, {-0.25, 1}},                                \
+        {   {19, -1},   {21, -1},   {21, 1},    {19, 1}} \
+    };                                         \
+    lm2_polygon_##suffix polys[] = {                                                     \
+        {points[0], 4},                                                                  \
+        {points[1], 4},                                                                  \
+        {points[2], 4} \
+    };                                                                 \
+    lm2_shape2_##suffix shapes[3][5];                                                    \
+    for (int i = 0; i < 3; ++i) {                                                        \
+      shapes[i][0] = lm2_shape2_from_circle_##suffix(&circles[i]);                       \
+      shapes[i][1] = lm2_shape2_from_capsule_##suffix(&capsules[i]);                     \
+      shapes[i][2] = lm2_shape2_from_aabb2_##suffix(&boxes[i]);                          \
+      shapes[i][3] = lm2_shape2_from_triangle_##suffix(&triangles[i]);                   \
+      shapes[i][4] = lm2_shape2_from_polygon_##suffix(&polys[i]);                        \
+    }                                                                                    \
+    for (int a = 0; a < 5; ++a) {                                                        \
+      for (int b = 0; b < 5; ++b) {                                                      \
+        SCOPED_TRACE(::testing::Message() << "shape types " << a << ", " << b);          \
+        lm2_manifold_##suffix hit = {};                                                  \
+        hit.depths[1] = 99;                                                              \
+        hit.contact_points[1] = {99, 99};                                                \
+        lm2_manifold_shape_to_shape_##suffix(shapes[0][a], shapes[1][b], &hit);          \
+        ASSERT_GE(hit.count, 1);                                                         \
+        ASSERT_LE(hit.count, 2);                                                         \
+        EXPECT_NEAR(hit.normal.x * hit.normal.x + hit.normal.y * hit.normal.y, 1, 1e-5); \
+        EXPECT_GT(hit.normal.x, 0);                                                      \
+        for (int i = 0; i < hit.count; ++i) {                                            \
+          EXPECT_GT(hit.depths[i], 0);                                                   \
+          EXPECT_TRUE(std::isfinite(hit.contact_points[i].x));                           \
+          EXPECT_TRUE(std::isfinite(hit.contact_points[i].y));                           \
+        }                                                                                \
+        if (hit.count == 1) {                                                            \
+          EXPECT_EQ(hit.depths[1], 0);                                                   \
+          EXPECT_EQ(hit.contact_points[1].x, 0);                                         \
+          EXPECT_EQ(hit.contact_points[1].y, 0);                                         \
+        }                                                                                \
+        lm2_manifold_##suffix miss = {};                                                 \
+        miss.count = 2;                                                                  \
+        miss.normal = {99, 99};                                                          \
+        miss.depths[0] = 99;                                                             \
+        miss.depths[1] = 99;                                                             \
+        miss.contact_points[0] = {99, 99};                                               \
+        miss.contact_points[1] = {99, 99};                                               \
+        lm2_manifold_shape_to_shape_##suffix(shapes[0][a], shapes[2][b], &miss);         \
+        expect_empty_manifold(miss);                                                     \
+      }                                                                                  \
+    }                                                                                    \
+    lm2_shape2_##suffix unsupported = {LM2_SHAPE2_EDGE, &circles[0]};                    \
+    lm2_manifold_##suffix empty = {};                                                    \
+    empty.normal = {99, 99};                                                             \
+    empty.depths[0] = 99;                                                                \
+    empty.contact_points[0] = {99, 99};                                                  \
+    lm2_manifold_shape_to_shape_##suffix(unsupported, shapes[0][0], &empty);             \
+    expect_empty_manifold(empty);                                                        \
+    empty.normal = {99, 99};                                                             \
+    empty.depths[0] = 99;                                                                \
+    lm2_manifold_shape_to_shape_##suffix(shapes[0][0], unsupported, &empty);             \
+    expect_empty_manifold(empty);                                                        \
+  }
+
+LM2_TEST_SHAPE_PAIR_MANIFOLDS(f32)
+LM2_TEST_SHAPE_PAIR_MANIFOLDS(f64)
+
+#undef LM2_TEST_SHAPE_PAIR_MANIFOLDS
+
+#define LM2_TEST_PLANE_MANIFOLDS(suffix)                                    \
+  TEST(ManifoldPlane, PenetrationAndSeparation_##suffix) {                  \
+    lm2_plane2_##suffix plane = {                                           \
+        {0, 1},                                                             \
+        0 \
+    };                                                                 \
+    lm2_circle_##suffix circle = {                                          \
+        {0, 0.5},                                                           \
+        1 \
+    };                                                                 \
+    lm2_manifold_##suffix hit = {};                                         \
+    hit.depths[1] = 99;                                                     \
+    hit.contact_points[1] = {99, 99};                                       \
+    lm2_manifold_circle_to_plane_##suffix(circle, plane, &hit);             \
+    ASSERT_EQ(hit.count, 1);                                                \
+    EXPECT_EQ(hit.depths[1], 0);                                            \
+    EXPECT_EQ(hit.contact_points[1].x, 0);                                  \
+    EXPECT_EQ(hit.contact_points[1].y, 0);                                  \
+    EXPECT_NEAR(hit.depths[0], 0.5, 1e-5);                                  \
+    EXPECT_NEAR(hit.contact_points[0].y, 0, 1e-5);                          \
+    EXPECT_NEAR(hit.normal.y, 1, 1e-5);                                     \
+    circle.center.y = 1;                                                    \
+    lm2_manifold_circle_to_plane_##suffix(circle, plane, &hit);             \
+    expect_empty_manifold(hit);                                             \
+    circle.center.y = 2;                                                    \
+    lm2_manifold_circle_to_plane_##suffix(circle, plane, &hit);             \
+    expect_empty_manifold(hit);                                             \
+    lm2_capsule2_##suffix capsule = {                                       \
+        {-1, 0.5},                                                          \
+        { 1, 0.5},                                                           \
+        1 \
+    };                                                                 \
+    lm2_manifold_capsule_to_plane_##suffix(capsule, plane, &hit);           \
+    ASSERT_EQ(hit.count, 2);                                                \
+    EXPECT_NEAR(hit.depths[0], 0.5, 1e-5);                                  \
+    EXPECT_NEAR(hit.depths[1], 0.5, 1e-5);                                  \
+    EXPECT_NEAR(hit.contact_points[0].y, 0, 1e-5);                          \
+    EXPECT_NEAR(hit.contact_points[1].y, 0, 1e-5);                          \
+    capsule.start.y = 2;                                                    \
+    capsule.end.y = 2;                                                      \
+    lm2_manifold_capsule_to_plane_##suffix(capsule, plane, &hit);           \
+    expect_empty_manifold(hit);                                             \
+    lm2_r2_##suffix box = lm2_r2_from_min_max_##suffix({-1, -0.5}, {1, 1}); \
+    lm2_manifold_aabb_to_plane_##suffix(box, plane, &hit);                  \
+    ASSERT_EQ(hit.count, 2);                                                \
+    EXPECT_NEAR(hit.depths[0], 0.5, 1e-5);                                  \
+    EXPECT_NEAR(hit.depths[1], 0.5, 1e-5);                                  \
+    lm2_triangle2_##suffix triangle = {                                     \
+        {-1, -0.5},                                                         \
+        { 1, -0.5},                                                          \
+        { 0,    1} \
+    };                                                            \
+    lm2_manifold_triangle_to_plane_##suffix(triangle, plane, &hit);         \
+    ASSERT_EQ(hit.count, 2);                                                \
+    EXPECT_NEAR(hit.depths[0], 0.5, 1e-5);                                  \
+    EXPECT_NEAR(hit.depths[1], 0.5, 1e-5);                                  \
+    lm2_v2_##suffix vertices[] = {                                          \
+        {-1, -0.5},                                                         \
+        { 1, -0.5},                                                          \
+        { 1,    1},                                                             \
+        {-1,    1} \
+    };                                                           \
+    lm2_polygon_##suffix polygon = {vertices, 4};                           \
+    lm2_manifold_polygon_to_plane_##suffix(polygon, plane, &hit);           \
+    ASSERT_EQ(hit.count, 2);                                                \
+    EXPECT_NEAR(hit.depths[0], 0.5, 1e-5);                                  \
+    EXPECT_NEAR(hit.depths[1], 0.5, 1e-5);                                  \
+    for (int i = 0; i < 4; ++i) vertices[i].y += 3;                         \
+    lm2_manifold_polygon_to_plane_##suffix(polygon, plane, &hit);           \
+    expect_empty_manifold(hit);                                             \
+  }
+
+LM2_TEST_PLANE_MANIFOLDS(f32)
+LM2_TEST_PLANE_MANIFOLDS(f64)
+
+#undef LM2_TEST_PLANE_MANIFOLDS
+
+TEST(ManifoldPrecision, DoubleCircleManifoldPreservesSubFloatOverlap) {
+  lm2_circle_f64 a = lm2_circle_make_coords_f64(0, 0, 1);
+  lm2_circle_f64 b = lm2_circle_make_coords_f64(1.3, 0, 1);
+  lm2_manifold_f64 result = {};
+  lm2_manifold_circle_to_circle_f64(a, b, &result);
+  ASSERT_EQ(result.count, 1);
+  EXPECT_NEAR(result.depths[0], 0.7, 1e-14);
+  EXPECT_NEAR(result.normal.x, 1.0, 1e-14);
+
+  // The double-precision predicate detects overlap smaller than one float ULP.
+  b.center.x = 2.0 - 1e-8;
+  EXPECT_TRUE(lm2_collide_circle_to_circle_f64(a, b));
+  lm2_manifold_circle_to_circle_f64(a, b, &result);
+  ASSERT_EQ(result.count, 1);
+  EXPECT_NEAR(result.depths[0], 1e-8, 1e-15);
+  EXPECT_NEAR(result.contact_points[0].x, 1.0 - 1e-8, 1e-15);
+  b.center.x = 2.0;
+  lm2_manifold_circle_to_circle_f64(a, b, &result);
+  expect_empty_manifold(result);
+  b.center.x = 0.0;
+  lm2_manifold_circle_to_circle_f64(a, b, &result);
+  ASSERT_EQ(result.count, 1);
+  EXPECT_DOUBLE_EQ(result.normal.x, 0.0);
+  EXPECT_DOUBLE_EQ(result.normal.y, 1.0);
+  EXPECT_DOUBLE_EQ(result.depths[0], 2.0);
+  EXPECT_DOUBLE_EQ(result.contact_points[0].y, -1.0);
+}
+
+TEST(ManifoldPrecision, DoubleCircleAabbDistinguishesSubFloatBoundary) {
+  lm2_r2_f64 box = lm2_r2_from_min_max_f64({2, -1}, {4, 1});
+  lm2_circle_f64 circle = lm2_circle_make_coords_f64(1 - 1e-8, 0, 1);
+  EXPECT_FALSE(lm2_collide_circle_to_aabb_f64(circle, box));
+  circle.center.x = 1;
+  EXPECT_FALSE(lm2_collide_circle_to_aabb_f64(circle, box));
+  circle.center.x = 1 + 1e-8;
+  EXPECT_TRUE(lm2_collide_circle_to_aabb_f64(circle, box));
+  box = lm2_r2_from_min_max_f64({2, 2}, {4, 4});
+  circle.center = {1.39, 1.2};
+  EXPECT_FALSE(lm2_collide_circle_to_aabb_f64(circle, box));
+  circle.center = {1.41, 1.2};
+  EXPECT_TRUE(lm2_collide_circle_to_aabb_f64(circle, box));
+}
+
+TEST(ManifoldPrecision, DoubleCircleManifoldDiagonalContact) {
+  lm2_circle_f64 a = lm2_circle_make_coords_f64(0, 0, 4);
+  lm2_circle_f64 b = lm2_circle_make_coords_f64(3, 4, 2);
+  lm2_manifold_f64 result = {};
+  lm2_manifold_circle_to_circle_f64(a, b, &result);
+  ASSERT_EQ(result.count, 1);
+  EXPECT_NEAR(result.depths[0], 1, 1e-14);
+  EXPECT_NEAR(result.normal.x, 0.6, 1e-14);
+  EXPECT_NEAR(result.normal.y, 0.8, 1e-14);
+  EXPECT_NEAR(result.contact_points[0].x, 1.8, 1e-14);
+  EXPECT_NEAR(result.contact_points[0].y, 2.4, 1e-14);
+}
+
+TEST(ManifoldPrecision, DoubleAabbsDistinguishSubFloatGap) {
+  lm2_r2_f64 a = lm2_r2_from_min_max_f64({-1, -1}, {1, 1});
+  lm2_r2_f64 b = lm2_r2_from_min_max_f64({1 + 1e-8, -1}, {3, 1});
+  EXPECT_FALSE(lm2_collide_aabb_to_aabb_f64(a, b));
+  b.min.x = 1;
+  EXPECT_TRUE(lm2_collide_aabb_to_aabb_f64(a, b));
+  b.min.x = 1 - 1e-8;
+  EXPECT_TRUE(lm2_collide_aabb_to_aabb_f64(a, b));
+}
+
 // Test fixture for Manifold2 tests
 class Manifold2Test : public ::testing::Test {
  protected:
@@ -425,4 +699,59 @@ TEST_F(Manifold2Test, GenericCircleAABBDispatchMatchesDirectAndReversesNormal_F6
   EXPECT_DOUBLE_EQ(reversed.normal.x, -generic.normal.x);
   EXPECT_DOUBLE_EQ(reversed.normal.y, -generic.normal.y);
   EXPECT_DOUBLE_EQ(std::hypot(reversed.normal.x, reversed.normal.y), 1.0);
+}
+
+TEST_F(Manifold2Test, CircleCapsuleF64PreservesLargeCoordinatePrecision) {
+  constexpr double x = 16777217.0;
+  const auto capsule = lm2_capsule2_make_coords_f64(x, -1.0, x, 1.0, 0.3);
+  auto circle = lm2_circle_make_coords_f64(x + 0.5, 0.0, 0.3);
+  EXPECT_TRUE(lm2_collide_circle_to_capsule_f64(circle, capsule));
+  circle.center.x = x + 1.0;
+  EXPECT_FALSE(lm2_collide_circle_to_capsule_f64(circle, capsule));
+
+  const auto zero_axis = lm2_capsule2_make_coords_f64(x, 0.0, x, 0.0, 0.3);
+  circle.center.x = x + 0.5;
+  EXPECT_TRUE(lm2_collide_circle_to_capsule_f64(circle, zero_axis));
+
+  const auto unit_capsule = lm2_capsule2_make_coords_f64(0.0, -1.0, 0.0, 1.0, 0.5);
+  circle = lm2_circle_make_coords_f64(1.0, 0.0, 0.5);
+  EXPECT_FALSE(lm2_collide_circle_to_capsule_f64(circle, unit_capsule));
+  circle.center.x = std::nextafter(1.0, 0.0);
+  EXPECT_TRUE(lm2_collide_circle_to_capsule_f64(circle, unit_capsule));
+}
+
+TEST_F(Manifold2Test, NormalsF64PreserveSmallEdgesAtLargeCoordinates) {
+  constexpr double x = 16777216.0;
+  lm2_v2_f64 vertices[] = {
+      {      x, 0.0},
+      {x + 1.0, 0.0},
+      {x + 1.0, 1.0},
+      {      x, 1.0}
+  };
+  lm2_v2_f64 normals[4] = {};
+  lm2_compute_normals_f64(vertices, normals, 4);
+  const lm2_v2_f64 expected[] = {
+      { 0.0, -1.0},
+      { 1.0,  0.0},
+      { 0.0,  1.0},
+      {-1.0,  0.0}
+  };
+  for (int i = 0; i < 4; ++i) {
+    EXPECT_DOUBLE_EQ(normals[i].x, expected[i].x);
+    EXPECT_DOUBLE_EQ(normals[i].y, expected[i].y);
+  }
+  lm2_compute_normals_f64(vertices, vertices, 4);
+  for (int i = 0; i < 4; ++i) {
+    EXPECT_DOUBLE_EQ(vertices[i].x, expected[i].x);
+    EXPECT_DOUBLE_EQ(vertices[i].y, expected[i].y);
+  }
+  lm2_v2_f64 duplicate[] = {
+      {0.0, 0.0},
+      {0.0, 0.0},
+      {1.0, 0.0}
+  };
+  lm2_v2_f64 duplicate_normals[3] = {};
+  lm2_compute_normals_f64(duplicate, duplicate_normals, 3);
+  EXPECT_DOUBLE_EQ(duplicate_normals[0].x, 0.0);
+  EXPECT_DOUBLE_EQ(duplicate_normals[0].y, 0.0);
 }

@@ -113,7 +113,9 @@ LM2_API bool lm2_edges2_equal_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2, float epsi
 // Edge Intersection
 // =============================================================================
 
-// Check if two line segments intersect
+// Check if two line segments intersect. Finite coordinates are expected;
+// nearly collinear and extreme-aspect inputs remain subject to rounding
+// because the orientation tests do not use exact arithmetic.
 LM2_API bool lm2_edges2_intersect_f64(lm2_edge2_f64 e1, lm2_edge2_f64 e2);
 LM2_API bool lm2_edges2_intersect_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2);
 

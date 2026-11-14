@@ -2343,23 +2343,26 @@ SOFTWARE.
 #define camera3_ndc_to_world_f32                lm2_camera3_ndc_to_world_f32
 
 #ifndef LM2_NO_GENERICS
-#  define add                             lm2_add
-#  define sub                             lm2_sub
-#  define mul                             lm2_mul
-#  define div                             lm2_div
-#  define mod                             lm2_mod
-#  define neg                             lm2_neg
-#  define floor                           lm2_floor
-#  define floor_multiple                  lm2_floor_multiple
-#  define ceil                            lm2_ceil
-#  define ceil_multiple                   lm2_ceil_multiple
-#  define round                           lm2_round
-#  define round_multiple                  lm2_round_multiple
-#  define trunc                           lm2_trunc
-#  define trunc_multiple                  lm2_trunc_multiple
-#  define abs                             lm2_abs
-#  define sign                            lm2_sign
-#  define sign0                           lm2_sign0
+#  define add            lm2_add
+#  define sub            lm2_sub
+#  define mul            lm2_mul
+#  define div            lm2_div
+#  define mod            lm2_mod
+#  define neg            lm2_neg
+#  define floor          lm2_floor
+#  define floor_multiple lm2_floor_multiple
+#  define ceil           lm2_ceil
+#  define ceil_multiple  lm2_ceil_multiple
+#  define round          lm2_round
+#  define round_multiple lm2_round_multiple
+#  define trunc          lm2_trunc
+#  define trunc_multiple lm2_trunc_multiple
+#  define abs            lm2_abs
+#  define sign           lm2_sign
+#  define sign0          lm2_sign0
+// Opting in to unprefixed aliases replaces pre-existing min/max macros.
+#  undef min
+#  undef max
 #  define min                             lm2_min
 #  define min_abs                         lm2_min_abs
 #  define max                             lm2_max

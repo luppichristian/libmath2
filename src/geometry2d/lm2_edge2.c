@@ -29,6 +29,7 @@ SOFTWARE.
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
 #include <lm2/geometry2d/lm2_capsule2.h>
+#include <math.h>
 
 // =============================================================================
 // Construction Helpers
@@ -188,11 +189,31 @@ static bool lm2_edge2_on_segment_f32(lm2_v2_f32 a, lm2_v2_f32 b, lm2_v2_f32 poin
          point.y >= lm2_min_f32(a.y, b.y) && point.y <= lm2_max_f32(a.y, b.y);
 }
 
+// Only the sign is required. Scale each vector independently before the
+// products so ordinary finite coordinates do not overflow or underflow.
+static long double lm2_edge2_orientation_f64(lm2_v2_f64 a, lm2_v2_f64 b, lm2_v2_f64 p) {
+  long double dx = (long double)b.x - a.x, dy = (long double)b.y - a.y;
+  long double px = (long double)p.x - a.x, py = (long double)p.y - a.y;
+  if (!isfinite(dx) || !isfinite(dy) || !isfinite(px) || !isfinite(py)) {
+    dx = (long double)b.x * 0.5L - (long double)a.x * 0.5L;
+    dy = (long double)b.y * 0.5L - (long double)a.y * 0.5L;
+    px = (long double)p.x * 0.5L - (long double)a.x * 0.5L;
+    py = (long double)p.y * 0.5L - (long double)a.y * 0.5L;
+  }
+  long double ds = fmaxl(fabsl(dx), fabsl(dy));
+  long double ps = fmaxl(fabsl(px), fabsl(py));
+  if (ds == 0.0L || ps == 0.0L) return 0.0L;
+  int de, pe;
+  (void)frexpl(ds, &de);
+  (void)frexpl(ps, &pe);
+  return scalbnl(dx, -de) * scalbnl(py, -pe) - scalbnl(dy, -de) * scalbnl(px, -pe);
+}
+
 LM2_API bool lm2_edges2_intersect_f64(lm2_edge2_f64 e1, lm2_edge2_f64 e2) {
-  double d1 = lm2_v2_cross3_f64(e1.start, e1.end, e2.start);
-  double d2 = lm2_v2_cross3_f64(e1.start, e1.end, e2.end);
-  double d3 = lm2_v2_cross3_f64(e2.start, e2.end, e1.start);
-  double d4 = lm2_v2_cross3_f64(e2.start, e2.end, e1.end);
+  long double d1 = lm2_edge2_orientation_f64(e1.start, e1.end, e2.start);
+  long double d2 = lm2_edge2_orientation_f64(e1.start, e1.end, e2.end);
+  long double d3 = lm2_edge2_orientation_f64(e2.start, e2.end, e1.start);
+  long double d4 = lm2_edge2_orientation_f64(e2.start, e2.end, e1.end);
 
   if (((d1 > 0.0 && d2 < 0.0) || (d1 < 0.0 && d2 > 0.0)) &&
       ((d3 > 0.0 && d4 < 0.0) || (d3 < 0.0 && d4 > 0.0))) return true;
@@ -204,10 +225,12 @@ LM2_API bool lm2_edges2_intersect_f64(lm2_edge2_f64 e1, lm2_edge2_f64 e2) {
 }
 
 LM2_API bool lm2_edges2_intersect_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2) {
-  float d1 = lm2_v2_cross3_f32(e1.start, e1.end, e2.start);
-  float d2 = lm2_v2_cross3_f32(e1.start, e1.end, e2.end);
-  float d3 = lm2_v2_cross3_f32(e2.start, e2.end, e1.start);
-  float d4 = lm2_v2_cross3_f32(e2.start, e2.end, e1.end);
+  lm2_v2_f64 a = {e1.start.x, e1.start.y}, b = {e1.end.x, e1.end.y};
+  lm2_v2_f64 c = {e2.start.x, e2.start.y}, d = {e2.end.x, e2.end.y};
+  long double d1 = lm2_edge2_orientation_f64(a, b, c);
+  long double d2 = lm2_edge2_orientation_f64(a, b, d);
+  long double d3 = lm2_edge2_orientation_f64(c, d, a);
+  long double d4 = lm2_edge2_orientation_f64(c, d, b);
 
   if (((d1 > 0.0f && d2 < 0.0f) || (d1 < 0.0f && d2 > 0.0f)) &&
       ((d3 > 0.0f && d4 < 0.0f) || (d3 < 0.0f && d4 > 0.0f))) return true;

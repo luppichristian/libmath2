@@ -187,7 +187,7 @@ LM2_API double lm2_m3x2_determinant_f64(lm2_m3x2_f64 m) {
 
 LM2_API lm2_m3x2_f64 lm2_m3x2_inverse_f64(lm2_m3x2_f64 m) {
   double det = lm2_m3x2_determinant_f64(m);
-  LM2_ASSERT_UNSAFE(lm2_abs_f64(det) > 0.000001);
+  LM2_ASSERT_UNSAFE(det != 0.0);
   double inv_det = lm2_div_f64(1.0, det);
   lm2_m3x2_f64 result;
   result.m00 = lm2_mul_f64(m.m11, inv_det);
@@ -449,7 +449,7 @@ LM2_API float lm2_m3x2_determinant_f32(lm2_m3x2_f32 m) {
 
 LM2_API lm2_m3x2_f32 lm2_m3x2_inverse_f32(lm2_m3x2_f32 m) {
   float det = lm2_m3x2_determinant_f32(m);
-  LM2_ASSERT_UNSAFE(lm2_abs_f32(det) > 0.000001f);
+  LM2_ASSERT_UNSAFE(det != 0.0f);
   float inv_det = lm2_div_f32(1.0f, det);
   lm2_m3x2_f32 result;
   result.m00 = lm2_mul_f32(m.m11, inv_det);

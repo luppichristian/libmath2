@@ -39,6 +39,13 @@ Cell-based noise returning the Euclidean distance to the nearest feature point.
 
 All functions also available in `_f64` variants.
 
+Coordinates must be finite. Perlin repeats every 256 cells; Voronoi's cell
+hash repeats every 2^32 cells. Floating-point rounding limits which fractional
+coordinates remain representable far from the origin. Voronoi now computes
+feature distances in local cell coordinates and searches the second ring of
+cells. Generated values can differ from earlier versions because of rounding or
+because a closer feature was previously missed.
+
 ## Example
 
 ```c
