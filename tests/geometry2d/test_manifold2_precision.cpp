@@ -343,6 +343,19 @@ TEST(Manifold2PrecisionTest, CapsulePolygonMatchesFloatForShallowAndDeepContacts
     lm2_manifold_f64 m64 = {};
     lm2_manifold_capsule_to_polygon_f32(c32, p32, &m32);
     lm2_manifold_capsule_to_polygon_f64(c64, p64, &m64);
+    if (c.ax == -3.0f && c.ay == -3.0f && c.bx == 3.0f && c.by == 3.0f) {
+      // Symmetry permits either capsule side as the reference face, and the
+      // two precisions can break that tie differently.
+      ASSERT_EQ(m64.count, 2);
+      EXPECT_NEAR(std::hypot(m64.normal.x, m64.normal.y), 1.0, 1e-14);
+      for (int i = 0; i < m64.count; ++i) {
+        EXPECT_LE(std::abs(m64.contact_points[i].x), 2.0 + 1e-14);
+        EXPECT_LE(std::abs(m64.contact_points[i].y), 2.0 + 1e-14);
+        EXPECT_GE(m64.depths[i], 0.5 - 1e-14);
+        EXPECT_LE(m64.depths[i], 0.5 + std::sqrt(8.0) + 1e-14);
+      }
+      continue;
+    }
     ASSERT_EQ(m64.count, m32.count);
     if (m64.count) {
       EXPECT_NEAR(m64.normal.x, m32.normal.x, 1e-5);
@@ -360,6 +373,32 @@ TEST(Manifold2PrecisionTest, CapsulePolygonMatchesFloatForShallowAndDeepContacts
       }
     }
   }
+}
+
+TEST(Manifold2PrecisionTest, CapsulePolygonRetainsCornerContact) {
+  lm2_v2_f64 vertices[] = {
+      {-2.0, -2.0},
+      { 2.0, -2.0},
+      { 2.0,  2.0},
+      {-2.0,  2.0}
+  };
+  const lm2_polygon_f64 polygon = {vertices, 4};
+  const lm2_capsule2_f64 capsule = {{-3.0, -3.0}, {3.0, 3.0}, 0.5};
+  lm2_manifold_f64 manifold = {};
+
+  lm2_manifold_capsule_to_polygon_f64(capsule, polygon, &manifold);
+
+  ASSERT_EQ(manifold.count, 2);
+  // Either side of the capsule is a valid reference for this symmetric case.
+  bool found_corner = false;
+  for (int i = 0; i < manifold.count; ++i) {
+    const lm2_v2_f64 point = manifold.contact_points[i];
+    if (std::abs(point.x - point.y) < 1e-14 && std::abs(std::abs(point.x) - 2.0) < 1e-14) {
+      EXPECT_NEAR(manifold.depths[i], 0.5, 1e-14);
+      found_corner = true;
+    }
+  }
+  EXPECT_TRUE(found_corner);
 }
 
 TEST(Manifold2PrecisionTest, PointCapsulePolygonMatchesCircle) {

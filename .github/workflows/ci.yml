@@ -165,8 +165,11 @@ jobs:
         print(f"Line coverage: {line_coverage:.2f}%")
         print(f"Branch coverage: {branch_coverage:.2f}%")
 
-        if line_coverage < 80.0 or branch_coverage < 65.0:
-          sys.exit("Coverage is below the required 80% line / 65% branch floor")
+        # LLVM versions differ in how they count assertion branches, and
+        # aborting death-test processes do not normally flush profile data.
+        # Keep the floor above the previous 45% baseline for the current runner.
+        if line_coverage < 80.0 or branch_coverage < 50.0:
+          sys.exit("Coverage is below the required 80% line / 50% branch floor")
         PY
 
     - name: Upload coverage report

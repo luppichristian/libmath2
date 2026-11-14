@@ -572,7 +572,11 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3_f32 plane
 // For extreme differences between ray distance and capsule size, scaling all
 // coordinates together would collapse the capsule. Work with unit axes and
 // compute the side normal directly, even when entry and exit t round equally.
-#define LM2_RAY3_CAPSULE_FAR(suffix, type, hyp, absfn, rootfn)                                                                   \
+#define LM2_RAY3_CAPSULE_FAR(suffix, type, hyp, absfn, rootfn, fmafn)                                                            \
+  static type _lm2_ray_diff_products_##suffix(type a, type b, type c, type d) {                                                  \
+    type cd = c * d;                                                                                                             \
+    return fmafn(a, b, -cd) - fmafn(c, d, -cd);                                                                                  \
+  }                                                                                                                              \
   static lm2_rayhit3_##suffix _lm2_ray_capsule_far_##suffix(                                                                     \
       lm2_ray3_##suffix ray, lm2_v3_##suffix start, lm2_v3_##suffix end, type radius) {                                          \
     lm2_rayhit3_##suffix result = {0};                                                                                           \
@@ -596,7 +600,13 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3_f32 plane
     lm2_v3_##suffix dir = {ray.direction.x / dir_len, ray.direction.y / dir_len, ray.direction.z / dir_len};                     \
     type base = -_lm2_ray_dot_##suffix(offset, dir);                                                                             \
     type best_local = INFINITY;                                                                                                  \
-    lm2_v3_##suffix projected_origin = _lm2_ray_cross_##suffix(dir, _lm2_ray_cross_##suffix(ray.origin, dir));                   \
+    /* Compensate both products: an asymmetric contracted multiply-subtract can                                                  \
+       turn an exactly parallel, distant origin into a huge spurious offset. */                                                  \
+    lm2_v3_##suffix origin_cross = {                                                                                             \
+        _lm2_ray_diff_products_##suffix(ray.origin.y, dir.z, ray.origin.z, dir.y),                                               \
+        _lm2_ray_diff_products_##suffix(ray.origin.z, dir.x, ray.origin.x, dir.z),                                               \
+        _lm2_ray_diff_products_##suffix(ray.origin.x, dir.y, ray.origin.y, dir.x)};                                              \
+    lm2_v3_##suffix projected_origin = _lm2_ray_cross_##suffix(dir, origin_cross);                                               \
     lm2_v3_##suffix projected_start = _lm2_ray_cross_##suffix(dir, _lm2_ray_cross_##suffix(start, dir));                         \
     lm2_v3_##suffix offset_projected = _lm2_ray_sub_##suffix(projected_origin, projected_start);                                 \
     lm2_v3_##suffix cross = _lm2_ray_cross_##suffix(axis_unit, dir);                                                             \
@@ -658,8 +668,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3_f32 plane
     }                                                                                                                            \
     return result;                                                                                                               \
   }
-LM2_RAY3_CAPSULE_FAR(f64, double, hypot, fabs, sqrt)
-LM2_RAY3_CAPSULE_FAR(f32, float, hypotf, fabsf, sqrtf)
+LM2_RAY3_CAPSULE_FAR(f64, double, hypot, fabs, sqrt, fma)
+LM2_RAY3_CAPSULE_FAR(f32, float, hypotf, fabsf, sqrtf, fmaf)
 #undef LM2_RAY3_CAPSULE_FAR
 
 LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3_f64 start, lm2_v3_f64 end, double radius) {

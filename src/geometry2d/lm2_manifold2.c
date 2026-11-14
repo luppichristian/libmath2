@@ -30,6 +30,7 @@ SOFTWARE.
 #include "lm2/scalar/lm2_scalar.h"
 #include "lm2/vectors/lm2_vector_specifics.h"
 
+#include <float.h>
 #include <limits.h>
 #include <math.h>
 #include <string.h>
@@ -798,9 +799,13 @@ LM2_API void lm2_manifold_capsule_to_polygon_f64(lm2_capsule2_f64 capsule, lm2_p
   lm2_v2_f64 normal = {tangent.y, -tangent.x};
   for (int i = 0; i < 2; ++i) {
     double depth = -_lm2_cap_poly_dot_f64(_lm2_cap_poly_sub_f64(seg[i], ref_a), normal);
-    if (depth >= 0.0) {
+    // A clipped point exactly on the reference line can round slightly to
+    // either side, especially when the dot product is contracted into an FMA.
+    double scale = fmax(fmax(fabs(seg[i].x), fabs(seg[i].y)), fmax(fabs(ref_a.x), fabs(ref_a.y)));
+    double tolerance = 16.0 * DBL_EPSILON * scale;
+    if (depth >= -tolerance) {
       int k = out_manifold->count++;
-      out_manifold->depths[k] = depth + capsule.radius;
+      out_manifold->depths[k] = fmax(depth, 0.0) + capsule.radius;
       out_manifold->contact_points[k] = (lm2_v2_f64) {capsule.start.x + seg[i].x, capsule.start.y + seg[i].y};
     }
   }
