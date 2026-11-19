@@ -60,6 +60,25 @@ LM2_HEADER_BEGIN;
 //   Extracting orientation via lm2_m4x4_to_quat_f64 from a view matrix yields
 //   the conjugate of the camera's world orientation quaternion.
 //
+// mul(A, B) applies B first. Angles are radians; rotations follow the
+// right-hand rule. rotate_axis normalizes a nonzero axis. world_transform is
+// T * Rx * Ry * Rz * S (scale, Z, Y, X, then translation on a point).
+// transform_point uses w=1 and divides by computed w if |w-1| exceeds 1e-10
+// (f64) or 1e-6 (f32); when dividing, |w| must exceed that threshold.
+// transform_vector uses w=0; transform returns all four components un-divided.
+// Array transforms require non-null pointers even for zero count; src==dst
+// works, but partially overlapping ranges can overwrite unread input.
+// get_scale returns lengths of the first three columns, losing scale signs.
+//
+// look_at maps eye to the origin and forward to -Z; eye and target must differ,
+// and up must not be parallel to forward. ortho and perspective map view-space
+// z=-near to NDC -1 and z=-far to +1 after division. For conventional viewing,
+// use 0 < near < far, positive aspect, and 0 < fov_y < pi. Projection extents
+// and denominators must exceed 1e-10 (f64) or 1e-6 (f32) in magnitude.
+// look_at requires forward and right basis lengths above that same threshold.
+// from_quat normalizes a nonzero quaternion;
+// to_quat expects an orthonormal rotation in the upper-left 3x3.
+//
 // Can represent: translation, rotation, scaling, projection, and combinations.
 // Standard format for 3D graphics transformations.
 

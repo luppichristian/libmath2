@@ -82,7 +82,9 @@ LM2_API lm2_edge3_f64 lm2_edge3_from_ray_f64(lm2_ray3_f64 ray);
 LM2_API lm2_edge3_f32 lm2_edge3_from_ray_f32(lm2_ray3_f32 ray);
 
 // Create an edge on a plane with given center point, direction, and length
-// The direction must be perpendicular to the plane's normal (it will be projected and normalized)
+// Projects direction onto the plane and normalizes it. The caller must supply
+// a center on the plane: the center itself is not projected. A direction
+// parallel to the normal produces a zero-length edge at center.
 LM2_API lm2_edge3_f64 lm2_edge3_from_plane_f64(lm2_plane3_f64 plane, lm2_v3_f64 center, lm2_v3_f64 direction, double length);
 LM2_API lm2_edge3_f32 lm2_edge3_from_plane_f32(lm2_plane3_f32 plane, lm2_v3_f32 center, lm2_v3_f32 direction, float length);
 
@@ -102,7 +104,8 @@ LM2_API float lm2_edge3_length_sq_f32(lm2_edge3_f32 edge);
 // Edge Comparison
 // =============================================================================
 
-// Check if two points are equal within epsilon
+// Check each coordinate difference strictly less than epsilon; epsilon = 0
+// therefore does not report equality, even for identical finite points.
 LM2_API bool lm2_points3_equal_f64(lm2_v3_f64 a, lm2_v3_f64 b, double epsilon);
 LM2_API bool lm2_points3_equal_f32(lm2_v3_f32 a, lm2_v3_f32 b, float epsilon);
 
@@ -114,8 +117,9 @@ LM2_API bool lm2_edges3_equal_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2, float epsi
 // Edge Intersection
 // =============================================================================
 
-// Check if two line segments intersect (for 3D, they may be skew lines)
-// Returns true if the segments actually intersect or come within epsilon distance
+// Check segment intersection using epsilon for parallel/collinear tests and
+// separation. A near-degenerate first segment in the collinear branch returns
+// false. These absolute tests are scale-dependent.
 LM2_API bool lm2_edges3_intersect_f64(lm2_edge3_f64 e1, lm2_edge3_f64 e2, double epsilon);
 LM2_API bool lm2_edges3_intersect_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2, float epsilon);
 
@@ -127,7 +131,9 @@ LM2_API bool lm2_edges3_intersect_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2, float 
 LM2_API double lm2_point_to_edge3_distance_sq_f64(lm2_v3_f64 point, lm2_edge3_f64 edge);
 LM2_API float lm2_point_to_edge3_distance_sq_f32(lm2_v3_f32 point, lm2_edge3_f32 edge);
 
-// Compute squared distance between two edges (line segments)
+// Compute squared distance between two edges (line segments). The parallel
+// branch divides by the second segment length squared: require a nonzero
+// second segment to avoid division by zero.
 LM2_API double lm2_edge3_to_edge3_distance_sq_f64(lm2_edge3_f64 e1, lm2_edge3_f64 e2);
 LM2_API float lm2_edge3_to_edge3_distance_sq_f32(lm2_edge3_f32 e1, lm2_edge3_f32 e2);
 

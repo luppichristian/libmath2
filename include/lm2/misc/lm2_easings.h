@@ -30,6 +30,17 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
+// Easing maps normalized progress t to eased progress, normally using t in
+// [0, 1]. Functions do not clamp input or output: back and elastic can overshoot
+// [0, 1] even for valid t; circular curves can encounter a negative square
+// root outside their domain. Safe arithmetic assertions may also apply.
+// The _in, _out and _in_out variants describe how the curve changes over the
+// interval; linear has no variants. Apply the result as the interpolation factor.
+//
+// lm2_ease dispatches the same curves at runtime. EASING_MAX and unknown enum
+// values return t unchanged. lm2_easing_to_string returns a string literal for
+// named values (including EASING_MAX), or "EASING_UNKNOWN" for other values.
+
 // Linear
 LM2_API double lm2_ease_linear_f64(double t);
 LM2_API float lm2_ease_linear_f32(float t);

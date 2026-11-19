@@ -1,8 +1,3 @@
----
-layout: default
-title: Vector Specifics
----
-
 # Vector Specifics
 
 ## Overview
@@ -12,6 +7,12 @@ Higher-level vector operations including dot product, cross product, length, dis
 ## Why Use This?
 
 These are the essential geometric operations needed for lighting calculations, physics, camera systems, collision detection, and spatial queries.
+
+## Conventions and inputs
+
+Inputs to a geometric operation must use the same coordinate system. Positive 2D angles turn +X toward +Y, counterclockwise when X points right and Y points up; the 3D cross product follows the right-hand rule. The operations use [safe arithmetic](safe-ops.md), so intermediate overflow or underflow can assert even for finite inputs.
+
+Normalization returns the zero vector if its computed length is zero. The angle functions compute `acos(dot(a, b) / (length(a) * length(b)))` in radians: both vectors must be nonzero and the computed ratio must be in `[-1, 1]`; it is not clamped for rounding error. Reflection computes `v - 2 * dot(v, normal) * normal` and requires a unit normal for geometric reflection. Projection computes `dot(a, b) / dot(b, b) * b`, so `b` must be nonzero.
 
 ## Functions
 

@@ -33,6 +33,20 @@ LM2_HEADER_BEGIN;
 // Non-cryptographic hash functions for basic types and data buffers
 // These are designed to be simple and fast, suitable for hash tables,
 // checksums, and other non-security-critical applications.
+// Hashes may collide and are not suitable for security or authenticity checks.
+// Numeric hashes mix the integer representation; narrow signed values are
+// sign-extended and narrow unsigned values zero-extended to 32 bits. Floating
+// hashes mix their object representation, except that +0 and -0 hash equally;
+// NaN payloads are not canonicalized. Representation and byte order matter
+// when hashing raw buffers, so do not assume portable hashes for raw structs.
+// The mix functions replace zero with a fixed nonzero input before mixing;
+// consequently zero collides with that replacement input.
+//
+// FNV-1a processes size bytes in memory order; NULL data or size zero returns
+// the corresponding FNV offset basis, even when a nonzero size accompanies NULL.
+// For non-NULL data the buffer must contain at least size readable bytes.
+// combine is order-dependent: pass the previous result as seed and the next
+// already-computed field hash as hash. Neither FNV nor combine prevents collisions.
 
 // =============================================================================
 // Low-Level Bit-Mixing Functions

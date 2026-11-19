@@ -2,7 +2,7 @@
 
 [![Language](https://img.shields.io/badge/language-C%20%2F%20C%2B%2B-00599C)](https://github.com/luppichristian/libmath2)
 [![Build](https://img.shields.io/badge/build-CMake-orange)](https://github.com/luppichristian/libmath2)
-[![Docs](https://img.shields.io/badge/docs-online-blue)](https://luppichristian.github.io/libmath2/)
+[![Docs](https://img.shields.io/badge/docs-Markdown-blue)](docs/index.md)
 [![CI](https://img.shields.io/github/actions/workflow/status/luppichristian/libmath2/ci.yml?branch=main&label=ci)](https://github.com/luppichristian/libmath2/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE.md)
 
@@ -14,17 +14,17 @@ Designed for graphics programming, game development, and physics simulations, li
 
 > **Note for contributors**: this list must be kept up to date when modules are added or removed.
 
-- **Vectors** — 2D, 3D, and 4D vector types with arithmetic, interpolation, rounding, and comparison operations across 10 numeric types
+- **Vectors** — 2D, 3D, and 4D vectors with arithmetic and comparisons across 10 numeric types, plus floating-point interpolation and rounding
 - **Matrices** — 3x2, 3x3, and 4x4 matrix types for 2D/3D transformations and projections
 - **Quaternions** — Rotation representation with SLERP/NLERP interpolation, Euler/axis-angle conversions
 - **Cameras** — 2D camera (pan, zoom, rotate, world↔screen) and 3D camera (perspective/orthographic, look-at, orbit, NDC conversions)
 - **Ranges** — 2D, 3D, and 4D axis-aligned bounding boxes with containment, overlap, union, and intersection tests
 - **2D Geometry** — Circles, AABBs, capsules, edges, planes, polygons, triangles, raycasting, and collision manifolds
-- **3D Geometry** — Spheres, AABBs, capsules, edges, planes, triangles (area, normals, barycentric, circumsphere), and raycasting
+- **3D Geometry** — Spheres, AABBs, capsules, edges, planes, triangles, and raycasting
 - **Scalar Math** — Floor, ceil, round, clamp, lerp, smoothstep, and safe arithmetic with overflow detection
 - **Trigonometry** — Trig functions with angle wrapping, shortest-path interpolation in radians and degrees
 - **Bezier Curves** — Linear, quadratic, and cubic evaluation with derivatives, splitting, and arc length
-- **Easing Functions** — 30 easing curves (sin, quad, cubic, quart, quint, exp, circ, back, elastic, bounce)
+- **Easing Functions** — 31 easing curves (sin, quad, cubic, quart, quint, exp, circ, back, elastic, bounce)
 - **Noise** — Perlin and Voronoi noise in 2D and 3D
 - **Hashing** — Non-cryptographic hash functions for all numeric types plus FNV-1a for arbitrary buffers
 - **Constants** — Typed `f32`/`f64` constants for π, 2π, half-π, rad↔deg conversion factors, √2, e, and the Euler–Mascheroni constant
@@ -58,11 +58,11 @@ Fetched automatically via CMake FetchContent:
 | `LM2_UNSAFE` | Disable overflow/underflow assertions in safe ops for performance |
 | `LM2_NO_CPP_OPERATORS` | Disable C++ operator overloads for all types |
 | `LM2_NO_GENERICS` | Disable C11 `_Generic` macros and C++ function overloads |
-| `LM2_ENABLE_UNPREFIXED_NAMES` | Enable unprefixed names (e.g. v2 instead of lm2_v2) |
+| `LM2_ENABLE_UNPREFIXED_NAMES` | Enable unprefixed aliases (e.g. `v2_f32` for `lm2_v2_f32`) |
 
 ## Documentation
 
-See the [docs](https://luppichristian.github.io/libmath2/) directory for comprehensive API documentation and usage patterns.
+See the [documentation](docs/index.md) for API reference and usage examples.
 
 ## License
 

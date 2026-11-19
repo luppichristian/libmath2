@@ -57,6 +57,24 @@ typedef enum lm2_align {
 } lm2_align;
 
 // =============================================================================
+// Common semantics for all AABB2 specializations
+// The input range is expected to have min <= max componentwise. Corner names
+// use Cartesian axes: left/right are min/max X and bottom/top min/max Y.
+// Overlap and containment include boundaries. get_dim returns max - min;
+// get_closest_point clamps each coordinate to the box. Floating distance
+// functions measure Euclidean distance and return zero for overlap/containment.
+// Integer distance and closest_distance_from_edges are declared below but have
+// no definitions; use floating-point variants when those distances are needed.
+// Scale functions change the size componentwise about the named anchor.
+// Shrink/inflate adjust each side by amount, so dimensions change by twice
+// that amount. These operations do not prevent inverted bounds; arithmetic
+// remains subject to the configured safe-operation assertions.
+// Cut returns the selected strip and mutates rect to the remainder; amount is
+// not clamped to its dimensions. An unknown cut type returns a zero range.
+// Align preserves subrect size and positions it at the start, center, or end
+// of rect on each axis. Integer arithmetic can truncate and unsigned arithmetic
+// requires representable intermediate results.
+//
 // AABB2 Operations for f64
 // =============================================================================
 

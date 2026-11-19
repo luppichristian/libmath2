@@ -38,7 +38,9 @@ LM2_HEADER_BEGIN;
 // Polygon Types
 // =============================================================================
 
-// Polygon structure - caller manages the vertices array memory
+// Polygon structure: vertices are borrowed, not copied or owned. The caller
+// keeps the array alive and provides capacity for any in-place insertions.
+// Coordinates are in the caller's chosen common 2D space.
 typedef struct lm2_polygon_f64 {
   lm2_v2_f64* vertices;  // Pointer to array of vertices (caller-managed)
   size_t vertex_count;   // Number of vertices
@@ -57,15 +59,20 @@ typedef struct lm2_polygon_f32 {
 LM2_API lm2_polygon_f64 lm2_polygon_make_f64(lm2_v2_f64* vertices, size_t vertex_count);
 LM2_API lm2_polygon_f32 lm2_polygon_make_f32(lm2_v2_f32* vertices, size_t vertex_count);
 
-// Create a regular polygon (caller provides output array with required size)
+// Write num_sides >= 3 vertices on a nonnegative-radius circle, starting
+// at center + (radius, 0) and proceeding counterclockwise in XY coordinates.
+// The caller supplies a non-NULL array with num_sides elements.
 LM2_API void lm2_polygon_make_regular_f64(lm2_v2_f64* out_vertices, size_t num_sides, lm2_v2_f64 center, double radius);
 LM2_API void lm2_polygon_make_regular_f32(lm2_v2_f32* out_vertices, size_t num_sides, lm2_v2_f32 center, float radius);
 
-// Create a rectangle polygon (caller provides output array of size 4)
+// Write (min.x,min.y), (max.x,min.y), (max.x,max.y), (min.x,max.y)
+// to a non-NULL array of four vertices; ordered bounds give CCW winding.
 LM2_API void lm2_polygon_make_rect_f64(lm2_v2_f64* out_vertices, lm2_v2_f64 min, lm2_v2_f64 max);
 LM2_API void lm2_polygon_make_rect_f32(lm2_v2_f32* out_vertices, lm2_v2_f32 min, lm2_v2_f32 max);
 
-// Create a triangle polygon (caller provides output array of size 3)
+// Write tip followed by the two base endpoints centered at position,
+// perpendicular to tip-position, into a non-NULL array of three vertices.
+// base_width must be nonnegative. If tip == position, the direction is +Y.
 LM2_API void lm2_polygon_make_triangle_f64(lm2_v2_f64* out_vertices, lm2_v2_f64 position, lm2_v2_f64 tip, double base_width);
 LM2_API void lm2_polygon_make_triangle_f32(lm2_v2_f32* out_vertices, lm2_v2_f32 position, lm2_v2_f32 tip, float base_width);
 
@@ -97,7 +104,7 @@ LM2_API lm2_winding_order lm2_polygon_winding_order_f32(lm2_polygon_f32 polygon)
 LM2_API double lm2_polygon_perimeter_f64(lm2_polygon_f64 polygon);
 LM2_API float lm2_polygon_perimeter_f32(lm2_polygon_f32 polygon);
 
-// Calculate the centroid (geometric center) of a polygon
+// Calculate the area-weighted centroid of a nonzero-area polygon.
 LM2_API lm2_v2_f64 lm2_polygon_centroid_f64(lm2_polygon_f64 polygon);
 LM2_API lm2_v2_f32 lm2_polygon_centroid_f32(lm2_polygon_f32 polygon);
 
@@ -117,15 +124,18 @@ LM2_API lm2_r2_f32 lm2_polygon_bounds_f32(lm2_polygon_f32 polygon);
 // Polygon Tests
 // =============================================================================
 
-// Check if a point is inside a polygon (using ray casting algorithm)
+// Check a point using ray crossing; points on an edge are not consistently
+// classified as inside. Use an explicit edge test when boundary matters.
 LM2_API bool lm2_polygon_contains_point_f64(lm2_polygon_f64 polygon, lm2_v2_f64 point);
 LM2_API bool lm2_polygon_contains_point_f32(lm2_polygon_f32 polygon, lm2_v2_f32 point);
 
-// Check if a polygon is convex
+// Check consecutive turn signs; collinear turns are ignored, so an entirely
+// collinear polygon can return true. This does not establish simplicity.
 LM2_API bool lm2_polygon_is_convex_f64(lm2_polygon_f64 polygon);
 LM2_API bool lm2_polygon_is_convex_f32(lm2_polygon_f32 polygon);
 
-// Check if a polygon is simple (no self-intersections)
+// Check nonadjacent edges for intersections. This does not validate distinct
+// vertices or nondegeneracy; e.g. three coincident vertices can return true.
 LM2_API bool lm2_polygon_is_simple_f64(lm2_polygon_f64 polygon);
 LM2_API bool lm2_polygon_is_simple_f32(lm2_polygon_f32 polygon);
 
@@ -149,7 +159,8 @@ LM2_API void lm2_polygon_translate_f32(lm2_polygon_f32 polygon, lm2_v2_f32 offse
 LM2_API void lm2_polygon_scale_f64(lm2_polygon_f64 polygon, lm2_v2_f64 center, double scale);
 LM2_API void lm2_polygon_scale_f32(lm2_polygon_f32 polygon, lm2_v2_f32 center, float scale);
 
-// Rotate a polygon around a center point (modifies vertices in-place)
+// Rotate around a center point in radians, counterclockwise for positive angles
+// in Cartesian coordinates (modifies vertices in place).
 LM2_API void lm2_polygon_rotate_f64(lm2_polygon_f64 polygon, lm2_v2_f64 center, double angle_radians);
 LM2_API void lm2_polygon_rotate_f32(lm2_polygon_f32 polygon, lm2_v2_f32 center, float angle_radians);
 
@@ -157,11 +168,13 @@ LM2_API void lm2_polygon_rotate_f32(lm2_polygon_f32 polygon, lm2_v2_f32 center, 
 LM2_API void lm2_polygon_reverse_winding_f64(lm2_polygon_f64 polygon);
 LM2_API void lm2_polygon_reverse_winding_f32(lm2_polygon_f32 polygon);
 
-// Insert a vertex at a specific index (caller manages vertex array, must have space)
+// Insert at index <= count, shifting later vertices. Both pointers must be
+// non-NULL, count must be at least 3, and the array needs count+1 capacity.
 LM2_API void lm2_polygon_insert_vertex_f64(lm2_v2_f64* vertices, size_t* vertex_count, size_t index, lm2_v2_f64 vertex);
 LM2_API void lm2_polygon_insert_vertex_f32(lm2_v2_f32* vertices, size_t* vertex_count, size_t index, lm2_v2_f32 vertex);
 
-// Remove a vertex at a specific index (shifts remaining vertices)
+// Remove at index < count, shifting later vertices. Both pointers must be
+// non-NULL and count must exceed 3, preserving at least three vertices.
 LM2_API void lm2_polygon_remove_vertex_f64(lm2_v2_f64* vertices, size_t* vertex_count, size_t index);
 LM2_API void lm2_polygon_remove_vertex_f32(lm2_v2_f32* vertices, size_t* vertex_count, size_t index);
 
@@ -193,7 +206,8 @@ LM2_API size_t lm2_polygon_triangulate_ear_clipping_f32(lm2_polygon_f32 polygon,
 // out_polygons must hold n - 2 structures and out_vertices_buffer must hold
 // 3 * (n - 2) vertices. These are worst-case bounds, including concave inputs.
 // Outputs must not overlap the input or each other. If n <= max_vertices, the
-// polygon is copied as one piece. Otherwise, 0 indicates allocation failure,
+// polygon is copied as one piece, even if concave; this is a vertex-count
+// split, not a convexity guarantee. Otherwise, 0 indicates allocation failure,
 // size overflow, or incomplete triangulation; outputs are not written on failure.
 // On success returns the number of pieces and points each piece into the buffer.
 LM2_API size_t lm2_polygon_split_by_max_vertices_f64(lm2_polygon_f64 polygon, lm2_polygon_f64* out_polygons, lm2_v2_f64* out_vertices_buffer, size_t max_vertices);

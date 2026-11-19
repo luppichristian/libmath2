@@ -30,6 +30,11 @@ SOFTWARE.
 #  include <cstdint>
 #  include <type_traits>
 
+// Template dispatch requires the template arguments to be deducible and the
+// selected suffixed function to exist. Some matrix and FNV wrappers do not
+// meet these requirements; use suffixed matrix functions where necessary. See
+// docs/modules/extensions.md for examples and known limitations.
+
 // Helper macros for type dispatch
 #  define LM2_DISPATCH_FULL(name, ...)                                       \
     if constexpr (std::is_same_v<T, double>) return name##_f64(__VA_ARGS__); \

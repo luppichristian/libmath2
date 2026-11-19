@@ -35,7 +35,9 @@ LM2_HEADER_BEGIN;
 // Sphere Types
 // =============================================================================
 
-// Sphere structure to represent a 3D sphere
+// A sphere is expressed in the same coordinate space as points supplied to its
+// queries. Constructors assert a nonnegative radius; boundary points count as
+// contained, and tangency counts as overlap.
 typedef struct lm2_sphere_f64 {
   lm2_v3_f64 center;
   double radius;
@@ -90,7 +92,7 @@ LM2_API bool lm2_sphere_contains_point_f32(lm2_sphere_f32 sphere, lm2_v3_f32 poi
 LM2_API bool lm2_spheres_overlap_f64(lm2_sphere_f64 a, lm2_sphere_f64 b);
 LM2_API bool lm2_spheres_overlap_f32(lm2_sphere_f32 a, lm2_sphere_f32 b);
 
-// Check if sphere a is completely inside sphere b
+// Check if sphere a completely contains sphere b, including internal tangency
 LM2_API bool lm2_sphere_contains_sphere_f64(lm2_sphere_f64 a, lm2_sphere_f64 b);
 LM2_API bool lm2_sphere_contains_sphere_f32(lm2_sphere_f32 a, lm2_sphere_f32 b);
 
@@ -102,7 +104,8 @@ LM2_API bool lm2_sphere_contains_sphere_f32(lm2_sphere_f32 a, lm2_sphere_f32 b);
 LM2_API lm2_sphere_f64 lm2_sphere_translate_f64(lm2_sphere_f64 sphere, lm2_v3_f64 offset);
 LM2_API lm2_sphere_f32 lm2_sphere_translate_f32(lm2_sphere_f32 sphere, lm2_v3_f32 offset);
 
-// Scale a sphere's radius
+// Multiply the radius by scale, leaving the center fixed. A negative scale
+// produces a negative radius; use a nonnegative scale for a valid sphere.
 LM2_API lm2_sphere_f64 lm2_sphere_scale_f64(lm2_sphere_f64 sphere, double scale);
 LM2_API lm2_sphere_f32 lm2_sphere_scale_f32(lm2_sphere_f32 sphere, float scale);
 

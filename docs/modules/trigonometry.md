@@ -1,8 +1,3 @@
----
-layout: default
-title: Trigonometry
----
-
 # Trigonometry
 
 ## Overview
@@ -12,6 +7,10 @@ Trigonometric functions, angle conversions, angle wrapping, and angular interpol
 ## Why Use This?
 
 Game and graphics code constantly works with angles for rotation, field of view, arc calculations, and smooth angular interpolation.
+
+## Behavior and input requirements
+
+Inputs must be finite. `asin` and `acos` require values in `[-1, 1]`; `atan2` takes `(y, x)`. Wrapping targets `[-π, π)` or `[-180, 180)`, mapping a positive half-turn to the negative endpoint; rounding near the boundary can produce the positive endpoint. `shortest(from, to)` wraps `to - from`, choosing the negative direction for an exact half-turn. Angular interpolation returns `a + t * shortest(a, b)`; it neither clamps `t` nor wraps the result. Intermediate arithmetic uses [safe operations](safe-ops.md).
 
 ## Functions
 
@@ -38,16 +37,16 @@ Game and graphics code constantly works with angles for rotation, field of view,
 
 | Function | Description |
 |----------|-------------|
-| `lm2_wrap_rad_f32(angle)` | Wrap angle to [-PI, PI] |
-| `lm2_shortest_rad_f32(from, to)` | Shortest angular distance in [-PI, PI] |
+| `lm2_wrap_rad_f32(angle)` | Wrap angle ideally to [-PI, PI) |
+| `lm2_shortest_rad_f32(from, to)` | Shortest angular distance, ideally in [-PI, PI) |
 | `lm2_lerp_rad_f32(a, t, b)` | Interpolate angles using shortest path |
 
 ### Angle Operations (Degrees)
 
 | Function | Description |
 |----------|-------------|
-| `lm2_wrap_deg_f32(angle)` | Wrap angle to [-180, 180] |
-| `lm2_shortest_deg_f32(from, to)` | Shortest angular distance in [-180, 180] |
+| `lm2_wrap_deg_f32(angle)` | Wrap angle ideally to [-180, 180) |
+| `lm2_shortest_deg_f32(from, to)` | Shortest angular distance, ideally in [-180, 180) |
 | `lm2_lerp_deg_f32(a, t, b)` | Interpolate angles using shortest path |
 
 All functions are available in `_f64` and `_f32` variants.
@@ -77,5 +76,5 @@ float wrapped = lm2_wrap_deg_f32(angle_deg); // -90
 // Smoothly interpolate between two angles
 float from = lm2_deg_to_rad_f32(350.0f);
 float to   = lm2_deg_to_rad_f32(10.0f);
-float mid  = lm2_lerp_rad_f32(from, 0.5f, to);  // goes through 0, not 180
+float mid  = lm2_lerp_rad_f32(from, 0.5f, to);  // ~2*pi radians, equivalent to 0 degrees
 ```

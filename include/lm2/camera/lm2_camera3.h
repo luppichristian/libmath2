@@ -36,17 +36,52 @@ LM2_HEADER_BEGIN;
 // =============================================================================
 // Camera 3D
 // =============================================================================
-// Represents a 3D camera with a position, orientation (forward/up vectors),
-// and projection parameters (perspective or orthographic).
+// Represents a right-handed 3D camera. Contracts below apply to both precisions;
+// camera-manipulation functions return modified copies, not in-place updates.
 //
-// Conventions:
-//   - Right-handed coordinate system
-//   - Forward is the direction the camera is looking at
-//   - Up is the world-up hint used to compute the right axis (via cross product)
-//   - fov_y : vertical field of view in radians (for perspective projection)
-//   - aspect : width / height of the viewport
-//   - near_plane / far_plane : clipping distances (must be > 0)
-//   - ortho_size : half-height of the orthographic frustum
+// position and target are world-space points; up is a world-space up hint.
+// forward = normalize(target - position), right = normalize(cross(forward, up)),
+// and the computed camera up = cross(right, forward). View space has +X right,
+// +Y up and -Z forward. position must differ from target and up must not be
+// parallel to forward for a valid view matrix. The forward length and length
+// of cross(normalize(forward), up) must each exceed 1e-10 (f64) or 1e-6
+// (f32) for look_at. Direction getters normalize zero to zero, so they can
+// return zero even where view construction asserts.
+//
+// Perspective uses vertical fov_y in radians and aspect = width / height.
+// Orthographic projection is centered, with half-height ortho_size and half-width
+// ortho_size * aspect. near_plane and far_plane are positive distances in front
+// of the camera, with far_plane > near_plane. For a conventional perspective
+// use 0 < fov_y < pi; use positive aspect and ortho_size. Constructors and setters
+// store values without validating or clamping them; invalid projection values
+// can produce singular matrices or assertions in the matrix functions. Any
+// projection enum other than PERSPECTIVE is treated as orthographic.
+//
+// get_view maps world to view space, get_inv_view reverses it, get_projection
+// maps view to homogeneous clip space, and get_view_projection is projection *
+// view. After dividing by clip W, visible NDC spans [-1, 1] on X, Y and Z; the
+// near and far planes map to Z = -1 and +1 respectively (OpenGL convention).
+// world_to_ndc and ndc_to_world perform that homogeneous divide; they do not
+// clip or test visibility; they divide by W without checking it. Callers must
+// ensure W is nonzero. ndc_to_world also requires an invertible view-projection
+// matrix.
+//
+// move adds a world-space delta to position and target; look_at replaces target.
+// orbit keeps target and radius, using world +Y as the polar axis regardless of
+// up: positive yaw moves an offset on +Z toward +X; positive pitch moves it
+// toward -Y. Its polar angle is clamped to [0.01, pi - 0.01] radians, so a
+// near-pole camera can move even at zero pitch. A zero-radius orbit remains
+// degenerate. set_aspect
+// and set_fov_y only replace their fields (fov_y affects perspective only).
+//
+// from_quat constructs a perspective camera; set_orientation keeps position.
+// Both rotate the default camera axes (forward -Z, up +Y) by a unit quaternion,
+// set target to position + rotated forward, and set up to rotated up. This resets
+// target distance to one. get_orientation extracts the rotation of the view
+// matrix (world to camera), i.e. the inverse of the camera-to-world orientation
+// accepted by set_orientation. Conjugate it before passing it back to that
+// setter. rotate_local composes camera-to-world orientation with the given local
+// rotation on the right and normalizes the result; it also resets target distance.
 
 // =============================================================================
 // Camera3 Projection Mode

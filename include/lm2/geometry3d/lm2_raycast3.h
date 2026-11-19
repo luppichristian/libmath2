@@ -36,17 +36,19 @@ LM2_HEADER_BEGIN;
 // Ray Types (3D)
 // =============================================================================
 
-// 3D Ray structure
+// A ray is origin + t * direction, with query interval 0 <= t <= t_max.
+// Ray and primitive coordinates must be in the same caller-selected space.
+// t is a distance only for a unit direction; make does not normalize it.
 typedef struct lm2_ray3_f64 {
   lm2_v3_f64 origin;     // Ray origin position
   lm2_v3_f64 direction;  // Ray direction (should be normalized)
-  double t_max;          // Maximum distance along ray
+  double t_max;          // Maximum ray parameter
 } lm2_ray3_f64;
 
 typedef struct lm2_ray3_f32 {
   lm2_v3_f32 origin;     // Ray origin position
   lm2_v3_f32 direction;  // Ray direction (should be normalized)
-  float t_max;           // Maximum distance along ray
+  float t_max;           // Maximum ray parameter
 } lm2_ray3_f32;
 
 // =============================================================================
@@ -56,31 +58,32 @@ typedef struct lm2_ray3_f32 {
 // 3D Ray hit result
 typedef struct lm2_rayhit3_f64 {
   bool hit;           // Whether the ray hit something
-  double t;           // Distance along ray where hit occurred
-  lm2_v3_f64 point;   // Hit point in world space
-  lm2_v3_f64 normal;  // Surface normal at hit point (unit length)
+  double t;           // Ray parameter at hit
+  lm2_v3_f64 point;   // Hit point in input coordinate space
+  lm2_v3_f64 normal;  // Hit normal; may be zero for degenerate cases
 } lm2_rayhit3_f64;
 
 typedef struct lm2_rayhit3_f32 {
   bool hit;           // Whether the ray hit something
-  float t;            // Distance along ray where hit occurred
-  lm2_v3_f32 point;   // Hit point in world space
-  lm2_v3_f32 normal;  // Surface normal at hit point (unit length)
+  float t;            // Ray parameter at hit
+  lm2_v3_f32 point;   // Hit point in input coordinate space
+  lm2_v3_f32 normal;  // Hit normal; may be zero for degenerate cases
 } lm2_rayhit3_f32;
 
 // =============================================================================
 // 3D Ray Construction
 // =============================================================================
 
-// Create a 3D ray from origin, direction, and max distance
+// Store origin, direction, and maximum parameter unchanged.
 LM2_API lm2_ray3_f64 lm2_ray3_make_f64(lm2_v3_f64 origin, lm2_v3_f64 direction, double t_max);
 LM2_API lm2_ray3_f32 lm2_ray3_make_f32(lm2_v3_f32 origin, lm2_v3_f32 direction, float t_max);
 
-// Create a 3D ray from two points
+// Create a ray from start to end: direction is normalized and t_max is the
+// segment length. Coincident points produce zero direction and t_max.
 LM2_API lm2_ray3_f64 lm2_ray3_from_points_f64(lm2_v3_f64 start, lm2_v3_f64 end);
 LM2_API lm2_ray3_f32 lm2_ray3_from_points_f32(lm2_v3_f32 start, lm2_v3_f32 end);
 
-// Get point along ray at distance t
+// Return origin + t * direction without clamping t to the ray interval.
 LM2_API lm2_v3_f64 lm2_ray3_point_at_f64(lm2_ray3_f64 ray, double t);
 LM2_API lm2_v3_f32 lm2_ray3_point_at_f32(lm2_ray3_f32 ray, float t);
 
@@ -88,31 +91,47 @@ LM2_API lm2_v3_f32 lm2_ray3_point_at_f32(lm2_ray3_f32 ray, float t);
 // 3D Ray vs Primitive Tests
 // =============================================================================
 
-// Ray vs Sphere (3D circle). Surface hit points are computed relative to the
-// sphere center; when t rounds at large distances, point can differ from
+// The queries below return a zero-initialized result on a miss. For sphere and
+// capsule, an origin inside the shape reports the forward exit surface.
+// Ray vs Sphere. Radius is treated as its absolute value. Surface hit points
+// are computed relative to the sphere center; when t rounds at large
+// distances, point can differ from
 // lm2_ray3_point_at(ray, t). A stationary ray inside returns its origin and a
 // zero normal.
 LM2_API lm2_rayhit3_f64 lm2_raycast_sphere_f64(lm2_ray3_f64 ray, lm2_v3_f64 center, double radius);
 LM2_API lm2_rayhit3_f32 lm2_raycast_sphere_f32(lm2_ray3_f32 ray, lm2_v3_f32 center, float radius);
 
-// Ray vs AABB (range3)
+// Ray vs AABB (range3). For an origin inside or on the box, returns t=0
+// and the origin. A surface-origin normal is the first matching outward face
+// in x, y, z order; an interior normal is a fallback axis based on the largest
+// absolute displacement from the box center (ties favor z, then y).
 LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3_f64 aabb);
 LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3_f32 aabb);
 
-// Ray vs Triangle (3D)
+// Ray vs Triangle (3D). Both sides are tested; the normal follows vertex
+// winding, not the ray direction. The absolute determinant threshold uses
+// LM2_RAYCAST3_EPSILON_F32/F64 and depends on triangle and direction scale. Edge and
+// vertex hits are included.
 LM2_API lm2_rayhit3_f64 lm2_raycast_triangle_f64(lm2_ray3_f64 ray, lm2_v3_f64 v0, lm2_v3_f64 v1, lm2_v3_f64 v2);
 LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3_f32 v0, lm2_v3_f32 v1, lm2_v3_f32 v2);
 
-// Ray vs Plane (3D)
+// Ray vs Plane (3D). The supplied normal is normalized and returned without
+// facing it toward the ray. A zero normal or abs(dot(normal, direction)) <=
+// LM2_RAYCAST3_EPSILON_F32/F64 misses. An origin on the plane otherwise hits at t=0.
 LM2_API lm2_rayhit3_f64 lm2_raycast_plane_f64(lm2_ray3_f64 ray, lm2_v3_f64 plane_point, lm2_v3_f64 plane_normal);
 LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3_f32 plane_point, lm2_v3_f32 plane_normal);
 
-// Ray vs Capsule (3D). At extreme distances, rounded t may not reproduce the
-// returned surface point when passed to lm2_ray3_point_at.
+// Ray vs Capsule (3D). Supply a nonnegative radius. Coincident endpoints use
+// the sphere query. A stationary
+// ray inside returns its origin and a zero normal. At extreme distances,
+// rounded t may not reproduce the returned surface point via point_at.
 LM2_API lm2_rayhit3_f64 lm2_raycast_capsule_f64(lm2_ray3_f64 ray, lm2_v3_f64 start, lm2_v3_f64 end, double radius);
 LM2_API lm2_rayhit3_f32 lm2_raycast_capsule_f32(lm2_ray3_f32 ray, lm2_v3_f32 start, lm2_v3_f32 end, float radius);
 
-// Ray vs Edge/Line Segment (3D) - returns closest approach
+// Closest approach of the finite ray interval and finite segment. Hit if their
+// distance is <= nonnegative tolerance; point is on the ray, and normal points
+// from the segment to that point. At zero separation it is the normalized
+// cross(direction, edge), or zero when that cross product is zero.
 LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3_f64 edge_start, lm2_v3_f64 edge_end, double tolerance);
 LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3_f32 edge_start, lm2_v3_f32 edge_end, float tolerance);
 
@@ -122,7 +141,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3_f32 edge_s
 
 #include "lm2_shape3.h"
 
-// Generic ray vs shape (dispatches based on shape type)
+// Dispatch by shape type; shape.data must be non-NULL and match the tag. Edge
+// tests use LM2_RAYCAST3_EPSILON_F32/F64 as tolerance. Unknown tags return a miss.
 LM2_API lm2_rayhit3_f64 lm2_raycast_shape3_f64(lm2_ray3_f64 ray, lm2_shape3_f64 shape);
 LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 shape);
 

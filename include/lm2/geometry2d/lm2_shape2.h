@@ -53,6 +53,9 @@ typedef enum lm2_shape2_type {
 // Shape Structure
 // =============================================================================
 
+// A tagged, non-owning pointer to a shape of the matching precision. The
+// pointed-to object (and polygon vertices, if applicable) must outlive use.
+
 typedef struct lm2_shape2_f32 {
   lm2_shape2_type type;
   void* data;

@@ -35,7 +35,9 @@ LM2_HEADER_BEGIN;
 // Capsule Types
 // =============================================================================
 
-// Capsule structure to represent a 3D capsule (line segment with radius)
+// A capsule is the set of points within radius of its start-end segment.
+// All coordinates use the same caller-selected space; constructors assert a
+// nonnegative radius. Boundary contact counts as containment or overlap.
 typedef struct lm2_capsule3_f64 {
   lm2_v3_f64 start, end;
   double radius;
@@ -58,7 +60,9 @@ LM2_API lm2_capsule3_f32 lm2_capsule3_make_f32(lm2_v3_f32 start, lm2_v3_f32 end,
 LM2_API lm2_capsule3_f64 lm2_capsule3_make_coords_f64(double x1, double y1, double z1, double x2, double y2, double z2, double radius);
 LM2_API lm2_capsule3_f32 lm2_capsule3_make_coords_f32(float x1, float y1, float z1, float x2, float y2, float z2, float radius);
 
-// Create a capsule from center, direction, half-length, and radius
+// Normalize direction, then use center +/- direction * half_length as the
+// segment endpoints. A zero direction gives coincident endpoints. radius and
+// half_length must be nonnegative.
 LM2_API lm2_capsule3_f64 lm2_capsule3_from_center_f64(lm2_v3_f64 center, lm2_v3_f64 direction, double half_length, double radius);
 LM2_API lm2_capsule3_f32 lm2_capsule3_from_center_f32(lm2_v3_f32 center, lm2_v3_f32 direction, float half_length, float radius);
 
@@ -94,7 +98,8 @@ LM2_API lm2_v3_f32 lm2_capsule3_center_f32(lm2_capsule3_f32 capsule);
 LM2_API bool lm2_capsule3_contains_point_f64(lm2_capsule3_f64 capsule, lm2_v3_f64 point);
 LM2_API bool lm2_capsule3_contains_point_f32(lm2_capsule3_f32 capsule, lm2_v3_f32 point);
 
-// Check if two capsules overlap
+// Check overlap including tangency. The second capsule must have distinct
+// endpoints: the segment-distance helper divides by its squared length.
 LM2_API bool lm2_capsules3_overlap_f64(lm2_capsule3_f64 a, lm2_capsule3_f64 b);
 LM2_API bool lm2_capsules3_overlap_f32(lm2_capsule3_f32 a, lm2_capsule3_f32 b);
 
@@ -106,7 +111,7 @@ LM2_API bool lm2_capsules3_overlap_f32(lm2_capsule3_f32 a, lm2_capsule3_f32 b);
 LM2_API lm2_capsule3_f64 lm2_capsule3_translate_f64(lm2_capsule3_f64 capsule, lm2_v3_f64 offset);
 LM2_API lm2_capsule3_f32 lm2_capsule3_translate_f32(lm2_capsule3_f32 capsule, lm2_v3_f32 offset);
 
-// Scale a capsule's radius
+// Multiply the radius by a nonnegative scale; endpoints remain fixed.
 LM2_API lm2_capsule3_f64 lm2_capsule3_scale_radius_f64(lm2_capsule3_f64 capsule, double scale);
 LM2_API lm2_capsule3_f32 lm2_capsule3_scale_radius_f32(lm2_capsule3_f32 capsule, float scale);
 

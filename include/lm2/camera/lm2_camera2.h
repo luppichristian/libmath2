@@ -36,19 +36,33 @@ LM2_HEADER_BEGIN;
 // =============================================================================
 // Camera 2D
 // =============================================================================
-// Represents a 2D orthographic camera with position, rotation and zoom.
+// Represents a 2D orthographic camera. The following contracts apply to both
+// precisions. All camera-manipulation functions return a modified copy.
 //
-// The view matrix transforms world-space coordinates into camera/view-space.
-// The inverse view matrix transforms camera-space back to world-space.
+// position is the world-space point mapped to the viewport center. rotation is
+// an angle in radians in the numeric XY plane; zoom is a uniform scale. The
+// viewport min and max are absolute screen pixel coordinates (normally top-left
+// and bottom-right), not coordinates relative to the viewport. The transform
+// does not flip Y: with zero rotation, positive world X/Y maps to positive screen
+// X/Y. The apparent rotation direction therefore depends on the screen Y axis.
 //
-// Screen-space coordinates are in pixels relative to the viewport origin
-// (top-left). World-space coordinates are in whatever units the user defines.
+// get_view maps world points directly to screen pixels: translate by -position,
+// rotate by -rotation, scale by zoom, then translate to the viewport center.
+// get_inv_view and screen_to_world reverse this transform. make stores its
+// arguments; default sets position to the viewport center, rotation to zero,
+// and zoom to one, making the resulting world-to-screen transform identity.
 //
-// Convention:
-//   - position : world-space position of the camera center
-//   - rotation : counter-clockwise angle in radians
-//   - zoom     : uniform scale factor (zoom > 1 zooms in, 0 < zoom < 1 zooms out)
-//   - viewport : screen rectangle in pixels (min = top-left, max = bottom-right)
+// move adds a world-space delta to position; rotate adds radians to rotation;
+// set_zoom assigns an absolute zoom without changing position. zoom_at multiplies
+// zoom by zoom_factor and moves the camera so the world point under the absolute
+// screen_anchor remains there. Use positive, nonzero zoom and zoom_factor for
+// ordinary zooming; inverse operations require nonzero zoom, including both
+// the original and resulting zoom for zoom_at. Singular inverses can assert. Values are not clamped or validated.
+//
+// get_viewport_size returns max - min, and get_viewport_center returns their
+// midpoint in screen pixels. get_world_bounds transforms all four viewport
+// corners to world space and returns their axis-aligned bounding box. When the
+// camera is rotated this box may exceed the visible quadrilateral.
 
 // =============================================================================
 // Camera2 Types - f64

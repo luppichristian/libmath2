@@ -86,7 +86,8 @@ LM2_API float lm2_triangle2_area_f32(const lm2_triangle2_f32 tri);
 LM2_API double lm2_triangle2_perimeter_f64(const lm2_triangle2_f64 tri);
 LM2_API float lm2_triangle2_perimeter_f32(const lm2_triangle2_f32 tri);
 
-// Get winding order
+// Get winding order; absolute signed area below the type's machine epsilon
+// is reported as LM2_WINDING_NONE.
 LM2_API lm2_winding_order lm2_triangle2_winding_f64(const lm2_triangle2_f64 tri);
 LM2_API lm2_winding_order lm2_triangle2_winding_f32(const lm2_triangle2_f32 tri);
 
@@ -94,27 +95,31 @@ LM2_API lm2_winding_order lm2_triangle2_winding_f32(const lm2_triangle2_f32 tri)
 // Triangle Classification
 // =============================================================================
 
-// Check if triangle is degenerate (collinear points)
+// Degenerate if absolute area is strictly less than epsilon. A zero epsilon
+// does not classify even a zero-area triangle as degenerate.
 LM2_API bool lm2_triangle2_is_degenerate_f64(const lm2_triangle2_f64 tri, double epsilon);
 LM2_API bool lm2_triangle2_is_degenerate_f32(const lm2_triangle2_f32 tri, float epsilon);
 
-// Check if triangle is a right triangle
+// Check the Pythagorean identity with a strict absolute epsilon on squared
+// side lengths. This test does not separately reject degenerate triangles.
 LM2_API bool lm2_triangle2_is_right_f64(const lm2_triangle2_f64 tri, double epsilon);
 LM2_API bool lm2_triangle2_is_right_f32(const lm2_triangle2_f32 tri, float epsilon);
 
-// Check if triangle is isosceles (two equal sides)
+// Compare side lengths with a strict absolute epsilon; equilateral triangles
+// also satisfy this test. A zero epsilon does not match equal lengths.
 LM2_API bool lm2_triangle2_is_isosceles_f64(const lm2_triangle2_f64 tri, double epsilon);
 LM2_API bool lm2_triangle2_is_isosceles_f32(const lm2_triangle2_f32 tri, float epsilon);
 
-// Check if triangle is equilateral (all equal sides)
+// Compare adjacent side lengths with a strict absolute epsilon.
 LM2_API bool lm2_triangle2_is_equilateral_f64(const lm2_triangle2_f64 tri, double epsilon);
 LM2_API bool lm2_triangle2_is_equilateral_f32(const lm2_triangle2_f32 tri, float epsilon);
 
-// Check if triangle is scalene (all different sides)
+// True when each pair of side lengths differs by at least epsilon.
 LM2_API bool lm2_triangle2_is_scalene_f64(const lm2_triangle2_f64 tri, double epsilon);
 LM2_API bool lm2_triangle2_is_scalene_f32(const lm2_triangle2_f32 tri, float epsilon);
 
-// Get the primary type of the triangle
+// Classify in priority order: degenerate, right, equilateral, isosceles,
+// then scalene. The same epsilon is used by each test, despite different units.
 LM2_API lm2_triangle2_type lm2_triangle2_classify_f64(const lm2_triangle2_f64 tri, double epsilon);
 LM2_API lm2_triangle2_type lm2_triangle2_classify_f32(const lm2_triangle2_f32 tri, float epsilon);
 
@@ -122,7 +127,9 @@ LM2_API lm2_triangle2_type lm2_triangle2_classify_f32(const lm2_triangle2_f32 tr
 // Triangle-Point Intersection
 // =============================================================================
 
-// Check if a point is inside a triangle
+// Check point containment for either winding, including edges. Use a
+// nondegenerate triangle: the sign test treats any point as inside when all
+// vertices coincide, and points on the supporting line as inside when collinear.
 LM2_API bool lm2_triangle2_contains_point_f64(const lm2_triangle2_f64 tri, lm2_v2_f64 point);
 LM2_API bool lm2_triangle2_contains_point_f32(const lm2_triangle2_f32 tri, lm2_v2_f32 point);
 
@@ -130,7 +137,9 @@ LM2_API bool lm2_triangle2_contains_point_f32(const lm2_triangle2_f32 tri, lm2_v
 // Triangle-Triangle Intersection
 // =============================================================================
 
-// Check if two triangles overlap
+// Test vertex containment and closed edge intersections for either winding;
+// touching counts. Use nondegenerate triangles: the containment test can make
+// a degenerate triangle report overlap with a distant, disjoint triangle.
 LM2_API bool lm2_triangle2_overlaps_f64(const lm2_triangle2_f64 t1, const lm2_triangle2_f64 t2);
 LM2_API bool lm2_triangle2_overlaps_f32(const lm2_triangle2_f32 t1, const lm2_triangle2_f32 t2);
 
@@ -138,7 +147,9 @@ LM2_API bool lm2_triangle2_overlaps_f32(const lm2_triangle2_f32 t1, const lm2_tr
 // Triangle-Edge Operations
 // =============================================================================
 
-// Check if two triangles share an edge and return it
+// Return the first matching edge from t1, ignoring edge direction. Each
+// endpoint coordinate must differ by strictly less than epsilon. When exists
+// is false, the edge field is unspecified.
 LM2_API lm2_edge2_result_f64 lm2_triangle2_shared_edge_f64(const lm2_triangle2_f64 t1, const lm2_triangle2_f64 t2, double epsilon);
 LM2_API lm2_edge2_result_f32 lm2_triangle2_shared_edge_f32(const lm2_triangle2_f32 t1, const lm2_triangle2_f32 t2, float epsilon);
 

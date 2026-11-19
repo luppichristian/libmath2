@@ -1,8 +1,3 @@
----
-layout: default
-title: Vectors
----
-
 # Vectors
 
 ## Overview
@@ -59,14 +54,24 @@ float r = v.r;  // 3D only
 
 // Array access
 float first = v.e[0];
+```
 
-// C++ subscript operator
-float second = v[1];  // C++ only
+In C++, the same type also supports checked subscripting:
+
+```cpp
+lm2_v3_f32 v = lm2_v3_make_f32(1.0f, 2.0f, 3.0f);
+float second = v[1];
 ```
 
 ## Functions
 
-All functions are shown with `_f32` suffix. Replace with any supported type suffix.
+The examples use `_f32`. Basic arithmetic, construction, `min`, `max`, and
+`clamp` also have integer variants; negation, `abs`, sign, `min_abs`, and
+`max_abs` have signed integer variants. Rounding, interpolation, `fract`,
+`pow`, and `sqrt` are floating-point operations. Coordinates have the meaning
+the caller assigns them: component-wise operations do not transform between
+world, view, model, or any other coordinate spaces. Geometric operations such
+as dot products and normalization are covered in [Vector Specifics](vector-specifics.md).
 
 ### Construction
 
@@ -129,14 +134,14 @@ Create a zero vector.
 | `lm2_v2_max_f32(a, b)` | Component-wise maximum |
 | `lm2_v2_min_abs_f32(a, b)` | Component-wise minimum by absolute value |
 | `lm2_v2_max_abs_f32(a, b)` | Component-wise maximum by absolute value |
-| `lm2_v2_clamp_f32(a, b, c)` | Clamp each component: `min=a, value=b, max=c` |
+| `lm2_v2_clamp_f32(value, min, max)` | Clamp each component between its corresponding bounds |
 
 ### Sign and Absolute Value
 
 | Function | Description |
 |----------|-------------|
 | `lm2_v2_abs_f32(a)` | Absolute value of each component |
-| `lm2_v2_sign_f32(a)` | Sign of each component (1 or -1) |
+| `lm2_v2_sign_f32(a)` | Sign of each component (1 for zero or positive, -1 for negative) |
 | `lm2_v2_sign0_f32(a)` | Sign of each component (1, -1, or 0) |
 
 ### Interpolation (float types only)
@@ -144,17 +149,46 @@ Create a zero vector.
 | Function | Description |
 |----------|-------------|
 | `lm2_v2_saturate_f32(a)` | Clamp each component to [0, 1] |
-| `lm2_v2_lerp_f32(a, b, c)` | Linear interpolation (component-wise: `a + b*(c-a)`) |
-| `lm2_v2_smoothstep_f32(a, b, c)` | Smooth Hermite interpolation (component-wise) |
-| `lm2_v2_alpha_f32(a, b, c)` | Inverse lerp (compute t from value, component-wise) |
+| `lm2_v2_lerp_f32(a, t, b)` | `a + t * (b - a)` per component, without clamping `t` |
+| `lm2_v2_smoothstep_f32(edge0, edge1, x)` | Clamp `(x-edge0)/(edge1-edge0)` to [0, 1], then apply `t*t*(3-2*t)` per component |
+| `lm2_v2_alpha_f32(a, b, value)` | `(value-a)/(b-a)` per component; no clamping |
 
 ### Math (float types only)
 
 | Function | Description |
 |----------|-------------|
-| `lm2_v2_fract_f32(a)` | Fractional part of each component |
+| `lm2_v2_fract_f32(a)` | `a - floor(a)` per component (e.g. `fract(-1.25) = 0.75`) |
 | `lm2_v2_pow_f32(a, b)` | Component-wise power |
 | `lm2_v2_sqrt_f32(a)` | Component-wise square root |
+
+The headers declare `lm2_v3_neg_u64`, `lm2_v4_neg_u32`, and
+`lm2_v4_neg_u8`, but the library does not define these unsigned negation
+functions; calling them causes a link failure.
+
+## Preconditions and numeric conversions
+
+Arithmetic applies the corresponding [safe scalar operation](safe-ops.md) per
+component. Divisors and rounding multiples must be nonzero. Signed integer
+division truncates toward zero; modulo is the C remainder (floating-point uses
+`fmod`), so its sign follows the dividend. In checked builds, safe arithmetic
+asserts on invalid operations and several overflow or underflow conditions;
+`LM2_UNSAFE` disables those checks, not the underlying C restrictions. Vector
+negation uses native unary minus rather than the safe-negation helper; avoid
+negating a signed type’s minimum value.
+Floating scalar helpers also have their own assertions, including finite inputs,
+ordered clamp limits, distinct interpolation endpoints for `smoothstep` and
+`alpha`, and nonnegative square-root inputs. `round` rounds halfway values
+away from zero.
+
+`lm2_vector_conversions.h` converts each component independently between scalar
+types. Floating-to-integer conversion truncates toward zero; narrowing checks use
+`LM2_ASSERT_UNSAFE` where implemented and compare the original value before
+truncation. For example, f64-to-i32 rejects `2147483647.5` even though truncating
+it would fit. The caller must keep conversions in range even when checks are
+disabled. Floating narrowing and integer-to-float
+conversion can lose precision. Dimensional upcasts append the supplied `z` or
+`w`; downcasts discard the last coordinate. They do not apply a spatial or
+homogeneous-coordinate transform.
 
 ## Example
 

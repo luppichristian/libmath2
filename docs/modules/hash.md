@@ -1,8 +1,3 @@
----
-layout: default
-title: Hash
----
-
 # Hash Functions
 
 ## Overview
@@ -11,13 +6,13 @@ Non-cryptographic hash functions for all numeric types, generic data buffer hash
 
 ## Why Use This?
 
-Fast hashing is needed for hash tables, deduplication, checksums, and spatial hashing. These are not suitable for cryptographic purposes.
+These hashes can help build hash tables, checksums, and spatial hashes. Collisions are possible; compare original values when equality matters. They are not suitable for cryptographic integrity or authentication.
 
 ## Functions
 
 ### Bit-Mixing Functions
 
-Low-level functions that mix bits of an integer for better hash distribution.
+Low-level functions that mix bits of an integer for better hash distribution. Zero is replaced with a fixed nonzero input before mixing: `0x01234567` for 32 bits and `0x0123456789abcdef` for 64 bits. Zero therefore collides with the respective replacement input.
 
 | Function | Description |
 |----------|-------------|
@@ -39,6 +34,8 @@ Low-level functions that mix bits of an integer for better hash distribution.
 | `lm2_hash_u16(value)` | `uint16_t` | `uint32_t` |
 | `lm2_hash_u8(value)` | `uint8_t` | `uint32_t` |
 
+Narrow signed integers are sign-extended to 32 bits before hashing, and narrow unsigned integers are zero-extended. Floating-point hashes mix the object representation, except that positive and negative zero hash equally. NaN payloads are not canonicalized, so different NaN representations can produce different hashes.
+
 ### Buffer Hashing (FNV-1a)
 
 | Function | Description |
@@ -46,9 +43,11 @@ Low-level functions that mix bits of an integer for better hash distribution.
 | `lm2_hash_fnv1a_u32(data, size)` | FNV-1a hash of arbitrary data (32-bit) |
 | `lm2_hash_fnv1a_u64(data, size)` | FNV-1a hash of arbitrary data (64-bit) |
 
+FNV-1a processes `size` bytes in memory order. A null `data` pointer or a zero size returns the FNV offset basis, including a null pointer paired with a nonzero size. Otherwise the buffer must provide at least `size` readable bytes. Hashing a raw struct includes its representation, such as padding and byte order; serialize fields explicitly when a portable representation is needed.
+
 ### Hash Combining
 
-Combine two hash values into one. Useful for hashing composite objects (e.g., hash a struct by combining hashes of its fields).
+Combine a previous `seed` and an already computed field hash. The operation is order-dependent and useful for hashing composite objects; choose a consistent field order.
 
 | Function | Description |
 |----------|-------------|

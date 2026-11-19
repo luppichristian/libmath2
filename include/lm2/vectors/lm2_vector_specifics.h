@@ -34,6 +34,16 @@ LM2_HEADER_BEGIN;
 // #############################################################################
 
 // =============================================================================
+// Geometric conventions (f32 and f64): vectors supplied to an operation must
+// be expressed in the same coordinate system. 2D positive rotation takes +X
+// toward +Y (counterclockwise when X points right and Y up); 3D cross products
+// follow the right-hand rule. norm returns zero when the computed length is
+// zero. angle returns acos(dot(a,b)/(length(a)*length(b))) in radians; both
+// vectors must be nonzero and the computed ratio must lie in [-1,1].
+// reflect computes v - 2*dot(v,n)*n; supply a unit normal. project computes
+// dot(a,b)/dot(b,b)*b; b must be nonzero. Operations use safe arithmetic,
+// so intermediate overflow or underflow can assert even for finite inputs.
+//
 // Dot Product
 // =============================================================================
 

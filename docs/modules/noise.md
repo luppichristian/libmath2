@@ -1,13 +1,8 @@
----
-layout: default
-title: Noise
----
-
 # Noise
 
 ## Overview
 
-Procedural noise generation with Perlin and Voronoi noise in 2D and 3D.
+Deterministic procedural noise in 2D and 3D. Coordinates are positions in a unit grid selected by the caller; scale them before calling to control spatial frequency. The functions have no seed parameter.
 
 ## Why Use This?
 
@@ -17,7 +12,7 @@ Noise functions are essential for procedural terrain, texture generation, partic
 
 ### Perlin Noise
 
-Classic gradient noise that produces smooth, continuous values.
+Gradient noise with a fixed permutation table. Values vary smoothly between grid points and are zero at integer lattice points.
 
 | Function | Description |
 |----------|-------------|
@@ -28,7 +23,7 @@ Classic gradient noise that produces smooth, continuous values.
 
 ### Voronoi Noise
 
-Cell-based noise returning the Euclidean distance to the nearest feature point.
+Cell-based noise with one deterministic hash-derived feature point per unit cell. The result is the nonnegative Euclidean distance to the nearest feature point, measured in grid units; it is not a cell ID.
 
 | Function | Description |
 |----------|-------------|
@@ -41,10 +36,7 @@ All functions also available in `_f64` variants.
 
 Coordinates must be finite. Perlin repeats every 256 cells; Voronoi's cell
 hash repeats every 2^32 cells. Floating-point rounding limits which fractional
-coordinates remain representable far from the origin. Voronoi now computes
-feature distances in local cell coordinates and searches the second ring of
-cells. Generated values can differ from earlier versions because of rounding or
-because a closer feature was previously missed.
+coordinates remain representable far from the origin. Voronoi computes feature distances in local cell coordinates and searches through the second ring of cells. Generated values can differ from earlier versions because of rounding or because a closer feature was previously missed.
 
 ## Example
 

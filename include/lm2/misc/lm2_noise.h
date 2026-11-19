@@ -30,10 +30,15 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
-// Noise coordinates must be finite. Perlin repeats every 256 cells and Voronoi
-// hashes cells modulo 2^32; coordinate rounding limits observable periodicity.
-// Voronoi distances are evaluated relative to the cell to retain precision at
-// large coordinates, but fractional input precision is limited by the type.
+// Coordinates are positions in a unit grid chosen by the caller and must be
+// finite. These functions are deterministic and have no seed parameter. Scale
+// coordinates before calling to control spatial frequency. Perlin uses a fixed
+// permutation and repeats every 256 cells on each axis; its value is zero at
+// integer lattice points. Voronoi places one hash-derived feature per cell and
+// returns the nonnegative Euclidean distance in grid units to the nearest point.
+// Its cell hash repeats modulo 2^32. Fractional input precision and coordinate
+// rounding limit observable detail and periodicity far from the origin; Voronoi
+// computes distances relative to the cell to retain precision where possible.
 
 // Perlin Noise 2D (returns value in [-1, 1])
 LM2_API double lm2_perlin2_f64(double x, double y);

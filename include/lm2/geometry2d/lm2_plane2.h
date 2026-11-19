@@ -53,17 +53,19 @@ typedef struct lm2_plane2_f32 {
 // =============================================================================
 
 // Create a plane from a normal vector and distance from origin
-// The normal will be normalized automatically
+// Both normal and distance are divided by the length of normal, preserving
+// dot(normal, point) = distance. The input normal must be nonzero.
 LM2_API lm2_plane2_f64 lm2_plane2_make_f64(lm2_v2_f64 normal, double distance);
 LM2_API lm2_plane2_f32 lm2_plane2_make_f32(lm2_v2_f32 normal, float distance);
 
 // Create a plane from a point on the plane and a normal vector
-// The normal will be normalized automatically
+// The normal is normalized; it must be nonzero.
 LM2_API lm2_plane2_f64 lm2_plane2_from_point_normal_f64(lm2_v2_f64 point, lm2_v2_f64 normal);
 LM2_API lm2_plane2_f32 lm2_plane2_from_point_normal_f32(lm2_v2_f32 point, lm2_v2_f32 normal);
 
 // Create a plane from two points (defines a line in 2D)
-// The normal will be perpendicular to the line (counter-clockwise rotation)
+// The normal is perpendicular to p1 - p0 (counter-clockwise 90 degrees).
+// The points must be distinct.
 LM2_API lm2_plane2_f64 lm2_plane2_from_points_f64(lm2_v2_f64 p0, lm2_v2_f64 p1);
 LM2_API lm2_plane2_f32 lm2_plane2_from_points_f32(lm2_v2_f32 p0, lm2_v2_f32 p1);
 
@@ -116,7 +118,8 @@ LM2_API lm2_plane2_f32 lm2_plane2_flip_f32(lm2_plane2_f32 plane);
 LM2_API lm2_plane2_f64 lm2_plane2_translate_f64(lm2_plane2_f64 plane, lm2_v2_f64 offset);
 LM2_API lm2_plane2_f32 lm2_plane2_translate_f32(lm2_plane2_f32 plane, lm2_v2_f32 offset);
 
-// Rotate the plane by an angle (in radians)
+// Rotate the line counterclockwise about the coordinate origin, in radians.
+// Its signed distance from the origin is unchanged.
 LM2_API lm2_plane2_f64 lm2_plane2_rotate_f64(lm2_plane2_f64 plane, double angle);
 LM2_API lm2_plane2_f32 lm2_plane2_rotate_f32(lm2_plane2_f32 plane, float angle);
 

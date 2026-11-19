@@ -39,17 +39,18 @@ LM2_HEADER_BEGIN;
 // When a ray starts inside a shape, the normal may be zero or an arbitrary
 // direction; circle raycasts also return a zero normal for an origin on the
 // circle boundary. Normal and point values are not meaningful for a miss.
+// The point and normal use the same coordinate space as the input geometry.
 typedef struct lm2_rayhit2_f64 {
   bool hit;           // Whether the ray hit something
   double t;           // Distance along ray where hit occurred
-  lm2_v2_f64 point;   // Hit point in world space
+  lm2_v2_f64 point;   // Hit point in input space
   lm2_v2_f64 normal;  // Surface normal, subject to the exceptions above
 } lm2_rayhit2_f64;
 
 typedef struct lm2_rayhit2_f32 {
   bool hit;           // Whether the ray hit something
   float t;            // Distance along ray where hit occurred
-  lm2_v2_f32 point;   // Hit point in world space
+  lm2_v2_f32 point;   // Hit point in input space
   lm2_v2_f32 normal;  // Surface normal, subject to the exceptions above
 } lm2_rayhit2_f32;
 

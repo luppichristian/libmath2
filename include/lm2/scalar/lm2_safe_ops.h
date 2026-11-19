@@ -31,6 +31,16 @@ LM2_HEADER_BEGIN;
 // #############################################################################
 
 // =============================================================================
+// Safe arithmetic checks (unless LM2_UNSAFE is defined when compiling the
+// library): integer add/sub/mul check representable range, division/modulo
+// require nonzero divisor and reject signed minimum / -1, and signed negation
+// rejects the minimum. Integer division truncates toward zero; remainder has
+// the dividend's sign. Floating add/sub/mul/div require finite operands and
+// result, and reject nonzero subnormal results; a result rounded to zero is
+// accepted. Floating modulo uses fmod with finite inputs and a nonzero divisor;
+// negation requires finite input. These checks do not detect every precision
+// loss. LM2_UNSAFE removes these checks, not all library assertions.
+//
 // Safe Addition for Numeric Types
 // =============================================================================
 // Returns the sum of a and b, or handles overflow/underflow appropriately
@@ -99,7 +109,7 @@ LM2_API uint16_t lm2_div_u16(uint16_t a, uint16_t b);
 LM2_API uint8_t lm2_div_u8(uint8_t a, uint8_t b);
 
 // =============================================================================
-// Safe Modulo for Integer Types
+// Remainder for Numeric Types
 // =============================================================================
 
 LM2_API double lm2_mod_f64(double a, double b);

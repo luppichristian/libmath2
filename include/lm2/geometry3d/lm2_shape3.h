@@ -51,6 +51,8 @@ typedef enum lm2_shape3_type {
 // Shape Structure
 // =============================================================================
 
+// Non-owning tagged pointer. The pointed-to object must remain alive and match
+// type and precision for every extraction or generic query; no copy is made.
 typedef struct lm2_shape3_f32 {
   lm2_shape3_type type;
   void* data;

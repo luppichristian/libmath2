@@ -30,6 +30,13 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
+// Inputs must be finite. asin and acos require [-1,1]; atan2 takes (y,x).
+// wrap targets [-pi,pi) or [-180,180), mapping a positive half-turn to
+// the negative endpoint. Rounding near the boundary can yield +pi or +180. shortest wraps (to - from) the same way, choosing
+// the negative direction at an exact half-turn. lerp returns a + t*shortest;
+// it neither clamps t nor wraps the result. Safe arithmetic can assert on
+// intermediate overflow or underflow.
+//
 // Cos
 LM2_API double lm2_cos_f64(double angle_rad);
 LM2_API float lm2_cos_f32(float angle_rad);
@@ -65,10 +72,10 @@ LM2_API double lm2_rad_to_deg_f64(double radians);
 LM2_API float lm2_rad_to_deg_f32(float radians);
 
 // Angles (in radians)
-// Wrap angles to the range [-π, π]
+// Wrap angles ideally to the range [-π, π)
 LM2_API double lm2_wrap_rad_f64(double angle_rad);
 LM2_API float lm2_wrap_rad_f32(float angle_rad);
-// Returns the shortest angular distance from from_angle to to_angle in range [-π, π]
+// Returns the shortest angular distance from from_angle to to_angle ideally in range [-π, π)
 LM2_API double lm2_shortest_rad_f64(double from_angle_rad, double to_angle_rad);
 LM2_API float lm2_shortest_rad_f32(float from_angle_rad, float to_angle_rad);
 // Interpolates between angles using the shortest path
@@ -76,10 +83,10 @@ LM2_API double lm2_lerp_rad_f64(double a_rad, double t, double b_rad);
 LM2_API float lm2_lerp_rad_f32(float a_rad, float t, float b_rad);
 
 // Angles (in degrees)
-// Wrap angles to the range [-180, 180]
+// Wrap angles ideally to the range [-180, 180)
 LM2_API double lm2_wrap_deg_f64(double angle_deg);
 LM2_API float lm2_wrap_deg_f32(float angle_deg);
-// Returns the shortest angular distance from from_angle to to_angle in range [-180, 180]
+// Returns the shortest angular distance from from_angle to to_angle ideally in range [-180, 180)
 LM2_API double lm2_shortest_deg_f64(double from_angle_deg, double to_angle_deg);
 LM2_API float lm2_shortest_deg_f32(float from_angle_deg, float to_angle_deg);
 // Interpolates between angles using the shortest path

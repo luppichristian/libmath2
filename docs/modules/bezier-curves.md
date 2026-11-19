@@ -1,8 +1,3 @@
----
-layout: default
-title: Bezier Curves
----
-
 # Bezier Curves
 
 ## Overview
@@ -15,7 +10,9 @@ Bezier curves are used for smooth paths, animation curves, font rendering, vecto
 
 ## Functions
 
-All functions available in `_f64` and `_f32` variants. Suffix `2`, `3`, `4` indicates dimensionality.
+All functions are available in `_f64` and `_f32` variants. Suffix `2`, `3`, `4` indicates dimensionality. Control points and results use the caller's coordinate space and units; no coordinate-system conversion is applied.
+
+Calculations use [safe arithmetic](safe-ops.md), so extreme or subnormal intermediate results can assert even for finite inputs. `t` is not clamped. The interval `[0, 1]` traces the curve from its first to its last control point; values outside it evaluate the polynomial extension. Derivatives are with respect to `t`, are not normalized, and are velocity or acceleration in physical time only when the appropriate time derivatives of `t` are accounted for.
 
 ### Curve Evaluation
 
@@ -72,7 +69,7 @@ All functions available in `_f64` and `_f32` variants. Suffix `2`, `3`, `4` indi
 
 ### Splitting
 
-Split a cubic Bezier at parameter `t` into two cubic curves using De Casteljau's algorithm.
+Split a cubic Bezier at parameter `t` into two cubic curves using De Casteljau's algorithm. For `t` in `[0, 1]`, the left covers the original interval `[0, t]` and the right covers `[t, 1]`; each is reparameterized to `[0, 1]` and their shared endpoint is `B(t)`. All eight output pointers must be non-null and distinct; none are optional. The parameter is not clamped.
 
 **Signature:**
 ```c
@@ -88,7 +85,7 @@ Also available in 3D (`_split3_`) and 4D (`_split4_`).
 
 ### Arc Length
 
-Approximate arc length of a cubic Bezier curve using segment subdivision.
+Approximate the arc length of a cubic Bezier by summing Euclidean distances between uniformly spaced samples in parameter `t`. This is a polygonal approximation, not adaptive subdivision; it has no stated error bound.
 
 | Function | Description |
 |----------|-------------|
@@ -97,7 +94,7 @@ Approximate arc length of a cubic Bezier curve using segment subdivision.
 | `lm2_bezier_cubic_length4_f32(p0, p1, p2, p3, segments)` | 4D cubic arc length |
 
 **Parameters:**
-- `segments` — Number of segments for approximation (higher = more accurate)
+- `segments` — Number of line segments. Values `0 < segments < INT_MAX` sample from `t = 0` through `t = 1`; zero or negative values return zero. `INT_MAX` overflows the loop counter after its final iteration. Larger values generally improve the approximation.
 
 All arc length functions also available in `_f64` variants.
 

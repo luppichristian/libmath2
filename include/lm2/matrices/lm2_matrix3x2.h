@@ -57,6 +57,14 @@ LM2_HEADER_BEGIN;
 // COMPOSITION: lm2_m3x2_mul(A, B) applies B first, then A (A*B).
 //   To build TRS: multiply(translate, multiply(rotate, scale)).
 //
+// Angles are radians; counterclockwise assumes x-right, y-up coordinates.
+// world_transform is T * R * S. ortho maps [left,right] and [bottom,top]
+// to [-1,1]; each extent must have magnitude greater than 1e-6.
+// get_scale returns column lengths (not signed scales), get_rotation returns
+// atan2(m10, m00), and get_translation returns (m02, m12).
+// Array transforms require non-null pointers even for zero count; src==dst
+// works, but partially overlapping ranges can overwrite unread input.
+//
 // Can represent: translation, rotation, scaling, shearing, and combinations.
 // Efficient for 2D transformations (only stores 6 values vs 9 for full 3x3).
 

@@ -1,8 +1,3 @@
----
-layout: default
-title: Getting Started
----
-
 # Getting Started
 
 ## Installation
@@ -12,7 +7,7 @@ title: Getting Started
 Add libmath2 to your project (e.g., as a git submodule):
 
 ```bash
-git submodule add <repository-url> external/libmath2
+git submodule add https://github.com/luppichristian/libmath2.git external/libmath2
 ```
 
 Then in your `CMakeLists.txt`:
@@ -25,7 +20,7 @@ target_link_libraries(your_target PRIVATE libmath2)
 ### Standalone Build
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/luppichristian/libmath2.git
 cd libmath2
 cmake -B build
 cmake --build build
@@ -34,9 +29,12 @@ cmake --build build
 To run tests:
 
 ```bash
-cd build
-ctest --output-on-failure
+ctest --test-dir build --output-on-failure
 ```
+
+For multi-configuration generators such as Visual Studio, select the same
+configuration for build and test, for example `cmake --build build --config
+Debug` followed by `ctest --test-dir build -C Debug --output-on-failure`.
 
 ### Build Options
 
@@ -77,6 +75,8 @@ Or include only what you need:
 #include <lm2/matrices/lm2_matrix4x4.h>
 #include <lm2/misc/lm2_quaternion.h>
 ```
+
+The following snippets assume `<lm2.h>` is included.
 
 ### Working with Vectors
 
@@ -147,7 +147,7 @@ lm2_quat_f32 q = lm2_quat_from_axis_angle_f32(
 lm2_v3_f32 rotated = lm2_quat_rotate_vector_f32(q, lm2_v3_make_f32(1, 0, 0));
 
 // Interpolate rotations
-lm2_quat_f32 q2 = lm2_quat_from_euler_f32(0, LM2_PI_F32, 0);
+lm2_quat_f32 q2 = lm2_quat_from_euler_f32(LM2_PI_F32, 0, 0);
 lm2_quat_f32 mid = lm2_quat_slerp_f32(q, q2, 0.5f);
 ```
 
@@ -175,7 +175,11 @@ All vector, matrix, range, and scalar functions are suffixed with the numeric ty
 | `LM2_UNSAFE` | Disable overflow/underflow assertions in safe arithmetic for performance |
 | `LM2_NO_CPP_OPERATORS` | Disable C++ operator overloads (`+`, `-`, `*`, `/`, `[]`) |
 | `LM2_NO_GENERICS` | Disable C11 `_Generic` macros and C++ function overloads |
-| `LM2_ASSERT(expr)` | Override the assertion macro (defaults to `assert(expr)`) |
+| `LM2_ASSERT(expr)` | Override assertions; by default uses `assert` in debug builds and aborts on failure with `NDEBUG` |
+
+For compiled library functions, define `LM2_UNSAFE` or customize `LM2_ASSERT`
+when compiling the library itself. See [Safe Arithmetic](modules/safe-ops.md)
+for configuration and numerical behavior.
 
 ## C++ Features
 

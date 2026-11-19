@@ -36,7 +36,8 @@ LM2_HEADER_BEGIN;
 // Triangle Types
 // =============================================================================
 
-// 3D Triangle defined as an array of 3 vertices
+// 3D triangle in a caller-selected coordinate space, as three ordered vertices.
+// Normal orientation follows normalize(cross(tri[1]-tri[0], tri[2]-tri[0])).
 typedef lm2_v3_f64 lm2_triangle3_f64[3];
 typedef lm2_v3_f32 lm2_triangle3_f32[3];
 
@@ -76,7 +77,7 @@ LM2_API float lm2_triangle3_area_f32(const lm2_triangle3_f32 tri);
 LM2_API double lm2_triangle3_perimeter_f64(const lm2_triangle3_f64 tri);
 LM2_API float lm2_triangle3_perimeter_f32(const lm2_triangle3_f32 tri);
 
-// Get the normal vector of the triangle (normalized)
+// Get the normalized winding normal; a degenerate triangle returns zero.
 LM2_API lm2_v3_f64 lm2_triangle3_normal_f64(const lm2_triangle3_f64 tri);
 LM2_API lm2_v3_f32 lm2_triangle3_normal_f32(const lm2_triangle3_f32 tri);
 
@@ -88,6 +89,11 @@ LM2_API lm2_v3_f32 lm2_triangle3_centroid_f32(const lm2_triangle3_f32 tri);
 // Triangle Classification
 // =============================================================================
 
+// Classification predicates use strict < epsilon for degenerate, right,
+// isosceles, and equilateral checks; scalene uses >= epsilon. With epsilon 0,
+// even zero area is not classified degenerate and equal sides do not match.
+// Threshold units are area, squared length, or length as described below.
+//
 // Check if triangle is degenerate (collinear points)
 LM2_API bool lm2_triangle3_is_degenerate_f64(const lm2_triangle3_f64 tri, double epsilon);
 LM2_API bool lm2_triangle3_is_degenerate_f32(const lm2_triangle3_f32 tri, float epsilon);
@@ -108,7 +114,9 @@ LM2_API bool lm2_triangle3_is_equilateral_f32(const lm2_triangle3_f32 tri, float
 LM2_API bool lm2_triangle3_is_scalene_f64(const lm2_triangle3_f64 tri, double epsilon);
 LM2_API bool lm2_triangle3_is_scalene_f32(const lm2_triangle3_f32 tri, float epsilon);
 
-// Get the primary type of the triangle
+// Get the primary type, in priority order: degenerate, right, equilateral,
+// isosceles, scalene. Epsilon is an absolute threshold: area for degeneracy,
+// squared-length differences for right angles, and lengths for side equality.
 LM2_API lm2_triangle3_type lm2_triangle3_classify_f64(const lm2_triangle3_f64 tri, double epsilon);
 LM2_API lm2_triangle3_type lm2_triangle3_classify_f32(const lm2_triangle3_f32 tri, float epsilon);
 
@@ -116,7 +124,9 @@ LM2_API lm2_triangle3_type lm2_triangle3_classify_f32(const lm2_triangle3_f32 tr
 // Triangle-Point Intersection
 // =============================================================================
 
-// Check if a point is inside a triangle (point must be coplanar with triangle)
+// Check if point is within epsilon of the triangle plane, then test barycentric
+// coordinates including edges. Requires a nondegenerate triangle; epsilon
+// affects plane distance, not the barycentric edge tests.
 LM2_API bool lm2_triangle3_contains_point_f64(const lm2_triangle3_f64 tri, lm2_v3_f64 point, double epsilon);
 LM2_API bool lm2_triangle3_contains_point_f32(const lm2_triangle3_f32 tri, lm2_v3_f32 point, float epsilon);
 
@@ -124,7 +134,10 @@ LM2_API bool lm2_triangle3_contains_point_f32(const lm2_triangle3_f32 tri, lm2_v
 // Triangle-Triangle Intersection
 // =============================================================================
 
-// Check if two triangles overlap
+// Check whether two nondegenerate triangles overlap, including coplanar and
+// non-coplanar intersections. Epsilon is used for plane and edge distances
+// and also as a dimensionless threshold for the sine of the angle between
+// normals and for edge/plane parallelism. Degenerate inputs may assert.
 LM2_API bool lm2_triangle3_overlaps_f64(const lm2_triangle3_f64 t1, const lm2_triangle3_f64 t2, double epsilon);
 LM2_API bool lm2_triangle3_overlaps_f32(const lm2_triangle3_f32 t1, const lm2_triangle3_f32 t2, float epsilon);
 
@@ -132,7 +145,8 @@ LM2_API bool lm2_triangle3_overlaps_f32(const lm2_triangle3_f32 t1, const lm2_tr
 // Triangle-Edge Operations
 // =============================================================================
 
-// Check if two triangles share an edge and return it
+// Return the first edge of t1 matching an edge of t2 in either direction.
+// Test result.exists before accessing result.edge; it is not set on a miss.
 LM2_API lm2_edge3_result_f64 lm2_triangle3_shared_edge_f64(const lm2_triangle3_f64 t1, const lm2_triangle3_f64 t2, double epsilon);
 LM2_API lm2_edge3_result_f32 lm2_triangle3_shared_edge_f32(const lm2_triangle3_f32 t1, const lm2_triangle3_f32 t2, float epsilon);
 

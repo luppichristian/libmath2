@@ -28,7 +28,7 @@ SOFTWARE.
 // - LM2_UNSAFE: Disable safe checks in safe ops (for performance)
 // - LM2_NO_CPP_OPERATORS: Disable C++ operators for all types (for C compatibility)
 // - LM2_NO_GENERICS: Disable C11 or C++ generics
-// - LM2_ENABLE_UNPREFIXED_NAMES: Enable unprefixed names (e.g. v2 instead of lm2_v2)
+// - LM2_ENABLE_UNPREFIXED_NAMES: Enable unprefixed names (e.g. v2_f32 instead of lm2_v2_f32)
 
 #include "lm2/camera/lm2_camera2.h"
 #include "lm2/camera/lm2_camera3.h"

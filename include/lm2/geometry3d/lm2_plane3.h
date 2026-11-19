@@ -37,7 +37,9 @@ LM2_HEADER_BEGIN;
 
 // Plane structure to represent a 3D plane using normal-distance form
 // The plane equation is: dot(normal, point) = distance
-// Where normal is a unit vector
+// Where normal is a unit vector. Points and normal share the caller-selected
+// coordinate space; distance is signed along the normal from that space
+// origin. Distance and projection operations assume a unit normal.
 typedef struct lm2_plane3_f64 {
   lm2_v3_f64 normal;  // Unit normal vector
   double distance;    // Distance from origin along normal
@@ -53,7 +55,8 @@ typedef struct lm2_plane3_f32 {
 // =============================================================================
 
 // Create a plane from a normal vector and distance from origin
-// The normal will be normalized automatically
+// The normal is normalized, but distance is stored unchanged. A zero normal
+// gives a zero normal, not a valid geometric plane.
 LM2_API lm2_plane3_f64 lm2_plane3_make_f64(lm2_v3_f64 normal, double distance);
 LM2_API lm2_plane3_f32 lm2_plane3_make_f32(lm2_v3_f32 normal, float distance);
 
@@ -62,11 +65,12 @@ LM2_API lm2_plane3_f32 lm2_plane3_make_f32(lm2_v3_f32 normal, float distance);
 LM2_API lm2_plane3_f64 lm2_plane3_from_point_normal_f64(lm2_v3_f64 point, lm2_v3_f64 normal);
 LM2_API lm2_plane3_f32 lm2_plane3_from_point_normal_f32(lm2_v3_f32 point, lm2_v3_f32 normal);
 
-// Create a plane from three points (counter-clockwise winding defines normal)
+// Create a plane from three points. The normal is normalize(cross(p1-p0,
+// p2-p0)); collinear points give a zero normal and do not define a plane.
 LM2_API lm2_plane3_f64 lm2_plane3_from_points_f64(lm2_v3_f64 p0, lm2_v3_f64 p1, lm2_v3_f64 p2);
 LM2_API lm2_plane3_f32 lm2_plane3_from_points_f32(lm2_v3_f32 p0, lm2_v3_f32 p1, lm2_v3_f32 p2);
 
-// Create standard planes (XY, XZ, YZ at origin)
+// Create standard planes at the origin: XY has +Z normal, XZ +Y, YZ +X.
 LM2_API lm2_plane3_f64 lm2_plane3_xy_f64(void);
 LM2_API lm2_plane3_f32 lm2_plane3_xy_f32(void);
 
@@ -97,7 +101,7 @@ LM2_API lm2_v3_f32 lm2_plane3_closest_point_f32(lm2_plane3_f32 plane, lm2_v3_f32
 // Plane Tests
 // =============================================================================
 
-// Check if a point is on the plane (within epsilon tolerance)
+// Check if absolute signed distance is <= epsilon; epsilon must be nonnegative.
 LM2_API bool lm2_plane3_contains_point_f64(lm2_plane3_f64 plane, lm2_v3_f64 point, double epsilon);
 LM2_API bool lm2_plane3_contains_point_f32(lm2_plane3_f32 plane, lm2_v3_f32 point, float epsilon);
 

@@ -1,8 +1,3 @@
----
-layout: default
-title: Ranges
----
-
 # Ranges (Axis-Aligned Bounding Boxes)
 
 ## Overview
@@ -31,6 +26,8 @@ AABBs are the most common spatial structure for broad-phase collision detection,
 | `lm2_r2_u8` | `uint8_t` | 2D range (uint8) |
 
 3D ranges (`lm2_r3_*`) and 4D ranges (`lm2_r4_*`) follow the same pattern.
+All coordinates use the caller’s chosen space. `min` and `max` should be
+ordered per axis; constructors and arithmetic do not automatically sort them.
 
 ## Structure
 
@@ -51,7 +48,7 @@ typedef union lm2_r2_f32 {
 | `lm2_r2_from_min_max_f32(min, max)` | From min/max points |
 | `lm2_r2_from_center_extents_f32(center, extents)` | From center and half-extents |
 | `lm2_r2_from_center_size_f32(center, size)` | From center and full size |
-| `lm2_r2_from_position_size_f32(position, size)` | From top-left position and size |
+| `lm2_r2_from_position_size_f32(position, size)` | From minimum corner and size |
 | `lm2_r2_from_scalars_f32(min_x, min_y, max_x, max_y)` | From individual scalars |
 | `lm2_r2_zero_f32()` | Zero range |
 
@@ -80,7 +77,15 @@ typedef union lm2_r2_f32 {
 | `lm2_r2_center_f32(r)` | Center point |
 | `lm2_r2_area_f32(r)` | Area (size.x * size.y) |
 
-All property functions available for all 10 numeric type suffixes.
+The 3D and 4D counterparts expose `volume` and `hypervolume`, respectively.
+Properties are available for all 10 numeric suffixes. Center is computed as
+`(min + max) / 2` and extents as `(max - min) / 2`; intermediate arithmetic
+must be representable. Integer division truncates toward zero. In
+`from_center_size`, integer size components are halved first, so a nonnegative
+odd size produces a range one unit smaller along that axis. For example, center
+5 and size 3 produce [4, 6]. The area, volume and hypervolume functions use
+native multiplication for the size components, without safe-operation overflow
+checks. The caller must ensure the product is representable.
 
 ### Tests
 
@@ -89,19 +94,56 @@ All property functions available for all 10 numeric type suffixes.
 | `lm2_r2_contains_point_f32(r, point)` | `int` | True if point is inside range |
 | `lm2_r2_overlaps_f32(a, b)` | `int` | True if two ranges overlap |
 
-Both test functions are available for all 10 numeric type suffixes.
+Both tests include boundaries and are available for all numeric suffixes.
+Touching faces, edges, or corners therefore count as overlap.
 
 ### Set Operations
 
 | Function | Description |
 |----------|-------------|
 | `lm2_r2_union_f32(a, b)` | Smallest range containing both |
-| `lm2_r2_intersection_f32(a, b)` | Overlap region of both ranges |
+| `lm2_r2_intersection_f32(a, b)` | Componentwise `max(a.min,b.min)` to `min(a.max,b.max)` |
 | `lm2_r2_scale_from_center_s_f32(r, scale)` | Scale extents uniformly from center by scalar (all ranges use `_s` suffix) |
 
-### Rounding, Comparison, Interpolation
+Intersection does not return an empty flag or reorder bounds. For disjoint
+ranges, at least one resulting min exceeds max; call `overlaps` first if an
+ordered intersection is required. Arithmetic operates on corresponding min and
+max components, not on sets of points. In particular, multiplying by a negative
+value can reverse bounds. `scale_from_center_s` and `_v` scale extents about the
+computed center and can likewise reverse bounds with negative factors; integer
+center and extents rounding can change the range even at scale 1.
 
-Ranges support the same rounding (`floor`, `ceil`, `round`, `trunc`), comparison (`min`, `max`, `clamp`), sign (`abs`, `sign`, `sign0`), and interpolation (`saturate`, `lerp`, `smoothstep`, `alpha`, `fract`, `pow`, `sqrt`) operations as vectors, applied component-wise.
+In 3D and 4D, `norm` swaps min and max independently on inverted axes.
+`expand(r, amount)` subtracts amount from each min coordinate and adds it to
+each max coordinate; a negative amount shrinks the range and can invert it.
+
+### Component-wise functions
+
+Rounding, comparisons, sign, interpolation and other scalar functions are
+applied separately to the min and max vectors. They inherit the vector scalar
+preconditions and do not preserve ordered bounds in general. `clamp(value,
+min, max)` takes the value first. `smoothstep(edge0, edge1, x)` and `alpha(a,
+b, value)` take endpoints before the value. Lerp has a dimension-specific
+argument order: `lm2_r2_lerp(a, b, t)` but `lm2_r3_lerp(a, t, b)` and
+`lm2_r4_lerp(a, t, b)`. Each computes `a + t * (b - a)` componentwise without
+clamping `t`. See [Vectors](vectors.md) for scalar function behavior and
+preconditions.
+
+`lm2_range_conversions.h` converts the two bounds independently with the vector
+conversion rules. Float-to-integer conversion truncates toward zero; conversions
+are not geometric floor/ceil expansion and can lose coverage. Dimensional
+upcasts append caller-supplied min/max coordinates; downcasts drop the last
+axis. Neither applies a coordinate transform.
+
+### Declared overloads without definitions
+
+The current library does not define the unsigned `mod`, `mod_s`, or `mod_v`
+overloads for any range dimension, even though they are declared. The `r2`
+unsigned `abs_u64` and `abs_u32` declarations also lack definitions. For `r3`
+and `r4`, unsigned `abs` and integer `floor`, `ceil`, `round`, `trunc`, their
+`_multiple` variants, and `lerp` are declared but not defined. Calling these
+symbols causes a link failure. Use supported overloads or apply the equivalent
+operation to the bounds explicitly.
 
 ## Example
 

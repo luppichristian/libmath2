@@ -1,8 +1,3 @@
----
-layout: default
-title: Scalar Math
----
-
 # Scalar Math
 
 ## Overview
@@ -12,6 +7,12 @@ Scalar math functions for floating-point and integer types: rounding, clamping, 
 ## Why Use This?
 
 These provide a consistent, type-safe API for common math operations across all supported numeric types, matching the same naming conventions as the vector operations.
+
+## Behavior and input requirements
+
+Floating inputs must be finite. `round` rounds halfway cases away from zero; `trunc` rounds toward zero. The multiple functions compute `operation(a / multiple) * multiple`, requiring a finite, nonzero multiple; a negative multiple reverses the direction of floor and ceil in the input coordinate. Signed integer `abs` cannot represent the minimum value of its type and asserts on that input. `sign(0)` returns +1, while `sign0(0)` returns 0. Clamp requires `min <= max`.
+
+`lerp` does not clamp `t`, and `alpha` does not clamp its result; `alpha` requires distinct endpoints. `smoothstep` requires distinct edges and clamps its normalized parameter to `[0, 1]`. `fract(a)` is `a - floor(a)`, including for negative values. `sqrt` requires a nonnegative argument; a negative `pow` base requires an integer exponent. `pow` returns the C library result without checking it: zero to a negative exponent or overflow can produce infinity. Intermediate calculations use [safe arithmetic](safe-ops.md) where applicable.
 
 ## Functions
 

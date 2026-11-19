@@ -32,6 +32,13 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
+// Scalar-type conversions cast each component independently. Float-to-integer
+// casts discard the fractional part toward zero. Narrowing/range checks use
+// LM2_ASSERT_UNSAFE where implemented; disabling them does not make out-of-range
+// C casts safe. Floating narrowing and integer-to-float conversion may lose precision.
+// Dimensional upcasts append the supplied coordinate(s); downcasts drop the
+// final coordinate(s). They do not apply a coordinate transformation.
+
 // =============================================================================
 // Range2 Conversions
 // =============================================================================

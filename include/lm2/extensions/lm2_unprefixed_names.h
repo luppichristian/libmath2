@@ -24,6 +24,9 @@ SOFTWARE.
 
 #pragma once
 
+// Opt-in aliases include common names that may conflict with other code.
+// Some aliases refer to unavailable targets; see docs/modules/extensions.md.
+
 #define PI2_F32        LM2_2PI_F32
 #define PI2_F64        LM2_2PI_F64
 #define DEG_TO_RAD_F32 LM2_DEG_TO_RAD_F32

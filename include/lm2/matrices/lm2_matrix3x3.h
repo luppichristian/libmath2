@@ -46,7 +46,8 @@ LM2_HEADER_BEGIN;
 // MULTIPLICATION: M * v (column vector on the right).
 //   result.x = m00*v.x + m01*v.y + m02*v.z  (row 0 dot v)
 //
-// 2D HOMOGENEOUS USE: The bottom row is implicitly [0 0 1].
+// 2D AFFINE BUILDERS set the bottom row to [0 0 1]; all nine entries
+// are stored, so a general projective matrix can use a different bottom row.
 //   TRANSLATION stored in column 2 (m02, m12).
 //   lm2_m3x3_translate produces: [1 0 tx / 0 1 ty / 0 0 1]
 //   transform_point appends w=1; transform_vector appends w=0.
@@ -55,6 +56,16 @@ LM2_HEADER_BEGIN;
 //   [cos θ  -sin θ  0]
 //   [sin θ   cos θ  0]
 //   [  0       0    1]
+//
+// transform_point divides x and y by computed w when |w-1| exceeds 1e-10
+// (f64) or 1e-6 (f32); when dividing, |w| must exceed that threshold.
+// transform returns all three homogeneous components without division.
+// mul(A, B) applies B first. Rotation angles are radians; positive angles
+// rotate counterclockwise in an x-right, y-up coordinate system.
+// get_scale returns column lengths (not signed scales), get_rotation returns
+// atan2(m10, m00), and get_translation returns (m02, m12).
+// Array transforms require non-null pointers even for zero count; src==dst
+// works, but partially overlapping ranges can overwrite unread input.
 //
 // Can represent: 2D homogeneous transformations (including projective),
 // 3D rotations (around axes), and general 3x3 linear transformations.

@@ -92,7 +92,7 @@ LM2_API void lm2_vertex_array_to_triangle3_list_f32(
 
 // Structure to hold indexed mesh size information
 typedef struct lm2_indexed_mesh3_size {
-  size_t vertex_count;  // Number of unique vertices
+  size_t vertex_count;  // Required unique count or conservative upper bound
   size_t index_count;   // Number of indices (triangle_count * 3)
 } lm2_indexed_mesh3_size;
 
@@ -101,10 +101,11 @@ typedef struct lm2_indexed_mesh3_size {
 // =============================================================================
 
 // Query the sizes needed for indexed mesh buffers from a triangle list
-// This function deduplicates vertices and returns the size information
+// For up to 1024 input vertices this deduplicates and returns the actual size;
+// larger inputs return the worst-case vertex count (3 * triangle_count).
 // triangles: array of triangles
 // triangle_count: number of triangles
-// epsilon: tolerance for vertex comparison (use 0.0 for exact comparison)
+// epsilon: nonnegative per-component tolerance (use 0.0 for exact comparison)
 // Returns: structure with vertex_count and index_count
 LM2_API lm2_indexed_mesh3_size lm2_triangle3_list_to_indexed_mesh_size_f64(
     const lm2_triangle3_f64* triangles,
@@ -117,10 +118,19 @@ LM2_API lm2_indexed_mesh3_size lm2_triangle3_list_to_indexed_mesh_size_f32(
     float epsilon);
 
 // Generate indexed mesh (vertices + indices) from triangle list
-// This function deduplicates vertices within the specified epsilon tolerance
+// Deduplicates against the first prior vertex whose absolute difference in
+// each component is <= epsilon; the first occurrence supplies the stored value.
+// Vertices and indices preserve triangle/vertex traversal order. Use the size
+// query to allocate vertices, but allocate at least triangle_count vertices;
+// the implementation asserts that minimum even when fewer are unique. The
+// output vertex count is not returned; the size query gives an upper bound.
+// Input and output pointers must be non-NULL, including for empty input;
+// counts and indices must fit in uint32_t. Use the same input and epsilon for
+// the size query and conversion. Keep input, vertex, and index buffers disjoint;
+// a new vertex is written before its capacity assertion, so undersizing is unsafe.
 // triangles: array of triangles
 // triangle_count: number of triangles
-// epsilon: tolerance for vertex comparison (use 0.0 for exact comparison)
+// epsilon: nonnegative per-component tolerance (use 0.0 for exact comparison)
 // vertices: output buffer for unique vertices
 // vertex_buffer_size: size of vertices buffer in number of vertices
 // indices: output buffer for indices
@@ -160,6 +170,8 @@ LM2_API size_t lm2_indexed_mesh_to_triangle3_list_size_f32(size_t index_count);
 // index_count: number of indices
 // triangles: output buffer for triangles (must be at least index_count / 3)
 // triangle_buffer_size: size of triangles buffer in number of triangles
+// All indices must be less than vertex_count. Input and output pointers must
+// be non-NULL, including when index_count is zero.
 LM2_API void lm2_indexed_mesh_to_triangle3_list_f64(
     const lm2_v3_f64* vertices,
     size_t vertex_count,

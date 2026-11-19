@@ -1,8 +1,3 @@
----
-layout: default
-title: Cameras
----
-
 # Cameras
 
 ## Overview
@@ -19,7 +14,15 @@ Camera types save you from manually managing view and projection matrices. They 
 
 **Header:** `lm2/camera/lm2_camera2.h`
 
-A 2D orthographic camera defined by a world-space position, a counter-clockwise rotation, a uniform zoom factor, and a screen viewport rectangle.
+A 2D orthographic camera defined by a world-space position, rotation in radians, uniform zoom, and a screen viewport rectangle. All manipulation functions return a modified camera; assign the result to retain the change.
+
+### Coordinate conventions
+
+`viewport.min` and `viewport.max` are absolute screen pixel coordinates, normally the top-left and bottom-right corners. The view matrix maps the camera's world-space `position` to the viewport center. It translates by `-position`, rotates by `-rotation`, scales by `zoom`, then translates to that center. Screen coordinates are not relative to `viewport.min`.
+
+There is no Y-axis flip: at zero rotation, increasing world X or Y increases screen X or Y. Rotation is measured in the numeric XY plane, so its apparent direction depends on whether the display's Y axis points up or down. World units are chosen by the caller; at zoom 1 one world unit maps to one screen pixel.
+
+Use positive, nonzero zoom and zoom factors for ordinary zooming. Constructors and setters do not clamp or validate them. The inverse view, screen-to-world conversion, and world bounds require a nonzero zoom. Anchored zoom requires both the original and resulting zoom to be nonzero. A singular inverse can assert.
 
 ### Types
 
@@ -48,14 +51,14 @@ All functions shown with `_f32` suffix. Also available with `_f64`.
 | Function | Description |
 |----------|-------------|
 | `lm2_camera2_make_f32(position, rotation, zoom, viewport)` | Construct from all fields |
-| `lm2_camera2_default_f32(viewport)` | Default camera: origin, no rotation, zoom 1 |
+| `lm2_camera2_default_f32(viewport)` | Position at viewport center, no rotation, zoom 1; the view transform is identity |
 
 #### View Matrix
 
 | Function | Description |
 |----------|-------------|
-| `lm2_camera2_get_view_f32(camera)` | 3x2 view matrix (world → camera space) |
-| `lm2_camera2_get_inv_view_f32(camera)` | 3x2 inverse view matrix (camera → world space) |
+| `lm2_camera2_get_view_f32(camera)` | 3x2 view matrix (world → absolute screen pixels) |
+| `lm2_camera2_get_inv_view_f32(camera)` | 3x2 inverse view matrix (absolute screen pixels → world) |
 
 #### Space Transforms
 
@@ -69,7 +72,7 @@ All functions shown with `_f32` suffix. Also available with `_f64`.
 | Function | Description |
 |----------|-------------|
 | `lm2_camera2_move_f32(camera, delta)` | Translate camera by world-space delta |
-| `lm2_camera2_zoom_at_f32(camera, zoom_factor, screen_anchor)` | Zoom in/out keeping a screen point fixed |
+| `lm2_camera2_zoom_at_f32(camera, zoom_factor, screen_anchor)` | Multiply zoom and adjust position to keep the world point under the absolute screen anchor fixed |
 | `lm2_camera2_set_zoom_f32(camera, zoom)` | Set zoom to an absolute value |
 | `lm2_camera2_rotate_f32(camera, delta_radians)` | Rotate by an angle delta |
 
@@ -79,7 +82,7 @@ All functions shown with `_f32` suffix. Also available with `_f64`.
 |----------|-------------|
 | `lm2_camera2_get_viewport_size_f32(camera)` | Viewport size in pixels |
 | `lm2_camera2_get_viewport_center_f32(camera)` | Viewport center in pixels |
-| `lm2_camera2_get_world_bounds_f32(camera)` | Visible world-space AABB |
+| `lm2_camera2_get_world_bounds_f32(camera)` | World-space AABB enclosing the four transformed viewport corners; conservative for a rotated camera |
 
 ### Example
 
@@ -93,7 +96,7 @@ lm2_r2_f32 viewport = lm2_r2_from_min_max_f32(
 
 lm2_camera2_f32 cam = lm2_camera2_default_f32(viewport);
 
-// Pan the camera to center on a point
+// Move the camera by a world-space offset
 cam = lm2_camera2_move_f32(cam, lm2_v2_make_f32(100.0f, 50.0f));
 
 // Zoom in towards the mouse cursor
@@ -112,7 +115,21 @@ lm2_m3x2_f32 view = lm2_camera2_get_view_f32(cam);
 
 **Header:** `lm2/camera/lm2_camera3.h`
 
-A 3D camera supporting both perspective and orthographic projection, defined by a world-space position, a look-at target, an up hint, and projection parameters. Uses a right-handed coordinate system.
+A 3D camera supporting perspective and orthographic projection, defined by a world-space position, look-at target, up hint, and projection parameters. All manipulation functions return a modified camera; assign the result to retain the change.
+
+### Coordinate and projection conventions
+
+The camera is right-handed. Its view space has +X right, +Y up, and -Z forward. `position` and `target` are world-space points, and `up` is a world-space hint. The derived directions are `forward = normalize(target - position)`, `right = normalize(cross(forward, up))`, and `up = cross(right, forward)`. The stored up hint need not be perpendicular to forward, but it must not be parallel; position and target must differ. The view matrix requires both `length(target - position)` and `length(cross(forward, up))` to exceed `1e-10` for f64 or `1e-6` for f32; smaller values can assert. The direction getters normalize zero to zero, so they can return zero for a degenerate camera even when view construction asserts.
+
+For perspective, `fov_y` is the vertical field of view in radians and `aspect` is viewport width divided by height. For orthographic projection, `ortho_size` is the half-height and `ortho_size * aspect` is the half-width of a frustum centered on the view axis. Near and far are distances in front of the eye. Use `0 < near_plane < far_plane`, positive aspect and orthographic size, and `0 < fov_y < pi` for perspective. Constructors and setters store the supplied values without clamping or validation; invalid inputs can cause assertions or singular matrices. Projection enum values other than `LM2_CAMERA3_PERSPECTIVE` select the orthographic path.
+
+The combined matrix is `projection * view`. After the homogeneous divide, the visible NDC volume is `[-1, 1]` on all three axes: the near and far planes map to Z = -1 and +1, respectively. These are OpenGL-style depth coordinates. `world_to_ndc` and `ndc_to_world` divide by homogeneous W without checking it, so the caller must ensure it is nonzero; the inverse conversion also requires an invertible view-projection matrix. They do not perform clipping or visibility testing.
+
+### Orbit and quaternion conventions
+
+Orbit uses the world +Y axis as its polar axis, regardless of the camera's `up` hint. It preserves target and position-to-target distance; positive yaw moves a +Z offset toward +X, while positive pitch moves it toward -Y. The polar angle is clamped to `[0.01, pi - 0.01]` radians, so a near-pole camera can move even with zero pitch. A zero-radius orbit remains degenerate.
+
+Quaternion constructors and setters take a unit camera-to-world orientation relative to the default forward `(0, 0, -1)` and up `(0, 1, 0)`. They rotate those axes, set `target = position + forward`, and replace `up`, so the target distance becomes one. `get_orientation` instead extracts the world-to-camera rotation from the view matrix. Conjugate its result to recover the orientation accepted by `set_orientation`. `rotate_local` composes the camera-to-world orientation with a local rotation on the right and normalizes it; it also resets target distance to one.
 
 ### Types
 
@@ -163,8 +180,8 @@ All functions shown with `_f32` suffix. Also available with `_f64`.
 | Function | Description |
 |----------|-------------|
 | `lm2_camera3_get_view_f32(camera)` | 4x4 view matrix (world → camera space) |
-| `lm2_camera3_get_projection_f32(camera)` | 4x4 projection matrix (perspective or ortho) |
-| `lm2_camera3_get_view_projection_f32(camera)` | Combined view-projection matrix |
+| `lm2_camera3_get_projection_f32(camera)` | 4x4 view → homogeneous clip-space projection matrix |
+| `lm2_camera3_get_view_projection_f32(camera)` | `projection * view` (world → homogeneous clip space) |
 | `lm2_camera3_get_inv_view_f32(camera)` | Inverse view matrix (camera → world space) |
 
 #### Derived Direction Vectors
@@ -181,7 +198,7 @@ All functions shown with `_f32` suffix. Also available with `_f64`.
 |----------|-------------|
 | `lm2_camera3_move_f32(camera, delta)` | Translate position and target by world-space delta |
 | `lm2_camera3_look_at_f32(camera, target)` | Change the look-at target |
-| `lm2_camera3_orbit_f32(camera, yaw, pitch)` | Orbit around the target by yaw and pitch angles |
+| `lm2_camera3_orbit_f32(camera, yaw, pitch)` | Orbit around target in radians using world +Y as polar axis |
 | `lm2_camera3_set_aspect_f32(camera, aspect)` | Update the aspect ratio |
 | `lm2_camera3_set_fov_y_f32(camera, fov_y)` | Update the vertical field of view |
 
@@ -189,21 +206,22 @@ All functions shown with `_f32` suffix. Also available with `_f64`.
 
 | Function | Description |
 |----------|-------------|
-| `lm2_camera3_get_orientation_f32(camera)` | Extract camera orientation as quaternion |
-| `lm2_camera3_set_orientation_f32(camera, orientation)` | Set orientation from quaternion (updates target) |
+| `lm2_camera3_get_orientation_f32(camera)` | Extract world-to-camera rotation from the view matrix |
+| `lm2_camera3_set_orientation_f32(camera, orientation)` | Set camera-to-world orientation; updates target and up |
 | `lm2_camera3_rotate_local_f32(camera, rotation)` | Apply a local-space quaternion rotation |
 
 #### Space Transforms
 
 | Function | Description |
 |----------|-------------|
-| `lm2_camera3_world_to_ndc_f32(camera, world_pos)` | World-space point → NDC (-1 to 1) |
+| `lm2_camera3_world_to_ndc_f32(camera, world_pos)` | World-space point → NDC after homogeneous divide (no visibility test) |
 | `lm2_camera3_ndc_to_world_f32(camera, ndc_pos)` | NDC point → world-space |
 
 ### Example
 
 ```c
 #include <lm2/camera/lm2_camera3.h>
+#include <lm2/lm2_constants.h>
 
 // Create a perspective camera looking at the origin
 lm2_camera3_f32 cam = lm2_camera3_perspective_f32(
@@ -224,6 +242,6 @@ lm2_m4x4_f32 vp   = lm2_camera3_get_view_projection_f32(cam);
 // Orbit the camera around the target
 cam = lm2_camera3_orbit_f32(cam, 0.01f, 0.0f);  // rotate 0.01 rad around Y
 
-// Convert a world point to NDC for visibility testing
+// Convert a world point to NDC (test clip W and bounds separately for visibility)
 lm2_v3_f32 ndc = lm2_camera3_world_to_ndc_f32(cam, lm2_v3_make_f32(1.0f, 0.0f, 0.0f));
 ```

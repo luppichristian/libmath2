@@ -43,15 +43,16 @@ LM2_HEADER_BEGIN;
 // 2D Ray Construction
 // =============================================================================
 
-// Create a 2D ray from origin, direction, and max distance
+// Store origin, direction, and max distance without normalizing direction.
 LM2_API lm2_ray2_f64 lm2_ray2_make_f64(lm2_v2_f64 origin, lm2_v2_f64 direction, double t_max);
 LM2_API lm2_ray2_f32 lm2_ray2_make_f32(lm2_v2_f32 origin, lm2_v2_f32 direction, float t_max);
 
-// Create a 2D ray from two points
+// Create a ray from start toward end: normalized direction and t_max equal
+// to their distance. Coincident points produce zero direction and t_max=0.
 LM2_API lm2_ray2_f64 lm2_ray2_from_points_f64(lm2_v2_f64 start, lm2_v2_f64 end);
 LM2_API lm2_ray2_f32 lm2_ray2_from_points_f32(lm2_v2_f32 start, lm2_v2_f32 end);
 
-// Get point along ray at distance t
+// Return origin + direction * t without clamping t to the ray interval.
 LM2_API lm2_v2_f64 lm2_ray2_point_at_f64(lm2_ray2_f64 ray, double t);
 LM2_API lm2_v2_f32 lm2_ray2_point_at_f32(lm2_ray2_f32 ray, float t);
 
@@ -62,6 +63,9 @@ LM2_API lm2_v2_f32 lm2_ray2_point_at_f32(lm2_ray2_f32 ray, float t);
 // Primitive and generic shape raycasts use the precision named by their suffix.
 // Polygons must be convex and nondegenerate, with 3 to 8 vertices ordered
 // counterclockwise; triangles must be nondegenerate and counterclockwise.
+// Polygon and triangle raycasts report a miss for an origin inside, or when
+// the only entering face is at t=0 (for example, starting on a face and
+// pointing inward). Both precisions require a strictly positive entry time.
 
 // Ray vs Circle. At extreme distances, t may round too coarsely for
 // ray.origin + ray.direction * t to reproduce the returned surface point.
@@ -92,7 +96,9 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_segment_f32(lm2_ray2_f32 ray, lm2_v2_f32 seg
 LM2_API lm2_rayhit2_f64 lm2_raycast_triangle2_f64(lm2_ray2_f64 ray, const lm2_triangle2_f64 tri);
 LM2_API lm2_rayhit2_f32 lm2_raycast_triangle2_f32(lm2_ray2_f32 ray, const lm2_triangle2_f32 tri);
 
-// Ray vs Plane (infinite line in 2D)
+// Ray vs infinite line. If abs(dot(direction, normal)) is less than
+// LM2_RAYCAST2_EPSILON_F32/F64, the ray misses; this threshold is scale
+// dependent. On a hit the normal faces against the ray direction.
 LM2_API lm2_rayhit2_f64 lm2_raycast_plane2_f64(lm2_ray2_f64 ray, lm2_plane2_f64 plane);
 LM2_API lm2_rayhit2_f32 lm2_raycast_plane2_f32(lm2_ray2_f32 ray, lm2_plane2_f32 plane);
 

@@ -28,6 +28,14 @@ SOFTWARE.
 
 #if !defined(LM2_NO_GENERICS) && !defined(__cplusplus) && defined(__STDC_VERSION__) && __STDC_VERSION__ >= 201112L
 
+// Each macro selects a function from the type of its controlling expression;
+// other scalar arguments may be converted when passed to that function.
+// Some range and matrix macros reference undeclared functions, and some
+// geometry macros pass too few arguments or use array-type _Generic matches
+// that decay to pointers, so they cannot be used as written. See docs/modules/extensions.md for the affected macros and
+// use the explicit suffixed functions instead. Declared overloads without
+// definitions also remain unavailable through generic dispatch.
+
 // Scalar operations
 #  define lm2_add(x, y) \
     _Generic((x), float: lm2_add_f32, double: lm2_add_f64, int8_t: lm2_add_i8, int16_t: lm2_add_i16, int32_t: lm2_add_i32, int64_t: lm2_add_i64, uint8_t: lm2_add_u8, uint16_t: lm2_add_u16, uint32_t: lm2_add_u32, uint64_t: lm2_add_u64)(x, y)

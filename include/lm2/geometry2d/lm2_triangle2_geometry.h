@@ -101,10 +101,12 @@ typedef struct lm2_indexed_mesh_size {
 // =============================================================================
 
 // Query the sizes needed for indexed mesh buffers from a triangle list
-// This function deduplicates vertices and returns the size information
+// Deduplicates by comparing each component against epsilon, using the first
+// matching vertex. On temporary allocation failure, reports the conservative
+// upper bound of three vertices per triangle.
 // triangles: array of triangles
 // triangle_count: number of triangles
-// epsilon: tolerance for vertex comparison (use 0.0 for exact comparison)
+// epsilon: nonnegative per-component tolerance (use 0.0 for exact comparison)
 // Returns: structure with vertex_count and index_count
 LM2_API lm2_indexed_mesh_size lm2_triangle2_list_to_indexed_mesh_size_f64(
     const lm2_triangle2_f64* triangles,
@@ -116,11 +118,16 @@ LM2_API lm2_indexed_mesh_size lm2_triangle2_list_to_indexed_mesh_size_f32(
     size_t triangle_count,
     float epsilon);
 
-// Generate indexed mesh (vertices + indices) from triangle list
-// This function deduplicates vertices within the specified epsilon tolerance
+// Generate indexed mesh (vertices + indices) from triangle list. Use the size
+// query on the same input and epsilon, then allocate at least the larger of
+// its vertex_count and triangle_count vertices, and its index_count indices.
+// Counts and indices must fit uint32_t. Pointers must be non-NULL even for
+// empty input. Keep input, vertex, and index buffers disjoint. A new vertex
+// is written before its capacity assertion, so an
+// undersized buffer is unsafe. This function deduplicates within epsilon.
 // triangles: array of triangles
 // triangle_count: number of triangles
-// epsilon: tolerance for vertex comparison (use 0.0 for exact comparison)
+// epsilon: nonnegative per-component tolerance (use 0.0 for exact comparison)
 // vertices: output buffer for unique vertices
 // vertex_buffer_size: size of vertices buffer in number of vertices
 // indices: output buffer for indices

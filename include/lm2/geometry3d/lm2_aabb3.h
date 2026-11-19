@@ -35,7 +35,9 @@ LM2_HEADER_BEGIN;
 // =============================================================================
 // AABB3 Type Aliases
 // =============================================================================
-// AABB3 is an axis-aligned 3D box, represented by lm2_range3 (AABB)
+// AABB3 is an axis-aligned box represented by lm2_range3. Coordinates refer
+// to the caller-selected space; min and max should be ordered on each axis.
+// Face names refer to these axes, not to a camera or view direction.
 
 typedef lm2_r3_f64 lm2_aabb3_f64;
 typedef lm2_r3_f32 lm2_aabb3_f32;
@@ -124,7 +126,7 @@ LM2_API float lm2_aabb3_depth_f32(lm2_aabb3_f32 aabb3);
 LM2_API lm2_v3_f64 lm2_aabb3_get_corner_f64(lm2_aabb3_f64 aabb3, lm2_corner3 corner);
 LM2_API lm2_v3_f32 lm2_aabb3_get_corner_f32(lm2_aabb3_f32 aabb3, lm2_corner3 corner);
 
-// Get all 8 corners of the aabb3
+// Get all 8 corners in lm2_corner3 enum order; corners must be non-NULL.
 LM2_API void lm2_aabb3_get_corners_f64(lm2_aabb3_f64 aabb3, lm2_v3_f64 corners[8]);
 LM2_API void lm2_aabb3_get_corners_f32(lm2_aabb3_f32 aabb3, lm2_v3_f32 corners[8]);
 
@@ -157,9 +159,12 @@ LM2_API int lm2_aabb3_overlaps_f32(lm2_aabb3_f32 a, lm2_aabb3_f32 b);
 LM2_API lm2_aabb3_f64 lm2_aabb3_translate_f64(lm2_aabb3_f64 aabb3, lm2_v3_f64 offset);
 LM2_API lm2_aabb3_f32 lm2_aabb3_translate_f32(lm2_aabb3_f32 aabb3, lm2_v3_f32 offset);
 
+// Multiply min and max componentwise about the coordinate origin. Negative
+// scale components can reverse bounds; this does not reorder them.
 LM2_API lm2_aabb3_f64 lm2_aabb3_scale_f64(lm2_aabb3_f64 aabb3, lm2_v3_f64 scale);
 LM2_API lm2_aabb3_f32 lm2_aabb3_scale_f32(lm2_aabb3_f32 aabb3, lm2_v3_f32 scale);
 
+// Subtract amount from min and add it to max; negative amounts shrink the box.
 LM2_API lm2_aabb3_f64 lm2_aabb3_expand_f64(lm2_aabb3_f64 aabb3, lm2_v3_f64 amount);
 LM2_API lm2_aabb3_f32 lm2_aabb3_expand_f32(lm2_aabb3_f32 aabb3, lm2_v3_f32 amount);
 

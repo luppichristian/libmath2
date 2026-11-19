@@ -1,13 +1,8 @@
----
-layout: default
-title: Easings
----
-
 # Easing Functions
 
 ## Overview
 
-30 easing functions for animation and tweening, covering all standard easing curves. Each takes a normalized time `t` in [0, 1] and returns the eased value.
+31 easing functions for animation and tweening. Each maps normalized progress `t`, normally in `[0, 1]`, to an eased interpolation factor.
 
 ## Why Use This?
 
@@ -15,7 +10,7 @@ Easing functions add natural-feeling motion to animations, UI transitions, camer
 
 ## Easing Families
 
-Each family has three variants: `_in` (accelerate), `_out` (decelerate), `_in_out` (both).
+Except for linear, each family has `_in`, `_out`, and `_in_out` variants, conventionally describing an accelerating start, decelerating end, or both. Back, elastic, and bounce curves can overshoot or oscillate, so their speed is not monotonic.
 
 | Family | Functions |
 |--------|-----------|
@@ -31,11 +26,11 @@ Each family has three variants: `_in` (accelerate), `_out` (decelerate), `_in_ou
 | Elastic | `lm2_ease_elastic_in_f32`, `lm2_ease_elastic_out_f32`, `lm2_ease_elastic_in_out_f32` |
 | Bounce | `lm2_ease_bounce_in_f32`, `lm2_ease_bounce_out_f32`, `lm2_ease_bounce_in_out_f32` |
 
-All functions also available in `_f64` variants.
+All functions are also available in `_f64` variants. Neither input nor output is clamped. Back and elastic can overshoot `[0, 1]` even with `t` in that range. Inputs outside `[0, 1]` use the formulas directly; circular curves can encounter a negative square root, and safe arithmetic assertions may apply. Clamp input or output explicitly if the application requires it.
 
 ## Generic Easing
 
-Use the `easing` enum with the generic function to select easing at runtime:
+Use the `easing` enum with the generic function to select easing at runtime. `EASING_MAX` and unknown values return `t` unchanged:
 
 ```c
 float result = lm2_ease_f32(EASING_BOUNCE_OUT, t);
@@ -62,7 +57,7 @@ EASING_MAX
 
 ### Helper
 
-`lm2_easing_to_string(easing)` — Convert enum to human-readable string.
+`lm2_easing_to_string(easing)` returns the named enum constant as a string literal, including `EASING_MAX`; an unknown value returns `"EASING_UNKNOWN"`.
 
 ## Example
 
@@ -75,5 +70,4 @@ float x = lm2_lerp_f32(start_x, eased_t, end_x);
 // Or use the generic version for configurable easing
 easing curve = EASING_ELASTIC_OUT;
 float eased = lm2_ease_f32(curve, t);
-```
 ```

@@ -217,6 +217,12 @@ LM2_VEC_NEG_OP(lm2_v4_u32, v4, u32)
 LM2_VEC_NEG_OP(lm2_v4_u8, v4, u8)
 
 // =============================================================================
+// m3x2 * v2 and m4x4 * v3 transform points (including translation and,
+// for m4x4, homogeneous division). Use transform_vector for directions.
+// m3x3 * v3 and m4x4 * v4 return full homogeneous products. Range | and &
+// are union and intersection; range + vector translates, while * scales
+// bounds about the origin. Quaternion * v3 rotates using a unit quaternion.
+//
 // Matrix Operators
 // =============================================================================
 

@@ -50,7 +50,7 @@ typedef struct lm2_circle_f32 {
 // Construction Helpers
 // =============================================================================
 
-// Create a circle from center point and radius
+// Create a circle from center point and nonnegative radius (asserted).
 LM2_API lm2_circle_f64 lm2_circle_make_f64(lm2_v2_f64 center, double radius);
 LM2_API lm2_circle_f32 lm2_circle_make_f32(lm2_v2_f32 center, float radius);
 
@@ -82,15 +82,15 @@ LM2_API float lm2_circle_diameter_f32(lm2_circle_f32 circle);
 // Circle Tests
 // =============================================================================
 
-// Check if a point is inside a circle
+// Check if a point is inside or on the boundary of a circle.
 LM2_API bool lm2_circle_contains_point_f64(lm2_circle_f64 circle, lm2_v2_f64 point);
 LM2_API bool lm2_circle_contains_point_f32(lm2_circle_f32 circle, lm2_v2_f32 point);
 
-// Check if two circles overlap
+// Check if two circles overlap or touch.
 LM2_API bool lm2_circles_overlap_f64(lm2_circle_f64 a, lm2_circle_f64 b);
 LM2_API bool lm2_circles_overlap_f32(lm2_circle_f32 a, lm2_circle_f32 b);
 
-// Check if circle a is completely inside circle b
+// Check whether circle a contains circle b, including internal tangency.
 LM2_API bool lm2_circle_contains_circle_f64(lm2_circle_f64 a, lm2_circle_f64 b);
 LM2_API bool lm2_circle_contains_circle_f32(lm2_circle_f32 a, lm2_circle_f32 b);
 
@@ -102,7 +102,7 @@ LM2_API bool lm2_circle_contains_circle_f32(lm2_circle_f32 a, lm2_circle_f32 b);
 LM2_API lm2_circle_f64 lm2_circle_translate_f64(lm2_circle_f64 circle, lm2_v2_f64 offset);
 LM2_API lm2_circle_f32 lm2_circle_translate_f32(lm2_circle_f32 circle, lm2_v2_f32 offset);
 
-// Scale a circle's radius
+// Scale the radius about the unchanged center; scale must be nonnegative.
 LM2_API lm2_circle_f64 lm2_circle_scale_f64(lm2_circle_f64 circle, double scale);
 LM2_API lm2_circle_f32 lm2_circle_scale_f32(lm2_circle_f32 circle, float scale);
 

@@ -81,7 +81,8 @@ LM2_API lm2_edge2_f64 lm2_edge2_from_ray_f64(lm2_ray2_f64 ray);
 LM2_API lm2_edge2_f32 lm2_edge2_from_ray_f32(lm2_ray2_f32 ray);
 
 // Create an edge on a plane with given center point and length
-// The edge will be perpendicular to the plane's normal
+// The edge is perpendicular to the plane's normal. The supplied center is
+// not projected; it must lie on the plane if the edge is to lie on it.
 LM2_API lm2_edge2_f64 lm2_edge2_from_plane_f64(lm2_plane2_f64 plane, lm2_v2_f64 center, double length);
 LM2_API lm2_edge2_f32 lm2_edge2_from_plane_f32(lm2_plane2_f32 plane, lm2_v2_f32 center, float length);
 
@@ -101,7 +102,8 @@ LM2_API float lm2_edge2_length_sq_f32(lm2_edge2_f32 edge);
 // Edge Comparison
 // =============================================================================
 
-// Check if two points are equal within epsilon
+// Each coordinate difference must be strictly less than epsilon. In
+// particular epsilon == 0 does not match even identical points.
 LM2_API bool lm2_points2_equal_f64(lm2_v2_f64 a, lm2_v2_f64 b, double epsilon);
 LM2_API bool lm2_points2_equal_f32(lm2_v2_f32 a, lm2_v2_f32 b, float epsilon);
 
@@ -113,7 +115,8 @@ LM2_API bool lm2_edges2_equal_f32(lm2_edge2_f32 e1, lm2_edge2_f32 e2, float epsi
 // Edge Intersection
 // =============================================================================
 
-// Check if two line segments intersect. Finite coordinates are expected;
+// Check if two closed line segments intersect, including shared endpoints,
+// collinear overlap, and a point on a segment. Finite coordinates are expected;
 // nearly collinear and extreme-aspect inputs remain subject to rounding
 // because the orientation tests do not use exact arithmetic.
 LM2_API bool lm2_edges2_intersect_f64(lm2_edge2_f64 e1, lm2_edge2_f64 e2);

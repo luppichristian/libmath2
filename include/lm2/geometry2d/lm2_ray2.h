@@ -35,8 +35,9 @@ LM2_HEADER_BEGIN;
 // Ray Types (2D)
 // =============================================================================
 
-// 2D Ray structure
-// IMPORTANT: direction should be normalized, t specifies the distance along direction
+// Ray points are origin + direction * t, in the same space as the queried
+// shapes. Use a unit direction so t and t_max are distances; ray2_make does
+// not normalize it. Raycasts use the interval from 0 through t_max.
 typedef struct lm2_ray2_f64 {
   lm2_v2_f64 origin;     // Ray origin position
   lm2_v2_f64 direction;  // Ray direction (should be normalized)

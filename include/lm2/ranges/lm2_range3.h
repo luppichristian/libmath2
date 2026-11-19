@@ -31,6 +31,14 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
+// Area/volume products use native multiplication after computing size; callers
+// must ensure the product is representable (safe ops do not check it).
+// Unsigned mod, mod_s and mod_v declarations have no linked definitions.
+// norm swaps inverted min/max per axis; expand subtracts amount from min and
+// adds it to max. A negative amount shrinks and can invert a range.
+// Unsigned abs and all integer floor, ceil, round, trunc, their _multiple
+// variants, and lerp declarations have no linked definitions.
+
 // =============================================================================
 // 3D Range (AABB) Type Definitions
 // =============================================================================
@@ -38,6 +46,18 @@ LM2_HEADER_BEGIN;
 // with minimum and maximum points.
 // Integer from-center-size overloads halve each nonnegative size component
 // with integer division, rounding odd sizes down to preserve an integral center.
+// Bounds use the caller's coordinate space and are not automatically ordered.
+// Containment and overlap include the boundary. Intersection returns
+// max(min), min(max), even for disjoint ranges (then bounds can be inverted).
+// Arithmetic and scalar operations act on min and max componentwise; they
+// do not reorder bounds after negative scaling or other operations.
+// center = (min + max)/2 and extents = (max - min)/2; integer division
+// truncates toward zero and intermediate operations must be representable.
+// clamp(value, min, max), smoothstep(edge0, edge1, x), and alpha(a, b, value)
+// act componentwise; corresponding clamp limits must be ordered and
+// interpolation endpoints must differ. lerp(a, t, b)
+// computes a + t*(b-a) without clamping t. These orders differ from some
+// scalar APIs; see the range guide and lm2_safe_ops.h for details.
 
 // ---------------------------------------------------------------------------
 // lm2_r3_f64 - 3D Range (double precision)
@@ -90,11 +110,11 @@ LM2_API lm2_r3_f64 lm2_r3_min_f64(lm2_r3_f64 a, lm2_r3_f64 b);
 LM2_API lm2_r3_f64 lm2_r3_min_abs_f64(lm2_r3_f64 a, lm2_r3_f64 b);
 LM2_API lm2_r3_f64 lm2_r3_max_f64(lm2_r3_f64 a, lm2_r3_f64 b);
 LM2_API lm2_r3_f64 lm2_r3_max_abs_f64(lm2_r3_f64 a, lm2_r3_f64 b);
-LM2_API lm2_r3_f64 lm2_r3_clamp_f64(lm2_r3_f64 a, lm2_r3_f64 b, lm2_r3_f64 c);
+LM2_API lm2_r3_f64 lm2_r3_clamp_f64(lm2_r3_f64 value, lm2_r3_f64 min, lm2_r3_f64 max);
 LM2_API lm2_r3_f64 lm2_r3_saturate_f64(lm2_r3_f64 value);
-LM2_API lm2_r3_f64 lm2_r3_lerp_f64(lm2_r3_f64 a, lm2_r3_f64 b, lm2_r3_f64 c);
-LM2_API lm2_r3_f64 lm2_r3_smoothstep_f64(lm2_r3_f64 edge0, lm2_r3_f64 x, lm2_r3_f64 edge1);
-LM2_API lm2_r3_f64 lm2_r3_alpha_f64(lm2_r3_f64 a, lm2_r3_f64 value, lm2_r3_f64 b);
+LM2_API lm2_r3_f64 lm2_r3_lerp_f64(lm2_r3_f64 a, lm2_r3_f64 t, lm2_r3_f64 b);
+LM2_API lm2_r3_f64 lm2_r3_smoothstep_f64(lm2_r3_f64 edge0, lm2_r3_f64 edge1, lm2_r3_f64 x);
+LM2_API lm2_r3_f64 lm2_r3_alpha_f64(lm2_r3_f64 a, lm2_r3_f64 b, lm2_r3_f64 value);
 LM2_API lm2_r3_f64 lm2_r3_fract_f64(lm2_r3_f64 a);
 LM2_API lm2_r3_f64 lm2_r3_pow_f64(lm2_r3_f64 base, lm2_r3_f64 exponent);
 LM2_API lm2_r3_f64 lm2_r3_sqrt_f64(lm2_r3_f64 a);
@@ -160,11 +180,11 @@ LM2_API lm2_r3_f32 lm2_r3_min_f32(lm2_r3_f32 a, lm2_r3_f32 b);
 LM2_API lm2_r3_f32 lm2_r3_min_abs_f32(lm2_r3_f32 a, lm2_r3_f32 b);
 LM2_API lm2_r3_f32 lm2_r3_max_f32(lm2_r3_f32 a, lm2_r3_f32 b);
 LM2_API lm2_r3_f32 lm2_r3_max_abs_f32(lm2_r3_f32 a, lm2_r3_f32 b);
-LM2_API lm2_r3_f32 lm2_r3_clamp_f32(lm2_r3_f32 a, lm2_r3_f32 b, lm2_r3_f32 c);
+LM2_API lm2_r3_f32 lm2_r3_clamp_f32(lm2_r3_f32 value, lm2_r3_f32 min, lm2_r3_f32 max);
 LM2_API lm2_r3_f32 lm2_r3_saturate_f32(lm2_r3_f32 value);
-LM2_API lm2_r3_f32 lm2_r3_lerp_f32(lm2_r3_f32 a, lm2_r3_f32 b, lm2_r3_f32 c);
-LM2_API lm2_r3_f32 lm2_r3_smoothstep_f32(lm2_r3_f32 edge0, lm2_r3_f32 x, lm2_r3_f32 edge1);
-LM2_API lm2_r3_f32 lm2_r3_alpha_f32(lm2_r3_f32 a, lm2_r3_f32 value, lm2_r3_f32 b);
+LM2_API lm2_r3_f32 lm2_r3_lerp_f32(lm2_r3_f32 a, lm2_r3_f32 t, lm2_r3_f32 b);
+LM2_API lm2_r3_f32 lm2_r3_smoothstep_f32(lm2_r3_f32 edge0, lm2_r3_f32 edge1, lm2_r3_f32 x);
+LM2_API lm2_r3_f32 lm2_r3_alpha_f32(lm2_r3_f32 a, lm2_r3_f32 b, lm2_r3_f32 value);
 LM2_API lm2_r3_f32 lm2_r3_fract_f32(lm2_r3_f32 a);
 LM2_API lm2_r3_f32 lm2_r3_pow_f32(lm2_r3_f32 base, lm2_r3_f32 exponent);
 LM2_API lm2_r3_f32 lm2_r3_sqrt_f32(lm2_r3_f32 a);
@@ -230,8 +250,8 @@ LM2_API lm2_r3_i64 lm2_r3_min_i64(lm2_r3_i64 a, lm2_r3_i64 b);
 LM2_API lm2_r3_i64 lm2_r3_min_abs_i64(lm2_r3_i64 a, lm2_r3_i64 b);
 LM2_API lm2_r3_i64 lm2_r3_max_i64(lm2_r3_i64 a, lm2_r3_i64 b);
 LM2_API lm2_r3_i64 lm2_r3_max_abs_i64(lm2_r3_i64 a, lm2_r3_i64 b);
-LM2_API lm2_r3_i64 lm2_r3_clamp_i64(lm2_r3_i64 a, lm2_r3_i64 b, lm2_r3_i64 c);
-LM2_API lm2_r3_i64 lm2_r3_lerp_i64(lm2_r3_i64 a, lm2_r3_i64 b, lm2_r3_i64 c);
+LM2_API lm2_r3_i64 lm2_r3_clamp_i64(lm2_r3_i64 value, lm2_r3_i64 min, lm2_r3_i64 max);
+LM2_API lm2_r3_i64 lm2_r3_lerp_i64(lm2_r3_i64 a, lm2_r3_i64 t, lm2_r3_i64 b);
 LM2_API lm2_r3_i64 lm2_r3_union_i64(lm2_r3_i64 a, lm2_r3_i64 b);
 LM2_API lm2_r3_i64 lm2_r3_intersection_i64(lm2_r3_i64 a, lm2_r3_i64 b);
 LM2_API lm2_r3_i64 lm2_r3_scale_from_center_s_i64(lm2_r3_i64 r, int64_t scale);
@@ -294,8 +314,8 @@ LM2_API lm2_r3_i32 lm2_r3_min_i32(lm2_r3_i32 a, lm2_r3_i32 b);
 LM2_API lm2_r3_i32 lm2_r3_min_abs_i32(lm2_r3_i32 a, lm2_r3_i32 b);
 LM2_API lm2_r3_i32 lm2_r3_max_i32(lm2_r3_i32 a, lm2_r3_i32 b);
 LM2_API lm2_r3_i32 lm2_r3_max_abs_i32(lm2_r3_i32 a, lm2_r3_i32 b);
-LM2_API lm2_r3_i32 lm2_r3_clamp_i32(lm2_r3_i32 a, lm2_r3_i32 b, lm2_r3_i32 c);
-LM2_API lm2_r3_i32 lm2_r3_lerp_i32(lm2_r3_i32 a, lm2_r3_i32 b, lm2_r3_i32 c);
+LM2_API lm2_r3_i32 lm2_r3_clamp_i32(lm2_r3_i32 value, lm2_r3_i32 min, lm2_r3_i32 max);
+LM2_API lm2_r3_i32 lm2_r3_lerp_i32(lm2_r3_i32 a, lm2_r3_i32 t, lm2_r3_i32 b);
 LM2_API lm2_r3_i32 lm2_r3_union_i32(lm2_r3_i32 a, lm2_r3_i32 b);
 LM2_API lm2_r3_i32 lm2_r3_intersection_i32(lm2_r3_i32 a, lm2_r3_i32 b);
 LM2_API lm2_r3_i32 lm2_r3_scale_from_center_s_i32(lm2_r3_i32 r, int32_t scale);
@@ -358,8 +378,8 @@ LM2_API lm2_r3_i16 lm2_r3_min_i16(lm2_r3_i16 a, lm2_r3_i16 b);
 LM2_API lm2_r3_i16 lm2_r3_min_abs_i16(lm2_r3_i16 a, lm2_r3_i16 b);
 LM2_API lm2_r3_i16 lm2_r3_max_i16(lm2_r3_i16 a, lm2_r3_i16 b);
 LM2_API lm2_r3_i16 lm2_r3_max_abs_i16(lm2_r3_i16 a, lm2_r3_i16 b);
-LM2_API lm2_r3_i16 lm2_r3_clamp_i16(lm2_r3_i16 a, lm2_r3_i16 b, lm2_r3_i16 c);
-LM2_API lm2_r3_i16 lm2_r3_lerp_i16(lm2_r3_i16 a, lm2_r3_i16 b, lm2_r3_i16 c);
+LM2_API lm2_r3_i16 lm2_r3_clamp_i16(lm2_r3_i16 value, lm2_r3_i16 min, lm2_r3_i16 max);
+LM2_API lm2_r3_i16 lm2_r3_lerp_i16(lm2_r3_i16 a, lm2_r3_i16 t, lm2_r3_i16 b);
 LM2_API lm2_r3_i16 lm2_r3_union_i16(lm2_r3_i16 a, lm2_r3_i16 b);
 LM2_API lm2_r3_i16 lm2_r3_intersection_i16(lm2_r3_i16 a, lm2_r3_i16 b);
 LM2_API lm2_r3_i16 lm2_r3_scale_from_center_s_i16(lm2_r3_i16 r, int16_t scale);
@@ -421,8 +441,8 @@ LM2_API lm2_r3_i8 lm2_r3_min_i8(lm2_r3_i8 a, lm2_r3_i8 b);
 LM2_API lm2_r3_i8 lm2_r3_min_abs_i8(lm2_r3_i8 a, lm2_r3_i8 b);
 LM2_API lm2_r3_i8 lm2_r3_max_i8(lm2_r3_i8 a, lm2_r3_i8 b);
 LM2_API lm2_r3_i8 lm2_r3_max_abs_i8(lm2_r3_i8 a, lm2_r3_i8 b);
-LM2_API lm2_r3_i8 lm2_r3_clamp_i8(lm2_r3_i8 a, lm2_r3_i8 b, lm2_r3_i8 c);
-LM2_API lm2_r3_i8 lm2_r3_lerp_i8(lm2_r3_i8 a, lm2_r3_i8 b, lm2_r3_i8 c);
+LM2_API lm2_r3_i8 lm2_r3_clamp_i8(lm2_r3_i8 value, lm2_r3_i8 min, lm2_r3_i8 max);
+LM2_API lm2_r3_i8 lm2_r3_lerp_i8(lm2_r3_i8 a, lm2_r3_i8 t, lm2_r3_i8 b);
 LM2_API lm2_r3_i8 lm2_r3_union_i8(lm2_r3_i8 a, lm2_r3_i8 b);
 LM2_API lm2_r3_i8 lm2_r3_intersection_i8(lm2_r3_i8 a, lm2_r3_i8 b);
 LM2_API lm2_r3_i8 lm2_r3_scale_from_center_s_i8(lm2_r3_i8 r, int8_t scale);
@@ -480,8 +500,8 @@ LM2_API lm2_r3_u64 lm2_r3_round_multiple_u64(lm2_r3_u64 a, lm2_r3_u64 b);
 LM2_API lm2_r3_u64 lm2_r3_trunc_multiple_u64(lm2_r3_u64 a, lm2_r3_u64 b);
 LM2_API lm2_r3_u64 lm2_r3_min_u64(lm2_r3_u64 a, lm2_r3_u64 b);
 LM2_API lm2_r3_u64 lm2_r3_max_u64(lm2_r3_u64 a, lm2_r3_u64 b);
-LM2_API lm2_r3_u64 lm2_r3_clamp_u64(lm2_r3_u64 a, lm2_r3_u64 b, lm2_r3_u64 c);
-LM2_API lm2_r3_u64 lm2_r3_lerp_u64(lm2_r3_u64 a, lm2_r3_u64 b, lm2_r3_u64 c);
+LM2_API lm2_r3_u64 lm2_r3_clamp_u64(lm2_r3_u64 value, lm2_r3_u64 min, lm2_r3_u64 max);
+LM2_API lm2_r3_u64 lm2_r3_lerp_u64(lm2_r3_u64 a, lm2_r3_u64 t, lm2_r3_u64 b);
 LM2_API lm2_r3_u64 lm2_r3_union_u64(lm2_r3_u64 a, lm2_r3_u64 b);
 LM2_API lm2_r3_u64 lm2_r3_intersection_u64(lm2_r3_u64 a, lm2_r3_u64 b);
 LM2_API lm2_r3_u64 lm2_r3_scale_from_center_s_u64(lm2_r3_u64 r, uint64_t scale);
@@ -539,8 +559,8 @@ LM2_API lm2_r3_u32 lm2_r3_round_multiple_u32(lm2_r3_u32 a, lm2_r3_u32 b);
 LM2_API lm2_r3_u32 lm2_r3_trunc_multiple_u32(lm2_r3_u32 a, lm2_r3_u32 b);
 LM2_API lm2_r3_u32 lm2_r3_min_u32(lm2_r3_u32 a, lm2_r3_u32 b);
 LM2_API lm2_r3_u32 lm2_r3_max_u32(lm2_r3_u32 a, lm2_r3_u32 b);
-LM2_API lm2_r3_u32 lm2_r3_clamp_u32(lm2_r3_u32 a, lm2_r3_u32 b, lm2_r3_u32 c);
-LM2_API lm2_r3_u32 lm2_r3_lerp_u32(lm2_r3_u32 a, lm2_r3_u32 b, lm2_r3_u32 c);
+LM2_API lm2_r3_u32 lm2_r3_clamp_u32(lm2_r3_u32 value, lm2_r3_u32 min, lm2_r3_u32 max);
+LM2_API lm2_r3_u32 lm2_r3_lerp_u32(lm2_r3_u32 a, lm2_r3_u32 t, lm2_r3_u32 b);
 LM2_API lm2_r3_u32 lm2_r3_union_u32(lm2_r3_u32 a, lm2_r3_u32 b);
 LM2_API lm2_r3_u32 lm2_r3_intersection_u32(lm2_r3_u32 a, lm2_r3_u32 b);
 LM2_API lm2_r3_u32 lm2_r3_scale_from_center_s_u32(lm2_r3_u32 r, uint32_t scale);
@@ -598,8 +618,8 @@ LM2_API lm2_r3_u16 lm2_r3_round_multiple_u16(lm2_r3_u16 a, lm2_r3_u16 b);
 LM2_API lm2_r3_u16 lm2_r3_trunc_multiple_u16(lm2_r3_u16 a, lm2_r3_u16 b);
 LM2_API lm2_r3_u16 lm2_r3_min_u16(lm2_r3_u16 a, lm2_r3_u16 b);
 LM2_API lm2_r3_u16 lm2_r3_max_u16(lm2_r3_u16 a, lm2_r3_u16 b);
-LM2_API lm2_r3_u16 lm2_r3_clamp_u16(lm2_r3_u16 a, lm2_r3_u16 b, lm2_r3_u16 c);
-LM2_API lm2_r3_u16 lm2_r3_lerp_u16(lm2_r3_u16 a, lm2_r3_u16 b, lm2_r3_u16 c);
+LM2_API lm2_r3_u16 lm2_r3_clamp_u16(lm2_r3_u16 value, lm2_r3_u16 min, lm2_r3_u16 max);
+LM2_API lm2_r3_u16 lm2_r3_lerp_u16(lm2_r3_u16 a, lm2_r3_u16 t, lm2_r3_u16 b);
 LM2_API lm2_r3_u16 lm2_r3_union_u16(lm2_r3_u16 a, lm2_r3_u16 b);
 LM2_API lm2_r3_u16 lm2_r3_intersection_u16(lm2_r3_u16 a, lm2_r3_u16 b);
 LM2_API lm2_r3_u16 lm2_r3_scale_from_center_s_u16(lm2_r3_u16 r, uint16_t scale);
@@ -657,8 +677,8 @@ LM2_API lm2_r3_u8 lm2_r3_round_multiple_u8(lm2_r3_u8 a, lm2_r3_u8 b);
 LM2_API lm2_r3_u8 lm2_r3_trunc_multiple_u8(lm2_r3_u8 a, lm2_r3_u8 b);
 LM2_API lm2_r3_u8 lm2_r3_min_u8(lm2_r3_u8 a, lm2_r3_u8 b);
 LM2_API lm2_r3_u8 lm2_r3_max_u8(lm2_r3_u8 a, lm2_r3_u8 b);
-LM2_API lm2_r3_u8 lm2_r3_clamp_u8(lm2_r3_u8 a, lm2_r3_u8 b, lm2_r3_u8 c);
-LM2_API lm2_r3_u8 lm2_r3_lerp_u8(lm2_r3_u8 a, lm2_r3_u8 b, lm2_r3_u8 c);
+LM2_API lm2_r3_u8 lm2_r3_clamp_u8(lm2_r3_u8 value, lm2_r3_u8 min, lm2_r3_u8 max);
+LM2_API lm2_r3_u8 lm2_r3_lerp_u8(lm2_r3_u8 a, lm2_r3_u8 t, lm2_r3_u8 b);
 LM2_API lm2_r3_u8 lm2_r3_union_u8(lm2_r3_u8 a, lm2_r3_u8 b);
 LM2_API lm2_r3_u8 lm2_r3_intersection_u8(lm2_r3_u8 a, lm2_r3_u8 b);
 LM2_API lm2_r3_u8 lm2_r3_scale_from_center_s_u8(lm2_r3_u8 r, uint8_t scale);

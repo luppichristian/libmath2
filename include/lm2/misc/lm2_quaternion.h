@@ -39,6 +39,21 @@ LM2_HEADER_BEGIN;
 // Format: q = w + xi + yj + zk
 // Where w is the scalar part, and (x, y, z) is the vector part.
 //
+// Angles are radians, rotations are active and follow the right-hand rule.
+// rotate_vector and to_euler expect a unit quaternion; matrix conversion
+// normalizes a nonzero input.
+// multiply(a, b) is the Hamilton product: b acts first, then a.
+// from_axis_angle normalizes a nonzero axis; inverse and norm require nonzero q.
+// from_euler(pitch, yaw, roll) uses pitch about Y, yaw about Z, roll about X,
+// composing Rz(yaw) * Ry(pitch) * Rx(roll). from_euler_vec passes x,y,z as
+// pitch,yaw,roll. to_euler returns the same ordering, with pitch in [-pi/2,
+// pi/2]; Euler representations are non-unique near gimbal lock.
+// to_axis_angle requires non-null outputs; for |q.xyz| squared below 1e-10
+// in either precision, it returns axis (1,0,0) and angle 0.
+// slerp and nlerp expect unit inputs, choose the shorter quaternion arc, and
+// do not clamp t. nlerp normalizes its result; slerp uses nlerp for close
+// inputs. equals compares components, so q and -q need not compare equal.
+//
 // Benefits over Euler angles:
 // - No gimbal lock
 // - Smooth interpolation (SLERP)

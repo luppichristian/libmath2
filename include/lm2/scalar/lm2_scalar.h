@@ -30,6 +30,20 @@ SOFTWARE.
 LM2_HEADER_BEGIN;
 // #############################################################################
 
+// Floating inputs must be finite. Rounding follows C floor, ceil, round
+// (halfway away from zero), and trunc (toward zero). A multiple must be finite
+// and nonzero; each multiple function computes operation(a / multiple) *
+// multiple, so a negative multiple reverses floor/ceil direction in a's space.
+// sign returns +1 for zero; sign0 returns zero. Signed integer abs cannot
+// represent the minimum value. clamp requires min <= max. lerp and alpha do
+// not clamp: lerp(a,t,b) extrapolates and alpha requires a != b. smoothstep
+// clamps its normalized parameter and requires distinct edges. fract is
+// a - floor(a), so its result is nonnegative for finite negative a. sqrt
+// requires a >= 0; pow requires an integer exponent when base is negative.
+// pow returns the C library result without checking it; e.g. zero to a negative
+// exponent or overflow can yield infinity. Arithmetic intermediates use safe
+// ops where applicable.
+//
 // Floor
 LM2_API double lm2_floor_f64(double a);
 LM2_API float lm2_floor_f32(float a);

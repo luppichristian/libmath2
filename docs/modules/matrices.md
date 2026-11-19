@@ -1,8 +1,3 @@
----
-layout: default
-title: Matrices
----
-
 # Matrices
 
 ## Overview
@@ -23,6 +18,16 @@ Matrices are essential for combining translation, rotation, and scaling transfor
 | `lm2_m3x3_f32` | `float` | 3x3 matrix |
 | `lm2_m4x4_f64` | `double` | 4x4 3D transformation matrix |
 | `lm2_m4x4_f32` | `float` | 4x4 3D transformation matrix |
+
+## Conventions and transforms
+
+Matrices use row-major storage but multiply column vectors on the right. `mul(a, b)` computes `a * b`, so `b` acts first. The coordinate spaces are determined by the matrices supplied: for example, `projection * view * model` maps model-space points to homogeneous clip coordinates; dividing by clip W produces normalized device coordinates.
+
+Angles are radians. The 2D rotation builders turn +X toward +Y for a positive angle (counterclockwise when X points right and Y points up). The 3D rotation builders follow the right-hand rule. `rotate_axis` normalizes its axis and requires a nonzero axis. The 2D `world_transform` is `T * R * S`; the 4x4 version is `T * Rx * Ry * Rz * S`, applying scale, Z, Y, X, then translation.
+
+Point transforms append a homogeneous 1; direction transforms append 0 and ignore translation. The 3x3 and 4x4 point functions divide by the computed homogeneous `w` when `|w - 1|` exceeds `1e-10` for f64 or `1e-6` for f32. In that case, `|w|` must exceed the same threshold. The full `transform` functions return all homogeneous components without dividing. Array transforms require non-null pointers even when count is zero. Exact in-place operation is supported; partially overlapping source and destination ranges can overwrite unread elements.
+
+Scale getters return the lengths of the linear-part columns, so they do not recover negative scale signs and are not a general decomposition of shear. The 2D rotation getter computes `atan2(m10, m00)`; translation getters read the last affine column.
 
 ## Inversion requirements and numerical limits
 
@@ -105,7 +110,7 @@ All functions shown with `_f32` suffix. Also available with `_f64`.
 
 | Function | Description |
 |----------|-------------|
-| `lm2_m3x2_ortho_f32(left, right, bottom, top)` | 2D orthographic projection |
+| `lm2_m3x2_ortho_f32(left, right, bottom, top)` | Maps left/right and bottom/top to -1/+1; each absolute extent must exceed `1e-6` in both precisions |
 
 ---
 
@@ -121,7 +126,7 @@ Row-major, 9 elements:
 
 Access via named fields (`m.m00`, ...) or flat array (`m.e[0]` through `m.e[8]`).
 
-Used for 2D homogeneous transformations (with implicit bottom row `[0 0 1]`) or 3D rotation matrices.
+All nine elements are stored. The 2D affine builders use bottom row `[0 0 1]`; other bottom rows can represent projective transforms. The matrix also supports general 3D linear transforms.
 
 ## Functions (3x3)
 
@@ -240,13 +245,13 @@ Access via named fields (`m.m00`, `m.m01`, ...) or flat array (`m.e[0]` through 
 
 #### `lm2_m4x4_look_at_f32`
 
-Build a view matrix from eye position, target, and up vector.
+Build a right-handed world-to-view matrix: the eye maps to the origin and the direction from eye to target maps to negative Z. The rows contain right, corrected up, and negative forward. The length of `target - eye` and the length of the cross product of normalized forward with `up` must each exceed `1e-10` for f64 or `1e-6` for f32.
 
 **Signature:** `lm2_m4x4_f32 lm2_m4x4_look_at_f32(lm2_v3_f32 eye, lm2_v3_f32 target, lm2_v3_f32 up)`
 
 #### `lm2_m4x4_perspective_f32`
 
-Build a perspective projection matrix.
+Build a right-handed perspective projection from view space looking down negative Z. After homogeneous division, `z = -near_plane` maps to NDC -1 and `z = -far_plane` maps to +1; `w_clip = -z_view`. For a conventional frustum use positive aspect, `0 < fov_y < π`, and `0 < near_plane < far_plane`. The absolute values of aspect, tangent of half FOV, and far-minus-near must exceed `1e-10` for f64 or `1e-6` for f32.
 
 **Signature:** `lm2_m4x4_f32 lm2_m4x4_perspective_f32(float fov_y, float aspect, float near_plane, float far_plane)`
 
@@ -258,7 +263,7 @@ Build a perspective projection matrix.
 
 #### `lm2_m4x4_ortho_f32`
 
-Build an orthographic projection matrix.
+Build a right-handed orthographic projection from view space to NDC. Left/right and bottom/top map to -1/+1; view-space `z = -near_plane` and `z = -far_plane` map to -1 and +1. The absolute separation of each pair of bounds must exceed `1e-10` for f64 or `1e-6` for f32.
 
 **Signature:** `lm2_m4x4_f32 lm2_m4x4_ortho_f32(float left, float right, float bottom, float top, float near_plane, float far_plane)`
 
@@ -266,8 +271,8 @@ Build an orthographic projection matrix.
 
 | Function | Description |
 |----------|-------------|
-| `lm2_m4x4_from_quat_f32(q)` | Convert quaternion to 4x4 rotation matrix |
-| `lm2_m4x4_to_quat_f32(m)` | Extract quaternion from rotation matrix |
+| `lm2_m4x4_from_quat_f32(q)` | Normalize a nonzero quaternion and convert it to a 4x4 rotation matrix |
+| `lm2_m4x4_to_quat_f32(m)` | Extract a quaternion from the orthonormal upper-left 3x3 rotation |
 
 ## Example
 

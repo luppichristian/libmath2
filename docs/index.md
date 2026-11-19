@@ -1,15 +1,12 @@
----
-layout: default
-title: Home
----
-
 # libmath2
 
 A comprehensive C/C++ mathematics library for 2D/3D vector operations, matrix transformations, quaternion rotations, collision detection, and more.
 
 ## Overview
 
-libmath2 provides a complete set of mathematical primitives for graphics, game development, and physics simulations. All core types support multiple numeric precisions (f64, f32, i64, i32, i16, i8, u64, u32, u16, u8) with consistent naming conventions and first-class C/C++ interoperability.
+libmath2 provides a complete set of mathematical primitives for graphics, game development, and physics simulations. Vectors and ranges support floating-point and signed and unsigned integer types; matrices, cameras, and many geometric operations use f32 and f64. The API uses consistent naming conventions and supports C and C++.
+
+See [Getting Started](getting-started.md) for installation and usage instructions.
 
 ## Quick Start
 
@@ -21,9 +18,14 @@ cmake --build build
 ```c
 #include <lm2.h>
 
-lm2_v3 pos = lm2_v3_make_f32(1.0f, 2.0f, 3.0f);
-lm2_v3 dir = lm2_v3_norm_f32(pos);
-float  len = lm2_v3_length_f32(pos);
+int main(void) {
+    lm2_v3_f32 pos = lm2_v3_make_f32(1.0f, 2.0f, 3.0f);
+    lm2_v3_f32 dir = lm2_v3_norm_f32(pos);
+    float len = lm2_v3_length_f32(pos);
+    (void)dir;
+    (void)len;
+    return 0;
+}
 ```
 
 ## Modules
@@ -42,14 +44,14 @@ float  len = lm2_v3_length_f32(pos);
 | [Cameras](modules/cameras.md) | 2D orthographic and 3D perspective/orthographic camera types with view matrix and space transform helpers |
 | [Quaternions](modules/quaternions.md) | Rotation quaternions with SLERP, Euler, and axis-angle conversions |
 | [Bezier Curves](modules/bezier-curves.md) | Linear, quadratic, and cubic Bezier evaluation, derivatives, splitting |
-| [Easings](modules/easings.md) | 30 easing functions for animation and tweening |
+| [Easings](modules/easings.md) | 31 easing functions for animation and tweening |
 | [Noise](modules/noise.md) | Perlin and Voronoi noise generation |
 | [Hash](modules/hash.md) | Non-cryptographic hash functions and FNV-1a |
 | [Extensions](modules/extensions.md) | C11 generics, C++ overloads, and operator overloads |
 
 ## Naming Convention
 
-All functions follow the pattern:
+Most type-specialized functions follow the pattern:
 
 ```
 lm2_<module>_<operation>_<type>
