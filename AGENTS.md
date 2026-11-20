@@ -14,6 +14,10 @@ Keep extraction local. Do not use Graphify Cloud or a remote semantic backend fo
 - Public identifiers use the `lm2_` prefix; primitive specialization suffixes such as `f32`, `f64`, `i32`, and `u32` go at the end.
 - Place related functionality in existing modules where appropriate. Modules generally have a public header under `include/lm2/<category>/`, an implementation under `src/<category>/`, and tests under `tests/<category>/`.
 
+## Arithmetic implementation
+
+- Use the typed `lm2_safe_ops` functions for applicable runtime numeric arithmetic. Preserve intentional unsigned wraparound, subnormal-sensitive or widened geometry calculations, and the primitive operations inside `lm2_safe_ops.c`; checked operations do not support all of those cases.
+
 ## Changing the public API
 
 - Keep declarations, definitions, call sites, and unit tests consistent. Write tests for new functionality and update tests for changed behavior.

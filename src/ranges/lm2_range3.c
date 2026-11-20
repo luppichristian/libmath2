@@ -265,7 +265,7 @@ SOFTWARE.
 #define _LM2_IMPL_R3_VOLUME(type_name, vec_type, scalar_type, scalar_suffix) \
   LM2_API scalar_type lm2_r3_volume_##scalar_suffix(type_name r) {           \
     vec_type size = lm2_v3_sub_##scalar_suffix(r.max, r.min);                \
-    return size.x * size.y * size.z;                                         \
+    return lm2_mul_##scalar_suffix(lm2_mul_##scalar_suffix(size.x, size.y), size.z); \
   }
 
 #define _LM2_IMPL_R3_NORMALIZE(type_name, vec_type, scalar_type, scalar_suffix) \

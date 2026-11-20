@@ -592,8 +592,8 @@ LM2_API void lm2_manifold_aabb_to_capsule_f64(lm2_r2_f64 aabb, lm2_capsule2_f64 
   lm2_polygon_f64 polygon = {vertices, 4};
   lm2_manifold_capsule_to_polygon_f64(capsule, polygon, out_manifold);
   if (out_manifold->count) {
-    out_manifold->normal.x = -out_manifold->normal.x;
-    out_manifold->normal.y = -out_manifold->normal.y;
+    out_manifold->normal.x = lm2_neg_f64(out_manifold->normal.x);
+    out_manifold->normal.y = lm2_neg_f64(out_manifold->normal.y);
   }
 }
 
@@ -1250,8 +1250,8 @@ LM2_API void lm2_manifold_triangle_to_circle_f64(const lm2_triangle2_f64 tri, lm
   lm2_polygon_f64 polygon = {vertices, 3};
   lm2_manifold_circle_to_polygon_f64(circle, polygon, out_manifold);
   if (out_manifold->count > 0) {
-    out_manifold->normal.x = -out_manifold->normal.x;
-    out_manifold->normal.y = -out_manifold->normal.y;
+    out_manifold->normal.x = lm2_neg_f64(out_manifold->normal.x);
+    out_manifold->normal.y = lm2_neg_f64(out_manifold->normal.y);
   }
 }
 
@@ -1261,8 +1261,8 @@ LM2_API void lm2_manifold_triangle_to_aabb_f64(const lm2_triangle2_f64 tri, lm2_
   _lm2_box_vertices_f64(aabb, box);
   _lm2_polygon_manifold_f64(box, 4, tri, 3, out_manifold);
   if (out_manifold->count > 0) {
-    out_manifold->normal.x = -out_manifold->normal.x;
-    out_manifold->normal.y = -out_manifold->normal.y;
+    out_manifold->normal.x = lm2_neg_f64(out_manifold->normal.x);
+    out_manifold->normal.y = lm2_neg_f64(out_manifold->normal.y);
   }
 }
 
@@ -1272,8 +1272,8 @@ LM2_API void lm2_manifold_triangle_to_capsule_f64(const lm2_triangle2_f64 tri, l
   lm2_polygon_f64 polygon = {vertices, 3};
   lm2_manifold_capsule_to_polygon_f64(capsule, polygon, out_manifold);
   if (out_manifold->count > 0) {
-    out_manifold->normal.x = -out_manifold->normal.x;
-    out_manifold->normal.y = -out_manifold->normal.y;
+    out_manifold->normal.x = lm2_neg_f64(out_manifold->normal.x);
+    out_manifold->normal.y = lm2_neg_f64(out_manifold->normal.y);
   }
 }
 
@@ -1302,8 +1302,8 @@ LM2_API void lm2_manifold_triangle_to_circle_f32(const lm2_triangle2_f32 tri, lm
   c2Poly poly = lm2_triangle2_f32_to_c2(tri);
   c2CircletoPolyManifold(lm2_circle_f32_to_c2(circle), &poly, NULL, &m);
   if (m.count > 0) {
-    m.n.x = -m.n.x;
-    m.n.y = -m.n.y;
+    m.n.x = lm2_neg_f32(m.n.x);
+    m.n.y = lm2_neg_f32(m.n.y);
   }
   c2_manifold_to_lm2_f32(m, out_manifold);
 }
@@ -1314,8 +1314,8 @@ LM2_API void lm2_manifold_triangle_to_aabb_f32(const lm2_triangle2_f32 tri, lm2_
   c2Poly poly = lm2_triangle2_f32_to_c2(tri);
   c2AABBtoPolyManifold(lm2_r2_f32_to_c2(aabb), &poly, NULL, &m);
   if (m.count > 0) {
-    m.n.x = -m.n.x;
-    m.n.y = -m.n.y;
+    m.n.x = lm2_neg_f32(m.n.x);
+    m.n.y = lm2_neg_f32(m.n.y);
   }
   c2_manifold_to_lm2_f32(m, out_manifold);
 }
@@ -1326,8 +1326,8 @@ LM2_API void lm2_manifold_triangle_to_capsule_f32(const lm2_triangle2_f32 tri, l
   c2Poly poly = lm2_triangle2_f32_to_c2(tri);
   c2CapsuletoPolyManifold(lm2_capsule2_f32_to_c2(capsule), &poly, NULL, &m);
   if (m.count > 0) {
-    m.n.x = -m.n.x;
-    m.n.y = -m.n.y;
+    m.n.x = lm2_neg_f32(m.n.x);
+    m.n.y = lm2_neg_f32(m.n.y);
   }
   c2_manifold_to_lm2_f32(m, out_manifold);
 }

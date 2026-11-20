@@ -25,6 +25,8 @@ SOFTWARE.
 #include <gtest/gtest.h>
 #include <cmath>
 #include "lm2/ranges/lm2_range2.h"
+#include "lm2/ranges/lm2_range3.h"
+#include "lm2/ranges/lm2_range4.h"
 
 // Test fixture for range2 tests
 class Range2Test : public ::testing::Test {
@@ -453,6 +455,15 @@ TEST_F(Range2Test, Area_F64) {
   double area = lm2_r2_area_f64(r);
 
   EXPECT_DOUBLE_EQ(area, 16.0);  // (5-1) * (6-2) = 4 * 4
+}
+
+TEST_F(Range2Test, RangeMeasuresRejectIntegerOverflow) {
+  auto area = lm2_r2_from_min_max_u8(lm2_v2_make_u8(0, 0), lm2_v2_make_u8(16, 16));
+  auto volume = lm2_r3_from_min_max_u8(lm2_v3_make_u8(0, 0, 0), lm2_v3_make_u8(4, 4, 16));
+  auto hypervolume = lm2_r4_from_min_max_u8(lm2_v4_make_u8(0, 0, 0, 0), lm2_v4_make_u8(4, 4, 2, 8));
+  EXPECT_DEATH((void)lm2_r2_area_u8(area), "");
+  EXPECT_DEATH((void)lm2_r3_volume_u8(volume), "");
+  EXPECT_DEATH((void)lm2_r4_hypervolume_u8(hypervolume), "");
 }
 
 TEST_F(Range2Test, ContainsPoint_F64) {

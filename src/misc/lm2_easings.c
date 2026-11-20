@@ -54,7 +54,7 @@ LM2_API double lm2_ease_sin_out_f64(double t) {
 }
 
 LM2_API double lm2_ease_sin_in_out_f64(double t) {
-  return lm2_div_f64(-lm2_sub_f64(lm2_cos_f64(lm2_mul_f64(LM2_PI_F64, t)), 1.0), 2.0);
+  return lm2_div_f64(lm2_neg_f64(lm2_sub_f64(lm2_cos_f64(lm2_mul_f64(LM2_PI_F64, t)), 1.0)), 2.0);
 }
 
 LM2_API float lm2_ease_sin_in_f32(float t) {
@@ -66,7 +66,7 @@ LM2_API float lm2_ease_sin_out_f32(float t) {
 }
 
 LM2_API float lm2_ease_sin_in_out_f32(float t) {
-  return lm2_div_f32(-lm2_sub_f32(lm2_cos_f32(lm2_mul_f32(LM2_PI_F32, t)), 1.0f), 2.0f);
+  return lm2_div_f32(lm2_neg_f32(lm2_sub_f32(lm2_cos_f32(lm2_mul_f32(LM2_PI_F32, t)), 1.0f)), 2.0f);
 }
 
 // =============================================================================
@@ -308,7 +308,7 @@ LM2_API double lm2_ease_elastic_in_f64(double t) {
 
   if (t == 0.0) return 0.0;
   if (t == 1.0) return 1.0;
-  return -lm2_mul_f64(lm2_pow_f64(2.0, lm2_sub_f64(lm2_mul_f64(10.0, t), 10.0)), lm2_sin_f64(lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(t, 10.0), 10.75), c4)));
+  return lm2_neg_f64(lm2_mul_f64(lm2_pow_f64(2.0, lm2_sub_f64(lm2_mul_f64(10.0, t), 10.0)), lm2_sin_f64(lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(t, 10.0), 10.75), c4))));
 }
 
 LM2_API double lm2_ease_elastic_out_f64(double t) {
@@ -326,7 +326,7 @@ LM2_API double lm2_ease_elastic_in_out_f64(double t) {
   if (t == 1.0) return 1.0;
 
   return t < 0.5
-             ? lm2_div_f64(-lm2_mul_f64(lm2_pow_f64(2.0, lm2_sub_f64(lm2_mul_f64(20.0, t), 10.0)), lm2_sin_f64(lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(20.0, t), 11.125), c5))), 2.0)
+             ? lm2_div_f64(lm2_neg_f64(lm2_mul_f64(lm2_pow_f64(2.0, lm2_sub_f64(lm2_mul_f64(20.0, t), 10.0)), lm2_sin_f64(lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(20.0, t), 11.125), c5)))), 2.0)
              : lm2_add_f64(lm2_div_f64(lm2_mul_f64(lm2_pow_f64(2.0, lm2_add_f64(lm2_mul_f64(-20.0, t), 10.0)), lm2_sin_f64(lm2_mul_f64(lm2_sub_f64(lm2_mul_f64(20.0, t), 11.125), c5))), 2.0), 1.0);
 }
 
@@ -335,7 +335,7 @@ LM2_API float lm2_ease_elastic_in_f32(float t) {
 
   if (t == 0.0f) return 0.0f;
   if (t == 1.0f) return 1.0f;
-  return -lm2_mul_f32(lm2_pow_f32(2.0f, lm2_sub_f32(lm2_mul_f32(10.0f, t), 10.0f)), lm2_sin_f32(lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(t, 10.0f), 10.75f), c4)));
+  return lm2_neg_f32(lm2_mul_f32(lm2_pow_f32(2.0f, lm2_sub_f32(lm2_mul_f32(10.0f, t), 10.0f)), lm2_sin_f32(lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(t, 10.0f), 10.75f), c4))));
 }
 
 LM2_API float lm2_ease_elastic_out_f32(float t) {
@@ -353,7 +353,7 @@ LM2_API float lm2_ease_elastic_in_out_f32(float t) {
   if (t == 1.0f) return 1.0f;
 
   return t < 0.5f
-             ? lm2_div_f32(-lm2_mul_f32(lm2_pow_f32(2.0f, lm2_sub_f32(lm2_mul_f32(20.0f, t), 10.0f)), lm2_sin_f32(lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(20.0f, t), 11.125f), c5))), 2.0f)
+             ? lm2_div_f32(lm2_neg_f32(lm2_mul_f32(lm2_pow_f32(2.0f, lm2_sub_f32(lm2_mul_f32(20.0f, t), 10.0f)), lm2_sin_f32(lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(20.0f, t), 11.125f), c5)))), 2.0f)
              : lm2_add_f32(lm2_div_f32(lm2_mul_f32(lm2_pow_f32(2.0f, lm2_add_f32(lm2_mul_f32(-20.0f, t), 10.0f)), lm2_sin_f32(lm2_mul_f32(lm2_sub_f32(lm2_mul_f32(20.0f, t), 11.125f), c5))), 2.0f), 1.0f);
 }
 

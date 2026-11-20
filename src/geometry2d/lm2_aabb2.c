@@ -230,19 +230,20 @@ typedef struct _lm2_integer_point {
 static _lm2_u128_pair _lm2_multiply_u64_wide(uint64_t a, uint64_t b) {
   uint64_t al = (uint32_t)a, ah = a >> 32;
   uint64_t bl = (uint32_t)b, bh = b >> 32;
-  uint64_t p00 = al * bl, p01 = al * bh, p10 = ah * bl, p11 = ah * bh;
-  uint64_t middle = (p00 >> 32) + (uint32_t)p01 + (uint32_t)p10;
-  return (_lm2_u128_pair) {p11 + (p01 >> 32) + (p10 >> 32) + (middle >> 32),
+  uint64_t p00 = lm2_mul_u64(al, bl), p01 = lm2_mul_u64(al, bh);
+  uint64_t p10 = lm2_mul_u64(ah, bl), p11 = lm2_mul_u64(ah, bh);
+  uint64_t middle = lm2_add_u64(lm2_add_u64(p00 >> 32, (uint32_t)p01), (uint32_t)p10);
+  return (_lm2_u128_pair) {lm2_add_u64(lm2_add_u64(lm2_add_u64(p11, p01 >> 32), p10 >> 32), middle >> 32),
                            (middle << 32) | (uint32_t)p00};
 }
 
 static int _lm2_integer_difference(uint64_t a, uint64_t b, uint64_t* magnitude) {
   if (a > b) {
-    *magnitude = a - b;
+    *magnitude = lm2_sub_u64(a, b);
     return 1;
   }
   if (a < b) {
-    *magnitude = b - a;
+    *magnitude = lm2_sub_u64(b, a);
     return -1;
   }
   *magnitude = 0;
@@ -255,14 +256,14 @@ static int _lm2_integer_orientation(_lm2_integer_point a, _lm2_integer_point b, 
   int sy = _lm2_integer_difference(b.y, a.y, &by);
   int tx = _lm2_integer_difference(c.x, a.x, &cx);
   int ty = _lm2_integer_difference(c.y, a.y, &cy);
-  int p_sign = sx * ty, q_sign = sy * tx;
+  int p_sign = lm2_mul_i32(sx, ty), q_sign = lm2_mul_i32(sy, tx);
   if (p_sign != q_sign) return p_sign > q_sign ? 1 : -1;
   if (p_sign == 0) return 0;
   _lm2_u128_pair p = _lm2_multiply_u64_wide(bx, cy);
   _lm2_u128_pair q = _lm2_multiply_u64_wide(by, cx);
   int cmp = p.high != q.high ? (p.high > q.high ? 1 : -1) : p.low != q.low ? (p.low > q.low ? 1 : -1)
                                                                            : 0;
-  return p_sign * cmp;
+  return lm2_mul_i32(p_sign, cmp);
 }
 
 static bool _lm2_integer_point_on_segment(_lm2_integer_point p, _lm2_integer_point a, _lm2_integer_point b) {
@@ -273,7 +274,7 @@ static bool _lm2_integer_point_on_segment(_lm2_integer_point p, _lm2_integer_poi
 static int _lm2_integer_segments_intersect(_lm2_integer_point a, _lm2_integer_point b, _lm2_integer_point c, _lm2_integer_point d) {
   int ab_c = _lm2_integer_orientation(a, b, c), ab_d = _lm2_integer_orientation(a, b, d);
   int cd_a = _lm2_integer_orientation(c, d, a), cd_b = _lm2_integer_orientation(c, d, b);
-  if (ab_c * ab_d < 0 && cd_a * cd_b < 0) return 1;
+  if (lm2_mul_i32(ab_c, ab_d) < 0 && lm2_mul_i32(cd_a, cd_b) < 0) return 1;
   return (ab_c == 0 && _lm2_integer_point_on_segment(c, a, b)) ||
          (ab_d == 0 && _lm2_integer_point_on_segment(d, a, b)) ||
          (cd_a == 0 && _lm2_integer_point_on_segment(a, c, d)) ||

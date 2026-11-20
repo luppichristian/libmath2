@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include <gtest/gtest.h>
 #include <cmath>
+#include <limits>
 #include "lm2/geometry3d/lm2_triangle3.h"
 
 // Test fixture for Triangle3 tests
@@ -462,4 +463,16 @@ TEST_F(Triangle3Test, TrianglesOverlap_NonCoplanarClassificationIsScaleInvariant
     EXPECT_TRUE(lm2_triangle3_overlaps_f32(xy, vertical, EPSILON_F32));
     EXPECT_TRUE(lm2_triangle3_overlaps_f32(vertical, xy, EPSILON_F32));
   }
+}
+
+TEST_F(Triangle3Test, TrianglesOverlap_AcceptsTinyNormalTolerance) {
+  lm2_triangle3_f64 xy64, vertical64;
+  lm2_triangle3_make_coords_f64(xy64, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0, 0.0, 0.2, 0.0);
+  lm2_triangle3_make_coords_f64(vertical64, 0.05, -0.05, -0.1, 0.05, 0.15, 0.1, 0.05, 0.15, -0.1);
+  EXPECT_TRUE(lm2_triangle3_overlaps_f64(xy64, vertical64, std::numeric_limits<double>::min()));
+
+  lm2_triangle3_f32 xy32, vertical32;
+  lm2_triangle3_make_coords_f32(xy32, 0.0f, 0.0f, 0.0f, 0.2f, 0.0f, 0.0f, 0.0f, 0.2f, 0.0f);
+  lm2_triangle3_make_coords_f32(vertical32, 0.05f, -0.05f, -0.1f, 0.05f, 0.15f, 0.1f, 0.05f, 0.15f, -0.1f);
+  EXPECT_TRUE(lm2_triangle3_overlaps_f32(xy32, vertical32, std::numeric_limits<float>::min()));
 }

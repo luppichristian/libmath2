@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include <gtest/gtest.h>
 #include <cmath>
+#include <limits>
 #include <vector>
 #include "lm2/geometry2d/lm2_raycast2.h"
 
@@ -712,6 +713,22 @@ TEST_F(Raycast2Test, CircleRaycastHandlesSmallAndLargeScales) {
     ASSERT_TRUE(inside.hit);
     EXPECT_FLOAT_EQ(inside.t, 0.0f);
   }
+}
+
+TEST_F(Raycast2Test, CircleRaycastHandlesSubnormalScales) {
+  const double radius64 = std::numeric_limits<double>::min() / 8.0;
+  const auto ray64 = lm2_ray2_make_f64({0.0, 0.0}, {1.0, 0.0}, 4.0 * radius64);
+  const auto hit64 = lm2_raycast_circle_f64(ray64, lm2_circle_make_coords_f64(2.0 * radius64, 0.0, radius64));
+  ASSERT_TRUE(hit64.hit);
+  EXPECT_DOUBLE_EQ(hit64.t, radius64);
+  EXPECT_DOUBLE_EQ(hit64.normal.x, -1.0);
+
+  const float radius32 = std::numeric_limits<float>::min() / 8.0f;
+  const auto ray32 = lm2_ray2_make_f32({0.0f, 0.0f}, {1.0f, 0.0f}, 4.0f * radius32);
+  const auto hit32 = lm2_raycast_circle_f32(ray32, lm2_circle_make_coords_f32(2.0f * radius32, 0.0f, radius32));
+  ASSERT_TRUE(hit32.hit);
+  EXPECT_FLOAT_EQ(hit32.t, radius32);
+  EXPECT_FLOAT_EQ(hit32.normal.x, -1.0f);
 }
 
 TEST_F(Raycast2Test, CapsuleRaycastHandlesSmallAndLargeScales) {

@@ -394,24 +394,28 @@ static bool lm2_triangle3_segments_intersect_projected_f64(
     double epsilon) {
   int x = drop_axis == 0 ? 1 : 0;
   int y = drop_axis == 2 ? 1 : 2;
-  double o1 = (a1.e[x] - a0.e[x]) * (b0.e[y] - a0.e[y]) - (a1.e[y] - a0.e[y]) * (b0.e[x] - a0.e[x]);
-  double o2 = (a1.e[x] - a0.e[x]) * (b1.e[y] - a0.e[y]) - (a1.e[y] - a0.e[y]) * (b1.e[x] - a0.e[x]);
-  double o3 = (b1.e[x] - b0.e[x]) * (a0.e[y] - b0.e[y]) - (b1.e[y] - b0.e[y]) * (a0.e[x] - b0.e[x]);
-  double o4 = (b1.e[x] - b0.e[x]) * (a1.e[y] - b0.e[y]) - (b1.e[y] - b0.e[y]) * (a1.e[x] - b0.e[x]);
+  double o1 = lm2_sub_f64(lm2_mul_f64(lm2_sub_f64(a1.e[x], a0.e[x]), lm2_sub_f64(b0.e[y], a0.e[y])),
+                           lm2_mul_f64(lm2_sub_f64(a1.e[y], a0.e[y]), lm2_sub_f64(b0.e[x], a0.e[x])));
+  double o2 = lm2_sub_f64(lm2_mul_f64(lm2_sub_f64(a1.e[x], a0.e[x]), lm2_sub_f64(b1.e[y], a0.e[y])),
+                           lm2_mul_f64(lm2_sub_f64(a1.e[y], a0.e[y]), lm2_sub_f64(b1.e[x], a0.e[x])));
+  double o3 = lm2_sub_f64(lm2_mul_f64(lm2_sub_f64(b1.e[x], b0.e[x]), lm2_sub_f64(a0.e[y], b0.e[y])),
+                           lm2_mul_f64(lm2_sub_f64(b1.e[y], b0.e[y]), lm2_sub_f64(a0.e[x], b0.e[x])));
+  double o4 = lm2_sub_f64(lm2_mul_f64(lm2_sub_f64(b1.e[x], b0.e[x]), lm2_sub_f64(a1.e[y], b0.e[y])),
+                           lm2_mul_f64(lm2_sub_f64(b1.e[y], b0.e[y]), lm2_sub_f64(a1.e[x], b0.e[x])));
 
-  double a_length = lm2_sqrt_f64(
-      (a1.e[x] - a0.e[x]) * (a1.e[x] - a0.e[x]) +
-      (a1.e[y] - a0.e[y]) * (a1.e[y] - a0.e[y]));
-  double b_length = lm2_sqrt_f64(
-      (b1.e[x] - b0.e[x]) * (b1.e[x] - b0.e[x]) +
-      (b1.e[y] - b0.e[y]) * (b1.e[y] - b0.e[y]));
+  double a_dx = lm2_sub_f64(a1.e[x], a0.e[x]);
+  double a_dy = lm2_sub_f64(a1.e[y], a0.e[y]);
+  double a_length = lm2_sqrt_f64(lm2_add_f64(lm2_mul_f64(a_dx, a_dx), lm2_mul_f64(a_dy, a_dy)));
+  double b_dx = lm2_sub_f64(b1.e[x], b0.e[x]);
+  double b_dy = lm2_sub_f64(b1.e[y], b0.e[y]);
+  double b_length = lm2_sqrt_f64(lm2_add_f64(lm2_mul_f64(b_dx, b_dx), lm2_mul_f64(b_dy, b_dy)));
   if (a_length > 0.0) {
-    o1 /= a_length;
-    o2 /= a_length;
+    o1 = lm2_div_f64(o1, a_length);
+    o2 = lm2_div_f64(o2, a_length);
   }
   if (b_length > 0.0) {
-    o3 /= b_length;
-    o4 /= b_length;
+    o3 = lm2_div_f64(o3, b_length);
+    o4 = lm2_div_f64(o4, b_length);
   }
 
   if (((o1 > epsilon && o2 < -epsilon) || (o1 < -epsilon && o2 > epsilon)) &&
@@ -432,24 +436,28 @@ static bool lm2_triangle3_segments_intersect_projected_f32(
     float epsilon) {
   int x = drop_axis == 0 ? 1 : 0;
   int y = drop_axis == 2 ? 1 : 2;
-  float o1 = (a1.e[x] - a0.e[x]) * (b0.e[y] - a0.e[y]) - (a1.e[y] - a0.e[y]) * (b0.e[x] - a0.e[x]);
-  float o2 = (a1.e[x] - a0.e[x]) * (b1.e[y] - a0.e[y]) - (a1.e[y] - a0.e[y]) * (b1.e[x] - a0.e[x]);
-  float o3 = (b1.e[x] - b0.e[x]) * (a0.e[y] - b0.e[y]) - (b1.e[y] - b0.e[y]) * (a0.e[x] - b0.e[x]);
-  float o4 = (b1.e[x] - b0.e[x]) * (a1.e[y] - b0.e[y]) - (b1.e[y] - b0.e[y]) * (a1.e[x] - b0.e[x]);
+  float o1 = lm2_sub_f32(lm2_mul_f32(lm2_sub_f32(a1.e[x], a0.e[x]), lm2_sub_f32(b0.e[y], a0.e[y])),
+                           lm2_mul_f32(lm2_sub_f32(a1.e[y], a0.e[y]), lm2_sub_f32(b0.e[x], a0.e[x])));
+  float o2 = lm2_sub_f32(lm2_mul_f32(lm2_sub_f32(a1.e[x], a0.e[x]), lm2_sub_f32(b1.e[y], a0.e[y])),
+                           lm2_mul_f32(lm2_sub_f32(a1.e[y], a0.e[y]), lm2_sub_f32(b1.e[x], a0.e[x])));
+  float o3 = lm2_sub_f32(lm2_mul_f32(lm2_sub_f32(b1.e[x], b0.e[x]), lm2_sub_f32(a0.e[y], b0.e[y])),
+                           lm2_mul_f32(lm2_sub_f32(b1.e[y], b0.e[y]), lm2_sub_f32(a0.e[x], b0.e[x])));
+  float o4 = lm2_sub_f32(lm2_mul_f32(lm2_sub_f32(b1.e[x], b0.e[x]), lm2_sub_f32(a1.e[y], b0.e[y])),
+                           lm2_mul_f32(lm2_sub_f32(b1.e[y], b0.e[y]), lm2_sub_f32(a1.e[x], b0.e[x])));
 
-  float a_length = lm2_sqrt_f32(
-      (a1.e[x] - a0.e[x]) * (a1.e[x] - a0.e[x]) +
-      (a1.e[y] - a0.e[y]) * (a1.e[y] - a0.e[y]));
-  float b_length = lm2_sqrt_f32(
-      (b1.e[x] - b0.e[x]) * (b1.e[x] - b0.e[x]) +
-      (b1.e[y] - b0.e[y]) * (b1.e[y] - b0.e[y]));
+  float a_dx = lm2_sub_f32(a1.e[x], a0.e[x]);
+  float a_dy = lm2_sub_f32(a1.e[y], a0.e[y]);
+  float a_length = lm2_sqrt_f32(lm2_add_f32(lm2_mul_f32(a_dx, a_dx), lm2_mul_f32(a_dy, a_dy)));
+  float b_dx = lm2_sub_f32(b1.e[x], b0.e[x]);
+  float b_dy = lm2_sub_f32(b1.e[y], b0.e[y]);
+  float b_length = lm2_sqrt_f32(lm2_add_f32(lm2_mul_f32(b_dx, b_dx), lm2_mul_f32(b_dy, b_dy)));
   if (a_length > 0.0f) {
-    o1 /= a_length;
-    o2 /= a_length;
+    o1 = lm2_div_f32(o1, a_length);
+    o2 = lm2_div_f32(o2, a_length);
   }
   if (b_length > 0.0f) {
-    o3 /= b_length;
-    o4 /= b_length;
+    o3 = lm2_div_f32(o3, b_length);
+    o4 = lm2_div_f32(o4, b_length);
   }
 
   if (((o1 > epsilon && o2 < -epsilon) || (o1 < -epsilon && o2 > epsilon)) &&
@@ -469,7 +477,7 @@ static bool lm2_triangle3_edge_intersects_f64(lm2_v3_f64 start, lm2_v3_f64 end, 
   if (normal_length == 0.0 || direction_length == 0.0) return false;
   double denominator = lm2_v3_dot_f64(normal, direction);
   if (lm2_abs_f64(denominator) <= epsilon * normal_length * direction_length) return false;
-  double t = lm2_v3_dot_f64(normal, lm2_v3_sub_f64(tri[0], start)) / denominator;
+  double t = lm2_div_f64(lm2_v3_dot_f64(normal, lm2_v3_sub_f64(tri[0], start)), denominator);
   double parameter_epsilon = epsilon / direction_length;
   if (t < -parameter_epsilon || t > 1.0 + parameter_epsilon) return false;
   return lm2_triangle3_contains_point_f64(tri, lm2_v3_add_f64(start, lm2_v3_mul_s_f64(direction, t)), epsilon);
@@ -483,7 +491,7 @@ static bool lm2_triangle3_edge_intersects_f32(lm2_v3_f32 start, lm2_v3_f32 end, 
   if (normal_length == 0.0f || direction_length == 0.0f) return false;
   float denominator = lm2_v3_dot_f32(normal, direction);
   if (lm2_abs_f32(denominator) <= epsilon * normal_length * direction_length) return false;
-  float t = lm2_v3_dot_f32(normal, lm2_v3_sub_f32(tri[0], start)) / denominator;
+  float t = lm2_div_f32(lm2_v3_dot_f32(normal, lm2_v3_sub_f32(tri[0], start)), denominator);
   float parameter_epsilon = epsilon / direction_length;
   if (t < -parameter_epsilon || t > 1.0f + parameter_epsilon) return false;
   return lm2_triangle3_contains_point_f32(tri, lm2_v3_add_f32(start, lm2_v3_mul_s_f32(direction, t)), epsilon);

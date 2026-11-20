@@ -48,12 +48,6 @@ static double _lm2_noise_mul_f64(double a, double b) {
 static float _lm2_noise_mul_f32(float a, float b) {
   return a * b;
 }
-static double _lm2_noise_div_f64(double a, double b) {
-  return a / b;
-}
-static float _lm2_noise_div_f32(float a, float b) {
-  return a / b;
-}
 static double _lm2_noise_lerp_f64(double a, double t, double b) {
   return a + t * (b - a);
 }
@@ -657,11 +651,11 @@ static uint32_t _lm2_noise_hash3(uint32_t x, uint32_t y, uint32_t z, uint32_t se
 
 // Convert hash to [0, 1) range
 static double _lm2_hash_to_f64(uint32_t h) {
-  return _lm2_noise_div_f64((double)(h & 0x7FFFFFFFu), (double)0x7FFFFFFFu);
+  return lm2_div_f64((double)(h & 0x7FFFFFFFu), (double)0x7FFFFFFFu);
 }
 
 static float _lm2_hash_to_f32(uint32_t h) {
-  return _lm2_noise_div_f32((float)(h & 0x7FFFFFFFu), (float)0x7FFFFFFFu);
+  return lm2_div_f32((float)(h & 0x7FFFFFFFu), (float)0x7FFFFFFFu);
 }
 
 // =============================================================================
@@ -670,12 +664,12 @@ static float _lm2_hash_to_f32(uint32_t h) {
 
 // Reduce before converting to int: finite coordinates can exceed INT_MAX.
 static int _lm2_perlin_cell_f64(double cell) {
-  int wrapped = (int)fmod(cell, 256.0);
+  int wrapped = (int)lm2_mod_f64(cell, 256.0);
   return wrapped < 0 ? wrapped + 256 : wrapped;
 }
 
 static int _lm2_perlin_cell_f32(float cell) {
-  int wrapped = (int)fmodf(cell, 256.0f);
+  int wrapped = (int)lm2_mod_f32(cell, 256.0f);
   return wrapped < 0 ? wrapped + 256 : wrapped;
 }
 
@@ -838,8 +832,8 @@ LM2_API float lm2_perlin3_f32(float x, float y, float z) {
 // The hash uses 32-bit modular arithmetic; wrap in floating point before the
 // conversion so even finite coordinates outside the signed integer range work.
 static uint32_t _lm2_voronoi_cell(double cell) {
-  double wrapped = fmod(cell, 4294967296.0);
-  if (wrapped < 0.0) wrapped += 4294967296.0;
+  double wrapped = lm2_mod_f64(cell, 4294967296.0);
+  if (wrapped < 0.0) wrapped = lm2_add_f64(wrapped, 4294967296.0);
   return (uint32_t)wrapped;
 }
 

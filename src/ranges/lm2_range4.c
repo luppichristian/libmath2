@@ -271,7 +271,8 @@ SOFTWARE.
 #define _LM2_IMPL_R4_HYPERVOLUME(type_name, vec_type, scalar_type, scalar_suffix) \
   LM2_API scalar_type lm2_r4_hypervolume_##scalar_suffix(type_name r) {           \
     vec_type size = lm2_v4_sub_##scalar_suffix(r.max, r.min);                     \
-    return size.x * size.y * size.z * size.w;                                     \
+    return lm2_mul_##scalar_suffix(                                                \
+        lm2_mul_##scalar_suffix(lm2_mul_##scalar_suffix(size.x, size.y), size.z), size.w); \
   }
 
 #define _LM2_IMPL_R4_NORMALIZE(type_name, vec_type, scalar_type, scalar_suffix) \

@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include <gtest/gtest.h>
 #include <cmath>
+#include <limits>
 #include "lm2/camera/lm2_camera2.h"
 #include "lm2/lm2_constants.h"
 
@@ -32,6 +33,13 @@ class Camera2Test : public ::testing::Test {
   static constexpr float EPSILON_F32 = 1e-5f;
   static constexpr double EPSILON_F64 = 1e-9;
 };
+
+TEST_F(Camera2Test, MoveRejectsOverflow) {
+  lm2_camera2_f64 camera{};
+  camera.position.x = std::numeric_limits<double>::max();
+  lm2_v2_f64 delta = {std::numeric_limits<double>::max(), 0.0};
+  EXPECT_DEATH((void)lm2_camera2_move_f64(camera, delta), "");
+}
 
 // =============================================================================
 // Construction - f64

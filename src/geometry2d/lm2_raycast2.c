@@ -141,7 +141,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_circle_f64(lm2_ray2_f64 ray, lm2_circle_f64 
   // rounded t can cancel a small radius when the ray begins very far away.
   lm2_v2_f64 relative_hit = {
       signed_perpendicular * uy - half_chord * ux,
-      -signed_perpendicular * ux - half_chord * uy};
+      lm2_neg_f64(signed_perpendicular) * ux - half_chord * uy};
   result.point = (lm2_v2_f64) {circle.center.x + relative_hit.x,
                                circle.center.y + relative_hit.y};
   double normal_len = hypot(relative_hit.x, relative_hit.y);
@@ -237,7 +237,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_capsule2_f64(lm2_ray2_f64 ray, lm2_capsule2_
       const double dot = uy * ray.direction.x - ux * ray.direction.y;
       if (dot != 0.0) {
         const double sign = dot > 0.0 ? -1.0 : 1.0;
-        result.normal = (lm2_v2_f64) {sign * uy, -sign * ux};
+        result.normal = (lm2_v2_f64) {sign * uy, lm2_neg_f64(sign) * ux};
       }
     }
   }
@@ -340,7 +340,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_circle_f32(lm2_ray2_f32 ray, lm2_circle_f32 
   result.t = t;
   lm2_v2_f32 relative_hit = {
       signed_perpendicular * uy - half_chord * ux,
-      -signed_perpendicular * ux - half_chord * uy};
+      lm2_neg_f32(signed_perpendicular) * ux - half_chord * uy};
   result.point = (lm2_v2_f32) {circle.center.x + relative_hit.x,
                                circle.center.y + relative_hit.y};
   float normal_len = hypotf(relative_hit.x, relative_hit.y);
@@ -410,7 +410,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_capsule2_f32(lm2_ray2_f32 ray, lm2_capsule2_
       float dot = uy * ray.direction.x - ux * ray.direction.y;
       if (dot != 0.0f) {
         float sign = dot > 0.0f ? -1.0f : 1.0f;
-        result.normal = (lm2_v2_f32) {sign * uy, -sign * ux};
+        result.normal = (lm2_v2_f32) {sign * uy, lm2_neg_f32(sign) * ux};
       }
     }
   }

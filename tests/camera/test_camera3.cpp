@@ -24,10 +24,18 @@ SOFTWARE.
 
 #include <gtest/gtest.h>
 #include <cmath>
+#include <limits>
 #include "lm2/camera/lm2_camera3.h"
 #include "lm2/lm2_constants.h"
 #include "lm2/matrices/lm2_matrix4x4.h"
 #include "lm2/misc/lm2_quaternion.h"
+
+TEST(Camera3SafeArithmeticTest, MoveRejectsOverflow) {
+  lm2_camera3_f32 camera{};
+  camera.position.x = std::numeric_limits<float>::max();
+  lm2_v3_f32 delta = {std::numeric_limits<float>::max(), 0.0f, 0.0f};
+  EXPECT_DEATH((void)lm2_camera3_move_f32(camera, delta), "");
+}
 
 class Camera3Test : public ::testing::Test {
  protected:

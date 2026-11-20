@@ -259,7 +259,7 @@ SOFTWARE.
 #define _LM2_IMPL_R2_AREA(type_name, vec_type, scalar_type, scalar_suffix) \
   LM2_API scalar_type lm2_r2_area_##scalar_suffix(type_name r) {           \
     vec_type size = lm2_v2_sub_##scalar_suffix(r.max, r.min);              \
-    return size.x * size.y;                                                \
+    return lm2_mul_##scalar_suffix(size.x, size.y);                        \
   }
 
 #define _LM2_IMPL_R2_SCALE_FROM_CENTER(type_name, vec_type, scalar_type, scalar_suffix) \

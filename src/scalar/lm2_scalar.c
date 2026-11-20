@@ -146,22 +146,22 @@ LM2_API float lm2_abs_f32(float a) {
 
 LM2_API int64_t lm2_abs_i64(int64_t a) {
   LM2_ASSERT(a != INT64_MIN);
-  return (a < 0) ? -a : a;
+  return (a < 0) ? lm2_neg_i64(a) : a;
 }
 
 LM2_API int32_t lm2_abs_i32(int32_t a) {
   LM2_ASSERT(a != INT32_MIN);
-  return (a < 0) ? -a : a;
+  return (a < 0) ? lm2_neg_i32(a) : a;
 }
 
 LM2_API int16_t lm2_abs_i16(int16_t a) {
   LM2_ASSERT(a != INT16_MIN);
-  return (a < 0) ? -a : a;
+  return (a < 0) ? lm2_neg_i16(a) : a;
 }
 
 LM2_API int8_t lm2_abs_i8(int8_t a) {
   LM2_ASSERT(a != INT8_MIN);
-  return (a < 0) ? -a : a;
+  return (a < 0) ? lm2_neg_i8(a) : a;
 }
 
 // =============================================================================

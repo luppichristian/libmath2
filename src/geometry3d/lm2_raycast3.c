@@ -891,28 +891,28 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_edge_f64(lm2_ray3_f64 ray, lm2_v3_f64 edge_s
   double t = 0.0, u = 0.0;
 
   if (a == 0.0) {
-    if (c != 0.0) u = e / c;
+    if (c != 0.0) u = lm2_div_f64(e, c);
     if (u < 0.0) u = 0.0;
     if (u > 1.0) u = 1.0;
   } else if (c == 0.0) {
-    t = -d / a;
+    t = lm2_div_f64(lm2_neg_f64(d), a);
     if (t < 0.0) t = 0.0;
     if (t > ray.t_max) t = ray.t_max;
   } else {
     lm2_v3_f64 cross = lm2_v3_cross_f64(ray.direction, edge);
     double denom = lm2_v3_dot_f64(cross, cross);
-    if (denom > 0.0) t = lm2_v3_dot_f64(lm2_v3_cross_f64(edge, offset), cross) / denom;
+    if (denom > 0.0) t = lm2_div_f64(lm2_v3_dot_f64(lm2_v3_cross_f64(edge, offset), cross), denom);
     if (t < 0.0) t = 0.0;
     if (t > ray.t_max) t = ray.t_max;
-    u = (e + b * t) / c;
+    u = lm2_div_f64(lm2_add_f64(e, lm2_mul_f64(b, t)), c);
     if (u < 0.0) {
       u = 0.0;
-      t = -d / a;
+      t = lm2_div_f64(lm2_neg_f64(d), a);
       if (t < 0.0) t = 0.0;
       if (t > ray.t_max) t = ray.t_max;
     } else if (u > 1.0) {
       u = 1.0;
-      t = (b - d) / a;
+      t = lm2_div_f64(lm2_sub_f64(b, d), a);
       if (t < 0.0) t = 0.0;
       if (t > ray.t_max) t = ray.t_max;
     }
@@ -949,28 +949,28 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_edge_f32(lm2_ray3_f32 ray, lm2_v3_f32 edge_s
   float t = 0.0f, u = 0.0f;
 
   if (a == 0.0f) {
-    if (c != 0.0f) u = e / c;
+    if (c != 0.0f) u = lm2_div_f32(e, c);
     if (u < 0.0f) u = 0.0f;
     if (u > 1.0f) u = 1.0f;
   } else if (c == 0.0f) {
-    t = -d / a;
+    t = lm2_div_f32(lm2_neg_f32(d), a);
     if (t < 0.0f) t = 0.0f;
     if (t > ray.t_max) t = ray.t_max;
   } else {
     lm2_v3_f32 cross = lm2_v3_cross_f32(ray.direction, edge);
     float denom = lm2_v3_dot_f32(cross, cross);
-    if (denom > 0.0f) t = lm2_v3_dot_f32(lm2_v3_cross_f32(edge, offset), cross) / denom;
+    if (denom > 0.0f) t = lm2_div_f32(lm2_v3_dot_f32(lm2_v3_cross_f32(edge, offset), cross), denom);
     if (t < 0.0f) t = 0.0f;
     if (t > ray.t_max) t = ray.t_max;
-    u = (e + b * t) / c;
+    u = lm2_div_f32(lm2_add_f32(e, lm2_mul_f32(b, t)), c);
     if (u < 0.0f) {
       u = 0.0f;
-      t = -d / a;
+      t = lm2_div_f32(lm2_neg_f32(d), a);
       if (t < 0.0f) t = 0.0f;
       if (t > ray.t_max) t = ray.t_max;
     } else if (u > 1.0f) {
       u = 1.0f;
-      t = (b - d) / a;
+      t = lm2_div_f32(lm2_sub_f32(b, d), a);
       if (t < 0.0f) t = 0.0f;
       if (t > ray.t_max) t = ray.t_max;
     }

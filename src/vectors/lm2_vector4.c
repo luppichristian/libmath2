@@ -78,10 +78,10 @@ _LM2_IMPL_V4_ALL_OPS(lm2_v4_u8, uint8_t, u8)
 #define _LM2_IMPL_V4_NEG(type_name, scalar_type, scalar_suffix) \
   LM2_API type_name lm2_v4_neg_##scalar_suffix(type_name a) {   \
     type_name result;                                           \
-    result.x = (scalar_type)(-a.x);                             \
-    result.y = (scalar_type)(-a.y);                             \
-    result.z = (scalar_type)(-a.z);                             \
-    result.w = (scalar_type)(-a.w);                             \
+    result.x = lm2_neg_##scalar_suffix(a.x);                    \
+    result.y = lm2_neg_##scalar_suffix(a.y);                    \
+    result.z = lm2_neg_##scalar_suffix(a.z);                    \
+    result.w = lm2_neg_##scalar_suffix(a.w);                    \
     return result;                                              \
   }
 

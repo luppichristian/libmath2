@@ -24,6 +24,7 @@ SOFTWARE.
 
 #include <lm2/camera/lm2_camera2.h>
 #include <lm2/matrices/lm2_matrix3x2.h>
+#include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_trigonometry.h>
 #include <lm2/vectors/lm2_vector2.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
@@ -45,8 +46,8 @@ LM2_API lm2_camera2_f64 lm2_camera2_default_f64(lm2_r2_f64 viewport) {
   lm2_v2_f64 min = viewport.min;
   lm2_v2_f64 max = viewport.max;
   lm2_v2_f64 center;
-  center.x = (min.x + max.x) * 0.5;
-  center.y = (min.y + max.y) * 0.5;
+  center.x = lm2_mul_f64(lm2_add_f64(min.x, max.x), 0.5);
+  center.y = lm2_mul_f64(lm2_add_f64(min.y, max.y), 0.5);
   return lm2_camera2_make_f64(center, 0.0, 1.0, viewport);
 }
 
@@ -61,15 +62,15 @@ LM2_API lm2_m3x2_f64 lm2_camera2_get_view_f64(lm2_camera2_f64 camera) {
   lm2_v2_f64 min = camera.viewport.min;
   lm2_v2_f64 max = camera.viewport.max;
   lm2_v2_f64 center;
-  center.x = (min.x + max.x) * 0.5;
-  center.y = (min.y + max.y) * 0.5;
+  center.x = lm2_mul_f64(lm2_add_f64(min.x, max.x), 0.5);
+  center.y = lm2_mul_f64(lm2_add_f64(min.y, max.y), 0.5);
 
   lm2_v2_f64 neg_pos;
-  neg_pos.x = -camera.position.x;
-  neg_pos.y = -camera.position.y;
+  neg_pos.x = lm2_neg_f64(camera.position.x);
+  neg_pos.y = lm2_neg_f64(camera.position.y);
 
   lm2_m3x2_f64 t = lm2_m3x2_translate_f64(neg_pos);
-  lm2_m3x2_f64 r = lm2_m3x2_rotate_f64(-camera.rotation);
+  lm2_m3x2_f64 r = lm2_m3x2_rotate_f64(lm2_neg_f64(camera.rotation));
 
   lm2_v2_f64 zoom_vec;
   zoom_vec.x = camera.zoom;
@@ -97,8 +98,8 @@ LM2_API lm2_v2_f64 lm2_camera2_screen_to_world_f64(lm2_camera2_f64 camera, lm2_v
 }
 
 LM2_API lm2_camera2_f64 lm2_camera2_move_f64(lm2_camera2_f64 camera, lm2_v2_f64 delta) {
-  camera.position.x += delta.x;
-  camera.position.y += delta.y;
+  camera.position.x = lm2_add_f64(camera.position.x, delta.x);
+  camera.position.y = lm2_add_f64(camera.position.y, delta.y);
   return camera;
 }
 
@@ -106,13 +107,13 @@ LM2_API lm2_camera2_f64 lm2_camera2_zoom_at_f64(lm2_camera2_f64 camera, double z
   // Convert screen anchor to world space before zoom change
   lm2_v2_f64 world_before = lm2_camera2_screen_to_world_f64(camera, screen_anchor);
 
-  camera.zoom *= zoom_factor;
+  camera.zoom = lm2_mul_f64(camera.zoom, zoom_factor);
 
   // After zoom, re-derive world position so that world_before still maps to screen_anchor
   lm2_v2_f64 world_after = lm2_camera2_screen_to_world_f64(camera, screen_anchor);
 
-  camera.position.x += world_before.x - world_after.x;
-  camera.position.y += world_before.y - world_after.y;
+  camera.position.x = lm2_add_f64(camera.position.x, lm2_sub_f64(world_before.x, world_after.x));
+  camera.position.y = lm2_add_f64(camera.position.y, lm2_sub_f64(world_before.y, world_after.y));
   return camera;
 }
 
@@ -122,21 +123,21 @@ LM2_API lm2_camera2_f64 lm2_camera2_set_zoom_f64(lm2_camera2_f64 camera, double 
 }
 
 LM2_API lm2_camera2_f64 lm2_camera2_rotate_f64(lm2_camera2_f64 camera, double delta_radians) {
-  camera.rotation += delta_radians;
+  camera.rotation = lm2_add_f64(camera.rotation, delta_radians);
   return camera;
 }
 
 LM2_API lm2_v2_f64 lm2_camera2_get_viewport_size_f64(lm2_camera2_f64 camera) {
   lm2_v2_f64 size;
-  size.x = camera.viewport.max.x - camera.viewport.min.x;
-  size.y = camera.viewport.max.y - camera.viewport.min.y;
+  size.x = lm2_sub_f64(camera.viewport.max.x, camera.viewport.min.x);
+  size.y = lm2_sub_f64(camera.viewport.max.y, camera.viewport.min.y);
   return size;
 }
 
 LM2_API lm2_v2_f64 lm2_camera2_get_viewport_center_f64(lm2_camera2_f64 camera) {
   lm2_v2_f64 center;
-  center.x = (camera.viewport.min.x + camera.viewport.max.x) * 0.5;
-  center.y = (camera.viewport.min.y + camera.viewport.max.y) * 0.5;
+  center.x = lm2_mul_f64(lm2_add_f64(camera.viewport.min.x, camera.viewport.max.x), 0.5);
+  center.y = lm2_mul_f64(lm2_add_f64(camera.viewport.min.y, camera.viewport.max.y), 0.5);
   return center;
 }
 
@@ -176,8 +177,8 @@ LM2_API lm2_camera2_f32 lm2_camera2_default_f32(lm2_r2_f32 viewport) {
   lm2_v2_f32 min = viewport.min;
   lm2_v2_f32 max = viewport.max;
   lm2_v2_f32 center;
-  center.x = (min.x + max.x) * 0.5f;
-  center.y = (min.y + max.y) * 0.5f;
+  center.x = lm2_mul_f32(lm2_add_f32(min.x, max.x), 0.5f);
+  center.y = lm2_mul_f32(lm2_add_f32(min.y, max.y), 0.5f);
   return lm2_camera2_make_f32(center, 0.0f, 1.0f, viewport);
 }
 
@@ -185,15 +186,15 @@ LM2_API lm2_m3x2_f32 lm2_camera2_get_view_f32(lm2_camera2_f32 camera) {
   lm2_v2_f32 min = camera.viewport.min;
   lm2_v2_f32 max = camera.viewport.max;
   lm2_v2_f32 center;
-  center.x = (min.x + max.x) * 0.5f;
-  center.y = (min.y + max.y) * 0.5f;
+  center.x = lm2_mul_f32(lm2_add_f32(min.x, max.x), 0.5f);
+  center.y = lm2_mul_f32(lm2_add_f32(min.y, max.y), 0.5f);
 
   lm2_v2_f32 neg_pos;
-  neg_pos.x = -camera.position.x;
-  neg_pos.y = -camera.position.y;
+  neg_pos.x = lm2_neg_f32(camera.position.x);
+  neg_pos.y = lm2_neg_f32(camera.position.y);
 
   lm2_m3x2_f32 t = lm2_m3x2_translate_f32(neg_pos);
-  lm2_m3x2_f32 r = lm2_m3x2_rotate_f32(-camera.rotation);
+  lm2_m3x2_f32 r = lm2_m3x2_rotate_f32(lm2_neg_f32(camera.rotation));
 
   lm2_v2_f32 zoom_vec;
   zoom_vec.x = camera.zoom;
@@ -220,17 +221,17 @@ LM2_API lm2_v2_f32 lm2_camera2_screen_to_world_f32(lm2_camera2_f32 camera, lm2_v
 }
 
 LM2_API lm2_camera2_f32 lm2_camera2_move_f32(lm2_camera2_f32 camera, lm2_v2_f32 delta) {
-  camera.position.x += delta.x;
-  camera.position.y += delta.y;
+  camera.position.x = lm2_add_f32(camera.position.x, delta.x);
+  camera.position.y = lm2_add_f32(camera.position.y, delta.y);
   return camera;
 }
 
 LM2_API lm2_camera2_f32 lm2_camera2_zoom_at_f32(lm2_camera2_f32 camera, float zoom_factor, lm2_v2_f32 screen_anchor) {
   lm2_v2_f32 world_before = lm2_camera2_screen_to_world_f32(camera, screen_anchor);
-  camera.zoom *= zoom_factor;
+  camera.zoom = lm2_mul_f32(camera.zoom, zoom_factor);
   lm2_v2_f32 world_after = lm2_camera2_screen_to_world_f32(camera, screen_anchor);
-  camera.position.x += world_before.x - world_after.x;
-  camera.position.y += world_before.y - world_after.y;
+  camera.position.x = lm2_add_f32(camera.position.x, lm2_sub_f32(world_before.x, world_after.x));
+  camera.position.y = lm2_add_f32(camera.position.y, lm2_sub_f32(world_before.y, world_after.y));
   return camera;
 }
 
@@ -240,21 +241,21 @@ LM2_API lm2_camera2_f32 lm2_camera2_set_zoom_f32(lm2_camera2_f32 camera, float z
 }
 
 LM2_API lm2_camera2_f32 lm2_camera2_rotate_f32(lm2_camera2_f32 camera, float delta_radians) {
-  camera.rotation += delta_radians;
+  camera.rotation = lm2_add_f32(camera.rotation, delta_radians);
   return camera;
 }
 
 LM2_API lm2_v2_f32 lm2_camera2_get_viewport_size_f32(lm2_camera2_f32 camera) {
   lm2_v2_f32 size;
-  size.x = camera.viewport.max.x - camera.viewport.min.x;
-  size.y = camera.viewport.max.y - camera.viewport.min.y;
+  size.x = lm2_sub_f32(camera.viewport.max.x, camera.viewport.min.x);
+  size.y = lm2_sub_f32(camera.viewport.max.y, camera.viewport.min.y);
   return size;
 }
 
 LM2_API lm2_v2_f32 lm2_camera2_get_viewport_center_f32(lm2_camera2_f32 camera) {
   lm2_v2_f32 center;
-  center.x = (camera.viewport.min.x + camera.viewport.max.x) * 0.5f;
-  center.y = (camera.viewport.min.y + camera.viewport.max.y) * 0.5f;
+  center.x = lm2_mul_f32(lm2_add_f32(camera.viewport.min.x, camera.viewport.max.x), 0.5f);
+  center.y = lm2_mul_f32(lm2_add_f32(camera.viewport.min.y, camera.viewport.max.y), 0.5f);
   return center;
 }
 
