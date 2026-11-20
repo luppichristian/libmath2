@@ -1,1 +1,1 @@
-Read `./agent/README.md`
+Read `./AGENTS.md`.
