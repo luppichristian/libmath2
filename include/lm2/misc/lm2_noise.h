@@ -60,8 +60,6 @@ LM2_API float lm2_voronoi3_f32(float x, float y, float z);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_noise_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_noise_impl.h"
+#endif

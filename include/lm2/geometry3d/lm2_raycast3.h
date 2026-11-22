@@ -24,8 +24,8 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2/lm2_base.h"
 #include "lm2/geometry3d/lm2_ray3.h"
+#include "lm2/lm2_base.h"
 #include "lm2/ranges/lm2_range3.h"
 #include "lm2/vectors/lm2_vector3.h"
 
@@ -140,10 +140,6 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-
-
-#include "lm2_raycast3_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_raycast3_impl.h"
+#endif

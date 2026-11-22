@@ -155,8 +155,6 @@ LM2_API lm2_v2_f32 lm2_m3x3_get_translation_f32(lm2_m3x3_f32 m);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_matrix3x3_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_matrix3x3_impl.h"
+#endif

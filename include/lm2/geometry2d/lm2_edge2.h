@@ -155,5 +155,6 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_edge2_f32(lm2_ray2_f32 ray, lm2_edge2_f32 ed
 LM2_HEADER_END;
 // #############################################################################
 
-
-#include "lm2_edge2_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_edge2_impl.h"
+#endif

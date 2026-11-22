@@ -256,8 +256,6 @@ LM2_API lm2_v3_f32 lm2_v3_project_f32(lm2_v3_f32 a, lm2_v3_f32 b);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_vector_specifics_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_vector_specifics_impl.h"
+#endif

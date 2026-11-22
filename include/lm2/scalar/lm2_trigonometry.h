@@ -97,8 +97,6 @@ LM2_API float lm2_lerp_deg_f32(float a_deg, float t, float b_deg);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_trigonometry_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_trigonometry_impl.h"
+#endif

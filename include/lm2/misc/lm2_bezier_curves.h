@@ -320,8 +320,6 @@ LM2_API float lm2_bezier_cubic_length4_f32(lm2_v4_f32 p0, lm2_v4_f32 p1, lm2_v4_
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_bezier_curves_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_bezier_curves_impl.h"
+#endif

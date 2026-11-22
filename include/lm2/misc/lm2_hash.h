@@ -144,8 +144,6 @@ LM2_API uint64_t lm2_hash_combine_u64(uint64_t seed, uint64_t hash);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_hash_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_hash_impl.h"
+#endif

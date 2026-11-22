@@ -217,5 +217,6 @@ LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm
 LM2_HEADER_END;
 // #############################################################################
 
-
-#include "lm2_polygon_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_polygon_impl.h"
+#endif

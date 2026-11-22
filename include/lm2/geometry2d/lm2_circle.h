@@ -110,8 +110,6 @@ LM2_API lm2_circle_f32 lm2_circle_scale_f32(lm2_circle_f32 circle, float scale);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_circle_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_circle_impl.h"
+#endif

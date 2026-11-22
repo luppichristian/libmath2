@@ -127,10 +127,6 @@ LM2_API lm2_shape3_type lm2_shape3_get_type_f32(const lm2_shape3_f32* shape);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-
-
-#include "lm2_shape3_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_shape3_impl.h"
+#endif

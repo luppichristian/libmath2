@@ -24,9 +24,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <lm2/geometry2d/lm2_polygon.h>
 #include <lm2/geometry2d/lm2_aabb2.h>
 #include <lm2/geometry2d/lm2_edge2.h>
+#include <lm2/geometry2d/lm2_polygon.h>
 #include <lm2/geometry2d/lm2_triangle2.h>
 #include <lm2/lm2_constants.h>
 #include <lm2/ranges/lm2_range2.h>

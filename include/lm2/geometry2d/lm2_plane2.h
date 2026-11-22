@@ -127,8 +127,6 @@ LM2_API lm2_plane2_f32 lm2_plane2_rotate_f32(lm2_plane2_f32 plane, float angle);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_plane2_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_plane2_impl.h"
+#endif

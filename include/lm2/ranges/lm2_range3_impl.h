@@ -264,9 +264,9 @@ SOFTWARE.
             a.min.z <= b.max.z && a.max.z >= b.min.z);                         \
   }
 
-#define _LM2_IMPL_R3_VOLUME(type_name, vec_type, scalar_type, scalar_suffix) \
-  LM2_API scalar_type lm2_r3_volume_##scalar_suffix(type_name r) {           \
-    vec_type size = lm2_v3_sub_##scalar_suffix(r.max, r.min);                \
+#define _LM2_IMPL_R3_VOLUME(type_name, vec_type, scalar_type, scalar_suffix)         \
+  LM2_API scalar_type lm2_r3_volume_##scalar_suffix(type_name r) {                   \
+    vec_type size = lm2_v3_sub_##scalar_suffix(r.max, r.min);                        \
     return lm2_mul_##scalar_suffix(lm2_mul_##scalar_suffix(size.x, size.y), size.z); \
   }
 
@@ -300,18 +300,18 @@ SOFTWARE.
     return result;                                                                   \
   }
 
-#define _LM2_IMPL_R3_SCALE_FROM_CENTER(type_name, vec_type, scalar_type, scalar_suffix) \
+#define _LM2_IMPL_R3_SCALE_FROM_CENTER(type_name, vec_type, scalar_type, scalar_suffix)          \
   LM2_API type_name lm2_r3_scale_from_center_s_##scalar_suffix(type_name r, scalar_type scale) { \
-    vec_type center = lm2_r3_center_##scalar_suffix(r);                                \
-    vec_type extents = lm2_r3_extents_##scalar_suffix(r);                              \
-    vec_type new_extents = lm2_v3_mul_s_##scalar_suffix(extents, scale);              \
-    return lm2_r3_from_center_extents_##scalar_suffix(center, new_extents);           \
-  }                                                                                    \
-  LM2_API type_name lm2_r3_scale_from_center_v_##scalar_suffix(type_name r, vec_type scale) { \
-    vec_type center = lm2_r3_center_##scalar_suffix(r);                                \
-    vec_type extents = lm2_r3_extents_##scalar_suffix(r);                              \
-    vec_type new_extents = lm2_v3_mul_##scalar_suffix(extents, scale);                 \
-    return lm2_r3_from_center_extents_##scalar_suffix(center, new_extents);           \
+    vec_type center = lm2_r3_center_##scalar_suffix(r);                                          \
+    vec_type extents = lm2_r3_extents_##scalar_suffix(r);                                        \
+    vec_type new_extents = lm2_v3_mul_s_##scalar_suffix(extents, scale);                         \
+    return lm2_r3_from_center_extents_##scalar_suffix(center, new_extents);                      \
+  }                                                                                              \
+  LM2_API type_name lm2_r3_scale_from_center_v_##scalar_suffix(type_name r, vec_type scale) {    \
+    vec_type center = lm2_r3_center_##scalar_suffix(r);                                          \
+    vec_type extents = lm2_r3_extents_##scalar_suffix(r);                                        \
+    vec_type new_extents = lm2_v3_mul_##scalar_suffix(extents, scale);                           \
+    return lm2_r3_from_center_extents_##scalar_suffix(center, new_extents);                      \
   }
 
 #define _LM2_IMPL_R3_ALL_RANGE_FUNCS(type_name, vec_type, scalar_type, scalar_suffix) \
@@ -324,7 +324,7 @@ SOFTWARE.
   _LM2_IMPL_R3_OVERLAPS(type_name, vec_type, scalar_type, scalar_suffix)              \
   _LM2_IMPL_R3_VOLUME(type_name, vec_type, scalar_type, scalar_suffix)                \
   _LM2_IMPL_R3_NORMALIZE(type_name, vec_type, scalar_type, scalar_suffix)             \
-  _LM2_IMPL_R3_EXPAND(type_name, vec_type, scalar_type, scalar_suffix)                  \
+  _LM2_IMPL_R3_EXPAND(type_name, vec_type, scalar_type, scalar_suffix)                \
   _LM2_IMPL_R3_SCALE_FROM_CENTER(type_name, vec_type, scalar_type, scalar_suffix)
 
 // =============================================================================

@@ -49,4 +49,3 @@ typedef struct lm2_ray3_f32 {
 } lm2_ray3_f32;
 
 LM2_HEADER_END;
-

@@ -172,4 +172,3 @@ static inline lm2_private_c2Poly lm2_triangle2_f64_to_c2(const lm2_triangle2_f64
   lm2_private_c2Norms(result.verts, result.norms, result.count);
   return result;
 }
-

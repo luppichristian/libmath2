@@ -72,6 +72,7 @@ To build and run the tests, see [Getting Started](docs/getting-started.md).
 | `LM2_NO_CPP_OPERATORS` | Disable C++ operator overloads for all types |
 | `LM2_NO_GENERICS` | Disable C11 `_Generic` macros and C++ function overloads |
 | `LM2_ENABLE_UNPREFIXED_NAMES` | Enable unprefixed aliases (e.g. `v2_f32` for `lm2_v2_f32`) |
+| `LM2_NO_IMPLEMENTATION` | Don't include implementations of defined functions |
 
 ## Documentation
 

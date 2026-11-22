@@ -282,8 +282,6 @@ LM2_API void lm2_make_convex_polygon_f32(lm2_polygon_f32* polygon, lm2_v2_f32* o
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_manifold2_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_manifold2_impl.h"
+#endif

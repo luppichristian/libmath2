@@ -24,11 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#include "lm2/geometry3d/lm2_edge3.h"
 #include "lm2/geometry3d/lm2_triangle3.h"
-#include "lm2/vectors/lm2_vector3.h"
 #include "lm2/scalar/lm2_safe_ops.h"
 #include "lm2/scalar/lm2_scalar.h"
-#include "lm2/geometry3d/lm2_edge3.h"
+#include "lm2/vectors/lm2_vector3.h"
 #include "lm2/vectors/lm2_vector_specifics.h"
 
 // =============================================================================
@@ -397,13 +397,13 @@ static bool lm2_triangle3_segments_intersect_projected_f64(
   int x = drop_axis == 0 ? 1 : 0;
   int y = drop_axis == 2 ? 1 : 2;
   double o1 = lm2_sub_f64(lm2_mul_f64(lm2_sub_f64(a1.e[x], a0.e[x]), lm2_sub_f64(b0.e[y], a0.e[y])),
-                           lm2_mul_f64(lm2_sub_f64(a1.e[y], a0.e[y]), lm2_sub_f64(b0.e[x], a0.e[x])));
+                          lm2_mul_f64(lm2_sub_f64(a1.e[y], a0.e[y]), lm2_sub_f64(b0.e[x], a0.e[x])));
   double o2 = lm2_sub_f64(lm2_mul_f64(lm2_sub_f64(a1.e[x], a0.e[x]), lm2_sub_f64(b1.e[y], a0.e[y])),
-                           lm2_mul_f64(lm2_sub_f64(a1.e[y], a0.e[y]), lm2_sub_f64(b1.e[x], a0.e[x])));
+                          lm2_mul_f64(lm2_sub_f64(a1.e[y], a0.e[y]), lm2_sub_f64(b1.e[x], a0.e[x])));
   double o3 = lm2_sub_f64(lm2_mul_f64(lm2_sub_f64(b1.e[x], b0.e[x]), lm2_sub_f64(a0.e[y], b0.e[y])),
-                           lm2_mul_f64(lm2_sub_f64(b1.e[y], b0.e[y]), lm2_sub_f64(a0.e[x], b0.e[x])));
+                          lm2_mul_f64(lm2_sub_f64(b1.e[y], b0.e[y]), lm2_sub_f64(a0.e[x], b0.e[x])));
   double o4 = lm2_sub_f64(lm2_mul_f64(lm2_sub_f64(b1.e[x], b0.e[x]), lm2_sub_f64(a1.e[y], b0.e[y])),
-                           lm2_mul_f64(lm2_sub_f64(b1.e[y], b0.e[y]), lm2_sub_f64(a1.e[x], b0.e[x])));
+                          lm2_mul_f64(lm2_sub_f64(b1.e[y], b0.e[y]), lm2_sub_f64(a1.e[x], b0.e[x])));
 
   double a_dx = lm2_sub_f64(a1.e[x], a0.e[x]);
   double a_dy = lm2_sub_f64(a1.e[y], a0.e[y]);
@@ -439,13 +439,13 @@ static bool lm2_triangle3_segments_intersect_projected_f32(
   int x = drop_axis == 0 ? 1 : 0;
   int y = drop_axis == 2 ? 1 : 2;
   float o1 = lm2_sub_f32(lm2_mul_f32(lm2_sub_f32(a1.e[x], a0.e[x]), lm2_sub_f32(b0.e[y], a0.e[y])),
-                           lm2_mul_f32(lm2_sub_f32(a1.e[y], a0.e[y]), lm2_sub_f32(b0.e[x], a0.e[x])));
+                         lm2_mul_f32(lm2_sub_f32(a1.e[y], a0.e[y]), lm2_sub_f32(b0.e[x], a0.e[x])));
   float o2 = lm2_sub_f32(lm2_mul_f32(lm2_sub_f32(a1.e[x], a0.e[x]), lm2_sub_f32(b1.e[y], a0.e[y])),
-                           lm2_mul_f32(lm2_sub_f32(a1.e[y], a0.e[y]), lm2_sub_f32(b1.e[x], a0.e[x])));
+                         lm2_mul_f32(lm2_sub_f32(a1.e[y], a0.e[y]), lm2_sub_f32(b1.e[x], a0.e[x])));
   float o3 = lm2_sub_f32(lm2_mul_f32(lm2_sub_f32(b1.e[x], b0.e[x]), lm2_sub_f32(a0.e[y], b0.e[y])),
-                           lm2_mul_f32(lm2_sub_f32(b1.e[y], b0.e[y]), lm2_sub_f32(a0.e[x], b0.e[x])));
+                         lm2_mul_f32(lm2_sub_f32(b1.e[y], b0.e[y]), lm2_sub_f32(a0.e[x], b0.e[x])));
   float o4 = lm2_sub_f32(lm2_mul_f32(lm2_sub_f32(b1.e[x], b0.e[x]), lm2_sub_f32(a1.e[y], b0.e[y])),
-                           lm2_mul_f32(lm2_sub_f32(b1.e[y], b0.e[y]), lm2_sub_f32(a1.e[x], b0.e[x])));
+                         lm2_mul_f32(lm2_sub_f32(b1.e[y], b0.e[y]), lm2_sub_f32(a1.e[x], b0.e[x])));
 
   float a_dx = lm2_sub_f32(a1.e[x], a0.e[x]);
   float a_dy = lm2_sub_f32(a1.e[y], a0.e[y]);

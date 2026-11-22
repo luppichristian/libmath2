@@ -24,7 +24,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "lm2_c2_utils.h"
 #include "lm2/geometry2d/lm2_edge2.h"
 #include "lm2/geometry2d/lm2_raycast2.h"
 #include "lm2/geometry2d/lm2_shape2.h"
@@ -32,6 +31,7 @@ SOFTWARE.
 #include "lm2/scalar/lm2_safe_ops.h"
 #include "lm2/scalar/lm2_scalar.h"
 #include "lm2/vectors/lm2_vector_specifics.h"
+#include "lm2_c2_utils.h"
 
 // =============================================================================
 // 2D Ray Construction - f64
@@ -145,7 +145,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_circle_f64(lm2_ray2_f64 ray, lm2_circle_f64 
       signed_perpendicular * uy - half_chord * ux,
       lm2_neg_f64(signed_perpendicular) * ux - half_chord * uy};
   result.point = LM2_PRIVATE_LITERAL(lm2_v2_f64) {circle.center.x + relative_hit.x,
-                               circle.center.y + relative_hit.y};
+                                                  circle.center.y + relative_hit.y};
   double normal_len = hypot(relative_hit.x, relative_hit.y);
   if (normal_len > 0.0) {
     result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {relative_hit.x / normal_len, relative_hit.y / normal_len};
@@ -301,7 +301,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_circle_f32(lm2_ray2_f32 ray, lm2_circle_f32 
       signed_perpendicular * uy - half_chord * ux,
       lm2_neg_f32(signed_perpendicular) * ux - half_chord * uy};
   result.point = LM2_PRIVATE_LITERAL(lm2_v2_f32) {circle.center.x + relative_hit.x,
-                               circle.center.y + relative_hit.y};
+                                                  circle.center.y + relative_hit.y};
   float normal_len = hypotf(relative_hit.x, relative_hit.y);
   if (normal_len > 0.0f) {
     result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {relative_hit.x / normal_len, relative_hit.y / normal_len};

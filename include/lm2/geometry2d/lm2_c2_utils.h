@@ -62,5 +62,6 @@ static inline lm2_private_c2Poly lm2_polygon_f64_to_c2(lm2_polygon_f64 polygon);
 static inline lm2_private_c2Poly lm2_triangle2_f32_to_c2(const lm2_triangle2_f32 tri);
 static inline lm2_private_c2Poly lm2_triangle2_f64_to_c2(const lm2_triangle2_f64 tri);
 
-
-#include "lm2_c2_utils_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_c2_utils_impl.h"
+#endif

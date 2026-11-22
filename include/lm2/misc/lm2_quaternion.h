@@ -150,8 +150,6 @@ LM2_API bool lm2_quat_equals_f32(lm2_quat_f32 a, lm2_quat_f32 b, float epsilon);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_quaternion_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_quaternion_impl.h"
+#endif

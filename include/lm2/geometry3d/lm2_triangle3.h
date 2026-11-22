@@ -154,10 +154,6 @@ LM2_API lm2_edge3_result_f32 lm2_triangle3_shared_edge_f32(const lm2_triangle3_f
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-
-
-#include "lm2_triangle3_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_triangle3_impl.h"
+#endif

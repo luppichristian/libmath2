@@ -694,8 +694,6 @@ LM2_API uint8_t lm2_r3_volume_u8(lm2_r3_u8 r);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_range3_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_range3_impl.h"
+#endif

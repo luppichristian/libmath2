@@ -144,8 +144,6 @@ LM2_API lm2_r2_f32 lm2_camera2_get_world_bounds_f32(lm2_camera2_f32 camera);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_camera2_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_camera2_impl.h"
+#endif

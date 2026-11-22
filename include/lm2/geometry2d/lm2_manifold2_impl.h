@@ -107,7 +107,7 @@ static bool _lm2_polygon_clip_side_f64(lm2_v2_f64 segment[2], double tx, double 
     double scale = fmax(fabs(d0), fabs(d1));
     double t = (d0 / scale) / (d0 / scale - d1 / scale);
     result[count++] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {segment[0].x + t * (segment[1].x - segment[0].x),
-                                    segment[0].y + t * (segment[1].y - segment[0].y)};
+                                                       segment[0].y + t * (segment[1].y - segment[0].y)};
   }
   if (count < 2) return false;
   segment[0] = result[0];
@@ -574,7 +574,7 @@ LM2_API void lm2_manifold_circle_to_polygon_f64(lm2_circle_f64 circle, lm2_polyg
     out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {-face_normal.x, -face_normal.y};
     out_manifold->depths[0] = circle.radius - max_separation;
     out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {circle.center.x - face_normal.x * max_separation,
-                                                    circle.center.y - face_normal.y * max_separation};
+                                                                       circle.center.y - face_normal.y * max_separation};
   } else if (closest_distance < circle.radius) {
     out_manifold->count = 1;
     out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {closest.x / closest_distance, closest.y / closest_distance};
@@ -697,7 +697,7 @@ LM2_API void lm2_manifold_capsule_to_capsule_f64(lm2_capsule2_f64 a, lm2_capsule
   out_manifold->normal = normal;
   out_manifold->depths[0] = radius - distance;
   out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {a.start.x + pb.x - normal.x * b.radius,
-                                                  a.start.y + pb.y - normal.y * b.radius};
+                                                                     a.start.y + pb.y - normal.y * b.radius};
 }
 
 static double _lm2_cap_poly_dot_f64(lm2_v2_f64 a, lm2_v2_f64 b) {
@@ -723,7 +723,7 @@ static int _lm2_cap_poly_clip_f64(lm2_v2_f64 seg[2], lm2_v2_f64 origin, lm2_v2_f
   } else if ((d0 <= 0.0 && d1 >= 0.0) || (d1 <= 0.0 && d0 >= 0.0)) {
     double t = d0 / (d0 - d1);
     out[count++] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {seg[0].x + t * (seg[1].x - seg[0].x),
-                                 seg[0].y + t * (seg[1].y - seg[0].y)};
+                                                    seg[0].y + t * (seg[1].y - seg[0].y)};
   }
   if (count == 2) {
     seg[0] = out[0];
@@ -763,7 +763,7 @@ LM2_API void lm2_manifold_capsule_to_polygon_f64(lm2_capsule2_f64 capsule, lm2_p
     out_manifold->normal = n;
     out_manifold->depths[0] = capsule.radius - distance;
     out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {capsule.start.x + point_a.x + n.x * capsule.radius,
-                                                    capsule.start.y + point_a.y + n.y * capsule.radius};
+                                                                       capsule.start.y + point_a.y + n.y * capsule.radius};
     return;
   }
 

@@ -437,8 +437,6 @@ LM2_API lm2_r3_u8 lm2_r4_downcast_u8(lm2_r4_u8 r);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_range_conversions_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_range_conversions_impl.h"
+#endif

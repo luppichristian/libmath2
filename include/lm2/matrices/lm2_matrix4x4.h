@@ -24,10 +24,10 @@ SOFTWARE.
 
 #pragma once
 
-#  include "lm2/lm2_base.h"
-#  include "lm2/misc/lm2_quaternion.h"
-#  include "lm2/vectors/lm2_vector3.h"
-#  include "lm2/vectors/lm2_vector4.h"
+#include "lm2/lm2_base.h"
+#include "lm2/misc/lm2_quaternion.h"
+#include "lm2/vectors/lm2_vector3.h"
+#include "lm2/vectors/lm2_vector4.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -187,5 +187,6 @@ LM2_API lm2_quat_f32 lm2_m4x4_to_quat_f32(lm2_m4x4_f32 m);
 LM2_HEADER_END;
 // #############################################################################
 
-
-#include "lm2_matrix4x4_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_matrix4x4_impl.h"
+#endif

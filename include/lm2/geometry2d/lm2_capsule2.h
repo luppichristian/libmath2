@@ -116,5 +116,6 @@ LM2_API lm2_capsule2_f32 lm2_capsule2_scale_radius_f32(lm2_capsule2_f32 capsule,
 LM2_HEADER_END;
 // #############################################################################
 
-
-#include "lm2_capsule2_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_capsule2_impl.h"
+#endif

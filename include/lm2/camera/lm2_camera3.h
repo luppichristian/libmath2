@@ -200,8 +200,6 @@ LM2_API lm2_v3_f32 lm2_camera3_ndc_to_world_f32(lm2_camera3_f32 camera, lm2_v3_f
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_camera3_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_camera3_impl.h"
+#endif

@@ -438,8 +438,6 @@ LM2_API lm2_v3_u8 lm2_v4_downcast_u8(lm2_v4_u8 v);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_vector_conversions_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_vector_conversions_impl.h"
+#endif

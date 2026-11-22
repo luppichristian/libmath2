@@ -177,8 +177,6 @@ LM2_API float lm2_sqrt_f32(float a);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_scalar_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_scalar_impl.h"
+#endif

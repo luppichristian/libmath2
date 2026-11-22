@@ -145,6 +145,7 @@ All vector, matrix, range, and scalar functions are suffixed with the numeric ty
 | `LM2_NO_CPP_OPERATORS` | Disable C++ operator overloads (`+`, `-`, `*`, `/`, `[]`) |
 | `LM2_NO_GENERICS` | Disable C11 `_Generic` macros and C++ function overloads |
 | `LM2_ASSERT(expr)` | Override assertions; by default uses `assert` in debug builds and aborts on failure with `NDEBUG` |
+| `LM2_NO_IMPLEMENTATION` | Don't include implementations of defined functions |
 
 Define `LM2_UNSAFE` or customize `LM2_ASSERT` before including libmath2 in
 each translation unit where the configuration should apply. See [Safe Arithmetic](modules/safe-ops.md)

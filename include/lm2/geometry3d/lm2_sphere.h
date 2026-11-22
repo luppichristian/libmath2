@@ -113,8 +113,6 @@ LM2_API lm2_sphere_f32 lm2_sphere_scale_f32(lm2_sphere_f32 sphere, float scale);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_sphere_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_sphere_impl.h"
+#endif

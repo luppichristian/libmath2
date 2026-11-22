@@ -606,8 +606,6 @@ LM2_API uint8_t lm2_r2_area_u8(lm2_r2_u8 r);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_range2_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_range2_impl.h"
+#endif

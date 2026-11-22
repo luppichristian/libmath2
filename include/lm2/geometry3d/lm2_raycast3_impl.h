@@ -24,13 +24,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include "lm2/geometry3d/lm2_raycast3.h"
-#include "lm2/geometry3d/lm2_shape3.h"
+#include "lm2/geometry3d/lm2_aabb3.h"
+#include "lm2/geometry3d/lm2_capsule3.h"
 #include "lm2/geometry3d/lm2_edge3.h"
 #include "lm2/geometry3d/lm2_plane3.h"
+#include "lm2/geometry3d/lm2_raycast3.h"
+#include "lm2/geometry3d/lm2_shape3.h"
 #include "lm2/geometry3d/lm2_sphere.h"
-#include "lm2/geometry3d/lm2_capsule3.h"
-#include "lm2/geometry3d/lm2_aabb3.h"
 #include "lm2/geometry3d/lm2_triangle3.h"
 #include "lm2/scalar/lm2_safe_ops.h"
 #include "lm2/scalar/lm2_scalar.h"

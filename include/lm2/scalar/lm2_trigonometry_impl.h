@@ -24,10 +24,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <lm2/scalar/lm2_trigonometry.h>
 #include <lm2/lm2_constants.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
+#include <lm2/scalar/lm2_trigonometry.h>
 #include <math.h>
 
 // =============================================================================

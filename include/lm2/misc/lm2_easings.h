@@ -172,8 +172,6 @@ LM2_API float lm2_ease_f32(easing easing, float t);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_easings_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_easings_impl.h"
+#endif

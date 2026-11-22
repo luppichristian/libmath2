@@ -24,8 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <lm2/vectors/lm2_vector_conversions.h>
 #include <lm2/lm2_base.h>
+#include <lm2/vectors/lm2_vector_conversions.h>
 
 // =============================================================================
 // Vector2 Conversions - from f64

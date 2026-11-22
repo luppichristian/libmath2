@@ -126,8 +126,6 @@ LM2_API lm2_plane3_f32 lm2_plane3_translate_f32(lm2_plane3_f32 plane, lm2_v3_f32
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_plane3_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_plane3_impl.h"
+#endif

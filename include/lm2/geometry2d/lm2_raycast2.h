@@ -124,5 +124,6 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_shape2_f32(lm2_ray2_f32 ray, lm2_shape2_f32 
 LM2_HEADER_END;
 // #############################################################################
 
-
-#include "lm2_raycast2_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_raycast2_impl.h"
+#endif

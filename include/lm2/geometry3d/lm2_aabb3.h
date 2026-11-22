@@ -173,8 +173,6 @@ LM2_HEADER_END;
 // #############################################################################
 // Note: C++ operators are defined in lm2_range3.h since aabb3s are range3 types
 
-
-
-
-
-#include "lm2_aabb3_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_aabb3_impl.h"
+#endif

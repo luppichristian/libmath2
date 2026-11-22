@@ -186,8 +186,6 @@ LM2_API void lm2_indexed_mesh_to_triangle_list_f32(
 // #############################################################################
 LM2_HEADER_END;
 
-
-
-
-
-#include "lm2_triangle2_geometry_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_triangle2_geometry_impl.h"
+#endif

@@ -24,9 +24,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <lm2/vectors/lm2_vector4.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
+#include <lm2/vectors/lm2_vector4.h>
 // =============================================================================
 // Basic operations
 // =============================================================================
@@ -244,19 +244,19 @@ _LM2_IMPL_V4_UNSIGNED_INT_FUNCS(lm2_v4_u8, u8)
   LM2_API type_name lm2_v4_make_##scalar_suffix(scalar_type x, scalar_type y, scalar_type z, scalar_type w) { \
     type_name result = {                                                                                      \
         {x, y, z, w} \
-    };                                                                                        \
+    };                                                                                    \
     return result;                                                                                            \
   }                                                                                                           \
   LM2_API type_name lm2_v4_splat_##scalar_suffix(scalar_type v) {                                             \
     type_name result = {                                                                                      \
         {v, v, v, v} \
-    };                                                                                        \
+    };                                                                                    \
     return result;                                                                                            \
   }                                                                                                           \
   LM2_API type_name lm2_v4_zero_##scalar_suffix(void) {                                                       \
     type_name result = {                                                                                      \
         {(scalar_type)0, (scalar_type)0, (scalar_type)0, (scalar_type)0} \
-    };                                    \
+    };                                \
     return result;                                                                                            \
   }
 

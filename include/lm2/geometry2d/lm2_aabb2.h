@@ -503,5 +503,6 @@ typedef lm2_r2_u8 lm2_aabb2_u8;
 // #############################################################################
 LM2_HEADER_END;
 
-
-#include "lm2_aabb2_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_aabb2_impl.h"
+#endif

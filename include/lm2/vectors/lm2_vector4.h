@@ -431,8 +431,6 @@ LM2_API lm2_v4_u8 lm2_v4_zero_u8(void);
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_vector4_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_vector4_impl.h"
+#endif

@@ -157,8 +157,6 @@ LM2_API lm2_m3x2_f32 lm2_m3x2_ortho_f32(float left, float right, float bottom, f
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-#include "lm2_matrix3x2_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_matrix3x2_impl.h"
+#endif

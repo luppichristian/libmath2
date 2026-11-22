@@ -25,8 +25,8 @@ SOFTWARE.
 */
 
 #include <lm2/geometry3d/lm2_edge3.h>
-#include <lm2/geometry3d/lm2_ray3.h>
 #include <lm2/geometry3d/lm2_plane3.h>
+#include <lm2/geometry3d/lm2_ray3.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/vectors/lm2_vector_specifics.h>

@@ -24,8 +24,8 @@ SOFTWARE.
 
 #pragma once
 
-#include "lm2/lm2_base.h"
 #include "lm2/geometry3d/lm2_ray3.h"
+#include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector3.h"
 
 // Forward declarations
@@ -140,10 +140,6 @@ LM2_API float lm2_edge3_to_edge3_distance_sq_f32(lm2_edge3_f32 e1, lm2_edge3_f32
 LM2_HEADER_END;
 // #############################################################################
 
-
-
-
-
-
-
-#include "lm2_edge3_impl.h"
+#ifndef LM2_NO_IMPLEMENTATION
+#  include "lm2_edge3_impl.h"
+#endif
