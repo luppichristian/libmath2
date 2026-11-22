@@ -83,7 +83,7 @@ LM2_API lm2_m3x3_f64 lm2_m3x3_rotate_f64(double angle) {
 
 LM2_API lm2_m3x3_f64 lm2_m3x3_rotate_around_pivot_f64(double angle, lm2_v2_f64 pivot) {
   // T(pivot) * R(angle) * T(-pivot)
-  lm2_m3x3_f64 translate_to_origin = lm2_m3x3_translate_f64((lm2_v2_f64) {lm2_sub_f64(0.0, pivot.x), lm2_sub_f64(0.0, pivot.y)});
+  lm2_m3x3_f64 translate_to_origin = lm2_m3x3_translate_f64(LM2_PRIVATE_LITERAL(lm2_v2_f64) {lm2_sub_f64(0.0, pivot.x), lm2_sub_f64(0.0, pivot.y)});
   lm2_m3x3_f64 rotate = lm2_m3x3_rotate_f64(angle);
   lm2_m3x3_f64 translate_back = lm2_m3x3_translate_f64(pivot);
 
@@ -286,7 +286,7 @@ LM2_API lm2_m3x3_f32 lm2_m3x3_rotate_f32(float angle) {
 
 LM2_API lm2_m3x3_f32 lm2_m3x3_rotate_around_pivot_f32(float angle, lm2_v2_f32 pivot) {
   // T(pivot) * R(angle) * T(-pivot)
-  lm2_m3x3_f32 translate_to_origin = lm2_m3x3_translate_f32((lm2_v2_f32) {lm2_sub_f32(0.0f, pivot.x), lm2_sub_f32(0.0f, pivot.y)});
+  lm2_m3x3_f32 translate_to_origin = lm2_m3x3_translate_f32(LM2_PRIVATE_LITERAL(lm2_v2_f32) {lm2_sub_f32(0.0f, pivot.x), lm2_sub_f32(0.0f, pivot.y)});
   lm2_m3x3_f32 rotate = lm2_m3x3_rotate_f32(angle);
   lm2_m3x3_f32 translate_back = lm2_m3x3_translate_f32(pivot);
 

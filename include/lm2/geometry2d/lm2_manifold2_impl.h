@@ -33,7 +33,7 @@ SOFTWARE.
 static inline void c2_manifold_to_lm2_f32(lm2_private_c2Manifold m, lm2_manifold_f32* out) {
   LM2_ASSERT(out != NULL);
 
-  *out = (lm2_manifold_f32) {0};
+  *out = LM2_PRIVATE_LITERAL(lm2_manifold_f32) {0};
   out->count = m.count;
   if (m.count > 0) out->normal = c2v_to_lm22_f32(m.n);
 
@@ -46,7 +46,7 @@ static inline void c2_manifold_to_lm2_f32(lm2_private_c2Manifold m, lm2_manifold
 static inline void c2_manifold_to_lm2_f64(lm2_private_c2Manifold m, lm2_manifold_f64* out) {
   LM2_ASSERT(out != NULL);
 
-  *out = (lm2_manifold_f64) {0};
+  *out = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
   out->count = m.count;
   if (m.count > 0) out->normal = c2v_to_lm22_f64(m.n);
 
@@ -106,7 +106,7 @@ static bool _lm2_polygon_clip_side_f64(lm2_v2_f64 segment[2], double tx, double 
   } else if ((d0 <= 0.0 && d1 >= 0.0) || (d1 <= 0.0 && d0 >= 0.0)) {
     double scale = fmax(fabs(d0), fabs(d1));
     double t = (d0 / scale) / (d0 / scale - d1 / scale);
-    result[count++] = (lm2_v2_f64) {segment[0].x + t * (segment[1].x - segment[0].x),
+    result[count++] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {segment[0].x + t * (segment[1].x - segment[0].x),
                                     segment[0].y + t * (segment[1].y - segment[0].y)};
   }
   if (count < 2) return false;
@@ -116,7 +116,7 @@ static bool _lm2_polygon_clip_side_f64(lm2_v2_f64 segment[2], double tx, double 
 }
 
 static void _lm2_polygon_manifold_f64(const lm2_v2_f64* a, size_t a_count, const lm2_v2_f64* b, size_t b_count, lm2_manifold_f64* out) {
-  *out = (lm2_manifold_f64) {0};
+  *out = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
   size_t face_a = 0, face_b = 0;
   double sep_a = _lm2_polygon_manifold_faces_f64(a, a_count, b, b_count, &face_a);
   if (sep_a >= 0.0 || !isfinite(sep_a)) return;
@@ -162,10 +162,10 @@ static void _lm2_polygon_manifold_f64(const lm2_v2_f64* a, size_t a_count, const
     if (depth >= 0.0) {
       int index = out->count++;
       out->depths[index] = depth;
-      out->contact_points[index] = (lm2_v2_f64) {origin.x + x, origin.y + y};
+      out->contact_points[index] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {origin.x + x, origin.y + y};
     }
   }
-  if (out->count) out->normal = (lm2_v2_f64) {flip ? -nx : nx, flip ? -ny : ny};
+  if (out->count) out->normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {flip ? -nx : nx, flip ? -ny : ny};
 }
 
 static double _lm2_cross_points_f64(lm2_v2_f64 a, lm2_v2_f64 b, lm2_v2_f64 p) {
@@ -298,9 +298,9 @@ static bool _lm2_capsule_convex_f64(lm2_capsule2_f64 capsule, const lm2_v2_f64* 
 
 static void _lm2_box_vertices_f64(lm2_r2_f64 box, lm2_v2_f64 vertices[4]) {
   vertices[0] = box.min;
-  vertices[1] = (lm2_v2_f64) {box.max.x, box.min.y};
+  vertices[1] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {box.max.x, box.min.y};
   vertices[2] = box.max;
-  vertices[3] = (lm2_v2_f64) {box.min.x, box.max.y};
+  vertices[3] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {box.min.x, box.max.y};
 }
 
 static bool _lm2_box_capsule_f64(lm2_r2_f64 box, lm2_capsule2_f64 capsule) {
@@ -451,7 +451,7 @@ LM2_API bool lm2_collide_polygon_to_polygon_f32(lm2_polygon_f32 a, lm2_polygon_f
 
 LM2_API void lm2_manifold_circle_to_circle_f64(lm2_circle_f64 a, lm2_circle_f64 b, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
   double dx = b.center.x - a.center.x;
   double dy = b.center.y - a.center.y;
   double distance = hypot(dx, dy);
@@ -459,8 +459,8 @@ LM2_API void lm2_manifold_circle_to_circle_f64(lm2_circle_f64 a, lm2_circle_f64 
   if (distance >= radius_sum) return;
 
   lm2_v2_f64 normal = distance != 0.0
-                          ? (lm2_v2_f64) {dx / distance, dy / distance}
-                          : (lm2_v2_f64) {0.0, 1.0};
+                          ? LM2_PRIVATE_LITERAL(lm2_v2_f64) {dx / distance, dy / distance}
+                          : LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, 1.0};
   out_manifold->count = 1;
   out_manifold->depths[0] = radius_sum - distance;
   out_manifold->normal = normal;
@@ -470,7 +470,7 @@ LM2_API void lm2_manifold_circle_to_circle_f64(lm2_circle_f64 a, lm2_circle_f64 
 
 LM2_API void lm2_manifold_circle_to_aabb_f64(lm2_circle_f64 circle, lm2_r2_f64 aabb, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
   double closest_x = fmax(aabb.min.x, fmin(circle.center.x, aabb.max.x));
   double closest_y = fmax(aabb.min.y, fmin(circle.center.y, aabb.max.y));
   double dx = closest_x - circle.center.x;
@@ -480,9 +480,9 @@ LM2_API void lm2_manifold_circle_to_aabb_f64(lm2_circle_f64 circle, lm2_r2_f64 a
 
   out_manifold->count = 1;
   if (distance > 0.0) {
-    out_manifold->normal = (lm2_v2_f64) {dx / distance, dy / distance};
+    out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {dx / distance, dy / distance};
     out_manifold->depths[0] = circle.radius - distance;
-    out_manifold->contact_points[0] = (lm2_v2_f64) {closest_x, closest_y};
+    out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {closest_x, closest_y};
   } else {
     double left = circle.center.x - aabb.min.x;
     double right = aabb.max.x - circle.center.x;
@@ -493,10 +493,10 @@ LM2_API void lm2_manifold_circle_to_aabb_f64(lm2_circle_f64 circle, lm2_r2_f64 a
     double depth;
     if (x_overlap < y_overlap) {
       depth = x_overlap;
-      out_manifold->normal = (lm2_v2_f64) {left < right ? 1.0 : -1.0, 0.0};
+      out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {left < right ? 1.0 : -1.0, 0.0};
     } else {
       depth = y_overlap;
-      out_manifold->normal = (lm2_v2_f64) {0.0, bottom < top ? 1.0 : -1.0};
+      out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, bottom < top ? 1.0 : -1.0};
     }
     out_manifold->depths[0] = circle.radius + depth;
     out_manifold->contact_points[0].x = circle.center.x - out_manifold->normal.x * depth;
@@ -506,7 +506,7 @@ LM2_API void lm2_manifold_circle_to_aabb_f64(lm2_circle_f64 circle, lm2_r2_f64 a
 
 LM2_API void lm2_manifold_circle_to_capsule_f64(lm2_circle_f64 circle, lm2_capsule2_f64 capsule, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
   const double axis_x = capsule.end.x - capsule.start.x;
   const double axis_y = capsule.end.y - capsule.start.y;
   const double length = hypot(axis_x, axis_y);
@@ -523,12 +523,12 @@ LM2_API void lm2_manifold_circle_to_capsule_f64(lm2_circle_f64 circle, lm2_capsu
   if (distance >= radius_sum) return;
 
   const lm2_v2_f64 normal = distance > 0.0
-                                ? (lm2_v2_f64) {dx / distance, dy / distance}
-                                : (length > 0.0 ? (lm2_v2_f64) {-uy, ux} : (lm2_v2_f64) {0.0, 1.0});
+                                ? LM2_PRIVATE_LITERAL(lm2_v2_f64) {dx / distance, dy / distance}
+                                : (length > 0.0 ? LM2_PRIVATE_LITERAL(lm2_v2_f64) {-uy, ux} : LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, 1.0});
   out_manifold->count = 1;
   out_manifold->normal = normal;
   out_manifold->depths[0] = radius_sum - distance;
-  out_manifold->contact_points[0] = (lm2_v2_f64) {
+  out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {
       capsule.start.x + along * ux - normal.x * capsule.radius,
       capsule.start.y + along * uy - normal.y * capsule.radius};
 }
@@ -536,7 +536,7 @@ LM2_API void lm2_manifold_circle_to_capsule_f64(lm2_circle_f64 circle, lm2_capsu
 LM2_API void lm2_manifold_circle_to_polygon_f64(lm2_circle_f64 circle, lm2_polygon_f64 polygon, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
   LM2_ASSERT(polygon.vertices != NULL && polygon.vertex_count >= 3 && polygon.vertex_count <= LM2_PRIVATE_C2_MAX_POLYGON_VERTS);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
   bool inside = true;
   double max_separation = -INFINITY;
   double closest_distance = INFINITY;
@@ -557,7 +557,7 @@ LM2_API void lm2_manifold_circle_to_polygon_f64(lm2_circle_f64 circle, lm2_polyg
     if (separation > 0.0) inside = false;
     if (separation > max_separation) {
       max_separation = separation;
-      face_normal = (lm2_v2_f64) {uy, -ux};
+      face_normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {uy, -ux};
     }
     double along = -(ax * ux + ay * uy);
     along = fmax(0.0, fmin(along, length));
@@ -566,20 +566,20 @@ LM2_API void lm2_manifold_circle_to_polygon_f64(lm2_circle_f64 circle, lm2_polyg
     const double distance = hypot(dx, dy);
     if (distance < closest_distance) {
       closest_distance = distance;
-      closest = (lm2_v2_f64) {dx, dy};
+      closest = LM2_PRIVATE_LITERAL(lm2_v2_f64) {dx, dy};
     }
   }
   if (inside) {
     out_manifold->count = 1;
-    out_manifold->normal = (lm2_v2_f64) {-face_normal.x, -face_normal.y};
+    out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {-face_normal.x, -face_normal.y};
     out_manifold->depths[0] = circle.radius - max_separation;
-    out_manifold->contact_points[0] = (lm2_v2_f64) {circle.center.x - face_normal.x * max_separation,
+    out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {circle.center.x - face_normal.x * max_separation,
                                                     circle.center.y - face_normal.y * max_separation};
   } else if (closest_distance < circle.radius) {
     out_manifold->count = 1;
-    out_manifold->normal = (lm2_v2_f64) {closest.x / closest_distance, closest.y / closest_distance};
+    out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {closest.x / closest_distance, closest.y / closest_distance};
     out_manifold->depths[0] = circle.radius - closest_distance;
-    out_manifold->contact_points[0] = (lm2_v2_f64) {circle.center.x + closest.x, circle.center.y + closest.y};
+    out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {circle.center.x + closest.x, circle.center.y + closest.y};
   }
 }
 
@@ -595,7 +595,7 @@ static float _lm2_interval_midpoint_f32(float lower, float upper) {
 
 LM2_API void lm2_manifold_aabb_to_aabb_f64(lm2_r2_f64 a, lm2_r2_f64 b, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
   double dx = fmin(a.max.x - b.min.x, b.max.x - a.min.x);
   double dy = fmin(a.max.y - b.min.y, b.max.y - a.min.y);
   if (dx < 0.0 || dy < 0.0) return;
@@ -606,15 +606,15 @@ LM2_API void lm2_manifold_aabb_to_aabb_f64(lm2_r2_f64 a, lm2_r2_f64 b, lm2_manif
   double by = b.min.y * 0.5 + b.max.y * 0.5;
   out_manifold->count = 1;
   if (dx < dy) {
-    out_manifold->normal = (lm2_v2_f64) {bx < ax ? -1.0 : 1.0, 0.0};
+    out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {bx < ax ? -1.0 : 1.0, 0.0};
     out_manifold->depths[0] = dx;
     double tangent = _lm2_interval_midpoint_f64(fmax(a.min.y, b.min.y), fmin(a.max.y, b.max.y));
-    out_manifold->contact_points[0] = (lm2_v2_f64) {bx < ax ? a.min.x : a.max.x, tangent};
+    out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {bx < ax ? a.min.x : a.max.x, tangent};
   } else {
-    out_manifold->normal = (lm2_v2_f64) {0.0, by < ay ? -1.0 : 1.0};
+    out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, by < ay ? -1.0 : 1.0};
     out_manifold->depths[0] = dy;
     double tangent = _lm2_interval_midpoint_f64(fmax(a.min.x, b.min.x), fmin(a.max.x, b.max.x));
-    out_manifold->contact_points[0] = (lm2_v2_f64) {tangent, by < ay ? a.min.y : a.max.y};
+    out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {tangent, by < ay ? a.min.y : a.max.y};
   }
 }
 
@@ -644,7 +644,7 @@ static lm2_v2_f64 _lm2_capsule_project_f64(lm2_v2_f64 p, lm2_v2_f64 start, lm2_v
   if (length == 0.0) return start;
   const double ux = dx / length, uy = dy / length;
   const double along = fmax(0.0, fmin(length, (p.x - start.x) * ux + (p.y - start.y) * uy));
-  return (lm2_v2_f64) {start.x + along * ux, start.y + along * uy};
+  return LM2_PRIVATE_LITERAL(lm2_v2_f64) {start.x + along * ux, start.y + along * uy};
 }
 
 static void _lm2_capsule_candidate_f64(lm2_v2_f64 p, lm2_v2_f64 q, double* best, lm2_v2_f64* best_p, lm2_v2_f64* best_q) {
@@ -658,7 +658,7 @@ static void _lm2_capsule_candidate_f64(lm2_v2_f64 p, lm2_v2_f64 q, double* best,
 
 LM2_API void lm2_manifold_capsule_to_capsule_f64(lm2_capsule2_f64 a, lm2_capsule2_f64 b, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
   // Work relative to A's first endpoint to retain small separations after a
   // large translation. Four endpoint projections cover nonintersecting axes.
   const lm2_v2_f64 a0 = {0.0, 0.0};
@@ -682,7 +682,7 @@ LM2_API void lm2_manifold_capsule_to_capsule_f64(lm2_capsule2_f64 a, lm2_capsule
       const double t = (b0.x * by - b0.y * bx) / det;
       const double u = (b0.x * ay - b0.y * ax) / det;
       if (t >= 0.0 && t <= alen && u >= 0.0 && u <= blen) {
-        pa = (lm2_v2_f64) {t * ax, t * ay};
+        pa = LM2_PRIVATE_LITERAL(lm2_v2_f64) {t * ax, t * ay};
         pb = pa;
         distance = 0.0;
       }
@@ -691,12 +691,12 @@ LM2_API void lm2_manifold_capsule_to_capsule_f64(lm2_capsule2_f64 a, lm2_capsule
   const double radius = a.radius + b.radius;
   if (distance >= radius) return;
   const lm2_v2_f64 normal = distance > 0.0
-                                ? (lm2_v2_f64) {(pb.x - pa.x) / distance, (pb.y - pa.y) / distance}
-                                : (alen > 0.0 ? (lm2_v2_f64) {-a1.y / alen, a1.x / alen} : (lm2_v2_f64) {0.0, 1.0});
+                                ? LM2_PRIVATE_LITERAL(lm2_v2_f64) {(pb.x - pa.x) / distance, (pb.y - pa.y) / distance}
+                                : (alen > 0.0 ? LM2_PRIVATE_LITERAL(lm2_v2_f64) {-a1.y / alen, a1.x / alen} : LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, 1.0});
   out_manifold->count = 1;
   out_manifold->normal = normal;
   out_manifold->depths[0] = radius - distance;
-  out_manifold->contact_points[0] = (lm2_v2_f64) {a.start.x + pb.x - normal.x * b.radius,
+  out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {a.start.x + pb.x - normal.x * b.radius,
                                                   a.start.y + pb.y - normal.y * b.radius};
 }
 
@@ -705,7 +705,7 @@ static double _lm2_cap_poly_dot_f64(lm2_v2_f64 a, lm2_v2_f64 b) {
 }
 
 static lm2_v2_f64 _lm2_cap_poly_sub_f64(lm2_v2_f64 a, lm2_v2_f64 b) {
-  return (lm2_v2_f64) {a.x - b.x, a.y - b.y};
+  return LM2_PRIVATE_LITERAL(lm2_v2_f64) {a.x - b.x, a.y - b.y};
 }
 
 // Clip a segment against dot(normal, point - origin) <= 0, preserving the
@@ -722,7 +722,7 @@ static int _lm2_cap_poly_clip_f64(lm2_v2_f64 seg[2], lm2_v2_f64 origin, lm2_v2_f
     out[count++] = seg[1];
   } else if ((d0 <= 0.0 && d1 >= 0.0) || (d1 <= 0.0 && d0 >= 0.0)) {
     double t = d0 / (d0 - d1);
-    out[count++] = (lm2_v2_f64) {seg[0].x + t * (seg[1].x - seg[0].x),
+    out[count++] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {seg[0].x + t * (seg[1].x - seg[0].x),
                                  seg[0].y + t * (seg[1].y - seg[0].y)};
   }
   if (count == 2) {
@@ -735,7 +735,7 @@ static int _lm2_cap_poly_clip_f64(lm2_v2_f64 seg[2], lm2_v2_f64 origin, lm2_v2_f
 LM2_API void lm2_manifold_capsule_to_polygon_f64(lm2_capsule2_f64 capsule, lm2_polygon_f64 polygon, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
   LM2_ASSERT(polygon.vertices != NULL && polygon.vertex_count >= 3 && polygon.vertex_count <= LM2_PRIVATE_C2_MAX_POLYGON_VERTS);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
   lm2_v2_f64 axis = _lm2_cap_poly_sub_f64(capsule.end, capsule.start);
   double length = hypot(axis.x, axis.y);
   if (length == 0.0) {
@@ -762,7 +762,7 @@ LM2_API void lm2_manifold_capsule_to_polygon_f64(lm2_capsule2_f64 capsule, lm2_p
     out_manifold->count = 1;
     out_manifold->normal = n;
     out_manifold->depths[0] = capsule.radius - distance;
-    out_manifold->contact_points[0] = (lm2_v2_f64) {capsule.start.x + point_a.x + n.x * capsule.radius,
+    out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {capsule.start.x + point_a.x + n.x * capsule.radius,
                                                     capsule.start.y + point_a.y + n.y * capsule.radius};
     return;
   }
@@ -839,10 +839,10 @@ LM2_API void lm2_manifold_capsule_to_polygon_f64(lm2_capsule2_f64 capsule, lm2_p
     if (depth >= -tolerance) {
       int k = out_manifold->count++;
       out_manifold->depths[k] = fmax(depth, 0.0) + capsule.radius;
-      out_manifold->contact_points[k] = (lm2_v2_f64) {capsule.start.x + seg[i].x, capsule.start.y + seg[i].y};
+      out_manifold->contact_points[k] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {capsule.start.x + seg[i].x, capsule.start.y + seg[i].y};
     }
   }
-  if (out_manifold->count) out_manifold->normal = code == 0 ? (lm2_v2_f64) {-normal.x, -normal.y} : normal;
+  if (out_manifold->count) out_manifold->normal = code == 0 ? LM2_PRIVATE_LITERAL(lm2_v2_f64) {-normal.x, -normal.y} : normal;
 }
 
 LM2_API void lm2_manifold_polygon_to_polygon_f64(lm2_polygon_f64 a, lm2_polygon_f64 b, lm2_manifold_f64* out_manifold) {
@@ -858,7 +858,7 @@ LM2_API void lm2_manifold_polygon_to_polygon_f64(lm2_polygon_f64 a, lm2_polygon_
 
 LM2_API void lm2_manifold_circle_to_circle_f32(lm2_circle_f32 a, lm2_circle_f32 b, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f32) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f32) {0};
   float dx = b.center.x - a.center.x;
   float dy = b.center.y - a.center.y;
   float distance = hypotf(dx, dy);
@@ -866,8 +866,8 @@ LM2_API void lm2_manifold_circle_to_circle_f32(lm2_circle_f32 a, lm2_circle_f32 
   if (distance >= radius_sum) return;
 
   lm2_v2_f32 normal = distance != 0.0f
-                          ? (lm2_v2_f32) {dx / distance, dy / distance}
-                          : (lm2_v2_f32) {0.0f, 1.0f};
+                          ? LM2_PRIVATE_LITERAL(lm2_v2_f32) {dx / distance, dy / distance}
+                          : LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 1.0f};
   out_manifold->count = 1;
   out_manifold->depths[0] = radius_sum - distance;
   out_manifold->normal = normal;
@@ -877,7 +877,7 @@ LM2_API void lm2_manifold_circle_to_circle_f32(lm2_circle_f32 a, lm2_circle_f32 
 
 LM2_API void lm2_manifold_circle_to_aabb_f32(lm2_circle_f32 circle, lm2_r2_f32 aabb, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f32) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f32) {0};
   float closest_x = fmaxf(aabb.min.x, fminf(circle.center.x, aabb.max.x));
   float closest_y = fmaxf(aabb.min.y, fminf(circle.center.y, aabb.max.y));
   float dx = closest_x - circle.center.x;
@@ -887,9 +887,9 @@ LM2_API void lm2_manifold_circle_to_aabb_f32(lm2_circle_f32 circle, lm2_r2_f32 a
 
   out_manifold->count = 1;
   if (distance > 0.0f) {
-    out_manifold->normal = (lm2_v2_f32) {dx / distance, dy / distance};
+    out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {dx / distance, dy / distance};
     out_manifold->depths[0] = circle.radius - distance;
-    out_manifold->contact_points[0] = (lm2_v2_f32) {closest_x, closest_y};
+    out_manifold->contact_points[0] = LM2_PRIVATE_LITERAL(lm2_v2_f32) {closest_x, closest_y};
   } else {
     float left = circle.center.x - aabb.min.x;
     float right = aabb.max.x - circle.center.x;
@@ -900,10 +900,10 @@ LM2_API void lm2_manifold_circle_to_aabb_f32(lm2_circle_f32 circle, lm2_r2_f32 a
     float depth;
     if (x_overlap < y_overlap) {
       depth = x_overlap;
-      out_manifold->normal = (lm2_v2_f32) {left < right ? 1.0f : -1.0f, 0.0f};
+      out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {left < right ? 1.0f : -1.0f, 0.0f};
     } else {
       depth = y_overlap;
-      out_manifold->normal = (lm2_v2_f32) {0.0f, bottom < top ? 1.0f : -1.0f};
+      out_manifold->normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, bottom < top ? 1.0f : -1.0f};
     }
     out_manifold->depths[0] = circle.radius + depth;
     out_manifold->contact_points[0].x = circle.center.x - out_manifold->normal.x * depth;
@@ -1380,7 +1380,7 @@ LM2_API void lm2_manifold_triangle_to_polygon_f32(const lm2_triangle2_f32 tri, l
 
 LM2_API void lm2_manifold_circle_to_plane_f64(lm2_circle_f64 circle, lm2_plane2_f64 plane, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
 
   // Calculate signed distance from circle center to plane
   double dist_to_center = lm2_sub_f64(lm2_v2_dot_f64(circle.center, plane.normal), plane.distance);
@@ -1404,7 +1404,7 @@ LM2_API void lm2_manifold_circle_to_plane_f64(lm2_circle_f64 circle, lm2_plane2_
 
 LM2_API void lm2_manifold_capsule_to_plane_f64(lm2_capsule2_f64 capsule, lm2_plane2_f64 plane, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
 
   // Check both endpoints of the capsule
   double dist_start = lm2_sub_f64(lm2_v2_dot_f64(capsule.start, plane.normal), plane.distance);
@@ -1434,14 +1434,14 @@ LM2_API void lm2_manifold_capsule_to_plane_f64(lm2_capsule2_f64 capsule, lm2_pla
 
 LM2_API void lm2_manifold_aabb_to_plane_f64(lm2_r2_f64 aabb, lm2_plane2_f64 plane, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
 
   // Get AABB corners
   lm2_v2_f64 corners[4];
   corners[0] = aabb.min;
-  corners[1] = (lm2_v2_f64) {aabb.max.x, aabb.min.y};
+  corners[1] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {aabb.max.x, aabb.min.y};
   corners[2] = aabb.max;
-  corners[3] = (lm2_v2_f64) {aabb.min.x, aabb.max.y};
+  corners[3] = LM2_PRIVATE_LITERAL(lm2_v2_f64) {aabb.min.x, aabb.max.y};
 
   out_manifold->count = 0;
 
@@ -1461,7 +1461,7 @@ LM2_API void lm2_manifold_aabb_to_plane_f64(lm2_r2_f64 aabb, lm2_plane2_f64 plan
 
 LM2_API void lm2_manifold_triangle_to_plane_f64(const lm2_triangle2_f64 tri, lm2_plane2_f64 plane, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
 
   lm2_v2_f64 verts[3] = {tri[0], tri[1], tri[2]};
 
@@ -1483,7 +1483,7 @@ LM2_API void lm2_manifold_triangle_to_plane_f64(const lm2_triangle2_f64 tri, lm2
 
 LM2_API void lm2_manifold_polygon_to_plane_f64(lm2_polygon_f64 polygon, lm2_plane2_f64 plane, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
   LM2_ASSERT(polygon.vertices != NULL);
 
   out_manifold->count = 0;
@@ -1508,7 +1508,7 @@ LM2_API void lm2_manifold_polygon_to_plane_f64(lm2_polygon_f64 polygon, lm2_plan
 
 LM2_API void lm2_manifold_circle_to_plane_f32(lm2_circle_f32 circle, lm2_plane2_f32 plane, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f32) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f32) {0};
 
   float dist_to_center = lm2_sub_f32(lm2_v2_dot_f32(circle.center, plane.normal), plane.distance);
   float penetration = lm2_sub_f32(circle.radius, lm2_abs_f32(dist_to_center));
@@ -1528,7 +1528,7 @@ LM2_API void lm2_manifold_circle_to_plane_f32(lm2_circle_f32 circle, lm2_plane2_
 
 LM2_API void lm2_manifold_capsule_to_plane_f32(lm2_capsule2_f32 capsule, lm2_plane2_f32 plane, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f32) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f32) {0};
 
   float dist_start = lm2_sub_f32(lm2_v2_dot_f32(capsule.start, plane.normal), plane.distance);
   float dist_end = lm2_sub_f32(lm2_v2_dot_f32(capsule.end, plane.normal), plane.distance);
@@ -1557,13 +1557,13 @@ LM2_API void lm2_manifold_capsule_to_plane_f32(lm2_capsule2_f32 capsule, lm2_pla
 
 LM2_API void lm2_manifold_aabb_to_plane_f32(lm2_r2_f32 aabb, lm2_plane2_f32 plane, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f32) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f32) {0};
 
   lm2_v2_f32 corners[4];
   corners[0] = aabb.min;
-  corners[1] = (lm2_v2_f32) {aabb.max.x, aabb.min.y};
+  corners[1] = LM2_PRIVATE_LITERAL(lm2_v2_f32) {aabb.max.x, aabb.min.y};
   corners[2] = aabb.max;
-  corners[3] = (lm2_v2_f32) {aabb.min.x, aabb.max.y};
+  corners[3] = LM2_PRIVATE_LITERAL(lm2_v2_f32) {aabb.min.x, aabb.max.y};
 
   out_manifold->count = 0;
 
@@ -1582,7 +1582,7 @@ LM2_API void lm2_manifold_aabb_to_plane_f32(lm2_r2_f32 aabb, lm2_plane2_f32 plan
 
 LM2_API void lm2_manifold_triangle_to_plane_f32(const lm2_triangle2_f32 tri, lm2_plane2_f32 plane, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f32) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f32) {0};
 
   lm2_v2_f32 verts[3] = {tri[0], tri[1], tri[2]};
 
@@ -1603,7 +1603,7 @@ LM2_API void lm2_manifold_triangle_to_plane_f32(const lm2_triangle2_f32 tri, lm2
 
 LM2_API void lm2_manifold_polygon_to_plane_f32(lm2_polygon_f32 polygon, lm2_plane2_f32 plane, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f32) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f32) {0};
   LM2_ASSERT(polygon.vertices != NULL);
 
   out_manifold->count = 0;
@@ -1627,7 +1627,7 @@ LM2_API void lm2_manifold_polygon_to_plane_f32(lm2_polygon_f32 polygon, lm2_plan
 
 LM2_API void lm2_manifold_shape_to_shape_f64(lm2_shape2_f64 shape_a, lm2_shape2_f64 shape_b, lm2_manifold_f64* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f64) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f64) {0};
   LM2_ASSERT(shape_a.data != NULL);
   LM2_ASSERT(shape_b.data != NULL);
 
@@ -1788,7 +1788,7 @@ LM2_API void lm2_manifold_shape_to_shape_f64(lm2_shape2_f64 shape_a, lm2_shape2_
 
 LM2_API void lm2_manifold_shape_to_shape_f32(lm2_shape2_f32 shape_a, lm2_shape2_f32 shape_b, lm2_manifold_f32* out_manifold) {
   LM2_ASSERT(out_manifold != NULL);
-  *out_manifold = (lm2_manifold_f32) {0};
+  *out_manifold = LM2_PRIVATE_LITERAL(lm2_manifold_f32) {0};
   LM2_ASSERT(shape_a.data != NULL);
   LM2_ASSERT(shape_b.data != NULL);
 

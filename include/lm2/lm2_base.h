@@ -56,6 +56,13 @@ LM2_HEADER_BEGIN;
 
 #define LM2_API static inline
 
+// C compound literals and C++ aggregate initialization use different syntax.
+#ifdef __cplusplus
+#  define LM2_PRIVATE_LITERAL(type) type
+#else
+#  define LM2_PRIVATE_LITERAL(type) (type)
+#endif
+
 // #############################################################################
 // LM2_ASSERT macro for internal assertions
 // #############################################################################

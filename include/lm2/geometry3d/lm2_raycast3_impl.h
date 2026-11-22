@@ -183,8 +183,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3_f64 aabb)
       if (ray.origin.e[i] < aabb.min.e[i] || ray.origin.e[i] > aabb.max.e[i]) {
         result.hit = false;
         result.t = 0.0;
-        result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
-        result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
+        result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
+        result.point = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
         return result;
       }
       continue;
@@ -203,7 +203,7 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3_f64 aabb)
 
     if (t0 > t_min) {
       t_min = t0;
-      entry_normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+      entry_normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
       entry_normal.e[i] = ray.direction.e[i] < 0.0 ? 1.0 : -1.0;
     }
     t_max = t1 < t_max ? t1 : t_max;
@@ -211,8 +211,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3_f64 aabb)
     if (t_max < t_min) {
       result.hit = false;
       result.t = 0.0;
-      result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
-      result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
+      result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
+      result.point = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
       return result;
     }
   }
@@ -230,7 +230,7 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3_f64 aabb)
   // inside, retain the previous fallback direction.
   for (int i = 0; i < 3; ++i) {
     if (ray.origin.e[i] == aabb.min.e[i] || ray.origin.e[i] == aabb.max.e[i]) {
-      result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+      result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
       result.normal.e[i] = ray.origin.e[i] == aabb.min.e[i] ? -1.0 : 1.0;
       return result;
     }
@@ -245,11 +245,11 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_aabb3_f64(lm2_ray3_f64 ray, lm2_r3_f64 aabb)
   }
 
   if (abs_local.x > abs_local.y && abs_local.x > abs_local.z) {
-    result.normal = (lm2_v3_f64) {local.x > 0.0 ? 1.0 : -1.0, 0.0, 0.0};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {local.x > 0.0 ? 1.0 : -1.0, 0.0, 0.0};
   } else if (abs_local.y > abs_local.z) {
-    result.normal = (lm2_v3_f64) {0.0, local.y > 0.0 ? 1.0 : -1.0, 0.0};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, local.y > 0.0 ? 1.0 : -1.0, 0.0};
   } else {
-    result.normal = (lm2_v3_f64) {0.0, 0.0, local.z > 0.0 ? 1.0 : -1.0};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, local.z > 0.0 ? 1.0 : -1.0};
   }
 
   return result;
@@ -269,8 +269,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_triangle_f64(lm2_ray3_f64 ray, lm2_v3_f64 v0
   if (lm2_abs_f64(a) < epsilon) {
     result.hit = false;
     result.t = 0.0;
-    result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
-    result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
     return result;
   }
 
@@ -281,8 +281,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_triangle_f64(lm2_ray3_f64 ray, lm2_v3_f64 v0
   if (u < 0.0 || u > 1.0) {
     result.hit = false;
     result.t = 0.0;
-    result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
-    result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
     return result;
   }
 
@@ -292,8 +292,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_triangle_f64(lm2_ray3_f64 ray, lm2_v3_f64 v0
   if (v < 0.0 || lm2_add_f64(u, v) > 1.0) {
     result.hit = false;
     result.t = 0.0;
-    result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
-    result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
     return result;
   }
 
@@ -307,8 +307,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_triangle_f64(lm2_ray3_f64 ray, lm2_v3_f64 v0
   } else {
     result.hit = false;
     result.t = 0.0;
-    result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
-    result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
   }
 
   return result;
@@ -345,8 +345,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_plane_f64(lm2_ray3_f64 ray, lm2_v3_f64 plane
 
   result.hit = false;
   result.t = 0.0;
-  result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
-  result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
+  result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
+  result.point = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
   return result;
 }
 
@@ -406,8 +406,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3_f32 aabb)
       if (ray.origin.e[i] < aabb.min.e[i] || ray.origin.e[i] > aabb.max.e[i]) {
         result.hit = false;
         result.t = 0.0f;
-        result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
-        result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+        result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+        result.point = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
         return result;
       }
       continue;
@@ -424,7 +424,7 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3_f32 aabb)
 
     if (t0 > t_min) {
       t_min = t0;
-      entry_normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+      entry_normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
       entry_normal.e[i] = ray.direction.e[i] < 0.0f ? 1.0f : -1.0f;
     }
     t_max = t1 < t_max ? t1 : t_max;
@@ -432,8 +432,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3_f32 aabb)
     if (t_max < t_min) {
       result.hit = false;
       result.t = 0.0f;
-      result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
-      result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+      result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+      result.point = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
       return result;
     }
   }
@@ -449,7 +449,7 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3_f32 aabb)
 
   for (int i = 0; i < 3; ++i) {
     if (ray.origin.e[i] == aabb.min.e[i] || ray.origin.e[i] == aabb.max.e[i]) {
-      result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+      result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
       result.normal.e[i] = ray.origin.e[i] == aabb.min.e[i] ? -1.0f : 1.0f;
       return result;
     }
@@ -464,11 +464,11 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_aabb3_f32(lm2_ray3_f32 ray, lm2_r3_f32 aabb)
   }
 
   if (abs_local.x > abs_local.y && abs_local.x > abs_local.z) {
-    result.normal = (lm2_v3_f32) {local.x > 0.0f ? 1.0f : -1.0f, 0.0f, 0.0f};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {local.x > 0.0f ? 1.0f : -1.0f, 0.0f, 0.0f};
   } else if (abs_local.y > abs_local.z) {
-    result.normal = (lm2_v3_f32) {0.0f, local.y > 0.0f ? 1.0f : -1.0f, 0.0f};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, local.y > 0.0f ? 1.0f : -1.0f, 0.0f};
   } else {
-    result.normal = (lm2_v3_f32) {0.0f, 0.0f, local.z > 0.0f ? 1.0f : -1.0f};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, local.z > 0.0f ? 1.0f : -1.0f};
   }
 
   return result;
@@ -488,8 +488,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3_f32 v0
   if (lm2_abs_f32(a) < epsilon) {
     result.hit = false;
     result.t = 0.0f;
-    result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
-    result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
     return result;
   }
 
@@ -500,8 +500,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3_f32 v0
   if (u < 0.0f || u > 1.0f) {
     result.hit = false;
     result.t = 0.0f;
-    result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
-    result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
     return result;
   }
 
@@ -511,8 +511,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3_f32 v0
   if (v < 0.0f || lm2_add_f32(u, v) > 1.0f) {
     result.hit = false;
     result.t = 0.0f;
-    result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
-    result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
     return result;
   }
 
@@ -526,8 +526,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_triangle_f32(lm2_ray3_f32 ray, lm2_v3_f32 v0
   } else {
     result.hit = false;
     result.t = 0.0f;
-    result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
-    result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
   }
 
   return result;
@@ -562,8 +562,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_plane_f32(lm2_ray3_f32 ray, lm2_v3_f32 plane
 
   result.hit = false;
   result.t = 0.0f;
-  result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
-  result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+  result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+  result.point = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
   return result;
 }
 
@@ -1006,8 +1006,8 @@ LM2_API lm2_rayhit3_f64 lm2_raycast_shape3_f64(lm2_ray3_f64 ray, lm2_shape3_f64 
   lm2_rayhit3_f64 result;
   result.hit = false;
   result.t = 0.0;
-  result.point = (lm2_v3_f64) {0.0, 0.0, 0.0};
-  result.normal = (lm2_v3_f64) {0.0, 0.0, 0.0};
+  result.point = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
+  result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f64) {0.0, 0.0, 0.0};
 
   switch (shape.type) {
     case LM2_SHAPE3_SPHERE: {
@@ -1057,8 +1057,8 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 
   lm2_rayhit3_f32 result;
   result.hit = false;
   result.t = 0.0f;
-  result.point = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
-  result.normal = (lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+  result.point = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
+  result.normal = LM2_PRIVATE_LITERAL(lm2_v3_f32) {0.0f, 0.0f, 0.0f};
 
   switch (shape.type) {
     case LM2_SHAPE3_SPHERE: {

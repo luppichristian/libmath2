@@ -183,13 +183,17 @@
 #pragma GCC diagnostic ignored "-Wswitch"
 #endif
 
-#define CUTE_C2_API static inline
 #ifndef __cplusplus
 #if defined(_MSC_VER)
+#define CUTE_C2_API static inline
 #define __forceinline static __forceinline
 #else
+// The inline macro adds static to cute_c2's inline helpers and API declarations.
+#define CUTE_C2_API inline
 #define inline static inline
 #endif
+#else
+#define CUTE_C2_API static inline
 #endif
 #include <cute_c2.h>
 #ifndef __cplusplus

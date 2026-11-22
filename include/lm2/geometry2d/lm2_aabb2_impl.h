@@ -235,7 +235,7 @@ static _lm2_u128_pair _lm2_multiply_u64_wide(uint64_t a, uint64_t b) {
   uint64_t p00 = lm2_mul_u64(al, bl), p01 = lm2_mul_u64(al, bh);
   uint64_t p10 = lm2_mul_u64(ah, bl), p11 = lm2_mul_u64(ah, bh);
   uint64_t middle = lm2_add_u64(lm2_add_u64(p00 >> 32, (uint32_t)p01), (uint32_t)p10);
-  return (_lm2_u128_pair) {lm2_add_u64(lm2_add_u64(lm2_add_u64(p11, p01 >> 32), p10 >> 32), middle >> 32),
+  return LM2_PRIVATE_LITERAL(_lm2_u128_pair) {lm2_add_u64(lm2_add_u64(lm2_add_u64(p11, p01 >> 32), p10 >> 32), middle >> 32),
                            (middle << 32) | (uint32_t)p00};
 }
 

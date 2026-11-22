@@ -124,14 +124,17 @@ jobs:
       run: |
         llvm-profdata merge --sparse build-coverage/profiles/*.profraw \
           --output build-coverage/coverage.profdata
+        # Preserve the previous src-only coverage scope after moving the
+        # implementations into include/: exclude vendored code and extensions.
+        coverage_excludes='(^|/)(tests|build-coverage|_deps)/|(^|/)cute_c2\.h$|(^|/)lm2/extensions/'
         llvm-cov export build-coverage/libmath2-tests \
           --instr-profile build-coverage/coverage.profdata \
           --summary-only \
-          --ignore-filename-regex='(^|/)(tests|build-coverage|_deps)/' \
+          --ignore-filename-regex="$coverage_excludes" \
           > coverage.json
         llvm-cov report build-coverage/libmath2-tests \
           --instr-profile build-coverage/coverage.profdata \
-          --ignore-filename-regex='(^|/)(tests|build-coverage|_deps)/' \
+          --ignore-filename-regex="$coverage_excludes" \
           | tee coverage.txt
         python - <<'PY'
         import json

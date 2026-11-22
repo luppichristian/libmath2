@@ -94,18 +94,18 @@ LM2_API lm2_v2_f32 lm2_ray2_point_at_f32(lm2_ray2_f32 ray, float t) {
 // At a surface origin, return the outward face normal. Keep the caller's
 // fallback for an origin strictly inside the box, where no face is selected.
 static lm2_v2_f64 _lm2_aabb_origin_normal_f64(lm2_v2_f64 origin, lm2_r2_f64 aabb, lm2_v2_f64 fallback) {
-  if (origin.x == aabb.min.x) return (lm2_v2_f64) {-1.0, 0.0};
-  if (origin.x == aabb.max.x) return (lm2_v2_f64) {1.0, 0.0};
-  if (origin.y == aabb.min.y) return (lm2_v2_f64) {0.0, -1.0};
-  if (origin.y == aabb.max.y) return (lm2_v2_f64) {0.0, 1.0};
+  if (origin.x == aabb.min.x) return LM2_PRIVATE_LITERAL(lm2_v2_f64) {-1.0, 0.0};
+  if (origin.x == aabb.max.x) return LM2_PRIVATE_LITERAL(lm2_v2_f64) {1.0, 0.0};
+  if (origin.y == aabb.min.y) return LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, -1.0};
+  if (origin.y == aabb.max.y) return LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, 1.0};
   return fallback;
 }
 
 static lm2_v2_f32 _lm2_aabb_origin_normal_f32(lm2_v2_f32 origin, lm2_r2_f32 aabb, lm2_v2_f32 fallback) {
-  if (origin.x == aabb.min.x) return (lm2_v2_f32) {-1.0f, 0.0f};
-  if (origin.x == aabb.max.x) return (lm2_v2_f32) {1.0f, 0.0f};
-  if (origin.y == aabb.min.y) return (lm2_v2_f32) {0.0f, -1.0f};
-  if (origin.y == aabb.max.y) return (lm2_v2_f32) {0.0f, 1.0f};
+  if (origin.x == aabb.min.x) return LM2_PRIVATE_LITERAL(lm2_v2_f32) {-1.0f, 0.0f};
+  if (origin.x == aabb.max.x) return LM2_PRIVATE_LITERAL(lm2_v2_f32) {1.0f, 0.0f};
+  if (origin.y == aabb.min.y) return LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, -1.0f};
+  if (origin.y == aabb.max.y) return LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 1.0f};
   return fallback;
 }
 
@@ -144,11 +144,11 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_circle_f64(lm2_ray2_f64 ray, lm2_circle_f64 
   lm2_v2_f64 relative_hit = {
       signed_perpendicular * uy - half_chord * ux,
       lm2_neg_f64(signed_perpendicular) * ux - half_chord * uy};
-  result.point = (lm2_v2_f64) {circle.center.x + relative_hit.x,
+  result.point = LM2_PRIVATE_LITERAL(lm2_v2_f64) {circle.center.x + relative_hit.x,
                                circle.center.y + relative_hit.y};
   double normal_len = hypot(relative_hit.x, relative_hit.y);
   if (normal_len > 0.0) {
-    result.normal = (lm2_v2_f64) {relative_hit.x / normal_len, relative_hit.y / normal_len};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {relative_hit.x / normal_len, relative_hit.y / normal_len};
   }
   return result;
 }
@@ -183,7 +183,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_aabb_f64(lm2_ray2_f64 ray, lm2_r2_f64 aabb) 
     }
     if (near_t > t_enter) {
       t_enter = near_t;
-      normal = (lm2_v2_f64) {0.0, 0.0};
+      normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, 0.0};
       normal.e[axis] = near_normal;
     }
     if (far_t < t_exit) t_exit = far_t;
@@ -216,7 +216,7 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_capsule2_f64(lm2_ray2_f64 ray, lm2_capsule2_
     // Preserve the 2D backend's origin-inside convention.
     result.hit = true;
     result.point = ray.origin;
-    result.normal = (lm2_v2_f64) {ux, uy};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {ux, uy};
     return result;
   }
 
@@ -232,14 +232,14 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_capsule2_f64(lm2_ray2_f64 ray, lm2_capsule2_
   if (hit.hit) {
     result.hit = true;
     result.t = hit.t;
-    result.point = (lm2_v2_f64) {hit.point.x, hit.point.y};
-    result.normal = (lm2_v2_f64) {hit.normal.x, hit.normal.y};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v2_f64) {hit.point.x, hit.point.y};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {hit.normal.x, hit.normal.y};
     if (capsule.radius == 0.0 && length > 0.0 && result.normal.x == 0.0 && result.normal.y == 0.0) {
       // A zero-radius capsule is a segment: use the face opposing the ray.
       const double dot = uy * ray.direction.x - ux * ray.direction.y;
       if (dot != 0.0) {
         const double sign = dot > 0.0 ? -1.0 : 1.0;
-        result.normal = (lm2_v2_f64) {sign * uy, lm2_neg_f64(sign) * ux};
+        result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {sign * uy, lm2_neg_f64(sign) * ux};
       }
     }
   }
@@ -343,11 +343,11 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_circle_f32(lm2_ray2_f32 ray, lm2_circle_f32 
   lm2_v2_f32 relative_hit = {
       signed_perpendicular * uy - half_chord * ux,
       lm2_neg_f32(signed_perpendicular) * ux - half_chord * uy};
-  result.point = (lm2_v2_f32) {circle.center.x + relative_hit.x,
+  result.point = LM2_PRIVATE_LITERAL(lm2_v2_f32) {circle.center.x + relative_hit.x,
                                circle.center.y + relative_hit.y};
   float normal_len = hypotf(relative_hit.x, relative_hit.y);
   if (normal_len > 0.0f) {
-    result.normal = (lm2_v2_f32) {relative_hit.x / normal_len, relative_hit.y / normal_len};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {relative_hit.x / normal_len, relative_hit.y / normal_len};
   }
   return result;
 }
@@ -369,8 +369,8 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_aabb_f32(lm2_ray2_f32 ray, lm2_r2_f32 aabb) 
     if (result.t == 0.0f) result.normal = _lm2_aabb_origin_normal_f32(ray.origin, aabb, result.normal);
   } else {
     result.t = 0.0f;
-    result.normal = (lm2_v2_f32) {0.0f, 0.0f};
-    result.point = (lm2_v2_f32) {0.0f, 0.0f};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 0.0f};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 0.0f};
   }
 
   return result;
@@ -392,7 +392,7 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_capsule2_f32(lm2_ray2_f32 ray, lm2_capsule2_
   if (hypotf(ox - along * ux, oy - along * uy) <= capsule.radius) {
     result.hit = true;
     result.point = ray.origin;
-    result.normal = (lm2_v2_f32) {ux, uy};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {ux, uy};
     return result;
   }
   lm2_ray3_f32 ray3 = {
@@ -406,13 +406,13 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_capsule2_f32(lm2_ray2_f32 ray, lm2_capsule2_
   if (hit.hit) {
     result.hit = true;
     result.t = hit.t;
-    result.point = (lm2_v2_f32) {hit.point.x, hit.point.y};
-    result.normal = (lm2_v2_f32) {hit.normal.x, hit.normal.y};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v2_f32) {hit.point.x, hit.point.y};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {hit.normal.x, hit.normal.y};
     if (capsule.radius == 0.0f && length > 0.0f && result.normal.x == 0.0f && result.normal.y == 0.0f) {
       float dot = uy * ray.direction.x - ux * ray.direction.y;
       if (dot != 0.0f) {
         float sign = dot > 0.0f ? -1.0f : 1.0f;
-        result.normal = (lm2_v2_f32) {sign * uy, lm2_neg_f32(sign) * ux};
+        result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {sign * uy, lm2_neg_f32(sign) * ux};
       }
     }
   }
@@ -434,8 +434,8 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_polygon_f32(lm2_ray2_f32 ray, lm2_polygon_f3
     result.point = lm2_ray2_point_at_f32(ray, result.t);
   } else {
     result.t = 0.0f;
-    result.normal = (lm2_v2_f32) {0.0f, 0.0f};
-    result.point = (lm2_v2_f32) {0.0f, 0.0f};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 0.0f};
+    result.point = LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 0.0f};
   }
 
   return result;
@@ -467,8 +467,8 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_triangle2_f32(lm2_ray2_f32 ray, const lm2_tr
   lm2_rayhit2_f32 result;
   result.hit = false;
   result.t = 0.0f;
-  result.point = (lm2_v2_f32) {0.0f, 0.0f};
-  result.normal = (lm2_v2_f32) {0.0f, 0.0f};
+  result.point = LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 0.0f};
+  result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 0.0f};
 
   // Convert triangle to polygon
   lm2_private_c2Poly poly = lm2_triangle2_f32_to_c2(tri);
@@ -498,8 +498,8 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_plane2_f64(lm2_ray2_f64 ray, lm2_plane2_f64 
   lm2_rayhit2_f64 result;
   result.hit = false;
   result.t = 0.0;
-  result.point = (lm2_v2_f64) {0.0, 0.0};
-  result.normal = (lm2_v2_f64) {0.0, 0.0};
+  result.point = LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, 0.0};
+  result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, 0.0};
 
   // Compute denominator (dot product of ray direction and plane normal)
   double denom = lm2_v2_dot_f64(ray.direction, plane.normal);
@@ -541,8 +541,8 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_plane2_f32(lm2_ray2_f32 ray, lm2_plane2_f32 
   lm2_rayhit2_f32 result;
   result.hit = false;
   result.t = 0.0f;
-  result.point = (lm2_v2_f32) {0.0f, 0.0f};
-  result.normal = (lm2_v2_f32) {0.0f, 0.0f};
+  result.point = LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 0.0f};
+  result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 0.0f};
 
   // Compute denominator (dot product of ray direction and plane normal)
   float denom = lm2_v2_dot_f32(ray.direction, plane.normal);
@@ -586,8 +586,8 @@ LM2_API lm2_rayhit2_f64 lm2_raycast_shape2_f64(lm2_ray2_f64 ray, lm2_shape2_f64 
   lm2_rayhit2_f64 result;
   result.hit = false;
   result.t = 0.0;
-  result.point = (lm2_v2_f64) {0.0, 0.0};
-  result.normal = (lm2_v2_f64) {0.0, 0.0};
+  result.point = LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, 0.0};
+  result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {0.0, 0.0};
 
   switch (shape.type) {
     case LM2_SHAPE2_CIRCLE: {
@@ -643,8 +643,8 @@ LM2_API lm2_rayhit2_f32 lm2_raycast_shape2_f32(lm2_ray2_f32 ray, lm2_shape2_f32 
   lm2_rayhit2_f32 result;
   result.hit = false;
   result.t = 0.0f;
-  result.point = (lm2_v2_f32) {0.0f, 0.0f};
-  result.normal = (lm2_v2_f32) {0.0f, 0.0f};
+  result.point = LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 0.0f};
+  result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {0.0f, 0.0f};
 
   switch (shape.type) {
     case LM2_SHAPE2_CIRCLE: {

@@ -161,7 +161,7 @@ LM2_API lm2_camera3_f64 lm2_camera3_set_fov_y_f64(lm2_camera3_f64 camera, double
 
 LM2_API lm2_v3_f64 lm2_camera3_world_to_ndc_f64(lm2_camera3_f64 camera, lm2_v3_f64 world_pos) {
   lm2_m4x4_f64 vp = lm2_camera3_get_view_projection_f64(camera);
-  lm2_v4_f64 clip = lm2_m4x4_transform_f64(vp, (lm2_v4_f64) {world_pos.x, world_pos.y, world_pos.z, 1.0});
+  lm2_v4_f64 clip = lm2_m4x4_transform_f64(vp, LM2_PRIVATE_LITERAL(lm2_v4_f64) {world_pos.x, world_pos.y, world_pos.z, 1.0});
   lm2_v3_f64 ndc;
   ndc.x = lm2_div_f64(clip.x, clip.w);
   ndc.y = lm2_div_f64(clip.y, clip.w);
@@ -171,7 +171,7 @@ LM2_API lm2_v3_f64 lm2_camera3_world_to_ndc_f64(lm2_camera3_f64 camera, lm2_v3_f
 
 LM2_API lm2_v3_f64 lm2_camera3_ndc_to_world_f64(lm2_camera3_f64 camera, lm2_v3_f64 ndc_pos) {
   lm2_m4x4_f64 inv_vp = lm2_m4x4_inverse_f64(lm2_camera3_get_view_projection_f64(camera));
-  lm2_v4_f64 clip = lm2_m4x4_transform_f64(inv_vp, (lm2_v4_f64) {ndc_pos.x, ndc_pos.y, ndc_pos.z, 1.0});
+  lm2_v4_f64 clip = lm2_m4x4_transform_f64(inv_vp, LM2_PRIVATE_LITERAL(lm2_v4_f64) {ndc_pos.x, ndc_pos.y, ndc_pos.z, 1.0});
   lm2_v3_f64 world;
   world.x = lm2_div_f64(clip.x, clip.w);
   world.y = lm2_div_f64(clip.y, clip.w);
@@ -306,7 +306,7 @@ LM2_API lm2_camera3_f32 lm2_camera3_set_fov_y_f32(lm2_camera3_f32 camera, float 
 
 LM2_API lm2_v3_f32 lm2_camera3_world_to_ndc_f32(lm2_camera3_f32 camera, lm2_v3_f32 world_pos) {
   lm2_m4x4_f32 vp = lm2_camera3_get_view_projection_f32(camera);
-  lm2_v4_f32 clip = lm2_m4x4_transform_f32(vp, (lm2_v4_f32) {world_pos.x, world_pos.y, world_pos.z, 1.0f});
+  lm2_v4_f32 clip = lm2_m4x4_transform_f32(vp, LM2_PRIVATE_LITERAL(lm2_v4_f32) {world_pos.x, world_pos.y, world_pos.z, 1.0f});
   lm2_v3_f32 ndc;
   ndc.x = lm2_div_f32(clip.x, clip.w);
   ndc.y = lm2_div_f32(clip.y, clip.w);
@@ -316,7 +316,7 @@ LM2_API lm2_v3_f32 lm2_camera3_world_to_ndc_f32(lm2_camera3_f32 camera, lm2_v3_f
 
 LM2_API lm2_v3_f32 lm2_camera3_ndc_to_world_f32(lm2_camera3_f32 camera, lm2_v3_f32 ndc_pos) {
   lm2_m4x4_f32 inv_vp = lm2_m4x4_inverse_f32(lm2_camera3_get_view_projection_f32(camera));
-  lm2_v4_f32 clip = lm2_m4x4_transform_f32(inv_vp, (lm2_v4_f32) {ndc_pos.x, ndc_pos.y, ndc_pos.z, 1.0f});
+  lm2_v4_f32 clip = lm2_m4x4_transform_f32(inv_vp, LM2_PRIVATE_LITERAL(lm2_v4_f32) {ndc_pos.x, ndc_pos.y, ndc_pos.z, 1.0f});
   lm2_v3_f32 world;
   world.x = lm2_div_f32(clip.x, clip.w);
   world.y = lm2_div_f32(clip.y, clip.w);
