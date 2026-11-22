@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_GEOMETRY2D_LM2_POLYGON_H_INCLUDED
+#define LM2_GEOMETRY2D_LM2_POLYGON_H_INCLUDED
 
 #include <stddef.h>
 #include "lm2/lm2_base.h"
@@ -216,3 +219,11 @@ LM2_API size_t lm2_polygon_split_by_max_vertices_f32(lm2_polygon_f32 polygon, lm
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_GEOMETRY2D_LM2_POLYGON_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_polygon_impl.h"
+#endif

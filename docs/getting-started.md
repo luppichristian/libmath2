@@ -2,79 +2,43 @@
 
 ## Installation
 
-### As a CMake Subdirectory
+Copy the `include/` directory into your project or add it to your compiler's
+include path. The bundled `cute_c2.h` supplies the 2D collision backend.
 
-Add libmath2 to your project (e.g., as a git submodule):
+## Running the tests
 
-```bash
-git submodule add https://github.com/luppichristian/libmath2.git external/libmath2
+The test suite uses CMake 3.19 or newer and GoogleTest. Configure, build, and
+run it from the repository root:
+
+```sh
+cmake -S tests -B build
+cmake --build build --config Debug
+ctest --test-dir build -C Debug --output-on-failure
 ```
 
-Then in your `CMakeLists.txt`:
-
-```cmake
-add_subdirectory(external/libmath2)
-target_link_libraries(your_target PRIVATE libmath2)
-```
-
-### Standalone Build
-
-```bash
-git clone https://github.com/luppichristian/libmath2.git
-cd libmath2
-cmake -B build
-cmake --build build
-```
-
-To run tests:
-
-```bash
-ctest --test-dir build --output-on-failure
-```
-
-For multi-configuration generators such as Visual Studio, select the same
-configuration for build and test, for example `cmake --build build --config
-Debug` followed by `ctest --test-dir build -C Debug --output-on-failure`.
-
-### Build Options
-
-Configure with CMake options:
-
-```bash
-cmake -B build -DLM2_BUILD_SHARED=ON -DLM2_BUILD_TESTS=OFF
-```
-
-| Option | Default | Description |
-|--------|---------|-------------|
-| `LM2_BUILD_SHARED` | `OFF` | Build as shared library instead of static |
-| `LM2_BUILD_TESTS` | `ON` | Build the GoogleTest test suite |
-| `LM2_GTEST_FETCH` | `ON` | Auto-fetch GoogleTest 1.14.0 if not found locally |
-
-The collision backend is fetched using the project-specific FetchContent name
-`lm2_cute_c2`, so a parent's separate `cute_c2` declaration does not replace
-it. For an offline build, set `FETCHCONTENT_SOURCE_DIR_LM2_CUTE_C2` to a local
-checkout of the pinned dependency. The previous
-`FETCHCONTENT_SOURCE_DIR_CUTE_C2` override remains supported, including in a
-parent build; migrate to the namespaced override to avoid ambiguity. If both
-are set, the namespaced override takes precedence.
+CMake fetches GoogleTest if it is not installed. Set `LM2_GTEST_FETCH=OFF` to
+require a locally installed copy.
 
 ## Basic Usage
 
-### Include the Library
-
-Include everything at once:
+Include libmath2 in each translation unit that calls its functions. The
+functions have `static inline` linkage, so no separately compiled libmath2
+library is needed.
 
 ```c
 #include <lm2.h>
 ```
 
-Or include only what you need:
+You can also include individual modules:
 
 ```c
 #include <lm2/vectors/lm2_vector3.h>
 #include <lm2/matrices/lm2_matrix4x4.h>
 #include <lm2/misc/lm2_quaternion.h>
 ```
+
+A C11 compiler is required for C; C++ extensions require C++20. Some platforms
+also require linking the system math library, for example with `-lm`.
 
 The following snippets assume `<lm2.h>` is included.
 
@@ -177,8 +141,8 @@ All vector, matrix, range, and scalar functions are suffixed with the numeric ty
 | `LM2_NO_GENERICS` | Disable C11 `_Generic` macros and C++ function overloads |
 | `LM2_ASSERT(expr)` | Override assertions; by default uses `assert` in debug builds and aborts on failure with `NDEBUG` |
 
-For compiled library functions, define `LM2_UNSAFE` or customize `LM2_ASSERT`
-when compiling the library itself. See [Safe Arithmetic](modules/safe-ops.md)
+Define `LM2_UNSAFE` or customize `LM2_ASSERT` before including libmath2 in
+each translation unit where the configuration should apply. See [Safe Arithmetic](modules/safe-ops.md)
 for configuration and numerical behavior.
 
 ## C++ Features

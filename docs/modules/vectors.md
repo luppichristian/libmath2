@@ -161,9 +161,8 @@ Create a zero vector.
 | `lm2_v2_pow_f32(a, b)` | Component-wise power |
 | `lm2_v2_sqrt_f32(a)` | Component-wise square root |
 
-The headers declare `lm2_v3_neg_u64`, `lm2_v4_neg_u32`, and
-`lm2_v4_neg_u8`, but the library does not define these unsigned negation
-functions; calling them causes a link failure.
+The unsigned negation functions `lm2_v3_neg_u64`, `lm2_v4_neg_u32`, and
+`lm2_v4_neg_u8` wrap each component modulo the range of its type.
 
 ## Preconditions and numeric conversions
 
@@ -173,8 +172,8 @@ division truncates toward zero; modulo is the C remainder (floating-point uses
 `fmod`), so its sign follows the dividend. In checked builds, safe arithmetic
 asserts on invalid operations and several overflow or underflow conditions;
 `LM2_UNSAFE` disables those checks, not the underlying C restrictions. Vector
-negation uses native unary minus rather than the safe-negation helper; avoid
-negating a signed type’s minimum value.
+negation uses the safe-negation helper for signed and floating types; signed
+minimum values are not representable when negated.
 Floating scalar helpers also have their own assertions, including finite inputs,
 ordered clamp limits, distinct interpolation endpoints for `smoothstep` and
 `alpha`, and nonnegative square-root inputs. `round` rounds halfway values

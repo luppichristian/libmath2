@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_GEOMETRY2D_LM2_MANIFOLD2_H_INCLUDED
+#define LM2_GEOMETRY2D_LM2_MANIFOLD2_H_INCLUDED
 
 #include "lm2/lm2_base.h"
 #include "lm2/ranges/lm2_range2.h"
@@ -281,3 +284,11 @@ LM2_API void lm2_make_convex_polygon_f32(lm2_polygon_f32* polygon, lm2_v2_f32* o
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_GEOMETRY2D_LM2_MANIFOLD2_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_manifold2_impl.h"
+#endif

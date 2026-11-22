@@ -43,3 +43,20 @@ TEST(VectorNegCheckedTest, RejectsNonfiniteFloatingInput) {
   EXPECT_DEATH((void)lm2_v3_neg_f64(lm2_v3_make_f64(1.0, infinity, 1.0)), "");
   EXPECT_DEATH((void)lm2_v4_neg_f64(lm2_v4_make_f64(1.0, 1.0, 1.0, infinity)), "");
 }
+
+TEST(VectorNegCheckedTest, UnsignedNegationWrapsPerComponent) {
+  const lm2_v3_u64 a = lm2_v3_neg_u64(lm2_v3_make_u64(0, 1, UINT64_MAX));
+  EXPECT_EQ(a.x, UINT64_C(0));
+  EXPECT_EQ(a.y, UINT64_MAX);
+  EXPECT_EQ(a.z, UINT64_C(1));
+  const lm2_v4_u32 b = lm2_v4_neg_u32(lm2_v4_make_u32(0, 1, UINT32_MAX, 2));
+  EXPECT_EQ(b.x, UINT32_C(0));
+  EXPECT_EQ(b.y, UINT32_MAX);
+  EXPECT_EQ(b.z, UINT32_C(1));
+  EXPECT_EQ(b.w, UINT32_MAX - UINT32_C(1));
+  const lm2_v4_u8 c = lm2_v4_neg_u8(lm2_v4_make_u8(0, 1, UINT8_MAX, 2));
+  EXPECT_EQ(c.x, 0);
+  EXPECT_EQ(c.y, UINT8_MAX);
+  EXPECT_EQ(c.z, 1);
+  EXPECT_EQ(c.w, UINT8_MAX - 1);
+}

@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_GEOMETRY3D_LM2_TRIANGLE3_H_INCLUDED
+#define LM2_GEOMETRY3D_LM2_TRIANGLE3_H_INCLUDED
 
 #include "lm2/geometry3d/lm2_edge3.h"
 #include "lm2/lm2_base.h"
@@ -153,3 +156,11 @@ LM2_API lm2_edge3_result_f32 lm2_triangle3_shared_edge_f32(const lm2_triangle3_f
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_GEOMETRY3D_LM2_TRIANGLE3_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_triangle3_impl.h"
+#endif

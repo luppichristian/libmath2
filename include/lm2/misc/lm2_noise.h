@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_MISC_LM2_NOISE_H_INCLUDED
+#define LM2_MISC_LM2_NOISE_H_INCLUDED
 
 #include "lm2/scalar/lm2_safe_ops.h"
 
@@ -59,3 +62,11 @@ LM2_API float lm2_voronoi3_f32(float x, float y, float z);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_MISC_LM2_NOISE_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_noise_impl.h"
+#endif

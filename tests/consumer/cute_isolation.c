@@ -1,5 +1,5 @@
 // Consumers may also compile their own copy of cute_c2. Its symbols must not
-// conflict with, or replace, the private collision backend in libmath2.
+// conflict with, or replace, the private header-only collision backend in libmath2.
 #define CUTE_C2_IMPLEMENTATION
 #define c2CircletoAABB application_c2CircletoAABB
 #include <cute_c2.h>
@@ -7,8 +7,8 @@
 
 #include <lm2/geometry2d/lm2_manifold2.h>
 
-// If an ELF shared library accidentally calls the consumer's symbol through
-// interposition, this stub turns the overlapping libmath2 query into a miss.
+// If libmath2 accidentally calls the consumer's symbol, this stub turns
+// the overlapping libmath2 query into a miss.
 int c2CircletoAABB(c2Circle circle, c2AABB box) {
   (void)circle;
   (void)box;

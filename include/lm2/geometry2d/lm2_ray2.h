@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_GEOMETRY2D_LM2_RAY2_H_INCLUDED
+#define LM2_GEOMETRY2D_LM2_RAY2_H_INCLUDED
 
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector2.h"
@@ -53,3 +56,6 @@ typedef struct lm2_ray2_f32 {
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_GEOMETRY2D_LM2_RAY2_H_INCLUDED

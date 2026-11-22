@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_VECTORS_LM2_VECTOR_SPECIFICS_H_INCLUDED
+#define LM2_VECTORS_LM2_VECTOR_SPECIFICS_H_INCLUDED
 
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector2.h"
@@ -255,3 +258,11 @@ LM2_API lm2_v3_f32 lm2_v3_project_f32(lm2_v3_f32 a, lm2_v3_f32 b);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_VECTORS_LM2_VECTOR_SPECIFICS_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_vector_specifics_impl.h"
+#endif

@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_GEOMETRY3D_LM2_RAYCAST3_H_INCLUDED
+#define LM2_GEOMETRY3D_LM2_RAYCAST3_H_INCLUDED
 
 #include "lm2/lm2_base.h"
 #include "lm2/ranges/lm2_range3.h"
@@ -157,3 +160,11 @@ LM2_API lm2_rayhit3_f32 lm2_raycast_shape3_f32(lm2_ray3_f32 ray, lm2_shape3_f32 
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_GEOMETRY3D_LM2_RAYCAST3_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_raycast3_impl.h"
+#endif

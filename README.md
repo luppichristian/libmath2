@@ -1,12 +1,11 @@
 # libmath2
 
 [![Language](https://img.shields.io/badge/language-C%20%2F%20C%2B%2B-00599C)](https://github.com/luppichristian/libmath2)
-[![Build](https://img.shields.io/badge/build-CMake-orange)](https://github.com/luppichristian/libmath2)
 [![Docs](https://img.shields.io/badge/docs-Markdown-blue)](docs/index.md)
 [![CI](https://img.shields.io/github/actions/workflow/status/luppichristian/libmath2/ci.yml?branch=main&label=ci)](https://github.com/luppichristian/libmath2/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE.md)
 
-A comprehensive C/C++ mathematics library for 2D/3D vector operations, matrix transformations, quaternion rotations, collision detection, and more.
+A header-only C/C++ mathematics library for 2D/3D vector operations, matrix transformations, quaternion rotations, collision detection, and more.
 
 Designed for graphics programming, game development, and physics simulations, libmath2 provides a complete set of mathematical primitives with support for multiple numeric types (f64, f32, i64, i32, i16, i8, u64, u32, u16, u8) and first-class C/C++ interoperability.
 
@@ -30,26 +29,26 @@ Designed for graphics programming, game development, and physics simulations, li
 - **Constants** — Typed `f32`/`f64` constants for π, 2π, half-π, rad↔deg conversion factors, √2, e, and the Euler–Mascheroni constant
 - **C/C++ Extensions** — C11 `_Generic` macros, C++ function overloads, and operator overloads (+, -, *, /, [], etc.)
 
-## Requirements
+## Usage
 
-- CMake 3.19+
-- C11 compiler
-- C++20 compiler (for tests and C++ extensions)
+Add the repository's `include/` directory to your include path, then include
+libmath2:
 
-### Dependencies
+```c
+#include <lm2.h>
 
-Fetched automatically via CMake FetchContent:
+int main(void) {
+    lm2_v3_f32 v = lm2_v3_make_f32(1.0f, 2.0f, 3.0f);
+    return lm2_v3_length_f32(v) > 0.0f ? 0 : 1;
+}
+```
 
-- [cute_c2](https://github.com/RandyGaul/cute_headers) — 2D collision detection
-- [GoogleTest 1.14.0](https://github.com/google/googletest) — Unit testing (build-time only)
+The library requires a C11 compiler or a C++20 compiler for its C++ extensions.
+Some platforms also require linking the system math library (for example, `-lm`).
+The 2D collision backend, [cute_c2](https://github.com/RandyGaul/cute_headers),
+is included in `include/`.
 
-### Build Options
-
-| Option | Default | Description |
-|--------|---------|-------------|
-| `LM2_BUILD_SHARED` | `OFF` | Build as shared library |
-| `LM2_BUILD_TESTS` | `ON` | Build test suite |
-| `LM2_GTEST_FETCH` | `ON` | Auto-fetch GoogleTest if not found |
+To build and run the tests, see [Getting Started](docs/getting-started.md).
 
 ### Compile-Time Defines
 

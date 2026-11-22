@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_VECTORS_LM2_VECTOR3_H_INCLUDED
+#define LM2_VECTORS_LM2_VECTOR3_H_INCLUDED
 
 #include "lm2/lm2_base.h"
 
@@ -320,7 +323,7 @@ LM2_API lm2_v3_u64 lm2_v3_add_s_u64(lm2_v3_u64 a, uint64_t b);
 LM2_API lm2_v3_u64 lm2_v3_sub_s_u64(lm2_v3_u64 a, uint64_t b);
 LM2_API lm2_v3_u64 lm2_v3_mul_s_u64(lm2_v3_u64 a, uint64_t b);
 LM2_API lm2_v3_u64 lm2_v3_div_s_u64(lm2_v3_u64 a, uint64_t b);
-// Declared but not defined by the library; do not call this overload.
+// Negation wraps modulo 2^64.
 LM2_API lm2_v3_u64 lm2_v3_neg_u64(lm2_v3_u64 a);
 LM2_API lm2_v3_u64 lm2_v3_mod_u64(lm2_v3_u64 a, lm2_v3_u64 b);
 LM2_API lm2_v3_u64 lm2_v3_min_u64(lm2_v3_u64 a, lm2_v3_u64 b);
@@ -429,3 +432,11 @@ LM2_API lm2_v3_u8 lm2_v3_zero_u8(void);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_VECTORS_LM2_VECTOR3_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_vector3_impl.h"
+#endif

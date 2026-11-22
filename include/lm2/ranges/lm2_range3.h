@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_RANGES_LM2_RANGE3_H_INCLUDED
+#define LM2_RANGES_LM2_RANGE3_H_INCLUDED
 
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector3.h"
@@ -693,3 +696,11 @@ LM2_API uint8_t lm2_r3_volume_u8(lm2_r3_u8 r);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_RANGES_LM2_RANGE3_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_range3_impl.h"
+#endif

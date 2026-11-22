@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_VECTORS_LM2_VECTOR4_H_INCLUDED
+#define LM2_VECTORS_LM2_VECTOR4_H_INCLUDED
 
 #include "lm2/lm2_base.h"
 
@@ -351,7 +354,7 @@ LM2_API lm2_v4_u32 lm2_v4_add_s_u32(lm2_v4_u32 a, uint32_t b);
 LM2_API lm2_v4_u32 lm2_v4_sub_s_u32(lm2_v4_u32 a, uint32_t b);
 LM2_API lm2_v4_u32 lm2_v4_mul_s_u32(lm2_v4_u32 a, uint32_t b);
 LM2_API lm2_v4_u32 lm2_v4_div_s_u32(lm2_v4_u32 a, uint32_t b);
-// Declared but not defined by the library; do not call this overload.
+// Negation wraps modulo 2^32.
 LM2_API lm2_v4_u32 lm2_v4_neg_u32(lm2_v4_u32 a);
 LM2_API lm2_v4_u32 lm2_v4_mod_u32(lm2_v4_u32 a, lm2_v4_u32 b);
 LM2_API lm2_v4_u32 lm2_v4_min_u32(lm2_v4_u32 a, lm2_v4_u32 b);
@@ -417,7 +420,7 @@ LM2_API lm2_v4_u8 lm2_v4_add_s_u8(lm2_v4_u8 a, uint8_t b);
 LM2_API lm2_v4_u8 lm2_v4_sub_s_u8(lm2_v4_u8 a, uint8_t b);
 LM2_API lm2_v4_u8 lm2_v4_mul_s_u8(lm2_v4_u8 a, uint8_t b);
 LM2_API lm2_v4_u8 lm2_v4_div_s_u8(lm2_v4_u8 a, uint8_t b);
-// Declared but not defined by the library; do not call this overload.
+// Negation wraps modulo 2^8.
 LM2_API lm2_v4_u8 lm2_v4_neg_u8(lm2_v4_u8 a);
 LM2_API lm2_v4_u8 lm2_v4_mod_u8(lm2_v4_u8 a, lm2_v4_u8 b);
 LM2_API lm2_v4_u8 lm2_v4_min_u8(lm2_v4_u8 a, lm2_v4_u8 b);
@@ -430,3 +433,11 @@ LM2_API lm2_v4_u8 lm2_v4_zero_u8(void);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_VECTORS_LM2_VECTOR4_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_vector4_impl.h"
+#endif

@@ -33,10 +33,10 @@ Scale getters return the lengths of the linear-part columns, so they do not reco
 
 The inverse functions require a finite, invertible matrix and arithmetic within
 the [safe operations](safe-ops.md) range. For 3x2 affine matrices, the 2x2
-linear part must be invertible. When the library is built without `LM2_UNSAFE`,
+linear part must be invertible. When `LM2_UNSAFE` is not defined,
 a computed zero determinant (including signed zero) or invalid arithmetic
 causes an assertion. `LM2_UNSAFE` disables these checks when defined while
-compiling the library; the caller remains responsible for valid inputs.
+including libmath2; the caller remains responsible for valid inputs.
 
 The inverses use determinant/cofactor arithmetic. A nonzero computed
 determinant does not guarantee that a matrix is well-conditioned or that its

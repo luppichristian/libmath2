@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_LM2_BASE_H_INCLUDED
+#define LM2_LM2_BASE_H_INCLUDED
 
 // #############################################################################
 // LM2 utilities
@@ -48,24 +51,10 @@ LM2_HEADER_BEGIN;
 #include <stdlib.h>
 
 // #############################################################################
-// LM2_API macro for shared library symbol visibility
+// LM2_API gives each translation unit its own inline implementation.
 // #############################################################################
 
-#if defined(LM2_SHARED)
-#  if defined(_WIN32) || defined(_WIN64)
-#    if defined(LM2_EXPORTS)
-#      define LM2_API __declspec(dllexport)
-#    else
-#      define LM2_API __declspec(dllimport)
-#    endif
-#  elif __GNUC__ >= 4
-#    define LM2_API __attribute__((visibility("default")))
-#  else
-#    define LM2_API
-#  endif
-#else
-#  define LM2_API
-#endif
+#define LM2_API static inline
 
 // #############################################################################
 // LM2_ASSERT macro for internal assertions
@@ -133,3 +122,6 @@ _Static_assert(sizeof(double) == 8, "Expected double to be 8 bytes");
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_LM2_BASE_H_INCLUDED

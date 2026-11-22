@@ -1,6 +1,6 @@
 # libmath2
 
-A comprehensive C/C++ mathematics library for 2D/3D vector operations, matrix transformations, quaternion rotations, collision detection, and more.
+A header-only C/C++ mathematics library for 2D/3D vector operations, matrix transformations, quaternion rotations, collision detection, and more.
 
 ## Overview
 
@@ -10,10 +10,7 @@ See [Getting Started](getting-started.md) for installation and usage instruction
 
 ## Quick Start
 
-```bash
-cmake -B build
-cmake --build build
-```
+Add `include/` to your compiler's include path, then include libmath2.
 
 ```c
 #include <lm2.h>

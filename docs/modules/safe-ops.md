@@ -56,22 +56,19 @@ Available for `_f64`, `_f32`, `_i64`, `_i32`, `_i16`, `_i8`.
 
 ## Configuration
 
-`LM2_UNSAFE` must be defined **when compiling the library** to disable the
-checks in its compiled safe arithmetic functions. Defining it only in a
-consumer before including the headers does not change an already-built library.
-For example, configure a separate CMake build with:
+Define `LM2_UNSAFE` before including libmath2 in each translation unit where
+you want to disable safe arithmetic checks:
 
-```sh
-cmake -S . -B build-unsafe -DLM2_BUILD_TESTS=OFF -DCMAKE_C_FLAGS=-DLM2_UNSAFE
+```c
+#define LM2_UNSAFE
+#include <lm2.h>
 ```
 
 With checks disabled, callers must avoid operations with undefined behavior,
 including signed overflow and integer division or modulo by zero. Unsigned
 arithmetic follows the usual C wrapping rules.
 
-To customize assertions in compiled library functions, provide the definition
-while compiling the library itself; a definition in a consumer translation unit
-only affects code compiled in that unit:
+To customize assertions, define `LM2_ASSERT` before including libmath2:
 
 ```c
 #define LM2_ASSERT(expr) my_custom_assert(expr)

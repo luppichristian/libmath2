@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_MISC_LM2_HASH_H_INCLUDED
+#define LM2_MISC_LM2_HASH_H_INCLUDED
 
 #include "lm2/lm2_base.h"
 
@@ -143,3 +146,11 @@ LM2_API uint64_t lm2_hash_combine_u64(uint64_t seed, uint64_t hash);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_MISC_LM2_HASH_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_hash_impl.h"
+#endif

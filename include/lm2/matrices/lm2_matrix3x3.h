@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_MATRICES_LM2_MATRIX3X3_H_INCLUDED
+#define LM2_MATRICES_LM2_MATRIX3X3_H_INCLUDED
 
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector2.h"
@@ -154,3 +157,11 @@ LM2_API lm2_v2_f32 lm2_m3x3_get_translation_f32(lm2_m3x3_f32 m);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_MATRICES_LM2_MATRIX3X3_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_matrix3x3_impl.h"
+#endif

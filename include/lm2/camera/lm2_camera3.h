@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_CAMERA_LM2_CAMERA3_H_INCLUDED
+#define LM2_CAMERA_LM2_CAMERA3_H_INCLUDED
 
 #include "lm2/lm2_base.h"
 #include "lm2/matrices/lm2_matrix4x4.h"
@@ -199,3 +202,11 @@ LM2_API lm2_v3_f32 lm2_camera3_ndc_to_world_f32(lm2_camera3_f32 camera, lm2_v3_f
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_CAMERA_LM2_CAMERA3_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_camera3_impl.h"
+#endif

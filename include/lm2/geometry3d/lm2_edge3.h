@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_GEOMETRY3D_LM2_EDGE3_H_INCLUDED
+#define LM2_GEOMETRY3D_LM2_EDGE3_H_INCLUDED
 
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector3.h"
@@ -140,3 +143,11 @@ LM2_API float lm2_edge3_to_edge3_distance_sq_f32(lm2_edge3_f32 e1, lm2_edge3_f32
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_GEOMETRY3D_LM2_EDGE3_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_edge3_impl.h"
+#endif

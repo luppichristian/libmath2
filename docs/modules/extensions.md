@@ -93,8 +93,8 @@ The corresponding 3x2 builders are `translate`, `rotate`, and `scale_uniform`;
 4x4 builders are `translate`, `rotate_x/y/z`, `from_quat`, and `ortho`, with
 `_f32` or `_f64` suffixes. For 2D homogeneous rotation use
 `lm2_m3x3_rotate_f32`; there are no 3x3 X/Y rotation builders. Some declared
-suffixed range and vector functions also lack definitions, as listed in
-[Ranges](ranges.md) and [Vectors](vectors.md).
+suffixed range functions also lack definitions, as listed in
+[Ranges](ranges.md).
 
 C++ templates have separate limitations, and argument deduction varies across
 modules. For example, `lm2_quat_inverse(q)` cannot deduce its scalar type, and

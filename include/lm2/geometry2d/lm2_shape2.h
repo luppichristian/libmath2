@@ -1,3 +1,5 @@
+#include <lm2/lm2_bootstrap.h>
+
 /*
 MIT License
 
@@ -22,7 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#pragma once
+#ifndef LM2_GEOMETRY2D_LM2_SHAPE2_H_INCLUDED
+#define LM2_GEOMETRY2D_LM2_SHAPE2_H_INCLUDED
 
 #include "lm2/geometry2d/lm2_aabb2.h"
 #include "lm2/geometry2d/lm2_capsule2.h"
@@ -137,3 +140,11 @@ LM2_API lm2_shape2_type lm2_shape2_get_type_f32(const lm2_shape2_f32* shape);
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
+
+
+#endif // LM2_GEOMETRY2D_LM2_SHAPE2_H_INCLUDED
+
+
+#ifndef LM2_PRIVATE_DECLARATION_PHASE
+#  include "lm2_shape2_impl.h"
+#endif
