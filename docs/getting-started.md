@@ -29,13 +29,18 @@ library is needed.
 #include <lm2.h>
 ```
 
-You can also include individual modules:
+You can instead include only the modules your code uses. Each module includes
+its own dependencies and function definitions:
 
 ```c
 #include <lm2/vectors/lm2_vector3.h>
 #include <lm2/matrices/lm2_matrix4x4.h>
 #include <lm2/misc/lm2_quaternion.h>
 ```
+
+`<lm2.h>` includes all modules and enables the C11 and C++ language extensions
+by default. Individual module headers provide the suffixed API; see
+[Extensions](modules/extensions.md) for generic functions and operators.
 
 A C11 compiler is required for C; C++ extensions require C++20. Some platforms
 also require linking the system math library, for example with `-lm`.
@@ -151,7 +156,7 @@ The public vector types use anonymous-struct extensions to expose component
 aliases. Clang, GCC, and MSVC accept these in their default modes, but strict
 ISO C++20 builds with `-pedantic-errors` do not support the current vector API.
 
-When compiled as C++, libmath2 automatically provides:
+When compiled as C++, including `<lm2.h>` automatically provides:
 
 - **Operator overloads** for vectors, ranges, and matrices (`+`, `-`, `*`, `/`, `[]`)
 - **Function overloads** that let you omit the type suffix (e.g., `lm2_v3_add(a, b)` instead of `lm2_v3_add_f32(a, b)`)

@@ -154,3 +154,6 @@ When including `<lm2.h>`, extensions are automatically included based on the com
 - **Pre-C11 C:** No extensions
 
 To opt out, define `LM2_NO_GENERICS` and/or `LM2_NO_CPP_OPERATORS` before including any headers.
+Individual module headers expose their suffixed APIs without automatically
+including the global generics and non-member operator overloads. Include
+`<lm2.h>` or the relevant extension header when those features are needed.

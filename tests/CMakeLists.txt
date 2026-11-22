@@ -74,6 +74,16 @@ target_compile_definitions(libmath2-consumer-unsafe PRIVATE LM2_UNSAFE)
 target_link_libraries(libmath2-consumer-unsafe PRIVATE libmath2)
 add_test(NAME libmath2-consumer-unsafe COMMAND libmath2-consumer-unsafe)
 
+# Small modules should compile and run without pulling in unrelated modules.
+foreach(language IN ITEMS c cpp)
+    foreach(module IN ITEMS base safe vector2 circle edge3)
+        set(target "libmath2-selective-${module}-${language}")
+        add_executable(${target} "consumer/selective_${module}.${language}")
+        target_link_libraries(${target} PRIVATE libmath2)
+        add_test(NAME ${target} COMMAND ${target})
+    endforeach()
+endforeach()
+
 # Public headers must compile independently, with their implementations included.
 file(GLOB_RECURSE LM2_PUBLIC_HEADERS CONFIGURE_DEPENDS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/../include"
     "${CMAKE_CURRENT_SOURCE_DIR}/../include/lm2/*.h")
@@ -101,4 +111,13 @@ foreach(language IN ITEMS c cpp)
         target_link_libraries(libmath2-header-only-${language} PRIVATE m)
     endif()
     add_test(NAME libmath2-header-only-${language} COMMAND libmath2-header-only-${language})
+endforeach()
+
+# Cyclic geometry modules must work from either include order in separate TUs.
+foreach(language IN ITEMS c cpp)
+    add_executable(libmath2-geometry-order-${language}
+        consumer/geometry_order_main.${language}
+        consumer/geometry_order_peer.${language})
+    target_link_libraries(libmath2-geometry-order-${language} PRIVATE libmath2)
+    add_test(NAME libmath2-geometry-order-${language} COMMAND libmath2-geometry-order-${language})
 endforeach()

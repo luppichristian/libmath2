@@ -25,6 +25,11 @@ int main(void) {
 }
 ```
 
+For a smaller set of modules, include their individual headers, such as
+`<lm2/vectors/lm2_vector2.h>`. Each module includes its required dependencies.
+The umbrella header `<lm2.h>` includes every module and enables the language
+extensions by default.
+
 ## Modules
 
 | Module | Description |

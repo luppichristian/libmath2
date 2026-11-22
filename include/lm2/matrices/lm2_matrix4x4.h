@@ -1,5 +1,3 @@
-#include <lm2/lm2_bootstrap.h>
-
 /*
 MIT License
 
@@ -24,13 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef LM2_MATRICES_LM2_MATRIX4X4_H_INCLUDED
-#define LM2_MATRICES_LM2_MATRIX4X4_H_INCLUDED
+#pragma once
 
-#include "lm2/lm2_base.h"
-#include "lm2/misc/lm2_quaternion.h"
-#include "lm2/vectors/lm2_vector3.h"
-#include "lm2/vectors/lm2_vector4.h"
+#  include "lm2/lm2_base.h"
+#  include "lm2/misc/lm2_quaternion.h"
+#  include "lm2/vectors/lm2_vector3.h"
+#  include "lm2/vectors/lm2_vector4.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
@@ -191,9 +188,4 @@ LM2_HEADER_END;
 // #############################################################################
 
 
-#endif // LM2_MATRICES_LM2_MATRIX4X4_H_INCLUDED
-
-
-#ifndef LM2_PRIVATE_DECLARATION_PHASE
-#  include "lm2_matrix4x4_impl.h"
-#endif
+#include "lm2_matrix4x4_impl.h"

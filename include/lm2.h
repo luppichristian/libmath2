@@ -1,4 +1,3 @@
-#include <lm2/lm2_bootstrap.h>
 
 /*
 MIT License
@@ -49,6 +48,7 @@ SOFTWARE.
 #include "lm2/geometry3d/lm2_capsule3.h"
 #include "lm2/geometry3d/lm2_edge3.h"
 #include "lm2/geometry3d/lm2_plane3.h"
+#include "lm2/geometry3d/lm2_ray3.h"
 #include "lm2/geometry3d/lm2_raycast3.h"
 #include "lm2/geometry3d/lm2_shape3.h"
 #include "lm2/geometry3d/lm2_sphere.h"
@@ -87,6 +87,6 @@ SOFTWARE.
 #ifndef LM2_NO_CPP_OPERATORS
 #  include "lm2/extensions/lm2_cpp_operators.h"
 #endif
-#if defined(LM2_ENABLE_UNPREFIXED_NAMES) && !defined(LM2_PRIVATE_DECLARATION_PHASE)
+#ifdef LM2_ENABLE_UNPREFIXED_NAMES
 #  include "lm2/extensions/lm2_unprefixed_names.h"
 #endif

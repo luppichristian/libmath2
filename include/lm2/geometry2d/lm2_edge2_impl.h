@@ -25,12 +25,11 @@ SOFTWARE.
 */
 
 #include <lm2/geometry2d/lm2_edge2.h>
-#include <lm2/geometry2d/lm2_raycast2.h>
+#include <lm2/geometry3d/lm2_raycast3.h>
 #include <lm2/geometry2d/lm2_plane2.h>
 #include <lm2/scalar/lm2_safe_ops.h>
 #include <lm2/scalar/lm2_scalar.h>
 #include <lm2/vectors/lm2_vector_specifics.h>
-#include <lm2/geometry2d/lm2_capsule2.h>
 #include <math.h>
 
 // =============================================================================
@@ -335,22 +334,105 @@ LM2_API int lm2_edge2_segments_intersect_f32(lm2_v2_f32 a0, lm2_v2_f32 a1, lm2_v
   return (int)lm2_edges2_intersect_f32(e1, e2);
 }
 
+// Shared by edge and capsule raycasts without a dependency on capsule2.h.
+static inline lm2_rayhit2_f64 lm2_private_raycast_capsule2_f64(lm2_ray2_f64 ray, lm2_v2_f64 start_point, lm2_v2_f64 end_point, double radius) {
+  lm2_rayhit2_f64 result = {0};
+  if (ray.t_max < 0.0) return result;
+  const double dx = end_point.x - start_point.x;
+  const double dy = end_point.y - start_point.y;
+  const double length = hypot(dx, dy);
+  const double ux = length > 0.0 ? dx / length : 0.0;
+  const double uy = length > 0.0 ? dy / length : 0.0;
+  const double ox = ray.origin.x - start_point.x;
+  const double oy = ray.origin.y - start_point.y;
+  double along = ox * ux + oy * uy;
+  if (along < 0.0) along = 0.0;
+  if (along > length) along = length;
+  if (hypot(ox - along * ux, oy - along * uy) <= radius) {
+    // Preserve the 2D backend's origin-inside convention.
+    result.hit = true;
+    result.point = ray.origin;
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {ux, uy};
+    return result;
+  }
+
+  // The 3D implementation handles a capsule in any plane, including z=0.
+  lm2_ray3_f64 ray3 = {
+      {   ray.origin.x,    ray.origin.y, 0.0},
+      {ray.direction.x, ray.direction.y, 0.0},
+      ray.t_max
+  };
+  lm2_v3_f64 start = {start_point.x, start_point.y, 0.0};
+  lm2_v3_f64 end = {end_point.x, end_point.y, 0.0};
+  lm2_rayhit3_f64 hit = lm2_raycast_capsule_f64(ray3, start, end, radius);
+  if (hit.hit) {
+    result.hit = true;
+    result.t = hit.t;
+    result.point = LM2_PRIVATE_LITERAL(lm2_v2_f64) {hit.point.x, hit.point.y};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {hit.normal.x, hit.normal.y};
+    if (radius == 0.0 && length > 0.0 && result.normal.x == 0.0 && result.normal.y == 0.0) {
+      // A zero-radius capsule is a segment: use the face opposing the ray.
+      const double dot = uy * ray.direction.x - ux * ray.direction.y;
+      if (dot != 0.0) {
+        const double sign = dot > 0.0 ? -1.0 : 1.0;
+        result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f64) {sign * uy, lm2_neg_f64(sign) * ux};
+      }
+    }
+  }
+  return result;
+}
+
+static inline lm2_rayhit2_f32 lm2_private_raycast_capsule2_f32(lm2_ray2_f32 ray, lm2_v2_f32 start_point, lm2_v2_f32 end_point, float radius) {
+  lm2_rayhit2_f32 result = {0};
+  if (ray.t_max < 0.0f) return result;
+  float dx = end_point.x - start_point.x;
+  float dy = end_point.y - start_point.y;
+  float length = hypotf(dx, dy);
+  float ux = length > 0.0f ? dx / length : 0.0f;
+  float uy = length > 0.0f ? dy / length : 0.0f;
+  float ox = ray.origin.x - start_point.x;
+  float oy = ray.origin.y - start_point.y;
+  float along = ox * ux + oy * uy;
+  if (along < 0.0f) along = 0.0f;
+  if (along > length) along = length;
+  if (hypotf(ox - along * ux, oy - along * uy) <= radius) {
+    result.hit = true;
+    result.point = ray.origin;
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {ux, uy};
+    return result;
+  }
+  lm2_ray3_f32 ray3 = {
+      {   ray.origin.x,    ray.origin.y, 0.0f},
+      {ray.direction.x, ray.direction.y, 0.0f},
+      ray.t_max
+  };
+  lm2_v3_f32 start = {start_point.x, start_point.y, 0.0f};
+  lm2_v3_f32 end = {end_point.x, end_point.y, 0.0f};
+  lm2_rayhit3_f32 hit = lm2_raycast_capsule_f32(ray3, start, end, radius);
+  if (hit.hit) {
+    result.hit = true;
+    result.t = hit.t;
+    result.point = LM2_PRIVATE_LITERAL(lm2_v2_f32) {hit.point.x, hit.point.y};
+    result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {hit.normal.x, hit.normal.y};
+    if (radius == 0.0f && length > 0.0f && result.normal.x == 0.0f && result.normal.y == 0.0f) {
+      float dot = uy * ray.direction.x - ux * ray.direction.y;
+      if (dot != 0.0f) {
+        float sign = dot > 0.0f ? -1.0f : 1.0f;
+        result.normal = LM2_PRIVATE_LITERAL(lm2_v2_f32) {sign * uy, lm2_neg_f32(sign) * ux};
+      }
+    }
+  }
+  return result;
+}
+
 // =============================================================================
 // Raycasting Against an Edge
 // =============================================================================
 
 LM2_API lm2_rayhit2_f64 lm2_raycast_edge2_f64(lm2_ray2_f64 ray, lm2_edge2_f64 edge) {
-  lm2_capsule2_f64 capsule;
-  capsule.start = edge.start;
-  capsule.end = edge.end;
-  capsule.radius = 0.0;
-  return lm2_raycast_capsule2_f64(ray, capsule);
+  return lm2_private_raycast_capsule2_f64(ray, edge.start, edge.end, 0.0);
 }
 
 LM2_API lm2_rayhit2_f32 lm2_raycast_edge2_f32(lm2_ray2_f32 ray, lm2_edge2_f32 edge) {
-  lm2_capsule2_f32 capsule;
-  capsule.start = edge.start;
-  capsule.end = edge.end;
-  capsule.radius = 0.0f;
-  return lm2_raycast_capsule2_f32(ray, capsule);
+  return lm2_private_raycast_capsule2_f32(ray, edge.start, edge.end, 0.0f);
 }

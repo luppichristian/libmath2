@@ -1,5 +1,3 @@
-#include <lm2/lm2_bootstrap.h>
-
 /*
 MIT License
 
@@ -24,35 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef LM2_GEOMETRY3D_LM2_RAYCAST3_H_INCLUDED
-#define LM2_GEOMETRY3D_LM2_RAYCAST3_H_INCLUDED
+#pragma once
 
 #include "lm2/lm2_base.h"
+#include "lm2/geometry3d/lm2_ray3.h"
 #include "lm2/ranges/lm2_range3.h"
 #include "lm2/vectors/lm2_vector3.h"
 
 // #############################################################################
 LM2_HEADER_BEGIN;
 // #############################################################################
-
-// =============================================================================
-// Ray Types (3D)
-// =============================================================================
-
-// A ray is origin + t * direction, with query interval 0 <= t <= t_max.
-// Ray and primitive coordinates must be in the same caller-selected space.
-// t is a distance only for a unit direction; make does not normalize it.
-typedef struct lm2_ray3_f64 {
-  lm2_v3_f64 origin;     // Ray origin position
-  lm2_v3_f64 direction;  // Ray direction (should be normalized)
-  double t_max;          // Maximum ray parameter
-} lm2_ray3_f64;
-
-typedef struct lm2_ray3_f32 {
-  lm2_v3_f32 origin;     // Ray origin position
-  lm2_v3_f32 direction;  // Ray direction (should be normalized)
-  float t_max;           // Maximum ray parameter
-} lm2_ray3_f32;
 
 // =============================================================================
 // Ray Hit Result Types (3D)
@@ -162,9 +141,9 @@ LM2_HEADER_END;
 // #############################################################################
 
 
-#endif // LM2_GEOMETRY3D_LM2_RAYCAST3_H_INCLUDED
 
 
-#ifndef LM2_PRIVATE_DECLARATION_PHASE
-#  include "lm2_raycast3_impl.h"
-#endif
+
+
+
+#include "lm2_raycast3_impl.h"

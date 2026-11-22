@@ -1,5 +1,3 @@
-#include <lm2/lm2_bootstrap.h>
-
 /*
 MIT License
 
@@ -24,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef LM2_LM2_BASE_H_INCLUDED
-#define LM2_LM2_BASE_H_INCLUDED
+#pragma once
 
 // #############################################################################
 // LM2 utilities
@@ -129,6 +126,3 @@ _Static_assert(sizeof(double) == 8, "Expected double to be 8 bytes");
 // #############################################################################
 LM2_HEADER_END;
 // #############################################################################
-
-
-#endif // LM2_LM2_BASE_H_INCLUDED

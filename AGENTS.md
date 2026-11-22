@@ -1,6 +1,6 @@
 # libmath2 contributor guidance
 
-libmath2 is a C math library built with CMake. Public headers are in `include/`, implementations in `src/`, GoogleTest C++ tests in `tests/`, and user documentation in `docs/`.
+libmath2 is a header-only C math library. Public headers and their implementations are in `include/`, GoogleTest C++ tests and their CMake build are in `tests/`, and user documentation is in `docs/`.
 
 ## Local Graphify
 
@@ -12,11 +12,11 @@ Keep extraction local. Do not use Graphify Cloud or a remote semantic backend fo
 
 - Follow `.clang-format` and use `lower_snake_case` for identifiers. Types do not use a `_t` suffix.
 - Public identifiers use the `lm2_` prefix; primitive specialization suffixes such as `f32`, `f64`, `i32`, and `u32` go at the end.
-- Place related functionality in existing modules where appropriate. Modules generally have a public header under `include/lm2/<category>/`, an implementation under `src/<category>/`, and tests under `tests/<category>/`.
+- Place related functionality in existing modules where appropriate. Modules generally have a public header and a paired `_impl.h` under `include/lm2/<category>/`, and tests under `tests/<category>/`. Preserve selective module inclusion when adding dependencies.
 
 ## Arithmetic implementation
 
-- Use the typed `lm2_safe_ops` functions for applicable runtime numeric arithmetic. Preserve intentional unsigned wraparound, subnormal-sensitive or widened geometry calculations, and the primitive operations inside `lm2_safe_ops.c`; checked operations do not support all of those cases.
+- Use the typed `lm2_safe_ops` functions for applicable runtime numeric arithmetic. Preserve intentional unsigned wraparound, subnormal-sensitive or widened geometry calculations, and the primitive operations inside `lm2_safe_ops_impl.h`; checked operations do not support all of those cases.
 
 ## Changing the public API
 

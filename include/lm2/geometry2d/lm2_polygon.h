@@ -1,5 +1,3 @@
-#include <lm2/lm2_bootstrap.h>
-
 /*
 MIT License
 
@@ -24,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef LM2_GEOMETRY2D_LM2_POLYGON_H_INCLUDED
-#define LM2_GEOMETRY2D_LM2_POLYGON_H_INCLUDED
+#pragma once
 
 #include <stddef.h>
 #include "lm2/lm2_base.h"
@@ -221,9 +218,4 @@ LM2_HEADER_END;
 // #############################################################################
 
 
-#endif // LM2_GEOMETRY2D_LM2_POLYGON_H_INCLUDED
-
-
-#ifndef LM2_PRIVATE_DECLARATION_PHASE
-#  include "lm2_polygon_impl.h"
-#endif
+#include "lm2_polygon_impl.h"

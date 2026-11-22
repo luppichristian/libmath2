@@ -11,8 +11,6 @@ Designed for graphics programming, game development, and physics simulations, li
 
 ## Features
 
-> **Note for contributors**: this list must be kept up to date when modules are added or removed.
-
 - **Vectors** — 2D, 3D, and 4D vectors with arithmetic and comparisons across 10 numeric types, plus floating-point interpolation and rounding
 - **Matrices** — 3x2, 3x3, and 4x4 matrix types for 2D/3D transformations and projections
 - **Quaternions** — Rotation representation with SLERP/NLERP interpolation, Euler/axis-angle conversions
@@ -42,6 +40,22 @@ int main(void) {
     return lm2_v3_length_f32(v) > 0.0f ? 0 : 1;
 }
 ```
+
+To use only specific modules, include their headers instead. Each module also
+includes the dependencies it needs:
+
+```c
+#include <lm2/vectors/lm2_vector2.h>
+
+int main(void) {
+    lm2_v2_f32 position = lm2_v2_make_f32(1.0f, 2.0f);
+    return position.x == 1.0f ? 0 : 1;
+}
+```
+
+`<lm2.h>` includes every module and enables the language extensions by default.
+Individual module headers provide their suffixed C API; see
+[Extensions](docs/modules/extensions.md) for generic functions and operators.
 
 The library requires a C11 compiler or a C++20 compiler for its C++ extensions.
 Some platforms also require linking the system math library (for example, `-lm`).

@@ -1,4 +1,5 @@
 #include <lm2.h>
+#include <lm2/vectors/lm2_vector2.h>
 
 int header_only_c_peer(void);
 

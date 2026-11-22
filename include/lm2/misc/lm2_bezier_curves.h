@@ -1,5 +1,3 @@
-#include <lm2/lm2_bootstrap.h>
-
 /*
 MIT License
 
@@ -24,8 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef LM2_MISC_LM2_BEZIER_CURVES_H_INCLUDED
-#define LM2_MISC_LM2_BEZIER_CURVES_H_INCLUDED
+#pragma once
 
 #include "lm2/lm2_base.h"
 #include "lm2/vectors/lm2_vector2.h"
@@ -324,9 +321,7 @@ LM2_HEADER_END;
 // #############################################################################
 
 
-#endif // LM2_MISC_LM2_BEZIER_CURVES_H_INCLUDED
 
 
-#ifndef LM2_PRIVATE_DECLARATION_PHASE
-#  include "lm2_bezier_curves_impl.h"
-#endif
+
+#include "lm2_bezier_curves_impl.h"
